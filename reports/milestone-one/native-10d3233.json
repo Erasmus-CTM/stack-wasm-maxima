@@ -12,7 +12,7 @@
     "jobs": 2,
     "loader_warmup": true,
     "preloaded_image": null,
-    "case_wall_seconds": 20.176489778999994,
+    "case_wall_seconds": 29.455394475999995,
     "loader_probe": {
       "i_binding": "%i",
       "parsed_i": "i",

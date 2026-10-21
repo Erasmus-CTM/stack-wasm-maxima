@@ -3,13 +3,14 @@
   "error": "Wasm batch timed out",
   "stdout": "",
   "readyMs": null,
-  "totalMs": 240000.42000000004,
+  "totalMs": 90000.41500000001,
   "commandsSent": 0,
-  "totalCommands": 30,
+  "totalCommands": 31,
   "crossOriginIsolated": true,
+  "messageTrace": [],
   "browser": "141.0.7390.37",
   "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
-  "sourceRevision": "1b7a6b25ddcea4388c601cf69d5839367bbfd25e",
+  "sourceRevision": "7b9082c83cbe46549f9f552f01efefa9f8f24720",
   "scope": "Direct official answer tests in a fresh worker per STACK revision; selected cases share the session",
   "files": [
     {
@@ -400,10 +401,17 @@
   ],
   "servedAssets": [
     {
-      "path": "/maxima.js",
-      "url": "https://maxima-on-wasm.pages.dev/maxima.js",
-      "fileBytes": 1239434,
-      "sha256": "4b0b3ecc4eb229b35595e3e5f4063565502df023559d355a23306696af2fdf87",
+      "path": "/maxima-poisson-series.fas",
+      "url": "https://maxima-on-wasm.pages.dev/maxima-poisson-series.fas",
+      "fileBytes": 217426,
+      "sha256": "439ab53ff86b76052105dbcc8770c04109c7ea95efb89b2440a9a2a533eff9fd",
+      "pinVerified": true
+    },
+    {
+      "path": "/maxima_thread.js",
+      "url": "https://maxima-on-wasm.pages.dev/maxima_thread.js",
+      "fileBytes": 3229,
+      "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db",
       "pinVerified": true
     },
     {
@@ -411,6 +419,13 @@
       "url": "https://maxima-on-wasm.pages.dev/maxima-matrix-algebra.fas",
       "fileBytes": 645537,
       "sha256": "25a1496b2170cb0ee1d66adc44e89d934e96ea9af1f93c879db02be56e1b3c07",
+      "pinVerified": true
+    },
+    {
+      "path": "/maxima-solve.fas",
+      "url": "https://maxima-on-wasm.pages.dev/maxima-solve.fas",
+      "fileBytes": 1373325,
+      "sha256": "7c2b44e14bc16f3b51b2185b5877c0667d8ae27c8fd5f34546d494e118febaf7",
       "pinVerified": true
     },
     {
@@ -428,13 +443,6 @@
       "pinVerified": true
     },
     {
-      "path": "/maxima_thread.js",
-      "url": "https://maxima-on-wasm.pages.dev/maxima_thread.js",
-      "fileBytes": 3229,
-      "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db",
-      "pinVerified": true
-    },
-    {
       "path": "/maxima-number-theory.fas",
       "url": "https://maxima-on-wasm.pages.dev/maxima-number-theory.fas",
       "fileBytes": 1429150,
@@ -442,10 +450,17 @@
       "pinVerified": true
     },
     {
-      "path": "/maxima-poisson-series.fas",
-      "url": "https://maxima-on-wasm.pages.dev/maxima-poisson-series.fas",
-      "fileBytes": 217426,
-      "sha256": "439ab53ff86b76052105dbcc8770c04109c7ea95efb89b2440a9a2a533eff9fd",
+      "path": "/share_files.js",
+      "url": "https://maxima-on-wasm.pages.dev/share_files.js",
+      "fileBytes": 533835,
+      "sha256": "0a325df1e0e85c65ebaf3102fd75cb2db2d989735a0976e97c1a2108a8f5bca0",
+      "pinVerified": true
+    },
+    {
+      "path": "/libecl.so",
+      "url": "https://maxima-on-wasm.pages.dev/libecl.so",
+      "fileBytes": 7966927,
+      "sha256": "477e2d4092cc8a6a601e39ddc746440854984115347b62e7faf3b65cc8fa3564",
       "pinVerified": true
     },
     {
@@ -453,20 +468,6 @@
       "url": "https://maxima-on-wasm.pages.dev/maxima-integration.fas",
       "fileBytes": 2156309,
       "sha256": "f9cfeaaf6dcf3063428a19b08bd1b27cfd7618db3f7e3443a69ad26fcbe95db4",
-      "pinVerified": true
-    },
-    {
-      "path": "/maxima-solve.fas",
-      "url": "https://maxima-on-wasm.pages.dev/maxima-solve.fas",
-      "fileBytes": 1373325,
-      "sha256": "7c2b44e14bc16f3b51b2185b5877c0667d8ae27c8fd5f34546d494e118febaf7",
-      "pinVerified": true
-    },
-    {
-      "path": "/share_files.js",
-      "url": "https://maxima-on-wasm.pages.dev/share_files.js",
-      "fileBytes": 533835,
-      "sha256": "0a325df1e0e85c65ebaf3102fd75cb2db2d989735a0976e97c1a2108a8f5bca0",
       "pinVerified": true
     },
     {
@@ -484,6 +485,13 @@
       "pinVerified": true
     },
     {
+      "path": "/maxima.js",
+      "url": "https://maxima-on-wasm.pages.dev/maxima.js",
+      "fileBytes": 1239434,
+      "sha256": "4b0b3ecc4eb229b35595e3e5f4063565502df023559d355a23306696af2fdf87",
+      "pinVerified": true
+    },
+    {
       "path": "/maxima.wasm",
       "url": "https://maxima-on-wasm.pages.dev/maxima.wasm",
       "fileBytes": 23611995,
@@ -493,12 +501,12 @@
   ],
   "serverErrors": [
     {
-      "path": "/libecl.so",
-      "error": "Error: Unapproved runtime path: /libecl.so\n    at resource (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-one/run.mjs:25:58)\n    at Server.<anonymous> (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-one/run.mjs:53:116)\n    at Server.emit (node:events:519:28)\n    at parserOnIncoming (node:_http_server:1186:12)\n    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17)"
+      "path": "/share/info/maxima-index.lisp",
+      "error": "Error: Unapproved runtime path: /share/info/maxima-index.lisp\n    at resource (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-one/run.mjs:27:58)\n    at Server.<anonymous> (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-one/run.mjs:56:116)\n    at Server.emit (node:events:519:28)\n    at parserOnIncoming (node:_http_server:1186:12)\n    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17)"
     },
     {
-      "path": "/libecl.so",
-      "error": "Error: Unapproved runtime path: /libecl.so\n    at resource (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-one/run.mjs:25:58)\n    at Server.<anonymous> (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-one/run.mjs:53:116)\n    at Server.emit (node:events:519:28)\n    at parserOnIncoming (node:_http_server:1186:12)\n    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17)"
+      "path": "/share/info/maxima-index.lisp",
+      "error": "Error: Unapproved runtime path: /share/info/maxima-index.lisp\n    at resource (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-one/run.mjs:27:58)\n    at Server.<anonymous> (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-one/run.mjs:56:116)\n    at Server.emit (node:events:519:28)\n    at parserOnIncoming (node:_http_server:1186:12)\n    at HTTPParser.parserOnHeadersComplete (node:_http_common:125:17)"
     }
   ]
 }
