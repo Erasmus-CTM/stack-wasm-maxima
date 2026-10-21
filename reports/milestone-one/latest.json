@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "recordedAt": "2026-10-21T20:03:08.231854+00:00",
-  "sourceRevision": "87ac8e4ead1c29fd5680ab77984859fbe32a0673",
-  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39666180274",
+  "recordedAt": "2026-10-21T20:20:19.762548+00:00",
+  "sourceRevision": "c3eacebf4d78a9f6de8ffdcc88d6a8ee9deba106",
+  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39668799588",
   "status": "failed",
   "versions": [
     {
@@ -10,22 +10,70 @@
       "passed": false,
       "differences": [],
       "browser": "141.0.7390.37",
-      "readyMs": 2542.6449999999895,
-      "totalMs": 90000.345,
-      "servedAssetCount": 21,
+      "readyMs": 1849.2449999999953,
+      "totalMs": 67974.38,
+      "stackReadyMs": 65408.69999999998,
+      "servedAssetCount": 69,
       "sourceFileCount": 77,
-      "error": "Wasm batch timed out"
+      "wasmMaximaVersion": "branch_5_49_base_90_g813903d33",
+      "error": "Incomplete batch 0: begin=1, end=1, missing=['27930b8b17eb8b0b7db625314ffa987727fa116d4ecb3215f3867a220cec42b3-1', 'a4325c0788be1a52080f4014384af74fe92e77b5dfe0738672fac9b632325bca-1']; output tail='f4a6c2a7b6125be5a85-1|[true,true,\"\"]\\n\\n(%i10) \\nSTACKNATIVE|3c91e37b2b24c756887bf74bd438b536631cad9b7f80e5d60347c9973ff4afc4-1|[true,false,\"\"]\\n\\n(%i11) \\nSTACKNATIVE|2c56c0b9e8ea5620f024cbf9e561f0bba661faacb9c3974d8ad0be2921e55efc-1|[true,true,\"\"]\\n\\n(%i12) \\nincorrect syntax: block is not an infix operator\\native_value[2]block(\\n  ^\\n\\n(%i13) \\nSTACKNATIVE|3ca2b85893be967dea1398509e57a491d9d6329d531d73d5e3e8566756ade2d9-1|[true,false,\"ATFacForm_notfactored. \"]\\n\\n(%i14) \\nSTACKNATIVE|e4978ce1ad0395265edc90eaeac66f8db64af6a0bd10afe98790f20098d39119-1|[true,true,\"\"]\\n\\n(%i15) \\nSTACKNATIVE|5b9a9047310775455c2aaec136ec55fed81c1699a05fd58f884dcbc742c5e806-1|[true,false,\"ATSingleFrac_ret_exp. \"]\\n\\n(%i16) \\nSTACKNATIVE|e06ffe4c4f8cea9fd89e9158d49ef9463e69045c39807c0fb3fee835cb1f1a4a-1|[true,true,\"\"]\\n\\n(%i17) \\nSTACKNATIVE|2aa5f59146d81cbdbc3a7a91ff3ae84bd08d66da6fca0599c0f4a38e30ef34e4-1|[true,false,\"ATLowestTerms_entries. \"]\\n\\n(%i18) \\nSTACKNATIVE|170c87565e268a00abd02e32c2a4d6d1373f5f1bf6af997570e5d06384d5d38f-1|[true,true,\"\"]\\n\\n(%i19) \\nincorrect syntax: Missing )\\n(x$\\n  ^\\n\\nSTACKNATIVE|ed8ae34e281ad7368e6ce4509806b7ab86962493fd95bdc73483443807aae182-1|[true,false,\"\"]\\n\\n(%i20) \\nSTACKNATIVE|6d9edefdf5bdc88df725e8b4355ee8db29bd527343d14acf0ac68bc332442fdd-1|[true,true,\"\"]\\n\\n(%i21) \\nincorrect syntax: Missing )\\n(x$\\n  ^\\n\\nSTACKNATIVE|3c2c1dbd21b1a6b18ad71fe1578738a6b5d3d8f9db47e874225de24c6832057c-1|[true,false,\"\"]\\n\\n(%i22) \\nSTACKNATIVE|2f1aff8e19a9d5ec891dd2ecf03e90c41ef7bf7c336a3aafe7db67feb4449aba-1|[true,true,\"ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv. \"]\\n\\n(%i23) \\nSTACKNATIVE|13f4cdf3476d93ad3f2c45491133d73a2ebb4100682d0f5ef183bfa7d923d4b7-1|[false,false,\"ATNumDecPlaces_SA_Not_num. \"]\\n\\n(%i24) \\nSTACKNATIVE|cab5d111a044b5e1e708117c297dde18ea060fed316bfae9c53408f2c15cb135-1|[true,true,\"\"]\\n\\n(%i25) \\nSTACKNATIVE|72070f1316e2524bc44f178d754779591012ff7e71adddbb1f60d6f82e874823-1|[true,false,\"ATMatrix_wrongentries. \"]\\n\\n(%i26) \\nSTACKNATIVE-END|0|22\\n\\n(%i27) \\nM1META|2026080600|branch_5_49_base_90_g813903d33\\n'"
     },
     {
       "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
-      "passed": false,
+      "passed": true,
       "differences": [],
       "browser": "141.0.7390.37",
-      "readyMs": 2346.3499999999767,
-      "totalMs": 90000.45499999996,
-      "servedAssetCount": 21,
+      "readyMs": 1700.7300000000105,
+      "totalMs": 62826.01999999999,
+      "stackReadyMs": 60377.01999999999,
+      "servedAssetCount": 69,
       "sourceFileCount": 77,
-      "error": "Wasm batch timed out"
+      "wasmMaximaVersion": "branch_5_49_base_90_g813903d33",
+      "comparisonCount": 22,
+      "nativeMetadata": {
+        "reference_layer": "direct_official_maxima_AT",
+        "stack_sha": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "input_preparation": "stack-logic-nouns-numeric-default-v2",
+        "stack_library_version": "2026101500",
+        "maxima_version": "Maxima 5.46.0",
+        "native_scope_sha256": "cc3a75f5e64700f2a34f81edd87ac3ee0395c08a4a91d963e04e9835aac94d36",
+        "execution_isolation": "fresh_maxima_process_per_case",
+        "jobs": 2,
+        "loader_warmup": true,
+        "preloaded_image": null,
+        "case_wall_seconds": 29.395567177000004,
+        "loader_probe": {
+          "i_binding": "%i",
+          "parsed_i": "i",
+          "parsed_fraction": "1/(1+i)",
+          "ev_parsed_fraction": "1/(1+i)",
+          "literal_lowest_terms": [
+            true,
+            false,
+            "ATLowestTerms_not_rat. "
+          ],
+          "parsed_lowest_terms": [
+            true,
+            true,
+            ""
+          ],
+          "ev_parsed_lowest_terms": [
+            true,
+            true,
+            ""
+          ],
+          "eca_cos_evaluated": [
+            true,
+            false,
+            "ATEqualComAss (AlgEquiv-true). "
+          ],
+          "eca_sqrt_evaluated": [
+            true,
+            false,
+            "ATEqualComAss (AlgEquiv-true). "
+          ]
+        }
+      }
     }
   ],
   "errors": [],

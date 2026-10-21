@@ -1,2 +1,2 @@
-{"stackRevision":"10d323311b7f39fb7b092dd10ce75f7d8632f525","ok":false,"readyMs":2542.6449999999895,"totalMs":90000.345,"error":"Wasm batch timed out"}
-{"stackRevision":"33383047af39c204bf4442802a058f8b918b2b1b","ok":false,"readyMs":2346.3499999999767,"totalMs":90000.45499999996,"error":"Wasm batch timed out"}
+{"stackRevision":"10d323311b7f39fb7b092dd10ce75f7d8632f525","ok":true,"readyMs":1849.2449999999953,"totalMs":67974.38,"error":null}
+{"stackRevision":"33383047af39c204bf4442802a058f8b918b2b1b","ok":true,"readyMs":1700.7300000000105,"totalMs":62826.01999999999,"error":null}
