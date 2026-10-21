@@ -1,0 +1,989 @@
+{
+  "schema": 1,
+  "startedAt": "2026-10-21T19:10:58.234Z",
+  "completedAt": "2026-10-21T19:11:05.276Z",
+  "method": "HTTPS GET; count encoded response-body bytes, decode HTTP content encoding, hash file bytes; no runtime execution",
+  "units": {
+    "MB": 1000000,
+    "MiB": 1048576
+  },
+  "scope": "Selected assets, not a browser network trace or complete STACK grading bundle. File bytes retain ZIP/wheel compression.",
+  "deployment": {
+    "maximaBaseURL": "https://maxima-on-wasm.pages.dev/",
+    "pyodideBaseURL": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/",
+    "pyodideDistributionVersion": "0.28.3",
+    "pyodideLockInfo": {
+      "abi_version": "2025_0",
+      "arch": "wasm32",
+      "platform": "emscripten_4_0_9",
+      "python": "3.13.2",
+      "version": "0.28.0.dev0"
+    },
+    "coursePackageRoots": [
+      "numpy",
+      "scipy",
+      "sympy",
+      "matplotlib",
+      "micropip",
+      "pyodide-http"
+    ],
+    "maximaShareDirectory": "branch_5_49_base_90_g813903d33",
+    "maximaConfiguredInitialMemoryBytes": 134217728,
+    "maximaWorkerUsesAtomicsWait": true
+  },
+  "assets": [
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/contourpy-1.3.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "startedAt": "2026-10-21T19:10:59.759Z",
+      "completedAt": "2026-10-21T19:10:59.816Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 130650,
+      "fileBytes": 132421,
+      "sha256": "3fe3d224ef8129f7be7062cf44c26a38a6cb6a1f07e11e93f33ec502476a40e7",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "130650",
+        "etag": "\"d7092975c9f95a267e39cd8c362c8c8a\"",
+        "last-modified": "Mon, 22 Sep 2025 15:18:06 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "contourpy",
+        "version": "1.3.1",
+        "dependencies": [
+          "numpy"
+        ]
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/cycler-0.12.1-py3-none-any.whl",
+      "startedAt": "2026-10-21T19:10:59.759Z",
+      "completedAt": "2026-10-21T19:10:59.787Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 7808,
+      "fileBytes": 8321,
+      "sha256": "4c163eac65b7ced9007b4259575c045a172dd45d36de7e25ae97b2be67b4a7d1",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "7808",
+        "etag": "\"000505d492794d025c96c4e889905b26\"",
+        "last-modified": "Mon, 22 Sep 2025 15:18:03 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "cycler",
+        "version": "0.12.1",
+        "dependencies": [
+          "six"
+        ]
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/fonttools-4.56.0-py3-none-any.whl",
+      "startedAt": "2026-10-21T19:10:59.759Z",
+      "completedAt": "2026-10-21T19:11:00.890Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 1061227,
+      "fileBytes": 1089800,
+      "sha256": "862f1298792269b5882f145efc0b2683b5101d30152e43152f2a9ee90e55755a",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "1061227",
+        "etag": "\"7e6504a4c726ddf55dc0d808241fc6fa\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:47 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "fonttools",
+        "version": "4.56.0",
+        "dependencies": []
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/kiwisolver-1.4.8-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "startedAt": "2026-10-21T19:10:59.759Z",
+      "completedAt": "2026-10-21T19:10:59.795Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 36172,
+      "fileBytes": 36920,
+      "sha256": "01451f4a9f0dcd93ea6d9e2e577a793d4c9082fbf1f59cfb8ff3ba376f28d3e3",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "36172",
+        "etag": "\"7693eafee9ae399518f2242ed0d121ed\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:55 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "kiwisolver",
+        "version": "1.4.8",
+        "dependencies": []
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/libopenblas-0.3.26.zip",
+      "startedAt": "2026-10-21T19:10:59.759Z",
+      "completedAt": "2026-10-21T19:11:02.132Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 1916569,
+      "fileBytes": 1916561,
+      "sha256": "15c2c82b0fdfdde83a81190f35f5f4a0d15bf236a7e93944c433ae5ac6bf3ee5",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "1916569",
+        "etag": "\"8d8f113699324e77fdc88b547c509749\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:57 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "libopenblas",
+        "version": "0.3.26",
+        "dependencies": []
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/matplotlib-3.8.4-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "startedAt": "2026-10-21T19:10:59.759Z",
+      "completedAt": "2026-10-21T19:11:04.194Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 6611933,
+      "fileBytes": 6722016,
+      "sha256": "4082bc4a9f7ab494137014991fe8afe83218aaaeb6bb4dbd6fd2b40c464742e5",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "6611933",
+        "etag": "\"fe1a8b3720308b0e0232bca93a48220a\"",
+        "last-modified": "Mon, 22 Sep 2025 15:18:06 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "matplotlib",
+        "version": "3.8.4",
+        "dependencies": [
+          "contourpy",
+          "cycler",
+          "fonttools",
+          "kiwisolver",
+          "numpy",
+          "packaging",
+          "pillow",
+          "pyparsing",
+          "python-dateutil",
+          "pytz"
+        ]
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/micropip-0.10.1-py3-none-any.whl",
+      "startedAt": "2026-10-21T19:10:59.760Z",
+      "completedAt": "2026-10-21T19:11:00.049Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 110642,
+      "fileBytes": 115174,
+      "sha256": "b9a92334c27943f9180f9e2b32f26df2ba03920ac9c19eb5e8eb9b821e3ec8eb",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "110642",
+        "etag": "\"7510f816b1db66d861e427445b93f7d1\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:27 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "micropip",
+        "version": "0.10.1",
+        "dependencies": []
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/mpmath-1.3.0-py3-none-any.whl",
+      "startedAt": "2026-10-21T19:10:59.761Z",
+      "completedAt": "2026-10-21T19:11:01.055Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 413849,
+      "fileBytes": 418000,
+      "sha256": "022134ea1b98efab4b011a40aaa89f19b45151c195e0d1610b9c8b28e5aaf85c",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "413849",
+        "etag": "\"ea81fbb7f2a84b8909684072dfbd551f\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:58 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "mpmath",
+        "version": "1.3.0",
+        "dependencies": []
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/numpy-2.2.5-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "startedAt": "2026-10-21T19:10:59.762Z",
+      "completedAt": "2026-10-21T19:11:03.177Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 3084816,
+      "fileBytes": 3109648,
+      "sha256": "3db3c4f3e0448f4d62a85c262692f1260ccd8a91335442bd2442f21ffeddb558",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "3084816",
+        "etag": "\"a35ff1580e6a1d538e68ad8872aff699\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:32 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "numpy",
+        "version": "2.2.5",
+        "dependencies": []
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/packaging-24.2-py3-none-any.whl",
+      "startedAt": "2026-10-21T19:10:59.762Z",
+      "completedAt": "2026-10-21T19:11:00.118Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 69956,
+      "fileBytes": 71930,
+      "sha256": "fdbc12e70e25c89b3e95a853f09065c629ebd6add9bf7a788ce6cfdb35b5c7b0",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "69956",
+        "etag": "\"de9bf29520133425082f680982caa874\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:29 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "packaging",
+        "version": "24.2",
+        "dependencies": []
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pillow-11.3.0-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "startedAt": "2026-10-21T19:10:59.763Z",
+      "completedAt": "2026-10-21T19:11:01.760Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 1058404,
+      "fileBytes": 1058399,
+      "sha256": "52984112ca668d60291a7868011a04d66baf526d27e5eaef0a8a16e7ef22ab6c",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "1058404",
+        "etag": "\"d82ddbd16ee48ed3a0fc93f77af88fb5\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:37 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "pillow",
+        "version": "11.3.0",
+        "dependencies": []
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide_http-0.2.2-py3-none-any.whl",
+      "startedAt": "2026-10-21T19:10:59.763Z",
+      "completedAt": "2026-10-21T19:10:59.879Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 8998,
+      "fileBytes": 9796,
+      "sha256": "24469bdfe12fbf1bb41e3b4266908d5e4dff081e831425c73702a1289aa8fd2a",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "8998",
+        "etag": "\"09f101f663f557d52bb1dfeeccc08772\"",
+        "last-modified": "Mon, 22 Sep 2025 15:18:11 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "pyodide-http",
+        "version": "0.2.2",
+        "dependencies": []
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide-lock.json",
+      "startedAt": "2026-10-21T19:10:58.238Z",
+      "completedAt": "2026-10-21T19:10:58.352Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 23865,
+      "fileBytes": 109732,
+      "sha256": "f6e6f42f451f42affbbcddb00e8c9a3278dcbf399f57aab9f3f568839a7ff4a6",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "23865",
+        "etag": "\"cf766ae4881654e56cf21e675b62ef14\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:27 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:58 GMT",
+        "access-control-allow-origin": "*"
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.asm.js",
+      "startedAt": "2026-10-21T19:10:58.236Z",
+      "completedAt": "2026-10-21T19:10:58.382Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 226208,
+      "fileBytes": 1073033,
+      "sha256": "b22e5831eade9ff10e6fe2c811c68688cd91f10154377b4f80debcf5bafa1e56",
+      "headers": {
+        "content-type": "text/javascript; charset=utf-8",
+        "content-length": "226208",
+        "etag": "\"bb4fc86c58d796ffa4ea42206c3ea728\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:25 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:58 GMT",
+        "access-control-allow-origin": "*"
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.asm.wasm",
+      "startedAt": "2026-10-21T19:10:58.237Z",
+      "completedAt": "2026-10-21T19:10:58.932Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 2667808,
+      "fileBytes": 8645967,
+      "sha256": "5effb6a1a6cc4a1a85bec4622701aa797c031e1de923cbbaf2ad47abdc4ab325",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "2667808",
+        "etag": "\"959adc881dfd71f765dcec6dccfdb2d1\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:25 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:58 GMT",
+        "access-control-allow-origin": "*"
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.js",
+      "startedAt": "2026-10-21T19:10:58.236Z",
+      "completedAt": "2026-10-21T19:10:58.339Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 7031,
+      "fileBytes": 17331,
+      "sha256": "24a458425dcb4ea9836eb5ce26701d18cb769374e2b79247602ba605bf093278",
+      "headers": {
+        "content-type": "text/javascript; charset=utf-8",
+        "content-length": "7031",
+        "etag": "\"67d7372eb64f515738dd1dfafafd08d1\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:25 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:58 GMT",
+        "access-control-allow-origin": "*"
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyparsing-3.2.1-py3-none-any.whl",
+      "startedAt": "2026-10-21T19:10:59.764Z",
+      "completedAt": "2026-10-21T19:11:00.141Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 106682,
+      "fileBytes": 107717,
+      "sha256": "7d595baa16a4640b541ef894a01f1724425bc5b6a07be5e55b1168d637ba7747",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "106682",
+        "etag": "\"a9b7fb03634b213a85fb9e9a1d110e27\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:26 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "pyparsing",
+        "version": "3.2.1",
+        "dependencies": []
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+      "startedAt": "2026-10-21T19:10:59.764Z",
+      "completedAt": "2026-10-21T19:11:00.491Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 228004,
+      "fileBytes": 229892,
+      "sha256": "26b50ce706a17abdde09dbb95745a44f9320dfdb99e950c52b1a62a3d99e452c",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "228004",
+        "etag": "\"8f26b658f80e0cea7beab0a5c838e65d\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:40 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "python-dateutil",
+        "version": "2.9.0.post0",
+        "dependencies": [
+          "six"
+        ]
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/python_stdlib.zip",
+      "startedAt": "2026-10-21T19:10:58.237Z",
+      "completedAt": "2026-10-21T19:10:58.864Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 2379766,
+      "fileBytes": 2416866,
+      "sha256": "71fee17f88a6260ec8c9c7c063533ee59c021fdc88a1ce76247378d3c4a35f4c",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "2379766",
+        "etag": "\"95538158b89d565a5e222f61e88f12c5\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:25 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:58 GMT",
+        "access-control-allow-origin": "*"
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pytz-2025.2-py2.py3-none-any.whl",
+      "startedAt": "2026-10-21T19:10:59.764Z",
+      "completedAt": "2026-10-21T19:11:00.588Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 301398,
+      "fileBytes": 509225,
+      "sha256": "1d7f409837318a3a234a6394253a77900072616a42e5dba89c3214f70e77f31b",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "301398",
+        "etag": "\"4ddc1150dac3dec0f1c5fd32fe3e342c\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:50 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "pytz",
+        "version": "2025.2",
+        "dependencies": []
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/scipy-1.14.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "startedAt": "2026-10-21T19:10:59.765Z",
+      "completedAt": "2026-10-21T19:11:04.994Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 13215549,
+      "fileBytes": 13258838,
+      "sha256": "6c4277bb1902f2064f5f4bd0ffbea67cf9aaf89a3fdc49e9ac1e078d9b574ef0",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "13215549",
+        "etag": "\"9e8b7af9a5ca55daa5ebcc048ab9e730-2\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:34 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "scipy",
+        "version": "1.14.1",
+        "dependencies": [
+          "numpy",
+          "libopenblas"
+        ]
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/six-1.17.0-py2.py3-none-any.whl",
+      "startedAt": "2026-10-21T19:10:59.765Z",
+      "completedAt": "2026-10-21T19:10:59.847Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 10641,
+      "fileBytes": 11050,
+      "sha256": "618e0357f1724d937c20b75d691f0ba9e404de2701084e3c4f35995cfb879665",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "10641",
+        "etag": "\"193e791ef91272b2a64069cc04d1da5b\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:56 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "six",
+        "version": "1.17.0",
+        "dependencies": []
+      }
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/sympy-1.13.3-py3-none-any.whl",
+      "startedAt": "2026-10-21T19:10:59.765Z",
+      "completedAt": "2026-10-21T19:11:03.777Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 4051225,
+      "fileBytes": 4119974,
+      "sha256": "d28066226aba33c9908435b8aa58f24ba211a3116eee333dee639f91f9bb1379",
+      "headers": {
+        "content-type": "application/wasm",
+        "content-length": "4051225",
+        "etag": "\"36a9de13944fc0eb9bd7005fccf907ec\"",
+        "last-modified": "Mon, 22 Sep 2025 15:17:57 GMT",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "access-control-allow-origin": "*"
+      },
+      "package": {
+        "name": "sympy",
+        "version": "1.13.3",
+        "dependencies": [
+          "mpmath"
+        ]
+      }
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/maxima_thread.js",
+      "startedAt": "2026-10-21T19:10:58.235Z",
+      "completedAt": "2026-10-21T19:10:58.421Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 873,
+      "fileBytes": 3229,
+      "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db",
+      "headers": {
+        "content-type": "application/javascript",
+        "etag": "W/\"cccc19fdc788f5edd3f47a873a66873e\"",
+        "date": "Wed, 21 Oct 2026 19:10:58 GMT",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*"
+      }
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/maxima-integration.fas",
+      "startedAt": "2026-10-21T19:10:59.754Z",
+      "completedAt": "2026-10-21T19:11:02.981Z",
+      "status": 200,
+      "contentEncoding": "identity",
+      "transferBytes": 2156309,
+      "fileBytes": 2156309,
+      "sha256": "f9cfeaaf6dcf3063428a19b08bd1b27cfd7618db3f7e3443a69ad26fcbe95db4",
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "2156309",
+        "etag": "\"e95eb695fb8b38e5ad212ab5de412e8a\"",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*"
+      },
+      "localGzipLevel9Bytes": 404015
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/maxima-limits.fas",
+      "startedAt": "2026-10-21T19:10:59.754Z",
+      "completedAt": "2026-10-21T19:11:01.556Z",
+      "status": 200,
+      "contentEncoding": "identity",
+      "transferBytes": 985243,
+      "fileBytes": 985243,
+      "sha256": "df76a340b53864025e4a8030789a40a91a5d8b6cc0724c11c0e271af9814a5c0",
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "985243",
+        "etag": "\"de1fbe8a965a9b04eef5a388b7b00d49\"",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*"
+      },
+      "localGzipLevel9Bytes": 209678
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/maxima-matrix-algebra.fas",
+      "startedAt": "2026-10-21T19:10:59.753Z",
+      "completedAt": "2026-10-21T19:11:01.396Z",
+      "status": 200,
+      "contentEncoding": "identity",
+      "transferBytes": 645537,
+      "fileBytes": 645537,
+      "sha256": "25a1496b2170cb0ee1d66adc44e89d934e96ea9af1f93c879db02be56e1b3c07",
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "645537",
+        "etag": "\"10df90c07943d19c30c1224f74a36fbd\"",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*"
+      },
+      "localGzipLevel9Bytes": 144558
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/maxima-number-theory.fas",
+      "startedAt": "2026-10-21T19:10:59.753Z",
+      "completedAt": "2026-10-21T19:11:02.527Z",
+      "status": 200,
+      "contentEncoding": "identity",
+      "transferBytes": 1429150,
+      "fileBytes": 1429150,
+      "sha256": "833ac50171d72c4bff7278ae1c989117b15c49a67516790683380d0f5aa0d887",
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "1429150",
+        "etag": "\"8512b4e78ce0c8b934a205277bdc92ab\"",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*"
+      },
+      "localGzipLevel9Bytes": 251760
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/maxima-plot.fas",
+      "startedAt": "2026-10-21T19:10:59.752Z",
+      "completedAt": "2026-10-21T19:11:01.848Z",
+      "status": 200,
+      "contentEncoding": "identity",
+      "transferBytes": 1135430,
+      "fileBytes": 1135430,
+      "sha256": "1d7bf17af3a92c744984ddc0c37430ca3dd6139f69bb387d0ef43832abff0b67",
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "1135430",
+        "etag": "\"521a3cb9567864673b9d985bb26efec9\"",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*"
+      },
+      "localGzipLevel9Bytes": 200212
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/maxima-poisson-series.fas",
+      "startedAt": "2026-10-21T19:10:59.752Z",
+      "completedAt": "2026-10-21T19:11:00.381Z",
+      "status": 200,
+      "contentEncoding": "identity",
+      "transferBytes": 217426,
+      "fileBytes": 217426,
+      "sha256": "439ab53ff86b76052105dbcc8770c04109c7ea95efb89b2440a9a2a533eff9fd",
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "217426",
+        "etag": "\"4b64f77f16ab609bf24e9da2e96a40a2\"",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*"
+      },
+      "localGzipLevel9Bytes": 44554
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/maxima-quadpack.fas",
+      "startedAt": "2026-10-21T19:10:59.752Z",
+      "completedAt": "2026-10-21T19:11:03.167Z",
+      "status": 200,
+      "contentEncoding": "identity",
+      "transferBytes": 3714554,
+      "fileBytes": 3714554,
+      "sha256": "26ca2a9811792cb023730014f9e9179af0e5e47c47fdf64528558d1dbc0c0def",
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "3714554",
+        "etag": "\"3ce21d37060e2823b68506408a784763\"",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*"
+      },
+      "localGzipLevel9Bytes": 360415
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/maxima-slatec.fas",
+      "startedAt": "2026-10-21T19:10:59.751Z",
+      "completedAt": "2026-10-21T19:11:03.143Z",
+      "status": 200,
+      "contentEncoding": "identity",
+      "transferBytes": 6182186,
+      "fileBytes": 6182186,
+      "sha256": "3123d401b7ab973a66b7e585ea0e746a5c899937e1b0ebdf399589eb9d2a003e",
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "6182186",
+        "etag": "\"5e156a6f71415fe6f682fd5bbfb8354c\"",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*"
+      },
+      "localGzipLevel9Bytes": 661183
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/maxima-solve.fas",
+      "startedAt": "2026-10-21T19:10:59.752Z",
+      "completedAt": "2026-10-21T19:11:02.607Z",
+      "status": 200,
+      "contentEncoding": "identity",
+      "transferBytes": 1373325,
+      "fileBytes": 1373325,
+      "sha256": "7c2b44e14bc16f3b51b2185b5877c0667d8ae27c8fd5f34546d494e118febaf7",
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "1373325",
+        "etag": "\"ebbed63b8afecb27ec5d870ec665f8c6\"",
+        "date": "Wed, 21 Oct 2026 19:10:59 GMT",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*"
+      },
+      "localGzipLevel9Bytes": 251782
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/maxima.js",
+      "startedAt": "2026-10-21T19:10:58.234Z",
+      "completedAt": "2026-10-21T19:10:58.559Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 234493,
+      "fileBytes": 1239434,
+      "sha256": "4b0b3ecc4eb229b35595e3e5f4063565502df023559d355a23306696af2fdf87",
+      "headers": {
+        "content-type": "application/javascript",
+        "etag": "W/\"9135d66058dd94539d462a695fa76888\"",
+        "date": "Wed, 21 Oct 2026 19:10:58 GMT",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*"
+      }
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/maxima.wasm",
+      "startedAt": "2026-10-21T19:10:58.234Z",
+      "completedAt": "2026-10-21T19:10:59.737Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 4920682,
+      "fileBytes": 23611995,
+      "sha256": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+      "headers": {
+        "content-type": "application/wasm",
+        "etag": "W/\"9ecbb05bd4d9e7187f6efb8b7c27f39d\"",
+        "date": "Wed, 21 Oct 2026 19:10:58 GMT",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*"
+      }
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/share_files.js",
+      "startedAt": "2026-10-21T19:10:58.235Z",
+      "completedAt": "2026-10-21T19:10:58.398Z",
+      "status": 200,
+      "contentEncoding": "br",
+      "transferBytes": 28042,
+      "fileBytes": 533835,
+      "sha256": "0a325df1e0e85c65ebaf3102fd75cb2db2d989735a0976e97c1a2108a8f5bca0",
+      "headers": {
+        "content-type": "application/javascript",
+        "etag": "W/\"185131a3282013e60bac2a257a89afa5\"",
+        "date": "Wed, 21 Oct 2026 19:10:58 GMT",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*"
+      }
+    }
+  ],
+  "groups": {
+    "maximaCore": [
+      "https://maxima-on-wasm.pages.dev/maxima.wasm",
+      "https://maxima-on-wasm.pages.dev/maxima.js",
+      "https://maxima-on-wasm.pages.dev/maxima_thread.js",
+      "https://maxima-on-wasm.pages.dev/share_files.js"
+    ],
+    "maximaOptionalModules": [
+      "https://maxima-on-wasm.pages.dev/maxima-slatec.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-quadpack.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-plot.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-solve.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-poisson-series.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-matrix-algebra.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-number-theory.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-limits.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-integration.fas"
+    ],
+    "maximaCoreAndAllNineOptionalModules": [
+      "https://maxima-on-wasm.pages.dev/maxima.wasm",
+      "https://maxima-on-wasm.pages.dev/maxima.js",
+      "https://maxima-on-wasm.pages.dev/maxima_thread.js",
+      "https://maxima-on-wasm.pages.dev/share_files.js",
+      "https://maxima-on-wasm.pages.dev/maxima-slatec.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-quadpack.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-plot.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-solve.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-poisson-series.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-matrix-algebra.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-number-theory.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-limits.fas",
+      "https://maxima-on-wasm.pages.dev/maxima-integration.fas"
+    ],
+    "pyodideCore": [
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.js",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.asm.js",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.asm.wasm",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/python_stdlib.zip",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide-lock.json"
+    ],
+    "sympyAndDependencies": [
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/mpmath-1.3.0-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/sympy-1.13.3-py3-none-any.whl"
+    ],
+    "pyodideGrading": [
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.js",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.asm.js",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.asm.wasm",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/python_stdlib.zip",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide-lock.json",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/mpmath-1.3.0-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/sympy-1.13.3-py3-none-any.whl"
+    ],
+    "pyodideCoursePackages": [
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/contourpy-1.3.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/cycler-0.12.1-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/fonttools-4.56.0-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/kiwisolver-1.4.8-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/libopenblas-0.3.26.zip",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/matplotlib-3.8.4-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/micropip-0.10.1-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/mpmath-1.3.0-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/numpy-2.2.5-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/packaging-24.2-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pillow-11.3.0-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide_http-0.2.2-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyparsing-3.2.1-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pytz-2025.2-py2.py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/scipy-1.14.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/six-1.17.0-py2.py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/sympy-1.13.3-py3-none-any.whl"
+    ],
+    "pyodideCourse": [
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.js",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.asm.js",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.asm.wasm",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/python_stdlib.zip",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide-lock.json",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/contourpy-1.3.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/cycler-0.12.1-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/fonttools-4.56.0-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/kiwisolver-1.4.8-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/libopenblas-0.3.26.zip",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/matplotlib-3.8.4-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/micropip-0.10.1-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/mpmath-1.3.0-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/numpy-2.2.5-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/packaging-24.2-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pillow-11.3.0-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide_http-0.2.2-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyparsing-3.2.1-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pytz-2025.2-py2.py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/scipy-1.14.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/six-1.17.0-py2.py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/sympy-1.13.3-py3-none-any.whl"
+    ],
+    "coursePlusMaximaCore": [
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.js",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.asm.js",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.asm.wasm",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/python_stdlib.zip",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide-lock.json",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/contourpy-1.3.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/cycler-0.12.1-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/fonttools-4.56.0-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/kiwisolver-1.4.8-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/libopenblas-0.3.26.zip",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/matplotlib-3.8.4-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/micropip-0.10.1-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/mpmath-1.3.0-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/numpy-2.2.5-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/packaging-24.2-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pillow-11.3.0-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide_http-0.2.2-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyparsing-3.2.1-py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pytz-2025.2-py2.py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/scipy-1.14.1-cp313-cp313-pyodide_2025_0_wasm32.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/six-1.17.0-py2.py3-none-any.whl",
+      "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/sympy-1.13.3-py3-none-any.whl",
+      "https://maxima-on-wasm.pages.dev/maxima.wasm",
+      "https://maxima-on-wasm.pages.dev/maxima.js",
+      "https://maxima-on-wasm.pages.dev/maxima_thread.js",
+      "https://maxima-on-wasm.pages.dev/share_files.js"
+    ]
+  },
+  "totals": {
+    "maximaCore": {
+      "count": 4,
+      "transferBytes": 5184090,
+      "fileBytes": 25388493
+    },
+    "maximaOptionalModules": {
+      "count": 9,
+      "transferBytes": 17839160,
+      "fileBytes": 17839160
+    },
+    "maximaCoreAndAllNineOptionalModules": {
+      "count": 13,
+      "transferBytes": 23023250,
+      "fileBytes": 43227653
+    },
+    "pyodideCore": {
+      "count": 5,
+      "transferBytes": 5304678,
+      "fileBytes": 12262929
+    },
+    "sympyAndDependencies": {
+      "count": 2,
+      "transferBytes": 4465074,
+      "fileBytes": 4537974
+    },
+    "pyodideGrading": {
+      "count": 7,
+      "transferBytes": 9769752,
+      "fileBytes": 16800903
+    },
+    "pyodideCoursePackages": {
+      "count": 18,
+      "transferBytes": 32424523,
+      "fileBytes": 32925682
+    },
+    "pyodideCourse": {
+      "count": 23,
+      "transferBytes": 37729201,
+      "fileBytes": 45188611
+    },
+    "coursePlusMaximaCore": {
+      "count": 27,
+      "transferBytes": 42913291,
+      "fileBytes": 70577104
+    }
+  }
+}
