@@ -66,7 +66,7 @@ for sha in ("10d323311b7f39fb7b092dd10ce75f7d8632f525", "33383047af39c204bf44428
         raise RuntimeError("Missing STACK library version")
     # printf writes protocol records to the character stream; print may use
     # the browser-specific displayOutput hook instead of stdout.
-    batch = "m1_print(ex):=printf(true,\"~a~%\",ex)$\n" + batch.replace("print(", "m1_print(")
+    batch = "m1_print(ex):=printf(true,\"~a~%\",ex)$\n:lisp (trace maxima::$load maxima::$compile)\n" + batch.replace("print(", "m1_print(")
     sources = []
     for path in sorted((source / "stack/maxima").rglob("*")):
         if path.is_file() and path.suffix in (".mac", ".lisp"):

@@ -20,6 +20,7 @@ const allAssets = [...lock.assets, ...supplement.assets];
 const expected = new Map(runtimeURLs.map(url => [new URL(url).pathname, allAssets.find(asset => asset.url === url)]));
 const served = new Map();
 const declaredPaths = new Set();
+const requestedPaths = new Set();
 const hash = data => createHash('sha256').update(data).digest('hex');
 const errors = [];
 async function resource(pathname) {
@@ -62,6 +63,7 @@ const server = createServer(async (request, response) => {
   try {
     const path = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
     if (path === '/favicon.ico') { response.writeHead(204); response.end(); return; }
+    if (!['/', '/m1-client.js', '/m1-worker.js'].includes(path)) requestedPaths.add(path);
     let data = path === '/' ? html : path === '/m1-client.js' ? client : path === '/m1-worker.js' ? worker : await resource(path);
     const type = path.endsWith('.wasm') ? 'application/wasm'
       : path.endsWith('.js') ? 'application/javascript'
@@ -110,7 +112,8 @@ try {
     result.sourceRevision = process.env.GITHUB_SHA || execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
     result.scope = 'Direct official answer tests in a fresh worker per STACK revision; selected cases share the session';
     result.files = version.files.map(({ content, ...record }) => record);
-    result.servedAssets = [...served.values()];
+    result.servedAssets = [...served.values()].filter(asset => requestedPaths.has(asset.path));
+    result.prefetchedAssets = [...served.values()].filter(asset => !requestedPaths.has(asset.path));
     result.serverErrors = [...errors];
     await writeFile(join(out, 'browser-' + version.stackRevision.slice(0, 7) + '.json'), JSON.stringify(result, null, 2) + '\n');
     await writeFile(join(out, 'console-' + version.stackRevision.slice(0, 7) + '.log'), consoleLines.join('\n') + '\n');

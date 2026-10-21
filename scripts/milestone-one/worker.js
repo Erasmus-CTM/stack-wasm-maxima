@@ -4,6 +4,11 @@ const upstreamStart = self.onmessage;
 self.onmessage = event => {
   const { files, buffers } = event.data;
   Module.preRun.push(function () {
+    const originalOpen = FS.open;
+    FS.open = function (path, ...args) {
+      if (typeof path === 'string') self.postMessage({ type: 'm1-fs-open', path });
+      return originalOpen.call(this, path, ...args);
+    };
     for (const directory of ['/ctm', '/ctm/tmp', '/ctm/plots', '/ctm/obj',
       '/ctm/moodle-qtype_stack-master/tmp']) FS.mkdirTree(directory);
     for (const file of files) {

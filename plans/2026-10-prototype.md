@@ -1,12 +1,12 @@
 # Prototype plan and consolidation dependencies
 
-Status: implementation of milestone 1 starts on the research branch. This plan does not claim a successful run.
+Status: milestone 1 is executing on the research branch. The native references pass; the Wasm runtime reaches its prompt but the STACK loader has not completed. See reports/milestone-one/latest.md for computed evidence.
 
 ## Decision: proceed now
 
 Milestone 1 is independent of the open CTM consolidation PRs. It uses pinned source checkouts and does not modify ctm-assessment, ctm-libs, ctm-checkers, stack-sympy, or either course.
 
-At the dependency check on 21 October 2026, ctm-assessment #24 and ctm-checkers #13 were still open. Neither is needed to load upstream STACK in a standalone Wasm worker. Shared runtime/settings integration should follow the relevant merged interfaces, using reviewed commit pins rather than chasing moving branches.
+At the initial dependency check on 21 October 2026, ctm-assessment #24 and ctm-checkers #13 were still open. A later check the same day found ctm-assessment #24 merged and ctm-checkers #13 still open. Neither is needed to load upstream STACK in a standalone Wasm worker. Shared runtime/settings integration should follow the relevant merged interfaces, using reviewed commit pins rather than chasing moving branches.
 
 ## Reuse boundary
 
