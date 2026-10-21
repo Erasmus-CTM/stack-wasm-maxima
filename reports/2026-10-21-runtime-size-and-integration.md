@@ -24,7 +24,10 @@ All MB below are decimal (1 MB = 1,000,000 bytes). Transfer bytes count encoded 
 | Known Maxima startup files including ECL | 13.15 | 33.36 |
 | All nine lazy Maxima `.fas` modules identified by its worker | 17.84 | 17.84 |
 | Four Maxima files plus those nine modules (excludes ECL) | 23.02 | 43.23 |
-| Known startup files plus those nine modules, including ECL | 30.99 | 51.19 |
+| Core plus nine modules and ECL, excluding gnuplot | 30.99 | 51.19 |
+| Linked plotting library, `libgnuplot.so` | 3.94 | 3.94 |
+| Core plus plotting module and both linked libraries | 18.22 | 38.43 |
+| Core plus all nine modules and both linked libraries | 34.93 | 55.13 |
 | Pyodide 0.28.3 core: loaders, Wasm, stdlib ZIP, lock | 5.30 | 12.26 |
 | SymPy 1.13.3 plus mpmath 1.3.0 | 4.47 | 4.54 |
 | Python grading baseline: Pyodide core plus SymPy/mpmath | 9.77 | 16.80 |
@@ -98,3 +101,9 @@ No browser runtime, STACK-in-Wasm grading, latency, or memory benchmark is claim
 - [ctm-checkers API](https://github.com/Erasmus-CTM/ctm-checkers/blob/9e042dc5e57a1636be64ca5d08910c9af5ff1371/docs/api.md), [page adapter](https://github.com/Erasmus-CTM/ctm-checkers/blob/9e042dc5e57a1636be64ca5d08910c9af5ff1371/src/ctm_checkers/stack/page.py), [native runner](https://github.com/Erasmus-CTM/ctm-checkers/blob/9e042dc5e57a1636be64ca5d08910c9af5ff1371/tools/stack_native/native_compliance/maxima_runner.py), [semantics](https://github.com/Erasmus-CTM/ctm-checkers/blob/9e042dc5e57a1636be64ca5d08910c9af5ff1371/reports/stack-compliance/semantics.qmd).
 - [CTM handoff and approved offline design](https://github.com/Erasmus-CTM/ctm-assessment/tree/handoff/2026-10/docs/consolidation). The earlier course measurements there are corroborated by this fresh distribution-file measurement; no earlier timing results are reused as benchmarks here.
 - Open work inspected: [ctm-checkers #10](https://github.com/Erasmus-CTM/ctm-checkers/pull/10), [#11](https://github.com/Erasmus-CTM/ctm-checkers/pull/11), [#12](https://github.com/Erasmus-CTM/ctm-checkers/pull/12), [#13](https://github.com/Erasmus-CTM/ctm-checkers/pull/13), and [stack-sympy #28](https://github.com/Erasmus-CTM/stack-sympy/pull/28). This assessment does not certify or merge those PRs.
+
+## Completed dependency-check observations
+
+[CI run 39669805961](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39669805961) matched all 22 selected direct answer-test observations at each of the two pinned STACK revisions. The unoptimized full library initialization took 78.09–81.05 seconds after starting a fresh worker; the bare Maxima prompt was available after 2.34–2.51 seconds. The subsequent 22-case batch took 3.29–3.50 seconds, including protocol and lazy-load overhead. These are single-run diagnostic observations, not paired Quarto/SymPy benchmarks.
+
+The actual browser path requested 69 unique runtime asset URLs, totalling 41.01 MB of decoded files, including the matrix-algebra module and additional share sources. Separately mounted STACK sources added 0.87–0.90 MB. The local test server did not apply HTTP compression. The 18.22 MB row above describes its named subset, not the full observed public-transfer footprint. A cold question-page network trace and repeated paired timings remain required.
