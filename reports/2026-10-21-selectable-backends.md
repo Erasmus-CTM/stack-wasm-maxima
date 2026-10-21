@@ -59,3 +59,15 @@ Capability checks should identify supported input types, answer-test families, q
 Selectable backends let a Maxima-only practice page omit Pyodide when it has no Python exercises or custom checkers. A Python-heavy page still needs Python plus Maxima if Maxima is selected. Shared frontend components are not duplicated. Match the runtime-size report's explicit asset scope; actual first-grade dependencies and startup time remain unmeasured.
 
 A first integration prototype should support one existing scalar question and one matrix question through both adapters using the same frontend. Then compare question preparation, previews, scores, PRT paths, feedback and qtests, and measure the two runtime workers together. This is a proposed next step, not a completed integration.
+
+## Retaining PythonChecker
+
+The consolidation remains useful with either CAS. The shared inputs, Quarto integration, runtime plumbing, checker result contracts, Python helpers and evidence pipeline all remain in use. Backend selection benefits from those boundaries; it does not invalidate the refactoring.
+
+PythonChecker can be retained. With the existing SymPy backend, its current Python implementation stays in ctm-checkers. With the Maxima backend, an orchestration bridge must invoke that same implementation in a Pyodide worker and normalize its result, including validity, correctness/partial credit, feedback and optional matrix/vector assessment details. Keep one implementation of the Python checker; do not translate it into Lisp or duplicate it in this repository.
+
+A native compiled Maxima PRT cannot directly execute a CTM PythonChecker node. Mixed response trees need an explicit backend-level continuation/callback bridge or a CTM PRT driver that dispatches native answer tests to Maxima and PythonChecker nodes to Pyodide. The chosen implementation must preserve branch order, feedback variables, penalties, notes and question-level score aggregation. A separate weighted Python grading part is another possible extension, but does not replace support for existing mixed-node authoring.
+
+This orchestration is backend work. The public validate/grade/tests contract and frontend input widgets do not need backend-specific branches. Define an explicit value conversion contract for raw expressions, exact fractions, complex scalars, matrices, lists and sets. Preserve written input separately; do not assume that Python objects or SymPy ASTs can be passed as Maxima values.
+
+Pages using PythonChecker still require Pyodide. The Maxima-only asset saving applies only to pages without Python dependencies. Until the mixed-node bridge is implemented and tested, a Maxima backend should issue an explicit authoring diagnostic for that unsupported combination. Retention is architecturally feasible, not already implemented by this research work.
