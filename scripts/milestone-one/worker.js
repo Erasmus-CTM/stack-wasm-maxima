@@ -1,8 +1,45 @@
 // Use the pinned upstream transport and runtime unchanged.
 importScripts('/maxima_thread.js');
 const upstreamStart = self.onmessage;
+const upstreamImportScripts = self.importScripts.bind(self);
+let currentBuffers;
+function installBatchTransport(buffers) {
+  const mutex = new Int32Array(buffers[0]);
+  const input = new Uint32Array(buffers[1]);
+  const size = new Uint32Array(buffers[2]);
+  const interrupt = new Int32Array(buffers[3]);
+  let index = 0, charactersRead = 0;
+  const probePositions = new Set([37, 511, 1003]);
+  // Upstream resets its stdin index for an interrupt. Keep the character
+  // cursor and buffer intact when ECL's GC checks for an interrupt mid-read.
+  self.checkForInterrupt = function () {
+    Atomics.store(mutex, 0, 0);
+    self.postMessage({ type: 'checkForInterrupt' });
+    Atomics.wait(mutex, 0, 0);
+    return Atomics.load(interrupt, 0);
+  };
+  self.readChar = function () {
+    while (index >= size[0]) {
+      index = 0;
+      Atomics.store(mutex, 0, 0);
+      self.postMessage({ type: 'waitingForInput' });
+      Atomics.wait(mutex, 0, 0);
+    }
+    const character = input[index++];
+    if (probePositions.has(++charactersRead)) {
+      self.postMessage({ type: 'm1-transport-probe', charactersRead });
+      self.checkForInterrupt();
+    }
+    return character;
+  };
+}
+self.importScripts = function (...urls) {
+  if (urls.some(url => String(url).endsWith('/maxima.js'))) installBatchTransport(currentBuffers);
+  return upstreamImportScripts(...urls);
+};
 self.onmessage = event => {
   const { files, buffers } = event.data;
+  currentBuffers = buffers;
   Module.preRun.push(function () {
     // ECL probes regular files with FIONREAD before reading each character.
     // The deployed Emscripten MEMFS ioctl has no regular-file implementation.

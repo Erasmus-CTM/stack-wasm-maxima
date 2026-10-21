@@ -35,8 +35,11 @@ try:
         try:
             result = json.loads((OUT / f"browser-{sha[:7]}.json").read_text())
             item.update(browser=result.get("browser"), readyMs=result.get("readyMs"), totalMs=result.get("totalMs"), stackReadyMs=result.get("stackReadyMs"),
+                        interruptChecks=result.get("interruptChecks"), injectedInterruptChecks=result.get("injectedInterruptChecks"),
                         servedAssetCount=len(result.get("servedAssets", [])),
                         sourceFileCount=len(result.get("files", [])))
+            if result.get("injectedInterruptChecks") != 3:
+                raise RuntimeError("The mid-input interrupt transport checks did not all execute")
             if not result.get("ok"):
                 raise RuntimeError(result.get("error") or "Browser execution did not finish")
             version_match = re.search(r"^M1META\|([^|\r\n]+)\|([^\r\n]+)", result["stdout"], re.M)

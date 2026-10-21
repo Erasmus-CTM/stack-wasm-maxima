@@ -5,6 +5,8 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 180000 }) {
     const mutexBuffer = new SharedArrayBuffer(8);
     const inputBuffer = new SharedArrayBuffer(2 * 1024 * 1024);
     const sizeBuffer = new SharedArrayBuffer(4);
+    const interruptBuffer = new SharedArrayBuffer(4);
+    const interrupt = new Int32Array(interruptBuffer);
     const mutex = new Int32Array(mutexBuffer);
     const input = new Uint32Array(inputBuffer);
     const size = new Uint32Array(sizeBuffer);
@@ -12,6 +14,7 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 180000 }) {
     const totalCommands = commands.length;
     const worker = new Worker('/m1-worker.js');
     const started = performance.now();
+    let interruptChecks = 0, injectedInterruptChecks = 0;
     let readyMs = null, stackReadyMs = null, stdout = '', commandsSent = 0, complete = false;
     const messageTrace = [];
     function finish(ok, error) {
@@ -20,7 +23,7 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 180000 }) {
       clearTimeout(timer);
       worker.terminate();
       const result = { ok, error, stdout, readyMs, totalMs: performance.now() - started,
-        commandsSent, totalCommands, stackReadyMs, crossOriginIsolated, messageTrace };
+        commandsSent, totalCommands, stackReadyMs, interruptChecks, injectedInterruptChecks, crossOriginIsolated, messageTrace };
       document.getElementById('status').textContent = JSON.stringify(result, null, 2);
       resolve(result);
     }
@@ -43,8 +46,8 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 180000 }) {
           wake();
         }
       } else if (data.type === 'checkForInterrupt') {
-        input[0] = 0;
-        size[0] = 0;
+        interruptChecks++;
+        Atomics.store(interrupt, 0, 0);
         wake();
       } else if (data.type === 'output') {
         stdout += data.text;
@@ -52,10 +55,12 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 180000 }) {
         if (stdout.length > 4 * 1024 * 1024) return finish(false, 'Diagnostic output limit exceeded');
         // Match a complete printed line, not a source echo.
         if (/^M1META\|[^\r\n]+\r?\n/m.test(stdout)) finish(true, null);
+      } else if (data.type === 'm1-transport-probe') {
+        injectedInterruptChecks++;
       } else if (data.type === 'm1-error') {
         finish(false, data.error);
       }
     };
-    worker.postMessage({ files, buffers: [mutexBuffer, inputBuffer, sizeBuffer] });
+    worker.postMessage({ files, buffers: [mutexBuffer, inputBuffer, sizeBuffer, interruptBuffer] });
   });
 };

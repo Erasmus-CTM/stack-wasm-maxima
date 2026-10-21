@@ -75,6 +75,51 @@ function closure(packages, roots) {
   return [...found].sort();
 }
 
+
+function dylinkNeeded(bytes) {
+  if (!bytes.subarray(0, 8).equals(Buffer.from([0, 97, 115, 109, 1, 0, 0, 0]))) {
+    throw new Error('Linked module is not a WebAssembly binary');
+  }
+  function uint(state, limit) {
+    let value = 0, multiplier = 1;
+    for (let i = 0; i < 5; i++) {
+      if (state.offset >= limit) throw new Error('Truncated Wasm integer');
+      const next = bytes[state.offset++];
+      value += (next & 127) * multiplier;
+      if (!(next & 128)) return value;
+      multiplier *= 128;
+    }
+    throw new Error('Oversized Wasm integer');
+  }
+  function string(state, limit) {
+    const size = uint(state, limit), end = state.offset + size;
+    if (end > limit) throw new Error('Truncated Wasm string');
+    const value = bytes.subarray(state.offset, end).toString('utf8');
+    state.offset = end;
+    return value;
+  }
+  const state = { offset: 8 };
+  while (state.offset < bytes.length) {
+    const section = bytes[state.offset++], size = uint(state, bytes.length), end = state.offset + size;
+    if (end > bytes.length) throw new Error('Truncated Wasm section');
+    if (section === 0 && string(state, end) === 'dylink.0') {
+      const found = [];
+      while (state.offset < end) {
+        const type = bytes[state.offset++], length = uint(state, end), subEnd = state.offset + length;
+        if (subEnd > end) throw new Error('Truncated dylink subsection');
+        if (type === 2) {
+          const count = uint(state, subEnd);
+          for (let i = 0; i < count; i++) found.push(string(state, subEnd));
+        }
+        state.offset = subEnd;
+      }
+      return found;
+    }
+    state.offset = end;
+  }
+  return [];
+}
+
 export async function measure() {
   const startedAt = new Date().toISOString();
   const assets = new Map();
@@ -87,7 +132,7 @@ export async function measure() {
     }
     return assets.get(url);
   }
-  const maximaCore = MAXIMA_CORE.map(path => MAXIMA + path);
+  let maximaCore = MAXIMA_CORE.map(path => MAXIMA + path);
   const pythonCore = PYODIDE_CORE.map(path => PYODIDE + path);
   await Promise.all([...maximaCore, ...pythonCore].map(add));
   const loader = bodies.get(MAXIMA + 'maxima.js').toString('utf8');
@@ -108,15 +153,45 @@ export async function measure() {
     if (record.sha256 !== pkg.sha256) throw new Error(`Pyodide lock hash mismatch: ${name}`);
     record.package = { name, version: pkg.version, dependencies: pkg.depends };
   }
+
+  const dependencyGraph = new Map();
+  const pendingModules = [MAXIMA + 'maxima.wasm', ...maximaOptional];
+  while (pendingModules.length) {
+    const url = pendingModules.shift();
+    if (dependencyGraph.has(url)) continue;
+    await add(url);
+    const dependencies = dylinkNeeded(bodies.get(url)).map(name => {
+      if (!/^[A-Za-z0-9._-]+$/.test(name)) throw new Error('Unexpected linked-library name: ' + name);
+      return MAXIMA + name;
+    });
+    dependencyGraph.set(url, dependencies);
+    pendingModules.push(...dependencies);
+  }
+  function withLinkedLibraries(urls) {
+    const found = new Set();
+    function visit(url) {
+      if (found.has(url)) return;
+      found.add(url);
+      for (const dependency of dependencyGraph.get(url) || []) visit(dependency);
+    }
+    urls.forEach(visit);
+    return [...found];
+  }
+  maximaCore = withLinkedLibraries(maximaCore);
+  const allMaximaModules = withLinkedLibraries([...maximaCore, ...maximaOptional]);
+  const linkedLibraries = [...new Set([...dependencyGraph.values()].flat())];
+
   // This is an optional self-hosting estimate, separate from actual transferBytes.
-  for (const url of maximaOptional) {
+  for (const url of [...maximaOptional, ...linkedLibraries]) {
     assets.get(url).localGzipLevel9Bytes = gzipSync(bodies.get(url), { level: 9 }).length;
   }
   const gradingPackages = closure(lock.packages, ['sympy']).map(name => PYODIDE + lock.packages[name].file_name);
   const groups = {
     maximaCore,
     maximaOptionalModules: maximaOptional,
-    maximaCoreAndAllNineOptionalModules: [...maximaCore, ...maximaOptional],
+    maximaCoreAndAllNineOptionalModules: allMaximaModules,
+    maximaLinkedLibraries: linkedLibraries,
+    maximaCoreAndPlotModule: withLinkedLibraries([...maximaCore, MAXIMA + 'maxima-plot.fas']),
     pyodideCore: pythonCore,
     sympyAndDependencies: gradingPackages,
     pyodideGrading: [...pythonCore, ...gradingPackages],
@@ -144,6 +219,7 @@ export async function measure() {
       maximaConfiguredInitialMemoryBytes: Number(loader.match(/var INITIAL_MEMORY = Module\['INITIAL_MEMORY'\] \|\| (\d+)/)?.[1]) || null,
       maximaWorkerUsesAtomicsWait: worker.includes('Atomics.wait'),
     },
+    maximaDylinkDependencies: Object.fromEntries(dependencyGraph),
     assets: [...assets.values()].sort((a, b) => a.url.localeCompare(b.url)), groups, totals,
   };
 }

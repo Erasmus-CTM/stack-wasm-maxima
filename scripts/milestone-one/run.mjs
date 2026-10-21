@@ -111,7 +111,7 @@ try {
     result.browser = browser.version();
     result.stackRevision = version.stackRevision;
     result.sourceRevision = process.env.GITHUB_SHA || execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
-    result.runtimeAdapters = ['regular-file FIONREAD', 'reuse MEMFS ENOENT error objects'];
+    result.runtimeAdapters = ['regular-file FIONREAD', 'reuse MEMFS ENOENT error objects', 'separate interrupt control buffer', 'three injected mid-input interrupt checks'];
     result.scope = 'Direct official answer tests in a fresh worker per STACK revision; selected cases share the session';
     result.files = version.files.map(({ content, ...record }) => record);
     result.servedAssets = [...served.values()].filter(asset => requestedPaths.has(asset.path));
