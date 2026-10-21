@@ -2,11 +2,13 @@
   "ok": true,
   "error": null,
   "stdout": "\nMaxima branch_5_49_base_90_g813903d33 https://maxima.sourceforge.io\nusing Lisp ECL 26.3.27\nDistributed under the GNU Public License. See the file COPYING.\nDedicated to the memory of William Schelter.\nThe function bug_report() provides bug reporting information.\n\n(%i1) \n(%i2) \n($LOAD)\n(%i2) \n(%i3) \n(%i4) 1> ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac\")\n| 2> ($LOAD \"stackmaxima.mac\")\n|   3> ($LOAD \"eval_string.lisp\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp\")\n|   3> ($LOAD \"unicode-sniffer.lisp\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp\")\n|   3> ($LOAD \"stringproc.lisp\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp\")\n|   3> ($LOAD \"printf.lisp\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp\")\n|   3> ($LOAD \"cryptools.lisp\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp\")\n|   3> ($LOAD \"md5.lisp\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp\")\n|   3> ($LOAD \"base64.lisp\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp\")\n|   3> ($LOAD \"sha1.lisp\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp\")\n|   3> ($LOAD \"functs\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac\")\n|   3> ($LOAD \"stack_logic.lisp\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/stack_logic.lisp\")\n|   3> ($LOAD \"Ksimplifier.lisp\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/Ksimplifier.lisp\")\n|   3> ($LOAD \"errortostring.lisp\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/errortostring.lisp\")\n|   3> ($LOAD \"utils.mac\")\nwarning: encountered undefined variable %_ce_rem in translation.\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/utils.mac\")\n|   3> ($LOAD \"assessment.mac\")\n|   | 4> ($LOAD \"grobner\")\n|   | <4 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp\")\n|   | 4> ($LOAD \"to_poly_solve_extra_5.38.1.lisp\")\n|   |   5> ($LOAD \"fourier_elim\")\n|   |   | 6> ($LOAD $TO_POLY)\n|   |   | <6 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp\")\n|   | <4 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/to_poly_solve_extra_5.38.1.lisp\")\n|   | 4> ($LOAD \"opsubst\")\n|   | <4 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp\")\n|   | 4> ($LOAD $FUNCTS)\n|   | <4 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/assessment.mac\")\n|   3> ($LOAD \"validator.mac\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/validator.mac\")\n|   3> ($LOAD \"noun_simp.mac\")\n|   | 4> ($LOAD \"noun_arith.lisp\")\n|   | <4 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/noun_arith.lisp\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/noun_simp.mac\")\n|   3> ($LOAD \"inequalities.mac\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/inequalities.mac\")\n|   3> ($LOAD \"intervals.mac\")\ndefine: warning: redefining the built-in operator intervalp\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/intervals.mac\")\n|   3> ($LOAD \"geometry.mac\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/geometry.mac\")\n|   3> ($LOAD \"proof.mac\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/proof.mac\")\n|   3> ($LOAD \"linearalgebra_core.mac\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/linearalgebra_core.mac\")\n|   3> ($LOAD \"stackunits.mac\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/stackunits.mac\")\n|   3> ($LOAD \"stackstrings.mac\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/stackstrings.mac\")\n|   3> ($LOAD \"fboundp.mac\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/fboundp.mac\")\n|   3> ($LOAD \"functs\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac\")\n|   3> ($LOAD \"maximasrccompiled.mac\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/maximasrccompiled.mac\")\n|   3> ($LOAD \"chemistry.mac\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/chemistry.mac\")\n|   3> ($LOAD \"stacktex.lisp\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/stacktex.lisp\")\n|   3> ($LOAD \"trigrat.lisp\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/trigrat.lisp\")\n|   3> ($LOAD \"trigtools\")\n|   | 4> ($LOAD \"to_poly_solve.mac\")\n|   |   5> ($LOAD \"lrats\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/lrats.mac\")\n|   |   5> ($LOAD \"basic\")\n|   |   | 6> ($LOAD $PACKG)\n|   |   | <6 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/macro/packg.mac\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/macro/basic.mac\")\n|   |   5> ($LOAD \"simplifying\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/simplifying.lisp\")\n|   |   5> ($LOAD \"to_poly_solve_extra\")\n|   |   | 6> ($LOAD \"fourier_elim\")\n|   |   | <6 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve_extra.lisp\")\n|   | <4 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve.mac\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/trigtools/trigtools.mac\")\n|   3> ($LOAD \"diag\")\n|   | 4> ($LOAD \"eigen\")\n|   | <4 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/diag.mac\")\n|   3> ($LOAD \"eigen\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac\")\n|   3> ($LOAD \"sregex\")\n|   | 4> ($LOAD \"unicode-sniffer.lisp\")\n|   | <4 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp\")\n|   | 4> ($LOAD \"stringproc.lisp\")\n|   | <4 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp\")\n|   | 4> ($LOAD \"sregex.lisp\")\n|   | <4 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.lisp\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.mac\")\n|   3> ($LOAD \"numericaltest.mac\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/numericaltest.mac\")\n|   3> ($LOAD \"local.mac\")\n|   <3 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/local.mac\")\ndefine: warning: redefining the built-in function texnumformat\n|   3> ($LOAD $LINEARALGEBRA)\n|   | 4> ($LOAD \"load-linearalgebra-lisp-files\")\n|   |   5> ($LOAD \"lisp-utils/defsystem.lisp\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp\")\n|   | <4 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/load-linearalgebra-lisp-files.lisp\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linearalgebra.mac\")\n| <2 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac\")\n| 2> ($LOAD \"stats\")\n|   3> ($LOAD \"descriptive\")\n|   | 4> ($LOAD \"draw\")\n|   |   5> ($LOAD \"lisp-utils/defsystem.lisp\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp\")\n|   | <4 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp\")\n|   | 4> ($LOAD \"descriptive_util.lisp\")\n|   | <4 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac\")\n|   3> ($LOAD \"distrib\")\n|   | 4> ($LOAD \"lbfgs\")\n|   |   5> ($LOAD \"lbfgs-daxpy.lisp\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-daxpy.lisp\")\n|   |   5> ($LOAD \"lbfgs-ddot.lisp\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-ddot.lisp\")\n|   |   5> ($LOAD \"lb2.lisp\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb2.lisp\")\n|   |   5> ($LOAD \"lb1.lisp\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb1.lisp\")\n|   |   5> ($LOAD \"mcstep.lisp\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcstep.lisp\")\n|   |   5> ($LOAD \"mcsrch.lisp\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcsrch.lisp\")\n|   |   5> ($LOAD \"lbfgs.lisp\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.lisp\")\n|   |   5> ($LOAD \"maxima-lbfgs.lisp\")\n|   |   <5 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/maxima-lbfgs.lisp\")\n|   | <4 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.mac\")\n|   | 4> ($LOAD \"numdistrib.lisp\")\n|   | <4 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac\")\n|   3> ($LOAD \"inference_result\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stats/inference_result.lisp\")\n|   3> ($LOAD \"numstats\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stats/numstats.lisp\")\n| <2 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/stats/stats.mac\")\n| 2> ($LOAD \"distrib\")\n|   3> ($LOAD \"numdistrib.lisp\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp\")\n| <2 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac\")\n| 2> ($LOAD \"descriptive\")\n|   3> ($LOAD \"descriptive_util.lisp\")\n|   <3 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp\")\n| <2 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac\")\n<1 ($LOAD \"/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac\")\n\n(%i1) \n(%i2) \n(%i3) \nM1READY|2026101500\n\n(%i4) \nSTACKNATIVE-BEGIN|0|22\n\n(%i5) 1> ($LOAD \"genut\")\n<1 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac\")\n\nSTACKNATIVE|b687d448f571dfe38ec400ddca0df628e6a2a26fd4078dade228d5cdf76eb811-1|[true,true,\"\"]\n\n(%i6) \nSTACKNATIVE|2cabd2dff3f4f80bb9a3c19d8ca64796d886e0892150c377daafc41f8561f234-1|[true,false,\"ATAlgEquiv_WrongCase. \"]\n\n(%i7) \nSTACKNATIVE|9a5466436767dca815def28d07754cf6b55795b2249262ccadc16508930c50a0-1|[true,true,\"ATSets_duplicates. \"]\n\n(%i8) \nSTACKNATIVE|393cc814f523053da171187205ccea45ba34a195f3bb4cb43b00fa03d742d14b-1|[false,false,\"ATSets_SB_not_set. \"]\n\n(%i9) \nSTACKNATIVE|016ade3a943e2080185ad15300f764011854ee61dda5ff4a6c2a7b6125be5a85-1|[true,true,\"\"]\n\n(%i10) \nSTACKNATIVE|3c91e37b2b24c756887bf74bd438b536631cad9b7f80e5d60347c9973ff4afc4-1|[true,false,\"\"]\n\n(%i11) \nSTACKNATIVE|2c56c0b9e8ea5620f024cbf9e561f0bba661faacb9c3974d8ad0be2921e55efc-1|[true,true,\"\"]\n\n(%i12) \nSTACKNATIVE|27930b8b17eb8b0b7db625314ffa987727fa116d4ecb3215f3867a220cec42b3-1|[false,false,\"ATEqualComAss (AlgEquiv-false)ATAlgEquiv_WrongCase. \"]\n\n(%i13) \nSTACKNATIVE|a4325c0788be1a52080f4014384af74fe92e77b5dfe0738672fac9b632325bca-1|[true,true,\"ATFacForm_int_true. \"]\n\n(%i14) \nSTACKNATIVE|3ca2b85893be967dea1398509e57a491d9d6329d531d73d5e3e8566756ade2d9-1|[true,false,\"ATFacForm_notfactored. \"]\n\n(%i15) \nSTACKNATIVE|e4978ce1ad0395265edc90eaeac66f8db64af6a0bd10afe98790f20098d39119-1|[true,true,\"\"]\n\n(%i16) \nSTACKNATIVE|5b9a9047310775455c2aaec136ec55fed81c1699a05fd58f884dcbc742c5e806-1|[true,false,\"ATSingleFrac_ret_exp. \"]\n\n(%i17) \nSTACKNATIVE|e06ffe4c4f8cea9fd89e9158d49ef9463e69045c39807c0fb3fee835cb1f1a4a-1|[true,true,\"\"]\n\n(%i18) \nSTACKNATIVE|2aa5f59146d81cbdbc3a7a91ff3ae84bd08d66da6fca0599c0f4a38e30ef34e4-1|[true,false,\"ATLowestTerms_entries. \"]\n\n(%i19) \nSTACKNATIVE|170c87565e268a00abd02e32c2a4d6d1373f5f1bf6af997570e5d06384d5d38f-1|[true,true,\"\"]\n\n(%i20) \nincorrect syntax: Missing )\n(x$\n  ^\n\nSTACKNATIVE|ed8ae34e281ad7368e6ce4509806b7ab86962493fd95bdc73483443807aae182-1|[true,false,\"\"]\n\n(%i21) \nSTACKNATIVE|6d9edefdf5bdc88df725e8b4355ee8db29bd527343d14acf0ac68bc332442fdd-1|[true,true,\"\"]\n\n(%i22) \nincorrect syntax: Missing )\n(x$\n  ^\n\nSTACKNATIVE|3c2c1dbd21b1a6b18ad71fe1578738a6b5d3d8f9db47e874225de24c6832057c-1|[true,false,\"\"]\n\n(%i23) \nSTACKNATIVE|2f1aff8e19a9d5ec891dd2ecf03e90c41ef7bf7c336a3aafe7db67feb4449aba-1|[true,true,\"ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv. \"]\n\n(%i24) \nSTACKNATIVE|13f4cdf3476d93ad3f2c45491133d73a2ebb4100682d0f5ef183bfa7d923d4b7-1|[false,false,\"ATNumDecPlaces_SA_Not_num. \"]\n\n(%i25) \nSTACKNATIVE|cab5d111a044b5e1e708117c297dde18ea060fed316bfae9c53408f2c15cb135-1|[true,true,\"\"]\n\n(%i26) \nSTACKNATIVE|72070f1316e2524bc44f178d754779591012ff7e71adddbb1f60d6f82e874823-1|[true,false,\"ATMatrix_wrongentries. \"]\n\n(%i27) \nSTACKNATIVE-END|0|22\n\n(%i28) \nM1META|2026101500|branch_5_49_base_90_g813903d33\n",
-  "readyMs": 1700.7300000000105,
-  "totalMs": 62826.01999999999,
+  "readyMs": 2335.6300000000047,
+  "totalMs": 81379.98000000004,
   "commandsSent": 33,
   "totalCommands": 33,
-  "stackReadyMs": 60377.01999999999,
+  "stackReadyMs": 78089.08000000002,
+  "interruptChecks": 26,
+  "injectedInterruptChecks": 3,
   "crossOriginIsolated": true,
   "messageTrace": [
     {
@@ -326,249 +328,89 @@
       "type": "waitingForInput"
     },
     {
-      "type": "waitingForInput"
-    },
-    {
-      "type": "waitingForInput"
-    },
-    {
-      "type": "waitingForInput"
-    },
-    {
-      "type": "waitingForInput"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/successful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/unsuccessful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/successful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/unsuccessful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/successful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/unsuccessful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/tmp/stackmaxima.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/successful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/unsuccessful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/successful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/unsuccessful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/tmp/stringproc.{mac,mc}"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/successful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/unsuccessful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stringproc.{mac,mc}"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/successful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/unsuccessful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/successful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/unsuccessful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/successful"
-    },
-    {
-      "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/unsuccessful"
+      "type": "m1-transport-probe",
+      "charactersRead": 37
     },
     {
       "type": "checkForInterrupt"
     },
     {
+      "type": "waitingForInput"
+    },
+    {
+      "type": "waitingForInput"
+    },
+    {
+      "type": "waitingForInput"
+    },
+    {
+      "type": "waitingForInput"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
+    },
+    {
       "type": "m1-fs-open",
       "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/successful"
     },
@@ -578,7 +420,15 @@
     },
     {
       "type": "m1-fs-open",
-      "path": "/ctm/test-directory-cached-4001602764-7647980"
+      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/successful"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/unsuccessful"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/test-directory-cached-4001603185-3446340"
     },
     {
       "type": "m1-fs-open",
@@ -651,6 +501,101 @@
     {
       "type": "m1-fs-open",
       "path": "/ctm/test-directory-cached/branch_5_49_base_90_g813903d33/ecl/26_3_27/successful"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/tmp/stackmaxima.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/tmp/stringproc.{mac,mc}"
+    },
+    {
+      "type": "m1-fs-open",
+      "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stringproc.{mac,mc}"
+    },
+    {
+      "type": "checkForInterrupt"
     },
     {
       "type": "m1-fs-open",
@@ -1007,6 +952,9 @@
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/utils.mac"
     },
     {
+      "type": "checkForInterrupt"
+    },
+    {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/tmp/assessment.mac"
     },
@@ -1107,6 +1055,9 @@
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/grobner.{lisp}"
     },
     {
+      "type": "checkForInterrupt"
+    },
+    {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/tmp/to_poly_solve_extra_5.38.1.lisp"
     },
@@ -1203,6 +1154,9 @@
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/to_poly.{lisp}"
     },
     {
+      "type": "checkForInterrupt"
+    },
+    {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/tmp/opsubst.{mac,mc}"
     },
@@ -1225,6 +1179,12 @@
     {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/functs.{mac,mc}"
+    },
+    {
+      "type": "checkForInterrupt"
+    },
+    {
+      "type": "checkForInterrupt"
     },
     {
       "type": "m1-fs-open",
@@ -1459,6 +1419,9 @@
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/noun_arith.lisp"
     },
     {
+      "type": "checkForInterrupt"
+    },
+    {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/tmp/inequalities.mac"
     },
@@ -1627,6 +1590,9 @@
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/intervals.mac"
     },
     {
+      "type": "checkForInterrupt"
+    },
+    {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/tmp/geometry.mac"
     },
@@ -1709,6 +1675,9 @@
     {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/geometry.mac"
+    },
+    {
+      "type": "checkForInterrupt"
     },
     {
       "type": "m1-fs-open",
@@ -1961,6 +1930,9 @@
     {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/stackunits.mac"
+    },
+    {
+      "type": "checkForInterrupt"
     },
     {
       "type": "m1-fs-open",
@@ -2223,6 +2195,9 @@
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/maximasrccompiled.mac"
     },
     {
+      "type": "checkForInterrupt"
+    },
+    {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/tmp/chemistry.mac"
     },
@@ -2467,6 +2442,9 @@
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/basic.{mac,mc}"
     },
     {
+      "type": "checkForInterrupt"
+    },
+    {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/tmp/packg.{mac,mc}"
     },
@@ -2521,6 +2499,9 @@
     {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/fourier_elim.{lisp}"
+    },
+    {
+      "type": "checkForInterrupt"
     },
     {
       "type": "m1-fs-open",
@@ -2747,6 +2728,9 @@
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/local.mac"
     },
     {
+      "type": "checkForInterrupt"
+    },
+    {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/tmp/linearalgebra.{mac,mc}"
     },
@@ -2777,6 +2761,12 @@
     {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/lisp-utils/defsystem.lisp"
+    },
+    {
+      "type": "checkForInterrupt"
+    },
+    {
+      "type": "checkForInterrupt"
     },
     {
       "type": "m1-fs-open",
@@ -2817,6 +2807,12 @@
     {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/lisp-utils/defsystem.lisp"
+    },
+    {
+      "type": "checkForInterrupt"
+    },
+    {
+      "type": "checkForInterrupt"
     },
     {
       "type": "m1-fs-open",
@@ -2865,6 +2861,9 @@
     {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/lb2.lisp"
+    },
+    {
+      "type": "checkForInterrupt"
     },
     {
       "type": "m1-fs-open",
@@ -2947,6 +2946,9 @@
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/numstats.{lisp}"
     },
     {
+      "type": "checkForInterrupt"
+    },
+    {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/tmp/distrib.{mac,mc}"
     },
@@ -2977,6 +2979,9 @@
     {
       "type": "m1-fs-open",
       "path": "/ctm/moodle-qtype_stack-master/stack/maxima/descriptive_util.lisp"
+    },
+    {
+      "type": "checkForInterrupt"
     },
     {
       "type": "displayOutput",
@@ -3010,6 +3015,20 @@
     },
     {
       "type": "waitingForInput"
+    },
+    {
+      "type": "m1-transport-probe",
+      "charactersRead": 511
+    },
+    {
+      "type": "checkForInterrupt"
+    },
+    {
+      "type": "m1-transport-probe",
+      "charactersRead": 1003
+    },
+    {
+      "type": "checkForInterrupt"
     },
     {
       "type": "m1-fs-open",
@@ -3047,9 +3066,6 @@
     },
     {
       "type": "waitingForInput"
-    },
-    {
-      "type": "checkForInterrupt"
     },
     {
       "type": "waitingForInput"
@@ -3102,10 +3118,12 @@
   ],
   "browser": "141.0.7390.37",
   "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
-  "sourceRevision": "c3eacebf4d78a9f6de8ffdcc88d6a8ee9deba106",
+  "sourceRevision": "12f016a63c857c87d276d1ab3003d318bb393a0b",
   "runtimeAdapters": [
     "regular-file FIONREAD",
-    "reuse MEMFS ENOENT error objects"
+    "reuse MEMFS ENOENT error objects",
+    "separate interrupt control buffer",
+    "three injected mid-input interrupt checks"
   ],
   "scope": "Direct official answer tests in a fresh worker per STACK revision; selected cases share the session",
   "files": [
@@ -3532,17 +3550,17 @@
       "pinVerified": true
     },
     {
-      "path": "/libecl.so",
-      "url": "https://maxima-on-wasm.pages.dev/libecl.so",
-      "fileBytes": 7966927,
-      "sha256": "477e2d4092cc8a6a601e39ddc746440854984115347b62e7faf3b65cc8fa3564",
-      "pinVerified": true
-    },
-    {
       "path": "/libgnuplot.so",
       "url": "https://maxima-on-wasm.pages.dev/libgnuplot.so",
       "fileBytes": 3937451,
       "sha256": "c90cc6c149e0e4df484db9f422fb9c535ae34b359da24d61c974578d6bce0772",
+      "pinVerified": true
+    },
+    {
+      "path": "/libecl.so",
+      "url": "https://maxima-on-wasm.pages.dev/libecl.so",
+      "fileBytes": 7966927,
+      "sha256": "477e2d4092cc8a6a601e39ddc746440854984115347b62e7faf3b65cc8fa3564",
       "pinVerified": true
     },
     {
@@ -3996,6 +4014,13 @@
       "pinVerified": true
     },
     {
+      "path": "/maxima-limits.fas",
+      "url": "https://maxima-on-wasm.pages.dev/maxima-limits.fas",
+      "fileBytes": 985243,
+      "sha256": "df76a340b53864025e4a8030789a40a91a5d8b6cc0724c11c0e271af9814a5c0",
+      "pinVerified": true
+    },
+    {
       "path": "/maxima-number-theory.fas",
       "url": "https://maxima-on-wasm.pages.dev/maxima-number-theory.fas",
       "fileBytes": 1429150,
@@ -4003,10 +4028,10 @@
       "pinVerified": true
     },
     {
-      "path": "/maxima-limits.fas",
-      "url": "https://maxima-on-wasm.pages.dev/maxima-limits.fas",
-      "fileBytes": 985243,
-      "sha256": "df76a340b53864025e4a8030789a40a91a5d8b6cc0724c11c0e271af9814a5c0",
+      "path": "/maxima-slatec.fas",
+      "url": "https://maxima-on-wasm.pages.dev/maxima-slatec.fas",
+      "fileBytes": 6182186,
+      "sha256": "3123d401b7ab973a66b7e585ea0e746a5c899937e1b0ebdf399589eb9d2a003e",
       "pinVerified": true
     },
     {
@@ -4021,13 +4046,6 @@
       "url": "https://maxima-on-wasm.pages.dev/maxima-quadpack.fas",
       "fileBytes": 3714554,
       "sha256": "26ca2a9811792cb023730014f9e9179af0e5e47c47fdf64528558d1dbc0c0def",
-      "pinVerified": true
-    },
-    {
-      "path": "/maxima-slatec.fas",
-      "url": "https://maxima-on-wasm.pages.dev/maxima-slatec.fas",
-      "fileBytes": 6182186,
-      "sha256": "3123d401b7ab973a66b7e585ea0e746a5c899937e1b0ebdf399589eb9d2a003e",
       "pinVerified": true
     }
   ],

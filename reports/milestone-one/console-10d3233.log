@@ -122,3 +122,11 @@ error: warning: unsupported syscall: __syscall_getrusage
 
 error: warning: unsupported syscall: __syscall_getrusage
 
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
