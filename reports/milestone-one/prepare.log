@@ -1,5 +1,5 @@
 Native loader probe: {"eca_cos_evaluated": [true, false, "ATEqualComAss (AlgEquiv-true). "], "eca_sqrt_evaluated": [true, false, "ATEqualComAss (AlgEquiv-true). "], "ev_parsed_fraction": "1/(1+i)", "ev_parsed_lowest_terms": [true, true, ""], "i_binding": "%i", "literal_lowest_terms": [true, false, "ATLowestTerms_not_rat. "], "parsed_fraction": "1/(1+i)", "parsed_i": "i", "parsed_lowest_terms": [true, true, ""]}
-Native cases: 22/22 completed in 29.7s
+Native cases: 22/22 completed in 28.8s
 Native loader probe: {"eca_cos_evaluated": [true, false, "ATEqualComAss (AlgEquiv-true). "], "eca_sqrt_evaluated": [true, false, "ATEqualComAss (AlgEquiv-true). "], "ev_parsed_fraction": "1/(1+i)", "ev_parsed_lowest_terms": [true, true, ""], "i_binding": "%i", "literal_lowest_terms": [true, false, "ATLowestTerms_not_rat. "], "parsed_fraction": "1/(1+i)", "parsed_i": "i", "parsed_lowest_terms": [true, true, ""]}
-Native cases: 22/22 completed in 29.6s
+Native cases: 22/22 completed in 29.3s
 Prepared 22 official fixtures at 2 STACK revisions

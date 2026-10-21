@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "recordedAt": "2026-10-21T19:56:01.511225+00:00",
-  "sourceRevision": "2936f3c7af0390be60e701b9c62b9db0d5b6ea46",
-  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39665191251",
+  "recordedAt": "2026-10-21T20:03:08.231854+00:00",
+  "sourceRevision": "87ac8e4ead1c29fd5680ab77984859fbe32a0673",
+  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39666180274",
   "status": "failed",
   "versions": [
     {
@@ -10,9 +10,9 @@
       "passed": false,
       "differences": [],
       "browser": "141.0.7390.37",
-      "readyMs": 2779.1600000000035,
-      "totalMs": 90000.255,
-      "servedAssetCount": 30,
+      "readyMs": 2542.6449999999895,
+      "totalMs": 90000.345,
+      "servedAssetCount": 21,
       "sourceFileCount": 77,
       "error": "Wasm batch timed out"
     },
@@ -21,9 +21,9 @@
       "passed": false,
       "differences": [],
       "browser": "141.0.7390.37",
-      "readyMs": 2418.820000000007,
-      "totalMs": 90000.34500000003,
-      "servedAssetCount": 30,
+      "readyMs": 2346.3499999999767,
+      "totalMs": 90000.45499999996,
+      "servedAssetCount": 21,
       "sourceFileCount": 77,
       "error": "Wasm batch timed out"
     }
