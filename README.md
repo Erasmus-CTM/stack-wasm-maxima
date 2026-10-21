@@ -1,28 +1,24 @@
 # STACK Wasm Maxima
 
-Research and a reproducible browser/native dependency check for using Maxima with CTM Assessment's existing Quarto interface.
+Research and prototypes for using Maxima in WebAssembly with CTM Assessment's Quarto frontend and STACK grading libraries.
 
-- [Computed milestone 1 results](reports/milestone-one/latest.md)
-- [Prototype plan and consolidation dependencies](plans/2026-10-prototype.md)
-- [The exact documentation demo inventory](demos/README.md)
-- [Runtime sizes and integration tradeoffs](reports/2026-10-21-runtime-size-and-integration.md)
-- [Selectable backend API and PythonChecker](reports/2026-10-21-selectable-backends.md)
-- [Wasm loader compatibility investigation](reports/2026-10-21-wasm-loader-investigation.md)
+Milestone 1 runs unmodified STACK answer-test libraries in browser Wasm Maxima. At both tested STACK revisions, all 22 selected official fixture probes matched the native reference. See the [execution report](reports/milestone-one/latest.md).
 
-Milestone 1 reuses CTM's official fixture inventory, native oracle, argument preparation and strict result parser. Its scope is selected direct STACK answer tests. The matching Quarto demo and its `::: {.stack-maxima}` entry point are the next milestone; this repository does not yet provide an installable Quarto grading backend.
+Milestone 2 is building a [matched Quarto prototype](prototype/README.md): the same 19 documentation questions and 27 frozen variants through selectable SymPy and Maxima workers, retaining PythonChecker.
 
-The demo target keeps CTM's cards, inputs, matrix editor, previews, Validate/Check controls, variants and feedback. It uses the exact XML and checker source pins of the existing documentation. PythonChecker stays in the shared Python implementation.
+- [Prototype plan and milestones](plans/2026-10-prototype.md)
+- [Matched demo source inventory](demos/manifest.json)
+- [Runtime sizes, integration, and tradeoffs](reports/2026-10-21-runtime-size-and-integration.md)
+- [Selectable backend API proposal](reports/2026-10-21-selectable-backends.md)
+- [Recorded asset measurements](measurements/2026-10-21-runtime-assets.json)
+- [Reproducible measurement script](scripts/measure-runtime-assets.mjs)
 
-## Reproduce
-
-Run the **STACK Wasm milestone 1** GitHub Actions workflow on the research branch. It checks out pinned CTM/STACK sources, computes native references, runs Chromium, compares the results, uploads raw diagnostics and preserves a computed report. The workflow definition lists the dependencies and commands for local execution.
-
-For HTTP asset inventories alone, use Node.js 20 or later:
+Run the asset measurement with Node.js 20 or later:
 
 ```sh
 node scripts/measure-runtime-assets.mjs measurements/local-runtime-assets.json
 ```
 
-The measurement script counts encoded HTTP response-body bytes, hashes decoded files, verifies Pyodide package hashes, and follows the Wasm modules' linked-library dependencies. It does not execute either CAS. The recorded original four-file measurement and the later linked-library supplement are separate historical records; neither substitutes for a cold question-page trace.
+The course configuration uses Pyodide 0.28.3, SymPy 1.13.3 and mpmath 1.3.0. The Maxima prototype currently retains those Python resources. Original four-file Maxima estimates omit dynamically loaded libraries and modules; use the dependency supplement and execution reports for the measured closure.
 
-New code is AGPL-3.0-or-later; see [LICENSE](LICENSE). Third-party fixtures and upstream provenance are documented in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). Runtime binaries and third-party implementation sources are fetched from their original homes.
+New code in this repository is licensed under AGPL-3.0-or-later; see [LICENSE](LICENSE). No upstream runtime binaries or third-party source code are committed here.
