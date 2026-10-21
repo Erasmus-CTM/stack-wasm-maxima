@@ -2,17 +2,17 @@
 
 Status: **failed**.
 
-Source commit: 7b9082c83cbe46549f9f552f01efefa9f8f24720.
+Source commit: 2936f3c7af0390be60e701b9c62b9db0d5b6ea46.
 
-Workflow evidence: https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39664205536
+Workflow evidence: https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39665191251
 
 The same selected CTM official fixtures and native parser are used for both execution paths.
 A fresh Wasm worker is used for each STACK revision; the selected cases share that session.
 
 | STACK revision | Result | Compared rows | Browser ready ms | Local batch ms |
 |---|---|---:|---:|---:|
-| 10d3233 | fail | 0 | None | 90000.345 |
-| 3338304 | fail | 0 | None | 90000.41500000001 |
+| 10d3233 | fail | 0 | 2779.1600000000035 | 90000.255 |
+| 3338304 | fail | 0 | 2418.820000000007 | 90000.34500000003 |
 
 Timings describe this CI dependency check with predownloaded local runtime files, not cold course-page loading.
 Detailed differences, raw output, dependency hashes and failures are in the JSON/log files beside this report.

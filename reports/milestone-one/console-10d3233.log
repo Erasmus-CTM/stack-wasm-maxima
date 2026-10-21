@@ -2,14 +2,17 @@ error: warning: unsupported syscall: __syscall_prlimit64
 
 error: warning: unsupported syscall: __syscall_getrusage
 
-pageerror: Error: Couldn't load share/info/maxima-index.lisp. Status: 500
-    at LazyUint8Array.cacheLength (http://127.0.0.1:43277/maxima.js:4185:87)
-    at get length (http://127.0.0.1:43277/maxima.js:4244:20)
-    at writeChunks (http://127.0.0.1:43277/maxima.js:4292:36)
-    at stream_ops.read (http://127.0.0.1:43277/maxima.js:4310:18)
-    at Object.read (http://127.0.0.1:43277/maxima.js:3760:43)
-    at doReadv (http://127.0.0.1:43277/maxima.js:17593:23)
-    at _fd_read (http://127.0.0.1:43277/maxima.js:17670:17)
-    at http://127.0.0.1:43277/maxima.wasm:wasm-function[12735]:0x1386ee7
-    at wasm://wasm/01e6433e:wasm-function[4462]:0x57febf
-    at wasm://wasm/01e6433e:wasm-function[4371]:0x572bb4
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+

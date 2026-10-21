@@ -1,0 +1,652 @@
+{
+  "ok": false,
+  "error": "Wasm batch timed out",
+  "stdout": "\nMaxima branch_5_49_base_90_g813903d33 https://maxima.sourceforge.io\nusing Lisp ECL 26.3.27\nDistributed under the GNU Public License. See the file COPYING.\nDedicated to the memory of William Schelter.\nThe function bug_report() provides bug reporting information.\n\n(%i1) \n(%i2) \n(%i3) \n(%i4) warning: encountered undefined variable %_ce_rem in translation.\n",
+  "readyMs": 2779.1600000000035,
+  "totalMs": 90000.255,
+  "commandsSent": 4,
+  "totalCommands": 31,
+  "crossOriginIsolated": true,
+  "messageTrace": [
+    {
+      "type": "waitingForInput"
+    },
+    {
+      "type": "waitingForInput"
+    },
+    {
+      "type": "waitingForInput"
+    },
+    {
+      "type": "waitingForInput"
+    },
+    {
+      "type": "checkForInterrupt"
+    },
+    {
+      "type": "checkForInterrupt"
+    },
+    {
+      "type": "checkForInterrupt"
+    },
+    {
+      "type": "checkForInterrupt"
+    },
+    {
+      "type": "checkForInterrupt"
+    },
+    {
+      "type": "checkForInterrupt"
+    },
+    {
+      "type": "checkForInterrupt"
+    },
+    {
+      "type": "checkForInterrupt"
+    }
+  ],
+  "browser": "141.0.7390.37",
+  "stackRevision": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+  "sourceRevision": "2936f3c7af0390be60e701b9c62b9db0d5b6ea46",
+  "scope": "Direct official answer tests in a fresh worker per STACK revision; selected cases share the session",
+  "files": [
+    {
+      "path": "stack/maxima/Ksimplifier.lisp",
+      "sha256": "849da9627d3dc6c39056c6b56736f244acc16e455c295ddcd7b94c30316d4382",
+      "bytes": 8214
+    },
+    {
+      "path": "stack/maxima/assessment.mac",
+      "sha256": "2d69d86e3ae2e097f254a69da322b9bc6117d40dab2451ab8f9d62c353143864",
+      "bytes": 116099
+    },
+    {
+      "path": "stack/maxima/chemistry.mac",
+      "sha256": "84d8ad2d252c517b025418d099a1afde7bd40192cab833d9bb5d94260dbc019e",
+      "bytes": 26969
+    },
+    {
+      "path": "stack/maxima/contrib/builder.mac",
+      "sha256": "4d82de1e0986c02ef52303a5f58111544b1f0ca5258851fa9bc5ac6ec635dd36",
+      "bytes": 5387
+    },
+    {
+      "path": "stack/maxima/contrib/chemistry.mac",
+      "sha256": "9cbd0059974796b17f096e19d0c57ae5e8923c882b5ea6d8c4b48ee01c5d1873",
+      "bytes": 738
+    },
+    {
+      "path": "stack/maxima/contrib/eigenlib.mac",
+      "sha256": "9e009942d35b4e8ddc28edb8174653a8ee7e09e1c3c277f8ee3aad8c86187c12",
+      "bytes": 5602
+    },
+    {
+      "path": "stack/maxima/contrib/eigenlib_test.mac",
+      "sha256": "341ba974f443a65d5aa7c7225bd5f8ed6e802ac19de58b57421f54a766599557",
+      "bytes": 3756
+    },
+    {
+      "path": "stack/maxima/contrib/linearalgebra_contrib.mac",
+      "sha256": "643964c0d83dc240b114fa0735b520404e97d2ec2faede4bc3d872c34cccb4c2",
+      "bytes": 13309
+    },
+    {
+      "path": "stack/maxima/contrib/matchlib.mac",
+      "sha256": "5dbece73fbb1058fa7260061a982c357fd9724c729ebb289425bae2807438519",
+      "bytes": 10399
+    },
+    {
+      "path": "stack/maxima/contrib/matrix.mac",
+      "sha256": "ddb7890b88303bc45104c46c11d5e5d4b1f89da7468e5b7f2748fe340a78f345",
+      "bytes": 19894
+    },
+    {
+      "path": "stack/maxima/contrib/matrix_test.mac",
+      "sha256": "19901d59a6fa48df39378f797dd26869436c51a97dfeed9080f52241dbcccce2",
+      "bytes": 12788
+    },
+    {
+      "path": "stack/maxima/contrib/matrixfactorizations.mac",
+      "sha256": "ec2d3e846a0e8f6b11f03afdecd24f4fe0bdff8ec31c9d362896ebe8f30f935c",
+      "bytes": 6951
+    },
+    {
+      "path": "stack/maxima/contrib/matrixfactorizations_test.mac",
+      "sha256": "0120548666ebdb78c03386a45e4a11aebe5bf5a64c9b96332de30a55550b2c0d",
+      "bytes": 4532
+    },
+    {
+      "path": "stack/maxima/contrib/prooflib.mac",
+      "sha256": "1bdac177a6c8ff43ce5d67557b5570eeced42d45bdf37f88b128dd01d247def0",
+      "bytes": 21277
+    },
+    {
+      "path": "stack/maxima/contrib/prooflib_test.mac",
+      "sha256": "7f8d2ccb06e3bfaf0a913e158162a26c52e371a8f9b7678595ef004a93cc7621",
+      "bytes": 2637
+    },
+    {
+      "path": "stack/maxima/contrib/proofsamples/analysis-sequence-sum-diverge.mac",
+      "sha256": "7afb56e8ecef0bcd5b5a4c753de85fbdade2dfe3d041c7264f0f69aaacec59e3",
+      "bytes": 1427
+    },
+    {
+      "path": "stack/maxima/contrib/proofsamples/harmonic-series.mac",
+      "sha256": "e7e99f9244cbffc8320312896f15c6db25b091edcd16516d781e3b7001239c5f",
+      "bytes": 907
+    },
+    {
+      "path": "stack/maxima/contrib/proofsamples/inf-primes.mac",
+      "sha256": "c054b0b46d4feb1608b470f6a8545ccabb2a13839f0ef5cf8cd43d5948d3e884",
+      "bytes": 1578
+    },
+    {
+      "path": "stack/maxima/contrib/proofsamples/irrational-power-irrational.mac",
+      "sha256": "6668ea3a6ba127e269bc1b619f8ae894ec282be2e1257567bf30cdac969c8063",
+      "bytes": 1060
+    },
+    {
+      "path": "stack/maxima/contrib/proofsamples/log-two-three-irrational.mac",
+      "sha256": "fd26b8a78b25ff2b6769e90763b6379826d94482a9027128d01ddd05d820691f",
+      "bytes": 1813
+    },
+    {
+      "path": "stack/maxima/contrib/proofsamples/odd-squaredodd.mac",
+      "sha256": "ff0fc2c93658f7d986cc1517cad28a584171b3641ce577a867f3d7d8171a29a2",
+      "bytes": 1965
+    },
+    {
+      "path": "stack/maxima/contrib/proofsamples/root-two-irrational.mac",
+      "sha256": "fa638b4d21a27945044cd2870db65761f6f1f4c291b035473e0e0855dd910497",
+      "bytes": 1652
+    },
+    {
+      "path": "stack/maxima/contrib/proofsamples/set-equality.mac",
+      "sha256": "392bfe447077639e021271787e894c4660b0e3d509f7c8522bbecf1d803d0bf1",
+      "bytes": 1232
+    },
+    {
+      "path": "stack/maxima/contrib/proofsamples/sum-cube-int.mac",
+      "sha256": "c2acd6916650bbfd1caccc1a8e1027408f4b107f121b59b28ff2945439d3d8ef",
+      "bytes": 1393
+    },
+    {
+      "path": "stack/maxima/contrib/proofsamples/sum-odd-int.mac",
+      "sha256": "fd6c320c78e92a319859f124e5e4ae5c9ce7a5037dc9cd583a485e6bf2e21756",
+      "bytes": 1106
+    },
+    {
+      "path": "stack/maxima/contrib/rand_matrix.mac",
+      "sha256": "3b4fe8998d9c2bfe903621c8d2b9ce0aa744db7c62374c1c94887506a4495e59",
+      "bytes": 13378
+    },
+    {
+      "path": "stack/maxima/contrib/rand_matrix_test.mac",
+      "sha256": "7fe2515aabd39f9cd1712b2c4a3f2ee84b3728dae6f672425f00507d9fe0d675",
+      "bytes": 5737
+    },
+    {
+      "path": "stack/maxima/contrib/validators.mac",
+      "sha256": "bf40eae77e36359666801dd4513aa3e2d4c456b182860ee077b96fc80665e8fb",
+      "bytes": 3629
+    },
+    {
+      "path": "stack/maxima/contrib/validators_test.mac",
+      "sha256": "bf7e6c4a9c488963d472993f9caf8a32edc1654a7d7b83e8081def5d23923145",
+      "bytes": 2852
+    },
+    {
+      "path": "stack/maxima/contrib/vectorcalculus.mac",
+      "sha256": "c740427cfe18125cbefc43741d1331da80fff491a9f8c39973cfad9558ff0490",
+      "bytes": 3493
+    },
+    {
+      "path": "stack/maxima/contrib/vectorcalculus_test.mac",
+      "sha256": "d40a9faba4bb6face2b4a43b6a4690155226a39baab315091d7e988aaa4dbc0a",
+      "bytes": 5794
+    },
+    {
+      "path": "stack/maxima/contrib/vectorgeometry.mac",
+      "sha256": "1ffc358499d3dc52c3b1d1483a5051ec8621e503705684a9f2032f64ebafe40b",
+      "bytes": 7791
+    },
+    {
+      "path": "stack/maxima/contrib/vectorgeometry_test.mac",
+      "sha256": "c70b454ee5a0bfac8b6e43ea8227f0e2c2187f4df9da5df83be39404e4b70578",
+      "bytes": 6230
+    },
+    {
+      "path": "stack/maxima/contrib/vectorspaces.mac",
+      "sha256": "65b41d535cc6c52a462bfb60f633a2e3b8b480fba3696c4a12dd905401882525",
+      "bytes": 9475
+    },
+    {
+      "path": "stack/maxima/contrib/vectorspaces_test.mac",
+      "sha256": "45cee74aac289d25549bb66f03d3d16b67d57571e32e95e57a03bea8bfea5639",
+      "bytes": 7143
+    },
+    {
+      "path": "stack/maxima/elementary.mac",
+      "sha256": "3dfc3bea96619902cb615bdefb82c3d8bc0227b007d102a4be7380f4edae85c7",
+      "bytes": 6772
+    },
+    {
+      "path": "stack/maxima/errortostring.lisp",
+      "sha256": "8e79998655ffb63bbe34935d3fd82da796ae1e8248a4d45d2b95734f23f156d7",
+      "bytes": 591
+    },
+    {
+      "path": "stack/maxima/expandfeedback.mac",
+      "sha256": "c224c72afbf99cc95ce199ece2fd61a8bfe757bfd948b3094c1f8624347e1e70",
+      "bytes": 5592
+    },
+    {
+      "path": "stack/maxima/experimental.mac",
+      "sha256": "02271f5aabda21a632bda1a89444c60753f4a415b6bc2afc75d9858f8fb58fbd",
+      "bytes": 2794
+    },
+    {
+      "path": "stack/maxima/fboundp.mac",
+      "sha256": "cdb2bc1a96df969dbe5c677c6f889569afc46318be80876065a7be70e2371562",
+      "bytes": 2065
+    },
+    {
+      "path": "stack/maxima/geometry.mac",
+      "sha256": "0cbf6c1f8f471e7c68c47359a73f7faf3cfa4fe54a20b99980cd2bc455623363",
+      "bytes": 4032
+    },
+    {
+      "path": "stack/maxima/inequalities.mac",
+      "sha256": "f6b4a3e2f3e5398d16de6d5cef7bfd499cebb840405e941edeb4a96270b483c4",
+      "bytes": 13747
+    },
+    {
+      "path": "stack/maxima/intervals.mac",
+      "sha256": "e251c6857c9ac2d8aeea7b02ad1c971949237aa58ce36abe533602b6d5d1b4e3",
+      "bytes": 36384
+    },
+    {
+      "path": "stack/maxima/linearalgebra_core.mac",
+      "sha256": "c5584947f6594892cebb65456bc33d1cac386e57e54fb888d6a07d36bc6b705b",
+      "bytes": 17285
+    },
+    {
+      "path": "stack/maxima/linearalgebra_core_test.mac",
+      "sha256": "c97b615887af14c8ebcd6c1dba3759a507ebcaa2de7aa2f9fb4d2d3cb9fb7a46",
+      "bytes": 7232
+    },
+    {
+      "path": "stack/maxima/local.mac",
+      "sha256": "ee49172f389cc9e3ffe055873fa1cec7ea743a99e6915612cdf116fc45e86028",
+      "bytes": 49
+    },
+    {
+      "path": "stack/maxima/maximasrccompiled.mac",
+      "sha256": "bedcd45f6baf6e5cf21ed68506e544b6fc83cf674687cf5db033a661a0369401",
+      "bytes": 13803
+    },
+    {
+      "path": "stack/maxima/maximasrccompiled_tests.mac",
+      "sha256": "72facf9c8aa30709d79bfea7dec09931ab3240e54438b6ed017c71db4d74ace8",
+      "bytes": 12672
+    },
+    {
+      "path": "stack/maxima/noun_arith.lisp",
+      "sha256": "43b54772fbee03a35295680db3c8526f833ff485cfed272aec927433e1e9d49f",
+      "bytes": 1654
+    },
+    {
+      "path": "stack/maxima/noun_simp.mac",
+      "sha256": "f85e89fa375ce04bc71f887c5702482af817b14fb4d8dfaf8dac540d709960c0",
+      "bytes": 35002
+    },
+    {
+      "path": "stack/maxima/numericaltest.mac",
+      "sha256": "46083f34e0489313aa51a587a0ea036b778d90c00fb378522a172f3199e6405d",
+      "bytes": 21177
+    },
+    {
+      "path": "stack/maxima/print-comma.lisp",
+      "sha256": "c97456c92e05ff803ca937e5396690ce34556ce6dab9671f4ec290210923211d",
+      "bytes": 2821
+    },
+    {
+      "path": "stack/maxima/proof.mac",
+      "sha256": "98ee1c0ed3d72842d7f607f214680e6e1cfcdbe0694706300b5b546c091f4c04",
+      "bytes": 22185
+    },
+    {
+      "path": "stack/maxima/rtest_assessment_simpboth.mac",
+      "sha256": "ed818f021daca6440bfb2aa860a40bc5e301fcaa9a399a77c8535c1077694e1e",
+      "bytes": 7139
+    },
+    {
+      "path": "stack/maxima/rtest_assessment_simpfalse.mac",
+      "sha256": "b305ee5eec7c2daa9b1dbad8081174a28fdc173983d7b3f3025f5bf527d760af",
+      "bytes": 1803
+    },
+    {
+      "path": "stack/maxima/rtest_assessment_simptrue.mac",
+      "sha256": "62dec6186e2747d6f43ba3cc42b47e3cb985ff47f147f8f7f6a10e2133689778",
+      "bytes": 1677
+    },
+    {
+      "path": "stack/maxima/rtest_experimental.mac",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "stack/maxima/rtest_inequalities.mac",
+      "sha256": "30b74fe80a3c7431ffe5d8462358773886467d0b8d842989b382f0d4a8c774fb",
+      "bytes": 3532
+    },
+    {
+      "path": "stack/maxima/rtest_intervals.mac",
+      "sha256": "6c6928b7c6bfdced1c6d32b851a9bd53653ea52fc94e9d372cff9520d8b5ffe8",
+      "bytes": 3773
+    },
+    {
+      "path": "stack/maxima/rtest_noun_simp.mac",
+      "sha256": "6d9a728a000d4828687aff956eef009453734923c483d595543e6f3ae5d66655",
+      "bytes": 4064
+    },
+    {
+      "path": "stack/maxima/s_test_case.lisp",
+      "sha256": "bf17002fe3ca9adc07a912a37332d07c29f275f45795005e93d662f745f95ff1",
+      "bytes": 96
+    },
+    {
+      "path": "stack/maxima/s_test_case.mac",
+      "sha256": "fdd1f57e9113dfe3cf1aa6bd4b3b7d0151bc14bdc7e5756372fc537910032858",
+      "bytes": 3363
+    },
+    {
+      "path": "stack/maxima/stack44.mac",
+      "sha256": "c39d7bc7185f05c7c254eeb4985050b6059dbde34f1fff98263311b993780683",
+      "bytes": 392
+    },
+    {
+      "path": "stack/maxima/stack_logic.lisp",
+      "sha256": "1bcce75de01f4e4c0cdc859173d43e1dbe0cc4e3dc6832c9acdfd4442d6b4639",
+      "bytes": 20711
+    },
+    {
+      "path": "stack/maxima/stacklocallinux.mac",
+      "sha256": "9f16f2addeaf1bf13a5364b86a9d6dc424dea94fb50deb9d640f79deb8cba7d9",
+      "bytes": 4640
+    },
+    {
+      "path": "stack/maxima/stacklocalwin.mac",
+      "sha256": "78b64f0657eae52c771d0b31e6400e0e36cb353a144d65f54204b7a04fdc77ef",
+      "bytes": 4688
+    },
+    {
+      "path": "stack/maxima/stackmaxima.mac",
+      "sha256": "35d315d776296b8c3ac3b5029984911bc97bc209340b5894916c7c817f765f10",
+      "bytes": 158269
+    },
+    {
+      "path": "stack/maxima/stackreporting.mac",
+      "sha256": "36bf329912af09c7afe5fe07a5bc9e755b0425884ff33b4df07102e6f6321807",
+      "bytes": 1208
+    },
+    {
+      "path": "stack/maxima/stackstrings.mac",
+      "sha256": "8fbe73acb968cba9b7dd202de680b1c3fee78d826c1f37555f909ae78a2eeaf9",
+      "bytes": 18678
+    },
+    {
+      "path": "stack/maxima/stacktex.lisp",
+      "sha256": "13d9ba75e5c447c7a32593ae9837ae38b66ca570ccc58f4c008a382c1d4896c2",
+      "bytes": 26819
+    },
+    {
+      "path": "stack/maxima/stacktex40.lisp",
+      "sha256": "bfdbc4c73c938a16b5707b2bd651807d68f568992ed211059d720d44eb0c97a9",
+      "bytes": 6303
+    },
+    {
+      "path": "stack/maxima/stackunits.mac",
+      "sha256": "8467c12fcbec3cbd37db584387b8c4ec21a7ec2cab530568e9841c35fb292fef",
+      "bytes": 26329
+    },
+    {
+      "path": "stack/maxima/to_poly_solve_extra_5.38.1.lisp",
+      "sha256": "109dcd7d99649a473d7a8ad1b1c5df81adf41da39010380451cdd8872e585945",
+      "bytes": 7162
+    },
+    {
+      "path": "stack/maxima/trigrat.lisp",
+      "sha256": "eb05e2452b7d128250f4c193ebc2a15249178fb2c67413a04b071bf10e51b6af",
+      "bytes": 2190
+    },
+    {
+      "path": "stack/maxima/unittests_load.mac",
+      "sha256": "75b52a026ff755a205263fd0068774fa3747d20c94938bc0e94388f7051c344c",
+      "bytes": 1334
+    },
+    {
+      "path": "stack/maxima/utils.mac",
+      "sha256": "3f05223449d86c41c37a05a1d3cd2f2cfccfe7a5e9a35d6b07849069597e8848",
+      "bytes": 14011
+    },
+    {
+      "path": "stack/maxima/validator.mac",
+      "sha256": "3468e73bd241c4174927157cc093e3c2c826cbb0685eb484d20933041ac02b5b",
+      "bytes": 12456
+    }
+  ],
+  "servedAssets": [
+    {
+      "path": "/maxima_thread.js",
+      "url": "https://maxima-on-wasm.pages.dev/maxima_thread.js",
+      "fileBytes": 3229,
+      "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db",
+      "pinVerified": true
+    },
+    {
+      "path": "/share_files.js",
+      "url": "https://maxima-on-wasm.pages.dev/share_files.js",
+      "fileBytes": 533835,
+      "sha256": "0a325df1e0e85c65ebaf3102fd75cb2db2d989735a0976e97c1a2108a8f5bca0",
+      "pinVerified": true
+    },
+    {
+      "path": "/maxima-plot.fas",
+      "url": "https://maxima-on-wasm.pages.dev/maxima-plot.fas",
+      "fileBytes": 1135430,
+      "sha256": "1d7bf17af3a92c744984ddc0c37430ca3dd6139f69bb387d0ef43832abff0b67",
+      "pinVerified": true
+    },
+    {
+      "path": "/maxima.js",
+      "url": "https://maxima-on-wasm.pages.dev/maxima.js",
+      "fileBytes": 1239434,
+      "sha256": "4b0b3ecc4eb229b35595e3e5f4063565502df023559d355a23306696af2fdf87",
+      "pinVerified": true
+    },
+    {
+      "path": "/maxima-solve.fas",
+      "url": "https://maxima-on-wasm.pages.dev/maxima-solve.fas",
+      "fileBytes": 1373325,
+      "sha256": "7c2b44e14bc16f3b51b2185b5877c0667d8ae27c8fd5f34546d494e118febaf7",
+      "pinVerified": true
+    },
+    {
+      "path": "/maxima-number-theory.fas",
+      "url": "https://maxima-on-wasm.pages.dev/maxima-number-theory.fas",
+      "fileBytes": 1429150,
+      "sha256": "833ac50171d72c4bff7278ae1c989117b15c49a67516790683380d0f5aa0d887",
+      "pinVerified": true
+    },
+    {
+      "path": "/maxima-poisson-series.fas",
+      "url": "https://maxima-on-wasm.pages.dev/maxima-poisson-series.fas",
+      "fileBytes": 217426,
+      "sha256": "439ab53ff86b76052105dbcc8770c04109c7ea95efb89b2440a9a2a533eff9fd",
+      "pinVerified": true
+    },
+    {
+      "path": "/maxima-limits.fas",
+      "url": "https://maxima-on-wasm.pages.dev/maxima-limits.fas",
+      "fileBytes": 985243,
+      "sha256": "df76a340b53864025e4a8030789a40a91a5d8b6cc0724c11c0e271af9814a5c0",
+      "pinVerified": true
+    },
+    {
+      "path": "/maxima-integration.fas",
+      "url": "https://maxima-on-wasm.pages.dev/maxima-integration.fas",
+      "fileBytes": 2156309,
+      "sha256": "f9cfeaaf6dcf3063428a19b08bd1b27cfd7618db3f7e3443a69ad26fcbe95db4",
+      "pinVerified": true
+    },
+    {
+      "path": "/maxima-matrix-algebra.fas",
+      "url": "https://maxima-on-wasm.pages.dev/maxima-matrix-algebra.fas",
+      "fileBytes": 645537,
+      "sha256": "25a1496b2170cb0ee1d66adc44e89d934e96ea9af1f93c879db02be56e1b3c07",
+      "pinVerified": true
+    },
+    {
+      "path": "/maxima-quadpack.fas",
+      "url": "https://maxima-on-wasm.pages.dev/maxima-quadpack.fas",
+      "fileBytes": 3714554,
+      "sha256": "26ca2a9811792cb023730014f9e9179af0e5e47c47fdf64528558d1dbc0c0def",
+      "pinVerified": true
+    },
+    {
+      "path": "/libecl.so",
+      "url": "https://maxima-on-wasm.pages.dev/libecl.so",
+      "fileBytes": 7966927,
+      "sha256": "477e2d4092cc8a6a601e39ddc746440854984115347b62e7faf3b65cc8fa3564",
+      "pinVerified": true
+    },
+    {
+      "path": "/maxima-slatec.fas",
+      "url": "https://maxima-on-wasm.pages.dev/maxima-slatec.fas",
+      "fileBytes": 6182186,
+      "sha256": "3123d401b7ab973a66b7e585ea0e746a5c899937e1b0ebdf399589eb9d2a003e",
+      "pinVerified": true
+    },
+    {
+      "path": "/maxima.wasm",
+      "url": "https://maxima-on-wasm.pages.dev/maxima.wasm",
+      "fileBytes": 23611995,
+      "sha256": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+      "pinVerified": true
+    },
+    {
+      "path": "/share/info/maxima-index.lisp",
+      "url": "https://maxima-on-wasm.pages.dev/share/info/maxima-index.lisp",
+      "fileBytes": 262119,
+      "sha256": "c4f25a08a93e2d730bec935a031537f6d01a069ad61f220f473a14f7aabd2160",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/info/maxima-index-html.lisp",
+      "url": "https://maxima-on-wasm.pages.dev/share/info/maxima-index-html.lisp",
+      "fileBytes": 240539,
+      "sha256": "1447fa3ae889b6e2466bee0b1825e24d2c5c06049a2aea46ae841f3736238ce9",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.mac",
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.mac",
+      "fileBytes": 184,
+      "sha256": "fe11a711f0af6214a976aca4ac0a1e52720186790bb4b9c61d1e606ee40e3118",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp",
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp",
+      "fileBytes": 2395,
+      "sha256": "39ef5cc589851f013f5846c89f8d2dd3cc847dfea040e55dc662f5f74ff7ae6b",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp",
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp",
+      "fileBytes": 6599,
+      "sha256": "e4179ffab65b8e2c98162634d2c408e8e04c6577e943a8dacd99faa7f90bd1fb",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp",
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp",
+      "fileBytes": 47721,
+      "sha256": "5b5678e3fbd9efab7e9870bf8cfb34652907a196ec7aee4f20ccee21e94d6211",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp",
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp",
+      "fileBytes": 21346,
+      "sha256": "35ec2642b830737b1c5543692c9c2385fd5970ce70028189966d36e3bdd434ac",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp",
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp",
+      "fileBytes": 10760,
+      "sha256": "75c9b17bd4f33a896f4207e6652d5ab63c63edd200858ddab6fec0d40adb8273",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp",
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp",
+      "fileBytes": 8193,
+      "sha256": "c8fb5a9241e800c0173c76ac87344a02cd35c972c4595868c9ca2b037ca729db",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp",
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp",
+      "fileBytes": 5901,
+      "sha256": "acc82d7fb13251e2a67ce4f9162ca7184d5a9ce8e35e848d063d0f410f530ff1",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp",
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp",
+      "fileBytes": 13633,
+      "sha256": "c19ee8b7532cce05bfaa382c1877110d61113caad7a09af52cc29648d6b6cfeb",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac",
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac",
+      "fileBytes": 4915,
+      "sha256": "59319fd8623025ce5444ac508f4d6defce594829b26e8ec950c7b5e2cc6f2181",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp",
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp",
+      "fileBytes": 83712,
+      "sha256": "027ea2adca8ee282261ef2c860a09506ade398ec8bee53d10f45b4edf3066aa0",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp",
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp",
+      "fileBytes": 22207,
+      "sha256": "b48ebeea74f5bf175e3d42adaceebe7e6d806e9697723309e03b94c509848bf0",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp",
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp",
+      "fileBytes": 24670,
+      "sha256": "bfcae0e610d039bb43d71e6bfa2723820df3cfe0fca012a05530f73c1a8d0e3d",
+      "pinVerified": false
+    },
+    {
+      "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp",
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp",
+      "fileBytes": 5719,
+      "sha256": "ff90059ce466a6f111838b6a31876f77c9b7d4947528b16d1642eea97b9fdbd3",
+      "pinVerified": false
+    }
+  ],
+  "serverErrors": []
+}
