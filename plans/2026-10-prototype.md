@@ -2,6 +2,14 @@
 
 Status: milestone 1 passed in [CI run 39669805961](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39669805961). Both pinned libraries loaded and all 22 selected rows at each pin matched the native reference, including three injected mid-input interrupt checks per worker.
 
+## Milestone 2 implementation
+
+Status: in progress. The first matched prototype retains CTM's input validation, frozen variants, response-tree orchestration, CAStext and PythonChecker implementation. Native STACK answer-test decisions are delegated to Maxima through a persistent child worker. This is an explicitly hybrid backend; paired reports must identify the shared Python costs and actual native/Python routes.
+
+The existing frontend's persistent serialized worker is reused. The demo materializer provides one guarded backend descriptor seam and a thin `stack-maxima` block adapter; it does not maintain a second question UI. The benchmark will verify identical rendered payloads for both routes and exercise all 27 variants, authored tests, normal UI state transitions and repeated timings.
+
+Substantial implementation increments are committed on this research branch. The previous milestone's accepted source and computed reports remain available independently.
+
 ## Decision: proceed now
 
 Milestone 1 is independent of the open CTM consolidation PRs. It uses pinned source checkouts and does not modify ctm-assessment, ctm-libs, ctm-checkers, stack-sympy, or either course.
