@@ -1,0 +1,81 @@
+name: STACK Wasm milestone 1
+
+on:
+  push:
+    branches: ['research/**']
+    paths:
+      - '.github/workflows/milestone-one.yml'
+      - 'scripts/milestone-one/**'
+      - 'package.json'
+      - 'measurements/2026-10-21-runtime-assets.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stack-wasm-milestone-one-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  browser-native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: 9e042dc5e57a1636be64ca5d08910c9af5ff1371
+          path: .ctm-checkers-source
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 10d323311b7f39fb7b092dd10ce75f7d8632f525
+          path: .stack-upstream/10d323311b7f39fb7b092dd10ce75f7d8632f525
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: .stack-upstream/33383047af39c204bf4442802a058f8b918b2b1b
+          persist-credentials: false
+      - name: Install native Maxima and browser dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maxima maxima-share
+          npm install --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Syntax checks
+        run: |
+          node --check scripts/milestone-one/run.mjs
+          node --check scripts/milestone-one/client.js
+          node --check scripts/milestone-one/worker.js
+          python -m py_compile scripts/milestone-one/prepare.py scripts/milestone-one/compare.py
+      - name: Prepare official fixtures and compute native references
+        run: python scripts/milestone-one/prepare.py
+      - name: Load STACK and run the same fixtures in Wasm
+        run: node scripts/milestone-one/run.mjs
+      - name: Compare results and write the report
+        if: always()
+        run: python scripts/milestone-one/compare.py
+      - name: Upload diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: milestone-one-${{ github.sha }}
+          path: |
+            test-results/milestone-one/
+            reports/milestone-one/
+          if-no-files-found: warn
+      - name: Preserve computed results on this research branch
+        if: always() && startsWith(github.ref, 'refs/heads/research/')
+        run: |
+          git config user.name "Andrey Chesnokov"
+          git config user.email "aacchhee@gmail.com"
+          git add reports/milestone-one/
+          if ! git diff --cached --quiet; then
+            git commit -m "Record milestone-one execution evidence" -m "Source run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" -m "Co-Authored-By: Codex <noreply@openai.com>"
+            git push origin "HEAD:$GITHUB_REF"
+          fi

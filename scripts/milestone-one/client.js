@@ -1,0 +1,57 @@
+// Trusted fixture transport only. This is not a student-expression API.
+window.runMilestoneOne = async function ({ files, batch, timeoutMs = 240000 }) {
+  if (!crossOriginIsolated) return { ok: false, error: 'Cross-origin isolation is unavailable', stdout: '' };
+  return new Promise(resolve => {
+    const mutexBuffer = new SharedArrayBuffer(8);
+    const inputBuffer = new SharedArrayBuffer(2 * 1024 * 1024);
+    const sizeBuffer = new SharedArrayBuffer(4);
+    const mutex = new Int32Array(mutexBuffer);
+    const input = new Uint32Array(inputBuffer);
+    const size = new Uint32Array(sizeBuffer);
+    const commands = batch.split('\n').filter(line => line.trim());
+    const totalCommands = commands.length;
+    const worker = new Worker('/m1-worker.js');
+    const started = performance.now();
+    let readyMs = null, stdout = '', commandsSent = 0, complete = false;
+    function finish(ok, error) {
+      if (complete) return;
+      complete = true;
+      clearTimeout(timer);
+      worker.terminate();
+      const result = { ok, error, stdout, readyMs, totalMs: performance.now() - started,
+        commandsSent, totalCommands, crossOriginIsolated };
+      document.getElementById('status').textContent = JSON.stringify(result, null, 2);
+      resolve(result);
+    }
+    const timer = setTimeout(() => finish(false, 'Wasm batch timed out'), timeoutMs);
+    function wake() {
+      Atomics.store(mutex, 0, 1);
+      Atomics.notify(mutex, 0);
+    }
+    worker.onerror = event => finish(false, event.message || 'Worker error');
+    worker.onmessage = ({ data }) => {
+      if (data.type === 'waitingForInput') {
+        if (readyMs === null) readyMs = performance.now() - started;
+        if (commands.length) {
+          const command = [...commands.shift() + '\n'].map(char => char.codePointAt(0));
+          if (command.length > input.length) return finish(false, 'Command exceeds stdin buffer');
+          input.set(command);
+          size[0] = command.length;
+          commandsSent++;
+          wake();
+        }
+      } else if (data.type === 'checkForInterrupt') {
+        input[0] = 0;
+        size[0] = 0;
+        wake();
+      } else if (data.type === 'output') {
+        stdout += data.text;
+        // Match a complete printed line, not a source echo.
+        if (/^M1META\|[^\r\n]+\r?\n/m.test(stdout)) finish(true, null);
+      } else if (data.type === 'm1-error') {
+        finish(false, data.error);
+      }
+    };
+    worker.postMessage({ files, buffers: [mutexBuffer, inputBuffer, sizeBuffer] });
+  });
+};

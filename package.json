@@ -1,0 +1,11 @@
+{
+  "name": "stack-wasm-maxima-research",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1"
+  }
+}
