@@ -13,6 +13,8 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "test-results/milestone-one"
 REPORT = ROOT / "reports/milestone-one"
 REPORT.mkdir(parents=True, exist_ok=True)
+ARCHIVE = REPORT / "runs" / os.environ.get("GITHUB_RUN_ID", "local")
+ARCHIVE.mkdir(parents=True, exist_ok=True)
 summary = {
     "schema": 1, "recordedAt": datetime.now(timezone.utc).isoformat(),
     "sourceRevision": os.environ.get("GITHUB_SHA"),
@@ -63,7 +65,9 @@ except Exception as error:
 for path in OUT.glob("*"):
     if path.name != "prepared.json" and path.suffix in (".json", ".log"):
         shutil.copy2(path, REPORT / path.name)
+        shutil.copy2(path, ARCHIVE / path.name)
 (REPORT / "latest.json").write_text(json.dumps(summary, indent=2) + "\n")
+(ARCHIVE / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
 lines = ["# Milestone 1: recorded browser/native experiment", "",
          f"Status: **{summary['status']}**.", "",
          f"Source commit: {summary['sourceRevision']}.", "",
@@ -82,5 +86,6 @@ lines.extend(["", "Timings describe this CI dependency check with predownloaded 
               "- Establish full input validation, PRT and PythonChecker integration, isolation/reset, and broader browser coverage.",
               "", "Selected fixture data originates in STACK (GPL-3.0-or-later); see THIRD-PARTY-NOTICES.md."])
 (REPORT / "latest.md").write_text("\n".join(lines) + "\n")
+(ARCHIVE / "summary.md").write_text("\n".join(lines) + "\n")
 print(json.dumps(summary, indent=2))
 sys.exit(0 if summary["status"] == "passed" else 1)

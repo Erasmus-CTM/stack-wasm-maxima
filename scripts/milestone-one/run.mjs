@@ -19,12 +19,12 @@ const runtimeURLs = [...lock.groups.maximaCore, ...lock.groups.maximaOptionalMod
 const allAssets = [...lock.assets, ...supplement.assets];
 const expected = new Map(runtimeURLs.map(url => [new URL(url).pathname, allAssets.find(asset => asset.url === url)]));
 const served = new Map();
+const declaredPaths = new Set();
 const hash = data => createHash('sha256').update(data).digest('hex');
 const errors = [];
 async function resource(pathname) {
   const known = expected.get(pathname);
-  const sharePrefix = '/share/maxima/' + lock.deployment.maximaShareDirectory + '/';
-  if (!known && !pathname.startsWith(sharePrefix)) throw new Error('Unapproved runtime path: ' + pathname);
+  if (!known && !declaredPaths.has(pathname)) throw new Error('Unapproved runtime path: ' + pathname);
   if (pathname.includes('..') || pathname.includes('\\')) throw new Error('Unsafe path');
   const path = join(cache, pathname.slice(1));
   let data;
@@ -45,6 +45,15 @@ async function resource(pathname) {
   return data;
 }
 await Promise.all([...expected.keys()].map(resource));
+// The pinned upstream share index declares startup files outside share/maxima,
+// including share/info/maxima-index.lisp. Admit only its declared resource URLs.
+const shareIndexSource = (await resource('/share_files.js')).toString('utf8');
+for (const match of shareIndexSource.matchAll(/FS\.createLazyFile\('([^']*)',\s*'([^']*)',\s*'([^']*)'/g)) {
+  const target = new URL(match[3], lock.deployment.maximaBaseURL);
+  if (target.origin !== new URL(lock.deployment.maximaBaseURL).origin) throw new Error('Foreign share resource');
+  declaredPaths.add(target.pathname);
+}
+if (!declaredPaths.has('/share/info/maxima-index.lisp')) throw new Error('Could not parse pinned share-file declarations');
 
 const client = await readFile(join(root, 'scripts/milestone-one/client.js'));
 const worker = await readFile(join(root, 'scripts/milestone-one/worker.js'));
@@ -105,7 +114,7 @@ try {
     result.serverErrors = [...errors];
     await writeFile(join(out, 'browser-' + version.stackRevision.slice(0, 7) + '.json'), JSON.stringify(result, null, 2) + '\n');
     await writeFile(join(out, 'console-' + version.stackRevision.slice(0, 7) + '.log'), consoleLines.join('\n') + '\n');
-    await page.screenshot({ path: join(out, 'browser-' + version.stackRevision.slice(0, 7) + '.png'), fullPage: true }).catch(() => {});
+    await page.screenshot({ path: join(out, 'browser-' + version.stackRevision.slice(0, 7) + '.png'), fullPage: false }).catch(() => {});
     console.log(JSON.stringify({ stackRevision: version.stackRevision, ok: result.ok,
       readyMs: result.readyMs, totalMs: result.totalMs, error: result.error }));
     await context.close();

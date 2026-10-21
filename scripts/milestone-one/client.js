@@ -48,6 +48,7 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 90000 }) {
         wake();
       } else if (data.type === 'output') {
         stdout += data.text;
+        if (stdout.length > 4 * 1024 * 1024) return finish(false, 'Diagnostic output limit exceeded');
         // Match a complete printed line, not a source echo.
         if (/^M1META\|[^\r\n]+\r?\n/m.test(stdout)) finish(true, null);
       } else if (data.type === 'm1-error') {
