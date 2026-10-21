@@ -6,6 +6,10 @@ Keep CTM Assessment's Quarto setup, inputs, buttons, previews, feedback panels a
 
 On a Python-heavy course, this adds another runtime. It does not remove the Python packages needed for the course. The main prospective benefit is reduced maintenance of STACK-compatible grading semantics, not a demonstrated speed or resource saving.
 
+## Executable startup dependency discovery
+
+The first executable run requested the additional required ECL shared library `libecl.so` before Maxima could accept input. It is 7.97 MB and was served without HTTP compression. The original 5.18 MB measurement covers four files and is not a complete runtime startup footprint. The separately recorded dependency manifest includes its SHA-256 and the Wasm dependency graph. The known startup set now totals 13.15 MB transferred and 33.36 MB of files, before STACK and additional share libraries.
+
 ## Measured download sizes
 
 All MB below are decimal (1 MB = 1,000,000 bytes). Transfer bytes count encoded HTTP response bodies from fresh GET requests, excluding HTTP/TLS overhead. File bytes are after HTTP decompression; ZIP and wheel contents have not been unpacked. These numbers are not memory usage.
@@ -13,19 +17,22 @@ All MB below are decimal (1 MB = 1,000,000 bytes). Transfer bytes count encoded 
 | Selected asset set | Actual transfer MB | File MB |
 |---|---:|---:|
 | Maxima `maxima.wasm` alone | 4.92 | 23.61 |
-| Maxima core: Wasm, loader, worker, share-file index | 5.18 | 25.39 |
+| Four Maxima files: Wasm, loader, worker, share-file index (excludes ECL) | 5.18 | 25.39 |
+| Required ECL shared library, `libecl.so` | 7.97 | 7.97 |
+| Known Maxima startup files including ECL | 13.15 | 33.36 |
 | All nine lazy Maxima `.fas` modules identified by its worker | 17.84 | 17.84 |
-| Maxima core plus those nine modules | 23.02 | 43.23 |
+| Four Maxima files plus those nine modules (excludes ECL) | 23.02 | 43.23 |
+| Known startup files plus those nine modules, including ECL | 30.99 | 51.19 |
 | Pyodide 0.28.3 core: loaders, Wasm, stdlib ZIP, lock | 5.30 | 12.26 |
 | SymPy 1.13.3 plus mpmath 1.3.0 | 4.47 | 4.54 |
 | Python grading baseline: Pyodide core plus SymPy/mpmath | 9.77 | 16.80 |
 | Course Python package set: 18 package archives | 32.42 | 32.93 |
 | Course Python core plus package set | 37.73 | 45.19 |
-| Course Python set plus Maxima core | 42.91 | 70.58 |
+| Course Python set plus known Maxima startup files including ECL | 50.88 | 78.54 |
 
 The course package roots are numpy, scipy, sympy, matplotlib, micropip and pyodide-http. The transitive closure has 18 archives, including libopenblas. Every package's decoded-file hash was checked against the Pyodide 0.28.3 distribution lock. The lock's internal `info.version` says `0.28.0.dev0`; the release URL is explicitly 0.28.3.
 
-Maxima core files were served with Brotli. The nine `.fas` modules were served without HTTP compression. Their local gzip level-9 sizes total 2.53 MB, recorded separately in the JSON as a self-hosting estimate, not as observed transfer sizes. Combining this local gzip estimate with the observed Brotli core gives 7.71 MB for that selected set, before STACK/share files; a server must actually serve those encodings to achieve it. The all-nine set is illustrative: it is neither a required startup set nor the complete Maxima distribution.
+The four originally measured Maxima core files were served with Brotli; the required ECL shared library was served without HTTP compression. Its measured local gzip level-9 size is 2.36 MB, so the known startup files could total about 7.55 MB with a corresponding self-hosted encoding configuration. This is a compression estimate, not observed network delivery. The nine `.fas` modules were served without HTTP compression. Their local gzip level-9 sizes total 2.53 MB, recorded separately in the JSON as a self-hosting estimate, not as observed transfer sizes. Combining this local gzip estimate with the observed Brotli core gives 7.71 MB for that selected set, before STACK/share files; a server must actually serve those encodings to achieve it. The all-nine set is illustrative: it is neither a required startup set nor the complete Maxima distribution.
 
 The core measurement excludes STACK's Maxima library, additional Maxima share files requested during grading, question data, CTM checker payloads, and the surrounding frontend. We did not run a browser network trace, so 5.18 MB is not a measured first-grade download. Existing CTM typesetting should be reused; the Maxima demo's UI, MathJax and plotting frontend are not a proposed dependency.
 
@@ -33,7 +40,7 @@ The core measurement excludes STACK's Maxima library, additional Maxima share fi
 
 It creates two interpreter implementations on pages that need both Python and Maxima. Their runtime assets, initialization and memory costs are additional. It does not duplicate CTM's inputs, course HTML, navigation, typesetting, or Python scientific packages.
 
-For the measured course package set, Maxima core adds 5.18 MB to 37.73 MB of Python assets, about 14 percent. Grading dependencies add more. If all nine measured lazy modules were also fetched with their current encoding, the combined selected asset set would be about 60.75 MB, before STACK and other share files. Neither number predicts startup latency.
+For the measured course package set, the known Maxima startup files including ECL add 13.15 MB to 37.73 MB of Python assets, about 35 percent. Grading dependencies add more. If all nine measured lazy modules were also fetched with their current encoding, the combined selected asset set would be about 68.72 MB, before STACK and other share files. These figures do not predict startup latency.
 
 Lazy loading moves first-use costs to the first validation/check. Browser HTTP caching can reuse matching assets across visits and across workers, subject to the cache policy. Runtime instances and their initialized interpreter state remain separate. The current STACK implementation already starts its own Pyodide worker; the comparison therefore depends on architecture:
 

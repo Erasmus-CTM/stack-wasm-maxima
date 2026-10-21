@@ -14,8 +14,10 @@ await mkdir(out, { recursive: true });
 await mkdir(cache, { recursive: true });
 const lock = JSON.parse(await readFile(join(root, 'measurements/2026-10-21-runtime-assets.json')));
 const prepared = JSON.parse(await readFile(join(out, 'prepared.json')));
-const runtimeURLs = [...lock.groups.maximaCore, ...lock.groups.maximaOptionalModules];
-const expected = new Map(runtimeURLs.map(url => [new URL(url).pathname, lock.assets.find(asset => asset.url === url)]));
+const supplement = JSON.parse(await readFile(join(root, 'measurements/2026-10-21-runtime-dependencies.json')));
+const runtimeURLs = [...lock.groups.maximaCore, ...lock.groups.maximaOptionalModules, ...supplement.assets.map(asset => asset.url)];
+const allAssets = [...lock.assets, ...supplement.assets];
+const expected = new Map(runtimeURLs.map(url => [new URL(url).pathname, allAssets.find(asset => asset.url === url)]));
 const served = new Map();
 const hash = data => createHash('sha256').update(data).digest('hex');
 const errors = [];
@@ -50,6 +52,7 @@ const html = Buffer.from('<!doctype html><meta charset="utf-8"><title>CTM STACK 
 const server = createServer(async (request, response) => {
   try {
     const path = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
+    if (path === '/favicon.ico') { response.writeHead(204); response.end(); return; }
     let data = path === '/' ? html : path === '/m1-client.js' ? client : path === '/m1-worker.js' ? worker : await resource(path);
     const type = path.endsWith('.wasm') ? 'application/wasm'
       : path.endsWith('.js') ? 'application/javascript'

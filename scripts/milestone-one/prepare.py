@@ -3,6 +3,7 @@
 import hashlib
 import importlib
 import json
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -60,6 +61,12 @@ for sha in ("10d323311b7f39fb7b092dd10ce75f7d8632f525", "33383047af39c204bf44428
     batch = runner.make_batch(source, selected, home, 0)
     batch = batch.replace(str(home.resolve()), "/ctm").replace(str(source.resolve()), "/ctm/moodle-qtype_stack-master")
     batch = batch.replace("quit()$", 'print(sconcat("M1META|",stackmaximaversion,"|",MAXIMA_VERSION_STR))$')
+    version_match = re.search(r"stackmaximaversion:(\d+)", (source / "stack/maxima/stackmaxima.mac").read_text())
+    if not version_match:
+        raise RuntimeError("Missing STACK library version")
+    # printf writes protocol records to the character stream; print may use
+    # the browser-specific displayOutput hook instead of stdout.
+    batch = "m1_print(ex):=printf(true,\"~a~%\",ex)$\n" + batch.replace("print(", "m1_print(")
     sources = []
     for path in sorted((source / "stack/maxima").rglob("*")):
         if path.is_file() and path.suffix in (".mac", ".lisp"):
@@ -71,8 +78,8 @@ for sha in ("10d323311b7f39fb7b092dd10ce75f7d8632f525", "33383047af39c204bf44428
                 "content": data.decode("utf-8"),
             })
     prepared["versions"].append({
-        "stackRevision": sha, "native": native, "batch": batch, "files": sources,
-        "transportAdaptations": ["filesystem path rebasing", "terminal quit replaced with version marker"],
+        "stackRevision": sha, "stackLibraryVersion": version_match[1], "native": native, "batch": batch, "files": sources,
+        "transportAdaptations": ["filesystem path rebasing", "terminal quit replaced with version marker", "protocol print routed through printf"],
     })
 (OUT / "prepared.json").write_text(json.dumps(prepared, indent=2) + "\n")
 print(f"Prepared {len(selected)} official fixtures at {len(prepared['versions'])} STACK revisions")

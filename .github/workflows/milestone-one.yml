@@ -28,18 +28,23 @@ jobs:
           repository: Erasmus-CTM/ctm-checkers
           ref: 9e042dc5e57a1636be64ca5d08910c9af5ff1371
           path: .ctm-checkers-source
+          sparse-checkout: |
+            tools/stack_native
+            tests/stack/native_compliance
           persist-credentials: false
       - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 10d323311b7f39fb7b092dd10ce75f7d8632f525
           path: .stack-upstream/10d323311b7f39fb7b092dd10ce75f7d8632f525
+          sparse-checkout: stack/maxima
           persist-credentials: false
       - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
           path: .stack-upstream/33383047af39c204bf4442802a058f8b918b2b1b
+          sparse-checkout: stack/maxima
           persist-credentials: false
       - name: Install native Maxima and browser dependencies
         run: |
@@ -54,9 +59,11 @@ jobs:
           node --check scripts/milestone-one/worker.js
           python -m py_compile scripts/milestone-one/prepare.py scripts/milestone-one/compare.py
       - name: Prepare official fixtures and compute native references
-        run: python scripts/milestone-one/prepare.py
+        run: |
+          mkdir -p test-results/milestone-one
+          python scripts/milestone-one/prepare.py 2>&1 | tee test-results/milestone-one/prepare.log
       - name: Load STACK and run the same fixtures in Wasm
-        run: node scripts/milestone-one/run.mjs
+        run: node scripts/milestone-one/run.mjs 2>&1 | tee test-results/milestone-one/run.log
       - name: Compare results and write the report
         if: always()
         run: python scripts/milestone-one/compare.py

@@ -11,7 +11,7 @@ const MAXIMA = 'https://maxima-on-wasm.pages.dev/';
 const PYODIDE = 'https://cdn.jsdelivr.net/pyodide/v0.28.3/full/';
 const COURSE_ROOTS = ['numpy', 'scipy', 'sympy', 'matplotlib', 'micropip', 'pyodide-http'];
 const MAX_BYTES = 128 * 1024 * 1024;
-const MAXIMA_CORE = ['maxima.wasm', 'maxima.js', 'maxima_thread.js', 'share_files.js'];
+const MAXIMA_CORE = ['maxima.wasm', 'libecl.so', 'maxima.js', 'maxima_thread.js', 'share_files.js'];
 const PYODIDE_CORE = ['pyodide.js', 'pyodide.asm.js', 'pyodide.asm.wasm', 'python_stdlib.zip', 'pyodide-lock.json'];
 
 function fetchAsset(url) {

@@ -3,6 +3,7 @@
 import importlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import sys
@@ -36,6 +37,10 @@ try:
                         sourceFileCount=len(result.get("files", [])))
             if not result.get("ok"):
                 raise RuntimeError(result.get("error") or "Browser execution did not finish")
+            version_match = re.search(r"^M1META\|([^|\r\n]+)\|([^\r\n]+)", result["stdout"], re.M)
+            if not version_match or version_match[1] != version["stackLibraryVersion"]:
+                raise RuntimeError("STACK library did not reach its pinned end-of-file version declaration")
+            item["wasmMaximaVersion"] = version_match[2]
             if result.get("serverErrors"):
                 raise RuntimeError("Runtime asset server recorded errors")
             observed = runner.parse_output(result["stdout"], prepared["cases"], 0)

@@ -1,5 +1,5 @@
 // Trusted fixture transport only. This is not a student-expression API.
-window.runMilestoneOne = async function ({ files, batch, timeoutMs = 240000 }) {
+window.runMilestoneOne = async function ({ files, batch, timeoutMs = 90000 }) {
   if (!crossOriginIsolated) return { ok: false, error: 'Cross-origin isolation is unavailable', stdout: '' };
   return new Promise(resolve => {
     const mutexBuffer = new SharedArrayBuffer(8);
@@ -13,13 +13,14 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 240000 }) {
     const worker = new Worker('/m1-worker.js');
     const started = performance.now();
     let readyMs = null, stdout = '', commandsSent = 0, complete = false;
+    const messageTrace = [];
     function finish(ok, error) {
       if (complete) return;
       complete = true;
       clearTimeout(timer);
       worker.terminate();
       const result = { ok, error, stdout, readyMs, totalMs: performance.now() - started,
-        commandsSent, totalCommands, crossOriginIsolated };
+        commandsSent, totalCommands, crossOriginIsolated, messageTrace };
       document.getElementById('status').textContent = JSON.stringify(result, null, 2);
       resolve(result);
     }
@@ -30,6 +31,7 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 240000 }) {
     }
     worker.onerror = event => finish(false, event.message || 'Worker error');
     worker.onmessage = ({ data }) => {
+      if (messageTrace.length < 1000 && data.type !== 'output') messageTrace.push(data);
       if (data.type === 'waitingForInput') {
         if (readyMs === null) readyMs = performance.now() - started;
         if (commands.length) {
