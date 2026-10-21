@@ -1,5 +1,5 @@
 // Trusted fixture transport only. This is not a student-expression API.
-window.runMilestoneOne = async function ({ files, batch, timeoutMs = 90000 }) {
+window.runMilestoneOne = async function ({ files, batch, timeoutMs = 180000 }) {
   if (!crossOriginIsolated) return { ok: false, error: 'Cross-origin isolation is unavailable', stdout: '' };
   return new Promise(resolve => {
     const mutexBuffer = new SharedArrayBuffer(8);
@@ -12,7 +12,7 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 90000 }) {
     const totalCommands = commands.length;
     const worker = new Worker('/m1-worker.js');
     const started = performance.now();
-    let readyMs = null, stdout = '', commandsSent = 0, complete = false;
+    let readyMs = null, stackReadyMs = null, stdout = '', commandsSent = 0, complete = false;
     const messageTrace = [];
     function finish(ok, error) {
       if (complete) return;
@@ -20,7 +20,7 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 90000 }) {
       clearTimeout(timer);
       worker.terminate();
       const result = { ok, error, stdout, readyMs, totalMs: performance.now() - started,
-        commandsSent, totalCommands, crossOriginIsolated, messageTrace };
+        commandsSent, totalCommands, stackReadyMs, crossOriginIsolated, messageTrace };
       document.getElementById('status').textContent = JSON.stringify(result, null, 2);
       resolve(result);
     }
@@ -48,6 +48,7 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 90000 }) {
         wake();
       } else if (data.type === 'output') {
         stdout += data.text;
+        if (stackReadyMs === null && /^M1READY\|[^\r\n]+\r?\n/m.test(stdout)) stackReadyMs = performance.now() - started;
         if (stdout.length > 4 * 1024 * 1024) return finish(false, 'Diagnostic output limit exceeded');
         // Match a complete printed line, not a source echo.
         if (/^M1META\|[^\r\n]+\r?\n/m.test(stdout)) finish(true, null);

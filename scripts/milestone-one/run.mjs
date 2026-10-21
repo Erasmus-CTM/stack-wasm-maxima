@@ -96,6 +96,7 @@ let browser;
 try {
   browser = await chromium.launch({ headless: true });
   for (const version of prepared.versions) {
+    requestedPaths.clear(); errors.length = 0;
     const context = await browser.newContext();
     const page = await context.newPage();
     const consoleLines = [];
@@ -110,6 +111,7 @@ try {
     result.browser = browser.version();
     result.stackRevision = version.stackRevision;
     result.sourceRevision = process.env.GITHUB_SHA || execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
+    result.runtimeAdapters = ['regular-file FIONREAD', 'reuse MEMFS ENOENT error objects'];
     result.scope = 'Direct official answer tests in a fresh worker per STACK revision; selected cases share the session';
     result.files = version.files.map(({ content, ...record }) => record);
     result.servedAssets = [...served.values()].filter(asset => requestedPaths.has(asset.path));

@@ -10,6 +10,8 @@ On a Python-heavy course, this adds another runtime. It does not remove the Pyth
 
 The first executable run requested the additional required ECL shared library `libecl.so` before Maxima could accept input. It is 7.97 MB and was served without HTTP compression. The original 5.18 MB measurement covers four files and is not a complete runtime startup footprint. The separately recorded dependency manifest includes its SHA-256 and the Wasm dependency graph. The known startup set now totals 13.15 MB transferred and 33.36 MB of files, before STACK and additional share libraries.
 
+The subsequent linked-module check also found `libgnuplot.so` (3.94 MB, uncompressed), required by `maxima-plot.fas`. The unmodified STACK loader asks for that plot module even in this non-plotting assessment probe. The known files for that loading path now total **18.22 MB transferred / 38.43 MB of files**, before additional share-source requests and STACK. The full core plus all nine optional modules and both linked libraries is 34.93 MB transferred. These remain asset inventories, not a complete cold-page trace.
+
 ## Measured download sizes
 
 All MB below are decimal (1 MB = 1,000,000 bytes). Transfer bytes count encoded HTTP response bodies from fresh GET requests, excluding HTTP/TLS overhead. File bytes are after HTTP decompression; ZIP and wheel contents have not been unpacked. These numbers are not memory usage.

@@ -34,7 +34,7 @@ try:
         item = {"stackRevision": sha, "passed": False, "differences": []}
         try:
             result = json.loads((OUT / f"browser-{sha[:7]}.json").read_text())
-            item.update(browser=result.get("browser"), readyMs=result.get("readyMs"), totalMs=result.get("totalMs"),
+            item.update(browser=result.get("browser"), readyMs=result.get("readyMs"), totalMs=result.get("totalMs"), stackReadyMs=result.get("stackReadyMs"),
                         servedAssetCount=len(result.get("servedAssets", [])),
                         sourceFileCount=len(result.get("files", [])))
             if not result.get("ok"):
@@ -74,10 +74,10 @@ lines = ["# Milestone 1: recorded browser/native experiment", "",
          f"Workflow evidence: {summary['runURL']}", "",
          "The same selected CTM official fixtures and native parser are used for both execution paths.",
          "A fresh Wasm worker is used for each STACK revision; the selected cases share that session.", "",
-         "| STACK revision | Result | Compared rows | Browser ready ms | Local batch ms |",
-         "|---|---|---:|---:|---:|"]
+         "| STACK revision | Result | Compared rows | Runtime ready ms | STACK ready ms | Total check ms |",
+         "|---|---|---:|---:|---:|---:|"]
 for item in summary["versions"]:
-    lines.append(f"| {item['stackRevision'][:7]} | {'pass' if item['passed'] else 'fail'} | {item.get('comparisonCount', 0)} | {item.get('readyMs', '')} | {item.get('totalMs', '')} |")
+    lines.append(f"| {item['stackRevision'][:7]} | {'pass' if item['passed'] else 'fail'} | {item.get('comparisonCount', 0)} | {item.get('readyMs', '')} | {item.get('stackReadyMs', '')} | {item.get('totalMs', '')} |")
 lines.extend(["", "Timings describe this CI dependency check with predownloaded local runtime files, not cold course-page loading.",
               "Detailed differences, raw output, dependency hashes and failures are in the JSON/log files beside this report.",
               "", "## Runs needed", "",

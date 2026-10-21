@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "recordedAt": "2026-10-21T19:42:52.734Z",
+  "recordedAt": "2026-10-21T20:12:27.362Z",
   "discoveredByRun": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39662414639",
-  "scope": "Additional startup dependency discovered by the executable loader; not a complete first-grade network trace",
+  "scope": "Linked Wasm libraries discovered from the core and all nine optional modules; excludes further share-source HTTP requests",
   "assets": [
     {
       "url": "https://maxima-on-wasm.pages.dev/libecl.so",
@@ -20,12 +20,52 @@
         "cross-origin-embedder-policy": "require-corp"
       },
       "localGzipLevel9Bytes": 2362801
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/libgnuplot.so",
+      "startedAt": "2026-10-21T20:12:26.781Z",
+      "completedAt": "2026-10-21T20:12:27.362Z",
+      "status": 200,
+      "contentEncoding": "identity",
+      "transferBytes": 3937451,
+      "fileBytes": 3937451,
+      "sha256": "c90cc6c149e0e4df484db9f422fb9c535ae34b359da24d61c974578d6bce0772",
+      "localGzipLevel9Bytes": 1955473
     }
   ],
   "dependencyGraph": {
     "maxima.wasm": [
       "libecl.so"
     ],
-    "libecl.so": []
+    "libecl.so": [],
+    "maxima-plot.fas": [
+      "libgnuplot.so",
+      "libecl.so"
+    ],
+    "libgnuplot.so": [],
+    "maxima-solve.fas": [
+      "libecl.so"
+    ],
+    "maxima-integration.fas": [
+      "libecl.so"
+    ],
+    "maxima-limits.fas": [
+      "libecl.so"
+    ],
+    "maxima-matrix-algebra.fas": [
+      "libecl.so"
+    ],
+    "maxima-number-theory.fas": [
+      "libecl.so"
+    ],
+    "maxima-poisson-series.fas": [
+      "libecl.so"
+    ],
+    "maxima-quadpack.fas": [
+      "libecl.so"
+    ],
+    "maxima-slatec.fas": [
+      "libecl.so"
+    ]
   }
 }
