@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "createdAt": "2026-10-22T15:46:34.389Z",
-  "sourceRevision": "89af4b404b0f9ed2877e115bb76531a2c54e259f",
-  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39807764473",
+  "createdAt": "2026-10-22T16:02:49.942Z",
+  "sourceRevision": "f3bc0b286a17400fbb9a41d4106880f9b521f546",
+  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39810288697",
   "passed": true,
   "status": "passed",
   "browserName": "chromium",
@@ -916,31 +916,31 @@
       "workerInitializationMs": [
         {
           "page": "index",
-          "workerInitMs": 6374.330000000016,
+          "workerInitMs": 6045.235000000001,
           "workerInitOK": true,
           "backend": null,
-          "pageNavigationToFirstGradeMs": 7451.705000000016
+          "pageNavigationToFirstGradeMs": 7139.169999999998
         },
         {
           "page": "examples",
-          "workerInitMs": 6599.695000000007,
+          "workerInitMs": 6579.815000000002,
           "workerInitOK": true,
           "backend": null,
-          "pageNavigationToFirstGradeMs": 7924.190000000002
+          "pageNavigationToFirstGradeMs": 8025.590000000011
         }
       ],
-      "validationMedianMs": 12.535000000003492,
-      "gradeMedianMs": 12.805000000022119,
+      "validationMedianMs": 12.129999999990105,
+      "gradeMedianMs": 12.720000000001164,
       "authoredTestRows": 121,
       "encodedResponseBodyBytesByPage": [
         {
           "page": "index",
-          "encodedResponseBodyBytes": 10507955,
+          "encodedResponseBodyBytes": 10450804,
           "responseHeaderBytes": 15281
         },
         {
           "page": "examples",
-          "encodedResponseBodyBytes": 10529379,
+          "encodedResponseBodyBytes": 10529243,
           "responseHeaderBytes": 15281
         }
       ]
@@ -952,7 +952,7 @@
       "workerInitializationMs": [
         {
           "page": "index",
-          "workerInitMs": 6499.350000000006,
+          "workerInitMs": 6173.5350000000035,
           "workerInitOK": true,
           "backend": {
             "id": "maxima",
@@ -964,15 +964,15 @@
             "perTest": {},
             "maximaState": "not-started",
             "timings": {
-              "pythonReadyMs": 6456.264999999985,
-              "readyMs": 6484.815000000002
+              "pythonReadyMs": 6129.9250000000175,
+              "readyMs": 6157.665000000008
             }
           },
-          "pageNavigationToFirstGradeMs": 49982.30499999999
+          "pageNavigationToFirstGradeMs": 49873.369999999995
         },
         {
           "page": "examples",
-          "workerInitMs": 6395.905000000028,
+          "workerInitMs": 6084.174999999988,
           "workerInitOK": true,
           "backend": {
             "id": "maxima",
@@ -984,25 +984,25 @@
             "perTest": {},
             "maximaState": "not-started",
             "timings": {
-              "pythonReadyMs": 6334.225000000006,
-              "readyMs": 6364.005000000034
+              "pythonReadyMs": 6035.234999999986,
+              "readyMs": 6060.734999999986
             }
           },
-          "pageNavigationToFirstGradeMs": 46680.215
+          "pageNavigationToFirstGradeMs": 45797.015000000014
         }
       ],
-      "validationMedianMs": 12.85999999998603,
-      "gradeMedianMs": 63.324999999953434,
+      "validationMedianMs": 13.035000000003492,
+      "gradeMedianMs": 61.820000000006985,
       "authoredTestRows": 121,
       "encodedResponseBodyBytesByPage": [
         {
           "page": "index",
-          "encodedResponseBodyBytes": 21588389,
+          "encodedResponseBodyBytes": 21587785,
           "responseHeaderBytes": 20455
         },
         {
           "page": "examples",
-          "encodedResponseBodyBytes": 21604208,
+          "encodedResponseBodyBytes": 21609808,
           "responseHeaderBytes": 20455
         }
       ]
@@ -1114,8 +1114,8 @@
     },
     {
       "path": "prototype/runtime/maxima-session.js",
-      "bytes": 14109,
-      "sha256": "be0be2cb61d5e286dbfd33826373e99c8ab246a03f75e819518fb3231dde6890"
+      "bytes": 14314,
+      "sha256": "b2ee08fd8d5e4cb47a54ddd8276ad837d5cf5bbd72fcebb87c5c88dd37c6a5e0"
     },
     {
       "path": "prototype/runtime/maxima-child.js",
