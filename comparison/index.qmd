@@ -38,6 +38,8 @@ Open the same examples with either assessment backend. These are the actual CTM 
 On your first visit, the page reloads once to prepare the assessment environment. The first assessment then loads its browser runtime. Maxima took about 25 seconds to initialize in the accepted CI run; public-network loading can take longer. Keep the page open while it loads. The Maxima examples use native STACK answer tests alongside CTM’s Python validation, PRT orchestration and PythonChecker.
 :::
 
+Read [Data flow](maxima/data-flow.html) to follow an answer through typed or graphical input, validation, native grading and optional PythonChecker callbacks. Developer diagrams show which component handles each step.
+
 ## What was compared
 
 Both editions use the same pinned documentation questions, options, variants and rendered payloads. The question renderer, scalar and matrix editors, controls, feedback and PythonChecker remain in the CTM libraries. Backend selection is per page.

@@ -97,6 +97,7 @@ async function action(card, type, {allowWorkerError=false}={}) {
 }
 
 async function fillAnswers(card, answers) {
+  const submitted={...answers};
   const fields=await card.locator('.stack-answer[data-name]').evaluateAll(items=>items.map(item=>({name:item.dataset.name,matrix:item.classList.contains('stack-matrix')})));
   assert.equal(fields.length,Object.keys(answers).length,'Every authored input needs a submitted answer');
   for (const {name,matrix} of fields) {
@@ -108,6 +109,9 @@ async function fillAnswers(card, answers) {
       continue;
     }
     const rows=matrixCells(answers[name]);
+    // The matrix editor submits each entered scalar in parentheses.
+    // Declare that exact UI spelling before observing any worker request.
+    submitted[name]='matrix('+rows.map(row=>'['+row.map(cell=>'('+cell+')').join(',')+']').join(',')+')';
     for (const [axis,key,target] of [['row','rows',rows.length],['col','cols',rows[0].length]]) {
       for (let attempt=0;attempt<40;attempt++) {
         const actual=Number(await field.locator('.math-dynamic-mat').getAttribute('data-'+key));
@@ -122,6 +126,7 @@ async function fillAnswers(card, answers) {
       await field.locator('input[data-matrix-row="'+(row+1)+'"][data-matrix-column="'+(col+1)+'"]').fill(rows[row][col]);
     }
   }
+  return submitted;
 }
 
 function requiredSequence(question,result) {
@@ -567,9 +572,9 @@ try {
         // Test that actual UI contract separately from the raw checker input.
         const homogeneousCoordinateProbe=['native-python-board','native-mixed-board'].includes(id) &&
           probe.name==='wrong-length coordinate list [2,2,2]' && probe.answers.ans==='[2,2,2]';
-        const submittedAnswers=homogeneousCoordinateProbe ? {ans:'[1,1]'} : probe.answers;
+        const filledAnswers=await fillAnswers(card,probe.answers);
+        const submittedAnswers=homogeneousCoordinateProbe ? {ans:'[1,1]'} : filledAnswers;
         const uiScore=homogeneousCoordinateProbe ? (id==='native-python-board' ? 1 : 0.25) : probe.score;
-        await fillAnswers(card,probe.answers);
         const observed={name:probe.name,expected:probe,validation:await action(card,'validate')};
         assert.deepEqual(observed.validation.call.answers,submittedAnswers,
           id+': validation must assess the exact declared submitted answer');

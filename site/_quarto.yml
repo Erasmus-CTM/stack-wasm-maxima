@@ -6,6 +6,7 @@ project:
   render:
     - maxima/examples.qmd
     - maxima/native.qmd
+    - maxima/data-flow.qmd
   resources:
     - backend/**
     - runtime/**
@@ -28,6 +29,8 @@ website:
         text: Worked questions
       - href: maxima/native.qmd
         text: Native questions
+      - href: maxima/data-flow.qmd
+        text: Data flow
     right:
       - icon: github
         href: https://github.com/Erasmus-CTM/stack-wasm-maxima

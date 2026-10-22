@@ -811,6 +811,11 @@ See the [author API](https://erasmus-ctm.github.io/stack-sympy/docs/python-check
 ::::
 
 :::::
+## Where does an answer go? {#answer-pipeline}
+
+Read [Data flow](data-flow.qmd) for the typed-input and JSXGraph walkthroughs,
+with expandable developer details and diagrams of validation and grading.
+
 ## Startup and response times {#startup-and-response-times}
 
 **Historical baseline: the long first Maxima validation was mostly worker setup.** In the original measured build, the first **Validate answers** click took a median **43.28 s**, including **43.10 s** of worker initialization. Later validations took about **12.4 ms**. SymPy's first validation took **5.95 s**.
