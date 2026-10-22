@@ -131,6 +131,15 @@ in the frozen summary; it makes 103–107 requests before Python is needed.
   navigation creates a new worker; the HTTP cache saves the download, never the
   38 s of loading. A course page with quizzes in several tabs is fine; a quiz
   spread over pages is not.
+- **Returning visitors are unmeasured.** Every timing above uses a fresh
+  browser profile. A colleague (Alfred Wassermann) reports Maxima available
+  instantly after Shift+Reload once it had loaded (~45 s the first time);
+  which page and runtime that was is not yet known. Shift+Reload bypasses the
+  HTTP cache, but a browser may keep compiled Wasm in its profile. Add a
+  **warm-profile reload** measurement (same profile, Shift+Reload and a normal
+  revisit, native page, readiness and first Validate) next to the cold one; if
+  STACK loading also becomes fast there, the real student experience after the
+  first visit is far better than 38 s and L1 becomes less urgent.
 - **Slower devices.** The runner is a server CPU. Student laptops and
   Chromebooks are plausibly 1.5–3× slower (*hypothesis*: unmeasured), i.e.
   roughly a minute or more before the first Validate answers.
