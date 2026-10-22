@@ -69,6 +69,12 @@ program.options.onEvaluate = value => { observed = value; };
 assert.deepEqual(JSON.parse(JSON.stringify(program.evaluate('["stack_map",["valid",true]]'))), {env:{a:'1/3'}, answer:[1,2], valid:true});
 assert.match(program.command, /errcatch\(\["stack_map"/);
 assert.equal(observed.result.env.a, '1/3');
+program.options.onEvaluate = () => { throw Error('diagnostic collector failed'); };
+assert.equal(program.evaluate('42').valid,true);
+assert.equal(program.poisoned,false,'A diagnostic exception cannot poison a successful CAS call');
+assert.equal(program.terminated,undefined);
+program.options.onEvent = () => { throw Error('event collector failed'); };
+assert.doesNotThrow(() => program.event('diagnostic',{}));
 assert.throws(() => program.evaluate(''), /Invalid native question/);
 const programFailure = sessionWith(null);
 programFailure.write = () => {
