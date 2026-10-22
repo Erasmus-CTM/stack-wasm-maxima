@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "test-results/milestone-one"
-REPORT = ROOT / "reports/milestone-one"
+REPORT = Path(os.environ.get("MILESTONE_ONE_REPORT_ROOT", str(ROOT / "reports/milestone-one")))
 REPORT.mkdir(parents=True, exist_ok=True)
 ARCHIVE = REPORT / "runs" / os.environ.get("GITHUB_RUN_ID", "local")
 ARCHIVE.mkdir(parents=True, exist_ok=True)

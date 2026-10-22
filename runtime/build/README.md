@@ -24,7 +24,7 @@ comparisons. Complete source archives and original notices accompany the runtime
 the prepared licence PR is read at its exact commit rather than duplicated.
 
 Substitution parity, the two STACK pins, browser checks, native replay and timings
-remain acceptance gates to implement/run as the first source build executes.
+are wired into the build workflow and remain acceptance gates until that workflow passes.
 No site publication, tags, releases, trims or compression are performed here.
 
 The first CI source check (run 39863489271, before any compiler execution)
@@ -55,3 +55,38 @@ It also restores `EMSDK_PATH` after emsdk's environment script clears it,
 because the port Makefile requires that variable. Tool version logs use the
 actual bundled clang and SDK Node executables, not similarly named tools on
 Ubuntu's default PATH. Failed build logs are retained as Actions artifacts.
+
+## Opt-in validation
+
+`python scripts/milestone-two/prepare-runtime.py --runtime-source ARTIFACT ...`
+(or `CTM_MAXIMA_RUNTIME_SOURCE=ARTIFACT`) selects an owned artifact containing
+`manifest.json` and `runtime/`. Without that option the existing deployed
+runtime remains the default. Every owned request must have a manifest hash;
+there is no fallback download or discovery of unhashed owned share files.
+The current 81-file inventory is required exactly during staging. Integrity
+fixtures cover changed pins, malformed inventories, duplicate/traversal paths,
+size/hash mismatches and post-manifest tampering.
+
+The CI acceptance path stages the owned files into an unpublished site, runs
+its actual native browser checks, and replays exactly 316 captured programs
+against both Ubuntu's independent Maxima and the already-installed native
+Maxima from the same upstream commit/ECL32 build. It then runs the same 22
+fixtures at each of the two STACK pins with deployed and owned Wasm, preserving
+the generated batches, raw results, desktop comparisons and explicit parity.
+A final assertion rejects missing/partial evidence or any unaccepted replay
+difference. Compilation alone is not acceptance.
+
+`measure.mjs` records two alternating-order trials per runtime, with fresh
+Chromium process/profile/worker and uncompressed local HTTP for each trial,
+then ten simple `6*7` overhead-control calls and actual captured native-rational
+prepare/validate/PRT programs in that worker, with result equality checks. Readiness includes STACK. HTTP caches start
+fresh; OS/filesystem/process warming is uncontrolled. The baseline and owned
+results are retained side by side without a statistical performance claim.
+The existing published transport and page are not switched.
+
+The separate upstream workflow writes a weekly/manual read-only drift artifact
+for the three port branches and the pinned tool tags. It never rewrites pins,
+creates an upgrade PR, merges, tags or publishes. A changed branch is evidence
+for an exact candidate decision and the full build/substitution workflow;
+release discovery and automatic tested upgrade proposals remain later tracking
+work as described after the runtime steps in audit section 6.

@@ -7,6 +7,8 @@ on:
       - 'runtime/build/**'
       - '.github/workflows/runtime-build.yml'
       - 'scripts/milestone-two/prepare-runtime.py'
+      - 'scripts/milestone-one/run.mjs'
+      - 'scripts/milestone-one/compare.py'
 permissions:
   contents: read
 jobs:
@@ -26,6 +28,11 @@ jobs:
           ref: 5f78e2adf328a1b0f5f74fc993f0212198165e96
           path: .cache/runtime-build/notices
           persist-credentials: false
+      - name: Check owned-runtime manifest integrity
+        run: |
+          node runtime/build/test-runtime-source.mjs
+          python runtime/build/test-substitution.py
+          python runtime/build/test-toolchain.py
       - name: Fetch exact source commits and verify their archive hashes
         run: |
           set -o pipefail
@@ -48,11 +55,142 @@ jobs:
         run: bash runtime/build/build.sh
       - name: Package runtime, hashes, source archives, size table and licences
         run: python runtime/build/package.py --notices .cache/runtime-build/notices
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.8.27
+      - name: Install the pinned authoring dependencies
+        run: python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/stack-sympy
+          ref: 1b1d50f69fc1e7eb39846b497657d72be325f597
+          path: .site-sources/stack-sympy
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: c366f175aba6b62caa628bc60f57bb1167fc087b
+          path: .site-sources/ctm-checkers
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-libs
+          ref: 94687f718fd651fc2857bc5242a64e45c8fd4697
+          path: .site-sources/ctm-libs
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: .site-sources/stack
+          sparse-checkout: |
+            stack/maxima
+            stack/cas
+            stack/maximaparser
+            corsscripts
+            lang/en
+            samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: jsxgraph/jsxgraph-quarto
+          ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e
+          path: .site-sources/jsxgraph-quarto
+          persist-credentials: false
+      - name: Install the pinned browser dependencies
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Stage pinned dependencies around the tracked QMD
+        run: |
+          python scripts/milestone-two/materialize.py --prepare-existing site \
+            --stack-sympy-source .site-sources/stack-sympy \
+            --ctm-checkers-source .site-sources/ctm-checkers \
+            --ctm-libs-source .site-sources/ctm-libs
+          python scripts/milestone-two/prepare-runtime.py --output site --runtime-source .cache/runtime-build/artifact \
+            --stack-source .site-sources/stack \
+            --ctm-checkers-source .site-sources/ctm-checkers
+          node scripts/milestone-two/test-frontend-pools.mjs site/_extensions/stack-sympy/stack-sympy.js
+          python scripts/milestone-three/stage-parser.py --stack-source .site-sources/stack --output site/native
+          python scripts/milestone-three/stage-feedback.py --stack-source .site-sources/stack --output site/native
+          node prototype/native/test-feedback.mjs site/native
+          python scripts/milestone-three/compile.py --stack-source .site-sources/stack \
+            --ctm-checkers-source .site-sources/ctm-checkers --output site/native/questions.json \
+            --resources site/maxima/native-questions
+      - name: Prepare native variants in the actual Wasm backend
+        env:
+          CTM_COMPONENT_DEV: '1'
+          STACK_SYMPY_PYTHON: python
+          CTM_CHECKERS_SOURCE: .site-sources/ctm-checkers
+          STACK_SOURCE: .site-sources/stack
+          PYTHONPATH: .site-sources/ctm-checkers/src
+        run: |
+          python scripts/milestone-three/test-build.py
+          python scripts/milestone-three/test-reference.py
+          node scripts/milestone-three/build-site.mjs --site site --stack-source .site-sources/stack \
+            --ctm-checkers-source .site-sources/ctm-checkers --jsxgraph-source .site-sources/jsxgraph-quarto
+      - name: Render the committed Quarto page
+        env:
+          CTM_COMPONENT_DEV: '1'
+          STACK_SYMPY_PYTHON: python
+        run: |
+          export CTM_LIBS_EXTENSION="$PWD/site/_extensions/ctm-libs"
+          export CTM_CHECKERS_EXTENSION="$PWD/site/_extensions/ctm-checkers"
+          quarto render site
+      - name: Exercise both backends in the rendered comparison page
+        run: node scripts/site/smoke.mjs site/_site test-results/reviewer-site
+      - name: Exercise native questions, graphical inputs and Python continuations
+        run: node scripts/milestone-three/browser.mjs site/_site test-results/milestone-three
+      - name: Install the independent native Maxima reference
+        if: ${{ !cancelled() && hashFiles('test-results/milestone-three/browser.json') != '' }}
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends maxima maxima-share
+      - name: Compare captured native programs with the independent native runtime
+        if: ${{ !cancelled() && hashFiles('test-results/milestone-three/browser.json') != '' }}
+        run: |
+          python scripts/milestone-three/native-reference.py --browser-report test-results/milestone-three/browser.json \
+            --stack-source .site-sources/stack --output test-results/milestone-three/native-reference
+      - name: Replay the same 316 programs with the same-source native ECL build
+        env:
+          MAXIMA_PREFIX: ${{ github.workspace }}/.cache/runtime-build/sources/maxima/wasm/maxima-ecl-combined
+        run: |
+          python scripts/milestone-three/native-reference.py --browser-report test-results/milestone-three/browser.json \
+            --stack-source .site-sources/stack --output test-results/milestone-three/same-source-reference \
+            --maxima "$MAXIMA_PREFIX/bin/maxima"
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: 9e042dc5e57a1636be64ca5d08910c9af5ff1371
+          path: .ctm-checkers-source
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 10d323311b7f39fb7b092dd10ce75f7d8632f525
+          path: .stack-upstream/10d323311b7f39fb7b092dd10ce75f7d8632f525
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: .stack-upstream/33383047af39c204bf4442802a058f8b918b2b1b
+          persist-credentials: false
+      - name: Compare both runtime builds at both STACK pins
+        run: bash runtime/build/validate-probes.sh
+      - name: Stage the deployed baseline beside the owned runtime for timings
+        run: |
+          python scripts/milestone-two/prepare-runtime.py --output .cache/runtime-build/deployed-demo \
+            --stack-source .site-sources/stack --ctm-checkers-source .site-sources/ctm-checkers
+          node runtime/build/measure.mjs
+      - name: Assert complete acceptance evidence
+        run: python runtime/build/check-acceptance.py
       - name: Preserve build evidence even on failure
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: owned-runtime-${{ github.sha }}
+          include-hidden-files: true
           path: |
             .cache/runtime-build/artifact/
             .cache/runtime-build/logs/
@@ -60,4 +198,8 @@ jobs:
             .cache/runtime-build/source-progress.json
             .cache/runtime-build/source-archives/
             .cache/runtime-build/sources/ecl/build/config.log
+            .cache/runtime-build/validation/
+            test-results/milestone-three/
+            .cache/native-build/
+            site/native/build-manifest.json
           if-no-files-found: warn

@@ -41,9 +41,11 @@ def owned_runtime_source(path: Path | None, wanted: set[str]):
         raise ValueError("Owned runtime asset inventory is incomplete")
     selected = {}
     for record in records:
+        if not isinstance(record, dict):
+            raise ValueError("Invalid owned runtime asset record")
         relative = record.get("path")
         if (not isinstance(relative, str) or relative in selected or BASE + relative not in wanted
-                or not isinstance(record.get("bytes"), int) or record["bytes"] < 0
+                or type(record.get("bytes")) is not int or record["bytes"] < 0
                 or not isinstance(record.get("sha256"), str)
                 or len(record["sha256"]) != 64
                 or any(c not in "0123456789abcdef" for c in record["sha256"])):

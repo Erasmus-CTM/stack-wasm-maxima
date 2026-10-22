@@ -36,6 +36,20 @@ def main():
     parser.add_argument('--output', type=Path, default=ROOT / '.cache/runtime-build/artifact')
     args = parser.parse_args()
     work = ROOT / '.cache/runtime-build'
+    pins = json.loads((ROOT / 'runtime/build/pins.json').read_text())
+    if subprocess.check_output(['git','rev-parse','HEAD'],cwd=args.notices,text=True).strip() != pins['notices']['commit']:
+        raise ValueError('Third-party notices checkout is not the pinned revision')
+    progress = json.loads((work / 'source-progress.json').read_text())['sources']
+    if len(progress) != len(pins['sources']) or not all(row['verified'] for row in progress):
+        raise ValueError('Source preparation did not verify every pinned source')
+    toolchain = json.loads((work / 'logs/toolchain-archives.json').read_text())
+    if len(toolchain['archives']) != len(pins['toolchainArchives']) or not all(row['verified'] for row in toolchain['archives']):
+        raise ValueError('Executed toolchain archives were not all verified')
+    for pin in pins['sources']:
+        suffix = '.tar' if pin['archive']['format'] == 'git-archive-tar' else '.tar.gz'
+        archive = work / 'source-archives' / (pin['name'] + suffix)
+        if hashlib.sha256(archive.read_bytes()).hexdigest() != pin['archive']['sha256']:
+            raise ValueError('Source archive changed after preparation: ' + pin['name'])
     built = work / 'sources/maxima/wasm/maxima-ecl-combined'
     runtime = args.output / 'runtime'
     runtime.mkdir(parents=True, exist_ok=True)
@@ -48,12 +62,11 @@ def main():
         table.append({'path': path, 'bytes': len(body), 'sha256': hashlib.sha256(body).hexdigest(),
                       'deployedBytes': deployed['fileBytes'], 'deployedSha256': deployed['sha256'],
                       'differenceBytes': len(body) - deployed['fileBytes']})
-    pins = json.loads((ROOT / 'runtime/build/pins.json').read_text())
     licence_dir = args.output / 'LICENSES'
     shutil.copytree(args.notices / pins['notices']['path'], licence_dir, dirs_exist_ok=True)
     shutil.copy2(args.notices / 'THIRD-PARTY-NOTICES.md', args.output / 'SITE-NOTICES-context.md')
     # Preserve the source repositories' own notice files too; do not rewrite them.
-    for name, paths in {'maxima':['COPYING'], 'ecl':['COPYING','LICENSE','src/gmp/COPYING','src/gmp/COPYING.LIB','src/libffi/LICENSE','src/bdwgc/README.QUICK'], 'gnuplot':['Copyright']}.items():
+    for name, paths in {'maxima':['COPYING'], 'ecl':['COPYING','LICENSE','src/gmp/COPYING','src/gmp/COPYING.LIB','src/libffi/LICENSE','src/bdwgc/README.md','src/bdwgc/README.QUICK'], 'gnuplot':['Copyright']}.items():
         for path in paths:
             source = work / 'sources' / name / path
             if source.is_file():
@@ -66,7 +79,7 @@ def main():
               'revision':os.environ.get('GITHUB_SHA') or subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
               'files':[]}
     recipe_paths = [p for p in (ROOT / 'runtime/build').rglob('*') if p.is_file() and '__pycache__' not in p.parts]
-    recipe_paths += [ROOT / '.github/workflows/runtime-build.yml', ROOT / 'scripts/milestone-two/prepare-runtime.py', ROOT / 'scripts/milestone-one/run.mjs']
+    recipe_paths += [ROOT / '.github/workflows/runtime-build.yml', ROOT / 'scripts/milestone-two/prepare-runtime.py', ROOT / 'scripts/milestone-one/run.mjs', ROOT / 'scripts/milestone-one/compare.py']
     for source in sorted(recipe_paths):
         relative = source.relative_to(ROOT).as_posix()
         body = source.read_bytes()
@@ -74,7 +87,6 @@ def main():
         target.parent.mkdir(parents=True,exist_ok=True)
         target.write_bytes(body)
         recipe['files'].append({'path':relative,'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()})
-    toolchain = json.loads((work / 'logs/toolchain-archives.json').read_text())
     (args.output / 'source-manifest.json').write_text(json.dumps({'schema':1,'sourcePins':pins,'recipe':recipe,'toolchain':toolchain},indent=2)+'\n')
     notices = ["# Notices for this owned-build artifact", "",
                "These runtime files were rebuilt by CTM from the exact upstream sources and recipe recorded in source-manifest.json.",
