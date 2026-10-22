@@ -4,6 +4,8 @@
 import argparse
 import hashlib
 import json
+import os
+import subprocess
 from pathlib import Path
 import shutil
 
@@ -49,7 +51,7 @@ def main():
     pins = json.loads((ROOT / 'runtime/build/pins.json').read_text())
     licence_dir = args.output / 'LICENSES'
     shutil.copytree(args.notices / pins['notices']['path'], licence_dir, dirs_exist_ok=True)
-    shutil.copy2(args.notices / 'THIRD-PARTY-NOTICES.md', args.output / 'THIRD-PARTY-NOTICES.md')
+    shutil.copy2(args.notices / 'THIRD-PARTY-NOTICES.md', args.output / 'SITE-NOTICES-context.md')
     # Preserve the source repositories' own notice files too; do not rewrite them.
     for name, paths in {'maxima':['COPYING'], 'ecl':['COPYING','LICENSE','src/gmp/COPYING','src/gmp/COPYING.LIB','src/libffi/LICENSE','src/bdwgc/README.QUICK'], 'gnuplot':['Copyright']}.items():
         for path in paths:
@@ -60,8 +62,29 @@ def main():
                 shutil.copy2(source, target)
     shutil.copytree(work / 'source-archives', args.output / 'sources', dirs_exist_ok=True)
     shutil.copytree(work / 'logs', args.output / 'logs', dirs_exist_ok=True)
-    shutil.copy2(ROOT / 'runtime/build/pins.json', args.output / 'source-manifest.json')
-    manifest = {'schema':1, 'runtimeAssets':table, 'sourcePins':pins,
+    recipe = {'repository':'https://github.com/Erasmus-CTM/stack-wasm-maxima',
+              'revision':os.environ.get('GITHUB_SHA') or subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+              'files':[]}
+    recipe_paths = [p for p in (ROOT / 'runtime/build').rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+    recipe_paths += [ROOT / '.github/workflows/runtime-build.yml', ROOT / 'scripts/milestone-two/prepare-runtime.py', ROOT / 'scripts/milestone-one/run.mjs']
+    for source in sorted(recipe_paths):
+        relative = source.relative_to(ROOT).as_posix()
+        body = source.read_bytes()
+        target = args.output / 'recipe' / relative
+        target.parent.mkdir(parents=True,exist_ok=True)
+        target.write_bytes(body)
+        recipe['files'].append({'path':relative,'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()})
+    toolchain = json.loads((work / 'logs/toolchain-archives.json').read_text())
+    (args.output / 'source-manifest.json').write_text(json.dumps({'schema':1,'sourcePins':pins,'recipe':recipe,'toolchain':toolchain},indent=2)+'\n')
+    notices = ["# Notices for this owned-build artifact", "",
+               "These runtime files were rebuilt by CTM from the exact upstream sources and recipe recorded in source-manifest.json.",
+               "The licence text files under LICENSES are copied unchanged from the pinned third-party-notices PR; upstream original notices and full source archives are retained too.",
+               "Component licence summaries are not replacements for the preserved per-file terms. Maxima's COPYING contains GPL v2 and the tree has mixed per-file notices; no blanket or-later grant is asserted here.",
+               "ECL's LICENSE lists exceptions for loop.lsp, pprint.lsp, format.lsp, contrib and examples. Their original terms remain in the complete ECL source archive.",
+               "SITE-NOTICES-context.md is the legacy site's notice for its deployed dependencies; it is retained only as site context and does not describe the provenance of these rebuilt files.",
+               "Build inputs, exact archive hashes, SDK binary identities, recipe revision and recipe files are in source-manifest.json and recipe/.", ""]
+    (args.output / 'BUILD-NOTICES.md').write_text('\n'.join(notices))
+    manifest = {'schema':1, 'runtimeAssets':table, 'sourcePins':pins, 'recipe':recipe, 'toolchain':toolchain,
                 'scope':'Uncompressed owned-build substitution candidate; parity not implied by successful compilation'}
     (args.output / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     lines = ['# Owned build versus deployed files', '', '| Path | Built bytes | Deployed bytes | Difference |', '|---|---:|---:|---:|']

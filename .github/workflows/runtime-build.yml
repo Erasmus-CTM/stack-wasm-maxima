@@ -26,19 +26,19 @@ jobs:
           ref: 5f78e2adf328a1b0f5f74fc993f0212198165e96
           path: .cache/runtime-build/notices
           persist-credentials: false
+      - name: Fetch exact source commits and verify their archive hashes
+        run: |
+          set -o pipefail
+          mkdir -p .cache/runtime-build/logs
+          python runtime/build/prepare-sources.py 2>&1 | tee .cache/runtime-build/logs/source-prepare.log
       - name: Install native and 32-bit build prerequisites
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends build-essential gcc-multilib g++-multilib \
             libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config
-      - name: Fetch exact source commits and verify their archive hashes
-        run: python runtime/build/prepare-sources.py
       - uses: actions/cache@v4
         with:
-          path: |
-            .cache/runtime-build/sources/emsdk/upstream
-            .cache/runtime-build/sources/emsdk/node
-            .cache/runtime-build/sources/emsdk/downloads
+          path: .cache/runtime-build/sources/emsdk/downloads
           key: owned-emsdk-${{ runner.os }}-${{ hashFiles('runtime/build/pins.json') }}
       - uses: actions/cache@v4
         with:
@@ -57,5 +57,7 @@ jobs:
             .cache/runtime-build/artifact/
             .cache/runtime-build/logs/
             .cache/runtime-build/source-manifest.json
+            .cache/runtime-build/source-progress.json
+            .cache/runtime-build/source-archives/
             .cache/runtime-build/sources/ecl/build/config.log
           if-no-files-found: warn

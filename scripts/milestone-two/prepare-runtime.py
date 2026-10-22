@@ -8,6 +8,7 @@ import gzip
 import hashlib
 import importlib
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -26,12 +27,43 @@ def checked_checkout(path: Path, expected: str) -> Path:
         raise ValueError(f"Expected {expected} at {path}, got {actual}")
     return path
 
+def owned_runtime_source(path: Path | None, wanted: set[str]):
+    if path is None:
+        return None
+    path = path.resolve()
+    encoded = (path / "manifest.json").read_bytes()
+    manifest = json.loads(encoded)
+    pins = json.loads((ROOT / "runtime/build/pins.json").read_text())
+    if manifest.get("schema") != 1 or manifest.get("sourcePins") != pins:
+        raise ValueError("Owned runtime manifest does not identify the exact current source pins")
+    records = manifest.get("runtimeAssets")
+    if not isinstance(records, list) or len(records) != len(wanted):
+        raise ValueError("Owned runtime asset inventory is incomplete")
+    selected = {}
+    for record in records:
+        relative = record.get("path")
+        if (not isinstance(relative, str) or relative in selected or BASE + relative not in wanted
+                or not isinstance(record.get("bytes"), int) or record["bytes"] < 0
+                or not isinstance(record.get("sha256"), str)
+                or len(record["sha256"]) != 64
+                or any(c not in "0123456789abcdef" for c in record["sha256"])):
+            raise ValueError("Invalid owned runtime asset record")
+        selected[relative] = record
+    if {BASE + relative for relative in selected} != wanted:
+        raise ValueError("Owned runtime asset paths differ from the required inventory")
+    return {"root": path / "runtime", "records": selected,
+            "provenance": {"kind": "ctm-owned-build", "manifestSha256": hashlib.sha256(encoded).hexdigest(),
+                           "sourcePins": pins}}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--stack-source", type=Path, required=True)
     parser.add_argument("--ctm-checkers-source", type=Path, required=True)
     parser.add_argument("--output", type=Path, default=ROOT / ".cache/milestone-two/demo")
     parser.add_argument("--asset-cache", type=Path, default=ROOT / ".cache/maxima-runtime")
+    parser.add_argument("--runtime-source", type=Path, default=os.environ.get("CTM_MAXIMA_RUNTIME_SOURCE"),
+                        help="Opt-in owned-build artifact directory; default remains the deployed runtime")
     args = parser.parse_args()
     stack = checked_checkout(args.stack_source, STACK_SHA)
     checkers = checked_checkout(args.ctm_checkers_source, CHECKERS_SHA)
@@ -55,6 +87,7 @@ def main() -> None:
         records[asset["url"]] = asset
     if set(records) != wanted:
         raise ValueError("Missing hashes for selected runtime assets")
+    owned = owned_runtime_source(args.runtime_source, wanted)
     args.output.mkdir(parents=True, exist_ok=True)
     runtime = args.output / "maxima-runtime"
     runtime.mkdir(exist_ok=True)
@@ -67,7 +100,13 @@ def main() -> None:
             raise ValueError("Unsafe runtime asset path")
         expected = records[url]
         cache = args.asset_cache / relative
-        if cache.is_file():
+        if owned:
+            candidate = owned["records"][relative]
+            expected = {"fileBytes": candidate["bytes"], "sha256": candidate["sha256"]}
+            body = (owned["root"] / relative).read_bytes()
+            if len(body) != expected["fileBytes"]:
+                raise ValueError("Owned runtime byte count mismatch: " + relative)
+        elif cache.is_file():
             body = cache.read_bytes()
         else:
             # Use the same Node fetch client as the accepted milestone-one
@@ -87,7 +126,11 @@ def main() -> None:
         target = runtime / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(body)
-        return {"path": relative, "sourceURL": url, "fileBytes": len(body), "sha256": expected["sha256"]}
+        result = {"path": relative, "sourceURL": None if owned else url,
+                  "fileBytes": len(body), "sha256": expected["sha256"]}
+        if owned:
+            result["deployedComparisonURL"] = url
+        return result
 
     with ThreadPoolExecutor(max_workers=6) as pool:
         assets = list(pool.map(copy_asset, sorted(wanted)))
@@ -105,7 +148,7 @@ def main() -> None:
     preload = {"path": "runtime-preload.json", "sha256": hashlib.sha256(preload_body).hexdigest(),
                "fileBytes": len(preload_body), "paths": preload_paths}
     index = (runtime / "share_files.js").read_bytes()
-    if hashlib.sha256(index).hexdigest() != demo_linked["shareIndexSha256"]:
+    if not owned and hashlib.sha256(index).hexdigest() != demo_linked["shareIndexSha256"]:
         raise ValueError("Demo dependencies name another runtime share index")
     import re
     declared = {BASE + match[3] for match in re.finditer(
@@ -133,6 +176,8 @@ def main() -> None:
                 "tests": oracle.TESTS, "startup": startup, "files": files, "runtimeAssets": assets,
                 "preload": preload,
                 "scope": "Maxima answer tests with shared CTM validation/PRT/PythonChecker"}
+    if owned:
+        manifest["runtimeBuild"] = owned["provenance"]
     (args.output / "stack-sources.json").write_text(json.dumps(manifest, ensure_ascii=False) + "\n", encoding="utf-8")
     for name in ("backend", "runtime", "native", "jsxgraph"):
         source = ROOT / "prototype" / name
@@ -144,6 +189,8 @@ def main() -> None:
               "runtimeFileBytes": sum(a["fileBytes"] for a in assets),
               "stackFileCount": len(files), "stackSourceBytes": sum(f["bytes"] for f in files),
               "stackRevision": STACK_SHA, "ctmCheckersRevision": CHECKERS_SHA, "assets": assets}
+    if owned:
+        record["runtimeBuild"] = owned["provenance"]
     (args.output / "runtime-assets.json").write_text(json.dumps(record, indent=2) + "\n")
     print(json.dumps({k: v for k, v in record.items() if k != "assets"}))
 

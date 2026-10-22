@@ -6,7 +6,7 @@
       "repository": "https://gitlab.com/mgerbershagen/maxima.git",
       "commit": "813903d33f5ccca09cbe3086dbfe5e228521da52",
       "version": "branch_5_49_base_90_g813903d33",
-      "licence": "GPL-2.0-or-later",
+      "licence": "Project COPYING contains GPL v2; mixed per-file notices apply (no blanket or-later assertion)",
       "archive": {
         "format": "git-archive-tar",
         "prefix": "maxima/",
@@ -28,9 +28,16 @@
       "archive": {
         "format": "git-archive-tar",
         "prefix": "ecl/",
-        "sha256": "3de39a9c017298186ba3d29468070ca3703089a4565ff9df426b5b57cd59bc90"
+        "sha256": "fafd6275264c33dd4d8562703752f709bf992b29c40fd766d1351782f4c507b0"
       },
-      "evidence": "Exact full commit and version embedded in deployed libecl.so."
+      "evidence": "Exact full commit and version embedded in deployed libecl.so.",
+      "noticeExceptions": [
+        "src/lsp/loop.lsp",
+        "src/lsp/pprint.lsp",
+        "src/lsp/format.lsp",
+        "contrib/",
+        "examples/"
+      ]
     },
     {
       "name": "gnuplot",
@@ -108,5 +115,24 @@
   "stack": [
     "10d323311b7f39fb7b092dd10ce75f7d8632f525",
     "33383047af39c204bf4442802a058f8b918b2b1b"
+  ],
+  "toolchainArchives": [
+    {
+      "name": "sdk-linux-x86_64",
+      "version": "4.0.10",
+      "release": "8103ffedfb0c42d231c6af6859a5a1a832260b43",
+      "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/linux/8103ffedfb0c42d231c6af6859a5a1a832260b43/wasm-binaries.tar.xz",
+      "file": "8103ffedfb0c42d231c6af6859a5a1a832260b43-wasm-binaries.tar.xz",
+      "bytes": 303902856,
+      "sha256": "0183f887b56c3f8d4b45826cb49856a3324afb66236ad3c13944c0fd2550cbbc"
+    },
+    {
+      "name": "sdk-node-linux-x86_64",
+      "version": "22.16.0",
+      "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/node-v22.16.0-linux-x64.tar.xz",
+      "file": "node-v22.16.0-linux-x64.tar.xz",
+      "bytes": 30425588,
+      "sha256": "f4cb75bb036f0d0eddf6b79d9596df1aaab9ddccd6a20bf489be5abe9467e84e"
+    }
   ]
 }
