@@ -57,6 +57,56 @@ class NativeBuild(unittest.TestCase):
         self.assertEqual(question["native"]["locals"], ["value"])
         self.assertEqual(question["prts"][0]["locals"], ["message"])
 
+    def test_rng_helper_prefix_is_rejected_in_every_response_tree_expression(self):
+        for helper in ("rand", "random", "rand_with_prohib", "random_subset", "RAND_INTEGER", "multiselqnalpha", "MULTISELQNDISPLAY"):
+            for field in ("sans", "tans", "testoptions", "feedbackvariables", "feedback-token"):
+                with self.subTest(helper=helper, field=field):
+                    root = ET.fromstring(compiler.authored_question("Random tree", "[[input:ans]]", "2"))
+                    expression = helper + "(3)"
+                    if field == "feedbackvariables":
+                        compiler.subelement(compiler.subelement(root.find("question/prt"), field, ""), "text", "later:" + expression + ";")
+                    elif field == "feedback-token":
+                        root.find("question/prt/node/truefeedback/text").text = "<p>{@" + expression + "@}</p>"
+                    else:
+                        root.find("question/prt/node/" + field).text = expression
+                    with self.assertRaisesRegex(ValueError, r"random (?:feedback variables|response-tree expressions)"):
+                        compiler.compile_question(ET.tostring(root), importer, "random-tree")
+
+    def test_prepared_rng_helpers_are_frozen_once_and_inert_names_are_not_calls(self):
+        root = ET.fromstring(compiler.authored_question("Frozen draws", "<p>{@random_subset([1,2],1)@}</p>[[input:ans]]", "rand_integer(1,3)",
+                                                      variables="value:rand_with_prohib(1,3,[2]);"))
+        root.find("question/qtest/testinput/value").text = "random(3)"
+        compiler.subelement(compiler.subelement(root.find("question/prt"), "feedbackvariables", ""), "text",
+                            'message:"random_subset([1,2],1)"; /* RAND_INTEGER(1,3) */')
+        root.find("question/prt/node/tans").text = "brand + random_variable /* random(3) */"
+        q = compiler.compile_question(ET.tostring(root), importer, "frozen-draws")
+        self.assertEqual(q["variables"], "value:rand_with_prohib(1,3,[2]);")
+        self.assertEqual(q["native"]["tokens"][0]["phase"], "prepare")
+        self.assertEqual(q["qtests"][0]["inputs"]["ans"], "random(3)")
+
+    def test_rng_state_mutators_are_rejected_even_in_prepared_expressions(self):
+        for helper in ("set_random_state", "make_random_state", "STACK_RANDSEED"):
+            for field in ("questionvariables", "input-teacher", "prepare-token", "qtest", "feedbackvariables", "sans", "feedback-token"):
+                with self.subTest(helper=helper, field=field):
+                    root = ET.fromstring(compiler.authored_question("RNG state", "[[input:ans]]", "2"))
+                    expression = helper + "(3)"
+                    if field == "questionvariables":
+                        root.find("question/questionvariables/text").text = "value:" + expression + ";"
+                    elif field == "input-teacher":
+                        root.find("question/input/tans").text = expression
+                    elif field == "prepare-token":
+                        root.find("question/questiontext/text").text += "{@" + expression + "@}"
+                    elif field == "qtest":
+                        root.find("question/qtest/testinput/value").text = expression
+                    elif field == "feedbackvariables":
+                        compiler.subelement(compiler.subelement(root.find("question/prt"), field, ""), "text", "value:" + expression + ";")
+                    elif field == "feedback-token":
+                        root.find("question/prt/node/truefeedback/text").text = "{@" + expression + "@}"
+                    else:
+                        root.find("question/prt/node/" + field).text = expression
+                    with self.assertRaisesRegex(ValueError, "RNG state-mutating calls"):
+                        compiler.compile_question(ET.tostring(root), importer, "rng-state")
+
     def test_escaped_upstream_source_stays_inert_and_board_is_live(self):
         path = compiler.UPSTREAM + "4_JSON_and_complex_binding.xml"
         body = compiler.source_bytes(STACK_SOURCE, path)

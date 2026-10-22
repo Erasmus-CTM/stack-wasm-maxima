@@ -33,14 +33,63 @@ def literal(value: str) -> str:
     return json.dumps(value, ensure_ascii=True)
 
 
+def finite_float(value: str) -> float:
+    number = float(value)
+    if not math.isfinite(number):
+        raise ValueError("Non-finite JSON number: " + value)
+    return number
+
+
+def reject_constant(value: str):
+    raise ValueError("Non-finite JSON constant: " + value)
+
+
+def load_json(value):
+    # Python's defaults accept NaN/Infinity and overflow 1e999 to infinity.
+    # Neither is an actual JSON value accepted by the browser transport.
+    return json.loads(value, parse_float=finite_float, parse_constant=reject_constant)
+
+
+def checked_stack_files(source: Path) -> list[dict]:
+    """Read only original pinned CAS files, including sparse-checkout checks."""
+    tracked = subprocess.check_output(
+        ["git", "-C", str(source), "ls-tree", "-r", "--name-only", STACK_SHA, "--", "stack/maxima"], text=True)
+    expected = {path for path in tracked.splitlines() if Path(path).suffix in {".mac", ".lisp"}}
+    actual = {path.relative_to(source).as_posix() for path in (source / "stack/maxima").rglob("*")
+              if path.is_file() and path.suffix in {".mac", ".lisp"}}
+    if not expected or expected != actual:
+        raise ValueError("Native STACK CAS file inventory differs from the pinned git tree: "
+                         + json.dumps({"missing": sorted(expected - actual), "extra": sorted(actual - expected)}))
+    records = []
+    for path in sorted(expected):
+        original = subprocess.check_output(["git", "-C", str(source), "show", f"{STACK_SHA}:{path}"])
+        content = (source / path).read_bytes()
+        if content != original:
+            raise ValueError("Native STACK CAS file is modified from its pinned git blob: " + path)
+        records.append({"path": path, "sha256": sha256(content)})
+    return records
+
+
 def differences(expected, actual, path="$", *, limit=20):
     """Compare all fields; tolerate only JSON floating-point roundoff."""
+    if any(type(value) is float and not math.isfinite(value) for value in (expected, actual)):
+        raise ValueError("Cannot compare non-finite JSON numbers at " + path)
     if type(expected) is not type(actual):
         numeric = (type(expected) in {int, float} and type(actual) in {int, float})
         if not numeric:
             return [{"path": path, "expected": expected, "actual": actual}]
     if type(expected) in {int, float} and type(actual) in {int, float}:
-        if expected == actual or math.isclose(expected, actual, rel_tol=1e-12, abs_tol=1e-12):
+        equal = expected == actual
+        # Exact integers must remain exact, even at magnitudes where a unit
+        # difference would fall under the floating-point relative tolerance.
+        if not equal and (type(expected) is float or type(actual) is float):
+            try:
+                equal = math.isclose(expected, actual, rel_tol=1e-12, abs_tol=1e-12)
+            except OverflowError:
+                # An arbitrary-size JSON integer cannot be rounded to a
+                # floating infinity just to compare it with a finite float.
+                equal = False
+        if equal:
             return []
         return [{"path": path, "expected": expected, "actual": actual}]
     if isinstance(expected, dict) and isinstance(actual, dict):
@@ -78,10 +127,13 @@ def make_batch(source: Path, home: Path, programs: list[dict]) -> str:
         # The program is authored, generated source captured by the harness.
         # Learner answers were structurally admitted by the tested input layer.
         lines.append(
-            "block([_m3_reference_value],_m3_reference_value:errcatch("
+            'block([%ERR:["stack_map"],%NOTES:["stack_map"],%FEEDBACK:["stack_map"],%stmt:"ctm-native",'
+            + "_m3_reference_value],_m3_reference_value:errcatch("
             + row["expression"] + "),"
             + "if _m3_reference_value=[] then m3_emit(sconcat("
             + marker + ',stackjson_stringify([false,"CAS evaluation failed"]))) '
+            + "else if length(%ERR)>1 then m3_emit(sconcat(" + marker
+            + ',stackjson_stringify([false,"Native question reported a CAS error"]))) '
             + "else m3_emit(sconcat(" + marker
             + ",stackjson_stringify([true,first(_m3_reference_value)]))))$")
     lines.extend([f'm3_emit("CTMNATIVE-END|{len(programs)}")$', "quit()$"])
@@ -104,11 +156,17 @@ def main() -> int:
               "stackRevision": STACK_SHA, "passed": False, "observations": []}
     try:
         captured_bytes = args.browser_report.read_bytes()
-        captured = json.loads(captured_bytes)
+        captured = load_json(captured_bytes)
         report["browserReport"] = {"path": str(args.browser_report), "sha256": sha256(captured_bytes),
                                    "sourceRevision": captured.get("sourceRevision"), "browserVersion": captured.get("browserVersion"),
                                    "passed": captured.get("passed") is True}
-        report["wasmRuntime"] = captured.get("runtime", {})
+        runtime = captured.get("runtime")
+        if not isinstance(runtime, dict) or runtime.get("stackRevision") != STACK_SHA:
+            raise ValueError("Browser evidence does not identify the pinned STACK runtime revision")
+        stack_version = str(runtime.get("stackLibraryVersion", ""))
+        if not re.fullmatch(r"[0-9]+", stack_version):
+            raise ValueError("Browser evidence does not identify a STACK library version")
+        report["wasmRuntime"] = runtime
         programs = captured.get("programs", [])
         if not isinstance(programs, list) or not programs:
             raise ValueError("Browser report contains no actual native program evidence")
@@ -129,11 +187,11 @@ def main() -> int:
         if not executable:
             raise ValueError(f"Native Maxima executable unavailable: {args.maxima}")
         report["nativeExecutableVersion"] = subprocess.check_output([executable, "--version"], text=True, timeout=30).strip()
-        report["stackFiles"] = [{"path": path.relative_to(source).as_posix(), "sha256": sha256(path.read_bytes())}
-                                for path in sorted((source / "stack/maxima").rglob("*"))
-                                if path.is_file() and path.suffix in {".mac", ".lisp"}]
+        report["stackFiles"] = checked_stack_files(source)
         report["operations"] = dict(operations)
-        report["executionIsolation"] = "One fresh native process; program order matches the persistent Wasm worker"
+        report["executionIsolation"] = (
+            "One fresh native process replays the ordered aggregate of captured self-contained build/browser CAS blocks; "
+            "original worker/session boundaries are not reconstructed")
         with tempfile.TemporaryDirectory(prefix="native-reference-", dir=args.output.resolve()) as directory:
             home = Path(directory)
             batch = make_batch(source, home, programs)
@@ -158,7 +216,7 @@ def main() -> int:
                     index = int(match[1])
                     if index in observed or not 0 <= index < len(programs):
                         raise ValueError("Duplicate or unexpected native result marker")
-                    observed[index] = json.loads(match[2])
+                    observed[index] = load_json(match[2])
                 elif match := VERSION.fullmatch(line):
                     versions.append({"maxima": match[1], "stackLibrary": match[2]})
                 elif line.strip() == f"CTMNATIVE-END|{len(programs)}":
@@ -168,6 +226,9 @@ def main() -> int:
             if len(versions) != 1 or endings != 1 or len(observed) != len(programs):
                 raise ValueError(f"Incomplete native output: versions={len(versions)}, end={endings}, programs={len(observed)}/{len(programs)}")
             report["nativeRuntime"] = versions[0]
+            if versions[0]["stackLibrary"] != stack_version:
+                raise ValueError("Native STACK library version differs from the captured Wasm runtime: "
+                                 + versions[0]["stackLibrary"] + " != " + stack_version)
             for index, row in enumerate(programs):
                 value = observed[index]
                 if not isinstance(value, list) or len(value) != 2 or type(value[0]) is not bool:
@@ -183,7 +244,7 @@ def main() -> int:
                              "different": sum(not row["passed"] for row in report["observations"])}
     except Exception as error:
         report["failure"] = str(error)
-    (args.output / "native-reference.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (args.output / "native-reference.json").write_text(json.dumps(report, ensure_ascii=False, allow_nan=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({key: report.get(key) for key in ("passed", "operations", "summary", "failure")}), flush=True)
     return 0 if report["passed"] else 1
 

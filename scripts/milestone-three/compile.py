@@ -29,6 +29,9 @@ ESCAPE = re.compile(r"\[\[escape\s+value=([\"'])(.*?)\1\s*/\]\]", re.S)
 TOKEN = re.compile(r"\{@(.*?)@\}|\{#(.*?)#\}", re.S)
 ATTR = re.compile(r"([A-Za-z][A-Za-z0-9_-]*)\s*=\s*([\"'])(.*?)\2", re.S)
 COMMENT = re.compile(r"/\*.*?\*/", re.S)
+INERT_AUTHOR_TEXT = re.compile(r'"(?:\\.|[^"\\])*"|/\*.*?\*/', re.S)
+RANDOM_CALL = re.compile(r"\b(?:rand[A-Za-z0-9_]*|multiselqn[A-Za-z0-9_]*)\s*\(", re.I)
+RNG_MUTATOR_CALL = re.compile(r"\b(?:set_random_state|make_random_state|stack_randseed)\s*\(", re.I)
 CHECKER_SOURCE = '''# CTM team, CC BY-SA 4.0. PythonChecker API v1.
 from ctm_checkers.stack.checker_api import collection_items
 
@@ -79,6 +82,18 @@ def local_names(source: str) -> list[str]:
     if len(names) != len(set(names)):
         raise ValueError("Reassigned author variables are outside the prepared subset")
     return names
+
+
+def check_random_calls(source: str, identifier: str, location: str, *, allow_random=False):
+    # Match the engine's bounded continuation policy. Strings and comments
+    # describe author code without calling it; only actual callable names
+    # participate. Prepared expressions may draw once from the native seed.
+    code = INERT_AUTHOR_TEXT.sub(" ", source or "")
+    if RNG_MUTATOR_CALL.search(code):
+        raise ValueError(f"{identifier}: {location}: RNG state-mutating calls are outside the native expression subset")
+    if not allow_random and RANDOM_CALL.search(code):
+        role = "random feedback variables" if location.endswith("/feedbackvariables") else "random response-tree expressions"
+        raise ValueError(f"{identifier}: {location}: {role} are outside the native continuation subset; freeze random values in questionvariables")
 
 
 def subelement(parent, tag, value):
@@ -199,6 +214,12 @@ def compile_question(body, importer, identifier, *, python=False):
                 node.update(test="PythonChecker", options=python_nodes[key])
     question["native"] = {"schema": 1, "id": identifier, "locals": local_names(question["variables"]), "tokens": [], "boards": []}
     tokens, boards = question["native"]["tokens"], question["native"]["boards"]
+    check_random_calls(question["variables"], identifier, "questionvariables", allow_random=True)
+    for inp in question["inputs"]:
+        check_random_calls(inp["teacher"], identifier, f"input[{inp['name']}]/teacher", allow_random=True)
+    for test in question["qtests"]:
+        for name, source in test["inputs"].items():
+            check_random_calls(source, identifier, f"qtest[{test['testcase']}]/input[{name}]", allow_random=True)
 
     def tokenize(text, phase="prepare", context="html"):
         def replace(match):
@@ -209,6 +230,7 @@ def compile_question(body, importer, identifier, *, python=False):
             token = {"id": f"t{len(tokens)}", "source": (expr if expr is not None else source_expr).strip(),
                      "format": "latex" if expr is not None else "source", "wrap": expr is not None and not inside_math,
                      "phase": phase, "context": context}
+            check_random_calls(token["source"], identifier, f"token[{token['id']}]/{phase}", allow_random=phase != "feedback")
             tokens.append(token)
             return f"@@CTM_NATIVE_{token['id']}@@"
         return TOKEN.sub(replace, text or "")
@@ -257,10 +279,10 @@ def compile_question(body, importer, identifier, *, python=False):
         question[field] = template(question[field])
     for prt in question["prts"]:
         prt["locals"] = local_names(prt["feedbackvariables"])
-        feedback_code = re.sub(r'"(?:\\.|[^"\\])*"', '""', COMMENT.sub("", prt["feedbackvariables"]))
-        if re.search(r"\b(?:rand|random|rand_with_step|set_random_state|make_random_state)\s*\(", feedback_code):
-            raise ValueError(f"{identifier}: prt[{prt['name']}]/feedbackvariables: random feedback variables are outside the native continuation subset; freeze random values in questionvariables")
+        check_random_calls(prt["feedbackvariables"], identifier, f"prt[{prt['name']}]/feedbackvariables")
         for node in prt["nodes"]:
+            for field in ("student", "teacher") + (() if node["test"] == "PythonChecker" else ("options",)):
+                check_random_calls(node[field], identifier, f"prt[{prt['name']}]/node[{node['name']}]/{field}")
             for branch in ("true", "false"):
                 node[branch]["feedback"] = template(node[branch]["feedback"], "feedback")
     if any(board["phase"] == "feedback" for board in boards):

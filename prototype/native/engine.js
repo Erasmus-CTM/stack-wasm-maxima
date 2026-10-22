@@ -7,8 +7,10 @@
 
   const NAME = /^[A-Za-z][A-Za-z0-9_]*$/;
   const TOKEN = /@@CTM_NATIVE_([A-Za-z0-9_]+)@@/g;
-  const MUTATING_CALL = /\b(?:system|load|batch|batchload|kill|remvalue|remfunction|declare|remove|assume|forget|activate|deactivate|newcontext|killcontext|supcontext|atvalue|compile|translate|modedeclare|define|set_random_state|make_random_state|put|qput|rem|array|fillarray|arrayapply|appendfile|writefile|stringout|save|openw|opena|with_stdout|delete_file|rename_file|eval_string|parse_string|funmake|apply|depends|gradef|matchdeclare|defmatch|defrule|remrule|tellsimp|tellsimpafter|setup_autoload|autoload|setelmx|push|pop|print|printf|disp|display)\s*\(/i;
-  const RANDOM_CALL = /\b(?:rand|random|rand_with_step|set_random_state|make_random_state)\s*\(/;
+  const MUTATING_CALL = /\b(?:system|load|batch|batchload|kill|remvalue|remfunction|declare|remove|assume|forget|activate|deactivate|newcontext|killcontext|supcontext|atvalue|compile|translate|modedeclare|define|set_random_state|make_random_state|stack_randseed|put|qput|rem|array|fillarray|arrayapply|appendfile|writefile|stringout|save|openw|opena|with_stdout|delete_file|rename_file|eval_string|parse_string|funmake|apply|depends|gradef|matchdeclare|defmatch|defrule|remrule|tellsimp|tellsimpafter|setup_autoload|autoload|setelmx|push|pop|print|printf|disp|display)\s*\(/i;
+  // STACK exposes several RNG helpers, including rand_with_prohib and
+  // random_subset. Their names must not bypass the continuation policy.
+  const RANDOM_CALL = /\b(?:rand[A-Za-z0-9_]*|multiselqn[A-Za-z0-9_]*)\s*\(/i;
   // Maxima does not implement JSON's \n/\u string escapes. Preserve actual
   // control characters explicitly rather than changing feedback or JSON data.
   const quote = value => {
@@ -133,11 +135,12 @@
   }
 
   function tokenValue(token) {
-    const value = evaluate(token.source);
+    const value = '_ctm_token_value';
     const format = token.format || 'latex';
     const rendered = format === 'json' ? 'stackjson_stringify(' + value + ')' :
       format === 'source' ? stringValue(value) : '(if stringp(' + value + ') then ' + value + ' else tex1(' + value + '))';
-    return map([['format', quote(format)], ['value', rendered], ['string', 'stringp(' + value + ')'], ['wrap', bool(token.wrap !== false)]]);
+    return block([value], [value + ':' + evaluate(token.source),
+      map([['format', quote(format)], ['value', rendered], ['string', 'stringp(' + value + ')'], ['wrap', bool(token.wrap !== false)]])]);
   }
 
   function tokenValues(question, template, prepare) {
@@ -266,7 +269,10 @@
       for (const test of question.qtests || []) for (const expression of Object.values(test.inputs || {})) pureExpression(expression,true);
       const names = question.native?.locals || definitions.map(statement => statement.match(/^\w+/)[0]);
       const teachers = map(question.inputs.map(input => [input.name, map([
-        ['source', stringValue(input.name)], ['latex', 'tex1(' + input.name + ')'],
+        ['source', stringValue(input.name)],
+        // Empty string models have no display content. Maxima versions
+        // otherwise differ between empty TeX and a visible text-space box.
+        ['latex', 'if stringp(' + input.name + ') then (if slength(' + input.name + ')=0 then "" else tex1(' + input.name + ')) else tex1(' + input.name + ')'],
         ['type', typeOf(input.name)],
         ['shape', '(if matrixp(' + input.name + ') then matrix_size(' + input.name + ') else und)']
       ])]));

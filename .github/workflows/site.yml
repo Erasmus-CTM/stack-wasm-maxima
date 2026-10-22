@@ -121,6 +121,7 @@ jobs:
           PYTHONPATH: .site-sources/ctm-checkers/src
         run: |
           python scripts/milestone-three/test-build.py
+          python scripts/milestone-three/test-reference.py
           node scripts/milestone-three/build-site.mjs --site site --stack-source .site-sources/stack \
             --ctm-checkers-source .site-sources/ctm-checkers --jsxgraph-source .site-sources/jsxgraph-quarto
       - name: Render the committed Quarto page

@@ -27,21 +27,22 @@ const reports = {schema:1, createdAt:new Date().toISOString(), sourceRevision:pr
 
 // Common Lisp wrappers preserve the original functions and values. The probe
 // records inclusive times; parent and child load times must not be added.
+// Avoid Maxima's globally special legacy names (notably NAME) in closures.
 const traceLisp = `(progn
  (defparameter *ctm-probe-depth* 0)
  (defparameter *ctm-probe-origin* (get-internal-real-time))
- (dolist (symbol '($load $batchload $loadfile $compile))
-   (when (fboundp symbol)
-     (let ((name symbol) (original (symbol-function symbol)))
-       (setf (symbol-function symbol)
-         (lambda (&rest args)
-           (let ((started (get-internal-real-time)) (depth *ctm-probe-depth*))
-             (let ((*ctm-probe-depth* (1+ depth)))
-               (unwind-protect (apply original args)
+ (dolist (ctm-probe-symbol '($load $batchload $loadfile $compile))
+   (when (fboundp ctm-probe-symbol)
+     (let ((ctm-probe-label ctm-probe-symbol) (ctm-probe-original (symbol-function ctm-probe-symbol)))
+       (setf (symbol-function ctm-probe-symbol)
+         (lambda (&rest ctm-probe-arguments)
+           (let ((ctm-probe-started (get-internal-real-time)) (ctm-probe-depth *ctm-probe-depth*))
+             (let ((*ctm-probe-depth* (1+ ctm-probe-depth)))
+               (unwind-protect (apply ctm-probe-original ctm-probe-arguments)
                  (format t "~%CTMSTARTUP|~d|~a|~a|~d|~d~%"
-                   depth name (first args)
-                   (round (* 1000 (/ (- started *ctm-probe-origin*) internal-time-units-per-second)))
-                   (round (* 1000 (/ (- (get-internal-real-time) started) internal-time-units-per-second)))))))))))))`;
+                   ctm-probe-depth ctm-probe-label (first ctm-probe-arguments)
+                   (round (* 1000 (/ (- ctm-probe-started *ctm-probe-origin*) internal-time-units-per-second)))
+                   (round (* 1000 (/ (- (get-internal-real-time) ctm-probe-started) internal-time-units-per-second)))))))))))))`;
 
 function diagnosticChild(mode) {
   return `
@@ -51,7 +52,7 @@ const traceLisp = ${JSON.stringify(traceLisp)};
 const forwardImport = self.importScripts.bind(self);
 const forwardPost = self.postMessage.bind(self);
 const loads = [], filesystem = new Map();
-let lineBuffer = '', observationInstalled = false, observedLines = 0;
+let lineBuffer = '', observationInstalled = false, observedLines = 0, pendingLispError = false;
 let diagnosticStarted = null, coreReadyMs = null, stackLoadStartedMs = null;
 function recordText(text) {
   lineBuffer += text;
@@ -61,6 +62,8 @@ function recordText(text) {
     const line = lineBuffer.slice(0,end).replace(/\\r$/, '');
     lineBuffer = lineBuffer.slice(end+1);
     if(observedLines++ < 500)forwardPost({type:'diagnostic',text:line.slice(0,4000)});
+    if(line.includes('Maxima encountered a Lisp error:'))pendingLispError=true;
+    else if(pendingLispError && line.trim())forwardPost({type:'error',error:'Startup probe Lisp error: '+line.trim()});
     if(line.includes('CTMCORE-READY') && coreReadyMs===null)coreReadyMs=performance.now()-diagnosticStarted;
     if(line.includes('CTMSTACK-LOAD-START') && stackLoadStartedMs===null)stackLoadStartedMs=performance.now()-diagnosticStarted;
     const at = line.indexOf('CTMSTARTUP|');

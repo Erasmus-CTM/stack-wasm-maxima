@@ -61,6 +61,26 @@ await assert.rejects(engine.prepare({...question,variables:'a:eval_string("b:42"
 await assert.rejects(engine.prepare({...question,inputs:[{...question.inputs[0],teacher:'assume(x>0)'}]},1),/State-mutating/);
 await assert.rejects(engine.prepare({...question,native:{...question.native,tokens:[{id:'unsafe',source:'kill(b)',phase:'feedback'}]}},1),/State-mutating/);
 await assert.rejects(engine.prepare({...question,prts:[{...question.prts[0],nodes:[{...question.prts[0].nodes[0],teacher:'b:42'}]}]},1),/Nested assignments/);
+const beforeRandomRejection = expressions.length;
+await assert.rejects(engine.prepare({...question,prts:[{...question.prts[0],feedbackvariables:'b:rand_with_prohib(1,5,[]);'}]},1),/Random response-tree expressions/);
+await assert.rejects(engine.prepare({...question,prts:[{...question.prts[0],nodes:[{...question.prts[0].nodes[0],teacher:'random_subset({1,2})'}]}]},1),/Random response-tree expressions/);
+await assert.rejects(engine.prepare({...question,prts:[{...question.prts[0],feedbackvariables:'b:multiselqn([1,2],1,[3,4],1);'}]},1),/Random response-tree expressions/);
+await assert.rejects(engine.prepare({...question,variables:'a:stack_randseed(1);'},1),/State-mutating/);
+assert.equal(expressions.length,beforeRandomRejection,'Unsupported random helpers and seed mutation must be rejected before native evaluation');
+
+// Every prepare token draws once, regardless of how many format/type fields
+// its native descriptor needs. The native result is exercised separately in CI.
+let tokenProgram;
+const tokenEngine = new Engine({session:{manifest:engine.session.manifest,evaluate:expression=>{
+  tokenProgram=expression;return structuredClone(variant);
+}}});
+const randomTokens = ['latex','source','json'].map((format,index)=>({id:'t'+index,source:'rand(['+(10+index)+',"text"])',format}));
+await tokenEngine.prepare({...question,native:{...question.native,tokens:randomTokens}},1);
+assert.match(tokenProgram,/if stringp\(ans1\) then \(if slength\(ans1\)=0 then "" else tex1\(ans1\)\) else tex1\(ans1\)/,
+  'Empty string teacher display must be deliberately empty across native Maxima versions');
+for(let index=0;index<randomTokens.length;index++) assert.equal((tokenProgram.match(new RegExp('rand\\(\\['+(10+index)+',','g')) || []).length,1,
+  'Each randomized '+randomTokens[index].format+' token must evaluate its authored expression once');
+assert.equal(Engine.statements(tokenProgram).length,1,'Generated token blocks must retain balanced author program delimiters');
 const result = await engine.grade(question,variant,answers);
 assert.equal(result.status,'graded'); assert.equal(result.score,1); assert.equal(pythonCalls,1); assert.equal(queued.length,0);
 assert.deepEqual(Array.from(result.prts.prt1.path,node=>node.node),['0','1','2']);

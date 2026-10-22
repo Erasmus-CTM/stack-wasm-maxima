@@ -74,6 +74,7 @@ jobs:
           node prototype/jsxgraph/test-adapter.mjs
           python prototype/backend/test_native_adapter.py
           python prototype/native/test_python_bridge.py
+          python scripts/milestone-three/test-reference.py
       - name: Prepare the exact runtime with a verified preload package
         run: |
           python scripts/milestone-two/prepare-runtime.py --output .cache/loader-demo \
@@ -88,10 +89,12 @@ jobs:
       - name: Exercise actual native question preparation, validation and PRTs
         run: node scripts/milestone-three/probe-engine.mjs
       - name: Compare original and bundled loading
+        if: github.event_name == 'workflow_dispatch'
         env:
           LOADER_OUTPUT: test-results/loader-local
         run: node scripts/milestone-three/measure-loader.mjs
       - name: Compare loading with simulated 80 ms HTTP latency
+        if: github.event_name == 'workflow_dispatch'
         env:
           LOADER_OUTPUT: test-results/loader-latency-80ms
           LOADER_LATENCY_MS: '80'

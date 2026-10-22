@@ -51,7 +51,10 @@ function observeNativeWorkers() {
   };
 }
 
-const pythonAsset = url => /\/(?:pyodide(?:[./-]|$)|python_stdlib\.zip)|\/(?:sympy|mpmath|micropip)[^/]*\.whl(?:[?#]|$)|\.whl(?:[?#]|$)/i.test(url);
+// The pinned CTM component imports this small configuration helper for every
+// card. It contains no interpreter, standard library, wheel or initialized CAS.
+const runtimeConfiguration = url => /\/site_libs\/quarto-contrib\/ctm-runtime-[^/]+\/pyodide-runtime\.js(?:[?#]|$)/.test(url);
+const pythonAsset = url => !runtimeConfiguration(url) && /\/(?:pyodide(?:[./-]|$)|python_stdlib\.zip)|\/(?:sympy|mpmath|micropip)[^/]*\.whl(?:[?#]|$)|\.whl(?:[?#]|$)/i.test(url);
 const safeConsole = text => /^warning: unsupported syscall: __syscall_(?:prlimit64|getrusage)\s*$/.test(text);
 const report = {schema:1, createdAt:new Date().toISOString(), sourceRevision:process.env.GITHUB_SHA ||
   execFileSync('git',['rev-parse','HEAD'],{cwd:repository,encoding:'utf8'}).trim(),
@@ -153,7 +156,8 @@ async function assertNoPython(label) {
   assert.deepEqual(assets,[],label+': native operations must load no Python Wasm, standard library or checker/SymPy wheels');
   const replies=await page.evaluate(()=>window.__nativeHarness.calls.filter(row=>row.response?.backend).map(row=>row.response.backend));
   assert.ok(replies.every(backend=>backend.pythonLoaded!==true),label+': worker must report Python uninitialized');
-  report.nativeOnlyNetwork={through:label,requests:report.network.length,pythonAssets:assets};
+  report.nativeOnlyNetwork={through:label,requests:report.network.length,pythonAssets:assets,
+    configurationHelpers:report.network.filter(row=>runtimeConfiguration(row.url))};
 }
 
 async function directNative(request, {allowWorkerError=false}={}) {
