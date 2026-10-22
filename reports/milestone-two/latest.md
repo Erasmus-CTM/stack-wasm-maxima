@@ -1,10 +1,10 @@
 # Milestone 2: matched Quarto browser experiment
 
-Status: **failed**.
+Status: **passed**.
 
-Source commit: `9f58c414aad41983eae892c612a6cfddd43b88dc`.
+Source commit: `786cb78a937804c4fb6e5270b87c2b053cd917d9`.
 
-Workflow evidence: https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39744713793
+Workflow evidence: https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39753393394
 
 Browser: chromium 141.0.7390.37.
 
@@ -16,31 +16,32 @@ Successful grade screenshots (paths relative to the raw browser report in the Ac
 
 - `sympy-scalar-index-01-v1.png` (sympy, scalar, index-01, variant 1).
 - `sympy-matrix-examples-12-v1.png` (sympy, matrix, examples-12, variant 1).
+- `maxima-scalar-index-01-v1.png` (maxima, scalar, index-01, variant 1).
+- `maxima-matrix-examples-12-v1.png` (maxima, matrix, examples-12, variant 1).
 
 | Backend | Completed variants | Authored test rows | Median warm validation ms | Median warm grade ms |
 |---|---:|---:|---:|---:|
-| sympy | 27 | 121 | 14.5 | 14.4 |
-| maxima | 0 | 0 | not measured | not measured |
+| sympy | 27 | 121 | 13.7 | 13.9 |
+| maxima | 27 | 121 | 14.2 | 42.7 |
 
 Initialization (fresh browser cache per page; prepared assets served locally with gzip):
 
-- sympy/index: 3507.8 ms.
-- sympy/examples: 3598.9 ms.
-- maxima/index: 3607.4 ms.
-- maxima/examples: 3480.6 ms.
+- sympy/index: 4578.9 ms.
+- sympy/examples: 4592.8 ms.
+- maxima/index: 33199.6 ms.
+- maxima/examples: 31127.2 ms.
 
 Transferred response-body bytes per page (browser-observed, including CDN dependencies):
 
-- sympy/index: 10501978 bytes.
-- sympy/examples: 10522899 bytes.
-- maxima/index: 10502205 bytes.
-- maxima/examples: 10523140 bytes.
+- sympy/index: 10502467 bytes.
+- sympy/examples: 10523459 bytes.
+- maxima/index: 21257576 bytes.
+- maxima/examples: 21286197 bytes.
 
 These measurements do not establish public WAN startup, production bundling, exam isolation or cancellation safety.
 
-Failures: 3. Full structured result differences: 0. The JSON report retains details; differences are not silently treated as equivalent.
+Failures: 0. Full structured result differences: 0. The JSON report retains details; differences are not silently treated as equivalent.
 
 ## Runs needed
 
-- Resolve the recorded failures/differences and rerun before declaring this milestone complete.
-- Any missing variants, timings or routing evidence remain unverified.
+- Broader browser coverage and production packaging/reliability remain later milestones.
