@@ -6,9 +6,18 @@ against CTM's consolidation designs: ctm-assessment `docs/consolidation/` on
 `handoff/2026-10` (step 5 offline/exam, variants, `HANDOFF-2026-10.md`),
 ctm-checkers `e8ec8d7`, ctm-libs `a1626f6`, stack-sympy `1b1d50f`.
 
-Goal set by AC: switching a STACK question between the Python (SymPy) and the
-Maxima backend should be as seamless as possible, and the STACK PythonChecker
-should preferably reuse math-exercise's checkers.
+Goal set by AC: the Python (SymPy) and Maxima backends should be as
+interchangeable as possible, and the STACK PythonChecker should preferably
+reuse math-exercise's checkers.
+
+**Decisions taken in the discussion of this audit (AC, 22 October 2026)** are
+recorded in §8 and already applied in the text: the two backends have
+distinct roles (SymPy: the light, fast, tested subset in maintenance mode;
+Maxima: full STACK, where new capability goes); a course or question uses one
+of them, and moves go one way (SymPy → Maxima); each backend generates its
+own variants and the Maxima backend reuses Moodle's deployed seeds; CTM owns
+the Maxima/ECL Wasm build with exact pins; the hybrid path is a test oracle
+only; the December 2026 exam is Pyodide-only (no STACK, no math-exercise).
 
 **Method.** All timings are the frozen measurements in `reports/` (cited per
 row); nothing was re-measured. Verified in this session: the code paths cited
@@ -29,13 +38,13 @@ architectural rather than incremental:
 | # | Finding | Severity |
 |---|---|---|
 | F-1 | Native startup is **38.6 s** per fresh page (public build, desktop CI runner); every page navigation pays it again. SymPy: 5.7 s | blocking |
-| F-2 | Maxima requires cross-origin isolation and **fails closed** without it. Pyodide degrades gracefully; an exam system that embeds the course page in an iframe loses STACK-Maxima entirely | blocking for exams |
+| F-2 | Maxima requires cross-origin isolation and **fails closed** without it. Pyodide degrades gracefully; a page embedded cross-origin (LMS iframe, exam system) loses STACK-Maxima entirely | high |
 | F-3 | Any CAS-level error in a native program terminates the Maxima child, so the next request restarts it (another ~38 s); STACK itself takes a false branch with a note | high |
 | F-4 | Build-time preparation runs Wasm Maxima in headless Chromium driven by Playwright; incompatible with "authors install one package" and local VS Code builds | high |
 | F-5 | Three authoring syntaxes (`stack-question`, `stack-maxima`, `stack-native` + `#\| prepared:`), a SHA-gated text patch of `stack-sympy.js` and a side-channel `questions.json` | high |
 | F-6 | Two STACK response-tree controllers (Python in ctm-checkers, JavaScript here) and two input-rule implementations at **different STACK pins** | high |
 | F-7 | The PythonChecker bridge is built on API v1 (`CHECKERS`, 3-argument), which the approved H1 decision retires; a second Pyodide is loaded inside the Maxima worker | high |
-| F-8 | The same seed yields different variants under the two backends (Maxima RNG vs Python `random`), so approvals in the planned variant manifest do not carry over | high |
+| F-8 | The same seed yields different variants under the two backends (Maxima RNG vs Python `random`); the prototype also seeds differently from STACK, so Moodle's deployed seeds are not reproduced | medium (D1) |
 | F-9 | Runtime binaries are fetched from a third-party deployment (`maxima-on-wasm.pages.dev`); Maxima there is a 5.49 development branch, the CTM oracle is 5.46; no CTM build from source, no GPL source offer for redistribution | high |
 | F-10 | The native page HTML is **16.9 MB**, 88 % of it eight copies of a 1.86 MB base64 board iframe | medium |
 | F-11 | Warm calls cost 104 ms (validate) and 336 ms (grade) versus 12 ms for SymPy; each call rebuilds the whole question environment | medium |
@@ -45,16 +54,18 @@ architectural rather than incremental:
 | F-15 | Feedback translation covers 63 English STACK messages; no nb/nn, not on ctm-libs' catalogue | low |
 | F-16 | Only Chromium is verified; memory is unmeasured; the hybrid path's string blacklist (`maxima-session.js:10`) is weaker than the native AST admission | low |
 
-**Recommendation in one paragraph.** Keep SymPy as the default STACK backend
-and do not use the Maxima backend for the December 2026 exam. Make backend
-choice a build-time option of the one `stack-question` block, with a
-backend-neutral question plan, one conformance suite and explicit capability
-diagnostics (§4). Implement H1 once in ctm-checkers so both backends call the
-same `check(response, symbols)` (§5). Make Maxima viable by owning a
-reproducible Maxima/ECL Wasm build that exposes a call entry instead of a
-stdin REPL and starts from a memory snapshot (§3.3, §6); without that, F-1,
-F-2 and F-9 cannot be fixed from this repository. Retire the hybrid path except
-as a test oracle.
+**Recommendation in one paragraph.** Treat the two backends as a light one
+(SymPy, maintenance mode) and a full one (Maxima). Make the choice a course
+setting with a per-question override on the one `stack-question` block, with
+one question plan format, build-time capability diagnostics that point a
+question outgrowing SymPy to Maxima, and the Maxima backend as the oracle for
+SymPy's subset (§4). Implement H1 once in ctm-checkers so both backends call
+the same `check(response, symbols)` (§5). Make Maxima viable by owning a
+reproducible, exactly pinned Maxima/ECL Wasm build that exposes a call entry
+instead of a stdin REPL, drops what the browser cannot use, and starts from
+precompiled STACK and a memory snapshot (§3.3, §3.4, §6); without that, F-1,
+F-2 and F-9 cannot be fixed from this repository. Keep the hybrid path as a
+test oracle only.
 
 ---
 
@@ -142,6 +153,49 @@ L1 and L2 together are the only path to SymPy-like startup. Without them, the
 Maxima backend fits single-page practice sets where L3 hides the wait, not
 course-wide default use.
 
+### 3.4 Startup files, and what an own build can trim
+
+Files a native page loads before the first answer (uncompressed sizes, from the
+deployed `previews/research/2026-10-native-stack/stack-sources.json`):
+
+| File | MB | Why |
+|---|---:|---|
+| `maxima.wasm` | 23.6 | Maxima + ECL core (4.92 MB with Brotli upstream) |
+| `libecl.so` | 7.97 | ECL runtime (2.36 MB gzip-9 locally; served uncompressed upstream) |
+| `libgnuplot.so` | 3.94 | needed only by `maxima-plot.fas`, which STACK's loader requests |
+| preload pack | 3.73 (4.98 as base64 JSON) | `maxima-matrix-algebra.fas`, `maxima-plot.fas`, 64 share sources |
+| `maxima.js`, `share_files.js`, `maxima_thread.js` | 1.78 | loader |
+| STACK sources | 0.90 | 77 files |
+
+About 42 MB uncompressed, matching the 41 MB observed in milestone 1. Seven
+further modules are already lazy and load only when a question reaches them:
+integration, limits, number theory, Poisson series, QUADPACK, SLATEC and solve
+(16.1 MB together, 1–6 MB each). `solve`, `limit` and `integrate` are common in
+STACK questions; today their modules download synchronously in the middle of a
+grade.
+
+Trims an own build allows (estimates until measured):
+
+- plot module and `libgnuplot.so` out (−5.1 MB); `plot()` becomes a
+  capability diagnostic, since the browser cannot run gnuplot anyway. STACK
+  needs neither for grading: its loader only sets plot options at load time
+  (`stack/maxima/stackmaxima.mac:1032-1035`, `set_plot_option([plot_format,
+  gnuplot])`), which autoloads Maxima's plot module, and the Wasm port links
+  that module to a gnuplot compiled to Wasm. A lightweight `set_plot_option`
+  in the own build removes the dependency without editing STACK's sources;
+- every file served compressed (ECL alone 7.97 → ~2.4 MB);
+- size-optimized Wasm (`-Oz`, `wasm-opt`, stripped names): perhaps 10–30 %;
+- binary preload pack (L5): −1.25 MB;
+- modules no STACK function in the supported set reaches (SLATEC, QUADPACK,
+  Poisson series are candidates) left out entirely, after a census.
+
+Plausibly 8–10 MB compressed for startup, against ~21 MB for today's hybrid
+page. **Fewer modules do not shorten the 38 s**: that is STACK's own library
+loading, addressed only by L1 and L2, both of which also need the own build.
+A snapshot is itself a download (the post-load heap, from 128 MiB of mostly
+empty initial memory); its compressed size is unknown and must be weighed
+against the CPU time it saves.
+
 ---
 
 ## 4. Findings and redesign
@@ -207,10 +261,13 @@ dependencies itself.
 
 **Redesign (interchange contract).**
 
-1. **One block.** `{.stack-question}` with today's options plus
-   `#| backend: sympy | maxima`. Project or page default under the
-   component's settings section (planned in step 6; the key name follows
-   P20/the stack-sympy settings section). Default `sympy`.
+1. **One block, a course setting.** `{.stack-question}` with today's
+   options. The CAS is a course (project, then page) setting, proposed as
+   `stack: cas: sympy | maxima` (a `stack:` section independent of the
+   repository name stack-sympy), with `#| cas:` on a block as an override for
+   a few questions. Mixing on one page works (separate workers) but loads both
+   runtimes; the build notes it. Default `sympy`; it matters little, since no
+   course exists before the package is settled.
 2. **Backend registry, not a patch.** stack-sympy's frontend (step 6, when it
    moves onto ctm-libs' runtime and worker) reads a backend descriptor from
    the card: `{id, version, workerURL, assets, capabilities, requires:
@@ -226,12 +283,18 @@ dependencies itself.
    constructs (input types, options, answer tests, author functions) as the
    same author diagnostic, naming file, question and construct. A question that
    one backend cannot run fails the build for that backend; there is never a
-   runtime fallback to the other backend (already a principle here).
-5. **One conformance suite.** Generalize the milestone-2 paired harness:
-   render the same questions under both backends and compare structured
-   results (status, score, PRT notes/paths, validity, assessment). Differences
-   are either bugs or documented semantic differences (e.g. S-03 log/abs,
-   decimal ties), each listed once.
+   runtime fallback to the other backend (already a principle here). For
+   SymPy the diagnostic also names the way out ("needs `cas: maxima`"): the
+   path for a question that outgrows the light backend.
+5. **One conformance suite, Maxima as oracle.** Generalize the milestone-2
+   paired harness: render the questions both backends support under both and
+   compare structured results (status, score, PRT notes/paths, validity,
+   assessment). The Maxima backend is the reference; a difference is a SymPy
+   bug (fixed only if small, per its maintenance status) or a documented
+   difference (e.g. S-03 log/abs), each listed once.
+6. **Moves go one way.** A question moved from SymPy to Maxima gets new
+   variants (different RNG) and its manifest entries need re-approval; the
+   documentation says so. Moves back are not supported.
 
 ### F-6 Two controllers and two input-rule sets
 
@@ -244,31 +307,43 @@ admission uses STACK's `stackmplite.js` and security data at STACK `3338304`
 (`stage-parser.py:18-24`); ctm-checkers' `student_input` data are from
 `10d3233`.
 
-**Redesign.** One STACK pin for the whole stack. Declare `engine.py` the
-reference semantics and run its question suites (ctm-checkers
-`stack/questions`, `stack/probe-questions`, the 112 authored rows here) against
-the native controller in CI through the build runner of F-4; every controller
-change lands with its golden diff in both. Later, evaluate STACK's own
-compiled PRT and CASText code (generated by STACK's PHP compiler) as the
-native controller: upstream fidelity, at the price of PHP in CI. The
+**Redesign.** One STACK pin for the whole stack (exact, D3). With the SymPy
+engine in maintenance mode, the reference is STACK itself: the native
+controller is checked against desktop STACK/Maxima replays, and the SymPy
+engine against the native backend on its subset (F-5 item 5). The S-fixes in
+flight finish; new controller semantics (S-08 rounding, S-04 quiet, …) land in
+the native controller first, and in the SymPy engine only as bug fixes.
+Evaluate STACK's own compiled PRT and CASText code (generated by STACK's PHP
+compiler at build/CI time) as the native controller: it would remove CTM's
+controller instead of maintaining it, at the price of PHP in CI. The
 JavaScript admission is legitimately different (it must run before Maxima);
 keep it, but generate its data from the same STACK pin as the Python rules.
 
-### F-8 Variants differ by backend
+### F-8 Variants differ by backend, and from Moodle
 
-Same seed, different RNG: switching backend changes every variant, so
-approvals keyed by content hash (variants design §c) are "changed" and must be
-reviewed again, and saved answers keyed by variant no longer match.
+Same seed, different RNG: the SymPy port uses Python's `random`, the native
+engine `set_random_state(make_random_state(seed))` (`engine.js:303`) and lists
+`stack_randseed` among forbidden calls (`engine.js:10`). STACK seeds a question
+with its own `stack_randseed`, as far as is known here, so the prototype
+probably does not reproduce Moodle's variants.
 
-**Decision for AC (D1).** Separate the *variant generator* from the *grading
-backend*. Recommended: STACK questions are generated by native Maxima (STACK's
-own semantics; Moodle `<deployedseed>`s become meaningful again), frozen as
-Maxima-syntax values, and both backends grade those frozen values; the SymPy
-backend reads them with the CTM STACK parser, which the build checks for every
-approved variant (a value it cannot represent is a build error). This makes a
-backend switch neutral for students and approvals. It requires the build runner
-of F-4 even for SymPy-graded STACK questions; the alternative is one manifest
-entry per backend (`seed=17@maxima`) and re-approval on every switch.
+**Decided (D1).** Each backend generates its own variants; SymPy-graded
+questions keep a pure-Python build. The Maxima backend reproduces Moodle's
+variants, so a teacher can bring a course whose variants they are happy with:
+
+1. the questions use `cas: maxima`;
+2. the variant tools import the XML's `<deployedseed>`s into
+   `_variants/<label>.yml` as approved (reason "imported from Moodle") and run
+   the XML question tests on each seed like any approved variant;
+3. the manifest shows each seed's question note, which the teacher compares
+   with Moodle's "Deploy variants" list (STACK: equal notes, equal variants).
+
+Acceptance test for the Maxima backend's variants: seed exactly as STACK's PHP
+does; confirm that Maxima's own Mersenne Twister gives the same numbers under
+ECL as under the Lisp of a Moodle server (*hypothesis*); and for STACK sample
+questions with deployed seeds, require equal question notes from desktop STACK
+and from this backend, by extending the desktop replay with notes. The SymPy
+backend states that deployed seeds do not carry over.
 
 ### F-11 Warm-call cost
 
@@ -417,7 +492,7 @@ moved from `examples/stack/matrix-checkers.py` per H1).
 ```{.stack-question}
 #| file: questions/multiple.xml
 #| question: A positive integer multiple
-#| backend: maxima
+#| cas: maxima
 #| checker: |
 #|   def check(response, symbols):
 #|       n = response["inputs"]["ans"]["expression"]
@@ -465,55 +540,91 @@ Maxima/ECL Wasm build.**
 | STACK precompiled, snapshot written after load | startup (L1, L2) |
 | Plotting module and `libgnuplot.so` excluded unless a question plots | STACK's loader requests them today (runtime report) |
 
-Upstream contribution to the existing ECL/Maxima Emscripten port is
-preferable to a fork; the repository here then pins its release.
+**Route (D3).** The deployed binary comes from Marius Gerbershagen's
+Emscripten port of Maxima (GitLab `mgerbershagen/maxima`, branch
+`emscripten-port-deployed`); as far as is known he also develops ECL, which
+supports Emscripten upstream. Contribute there rather than fork. Build in
+GitHub Actions with exact pins of emsdk, ECL, the Maxima commit and STACK, and
+build the desktop oracle's Maxima from the same Maxima source, which resolves
+the 5.46/5.49 mismatch by matching rather than downgrading.
+
+**Exact pins** (D3, an approved exception to CTM's "earliest working version
+or later" rule): grading, simplification, display and random variants change
+between Maxima and STACK versions, a memory snapshot is valid only for the
+exact binary and sources that produced it, and parity evidence covers one
+version pair. A scheduled tracking job proposes upgrades (rebuild, rerun
+parity and timings, open a PR), as step 5 decided for exam assets.
+
+**Order.** (1) Rebuild the deployed runtime from source and pass the existing
+316-program replay; bit-identical output is not required. (2) Trims and
+compression (§3.4). (3) Precompiled STACK (L2). (4) Snapshot (L1). (5) Call
+entry (F-2). Each step is gated by the replay and timed on the public page.
+Effort is unknown: Emscripten builds of large Lisp systems tend to need CI
+tuning; step 1 shows quickly whether it is days or weeks.
 
 **Packaging.** The Maxima backend is an optional asset set in ctm-assessment's
 asset lock (step 5): runtime, snapshot, STACK sources, share-file closure,
 licence texts, source offer; precompressed like the Pyodide assets. Pages
-without `backend: maxima` cards load none of it (the native path already proves
+without `cas: maxima` cards load none of it (the native path already proves
 "no Python assets" for native-only pages; the converse must hold too).
 
-**Exam (December 2026).** Do not use the Maxima backend: startup on wiped
-machines is cold on every page, it needs isolation that an embedding exam
-system may remove, and Chromium is the only verified engine. After L1/F-2,
-re-evaluate with the step-5 dry run (top-level window, headers, lockdown
-browser).
+**Exams.** The December 2026 exam is Pyodide-only (no STACK, no
+math-exercise; D7), so it sets no constraint here. Before any later exam use of
+the Maxima backend: L1/F-2 done, then the step-5 dry run (top-level window,
+headers, lockdown browser), with cold starts on wiped machines.
 
 ---
 
 ## 7. Work plan
 
-Phases follow the campaign's existing order (step 6 stack-sympy onto
-ctm-libs, variants, H1, step 5 assets). Each is its own PR or stacked set with
-independent review, merged by AC.
+The runtime work comes first, because it decides whether the Maxima backend
+is usable at all; the selection plumbing is small. The other phases follow the
+campaign's existing order (step 6 stack-sympy onto ctm-libs, variants, H1,
+step 5 assets). Each is its own PR or stacked set with independent review,
+merged by AC.
 
 | Phase | Content | Depends on |
 |---|---|---|
-| M4a Contracts | backend descriptor and `#\| backend:`; plan schema with `backend` section; CAS-error/author-error/runtime-failure protocol (F-3); retire the hybrid path to a test oracle; one STACK pin | step 6 frontend/worker in stack-sympy |
-| M4b Build runner | Wasm Maxima in Node/Deno, no browser; plan cache; conformance suite (F-5, F-6) | M4a |
-| M4c Runtime | owned build, call entry, interrupt, precompiled STACK, snapshot; remeasure cold/warm on the public build and on a slow laptop | can start now, research |
+| M4c Runtime (first) | owned build reproduced from source with replay parity; trims and compression; precompiled STACK; snapshot; call entry and interrupt; tracking job; remeasure cold/warm on the public build and on a slow laptop | can start now |
+| M4a Contracts | `stack: cas:` setting and `#\| cas:` override; card descriptor instead of the frontend patch; one plan format; CAS-error/author-error/runtime-failure protocol (F-3); hybrid path kept as test oracle only; one exact STACK pin | step 6 frontend/worker in stack-sympy |
+| M4b Build runner | Wasm Maxima in Node/Deno, no browser; plan cache; conformance suite with Maxima as oracle (F-5, F-6) | M4a, M4c step 1 |
 | M4d H1 in both backends | `stack.check` in ctm-checkers; Maxima continuation calls it on the page runtime; delete `python_bridge.py` and v1 usage here | H1 core in ctm-checkers, variants keys |
-| M4e Variants | Maxima generator for STACK questions, build-time decode check (D1) | variants PRs, M4b |
+| M4e Variants | STACK seeding as in Moodle; import of deployed seeds with notes (D1) | variants PRs, M4b |
 | M4f Page weight | one board template per question (L6); binary preload (L5) | jsxgraph-quarto |
 | M4g Compatibility and language | census (F-12), widen subset; feedback messages through ctm-libs' catalogue with nb/nn (F-15) | M4b |
-| M4h Packaging | asset lock entries, licences, closure check, exam profile, Firefox/WebKit, memory | M4c, step 5 |
+| M4h Packaging | asset lock entries, licences and source offer, closure check, Firefox/WebKit, memory | M4c, step 5 |
 
-## 8. Decisions for AC
+## 8. Decisions
 
-- **D1** Variant generator for STACK questions: native Maxima for both
-  backends (recommended), or per-backend seeds with re-approval.
-- **D2** Backend option name and default: `#| backend:` with project default
-  `sympy` until M4c meets a startup target (proposed: first Validate under
-  5 s cold on the reference laptop).
-- **D3** Own the Maxima/ECL Wasm build (upstream contributions plus a pinned
-  release), as the prerequisite for F-1, F-2, F-9, F-14.
+Taken by AC on 22 October 2026, in the discussion of this audit:
+
+- **Backend roles.** SymPy stays: it supports a meaningful STACK subset, is
+  faster, tested and reviewed. It gets no further substantial development
+  (the S-fixes in flight finish; afterwards bug fixes) and serves small, light
+  questions. Maxima is the backend for full STACK. A course or question uses
+  one of them; there is no switching back and forth.
+- **D1 Variants.** Each backend generates its own variants. The Maxima backend
+  reproduces Moodle's deployed seeds, imported as approved variants with their
+  question notes (F-8); the SymPy backend states that they do not carry over.
+- **D2 Selection.** A course setting with a per-question override; the
+  default does not matter, since no course exists before the package is
+  settled. Proposed names: `stack: cas: sympy | maxima` and `#| cas:`.
+- **D3 Runtime.** CTM owns the Maxima/ECL Wasm build, via the upstream
+  Emscripten port, with exact pins of emsdk, ECL, Maxima and STACK and a
+  tracking job; first milestone: reproduction from source with replay parity;
+  then trims and compression, precompiled STACK, snapshot (§3.4, §6).
+- **D6 Hybrid path.** It was only ever meant as a test oracle and stays one.
+- **D7 Exam.** The December 2026 exam is Pyodide-only: no STACK, no
+  math-exercise.
+
+Still open:
+
+- **D2 names**: `cas:` versus `backend:`, and the `stack:` section name.
 - **D4** H1 node semantics: predicate = score 1; full response plus
-  `response["node"]`.
-- **D5** `ctm_checkers.stack.engine` as the reference controller with a
-  shared conformance suite; STACK's compiled PRT code evaluated later.
-- **D6** Retire the hybrid path except as a test oracle.
-- **D7** No Maxima backend in the December 2026 exam.
+  `response["node"]` (§5.3).
+- **D5** Reference semantics: STACK itself (desktop replay) for the native
+  controller, the Maxima backend as oracle for SymPy's subset, and whether to
+  evaluate STACK's compiled PRT/CASText code as the native controller (F-6).
 
 ## 9. Sources
 
