@@ -2,6 +2,7 @@
 """Package hash-pinned runtime assets and unmodified STACK for the CTM demo."""
 from __future__ import annotations
 import argparse
+import base64
 from concurrent.futures import ThreadPoolExecutor
 import gzip
 import hashlib
@@ -90,6 +91,19 @@ def main() -> None:
 
     with ThreadPoolExecutor(max_workers=6) as pool:
         assets = list(pool.map(copy_asset, sorted(wanted)))
+    # Emscripten's lazy files otherwise issue synchronous HEAD/range requests
+    # one at a time. Keep the original files and bytes, but mount the observed
+    # startup modules and packaged share files from one ordinary async fetch.
+    startup_modules = {a["url"][len(BASE):] for a in observed["servedAssets"]
+                       if a["url"].endswith(".fas")}
+    preload_paths = sorted(a["path"] for a in assets
+                           if a["path"].startswith("share/") or a["path"] in startup_modules)
+    preload_body = (json.dumps({"schema": 1, "files": [
+        {"path": path, "content": base64.b64encode((runtime / path).read_bytes()).decode("ascii")}
+        for path in preload_paths]}, separators=(",", ":")) + "\n").encode("utf-8")
+    (runtime / "runtime-preload.json").write_bytes(preload_body)
+    preload = {"path": "runtime-preload.json", "sha256": hashlib.sha256(preload_body).hexdigest(),
+               "fileBytes": len(preload_body), "paths": preload_paths}
     index = (runtime / "share_files.js").read_bytes()
     if hashlib.sha256(index).hexdigest() != demo_linked["shareIndexSha256"]:
         raise ValueError("Demo dependencies name another runtime share index")
@@ -117,6 +131,7 @@ def main() -> None:
     manifest = {"schema": 1, "stackRevision": STACK_SHA, "stackLibraryVersion": version,
                 "ctmCheckersRevision": CHECKERS_SHA, "nativeInputPreparation": oracle.INPUT_PREPARATION,
                 "tests": oracle.TESTS, "startup": startup, "files": files, "runtimeAssets": assets,
+                "preload": preload,
                 "scope": "Maxima answer tests with shared CTM validation/PRT/PythonChecker"}
     (args.output / "stack-sources.json").write_text(json.dumps(manifest, ensure_ascii=False) + "\n", encoding="utf-8")
     for name in ("backend", "runtime"):

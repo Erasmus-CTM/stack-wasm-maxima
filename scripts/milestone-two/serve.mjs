@@ -10,7 +10,7 @@ const types = { '.html': 'text/html; charset=utf-8', '.js': 'application/javascr
   '.css': 'text/css', '.json': 'application/json', '.wasm': 'application/wasm',
   '.svg': 'image/svg+xml', '.png': 'image/png', '.woff': 'font/woff', '.woff2': 'font/woff2' };
 
-export async function serveDemo({ root, port = 0, compression = 'gzip' }) {
+export async function serveDemo({ root, port = 0, compression = 'gzip', latencyMs = 0 }) {
   root = await realpath(resolve(root));
   const cache = new Map(), requests = [];
   const server = createServer(async (request, response) => {
@@ -18,6 +18,7 @@ export async function serveDemo({ root, port = 0, compression = 'gzip' }) {
       'Cross-Origin-Embedder-Policy': 'require-corp', 'Cross-Origin-Resource-Policy': 'same-origin',
       'Cache-Control': 'public, max-age=3600', Vary: 'Accept-Encoding' };
     try {
+      if (latencyMs) await new Promise(resolveDelay => setTimeout(resolveDelay, latencyMs));
       const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
       if (pathname === '/favicon.ico') { response.writeHead(204, headers); response.end(); return; }
       let target = resolve(root, '.' + pathname);

@@ -74,6 +74,7 @@
               this.poisoned = true; this.child.terminate(); reject(new Error('STACK library version mismatch')); return;
             }
             this.initialization = { elapsedMs: performance.now() - started, maximaVersion: data.maximaVersion,
+              stages: data.stages || {},
               stackRevision: this.manifest.stackRevision, stackLibraryVersion: data.stackLibraryVersion };
             this.event('maxima-ready', this.initialization);
             resolve();
@@ -83,6 +84,7 @@
           } else if (data.type === 'diagnostic') this.event('maxima-diagnostic', { text: data.text });
         };
         this.child.postMessage({ type: 'start', baseURL: this.baseURL, manifest: this.manifest,
+          preload: this.options.preload !== false,
           buffers: [this.controlBuffer, this.inputBuffer, this.outputBuffer] });
       });
       return this.initialization;
