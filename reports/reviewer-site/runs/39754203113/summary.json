@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "sourceRevision": "3ec984fdf6e52955c3c6ed9f8e1e3a332750d8c6",
+  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39754203113",
+  "pageURL": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/maxima/examples.html",
+  "publicHtmlSha256": "3e1c86157bfb545423370bcabb75a40ace1249afd30930d6b73f198e5f78a8eb",
+  "evidence": {
+    "local": {
+      "passed": true,
+      "cards": 36,
+      "pairs": 18,
+      "coverage": [
+        {
+          "backend": "sympy",
+          "cards": 18,
+          "variants": 24,
+          "pythonCheckerCards": 6,
+          "authoredTestRows": 112
+        },
+        {
+          "backend": "maxima",
+          "cards": 18,
+          "variants": 24,
+          "pythonCheckerCards": 6,
+          "authoredTestRows": 112
+        }
+      ],
+      "differences": 0,
+      "serving": {
+        "mode": "local",
+        "root": "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/site/_site"
+      },
+      "navigation": {
+        "requestedURL": "http://127.0.0.1:35813/maxima/examples.html",
+        "responses": [
+          {
+            "url": "http://127.0.0.1:35813/maxima/examples.html",
+            "status": 200,
+            "fromServiceWorker": false,
+            "coop": "same-origin",
+            "coep": "require-corp"
+          }
+        ],
+        "bootstrapInterruptions": [],
+        "document": {
+          "url": "http://127.0.0.1:35813/maxima/examples.html",
+          "crossOriginIsolated": true,
+          "controller": null
+        },
+        "elapsedMs": 1672
+      },
+      "nativeRoutingEvents": {
+        "runtime-maxima-init-start": 1,
+        "runtime-maxima-ready": 1,
+        "ready": 1,
+        "maxima-at": 142,
+        "collection-feedback": 24,
+        "python-checker": 100
+      },
+      "workerURLs": [
+        "http://127.0.0.1:35813/site_libs/quarto-contrib/stack-sympy-0.3.0/worker.js",
+        "http://127.0.0.1:35813/backend/worker.js"
+      ],
+      "raw": {
+        "path": "local-smoke.json.gz",
+        "uncompressedBytes": 2148024,
+        "uncompressedSha256": "41ae34ca6ac65b98bb8592198aed2f6746435deb5ad5c231d2d9f47c19b81d42",
+        "bytes": 97065,
+        "sha256": "f2c51c52a60c11e9f37f55c67c5eb9f03ad43b323363ee14d2707ae24e6c1a27"
+      },
+      "artifactZipSha256": "3087ba0de6a677a24a009d91118b158f1f9b207a1cb9b435e606de919734718d"
+    },
+    "public": {
+      "passed": true,
+      "cards": 36,
+      "pairs": 18,
+      "coverage": [
+        {
+          "backend": "sympy",
+          "cards": 18,
+          "variants": 24,
+          "pythonCheckerCards": 6,
+          "authoredTestRows": 112
+        },
+        {
+          "backend": "maxima",
+          "cards": 18,
+          "variants": 24,
+          "pythonCheckerCards": 6,
+          "authoredTestRows": 112
+        }
+      ],
+      "differences": 0,
+      "serving": {
+        "mode": "public",
+        "baseURL": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/"
+      },
+      "navigation": {
+        "requestedURL": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/maxima/examples.html",
+        "responses": [
+          {
+            "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/maxima/examples.html",
+            "status": 200,
+            "fromServiceWorker": false
+          },
+          {
+            "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/maxima/examples.html",
+            "status": 200,
+            "fromServiceWorker": true,
+            "coop": "same-origin",
+            "coep": "require-corp"
+          }
+        ],
+        "bootstrapInterruptions": [],
+        "document": {
+          "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/maxima/examples.html",
+          "crossOriginIsolated": true,
+          "controller": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/ctm-isolation-worker.js"
+        },
+        "elapsedMs": 1120
+      },
+      "nativeRoutingEvents": {
+        "runtime-maxima-init-start": 1,
+        "runtime-maxima-ready": 1,
+        "ready": 1,
+        "maxima-at": 142,
+        "collection-feedback": 24,
+        "python-checker": 100
+      },
+      "workerURLs": [
+        "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/site_libs/quarto-contrib/stack-sympy-0.3.0/worker.js",
+        "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/backend/worker.js"
+      ],
+      "raw": {
+        "path": "public-smoke.json.gz",
+        "uncompressedBytes": 2090133,
+        "uncompressedSha256": "71a0e7344077c1d82e3e65be36278ffbd2f740c73fe36301fe57477bb3f6e121",
+        "bytes": 89734,
+        "sha256": "377ebcc70b985f56b09a791062529a17ed726194206764ed2eda3eefbed723d2"
+      },
+      "artifactZipSha256": "371aeb2dac6967232a74636c560c3b4d7aaac405e0ba04899829b0f8ec328a0a"
+    }
+  },
+  "screenshots": [
+    {
+      "path": "backend-pair-scalar.png",
+      "bytes": 72097,
+      "sha256": "890a17a160e427aa481d68ef5508c146bbbdbf6fadfaecc56b840db2a6be45a4",
+      "identicalToLocal": true
+    },
+    {
+      "path": "backend-pair-matrix.png",
+      "bytes": 59744,
+      "sha256": "9464cfd0a58af25332e5c1c8c51329aba2a6aa4690d9b1ae7c38819bff32b6a3",
+      "identicalToLocal": true
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 12415930236,
+      "name": "reviewer-site-3ec984fdf6e52955c3c6ed9f8e1e3a332750d8c6",
+      "bytes": 13753090,
+      "digest": "sha256:02dca98a802640e5e36d0fbe09dbd0b936ba3b8117a531dabfb5e9e248eecd77"
+    },
+    {
+      "id": 12414993376,
+      "name": "public-reviewer-evidence-3ec984fdf6e52955c3c6ed9f8e1e3a332750d8c6",
+      "bytes": 212420,
+      "digest": "sha256:371aeb2dac6967232a74636c560c3b4d7aaac405e0ba04899829b0f8ec328a0a"
+    },
+    {
+      "id": 12414384840,
+      "name": "reviewer-evidence-3ec984fdf6e52955c3c6ed9f8e1e3a332750d8c6",
+      "bytes": 219751,
+      "digest": "sha256:3087ba0de6a677a24a009d91118b158f1f9b207a1cb9b435e606de919734718d"
+    }
+  ],
+  "originalMilestoneRegression": {
+    "passed": true,
+    "sourceRevision": "786cb78a937804c4fb6e5270b87c2b053cd917d9",
+    "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39753393394"
+  }
+}
