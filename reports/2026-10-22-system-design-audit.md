@@ -639,6 +639,7 @@ merged by AC.
 | M4e Variants | STACK seeding as in Moodle; import of deployed seeds with notes (D1) | variants PRs, M4b |
 | M4f Page weight | one board template per question (L6); binary preload (L5) | jsxgraph-quarto |
 | M4g Compatibility and language | census (F-12), widen subset; feedback messages through ctm-libs' catalogue with nb/nn (F-15) | M4b |
+| — Repositories | AC renames stack-sympy to ctm-stack; native code moves in with M4a | step 6 |
 | M4h Packaging | asset lock entries, licences and source offer, closure check, Firefox/WebKit, memory | M4c, step 5 |
 
 ## 8. Decisions
@@ -692,6 +693,21 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
   ECL, the port's build scripts, STACK) in its own CI and controls the build
   configuration; anything that would otherwise be a carried patch is offered
   upstream.
+- **Repositories (step 6).** One STACK component, **ctm-stack**: AC renames
+  stack-sympy to ctm-stack (history, issues and redirects kept;
+  `_extensions/ctm-stack`). It holds the Quarto filter, card frontend, CSS,
+  settings, both backend workers (SymPy worker; Maxima native controller,
+  input admission, Python continuation, JSXGraph adapter), the build runner and
+  the conformance suite. The native code moves in with M4a, written against the
+  new descriptor, not copied from the prototype. The SymPy STACK engine stays in
+  ctm-checkers. stack-wasm-maxima becomes the runtime repository (owned build,
+  tracking job, releases) and the research archive. math-exercise stays
+  separate (H3).
+- **Reporting.** Whoever implements this plan reports to AC at the end of
+  every step (each M4 phase, and each numbered step of the runtime work in §6):
+  what was done, the evidence (CI runs, parity, timings), deviations from this
+  audit, and the decisions needed before the next step. The next step starts
+  only after that report.
 - **Build and delivery** as in §6: GitHub Actions builds, GitHub Releases of
   this repository publish (tags set by AC), courses load the runtime from their
   own site by default.
