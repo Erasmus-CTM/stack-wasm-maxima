@@ -9,17 +9,591 @@
     {
       "path": "_extensions/stack-sympy/stack-sympy.js",
       "sourceSha256": "53832ffd115c64fa2e28fb96ebebf6e99ebcec2e43c971a075cf7283e0731633",
-      "materializedSha256": "f906b2280b7c08bb0f539a524638cc39109eff351c88debbbd90ce2f4f28226f",
+      "materializedSha256": "125726c5de20ea9bf09456f5ea1b476bb02c429d486df1a9b0a26c8b3bf60882",
       "substitutions": [
-        "  var workerURL = new URL('worker.js', current.src);",
-        "loadTimeout: runtime.loadTimeout };",
-        "type === 'grade' ? 'Checking with SymPy…' :"
+        "worker prefix enclosed in createBackend(descriptor)",
+        "initialize(card) captures its nearest wrapper's backend",
+        "grade status uses the selected backend label"
       ]
     }
   ],
   "trackedPage": "site/maxima/examples.qmd",
-  "trackedPageSha256": "bf5130eb602ac26c1206790773b468f880f583cbd82b35bb35d1a21ee58905f8",
-  "cards": 18,
-  "variants": 24,
-  "pythonCheckerCards": 6
+  "trackedPageSha256": "78fcc2b26d482ac661475f5685ea0ebc72b712177d47a5597c46c47466b85f96",
+  "backends": [
+    "sympy",
+    "maxima"
+  ],
+  "pairs": [
+    {
+      "demoId": "examples-01",
+      "sympyId": "sympy-examples-01",
+      "maximaId": "maxima-examples-01",
+      "acceptedPayloadId": "stack-sympy-1"
+    },
+    {
+      "demoId": "examples-02",
+      "sympyId": "sympy-examples-02",
+      "maximaId": "maxima-examples-02",
+      "acceptedPayloadId": "stack-sympy-2"
+    },
+    {
+      "demoId": "examples-03",
+      "sympyId": "sympy-examples-03",
+      "maximaId": "maxima-examples-03",
+      "acceptedPayloadId": "stack-sympy-3"
+    },
+    {
+      "demoId": "examples-04",
+      "sympyId": "sympy-examples-04",
+      "maximaId": "maxima-examples-04",
+      "acceptedPayloadId": "stack-sympy-4"
+    },
+    {
+      "demoId": "examples-05",
+      "sympyId": "sympy-examples-05",
+      "maximaId": "maxima-examples-05",
+      "acceptedPayloadId": "stack-sympy-5"
+    },
+    {
+      "demoId": "examples-06",
+      "sympyId": "sympy-examples-06",
+      "maximaId": "maxima-examples-06",
+      "acceptedPayloadId": "stack-sympy-6"
+    },
+    {
+      "demoId": "examples-07",
+      "sympyId": "sympy-examples-07",
+      "maximaId": "maxima-examples-07",
+      "acceptedPayloadId": "stack-sympy-7"
+    },
+    {
+      "demoId": "examples-08",
+      "sympyId": "sympy-examples-08",
+      "maximaId": "maxima-examples-08",
+      "acceptedPayloadId": "stack-sympy-8"
+    },
+    {
+      "demoId": "examples-09",
+      "sympyId": "sympy-examples-09",
+      "maximaId": "maxima-examples-09",
+      "acceptedPayloadId": "finite-collections"
+    },
+    {
+      "demoId": "examples-10",
+      "sympyId": "sympy-examples-10",
+      "maximaId": "maxima-examples-10",
+      "acceptedPayloadId": "nested-collections"
+    },
+    {
+      "demoId": "examples-11",
+      "sympyId": "sympy-examples-11",
+      "maximaId": "maxima-examples-11",
+      "acceptedPayloadId": "finite-author-helpers"
+    },
+    {
+      "demoId": "examples-12",
+      "sympyId": "sympy-examples-12",
+      "maximaId": "maxima-examples-12",
+      "acceptedPayloadId": "determinant-one"
+    },
+    {
+      "demoId": "examples-13",
+      "sympyId": "sympy-examples-13",
+      "maximaId": "maxima-examples-13",
+      "acceptedPayloadId": "spd-example"
+    },
+    {
+      "demoId": "examples-14",
+      "sympyId": "sympy-examples-14",
+      "maximaId": "maxima-examples-14",
+      "acceptedPayloadId": "spd-separate-example"
+    },
+    {
+      "demoId": "examples-15",
+      "sympyId": "sympy-examples-15",
+      "maximaId": "maxima-examples-15",
+      "acceptedPayloadId": "course-b-rank-pivots"
+    },
+    {
+      "demoId": "examples-16",
+      "sympyId": "sympy-examples-16",
+      "maximaId": "maxima-examples-16",
+      "acceptedPayloadId": "course-b-nullspace"
+    },
+    {
+      "demoId": "examples-17",
+      "sympyId": "sympy-examples-17",
+      "maximaId": "maxima-examples-17",
+      "acceptedPayloadId": "course-c-nullspace"
+    },
+    {
+      "demoId": "examples-18",
+      "sympyId": "sympy-examples-18",
+      "maximaId": "maxima-examples-18",
+      "acceptedPayloadId": "python-multiple"
+    }
+  ],
+  "cards": 36,
+  "variants": 48,
+  "pythonCheckerCards": 12,
+  "renderedPagePatches": [
+    {
+      "path": "maxima/examples.html",
+      "sourceSha256": "fd8ba8b11998d8d3340df937f0b39290f115520adc35b646f6d150f0b47a67ab",
+      "materializedSha256": "3e1c86157bfb545423370bcabb75a40ace1249afd30930d6b73f198e5f78a8eb",
+      "obsoleteEs6PolyfillRemoved": 1,
+      "sourcePanelCount": 36,
+      "authoredBlocks": [
+        {
+          "demoId": "examples-01",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-01",
+          "sourceSha256": "94ab8948092d369a490b84e4f33b3d7617dfc304b7f0dbcdb6667e91e31a3d83"
+        },
+        {
+          "demoId": "examples-01",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-01",
+          "sourceSha256": "052f6a256ebbb61799beb086eee87f1c68e168fcb1412b42d3ec7b9d20abd839"
+        },
+        {
+          "demoId": "examples-02",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-02",
+          "sourceSha256": "77c406663eb31a4188b271a7ad12a56a404fd97692ebdea6b629f2890a5dc1ef"
+        },
+        {
+          "demoId": "examples-02",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-02",
+          "sourceSha256": "ba4a41aa8e2c95debd481d4b16f089b463d89d554f95406b2b62d7f5041a8ac5"
+        },
+        {
+          "demoId": "examples-03",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-03",
+          "sourceSha256": "ef26267c85e79dd0e2018067e31cfdc38b3a3acc585c57b8e5627af72c5cd203"
+        },
+        {
+          "demoId": "examples-03",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-03",
+          "sourceSha256": "c77b4cdeb1717e4e791212d0cf53bbbb25f2ce0336834075729b40d59833c0b1"
+        },
+        {
+          "demoId": "examples-04",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-04",
+          "sourceSha256": "fcb4f8eef8f23345411c91071fbee28c3a6f2a420266016c42446e320cb7eaa3"
+        },
+        {
+          "demoId": "examples-04",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-04",
+          "sourceSha256": "1c6ca67db9e3c6a1f3bb903fa4e9f591fe605293d9ad048c55b34c33df110f43"
+        },
+        {
+          "demoId": "examples-05",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-05",
+          "sourceSha256": "be209af027f26232fac610a1c1190a395d45660347d45468a4bb378d107b8cf1"
+        },
+        {
+          "demoId": "examples-05",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-05",
+          "sourceSha256": "04db12555cc4517857ce8ce29b49caf63466d137ed0aaa17ce58b4955ae2e968"
+        },
+        {
+          "demoId": "examples-06",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-06",
+          "sourceSha256": "391b64050b9c07b053a35624468f073d8409731f1c230f916c1e0e7b36ad3ec6"
+        },
+        {
+          "demoId": "examples-06",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-06",
+          "sourceSha256": "65726ad5b0172aa2622a93d713b2140ce44cf50f025da4c84ad58db16805de48"
+        },
+        {
+          "demoId": "examples-07",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-07",
+          "sourceSha256": "17542bb40959e088e615a074d6da7ec4aa20927a4930b5966fb6956bfc763396"
+        },
+        {
+          "demoId": "examples-07",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-07",
+          "sourceSha256": "01b95e93b8a9c9de7480974e72e9a815ca29fe89b921ec463e4579ff5b56a1ce"
+        },
+        {
+          "demoId": "examples-08",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-08",
+          "sourceSha256": "7bc948a40e15dd5b51e56b10b8d1b90ec9f98f24d9cafb57a6a5701caa750822"
+        },
+        {
+          "demoId": "examples-08",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-08",
+          "sourceSha256": "919da3665ebf88f3079286a9fef33906786b573af7c2f81e068e76fac39c4313"
+        },
+        {
+          "demoId": "examples-09",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-09",
+          "sourceSha256": "49451660cee2f972a306928cafa24d9b2509b9640c428021a2c7c371402a9009"
+        },
+        {
+          "demoId": "examples-09",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-09",
+          "sourceSha256": "a981dfab3dcb9bd18c438cec3d39743ecc2c889a5a80d914df4d80ca2db523eb"
+        },
+        {
+          "demoId": "examples-10",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-10",
+          "sourceSha256": "0325cc76ae7927442fd698465ea4d7e6bcd99ab5a08b3092d05fdd2ff75f4db6"
+        },
+        {
+          "demoId": "examples-10",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-10",
+          "sourceSha256": "6a2f58cb0c0deb5596997afc0130e12a1d7d2bbe2594669612c93c45ca441d29"
+        },
+        {
+          "demoId": "examples-11",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-11",
+          "sourceSha256": "0f6fa55f1e74d15fe2d7516eb0153d6b4f1d592fd35ed38e79488c3c88fd38d1"
+        },
+        {
+          "demoId": "examples-11",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-11",
+          "sourceSha256": "25f3c8954160a523c5f5cd889386fc217b080d5b7acaddda0b86a8cab5e54596"
+        },
+        {
+          "demoId": "examples-12",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-12",
+          "sourceSha256": "e17d4d5c7af06a9a50c28cad054aaedb7befeaa8531a77b48a413f23881ef7fd"
+        },
+        {
+          "demoId": "examples-12",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-12",
+          "sourceSha256": "e55d350b588b2a3478f371d5151920b5a090ed9a6be0acdf6cce2ae2ef8dd01f"
+        },
+        {
+          "demoId": "examples-13",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-13",
+          "sourceSha256": "13c915ba7fe09f97f11ba928ed15cc659a98d84b0843f603dd62cb37c0d1d13c"
+        },
+        {
+          "demoId": "examples-13",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-13",
+          "sourceSha256": "36d8a397b4273a1ecd5a9f7b52a323b43431b8ece71ea78b0979bbbe5dd6407a"
+        },
+        {
+          "demoId": "examples-14",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-14",
+          "sourceSha256": "8556c7b8718199c06091339eabf77875680fa34cfd779f2ab335f4d995115102"
+        },
+        {
+          "demoId": "examples-14",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-14",
+          "sourceSha256": "b592afc377cd4d547ca3c37965d950f5f8b78a7c93bdbf0e67394ab42fd890cb"
+        },
+        {
+          "demoId": "examples-15",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-15",
+          "sourceSha256": "03247f6f530768b69574f973662ef428eb0153090e9ecdaab65b4eb1aaa9580b"
+        },
+        {
+          "demoId": "examples-15",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-15",
+          "sourceSha256": "bd2427977640b22e34d14d1e16b47a5e1c2a4ebffb3841055f944a4ed861358b"
+        },
+        {
+          "demoId": "examples-16",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-16",
+          "sourceSha256": "0d3cf7c46e3e837fb7514a1d7b212d784d42313e56ebf773661eb4b21e774d7e"
+        },
+        {
+          "demoId": "examples-16",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-16",
+          "sourceSha256": "bbaf15db9d89f2f52d22230c5fb504f566de08abe6a8841375a8929b97e3a6fc"
+        },
+        {
+          "demoId": "examples-17",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-17",
+          "sourceSha256": "3ed4821c776337100df17060eecbcd864d3255ff9252cec8629a21e73fd9dab2"
+        },
+        {
+          "demoId": "examples-17",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-17",
+          "sourceSha256": "508616fd999489aa23603a1ddd195e42c81e50d3fe79e731c718792f01727922"
+        },
+        {
+          "demoId": "examples-18",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-18",
+          "sourceSha256": "ac950e17076f5a8f83f51ea682a5f7a407bc87d5ea753a5c3bb0451fba1f345f"
+        },
+        {
+          "demoId": "examples-18",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-18",
+          "sourceSha256": "82b49750ee3a4491ee589efc410efddb54346f63b2972b25aff48abb52e0c432"
+        }
+      ],
+      "payloads": [
+        {
+          "demoId": "examples-01",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-01",
+          "payloadTextSha256": "ffa18e66218a8a086e35503057dbaf6e053a6b5434f0121731b8fc1ee07c6e8f"
+        },
+        {
+          "demoId": "examples-01",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-01",
+          "payloadTextSha256": "c2b4c81dacefeff7d8d2c5ac1c268013151d67c55af1d2df454701ebbf3861cc"
+        },
+        {
+          "demoId": "examples-02",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-02",
+          "payloadTextSha256": "23ef8898421ce625f66f214fb93b102b73e3d590ecf9f9bfd6fd7535b71a1e68"
+        },
+        {
+          "demoId": "examples-02",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-02",
+          "payloadTextSha256": "f67ee1a1c4d932ec23f27a433c9d3b259ab63a919e8300b8ff1b33dd45f85770"
+        },
+        {
+          "demoId": "examples-03",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-03",
+          "payloadTextSha256": "dfb5a91d38cd57619c4935526df9b3efbf86813bf5085134316b5dad03dc631e"
+        },
+        {
+          "demoId": "examples-03",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-03",
+          "payloadTextSha256": "a435fdf07fa67427a39e7462156af18d23c976ca40533864dac88a0f17a8aa74"
+        },
+        {
+          "demoId": "examples-04",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-04",
+          "payloadTextSha256": "1cea7699a362d74a5410c2c7b4152eaf8cf1a45ef0a7319e25f2c7e16db2fe04"
+        },
+        {
+          "demoId": "examples-04",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-04",
+          "payloadTextSha256": "7c3a1e89863d63d31b7b02baf73473678a8112f270262613035b9dfc2cec0453"
+        },
+        {
+          "demoId": "examples-05",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-05",
+          "payloadTextSha256": "54be9b615a19c3f27f73425b5fb16f2670dd2a89551769019ba3b1419b1730e9"
+        },
+        {
+          "demoId": "examples-05",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-05",
+          "payloadTextSha256": "a2d49d4f6ac658e1a6e5199c63dcc2a3f498a8c9994865ffe667245f67453dd0"
+        },
+        {
+          "demoId": "examples-06",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-06",
+          "payloadTextSha256": "cb90e9edef5efaaf630ae0e74fcac755561b4bca96069cfb69bd6df89146f977"
+        },
+        {
+          "demoId": "examples-06",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-06",
+          "payloadTextSha256": "b4f69b20e59a7496d9e4ed084ddfc4d967fda99a30544753042f3af50049953b"
+        },
+        {
+          "demoId": "examples-07",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-07",
+          "payloadTextSha256": "6d280d1c6034600382ee2b48e9b027ee3d0b4f14b55bc92c0f5f15b5f5c13096"
+        },
+        {
+          "demoId": "examples-07",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-07",
+          "payloadTextSha256": "e2815b146d6510bb2a090d198e927f638977dbe5819a9cd00a55f1f11eba8ef0"
+        },
+        {
+          "demoId": "examples-08",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-08",
+          "payloadTextSha256": "846fa188e954a560e182d6ade34d516560fbac205edb7fab9e4c4648a8226172"
+        },
+        {
+          "demoId": "examples-08",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-08",
+          "payloadTextSha256": "2abe3faaa5096c8faa67950c02bef4d3f66846d8eab29e2fddc24ca267b93658"
+        },
+        {
+          "demoId": "examples-09",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-09",
+          "payloadTextSha256": "2726c39d54bec578914bf864001a62654a24fab74f4e97296f7619bff38e0bba"
+        },
+        {
+          "demoId": "examples-09",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-09",
+          "payloadTextSha256": "ecbca69f94fadb087077a2e35d36f269b5387a9fcc7314e2438b762f0e2d61b2"
+        },
+        {
+          "demoId": "examples-10",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-10",
+          "payloadTextSha256": "bcfb48b061c0d8fcefaa6a0d6e1eb10d19bb929778a0a482170b30f6622dd205"
+        },
+        {
+          "demoId": "examples-10",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-10",
+          "payloadTextSha256": "693112ea0e670a2db0863c8f5e392af0c49839a06090e0c7b0e8eb0adf1cce86"
+        },
+        {
+          "demoId": "examples-11",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-11",
+          "payloadTextSha256": "e40e5e6d5368fb28dbb2596f3ca1409ca273abb78732cc83b5c0239dd82669fb"
+        },
+        {
+          "demoId": "examples-11",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-11",
+          "payloadTextSha256": "225890f9ae806cddd1439f5b883c2121e384c6d6ebdee3f6765acec234e523f2"
+        },
+        {
+          "demoId": "examples-12",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-12",
+          "payloadTextSha256": "82e7921d16c5ceafdfc869128037763b94d953b351d733bdb382623df7a14e75"
+        },
+        {
+          "demoId": "examples-12",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-12",
+          "payloadTextSha256": "913e50a7184d469c87ea7a6688af14e01a943988c4f2216b0161d62355e76ccb"
+        },
+        {
+          "demoId": "examples-13",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-13",
+          "payloadTextSha256": "6c747448d140bee8259faab7eb646fc14d7689985fc96d0deff5ecfab99aad17"
+        },
+        {
+          "demoId": "examples-13",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-13",
+          "payloadTextSha256": "e0ae1715d8d99cb299c06400709dac17692765764fd8f16e234c7b5e3f0b6207"
+        },
+        {
+          "demoId": "examples-14",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-14",
+          "payloadTextSha256": "97c6f07f3b2fc0d1664ae5564e6231aa646c41d4f902a2ca2ecb6c1a9bec6b18"
+        },
+        {
+          "demoId": "examples-14",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-14",
+          "payloadTextSha256": "112b6a8a470a7590b7cdb81b35ef4cd3d539b80556cd19e202dd0efae003aa57"
+        },
+        {
+          "demoId": "examples-15",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-15",
+          "payloadTextSha256": "44c4f372afa3d806940b4789f75a9fa012a67cc551ca7a7e86b161a04a94730e"
+        },
+        {
+          "demoId": "examples-15",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-15",
+          "payloadTextSha256": "e269bc526982b67d1fc873fd2bcc42d97307c6637f4df8b131a87892d2952c8b"
+        },
+        {
+          "demoId": "examples-16",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-16",
+          "payloadTextSha256": "6e94039a8d98237d41a49aa7cc25d28c76e5762cff0770dbc086fc03ad6af190"
+        },
+        {
+          "demoId": "examples-16",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-16",
+          "payloadTextSha256": "02f2fdd88e112e556083057c04ce8c36d9a06bb5c780297ef2ea39aab080aac3"
+        },
+        {
+          "demoId": "examples-17",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-17",
+          "payloadTextSha256": "5b814cf4b4cfa0dd650e810f5a85ebb181d94c038b43b3219147cd530bfa90db"
+        },
+        {
+          "demoId": "examples-17",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-17",
+          "payloadTextSha256": "7f5aede7855687fa96eaaf210171d9eeeddf2b2cf532afab0977fb722da1437a"
+        },
+        {
+          "demoId": "examples-18",
+          "backend": "sympy",
+          "presentationId": "sympy-examples-18",
+          "payloadTextSha256": "7849b4e76e343fe8ad5cc6128d1f11f1c6463d00e3f1844f087c5ab96bf4cf86"
+        },
+        {
+          "demoId": "examples-18",
+          "backend": "maxima",
+          "presentationId": "maxima-examples-18",
+          "payloadTextSha256": "ba45b1ba844295b43165b5804cd63e26c18044225e4446accceb2b4e2fb5b75c"
+        }
+      ]
+    }
+  ],
+  "postRender": {
+    "script": "scripts/site/post-render.py",
+    "scriptSha256": "e10cf770e4f7a260999a73775e259cccff1c8d668a0865f443832811931d9fd9",
+    "trackedPageSha256": "78fcc2b26d482ac661475f5685ea0ebc72b712177d47a5597c46c47466b85f96",
+    "renderedCards": 36,
+    "renderedPairs": 18,
+    "renderedSourcePanels": 36,
+    "namedBackendDescriptors": [
+      "maxima"
+    ],
+    "backendCards": {
+      "sympy": 18,
+      "maxima": 18
+    }
+  }
 }

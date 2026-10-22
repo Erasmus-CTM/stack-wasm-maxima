@@ -3,94 +3,119 @@
   var current = document.currentScript;
   // Keep the pinned implementation when another extension loads its own editor.
   var MatrixInput = window.MatrixInput;
-  var backendDescriptor = window.CTMStackBackend || {};
-  var workerURL = backendDescriptor.workerURL ?
-    new URL(backendDescriptor.workerURL, document.baseURI) : new URL('worker.js', current.src);
-  var worker = null;
-  var pending = null;
-  var sequence = 0;
-  var pipeline = Promise.resolve();
+  var defaultWorkerURL = new URL('worker.js', current.src);
+  var backendInstances = Object.create(null);
 
-  var starting = null;
+  function createBackend(descriptor) {
+    descriptor = descriptor || {};
+    var workerURL = descriptor.workerURL ? new URL(descriptor.workerURL, document.baseURI) : defaultWorkerURL;
+    var worker = null;
+    var pending = null;
+    var sequence = 0;
+    var pipeline = Promise.resolve();
 
-  function resetWorker(error) {
-    if (worker) worker.terminate();
-    worker = null;
-    starting = null;
-    if (pending) {
-      clearTimeout(pending.timer);
-      pending.reject(error);
+    var starting = null;
+
+    function resetWorker(error) {
+      if (worker) worker.terminate();
+      worker = null;
+      starting = null;
+      if (pending) {
+        clearTimeout(pending.timer);
+        pending.reject(error);
+        pending = null;
+      }
+    }
+
+    // The worker loads CTM Assessment's Python from the scripts on this page:
+    // ctm-libs' runtime and ctm-checkers' page scripts with the STACK engine.
+    function pageScripts() {
+      var runtime = window.MathExerciseRuntime, checkers = window.CTMCheckers, stack = window.CTMCheckersStack;
+      if (!runtime || !runtime.scriptURL || !checkers || !checkers.scriptURL || !stack || !stack.scriptURL) {
+        throw new Error('The grader is missing on this page (ctm-libs\' runtime or ctm-checkers\' scripts).');
+      }
+      return { runtime: runtime.scriptURL, checkers: [checkers.scriptURL, stack.scriptURL], loadTimeout: descriptor.loadTimeout || runtime.loadTimeout };
+    }
+
+    function onMessage(event) {
+      var msg = event.data;
+      if (!pending || pending.id !== msg.id) return;
+      var task = pending;
       pending = null;
+      clearTimeout(task.timer);
+      if (msg.ok) task.resolve(msg.result);
+      else task.reject(new Error(msg.error || 'The grader failed.'));
     }
-  }
 
-  // The worker loads CTM Assessment's Python from the scripts on this page:
-  // ctm-libs' runtime and ctm-checkers' page scripts with the STACK engine.
-  function pageScripts() {
-    var runtime = window.MathExerciseRuntime, checkers = window.CTMCheckers, stack = window.CTMCheckersStack;
-    if (!runtime || !runtime.scriptURL || !checkers || !checkers.scriptURL || !stack || !stack.scriptURL) {
-      throw new Error('The grader is missing on this page (ctm-libs\' runtime or ctm-checkers\' scripts).');
+    // A worker that has loaded Python and the STACK engine. Loading is bounded
+    // by the runtime's load limit (the worker reports a failure itself; this
+    // timer only covers a worker that never answers).
+    function ensureWorker() {
+      if (starting) return starting;
+      starting = new Promise(function (resolve, reject) {
+        var scripts = pageScripts();
+        worker = new Worker(workerURL);
+        worker.onmessage = onMessage;
+        worker.onerror = function (event) {
+          resetWorker(new Error(event.message || 'The grading worker could not start.'));
+        };
+        var id = ++sequence;
+        var timer = setTimeout(function () {
+          resetWorker(new Error((descriptor.label || 'SymPy') + ' did not finish loading. Try again.'));
+        }, (scripts.loadTimeout || 180000) + 30000);
+        var target = worker;
+        // A worker that failed to load is not reused: the next request starts another.
+        pending = { id: id, resolve: function () { resolve(target); }, timer: timer, reject: function (error) {
+          if (worker === target) { target.terminate(); worker = null; }
+          starting = null;
+          reject(error);
+        } };
+        target.postMessage({ id: id, type: 'init', runtime: scripts.runtime, checkers: scripts.checkers });
+      });
+      starting.catch(function () { starting = null; });
+      return starting;
     }
-    return { runtime: runtime.scriptURL, checkers: [checkers.scriptURL, stack.scriptURL], loadTimeout: backendDescriptor.loadTimeout || runtime.loadTimeout };
-  }
 
-  function onMessage(event) {
-    var msg = event.data;
-    if (!pending || pending.id !== msg.id) return;
-    var task = pending;
-    pending = null;
-    clearTimeout(task.timer);
-    if (msg.ok) task.resolve(msg.result);
-    else task.reject(new Error(msg.error || 'The grader failed.'));
-  }
-
-  // A worker that has loaded Python and the STACK engine. Loading is bounded
-  // by the runtime's load limit (the worker reports a failure itself; this
-  // timer only covers a worker that never answers).
-  function ensureWorker() {
-    if (starting) return starting;
-    starting = new Promise(function (resolve, reject) {
-      var scripts = pageScripts();
-      worker = new Worker(workerURL);
-      worker.onmessage = onMessage;
-      worker.onerror = function (event) {
-        resetWorker(new Error(event.message || 'The grading worker could not start.'));
-      };
-      var id = ++sequence;
-      var timer = setTimeout(function () {
-        resetWorker(new Error('Python did not finish loading. Try again.'));
-      }, (scripts.loadTimeout || 180000) + 30000);
-      var target = worker;
-      // A worker that failed to load is not reused: the next request starts another.
-      pending = { id: id, resolve: function () { resolve(target); }, timer: timer, reject: function (error) {
-        if (worker === target) { target.terminate(); worker = null; }
-        starting = null;
-        reject(error);
-      } };
-      target.postMessage({ id: id, type: 'init', runtime: scripts.runtime, checkers: scripts.checkers });
-    });
-    starting.catch(function () { starting = null; });
-    return starting;
-  }
-
-  // Run one Python request at a time: Pyodide's interpreter is not reentrant.
-  // The calculation timer starts when the worker is ready.
-  function evaluate(payload) {
-    var result = pipeline.catch(function () {}).then(function () {
-      return ensureWorker().then(function (target) {
-        return new Promise(function (resolve, reject) {
-          var id = ++sequence;
-          var timer = setTimeout(function () {
-            resetWorker(new Error('The calculation timed out. Try again.'));
-          }, 120000);
-          pending = { id: id, resolve: resolve, reject: reject, timer: timer };
-          try { target.postMessage(Object.assign({ id: id }, payload)); }
-          catch (error) { resetWorker(error); }
+    // Run one Python request at a time: Pyodide's interpreter is not reentrant.
+    // The calculation timer starts when the worker is ready.
+    function evaluate(payload) {
+      var result = pipeline.catch(function () {}).then(function () {
+        return ensureWorker().then(function (target) {
+          return new Promise(function (resolve, reject) {
+            var id = ++sequence;
+            var timer = setTimeout(function () {
+              resetWorker(new Error('The calculation timed out. Try again.'));
+            }, 120000);
+            pending = { id: id, resolve: resolve, reject: reject, timer: timer };
+            try { target.postMessage(Object.assign({ id: id }, payload)); }
+            catch (error) { resetWorker(error); }
+          });
         });
       });
-    });
-    pipeline = result;
-    return result;
+      pipeline = result;
+      return result;
+    }
+    return { evaluate: evaluate, label: descriptor.label || 'SymPy' };
+  }
+
+  function backendForCard(card) {
+    var wrapper = card.closest('[data-stack-backend]');
+    var name = wrapper ? wrapper.getAttribute('data-stack-backend') : 'sympy';
+    if (!name) throw new Error('The question backend is not specified.');
+    if (backendInstances[name]) return backendInstances[name];
+    var descriptor = { label: 'SymPy' };
+    if (name !== 'sympy') {
+      var registry = window.CTMStackBackends;
+      if (!registry || !Object.prototype.hasOwnProperty.call(registry, name)) {
+        throw new Error('The ' + name + ' backend is not configured.');
+      }
+      descriptor = registry[name];
+      if (!descriptor || typeof descriptor.workerURL !== 'string' || !descriptor.workerURL.trim()) {
+        throw new Error('The ' + name + ' backend has no grading worker.');
+      }
+    }
+    backendInstances[name] = createBackend(descriptor);
+    return backendInstances[name];
   }
 
   var MATHJAX_URL = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js';
@@ -301,6 +326,15 @@
       message(card.querySelector('.stack-result'), 'Question data could not be read.', 'error');
       return;
     }
+    var backend;
+    try { backend = backendForCard(card); }
+    catch (error) {
+      message(card.querySelector('.stack-result'), 'Could not start the grader: ' + error.message, 'error');
+      card.querySelectorAll('.stack-check, .stack-validate, .stack-tests').forEach(function (button) { button.disabled = true; });
+      return;
+    }
+    var evaluate = backend.evaluate;
+    var backendLabel = backend.label;
     var selector = card.querySelector('.stack-variant');
     var version = 0;
     var validatedSnapshot = null;
@@ -499,7 +533,7 @@
         return;
       }
       button.disabled = true;
-      message(resultBox, type === 'grade' ? 'Checking with ' + (backendDescriptor.label || 'SymPy') + '…' :
+      message(resultBox, type === 'grade' ? 'Checking with ' + backendLabel + '…' :
         type === 'validate' ? 'Parsing your inputs…' : 'Running authored tests…', 'loading');
       try {
         var result = await evaluate({ type: type, question: payload.question, variant: variant, answers: answers });
