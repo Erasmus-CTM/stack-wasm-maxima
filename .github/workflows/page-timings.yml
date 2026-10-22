@@ -54,6 +54,7 @@ jobs:
         run: node scripts/measure-site-timings.mjs
       - name: Measure native startup and the first optional PythonChecker grade
         env:
+          DEBUG: pw:browser
           TIMING_PAGE_URL: ${{ inputs.native_page_url || 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/native.html' }}
           EXPECTED_HTML_SHA256: ${{ inputs.expected_native_html_sha256 || 'a483b6d59808a4e626a5eeb6303dea0528c6acbd9fcf1f10f896807859d7ddae' }}
         run: node scripts/measure-native-page-timings.mjs

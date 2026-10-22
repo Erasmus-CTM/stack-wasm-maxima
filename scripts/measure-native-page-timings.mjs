@@ -100,20 +100,21 @@ async function action(page,card,type) {
   return {uiMs:data.mark.uiMs,workerMs:call.elapsedMs,...data};
 }
 async function sample(repetition,inventory) {
-  const result={repetition,phase:'launch',phases:[],network:[],errors:[],consoleErrors:[],httpErrors:[],failedRequests:[],navigation:[],native:{},python:{}};
+  const result={repetition,phase:'launch',phases:[],network:[],errors:[],consoleErrors:[],httpErrors:[],failedRequests:[],navigation:[],browserLifecycle:[],native:{},python:{}};
   report.samples.push(result);
   const began=performance.now(),tasks=[];
-  let browser,page;
+  let browser,page,expectedClosure=false;
   const phase=value=>{result.phase=value;result.phases.push({phase:value,runnerMs:performance.now()-began,at:new Date().toISOString()});};
   try {
     browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE || undefined});
+    browser.on('disconnected',()=>result.browserLifecycle.push({event:'disconnected',expectedClosure,phase:result.phase,runnerMs:performance.now()-began}));
     report.browserVersion=browser.version();
     const context=await browser.newContext();page=await context.newPage();
     // The native HTML embeds all prepared questions and boards (about 17 MB).
     // Chrome's default inspector resource buffer evicts that navigation body.
     // Retain the actual response bytes for the mandatory hash admission gate;
     // these protocol buffers neither fetch resources nor alter browser caches.
-    result.navigationCapture={maxTotalBufferSize:256*1024*1024,maxResourceBufferSize:64*1024*1024,enableDurableMessages:true};
+    result.navigationCapture={maxTotalBufferSize:256*1024*1024,maxResourceBufferSize:64*1024*1024};
     const capture=await context.newCDPSession(page);
     const topFrame=(await capture.send('Page.getFrameTree')).frameTree.frame.id;
     result.documentResponses=[];
@@ -136,6 +137,7 @@ async function sample(repetition,inventory) {
       })());
     });
     await capture.send('Network.enable',result.navigationCapture);
+    page.on('crash',()=>result.browserLifecycle.push({event:'page-crash',expectedClosure,phase:result.phase,runnerMs:performance.now()-began}));
     page.on('pageerror',error=>result.errors.push(String(error)));
     page.on('console',message=>{if(message.type()==='error')result.consoleErrors.push(message.text());});
     context.on('request',request=>result.network.push({url:request.url(),method:request.method(),resourceType:request.resourceType(),
@@ -241,7 +243,7 @@ async function sample(repetition,inventory) {
     result.failure={message:String(error),stack:error.stack};
     if(page)try{result.observation=await page.evaluate(()=>window.__ctmHarness);}catch{}
     throw error;
-  }finally {await Promise.allSettled(tasks);if(browser)await browser.close();await save();}
+  }finally {await Promise.allSettled(tasks);expectedClosure=true;if(browser)await browser.close();await save();}
 }
 
 try {
