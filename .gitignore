@@ -6,3 +6,5 @@ node_modules/
 test-results/
 __pycache__/
 measurements/local-*.json
+comparison/index.html
+comparison/index_files/
