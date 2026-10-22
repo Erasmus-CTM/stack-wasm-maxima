@@ -2,7 +2,14 @@
 -- An authoring alias only: CTM's pinned stack-sympy filter still renders cards.
 local function convert(div)
   if not div.classes:includes('stack-maxima') then return nil end
-  local text = pandoc.utils.stringify(div.content)
+  -- Markdown parses option lines as one paragraph with soft line breaks.
+  -- stringify() turns those breaks into spaces, which merges every option
+  -- into the file value. Preserve them before handing CTM its code block.
+  local lines = div:walk({
+    SoftBreak = function() return pandoc.Str('\n') end,
+    LineBreak = function() return pandoc.Str('\n') end
+  })
+  local text = pandoc.utils.stringify(lines.content)
   for line in (text .. '\n'):gmatch('([^\r\n]*)\n') do
     assert(not line:match('%S') or line:match('^#|%s*[%w_-]+:%s*'),
       'stack-maxima: only #| key: value lines are allowed inside the block')

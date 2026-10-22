@@ -64,6 +64,12 @@ jobs:
           python -m pip install sympy==1.13.3
           npm ci --ignore-scripts --no-audit --no-fund
           npx playwright install --with-deps chromium
+      - name: Check backend transport and adapter boundaries
+        env:
+          PYTHONPATH: .m2-sources/ctm-checkers/src
+        run: |
+          node prototype/runtime/test-maxima-session.mjs
+          python prototype/backend/test_native_adapter.py
       - name: Materialize the original questions and both frontend routes
         run: |
           python scripts/milestone-two/materialize.py --stack-sympy-source .m2-sources/stack-sympy --ctm-checkers-source .m2-sources/ctm-checkers --ctm-libs-source .m2-sources/ctm-libs
