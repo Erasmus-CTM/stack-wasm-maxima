@@ -22,6 +22,9 @@ jobs:
   matched-demo:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
@@ -71,20 +74,29 @@ jobs:
           node prototype/runtime/test-maxima-session.mjs
           python prototype/backend/test_native_adapter.py
       - name: Materialize the original questions and both frontend routes
+        id: materialize
         run: |
+          mkdir -p test-results/milestone-two
           python scripts/milestone-two/materialize.py --stack-sympy-source .m2-sources/stack-sympy --ctm-checkers-source .m2-sources/ctm-checkers --ctm-libs-source .m2-sources/ctm-libs
-          python scripts/milestone-two/prepare-runtime.py --stack-source .m2-sources/stack --ctm-checkers-source .m2-sources/ctm-checkers
+          python scripts/milestone-two/prepare-runtime.py --stack-source .m2-sources/stack --ctm-checkers-source .m2-sources/ctm-checkers 2>&1 | tee test-results/milestone-two/prepare.log
       - name: Render the actual Quarto pages
+        id: render
         env:
           CTM_COMPONENT_DEV: '1'
           STACK_SYMPY_PYTHON: python
         run: |
           export CTM_LIBS_EXTENSION="$PWD/.cache/milestone-two/demo/_extensions/ctm-libs"
           export CTM_CHECKERS_EXTENSION="$PWD/.cache/milestone-two/demo/_extensions/ctm-checkers"
-          quarto render .cache/milestone-two/demo
-          python scripts/milestone-two/materialize.py --collect-site .cache/milestone-two/demo/_site --payload-output test-results/milestone-two/frozen-payloads.json
+          quarto render .cache/milestone-two/demo 2>&1 | tee test-results/milestone-two/render.log
+          python scripts/milestone-two/materialize.py --collect-site .cache/milestone-two/demo/_site --payload-output test-results/milestone-two/frozen-payloads.json 2>&1 | tee test-results/milestone-two/collect.log
       - name: Verify real UI paths, routing and paired timings
-        run: node scripts/milestone-two/run.mjs
+        id: browser
+        run: node scripts/milestone-two/run.mjs 2>&1 | tee test-results/milestone-two/run.log
+      - name: Record failures that occur before browser reporting
+        if: failure()
+        env:
+          MILESTONE_STEPS: ${{ toJSON(steps) }}
+        run: python scripts/milestone-two/record-build-failure.py
       - name: Upload rendered site and full diagnostics
         if: always()
         uses: actions/upload-artifact@v4
@@ -95,6 +107,7 @@ jobs:
             test-results/milestone-two/
             reports/milestone-two/
           if-no-files-found: warn
+          include-hidden-files: true
       - name: Preserve computed reports on the research branch
         if: always() && startsWith(github.ref, 'refs/heads/research/')
         run: |

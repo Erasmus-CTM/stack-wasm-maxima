@@ -12,7 +12,6 @@ import shutil
 import subprocess
 import sys
 from urllib.parse import urlsplit
-from urllib.request import urlopen
 
 ROOT = Path(__file__).resolve().parents[2]
 STACK_SHA = "33383047af39c204bf4442802a058f8b918b2b1b"
@@ -68,8 +67,14 @@ def main() -> None:
         if cache.is_file():
             body = cache.read_bytes()
         else:
-            with urlopen(url, timeout=45) as response:
-                body = response.read(64 * 1024 * 1024 + 1)
+            # Use the same Node fetch client as the accepted milestone-one
+            # run. The asset host rejects urllib's default client signature.
+            # The downloader bounds the response; hashes still decide whether
+            # any downloaded byte is admitted into the runtime package.
+            body = subprocess.check_output(
+                ["node", str(ROOT / "scripts/milestone-two/fetch-runtime.mjs"), url],
+                timeout=60,
+            )
             if len(body) > 64 * 1024 * 1024:
                 raise ValueError("Runtime asset exceeds size limit")
             cache.parent.mkdir(parents=True, exist_ok=True)

@@ -71,7 +71,7 @@ try {
       report.pages.push(result);
       if (result.error) report.failures.push({ backend, page: pageName, ...result.error });
       report.failures.push(...result.failures.map(item => ({ backend, page: pageName, ...item })));
-      const networkFailures = result.network.filter(item => item.status >= 400 || item.failed && !/ERR_ABORTED/.test(item.failed));
+      const networkFailures = result.network.filter(item => item.status >= 400 || item.measurementError || item.failed && !/ERR_ABORTED/.test(item.failed));
       if (networkFailures.length) report.failures.push({ backend, page: pageName, operation: 'network', requests: networkFailures });
       await write();
     }
@@ -129,7 +129,7 @@ const lines = [
   '|---|---:|---:|---:|---:|',
   ...timings.map(item => '| ' + item.backend + ' | ' + item.variants + ' | ' + item.authoredTestRows + ' | ' + number(item.validationMedianMs) + ' | ' + number(item.gradeMedianMs) + ' |'), '',
   'Initialization (fresh browser cache per page; prepared assets served locally with gzip):', '',
-  ...timings.flatMap(item => item.workerInitializationMs.map(page => '- ' + item.backend + '/' + page.page + ': ' + number(page.workerInitMs) + ' ms.')), '',
+  ...timings.flatMap(item => item.workerInitializationMs.map(page => '- ' + item.backend + '/' + page.page + ': ' + number(page.workerInitMs) + ' ms' + (page.workerInitOK === false ? ' (initialization failed).' : '.'))), '',
   'Transferred response-body bytes per page (browser-observed, including CDN dependencies):', '',
   ...timings.flatMap(item => item.encodedResponseBodyBytesByPage.map(page => '- ' + item.backend + '/' + page.page + ': ' + page.encodedResponseBodyBytes + ' bytes.')), '',
   'These measurements do not establish public WAN startup, production bundling, exam isolation or cancellation safety.', '',

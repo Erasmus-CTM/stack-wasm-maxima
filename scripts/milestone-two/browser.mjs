@@ -99,11 +99,17 @@ async function action(page, card, type, timeout) {
   const selector = { tests: '.stack-tests', validate: '.stack-validate', grade: '.stack-check' }[type];
   const button = card.locator(selector);
   assert.equal(await button.isEnabled(), true, type + ' control must be enabled');
+  const demoId = await card.getAttribute('data-demo-id');
   await button.click();
-  await page.waitForFunction(({ before, type }) => window.__ctmHarness.calls.slice(before)
-    .some(call => call.type === type && call.response), { before, type }, { timeout });
+  await page.waitForFunction(({ before, type, demoId }) => {
+    const calls = window.__ctmHarness.calls.slice(before);
+    const card = document.querySelector('.ctm-demo-card[data-demo-id=' + JSON.stringify(demoId) + ']');
+    return calls.some(call => call.type === type && call.response || call.response?.ok === false) ||
+      card?.querySelector('.stack-result')?.dataset.state === 'error';
+  }, { before, type, demoId }, { timeout });
   const call = await page.evaluate(({ before, type }) => window.__ctmHarness.calls.slice(before)
     .find(call => call.type === type && call.response), { before, type });
+  assert.ok(call, type + ' did not reach the worker: ' + await card.locator('.stack-result').textContent());
   assert.equal(call.response.ok, true, type + ': ' + (call.response.error || 'Worker reported failure'));
   assert.ok(call.response.result && typeof call.response.result === 'object', 'Missing structured ' + type + ' result');
   await page.waitForFunction(element => element.querySelector('.stack-result').dataset.state !== 'loading',
@@ -218,7 +224,9 @@ export async function runPage({ browser, baseURL, backend, pageName, demos, sele
         const testResult = authoredTests.response.result;
         assert.ok(Array.isArray(testResult.results) && testResult.results.length === payload.question.qtests.length && testResult.results.length > 0,
           'Each variant must execute all authored tests');
-        for (const test of testResult.results) {
+        assert.equal(testResult.passed, testResult.results.every(test => test.passed === true), 'Authored test summary must match its rows');
+        for (const [at, test] of testResult.results.entries()) {
+          assert.equal(test.testcase, payload.question.qtests[at].testcase, 'Authored tests must retain source order and identity');
           assert.equal(test.seed, payload.variants[variant].seed);
           if (!test.passed) result.failures.push({ demoId: demo.id, variant, operation: 'authored-test', testcase: test.testcase, checks: test.checks });
         }
@@ -236,6 +244,15 @@ export async function runPage({ browser, baseURL, backend, pageName, demos, sele
         assert.equal(await card.locator('.stack-check').isDisabled(), true, 'Edits require validation');
         const validation = await action(page, card, 'validate', timeout);
         assert.equal(validation.response.result.status, 'valid', 'The authored benchmark input must validate');
+        assert.equal(await card.locator('.stack-result').getAttribute('data-state'), 'valid', 'CTM must display the validation result');
+        for (const [name, detail] of Object.entries(validation.response.result.inputs || {})) {
+          assert.equal(detail.valid, true, 'Each benchmark input must validate');
+          const preview = card.locator('.stack-validation[data-name=' + JSON.stringify(name) + ']');
+          if (await preview.count()) {
+            assert.equal(await preview.getAttribute('data-state'), 'valid', 'Each inline preview must show valid input');
+            assert.equal(await preview.getAttribute('data-latex'), detail.latex || '', 'The preview must use the returned mathematical interpretation');
+          }
+        }
         assert.equal(await card.locator('.stack-check').isEnabled(), true, 'Valid inputs enable checking');
         const gradeCalls = [], gradeRoutes = [];
         for (let repeat = 0; repeat < repeats; repeat++) {
@@ -299,6 +316,14 @@ export async function runPage({ browser, baseURL, backend, pageName, demos, sele
       await page.screenshot({ path: output + '/' + backend + '-' + pageName + '-failure.png', fullPage: false }).catch(() => {});
     }
   } finally {
+    // Keep completed startup evidence even when a later card fails. This is
+    // the original immutable init RPC, never a cumulative warm-call timer.
+    const init = result.observation?.calls.filter(call => call.type === 'init') || [];
+    if (init.length === 1 && init[0].response) {
+      result.startup = { workerInitMs: init[0].elapsedMs, workerInitOK: init[0].response.ok === true,
+        backend: init[0].response.backend || null,
+        pageNavigationToFirstGradeMs: result.variants[0]?.gradeCalls[0]?.receivedAt ?? null };
+    }
     await Promise.allSettled(networkTasks);
     result.networkTotals = result.network.reduce((sum, row) => {
       if (row.responseBodySize >= 0) sum.encodedResponseBodyBytes += row.responseBodySize;
