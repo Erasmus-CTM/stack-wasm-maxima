@@ -109,6 +109,33 @@ async function sample(repetition,inventory) {
     browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE || undefined});
     report.browserVersion=browser.version();
     const context=await browser.newContext();page=await context.newPage();
+    // The native HTML embeds all prepared questions and boards (about 17 MB).
+    // Chrome's default inspector resource buffer evicts that navigation body.
+    // Retain the actual response bytes for the mandatory hash admission gate;
+    // these protocol buffers neither fetch resources nor alter browser caches.
+    result.navigationCapture={maxTotalBufferSize:256*1024*1024,maxResourceBufferSize:64*1024*1024,enableDurableMessages:true};
+    const capture=await context.newCDPSession(page);
+    const topFrame=(await capture.send('Page.getFrameTree')).frameTree.frame.id;
+    result.documentResponses=[];
+    const documents=new Map();
+    capture.on('Network.responseReceived',event=>{
+      if(event.type!=='Document' || event.frameId!==topFrame)return;
+      const response=event.response,headers=Object.fromEntries(Object.entries(response.headers).map(([key,value])=>[key.toLowerCase(),value]));
+      const row={requestId:event.requestId,url:response.url,status:response.status,fromServiceWorker:response.fromServiceWorker===true,
+        coop:headers['cross-origin-opener-policy'],coep:headers['cross-origin-embedder-policy']};
+      documents.set(event.requestId,row);result.documentResponses.push(row);
+    });
+    capture.on('Network.loadingFinished',event=>{
+      const row=documents.get(event.requestId);if(!row)return;
+      tasks.push((async()=>{
+        try {
+          const body=await capture.send('Network.getResponseBody',{requestId:event.requestId});
+          const bytes=Buffer.from(body.body,body.base64Encoded?'base64':'utf8');
+          row.bytes=bytes.length;row.sha256=hash(bytes);
+        }catch(error){row.bodyError=String(error);}
+      })());
+    });
+    await capture.send('Network.enable',result.navigationCapture);
     page.on('pageerror',error=>result.errors.push(String(error)));
     page.on('console',message=>{if(message.type()==='error')result.consoleErrors.push(message.text());});
     context.on('request',request=>result.network.push({url:request.url(),method:request.method(),resourceType:request.resourceType(),
@@ -138,7 +165,10 @@ async function sample(repetition,inventory) {
     }catch(error){if(!interrupted(error) || Date.now()>=deadline)throw error;}
     await Promise.all(tasks);
     assert.equal(result.navigation.at(-1)?.coop,'same-origin');assert.equal(result.navigation.at(-1)?.coep,'require-corp');
-    assert.equal(result.navigation.at(-1)?.sha256,expectedHTML,'Actual final browser HTML must match the requested artifact');
+    const finalDocument=result.documentResponses.at(-1);
+    assert.equal(finalDocument?.url,pageURL.href);assert.equal(finalDocument?.status,200);
+    assert.equal(finalDocument?.coop,'same-origin');assert.equal(finalDocument?.coep,'require-corp');
+    assert.equal(finalDocument?.sha256,expectedHTML,'Actual final browser HTML must match the requested artifact');
     assert.equal(page.url(),pageURL.href);
     result.isolation=await page.evaluate(()=>({crossOriginIsolated:self.crossOriginIsolated,sharedArrayBuffer:typeof SharedArrayBuffer}));
     const card=id=>page.locator('section.stack-sympy[data-stack-id='+JSON.stringify(id)+']');
