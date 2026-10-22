@@ -106,6 +106,15 @@ self.onmessage = async ({data}) => {
  } catch(e) { self.postMessage({type:'failure',error:String(e.stack||e),tail}); }
 };
 function lispEval(text) {
+  // ecl_make_constant_base_string treats UTF-8 bytes as 8-bit characters.
+  // Feed its reader ASCII only; reconstruct Unicode with Lisp code-char
+  // before reading/evaluating the original form, inside safe-eval's boundary.
+  if(/[^\x00-\x7f]/u.test(text)) {
+    const literal=part=>'"'+part.replace(/\\/g,'\\\\').replace(/"/g,'\\"')+'"';
+    const pieces=text.split(/([^\x00-\x7f])/u).filter(Boolean).map(part=>
+      /[^\x00-\x7f]/u.test(part)?'(string (code-char '+part.codePointAt(0)+'))':literal(part));
+    text="(eval (read-from-string (concatenate 'string "+pieces.join(' ')+")))";
+  }
   const saved = stackSave();
   try {
     const p = stringToUTF8OnStack(text);
@@ -127,9 +136,9 @@ function evaluate(expression) {
   // Common Lisp strings escape only backslash and quote; JSON's \n would
   // be read as the letter n rather than a newline.
   const literal='"'+command.replace(/\\/g,'\\\\').replace(/"/g,'\\"')+'"';
-  lispEval('(maxima::$eval_string '+literal+')');
+  const lispValue=lispEval('(maxima::$eval_string '+literal+')');
   const records = output.split(/\r?\n/).filter(line=>line.startsWith('CTMCALL|'));
-  if(records.length !== 1) throw new Error('Direct call did not produce exactly one result: '+tail);
+  if(records.length !== 1) throw Object.assign(new Error('Direct call did not produce exactly one result: '+tail),{lispValue});
   return JSON.parse(records[0].slice(8));
 }
 async function directMessage({data}) {
@@ -145,6 +154,6 @@ async function directMessage({data}) {
   const t=performance.now();
   output='';
   const value=data.lisp ? lispEval(data.lisp) : evaluate(data.expression);
-  self.postMessage({type:'evaluated',id:data.id,value,output,tail,elapsedMs:performance.now()-t});
- } catch(e) {self.postMessage({type:'failure',id:data.id,error:String(e.stack||e),tail});}
+  self.postMessage({type:'evaluated',id:data.id,value,output:data.compact?undefined:output,tail:data.compact?undefined:tail,heapBytes:HEAPU8.buffer.byteLength,wasmStackPointer:stackSave(),elapsedMs:performance.now()-t});
+ } catch(e) {self.postMessage({type:'failure',id:data.id,error:String(e.stack||e),lispValue:e.lispValue,output,tail,aborted:typeof ABORT!=='undefined'&&ABORT});}
 }

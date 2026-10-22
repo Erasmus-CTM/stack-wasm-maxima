@@ -25,5 +25,14 @@ async function runSuite(session, fixtures, question) {
  const validation=await engine.validate(question,variant,answers);
  const grade=await engine.grade(question,variant,answers);
  if(validation.status!=='valid' || grade.status!=='graded' || grade.score!==1)throw new Error('The native-rational teacher answer must validate and grade fully correct');
- return {rows,native:{variant,validation,grade}};
+ const unicode='\u00e6\u00f8\u00e5\u2212\u03c0';
+ const unicodeResult=call('unicode-string',JSON.stringify(unicode));
+ if(unicodeResult!==unicode)throw new Error('Unicode roundtrip mismatch: '+JSON.stringify(unicodeResult));
+ const unicodeQuestion=structuredClone(question);
+ unicodeQuestion.native.tokens.push({id:'unicode',source:JSON.stringify(unicode),format:'latex',wrap:false,phase:'prepare',context:'html'});
+ unicodeQuestion.questiontext+='<p>@@CTM_NATIVE_unicode@@</p>';
+ const unicodeVariant=await engine.prepare(unicodeQuestion,1);
+ const rendered=NativeStackEngine.renderTemplate(unicodeQuestion.questiontext,unicodeVariant.tokenValues);
+ if(unicodeVariant.tokenValues.unicode.value!==unicode || !rendered.includes('<p>'+unicode+'</p>'))throw new Error('Unicode CASText token mismatch');
+ return {rows,native:{variant,validation,grade,unicode:{value:unicodeResult,variant:unicodeVariant,rendered}}};
 }
