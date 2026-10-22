@@ -13,7 +13,7 @@ class Element {
   constructor(tag, document) {
     this.tagName = tag.toUpperCase(); this.ownerDocument = document; this.children = [];
     this.attributes = new Map(); this.dataset = {}; this.listeners = new Map(); this.value = '';
-    this.className = ''; this.style = {}; this.srcdocWrites = 0; this.innerHTML = '';
+    this.className = ''; this.style = {}; this.srcdocWrites = 0; this.srcWrites = 0; this.innerHTML = '';
   }
   get isConnected() { return this.ownerDocument.contains(this); }
   setAttribute(key, value) {
@@ -21,6 +21,7 @@ class Element {
     if (key === 'id') this.id = String(value);
     if (key === 'class') this.className = String(value);
     if (key === 'srcdoc') this.srcdocWrites++;
+    if (key === 'src') this.srcWrites++;
   }
   getAttribute(key) { return key === 'id' ? this.id || null : this.attributes.get(key) ?? null; }
   hasAttribute(key) { return this.attributes.has(key); }
@@ -119,7 +120,7 @@ const feedback = child(card, 'span', ''); feedback.id = 'feedback-data'; feedbac
 const otherCard = child(hostDocument.body, 'section', 'stack-sympy');
 const external = child(otherCard, 'span', ''); external.id = 'outside'; external.innerHTML = 'private';
 const frame = child(card, 'iframe', ''); frame.contentWindow = frameProxy;
-frame.setAttribute('srcdoc', '<html>original board</html>');
+frame.setAttribute('src', 'data:text/html;base64,PGh0bWw+b3JpZ2luYWwgYm9hcmQ8L2h0bWw+');
 const handle = hostWindow.CTMStackJSXGraph.attachIframe(frame, {assessmentId:'native-board', inputs:['ans1']});
 const api = frameWindow.CTMStackJSXGraphFrame.create({assessmentId:'native-board', inputNames:['ans1']});
 const settle = async () => { for (let index = 0; index < 4; index++) await new Promise(resolve => setImmediate(resolve)); };
@@ -129,6 +130,8 @@ try {
   const mirror = frameDocument.querySelectorAll('input')[0];
   assert.equal(mirror.value, '[0,0]', 'Initial question values reach the mirror before registration resolves');
   assert.equal(api.get_input_metadata('ans1').InputType, 'algebraic');
+  await api.mark_ready(); await settle();
+  assert.equal(frame.getAttribute('data-stack-jsxgraph-ready'), 'true');
   await assert.rejects(api.request_access_to_input('private'), /not bound/);
 
   mirror.value = '[1,2]'; mirror.dispatchEvent(new FakeEvent('change'));
@@ -181,13 +184,30 @@ try {
   assert.equal(sentToHost.filter(message => message.operation === 'set-input').length, writes, 'Oversized data is rejected before transport');
 
   resetButton.addEventListener('click', () => { input.value = ''; });
-  const reloads = frame.srcdocWrites;
+  const reloads = frame.srcWrites;
   resetButton.click();
+  assert.equal(frame.getAttribute('data-stack-jsxgraph-ready'), 'false', 'Reset clears the parent readiness marker before navigation');
   await settle();
-  assert.equal(frame.srcdocWrites, reloads + 1, 'Reset recreates the author board from its original srcdoc');
+  assert.equal(frame.srcWrites, reloads + 1, 'Reset recreates the stock Quarto board from its original data URL');
   hostProxy.postMessage({...oldWrite, requestId:'late-after-reset', value:'[99,99]'});
   hostProxy.postMessage({protocol:'ctm-stack-jsxgraph', version:1, type:'hello', assessmentId:'native-board', instanceId:oldWrite.instanceId});
+  hostProxy.postMessage({protocol:'ctm-stack-jsxgraph', version:1, type:'hello', assessmentId:'native-board', instanceId:'late-previously-unseen-document'});
   await settle();
   assert.equal(input.value, '', 'Late writes and retired-frame handshakes cannot restore a pre-reset response');
+  assert.equal(sentToFrame.some(message => message.type === 'init' && message.instanceId === 'late-previously-unseen-document'), false,
+    'Reset blocks handshakes until the replacement iframe document has loaded');
+  frame.dispatchEvent(new FakeEvent('load'));
+  hostProxy.postMessage({protocol:'ctm-stack-jsxgraph', version:1, type:'hello', assessmentId:'native-board', instanceId:'new-document'});
+  await settle();
+  const fresh = sentToFrame.findLast(message => message.type === 'init' && message.instanceId === 'new-document');
+  assert.ok(fresh, 'The new iframe document can connect through the same WindowProxy after reset');
+  hostProxy.postMessage({protocol:'ctm-stack-jsxgraph', version:1, type:'request', operation:'set-input', assessmentId:'native-board',
+    instanceId:'new-document', generation:fresh.generation, requestId:'fresh-write', name:'ans1', value:'[11,12]',
+    inputRevision:fresh.state.inputs.ans1.revision});
+  await settle();
+  assert.equal(input.value, '[11,12]');
+  hostProxy.postMessage({...oldWrite, requestId:'old-document-after-remount', value:'[99,99]'});
+  await settle();
+  assert.equal(input.value, '[11,12]', 'The retired document stays blocked after a replacement document connects');
   console.log('JSXGraph adapter: initial state, two-way edits, click collection, namespace, readonly, size and reset boundaries passed');
 } finally { api.dispose(); handle.disconnect(); }

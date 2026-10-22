@@ -118,15 +118,37 @@
     if (!text) invalid('Enter an answer.', 'blank');
     const forbidden = forbiddenNames(question, variant);
     const forbiddenWords = new Set(words(input.forbidwords));
+    for (const word of forbiddenWords) {
+      if (/\[\[|\]\]/.test(word)) throw new Error('Native admission does not support forbidden-word shorthand lists');
+      if (!NAME.test(word) && !OPERATORS.has(word) && !PREFIXES.has(word) && !['(',')','[',']','{','}',','].includes(word)) {
+        throw new Error('Unsupported native forbidden word or operator: ' + word);
+      }
+    }
+    const pending = [...forbiddenWords];
+    while (pending.length) {
+      const word = pending.pop();
+      for (const alias of [...(data.aliases?.[word] || []), FUNCTION_ALIASES[word], CONSTANTS[word], LOGIC[word],
+        word === '^' ? '**' : word === '**' ? '^' : null].filter(Boolean)) {
+        if (!forbiddenWords.has(alias)) { forbiddenWords.add(alias); pending.push(alias); }
+      }
+    }
+    function checkWord(word) {
+      if (forbiddenWords.has(word) || forbiddenWords.has(LOGIC[word])) invalid('The expression ' + word + ' is forbidden.', 'forbidden-word');
+    }
     const readable = new Set(data.readable), unreadable = new Set(data.unreadable), functions = new Set(data.functions);
     const globallyForbidden = new Set(data.globallyForbidden), callable = new Set(data.callable);
     let node;
-    try { node = parser.parse_decimal_dot(text, Number(input.insertstars) === 1 ? '*' : undefined, false); }
+    // Native STACK serializes held conjunction/disjunction with noun names;
+    // MP-lite's recognizer accepts the corresponding ordinary keywords only.
+    // Admission serializes them back to the native noun spelling below.
+    const parserText = text.replace(/\bnounand\b/g, 'and').replace(/\bnounor\b/g, 'or');
+    try { node = parser.parse_decimal_dot(parserText, Number(input.insertstars) === 1 ? '*' : undefined, false); }
     catch { invalid('The mathematical expression could not be parsed.', 'syntax'); }
     let nodes = 0, entries = 0;
     function nameSource(name, role) {
       if (!NAME.test(name) || forbidden.has(name)) invalid('Forbidden variable or constant: ' + name + '.', 'forbidden-name');
-      if (forbiddenWords.has(name)) invalid('The expression ' + name + ' is forbidden.', 'forbidden-word');
+      checkWord(name);
+      checkWord(role === 'function' ? FUNCTION_ALIASES[name] : CONSTANTS[name]);
       if (role === 'function') {
         const caseError = caseMessage(name, data.functions, 'function');
         if (caseError) invalid(caseError, 'case');
@@ -180,22 +202,29 @@
       if (kind === 'MPInteger' || kind === 'MPFloat') return numberSource(n.value);
       if (kind === 'MPBoolean') {
         if (![true,false,'true','false'].includes(n.value)) invalid('Invalid logical constant.');
-        return n.value === true || n.value === 'true' ? 'true' : 'false';
+        const value = n.value === true || n.value === 'true' ? 'true' : 'false';
+        checkWord(value);
+        return value;
       }
       if (kind === 'MPIdentifier') return nameSource(n.value, 'variable');
       if (kind === 'MPGroup') {
         if (n.items.length !== 1) invalid('Only one mathematical expression is allowed.', 'syntax');
+        checkWord('('); checkWord(')');
         return '(' + visit(n.items[0], depth+1, collectionDepth) + ')';
       }
       if (kind === 'MPList' || kind === 'MPSet') {
         if (n.items.length > LIMITS.collectionLength || collectionDepth >= LIMITS.collectionDepth ||
             (entries += n.items.length) > LIMITS.collectionEntries) invalid('Collection exceeds the supported size or depth.', 'input-bound');
         const bounds = kind === 'MPList' ? ['[',']'] : ['{','}'];
+        checkWord(bounds[0]); checkWord(bounds[1]);
+        if (n.items.length > 1) checkWord(',');
         return bounds[0] + n.items.map(item => visit(item, depth+1, collectionDepth+1)).join(',') + bounds[1];
       }
       if (kind === 'MPOperation') {
         const op = n.op.trim();
         if (!OPERATORS.has(op)) invalid('Unsupported mathematical operator: ' + op + '.', 'syntax');
+        checkWord(op);
+        if (op === '**') checkWord('^');
         if (op === '^' || op === '**') {
           const exponent = literal(n.rhs);
           if (exponent !== null && (!Number.isFinite(exponent) || Math.abs(exponent) > LIMITS.power)) invalid('Power exceeds the supported exponent bound of 100.', 'input-bound');
@@ -208,6 +237,7 @@
       if (kind === 'MPPrefixOp') {
         const op = n.op.trim();
         if (!PREFIXES.has(op)) invalid('Unsupported mathematical prefix operator.', 'syntax');
+        checkWord(op);
         return (LOGIC[op] || op) + (op === 'not' || op === 'nounnot' ? ' ' : '') + visit(n.rhs, depth+1, collectionDepth);
       }
       if (kind === 'MPFunctionCall') {
@@ -217,11 +247,14 @@
           // with one argument; computed callable names remain impossible.
           if (Number(input.insertstars) === 1 && n.args.length === 1 &&
               ['MPGroup','MPInteger','MPFloat'].includes(n.name.constructor.name)) {
+            checkWord('*'); checkWord('('); checkWord(')');
             return visit(n.name, depth+1, collectionDepth) + ' * (' + visit(n.args[0], depth+1, collectionDepth) + ')';
           }
           invalid('Computed function names are not allowed.', 'syntax');
         }
         const original = n.name.value, name = nameSource(original, 'function');
+        checkWord('('); checkWord(')');
+        if (n.args.length > 1) checkWord(',');
         const arity = SAFE_FUNCTIONS[original];
         if (n.args.length < arity[0] || n.args.length > arity[1]) invalid('Unsupported number of arguments for ' + original + '.', 'arity');
         if (name === 'matrix') {

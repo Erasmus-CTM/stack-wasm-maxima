@@ -28,9 +28,11 @@
     const buttons = new Map(), retiredInstances = new Set(), collections = new Map();
     if (!cards.has(card)) cards.set(card, {handles:new Set(), replaying:false, busy:false});
     const cardState = cards.get(card);
-    let generation = nonce(), epoch = ++epochSequence, instanceId = null, disconnected = false;
-    let previousState = '', scheduled = false, lastAction = '', errorOutput = null;
+    let generation = nonce(), epoch = ++epochSequence, instanceId = null, disconnected = false, acceptingHello = true;
+    let previousState = '', scheduled = false, lastAction = '', errorOutput = null, boardReady = false;
     const originalSrcdoc = frame.getAttribute('srcdoc');
+    const originalSrc = frame.getAttribute('src');
+    frame.setAttribute('data-stack-jsxgraph-ready', 'false');
     function input(name) {
       if (!allowed.has(name)) throw new Error('STACK input is not bound to this board: ' + String(name));
       const matches = Array.from(card.querySelectorAll('.stack-answer[data-name]')).filter(item => item.dataset.name === name);
@@ -81,8 +83,10 @@
     function sync() {
       scheduled = false;
       if (!current() || !instanceId) return;
-      const state = snapshot(), text = JSON.stringify(state);
-      if (text !== previousState) { previousState = text; post({type:'state', state}); }
+      try {
+        const state = snapshot(), text = JSON.stringify(state);
+        if (text !== previousState) { previousState = text; post({type:'state', state}); }
+      } catch (error) { showError(error.message); }
     }
     function schedule() {
       if (scheduled) return;
@@ -94,9 +98,18 @@
       frame.contentWindow.postMessage({protocol:'jsxgraph-quarto-assessment', version:1,
         type:'layout', assessmentId:spec.assessmentId}, '*');
     }
+    function reloadFrame() {
+      if (!current()) return;
+      // The stock extension uses a self-contained data: URL. Also accept
+      // srcdoc when a host embeds the same Quarto-rendered document that way.
+      if (originalSrcdoc !== null) frame.setAttribute('srcdoc', originalSrcdoc);
+      else if (originalSrc !== null) frame.setAttribute('src', originalSrc);
+      else showError('The graphical board has no original document to restore');
+    }
     function invalidate(reload) {
       if (instanceId) retiredInstances.add(instanceId);
       instanceId = null; generation = nonce(); epoch = ++epochSequence; previousState = '';
+      boardReady = false; frame.setAttribute('data-stack-jsxgraph-ready', 'false');
       for (const name of spec.inputs) revisions.set(name, revisions.get(name) + 1);
       for (const [target, listener] of buttons) target.removeEventListener('click', listener);
       buttons.clear();
@@ -104,7 +117,7 @@
         clearTimeout(row.timer); row.reject(new Error('The question was reset or its variant changed'));
       }
       collections.clear();
-      if (reload && originalSrcdoc !== null && current()) frame.setAttribute('srcdoc', originalSrcdoc);
+      if (reload) reloadFrame();
     }
     function hostInput(event) {
       const target = event.target;
@@ -134,17 +147,19 @@
         }
       }
       else if (event.target?.closest?.('.stack-reset')) {
+        acceptingHello = false;
         invalidate(false);
         // The shared CTM clear() changes values without input events. Rebuild
         // the author board after it completes, restoring its initial geometry.
-        queueMicrotask(() => { if (current() && originalSrcdoc !== null) frame.setAttribute('srcdoc', originalSrcdoc); });
+        queueMicrotask(reloadFrame);
       }
     }
     function change(event) {
-      if (event.target?.matches?.('.stack-variant')) invalidate(false);
+      if (event.target?.matches?.('.stack-variant')) { acceptingHello = false; invalidate(false); }
       else hostInput(event);
     }
-    function reset() { invalidate(false); queueMicrotask(() => { if (current() && originalSrcdoc !== null) frame.setAttribute('srcdoc', originalSrcdoc); }); }
+    function reset() { acceptingHello = false; invalidate(false); queueMicrotask(reloadFrame); }
+    function loaded() { acceptingHello = true; layout(); }
     function receive(event) {
       const data = event.data;
       if (current() && event.source === frame.contentWindow && plain(data) && data.protocol === 'jsxgraph-quarto-assessment' &&
@@ -183,13 +198,17 @@
           data.version !== VERSION || data.assessmentId !== spec.assessmentId || typeof data.instanceId !== 'string' ||
           !data.instanceId || data.instanceId.length > 128) return;
       if (data.type === 'hello') {
-        if (retiredInstances.has(data.instanceId)) return;
+        if (!acceptingHello || retiredInstances.has(data.instanceId)) return;
         if (instanceId && instanceId !== data.instanceId) invalidate(false);
         instanceId = data.instanceId;
         try { initialize(); } catch (error) { showError(error.message); }
         return;
       }
-      if (data.instanceId !== instanceId || data.generation !== generation || data.type !== 'request' ||
+      if (data.instanceId !== instanceId || data.generation !== generation) return;
+      if (data.type === 'board-ready') {
+        boardReady = true; frame.setAttribute('data-stack-jsxgraph-ready', 'true'); layout(); return;
+      }
+      if (data.type !== 'request' ||
           typeof data.requestId !== 'string' || data.requestId.length > 256) return;
       const response = {type:'response', requestId:data.requestId};
       try {
@@ -235,7 +254,7 @@
       errorOutput.textContent = String(message).slice(0, 4096);
     }
     function collect() {
-      if (!current() || !instanceId) return Promise.reject(new Error('The graphical input is still connecting; try again'));
+      if (!current() || !instanceId || !boardReady) return Promise.reject(new Error('The graphical input is still connecting; try again'));
       const requestId = nonce();
       return new Promise((resolve, reject) => {
         const timer = setTimeout(() => { collections.delete(requestId); reject(new Error('The graphical response did not arrive before validation')); }, 10000);
@@ -249,7 +268,7 @@
     card.addEventListener('change', change, true);
     card.addEventListener('click', click, true);
     card.addEventListener('reset', reset, true);
-    frame.addEventListener('load', layout);
+    frame.addEventListener('load', loaded);
     const observer = new scope.MutationObserver(schedule);
     observer.observe(card, {subtree:true, childList:true, attributes:true,
       attributeFilter:['aria-invalid', 'data-state', 'hidden', 'open', 'class', 'style']});
@@ -262,7 +281,7 @@
       card.removeEventListener('change', change, true);
       card.removeEventListener('click', click, true);
       card.removeEventListener('reset', reset, true);
-      frame.removeEventListener('load', layout);
+      frame.removeEventListener('load', loaded);
       observer.disconnect(); resize?.disconnect(); attached.delete(frame);
       cardState.handles.delete(handle);
     }};

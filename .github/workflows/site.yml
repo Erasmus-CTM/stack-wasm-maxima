@@ -8,6 +8,7 @@ on:
       - 'site/**'
       - 'prototype/**'
       - 'scripts/milestone-two/**'
+      - 'scripts/milestone-three/**'
       - 'scripts/public-demo/isolation*.js'
       - 'scripts/site/**'
       - 'demos/manifest.json'
@@ -20,6 +21,7 @@ on:
       - 'site/**'
       - 'prototype/**'
       - 'scripts/milestone-two/**'
+      - 'scripts/milestone-three/**'
       - 'scripts/public-demo/isolation*.js'
       - 'scripts/site/**'
       - 'demos/manifest.json'
@@ -38,7 +40,7 @@ concurrency:
 jobs:
   site:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -76,7 +78,18 @@ jobs:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
           path: .site-sources/stack
-          sparse-checkout: stack/maxima
+          sparse-checkout: |
+            stack/maxima
+            stack/cas
+            stack/maximaparser
+            corsscripts
+            samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: jsxgraph/jsxgraph-quarto
+          ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e
+          path: .site-sources/jsxgraph-quarto
           persist-credentials: false
       - name: Install the pinned browser dependencies
         run: |
@@ -92,6 +105,21 @@ jobs:
             --stack-source .site-sources/stack \
             --ctm-checkers-source .site-sources/ctm-checkers
           node scripts/milestone-two/test-frontend-pools.mjs site/_extensions/stack-sympy/stack-sympy.js
+          python scripts/milestone-three/stage-parser.py --stack-source .site-sources/stack --output site/native
+          python scripts/milestone-three/compile.py --stack-source .site-sources/stack \
+            --ctm-checkers-source .site-sources/ctm-checkers --output site/native/questions.json \
+            --resources site/maxima/native-questions
+      - name: Prepare native variants in the actual Wasm backend
+        env:
+          CTM_COMPONENT_DEV: '1'
+          STACK_SYMPY_PYTHON: python
+          CTM_CHECKERS_SOURCE: .site-sources/ctm-checkers
+          STACK_SOURCE: .site-sources/stack
+          PYTHONPATH: .site-sources/ctm-checkers/src
+        run: |
+          python scripts/milestone-three/test-build.py
+          node scripts/milestone-three/build-site.mjs --site site --stack-source .site-sources/stack \
+            --ctm-checkers-source .site-sources/ctm-checkers --jsxgraph-source .site-sources/jsxgraph-quarto
       - name: Render the committed Quarto page
         env:
           CTM_COMPONENT_DEV: '1'
@@ -102,6 +130,16 @@ jobs:
           quarto render site
       - name: Exercise both backends in the rendered comparison page
         run: node scripts/site/smoke.mjs site/_site test-results/reviewer-site
+      - name: Exercise native questions, graphical inputs and Python continuations
+        run: node scripts/milestone-three/browser.mjs site/_site test-results/milestone-three
+      - name: Install the independent native Maxima reference
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends maxima maxima-share
+      - name: Compare captured native programs with the independent native runtime
+        run: |
+          python scripts/milestone-three/native-reference.py --browser-report test-results/milestone-three/browser.json \
+            --stack-source .site-sources/stack --output test-results/milestone-three/native-reference
       - name: Upload the tested Quarto site
         uses: actions/upload-artifact@v4
         with:
@@ -114,6 +152,16 @@ jobs:
         with:
           name: reviewer-evidence-${{ github.sha }}
           path: test-results/reviewer-site/
+          if-no-files-found: warn
+      - name: Upload native preparation and browser evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-reviewer-evidence-${{ github.sha }}
+          path: |
+            .cache/native-build/
+            site/native/build-manifest.json
+            test-results/milestone-three/
           if-no-files-found: warn
 
   publish:
@@ -221,10 +269,14 @@ jobs:
           if (!current) throw new Error('The public page does not match the tested artifact.');
           JS
           node scripts/site/smoke.mjs ../reviewer-site ../test-results/public-reviewer-site
+          NATIVE_PAGE_URL="${REVIEWER_URL}maxima/native.html" node scripts/milestone-three/browser.mjs \
+            ../reviewer-site ../test-results/public-native-site
       - name: Upload public browser evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: public-reviewer-evidence-${{ github.sha }}
-          path: test-results/public-reviewer-site/
+          path: |
+            test-results/public-reviewer-site/
+            test-results/public-native-site/
           if-no-files-found: warn

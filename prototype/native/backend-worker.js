@@ -3,8 +3,8 @@
 // only by an actually visited PythonChecker continuation.
 'use strict';
 importScripts('../runtime/maxima-session.js', 'stack-parser.js', 'input.js', 'python-bridge.js', 'engine.js');
-let queue = Promise.resolve(), starting, session, engine, python, currentRequest;
-const counters = {nativeEvaluations:0, pythonCheckerCount:0};
+let queue = Promise.resolve(), starting, session, engine, python, currentRequest, configuration;
+const counters = {nativeEvaluations:0, pythonCheckerCount:0, restarts:0};
 const timings = {};
 function metadata() {
   return {id:'maxima-native', mode:'native-with-optional-python', validation:'stack-maxima', controller:'native-prt',
@@ -29,7 +29,7 @@ function init(message) {
         }
       });
       await session.init();
-      python = new self.NativePythonBridge({runtime:message.runtime,checkers:message.checkers,
+      python ||= new self.NativePythonBridge({runtime:message.runtime,checkers:message.checkers,
         onEvent:data => event(data)});
       engine = new self.NativeStackEngine({session, onEvent:data => {
         if (data.event === 'native-evaluate' && message.recordPrograms !== true) {
@@ -55,9 +55,13 @@ async function handle(message) {
   currentRequest = message.id;
   try {
     let result;
-    if (message.type === 'init') { await init(message); result = 'ready'; }
+    if (message.type === 'init') {
+      configuration = {runtime:message.runtime,checkers:message.checkers,recordPrograms:message.recordPrograms === true};
+      await init(configuration); result = 'ready';
+    }
     else {
-      if (!starting) throw new Error('The native worker was not initialized.');
+      if (!configuration) throw new Error('The native worker was not initialized.');
+      if (!starting) await init(configuration);
       await starting;
       const began = performance.now();
       if (message.type === 'prepare') result = await engine.prepare(message.question, message.seed ?? 1);
@@ -70,6 +74,11 @@ async function handle(message) {
     }
     self.postMessage({id:message.id,ok:true,result,backend:metadata()});
   } catch(error) {
+    if (session?.poisoned) {
+      session.terminate(); starting = null; engine = null;
+      counters.restarts++;
+      event({event:'native-restart-needed',error:String(error?.message || error)});
+    }
     self.postMessage({id:message.id,ok:false,error:String(error?.message || error),backend:metadata()});
   } finally { currentRequest = null; }
 }

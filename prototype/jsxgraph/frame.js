@@ -50,6 +50,7 @@
         assessmentId, instanceId, generation, ...data}, '*');
     }
     function inputName(name) {
+      if (disposed) throw new Error('The graphical input is no longer connected');
       if (!validName(name) || !allowed.has(name)) throw new Error('STACK input is not bound to this board: ' + String(name));
       return name;
     }
@@ -192,8 +193,13 @@
 
     const api = {
       ready,
+      mark_ready: async function () {
+        await ready;
+        if (disposed) throw new Error('The graphical input is no longer connected');
+        post({type:'board-ready'});
+      },
       request_access_to_input: async function (name) {
-        inputName(name); await ready; return mirror(name).id;
+        inputName(name); await ready; inputName(name); return mirror(name).id;
       },
       get_input_metadata: function (name) {
         const input = mirrors.get(inputName(name));
@@ -232,6 +238,7 @@
       dispose: function () {
         disposed = true; clearInterval(helloTimer); clearTimeout(loadTimer);
         scope.removeEventListener('message', receive);
+        rejectReady(new Error('The graphical input was disconnected'));
         rejectRequests('The graphical input was disconnected');
         for (const input of mirrors.values()) input.remove();
       },

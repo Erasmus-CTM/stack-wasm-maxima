@@ -75,6 +75,36 @@ try {
       await writeFile(resolve(output,'browser.json'),JSON.stringify(report,null,2)+'\n');
     }
   }
+  // Independent regression probes exercise written forms and native string
+  // values that can disappear if build preparation simplifies test inputs.
+  const base=inventory.questions.find(entry=>entry.id==='native-rational').question;
+  function regression(name,test,teacher,answer) {
+    const question=JSON.parse(JSON.stringify(base));
+    question.name=name;question.variables='';question.simplify=true;
+    question.native={schema:1,id:name,locals:[],tokens:[],boards:[]};
+    question.inputs=[{...question.inputs[0],name:'ans1',teacher,type:'algebraic',requirelowestterms:false,checkanswertype:false}];
+    question.prts=[{name:'prt1',value:1,autosimplify:true,feedbackvariables:'',locals:[],nodes:[{
+      name:'0',test,student:'ans1',teacher,options:'',quiet:true,
+      true:{mode:'=',score:1,next:-1,note:'probe-T',feedback:''},
+      false:{mode:'=',score:0,next:-1,note:'probe-F',feedback:''}}]}];
+    question.qtests=[{testcase:'1',inputs:{ans1:answer},expected:{prt1:{score:0,penalty:question.penalty,note:'probe-F'}}}];
+    return question;
+  }
+  for(const question of [regression('probe-lowest-terms','LowestTerms','1/2','2/4'),
+    regression('probe-held-equalcomass','EqualComAss','2*x','x+x')]) {
+    const variant=(await call({type:'prepare',question,seed:1})).result;
+    const tests=(await call({type:'tests',question,variant})).result;
+    assert.equal(tests.passed,true,question.name+' must retain authored input form');
+    report.rows.push({id:question.name,variant,tests});
+  }
+  const jsonQuestion=regression('probe-json-qtest','AlgEquiv','"[]"','"[{\\"x\\":1}]"');
+  jsonQuestion.inputs[0].type='json';jsonQuestion.prts[0].nodes[0].teacher='ans1';
+  jsonQuestion.qtests[0].expected.prt1={score:1,penalty:0,note:'probe-T'};
+  const jsonVariant=(await call({type:'prepare',question:jsonQuestion,seed:1})).result;
+  assert.equal(jsonVariant.qtests[0].answers.ans1,'[{"x":1}]','JSON qtest strings must lose Maxima quoting');
+  const jsonTests=(await call({type:'tests',question:jsonQuestion,variant:jsonVariant})).result;
+  assert.equal(jsonTests.passed,true);
+  report.rows.push({id:jsonQuestion.name,variant:jsonVariant,tests:jsonTests});
   const evidence=await page.evaluate(()=>window.nativeEvidence);
   report.events=evidence.events;
   report.programs=evidence.events.filter(event=>event.event==='native-evaluate').map(({operation,question,expression,result})=>({operation,question,expression,result}));

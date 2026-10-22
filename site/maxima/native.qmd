@@ -1,0 +1,120 @@
+---
+title: "Native questions and graphical answers"
+subtitle: "Milestone 3 — native STACK execution with optional PythonChecker"
+---
+
+These exercises use the same CTM question controls as the [backend comparison](examples.qmd).
+Question variables, supported input validation and native response-tree nodes run through
+STACK's Maxima libraries in WebAssembly. Native questions start without Python. A visited
+PythonChecker node loads the existing CTM checker implementation in Pyodide and then resumes
+the native response tree.
+
+The supported controller subset is explicit; this page does not establish full Moodle PHP
+input-controller or attempt-state compatibility. Use **Run question tests** where available,
+then try your own correct, incorrect and invalid answers. Source XML links identify the
+exact questions used by this build.
+
+## Rational equivalence
+
+**Standard STACK features; CTM-authored question.** This checks the same mathematical
+condition as the comparison page. The selected variants are prepared by native Maxima.
+[Source XML](native-questions/native-rational.xml).
+
+::: {.stack-native #native-rational}
+#| prepared: native-rational
+:::
+
+## Numerical precision
+
+**Standard STACK features; CTM-authored question.** Numerical tolerances and the written
+number of decimal places are separate conditions. In particular, compare `17.50` and `17.5`.
+[Source XML](native-questions/native-numerical.xml).
+
+::: {.stack-native #native-numerical}
+#| prepared: native-numerical
+:::
+
+## Lists and sets
+
+**Standard STACK features; CTM-authored question.** Ordered lists and unordered sets retain
+their distinct native meanings. [Source XML](native-questions/native-collections.xml).
+
+::: {.stack-native #native-collections}
+#| prepared: native-collections
+:::
+
+## A fixed matrix input
+
+**Standard STACK features; CTM-authored question.** The matrix has fixed dimensions and
+uses native `AlgEquiv` grading. [Source XML](native-questions/native-matrix.xml).
+
+::: {.stack-native #native-matrix}
+#| prepared: native-matrix
+:::
+
+## An unchanged upstream binding example
+
+**Unchanged upstream STACK question.** The board is rendered by the existing
+`jsxgraph-quarto` extension, with STACK's own point-binding library and a CTM input adapter.
+The upstream prose describes Moodle's reload behavior; this static page keeps the board
+mounted while checking. **This teaching example compares the input with itself, so any
+valid answer receives full credit. It demonstrates data exchange, not mathematical grading.**
+[Source XML](native-questions/native-binding.xml).
+
+::: {.stack-native #native-binding}
+#| prepared: native-binding
+:::
+
+## An unchanged upstream JSON example
+
+**Unchanged upstream STACK question.** Its original input is a **string** containing JSON.
+Native `stackjson_parse` reads that string and the feedback reports the number and colors
+of the points. Drag the black source point out of its circle to create a point in the
+answer, then move it through the colored circles. **Its grading also compares the input
+with itself.** [Source XML](native-questions/native-json.xml).
+
+::: {.stack-native #native-json}
+#| prepared: native-json
+:::
+
+## A graphical PythonChecker
+
+**CTM extension: PythonChecker. This question does not run on vanilla STACK.** The board
+exchanges the same coordinate-list response as an ordinary STACK binding. The existing
+PythonChecker API decides whether both coordinates are positive.
+[Source XML](native-questions/native-python-board.xml) · [Checker source](native-questions/native-checkers.py).
+
+::: {.stack-native #native-python-board}
+#| prepared: native-python-board
+:::
+
+## A mixed response tree
+
+**CTM extension: PythonChecker inside a native response tree. This question does not run on
+vanilla STACK.** Three nodes run in the order **native → Python → native**. Try `[2,2]`
+for full credit, `[2,3]` for half credit and `[-1,3]` for zero. The native continuation
+retains the branch path and score when the Python node finishes.
+[Source XML](native-questions/native-mixed-board.xml).
+
+::: {.stack-native #native-mixed-board}
+#| prepared: native-mixed-board
+:::
+
+## Structured matrix feedback from PythonChecker
+
+**CTM extension: PythonChecker matrix assessment. This question does not run on vanilla
+STACK.** The checker returns a verdict for each submitted column. Those verdicts explain
+the result; the response tree awards the score. Try the identity matrix and then change
+one entry in its second column. [Source XML](native-questions/native-matrix-python.xml).
+
+::: {.stack-native #native-matrix-python}
+#| prepared: native-matrix-python
+:::
+
+## Build and execution evidence
+
+The [native build manifest](../native/build-manifest.json) records the pinned source
+revisions, original XML hashes, actual native preparation programs and prepared variants.
+Browser CI exercises the controls, the JSON bridge, native and Python routing, partial
+credit, reset and question independence. Loading measurements are reported separately
+from ordinary functional builds.

@@ -5,9 +5,12 @@ project:
     - python ../scripts/site/post-render.py
   render:
     - maxima/examples.qmd
+    - maxima/native.qmd
   resources:
     - backend/**
     - runtime/**
+    - native/**
+    - jsxgraph/**
     - maxima-runtime/**
     - stack-sources.json
     - runtime-assets.json
@@ -15,6 +18,7 @@ project:
     - ctm-isolation.js
     - ctm-isolation-worker.js
     - maxima/questions/**
+    - maxima/native-questions/**
 
 website:
   title: "STACK Maxima"
@@ -22,6 +26,8 @@ website:
     left:
       - href: maxima/examples.qmd
         text: Worked questions
+      - href: maxima/native.qmd
+        text: Native questions
     right:
       - icon: github
         href: https://github.com/Erasmus-CTM/stack-wasm-maxima

@@ -106,7 +106,8 @@ def main() -> int:
         captured_bytes = args.browser_report.read_bytes()
         captured = json.loads(captured_bytes)
         report["browserReport"] = {"path": str(args.browser_report), "sha256": sha256(captured_bytes),
-                                   "sourceRevision": captured.get("sourceRevision"), "browserVersion": captured.get("browserVersion")}
+                                   "sourceRevision": captured.get("sourceRevision"), "browserVersion": captured.get("browserVersion"),
+                                   "passed": captured.get("passed") is True}
         report["wasmRuntime"] = captured.get("runtime", {})
         programs = captured.get("programs", [])
         if not isinstance(programs, list) or not programs:
@@ -175,7 +176,9 @@ def main() -> int:
                 report["observations"].append({"index": index, "operation": row.get("operation"),
                     "question": row.get("question"), "expressionSha256": sha256(row["expression"].encode("utf-8")),
                     "wasm": row["result"], "native": value[1], "differences": diff, "passed": not diff})
-        report["passed"] = all(row["passed"] for row in report["observations"])
+        report["passed"] = captured.get("passed") is True and all(row["passed"] for row in report["observations"])
+        if captured.get("passed") is not True:
+            report["failure"] = "The source browser run did not complete successfully; replayed partial evidence is diagnostic only"
         report["summary"] = {"programs": len(programs), "passed": sum(row["passed"] for row in report["observations"]),
                              "different": sum(not row["passed"] for row in report["observations"])}
     except Exception as error:

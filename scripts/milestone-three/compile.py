@@ -217,7 +217,9 @@ def compile_question(body, importer, identifier, *, python=False):
         escapes = {}
         def escape(match):
             key = f"CTMNATIVEESCAPE{len(escapes)}END"
-            escapes[key] = html.escape(match[2], quote=False)
+            # Escaped CASText is literal teaching material. Numeric bracket
+            # entities keep it distinct from live directives through rendering.
+            escapes[key] = html.escape(match[2], quote=False).replace("[", "&#91;").replace("]", "&#93;")
             return key
         text = ESCAPE.sub(escape, text or "")
         def board(match):

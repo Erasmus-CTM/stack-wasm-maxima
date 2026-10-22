@@ -148,6 +148,17 @@
 
   function rounding(value) { return Math.round(Math.max(0, Math.min(1, value)) * 1e10) / 1e10; }
 
+  function canonical(value) {
+    if (value === null || typeof value !== 'object') return JSON.stringify(value);
+    if (Array.isArray(value)) return '[' + value.map(canonical).join(',') + ']';
+    return '{' + Object.keys(value).sort().map(key => JSON.stringify(key) + ':' + canonical(value[key])).join(',') + '}';
+  }
+
+  async function hash(value) {
+    const bytes = new TextEncoder().encode(canonical(value));
+    return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),value => value.toString(16).padStart(2,'0')).join('');
+  }
+
   function answerNoteMatches(expected, notes) {
     expected = String(expected || '').trim();
     if (!expected) return false;
@@ -184,6 +195,29 @@
       return result;
     }
 
+    async binding(question, variant) {
+      if (question.native?.schema !== 1 || typeof question.native.id !== 'string' || !question.native.id) throw new Error('Unsupported native question plan identity');
+      const manifest = this.session.manifest;
+      if (!manifest || typeof manifest.stackRevision !== 'string' || !manifest.stackRevision) throw new Error('The native STACK revision is missing');
+      return {schema:1,backend:'maxima-native',planSchema:question.native.schema,questionId:question.native.id,
+        questionHash:await hash(question),seed:variant.seed,stackRevision:manifest.stackRevision,
+        stackLibraryVersion:String(manifest.stackLibraryVersion),
+        runtimeHash:manifest.runtimeAssets?.find(asset => asset.path === 'maxima.wasm')?.sha256 || null,
+        preparedHash:await hash({seed:variant.seed,env:variant.env,teachers:variant.teachers,tokenValues:variant.tokenValues,qtests:variant.qtests})};
+    }
+
+    async assertVariant(question, variant) {
+      if (!variant || !variant.env || typeof variant.env !== 'object' || Array.isArray(variant.env) || !Number.isSafeInteger(variant.seed)) {
+        throw new Error('A native prepared variant is required');
+      }
+      const names = unique((question.native?.locals || assignments(question.variables).map(statement => statement.match(/^\w+/)[0])).map(nodeName)).sort();
+      const actual = Object.keys(variant.env).sort();
+      if (canonical(names) !== canonical(actual) || actual.some(name => typeof variant.env[name] !== 'string')) throw new Error('Native prepared environment does not match declared question variables');
+      if (!variant.native || canonical(variant.native) !== canonical(await this.binding(question,variant))) {
+        throw new Error('Native prepared variant does not match this question, backend, seed or STACK build');
+      }
+    }
+
     async prepare(question, seed = 1) {
       if (!Number.isSafeInteger(seed) || seed < 0 || seed > 2147483647) throw new Error('Native seed must be an integer from 0 to 2147483647');
       const definitions = assignments(question.variables);
@@ -197,11 +231,24 @@
       // order, as STACK compute_response does. Grading receives the resulting
       // written source, never an unevaluated teacher-variable alias.
       const testContext = question.inputs.map(input => input.name + ':' + evaluate(input.teacher));
+      const testAnswer = (name, expression) => {
+        const input = question.inputs.find(input => input.name === name);
+        if (!input) throw new Error('Unknown native authored-test input: ' + name);
+        if (['string','json'].includes(input.type)) return block(['_ctm_qvalue'], [
+          '_ctm_qvalue:' + evaluate(expression),
+          'if not stringp(_ctm_qvalue) then error("String/JSON authored test must evaluate to a string")',
+          '_ctm_qvalue'
+        ]);
+        if (/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(String(expression).trim())) return quote(String(expression).trim());
+        // Compute trusted aliases with the native environment but retain the
+        // unsimplified entered operations. Otherwise 2/4 becomes 1/2 before a
+        // LowestTerms/EqualComAss test ever sees the authored response.
+        return block(['simp:false'], [stringValue(evaluate(expression))]);
+      };
       const qtests = array((question.qtests || []).map(test => block([], [
         ...testContext,
         map([['testcase', quote(test.testcase)], ['answers', map(Object.entries(test.inputs || {}).map(([name, expression]) =>
-          [name, /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(String(expression).trim()) ?
-            quote(String(expression).trim()) : stringValue(evaluate(expression))]))]])
+          [name, testAnswer(name,expression)]))]])
       ])));
       const expression = block(context(question), [
         'set_random_state(make_random_state(' + seed + '))', ...definitions,
@@ -210,6 +257,7 @@
       ]);
       const variant = this.evaluate('prepare', question, expression);
       if (!variant || variant.seed !== seed || !variant.env || !variant.teachers || !variant.tokenValues) throw new Error('Malformed native prepared variant');
+      variant.native = await this.binding(question,variant);
       return variant;
     }
 
@@ -223,7 +271,10 @@
           continue;
         }
         try { admitted[input.name] = scope.NativeInput.admit(raw, input, question, variant); }
-        catch (error) { inputs[input.name] = {valid:false,latex:'',feedback:String(error.message || error)}; }
+        catch (error) {
+          if (!scope.NativeInput.AdmissionError || !(error instanceof scope.NativeInput.AdmissionError)) throw error;
+          inputs[input.name] = {valid:false,latex:'',feedback:String(error.message || error)};
+        }
       }
       return {admitted, inputs};
     }
@@ -255,7 +306,9 @@
         }
         checks.push([input.name, block(['_ctm_s','_ctm_t','_ctm_v','_ctm_r','_ctm_lines','_ctm_stream','_ctm_line','_ctm_shape','_ctm_good',
           '%ERR:["stack_map"]','%NOTES:["stack_map"]','%FEEDBACK:["stack_map"]'], [
-          'simp:false', '_ctm_lines:[]', '_ctm_t:' + teacher, '_ctm_s:' + student,
+          'simp:false', '_ctm_lines:[]', '_ctm_t:' + teacher, '_ctm_r:errcatch(_ctm_s:' + student + ')',
+          'if _ctm_r=[] then return(' + map([['valid','false'],['latex','""'],
+            ['feedback','"Native STACK could not evaluate this expression"'],['source','""']]) + ')',
           scalar ? '_ctm_r:errcatch(with_stdout(' + path + ',_ctm_v:' + validation + '))' : '_ctm_r:[_ctm_s]',
           ...(scalar ? ['_ctm_stream:openr(' + path + ')','_ctm_line:readline(_ctm_stream)',
             'while not is(_ctm_line=false) do (if slength(_ctm_line)>0 then _ctm_lines:endcons(_ctm_line,_ctm_lines),_ctm_line:readline(_ctm_stream))',
@@ -271,6 +324,7 @@
     }
 
     async _validate(question, variant, answers) {
+      await this.assertVariant(question,variant);
       const {admitted, inputs} = this.admission(question, variant, answers);
       const native = Object.keys(admitted).length ? this.evaluate('validate', question, this.validationExpression(question, variant, admitted)) : {};
       const values = {};
@@ -313,7 +367,11 @@
           '_ctm_path:' + array(continuation.path.map(item => map(Object.entries(item).map(([key,value]) => [key,quote(value)])))),
           '_ctm_feedback:' + this.literal(continuation.feedback));
       } else {
-        expressions.push('simp:' + bool(prt.autosimplify !== false), ...assignments(prt.feedbackvariables),
+        const feedback = assignments(prt.feedbackvariables);
+        if (feedback.some(statement => /\b(?:rand|random|rand_with_step|set_random_state|make_random_state)\s*\(/.test(statement.replace(/"(?:\\.|[^"\\])*"/g,'""')))) {
+          throw new Error('Random feedback variables are outside this native continuation subset; freeze random values in question variables');
+        }
+        expressions.push('simp:' + bool(prt.autosimplify !== false), ...feedback,
           '_ctm_current:"0"','_ctm_score:0','_ctm_notes:[]','_ctm_feedback:[]','_ctm_path:[]');
       }
       expressions.push('_ctm_events:[]','_ctm_steps:0');

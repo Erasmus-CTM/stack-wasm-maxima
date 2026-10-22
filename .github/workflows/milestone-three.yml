@@ -69,6 +69,7 @@ jobs:
           node prototype/backend/test-worker-loading.mjs
           node prototype/native/test-python-bridge.mjs
           node prototype/native/test-engine.mjs
+          node prototype/native/test-backend-worker.mjs
           node prototype/jsxgraph/test-adapter.mjs
           python prototype/backend/test_native_adapter.py
           python prototype/native/test_python_bridge.py

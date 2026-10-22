@@ -67,6 +67,13 @@ def stage(source: Path, output: Path) -> dict:
         "functions": [k for k, v in security.items() if "function" in v],
         "variables": [k for k, v in security.items() if "variable" in v or "constant" in v],
         "globallyForbidden": sorted(k for k, v in security.items() if v.get("globalyforbiddenvariable")),
+        "aliases": {k: sorted(set(
+            ([v["aliasfunction"]] if isinstance(v.get("aliasfunction"), str) else []) +
+            ([v["aliasvariable"]] if isinstance(v.get("aliasvariable"), str) else []) +
+            ([v["nounfunction"]] if isinstance(v.get("nounfunction"), str) else []) +
+            list(v.get("aliasfunctions", [])) + list(v.get("aliasvariables", []))))
+            for k, v in security.items() if any(field in v for field in
+                ("aliasfunction", "aliasvariable", "nounfunction", "aliasfunctions", "aliasvariables"))},
         "replacements": list(symbols.items()) + list(letters.items()),
     }
     output.mkdir(parents=True, exist_ok=True)
