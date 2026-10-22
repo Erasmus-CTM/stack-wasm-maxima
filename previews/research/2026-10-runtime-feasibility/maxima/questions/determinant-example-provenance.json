@@ -1,0 +1,13 @@
+{
+  "repository": "Erasmus-CTM/math-exercise",
+  "commit": "5945f8f56f605e9d051d2c2636411755eabde1db",
+  "source": "https://github.com/Erasmus-CTM/math-exercise/blob/5945f8f56f605e9d051d2c2636411755eabde1db/_includes/custom-assessment.qmd",
+  "label": "custom-special-linear-matrix",
+  "license": "AGPL-3.0-or-later",
+  "source_sha256": "d014a145b031e8f1b502f6699aa8aebbff8674b83095227938e2ff176565097d",
+  "original": "course-sources/determinant-original.qmd",
+  "original_sha256": "34f9d0da13c4bd8b133451046e57c2b1a3dd8cbcadf397148b4387f3ebdbc3ec",
+  "converted": "determinant-one.xml",
+  "converted_sha256": "e1679eb7b8bd37af2f28f9de0572790394bc89799978ea0a3a2304580de85cb7",
+  "changes": "Retains the integer-entry, determinant-one and nonidentity conditions and equally weighted partial credit. Converts the trusted Python custom checker into three normal PRTs using supplied matrix_property function with integer_entries, determinant and identity options through PythonChecker. Uses a fixed 2x2 matrix input, exact rational arithmetic only, and no color projection."
+}

@@ -1,0 +1,31 @@
+{
+  "repository": "aacchhee/ingmat3a_ntnu",
+  "commit": "b05dda5a9e8405d87e2b89668c63c81dc37b2a7a",
+  "source": "https://github.com/aacchhee/ingmat3a_ntnu/blob/b05dda5a9e8405d87e2b89668c63c81dc37b2a7a/_includes/linalg/uke3.md",
+  "rendered_source": "https://aacchhee.github.io/ingmat3a_ntnu/pages/uke3.html#uke3-stotte-oppgaver",
+  "author": "Andrey Chesnokov",
+  "license": "CC-BY-SA-4.0",
+  "source_sha256": "1b669624aba662315f432886ca90797bacb0192e5a46935116bd9be45a4214f5",
+  "excerpts": "course-sources/uke3-excerpts.md",
+  "excerpts_sha256": "eb0d76dea0e205f48071dde9340b0101db6ccd7cf1bb433490892aaee96d58d9",
+  "questions": [
+    {
+      "file": "course-b-rank-pivots.xml",
+      "source_label": "week3-paper-b-rank",
+      "changes": "English translation; precomputed exact rank and pivot numbers; two equally weighted PRTs, each all-or-nothing, replace per-pivot custom partial credit; no pivot colors. Positive matrix dimensions only.",
+      "sha256": "8e7a5de9e9f741ed1c6e19b19a6469fcd21c6e426ccc477f737d7ddcba0fff9b"
+    },
+    {
+      "file": "course-b-nullspace.xml",
+      "source_label": "week3-paper-b-null-basis",
+      "changes": "English translation; The supplied basis PythonChecker function with its nullspace option checks the defining matrix directly using nullspace membership and rank; the input model answer is computed by nullspace_basis(A); any exact rational basis accepted; binary PRT score replaces diagnostic fractional score; vector colors retained; positive column count only.",
+      "sha256": "fd5a98b4ee5a782ef0eb8300d878e2e1f3e44f1b9db2fa2f8aa9488ec6315b79"
+    },
+    {
+      "file": "course-c-nullspace.xml",
+      "source_label": "week3-paper-c-null-basis",
+      "changes": "English translation; The supplied basis PythonChecker function with its nullspace option checks the defining matrix directly using nullspace membership and rank; the input model answer is computed by nullspace_basis(A); any exact rational basis accepted; binary PRT score replaces diagnostic fractional score; vector colors retained; positive column count only.",
+      "sha256": "42ac2e87fc2c6f5466b46bc75595188a85c2974711d69c54e9d49a4d61754c89"
+    }
+  ]
+}

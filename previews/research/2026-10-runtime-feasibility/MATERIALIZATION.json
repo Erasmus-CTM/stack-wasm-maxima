@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "sourcePins": {
+    "stack-sympy": "1b1d50f69fc1e7eb39846b497657d72be325f597",
+    "ctm-checkers": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+    "ctm-libs": "94687f718fd651fc2857bc5242a64e45c8fd4697"
+  },
+  "frontendPatches": [
+    {
+      "path": "_extensions/stack-sympy/stack-sympy.js",
+      "sourceSha256": "53832ffd115c64fa2e28fb96ebebf6e99ebcec2e43c971a075cf7283e0731633",
+      "materializedSha256": "f906b2280b7c08bb0f539a524638cc39109eff351c88debbbd90ce2f4f28226f",
+      "substitutions": [
+        "  var workerURL = new URL('worker.js', current.src);",
+        "loadTimeout: runtime.loadTimeout };",
+        "type === 'grade' ? 'Checking with SymPy…' :"
+      ]
+    }
+  ],
+  "trackedPage": "site/maxima/examples.qmd",
+  "trackedPageSha256": "bf5130eb602ac26c1206790773b468f880f583cbd82b35bb35d1a21ee58905f8",
+  "cards": 18,
+  "variants": 24,
+  "pythonCheckerCards": 6
+}
