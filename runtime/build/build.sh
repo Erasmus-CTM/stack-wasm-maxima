@@ -21,13 +21,17 @@ cd "$EMSDK_PATH"
 set +u
 source "$EMSDK_PATH/emsdk_env.sh"
 set -u
+# emsdk clears a variable with this name; the port Makefile requires it.
+export EMSDK_PATH="$WORK/sources/emsdk"
 emcc --version | tee "$WORK/logs/emcc-version.txt"
-clang --version | tee "$WORK/logs/clang-version.txt"
-node --version | tee "$WORK/logs/sdk-node-version.txt"
+"$EMSDK_PATH/upstream/bin/clang" --version | tee "$WORK/logs/clang-version.txt"
+"$EMSDK_NODE" --version | tee "$WORK/logs/sdk-node-version.txt"
 ./emsdk list > "$WORK/logs/emsdk-installed.txt"
 cd "$MAXIMA"
 ./bootstrap
 cd "$GNUPLOT_SRCDIR"
+# The git checkout lacks generated libtool support required by prepare.
+libtoolize --copy
 ./prepare
 cd "$MAXIMA/wasm"
 # Run the upstream 32-bit host recipe first; a pinned cache can provide it.

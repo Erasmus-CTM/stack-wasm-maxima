@@ -46,3 +46,12 @@ must declare unshared wasm32 memory. Packaging records build-recipe hashes and
 its Git revision alongside upstream source and actual toolchain evidence.
 Owned artifacts carry a build-specific notice; the licence PR's original site
 notice is labelled as historical site context, and licence texts are unchanged.
+
+The second CI attempt (39865240495) verified every source archive and both
+executed SDK archives, then stopped in gnuplot bootstrap because `ltmain.sh`
+was absent. The recipe now invokes `libtoolize --copy` before upstream
+`./prepare`, generating build support without changing mathematical sources.
+It also restores `EMSDK_PATH` after emsdk's environment script clears it,
+because the port Makefile requires that variable. Tool version logs use the
+actual bundled clang and SDK Node executables, not similarly named tools on
+Ubuntu's default PATH. Failed build logs are retained as Actions artifacts.
