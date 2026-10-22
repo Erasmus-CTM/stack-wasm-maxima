@@ -22,8 +22,8 @@ There are two different Maxima paths in this demonstration:
 
 | Path | Validate | Check |
 |---|---|---|
-| SymPy copies on this page | CTM's Python input validation in Pyodide | CTM's Python response-tree controller and SymPy answer tests |
-| Hybrid Maxima copies on this page | CTM's Python input validation in Pyodide | CTM's Python response-tree controller delegates ordinary answer-test nodes to Maxima/STACK |
+| SymPy copies on the [comparison page](examples.qmd) | CTM's Python input validation in Pyodide | CTM's Python response-tree controller and SymPy answer tests |
+| Hybrid Maxima copies on the comparison page | CTM's Python input validation in Pyodide | CTM's Python response-tree controller delegates ordinary answer-test nodes to Maxima/STACK |
 | [Native STACK examples](native.qmd) | Our input admission layer, then native STACK CAS validation in Maxima | Revalidation, then our native response-tree controller with STACK CAS answer tests |
 
 **Validate checks whether an answer can be accepted and interpreted under the
@@ -55,7 +55,7 @@ the response; the question defines its answer format. Neither JSXGraph nor the
 Quarto extension decides mathematical correctness. Try the
 [native graphical examples](native.qmd) to inspect both point and JSON inputs.
 
-:::: {.callout-note collapse="true"}
+:::: {.callout-note}
 ## Developer details: messages, expressions and execution
 
 ### Native validation and grading
@@ -143,7 +143,7 @@ arbitrary answer schemas or turn a native question into a SymPy-compatible one.
 Relevant implementation: `prototype/jsxgraph/{frame,host}.js`,
 `prototype/native/{backend-worker,engine,input}.js`, and
 `scripts/milestone-three/build-site.mjs`. The native controller is distinct
-from the hybrid `prototype/backend/worker.js` used by this page's Maxima copies.
+from the hybrid `prototype/backend/worker.js` used by the comparison page's Maxima copies.
 
 ::::
 

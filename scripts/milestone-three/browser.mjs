@@ -225,7 +225,7 @@ async function formRegressions(questions) {
     assert.equal(row.authoredTests.response.result.passed,true,id+': actual native form-sensitive tests must distinguish written expressions');
     assert.equal(row.authoredTests.response.result.results.length,2);
     if(test==='LowestTerms')row.nativeFeedback=assertReadableNativeFeedback(row.authoredTests.response.result.results[0].actual,row.authoredTests.events,
-      {key:'ATLowestTerms_wrong',message:/cancel fractions/i});
+      {key:'ATLowestTerms_entries',message:/following terms in your answer are not in lowest terms/i});
   }
   for(const [id,type,raw] of [
     ['regression-json-qtest','json','[{"x":1,"y":2,"color":"red"}]'],
