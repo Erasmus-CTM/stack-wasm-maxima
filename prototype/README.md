@@ -4,6 +4,10 @@ This prototype reuses the pinned stack-sympy pages, CTM frontend, XML questions,
 
 This is a hybrid prototype: both editions still load Pyodide and SymPy. It tests whether the native STACK grading seam works with the existing application. It does not demonstrate removal of Python resources or a faster cold start.
 
+CTM also formats native decimal/list/set/matrix diagnostics. List positions come from native answer notes; the existing CTM collection formatter supplies the wording and bounded set descriptions, with consistency checks against native verdicts and diagnostic keys. No extra CAS calls or SymPy answer-test fallback are used. Raw upstream feedback is retained for inspection; this is not a general translation of STACK's feedback protocol.
+
+Selection is per page in this prototype: each generated page uses one persistent backend worker. Keep a page's question blocks on one backend; general course settings and per-question backend registration are later integration work.
+
 ## Sources
 
 | Source | Commit |

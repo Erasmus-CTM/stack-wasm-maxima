@@ -178,7 +178,7 @@ export function compareBackends(sympy, maxima) {
   return differences;
 }
 
-export async function runPage({ browser, baseURL, backend, pageName, demos, selectedInputs, repeats = 3, timeout = 330000, output, onProgress }) {
+export async function runPage({ browser, baseURL, backend, pageName, demos, selectedInputs, screenshotKinds = new Set(), repeats = 3, timeout = 330000, output, onProgress }) {
   // A new context per page gives a fresh HTTP cache and independent interpreters.
   // Successive checks on that page share its real persistent worker.
   const context = await browser.newContext();
@@ -273,6 +273,21 @@ export async function runPage({ browser, baseURL, backend, pageName, demos, sele
             assert.equal(gradeCalls[0].answers[name], text, 'Scalar answer spelling must survive UI submission');
           }
         }
+        const screenshots = [];
+        const screenshotKind = await card.locator('.stack-matrix').count() ? 'matrix' : 'scalar';
+        const screenshotKey = backend + '/' + screenshotKind;
+        if (!screenshotKinds.has(screenshotKey) && gradeCalls.at(-1).response.result.score >= 1) {
+          // Visual QA runs after every timed grade RPC, before stale/reset
+          // probes. It does not participate in startup or warm-call timings.
+          await page.evaluate(async () => {
+            if (window.MathJax?.startup?.promise) await window.MathJax.startup.promise;
+            if (document.fonts?.ready) await document.fonts.ready;
+          });
+          const path = backend + '-' + screenshotKind + '-' + demo.id + '-v' + (variant + 1) + '.png';
+          await card.locator('.stack-sympy').screenshot({ path: output + '/' + path, animations: 'disabled' });
+          screenshots.push({ kind: screenshotKind, path, relativeTo: 'browser.json', gradeState: 'correct' });
+          screenshotKinds.add(screenshotKey);
+        }
         let staleReply = null;
         if (demo === demos[0] && variant === 0) {
           const before = await page.evaluate(() => window.__ctmHarness.calls.length);
@@ -299,7 +314,7 @@ export async function runPage({ browser, baseURL, backend, pageName, demos, sele
         assert.ok((await card.locator('.stack-answer[data-name]:is(input,textarea), .stack-matrix input[data-matrix-row]').evaluateAll(items => items.map(item => item.value))).every(text => !text), 'Reset must clear scalar and matrix cells');
         result.variants.push({ demoId: demo.id, variant, seed: payload.variants[variant].seed,
           pythonChecker: Boolean(demo.pythonCheckerSource), chosenTestcase: choice.testcase,
-          authoredTests, testRoutes, validation, gradeCalls, gradeRoutes, staleReply, resetVerified: true });
+          authoredTests, testRoutes, validation, gradeCalls, gradeRoutes, screenshots, staleReply, resetVerified: true });
       }
     }
     result.observation = await page.evaluate(() => window.__ctmHarness);

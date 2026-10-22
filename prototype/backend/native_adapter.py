@@ -11,9 +11,11 @@ import json
 import re
 
 from ctm_checkers.stack import assessment, checkers, engine
+from ctm_checkers.stack.collections import collection_test
 from ctm_checkers.stack.expressions import (
     AUTHOR_BASIS_FUNCTIONS, AUTHOR_COLLECTION_FUNCTIONS, FUNCTION_ALIASES,
-    MAX_CHARS, Node, SCALAR_FUNCTIONS, Unsupported, evaluate, parse,
+    MAX_CHARS, Node, SCALAR_FUNCTIONS, Unsupported, collection_items,
+    collection_kind, evaluate, is_collection, parse,
 )
 
 TESTS = frozenset({"AlgEquiv", "Sets", "SameType", "EqualComAss", "FacForm",
@@ -31,7 +33,91 @@ _CONTROLLED_AT_ERROR = re.compile(
     r"(?:AT[A-Za-z0-9]+_STACKERROR_(?:SAns|TAns|Opt|Raw|tol)"
     r"|ATNumDecPlaces_OptNotInt|STACKERROR_OPTION)\."
 )
+_COLLECTION_DIAGNOSTICS = frozenset({
+    "ATList_wronglen", "ATSet_wrongsz", "ATSet_wrongentries",
+    "ATMatrix_wrongsz_rows", "ATMatrix_wrongsz_columns", "ATMatrix_wrongentries",
+    "ATSets_duplicates", "ATSets_wrongentries", "ATSets_missingentries",
+})
 _installed = False
+
+
+def _native_list_positions(notes):
+    """Read outer list positions, ignoring nested list diagnostic indices."""
+    prefix = "(ATList_wrongentries "
+    for note in notes:
+        text = note.strip()
+        if not text.startswith(prefix):
+            continue
+        index, depth, expect_position, positions = len(prefix), 0, True, []
+        while index < len(text):
+            if expect_position and depth == 0:
+                match = re.match(r"\s*([1-9][0-9]*)", text[index:])
+                if not match:
+                    raise RuntimeError("Malformed native list feedback positions")
+                positions.append(int(match[1]))
+                index += match.end()
+                expect_position = False
+                continue
+            char = text[index]
+            if char == "(":
+                depth += 1
+            elif char == ")":
+                if depth == 0:
+                    if text[index:] != ").":
+                        raise RuntimeError("Malformed native list feedback terminator")
+                    return frozenset(positions)
+                depth -= 1
+            elif char == "," and depth == 0:
+                expect_position = True
+            index += 1
+        raise RuntimeError("Incomplete native list feedback")
+    return None
+
+
+def _collection_feedback(name, student, teacher, env, assumptions, native_result, notes):
+    """Reuse CTM's formatter with native positional verdicts, never grade.
+
+    The bounded set helper supplies structural member descriptions. Its
+    diagnostic must agree with the native verdict and note keys before any
+    feedback is used. No assessment.answer_test or scalar SymPy proof runs.
+    """
+    if name not in {"AlgEquiv", "Sets"}:
+        return None
+    tokens = {token.strip() for item in notes for token in item.split(".")}
+    positions = _native_list_positions(notes)
+    if positions is None and not (_COLLECTION_DIAGNOSTICS & tokens):
+        return None
+    sa = evaluate(student, env or {}, assumptions=assumptions, student=True)
+    ta = evaluate(teacher, env or {}, assumptions=assumptions)
+    if not any(is_collection(value) for value in (sa, ta)):
+        raise RuntimeError("Native collection feedback requires collection values")
+    if positions is not None:
+        if (collection_kind(sa) != "list" or collection_kind(ta) != "list"
+                or not positions or max(positions) > len(collection_items(sa))):
+            raise RuntimeError("Native list feedback positions do not match the answer")
+
+    def native_position(a, b, index):
+        if positions is not None:
+            correct = index + 1 not in positions
+        elif "ATMatrix_wrongentries" in tokens and collection_kind(ta) == "matrix":
+            # CTM uses one generic matrix-entry message. Which entries are
+            # wrong remains in nativeFeedback; no extra CAS calls are needed.
+            correct = native_result["correct"]
+        else:
+            raise RuntimeError("Native collection feedback lacks positional evidence")
+        return {"valid": True, "correct": correct, "cas_valid": native_result["cas_valid"]}
+
+    diagnostic = collection_test(name, sa, ta, native_position)
+    if (diagnostic["correct"] != native_result["correct"]
+            or diagnostic.get("cas_valid", True) != native_result["cas_valid"]):
+        raise RuntimeError("CTM collection feedback disagrees with the native verdict")
+    expected_notes = set(diagnostic["note"].split(" | ")) - {""}
+    native_notes = tokens & _COLLECTION_DIAGNOSTICS
+    if positions is not None:
+        native_notes.add("ATList_wrongentries")
+    if expected_notes != native_notes:
+        raise RuntimeError("CTM collection feedback disagrees with the native diagnostic")
+    return diagnostic["feedback"]
 
 
 def maxima_source(node: Node | str, env=None, assumptions=None) -> str:
@@ -178,6 +264,12 @@ def install(assess_json, on_event=None):
         if (name == "NumDecPlaces" and result["cas_valid"] and not result["correct"]
                 and "ATNumDecPlaces_Wrong_DPs" in note_tokens and not feedback):
             feedback = "Incorrect number of decimal places"
+        if not feedback:
+            collection_feedback = _collection_feedback(name, student, teacher, env, assumptions, result, notes)
+            if collection_feedback is not None:
+                feedback = collection_feedback
+                emit({"event": "collection-feedback", "test": name,
+                      "strategy": "ctm-formatter-native-diagnostics"})
         # Native cas_valid denotes AT applicability, not input validity.
         # CTM's validated ordinary wrong answer follows its authored false
         # branch even when STACK's first AT flag is false.

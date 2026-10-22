@@ -26,6 +26,20 @@ if (!['chromium', 'firefox', 'webkit'].includes(browserName)) throw new Error('U
 if (!Number.isInteger(repeats) || repeats < 2 || repeats > 20) throw new Error('--repeats must be 2–20');
 const manifest = JSON.parse(await readFile(join(root, 'demos/manifest.json')));
 const provenance = JSON.parse(await readFile(join(site, 'MATERIALIZATION.json')));
+const runtimeManifestBytes = await readFile(join(site, 'stack-sources.json'));
+const runtimeManifest = JSON.parse(runtimeManifestBytes);
+const runtime = {
+  stackRevision: runtimeManifest.stackRevision,
+  stackLibraryVersion: runtimeManifest.stackLibraryVersion,
+  ctmCheckersRevision: runtimeManifest.ctmCheckersRevision,
+  manifestSha256: createHash('sha256').update(runtimeManifestBytes).digest('hex'),
+  runtimeAssetCount: runtimeManifest.runtimeAssets.length,
+  runtimeFileBytes: runtimeManifest.runtimeAssets.reduce((total, asset) => total + asset.fileBytes, 0),
+  stackFileCount: runtimeManifest.files.length,
+  stackSourceBytes: runtimeManifest.files.reduce((total, file) => total + file.bytes, 0),
+  runtimeAssets: runtimeManifest.runtimeAssets,
+  stackFiles: runtimeManifest.files.map(({ content, ...metadata }) => metadata),
+};
 const frozen = JSON.parse(await readFile(join(output, 'frozen-payloads.json')));
 if (frozen.pairedPayloadsIdentical !== true || frozen.cards !== manifest.demos.length || frozen.variants !== 27) {
   throw new Error('Collect and verify all paired frozen payloads before running browsers');
@@ -36,7 +50,9 @@ const sourceRevision = process.env.GITHUB_SHA || execFileSync('git', ['rev-parse
 const sourceFiles = [
   'scripts/milestone-two/run.mjs', 'scripts/milestone-two/browser.mjs',
   'scripts/milestone-two/serve.mjs', 'scripts/milestone-two/materialize.py',
-  'scripts/milestone-two/prepare-runtime.py', 'prototype/backend/worker.js',
+  'scripts/milestone-two/prepare-runtime.py', 'scripts/milestone-two/fetch-runtime.mjs',
+  'measurements/2026-10-21-runtime-assets.json', 'measurements/2026-10-21-runtime-dependencies.json',
+  'measurements/2026-10-22-demo-runtime-dependencies.json', 'prototype/backend/worker.js',
   'prototype/backend/native_adapter.py', 'prototype/runtime/maxima-session.js',
   'prototype/runtime/maxima-child.js', 'prototype/quarto/stack-maxima.lua',
   'demos/manifest.json',
@@ -48,7 +64,7 @@ const files = await Promise.all(sourceFiles.map(async path => {
 const runURL = process.env.GITHUB_RUN_ID ? 'https://github.com/' + process.env.GITHUB_REPOSITORY + '/actions/runs/' + process.env.GITHUB_RUN_ID : null;
 const report = { schema: 1, createdAt: new Date().toISOString(), sourceRevision, runURL,
   sourceWorktreeDirty: Boolean(execFileSync('git', ['status', '--porcelain', '--untracked-files=no'], { cwd: root, encoding: 'utf8' }).trim()),
-  files, provenance, frozenPayloads: { cards: frozen.cards, variants: frozen.variants,
+  files, provenance, runtime, frozenPayloads: { cards: frozen.cards, variants: frozen.variants,
     hashes: frozen.demos.map(({ demoId, payloadSha256 }) => ({ demoId, payloadSha256 })) },
   browserName, repeats, timeoutMs: timeout, scope: 'Matched CTM Quarto UI; hybrid Maxima answer tests with shared Python validation/PRT/PythonChecker',
   serving: { compression: 'gzip', crossOriginIsolated: true, freshContextPerPage: true,
@@ -62,11 +78,11 @@ try {
   app = await serveDemo({ root: site });
   browser = await playwright[browserName].launch({ headless: true });
   report.browserVersion = browser.version();
-  const selectedInputs = new Map();
+  const selectedInputs = new Map(), screenshotKinds = new Set();
   for (const backend of ['sympy', 'maxima']) {
     for (const pageName of ['index', 'examples']) {
       const demos = manifest.demos.filter(demo => demo.sourcePage === pageName + '.qmd');
-      const result = await runPage({ browser, baseURL: app.baseURL, backend, pageName, demos, selectedInputs, repeats, timeout, output,
+      const result = await runPage({ browser, baseURL: app.baseURL, backend, pageName, demos, selectedInputs, screenshotKinds, repeats, timeout, output,
         onProgress: text => console.log(new Date().toISOString() + ' ' + text) });
       report.pages.push(result);
       if (result.error) report.failures.push({ backend, page: pageName, ...result.error });
@@ -114,7 +130,9 @@ const timings = ['sympy', 'maxima'].map(backend => {
 const summary = { schema: 1, createdAt: report.createdAt, sourceRevision, runURL,
   passed: report.passed, status: report.passed ? 'passed' : report.failures.length ? 'failed' : 'backend differences need review',
   browserName, browserVersion: report.browserVersion, repeats, scope: report.scope, serving: report.serving,
-  coverage: report.coverage, timings, failures: report.failures, differences: report.differences,
+  coverage: report.coverage, runtime, timings, failures: report.failures, differences: report.differences,
+  screenshots: report.pages.flatMap(page => page.variants.flatMap(row => (row.screenshots || []).map(screenshot =>
+    ({ backend: page.backend, page: page.page, demoId: row.demoId, variant: row.variant, seed: row.seed, ...screenshot })))),
   sourceFiles: files, rawReport: 'test-results/milestone-two/browser.json' };
 await writeFile(join(reportDirectory, 'latest.json'), JSON.stringify(summary, null, 2) + '\n');
 const number = value => value === null || value === undefined ? 'not measured' : value.toFixed(1);
@@ -125,6 +143,9 @@ const lines = [
   ...(runURL ? ['', 'Workflow evidence: ' + runURL] : []), '',
   'Browser: ' + browserName + ' ' + (report.browserVersion || '(did not launch)') + '.', '',
   'Both backends use the same CTM frontend and frozen payloads. The Maxima edition remains a hybrid: Python performs input validation, PRT orchestration and PythonChecker execution.', '',
+  'Packaged runtime: ' + runtime.runtimeAssetCount + ' assets / ' + runtime.runtimeFileBytes + ' decoded bytes. STACK `' + runtime.stackRevision + '`; ctm-checkers `' + runtime.ctmCheckersRevision + '`. Source and asset hashes are recorded in JSON without embedding library contents.', '',
+  'Successful grade screenshots (paths relative to the raw browser report in the Actions artifact):', '',
+  ...summary.screenshots.map(screenshot => '- `' + screenshot.path + '` (' + screenshot.backend + ', ' + screenshot.kind + ', ' + screenshot.demoId + ', variant ' + (screenshot.variant + 1) + ').'), '',
   '| Backend | Completed variants | Authored test rows | Median warm validation ms | Median warm grade ms |',
   '|---|---:|---:|---:|---:|',
   ...timings.map(item => '| ' + item.backend + ' | ' + item.variants + ' | ' + item.authoredTestRows + ' | ' + number(item.validationMedianMs) + ' | ' + number(item.gradeMedianMs) + ' |'), '',
