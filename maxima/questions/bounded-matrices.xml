@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Project example, CC BY-SA 4.0. The matrix dimension extension is port-specific. -->
+<quiz><question type="stack">
+<name><text>Bounded matrices</text></name>
+<questionvariables><text>a:rand_with_step(2,8,1); M:matrix([a,2*x],[1/2,1]);</text></questionvariables>
+<questionsimplify>1</questionsimplify>
+<questiontext format="html"><text><![CDATA[<p>Enter a matrix equivalent to \({@M@}\). Choose the required dimensions; every cell must be filled.</p><p>[[input:ans]] [[validation:ans]] [[feedback:result]]</p>]]></text></questiontext>
+<generalfeedback><text>Dimensions and corresponding entries must agree. An equivalent expression such as x+x is accepted for 2*x.</text></generalfeedback>
+<defaultgrade>1</defaultgrade><penalty>0.1</penalty>
+<input><name>ans</name><type>matrix</type><tans>M</tans><boxsize>10</boxsize><strictsyntax>1</strictsyntax><insertstars>0</insertstars><forbidfloat>0</forbidfloat><checkanswertype>1</checkanswertype><mustverify>1</mustverify><showvalidation>1</showvalidation>
+<matrix><rows initial="2" min="1" max="4" resizable="1"/><cols initial="2" min="1" max="4" resizable="1"/></matrix>
+</input>
+<prt><name>result</name><value>1</value><autosimplify>1</autosimplify><node><name>0</name><answertest>AlgEquiv</answertest><sans>ans</sans><tans>M</tans>
+<truescoremode>=</truescoremode><truescore>1</truescore><truenextnode>-1</truenextnode><trueanswernote>matrix-T</trueanswernote><truefeedback><text>Dimensions and all entries agree.</text></truefeedback>
+<falsescoremode>=</falsescoremode><falsescore>0</falsescore><falsenextnode>-1</falsenextnode><falseanswernote>matrix-F</falseanswernote><falsefeedback><text>Check the dimensions and corresponding entries.</text></falsefeedback>
+</node></prt>
+<qtest><testcase>1</testcase><testinput><name>ans</name><value>matrix([a,x+x],[1/2,1])</value></testinput><expected><name>result</name><expectedscore>1</expectedscore><expectedpenalty>0</expectedpenalty><expectedanswernote>matrix-T</expectedanswernote></expected></qtest>
+<qtest><testcase>2</testcase><testinput><name>ans</name><value>matrix([a,2*x])</value></testinput><expected><name>result</name><expectedscore>0</expectedscore><expectedpenalty>0.1</expectedpenalty><expectedanswernote>matrix-F</expectedanswernote></expected></qtest>
+</question></quiz>
+
