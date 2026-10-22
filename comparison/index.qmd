@@ -35,7 +35,7 @@ Open the same examples with either assessment backend. These are the actual CTM 
 | Hybrid Maxima | [Open Maxima question](maxima/index.html) | [Open Maxima examples](maxima/examples.html) |
 
 ::: {.exercise-note}
-The first assessment loads its browser runtime. Maxima took about 25 seconds to initialize in the accepted CI run; public-network loading can take longer. Keep the page open while it loads. The Maxima examples use native STACK answer tests alongside CTM’s Python validation, PRT orchestration and PythonChecker.
+On your first visit, the page reloads once to prepare the assessment environment. The first assessment then loads its browser runtime. Maxima took about 25 seconds to initialize in the accepted CI run; public-network loading can take longer. Keep the page open while it loads. The Maxima examples use native STACK answer tests alongside CTM’s Python validation, PRT orchestration and PythonChecker.
 :::
 
 ## What was compared
@@ -89,7 +89,7 @@ The accepted artifact contains scalar and matrix screenshots from each backend, 
 
 ![A PythonChecker matrix question on the Maxima page.](../reports/milestone-two/screenshots/maxima-matrix.png){fig-alt="CTM matrix editor showing a full-credit PythonChecker result and validation and grading controls."}
 
-The live exercise pages above use the rendered site from the accepted Actions artifact. Both editions retain its questions and grading code. The public host supplies the isolation headers required by Maxima’s shared-memory worker.
+The live exercise pages above use the rendered site from the accepted Actions artifact. Both editions retain its questions and grading code. A small service worker prepares the browser isolation required by Maxima’s shared-memory worker.
 
 ## Reproduce and inspect
 
