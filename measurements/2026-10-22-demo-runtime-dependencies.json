@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "source": "Pinned share_files.js declarations; sources required by the hyperbolic demo plus the five declared trigonometry source files",
+  "observedMissingInRun": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39719653956",
+  "shareIndexSha256": "0a325df1e0e85c65ebaf3102fd75cb2db2d989735a0976e97c1a2108a8f5bca0",
+  "assets": [
+    {
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/atrig1.mac",
+      "fileBytes": 1528,
+      "sha256": "11843e2e013d1e9888251c1acb0109c3b6f7d9c7d57cb9db9e1a285744b02dd8"
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trigrat.lisp",
+      "fileBytes": 1909,
+      "sha256": "5da6c242383b117fc4d75b241193ab6976b63fe58542ef17b3332ead900973ec"
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trgsmp.mac",
+      "fileBytes": 4874,
+      "sha256": "0f5db0cb2e22d4ce8536e84a3767830e76ac1751f4555ca253b86c70aa3c56a1"
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/ntrig.mac",
+      "fileBytes": 1096,
+      "sha256": "3a2422f3c749c9fd8673c9dbda0e1f125f4b06c6ac7e8ec408c4fbcc8279df58"
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/spangl.mac",
+      "fileBytes": 1945,
+      "sha256": "999b974b59ce420302ac818e49b6876b42615788b4a18c887d4f961e39e84a65"
+    }
+  ]
+}

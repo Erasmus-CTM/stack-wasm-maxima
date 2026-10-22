@@ -1,0 +1,34 @@
+name: Render public Quarto comparison
+
+on:
+  push:
+    branches: ['research/**', main]
+    paths:
+      - 'comparison/**'
+      - 'reports/milestone-two/screenshots/**'
+      - '.github/workflows/comparison.yml'
+  pull_request:
+    paths:
+      - 'comparison/**'
+      - 'reports/milestone-two/screenshots/**'
+      - '.github/workflows/comparison.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.8.27
+      - name: Render self-contained comparison
+        run: quarto render comparison/index.qmd
+      - uses: actions/upload-artifact@v4
+        with:
+          name: public-quarto-comparison-${{ github.sha }}
+          path: comparison/index.html
+          if-no-files-found: error

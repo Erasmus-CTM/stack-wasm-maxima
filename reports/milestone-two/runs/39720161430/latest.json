@@ -1,0 +1,2147 @@
+{
+  "schema": 1,
+  "createdAt": "2026-10-22T04:04:45.203Z",
+  "sourceRevision": "f1132a1674da1d02997a1e57910e335c3122c899",
+  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39720161430",
+  "passed": false,
+  "status": "backend differences need review",
+  "browserName": "chromium",
+  "browserVersion": "141.0.7390.37",
+  "repeats": 3,
+  "scope": "Matched CTM Quarto UI; hybrid Maxima answer tests with shared Python validation/PRT/PythonChecker",
+  "serving": {
+    "compression": "gzip",
+    "crossOriginIsolated": true,
+    "freshContextPerPage": true,
+    "note": "Cold browser cache per page; localhost-prepared assets. This is not a public WAN latency or production bundle benchmark."
+  },
+  "coverage": {
+    "expectedCards": 19,
+    "expectedVariants": 27,
+    "sympyVariants": 27,
+    "maximaVariants": 27,
+    "sympyPythonCheckerCards": 6,
+    "maximaPythonCheckerCards": 6
+  },
+  "timings": [
+    {
+      "backend": "sympy",
+      "pages": 2,
+      "variants": 27,
+      "workerInitializationMs": [
+        {
+          "page": "index",
+          "workerInitMs": 6247.854999999996,
+          "workerInitOK": true,
+          "backend": null,
+          "pageNavigationToFirstGradeMs": 7279.889999999999
+        },
+        {
+          "page": "examples",
+          "workerInitMs": 6077.654999999999,
+          "workerInitOK": true,
+          "backend": null,
+          "pageNavigationToFirstGradeMs": 7270.774999999994
+        }
+      ],
+      "validationMedianMs": 13.139999999999418,
+      "gradeMedianMs": 13.555000000007567,
+      "authoredTestRows": 121,
+      "encodedResponseBodyBytesByPage": [
+        {
+          "page": "index",
+          "encodedResponseBodyBytes": 10507609,
+          "responseHeaderBytes": 15281
+        },
+        {
+          "page": "examples",
+          "encodedResponseBodyBytes": 10529906,
+          "responseHeaderBytes": 15281
+        }
+      ]
+    },
+    {
+      "backend": "maxima",
+      "pages": 2,
+      "variants": 27,
+      "workerInitializationMs": [
+        {
+          "page": "index",
+          "workerInitMs": 42087.67499999999,
+          "workerInitOK": true,
+          "backend": {
+            "id": "maxima",
+            "mode": "hybrid",
+            "validation": "ctm-sympy",
+            "controller": "ctm",
+            "nativeATCount": 0,
+            "pythonCheckerCount": 0,
+            "perTest": {},
+            "timings": {
+              "pythonReadyMs": 6515.799999999988,
+              "maximaReadyMs": 42050.225000000006,
+              "readyMs": 42072.609999999986
+            }
+          },
+          "pageNavigationToFirstGradeMs": 46226.04999999999
+        },
+        {
+          "page": "examples",
+          "workerInitMs": 41239.065,
+          "workerInitOK": true,
+          "backend": {
+            "id": "maxima",
+            "mode": "hybrid",
+            "validation": "ctm-sympy",
+            "controller": "ctm",
+            "nativeATCount": 0,
+            "pythonCheckerCount": 0,
+            "perTest": {},
+            "timings": {
+              "pythonReadyMs": 6886.709999999992,
+              "maximaReadyMs": 41189.100000000006,
+              "readyMs": 41209.389999999985
+            }
+          },
+          "pageNavigationToFirstGradeMs": 42589.53
+        }
+      ],
+      "validationMedianMs": 13.27499999999418,
+      "gradeMedianMs": 61.404999999998836,
+      "authoredTestRows": 121,
+      "encodedResponseBodyBytesByPage": [
+        {
+          "page": "index",
+          "encodedResponseBodyBytes": 21261974,
+          "responseHeaderBytes": 79460
+        },
+        {
+          "page": "examples",
+          "encodedResponseBodyBytes": 21285668,
+          "responseHeaderBytes": 80404
+        }
+      ]
+    }
+  ],
+  "failures": [],
+  "differences": [
+    {
+      "demoId": "examples-09",
+      "variant": 0,
+      "seed": 17,
+      "operation": "authored-test:2",
+      "sympy": {
+        "status": "graded",
+        "score": 0.6666666667,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[2x, 6\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{6, 2x\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{6, 2x, 2x\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> Check list positions: 1, 2.",
+            "notes": [
+              "ordered-F"
+            ],
+            "note": "ordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "ordered-F"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "unordered-T"
+            ],
+            "note": "unordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "unordered-T"
+              }
+            ]
+          },
+          "explained": {
+            "score": 1,
+            "feedback": "<p>Correct.</p> Repeated elements were removed from the set.",
+            "notes": [
+              "explained-T"
+            ],
+            "note": "explained-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "explained-T"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>This answer is not equivalent to the reference.</p> Check list positions: 1, 2. <p>Correct.</p> <p>Correct.</p> Repeated elements were removed from the set."
+      },
+      "maxima": {
+        "status": "graded",
+        "score": 0.6666666667,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[2x, 6\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{6, 2x\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{6, 2x, 2x\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "ordered-F"
+            ],
+            "note": "ordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "ordered-F"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "unordered-T"
+            ],
+            "note": "unordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "unordered-T"
+              }
+            ]
+          },
+          "explained": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "explained-T"
+            ],
+            "note": "explained-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "explained-T"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>This answer is not equivalent to the reference.</p> <p>Correct.</p> <p>Correct.</p>"
+      }
+    },
+    {
+      "demoId": "examples-09",
+      "variant": 0,
+      "seed": 17,
+      "operation": "authored-test:3",
+      "sympy": {
+        "status": "graded",
+        "score": 0,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[6, 2x, 6\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{6\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{6, 3x\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> The list has the wrong number of entries.",
+            "notes": [
+              "ordered-F"
+            ],
+            "note": "ordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "ordered-F"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> The set has the wrong number of elements.",
+            "notes": [
+              "unordered-F"
+            ],
+            "note": "unordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "unordered-F"
+              }
+            ]
+          },
+          "explained": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> Extra elements: 3*x. Missing elements: 2*x.",
+            "notes": [
+              "explained-F"
+            ],
+            "note": "explained-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "explained-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>This answer is not equivalent to the reference.</p> The list has the wrong number of entries. <p>This answer is not equivalent to the reference.</p> The set has the wrong number of elements. <p>This answer is not equivalent to the reference.</p> Extra elements: 3*x. Missing elements: 2*x."
+      },
+      "maxima": {
+        "status": "graded",
+        "score": 0,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[6, 2x, 6\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{6\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{6, 3x\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "ordered-F"
+            ],
+            "note": "ordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "ordered-F"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "unordered-F"
+            ],
+            "note": "unordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "unordered-F"
+              }
+            ]
+          },
+          "explained": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "explained-F"
+            ],
+            "note": "explained-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "explained-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>This answer is not equivalent to the reference.</p> <p>This answer is not equivalent to the reference.</p> <p>This answer is not equivalent to the reference.</p>"
+      }
+    },
+    {
+      "demoId": "examples-09",
+      "variant": 0,
+      "seed": 17,
+      "operation": "authored-test:4",
+      "sympy": {
+        "status": "graded",
+        "score": 0.6666666667,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[6, 2x\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{2x, 6, 6\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{6\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "ordered-T"
+            ],
+            "note": "ordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "ordered-T"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "unordered-T"
+            ],
+            "note": "unordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "unordered-T"
+              }
+            ]
+          },
+          "explained": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> Missing elements: 2*x.",
+            "notes": [
+              "explained-F"
+            ],
+            "note": "explained-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "explained-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>Correct.</p> <p>Correct.</p> <p>This answer is not equivalent to the reference.</p> Missing elements: 2*x."
+      },
+      "maxima": {
+        "status": "graded",
+        "score": 0.6666666667,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[6, 2x\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{2x, 6, 6\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{6\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "ordered-T"
+            ],
+            "note": "ordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "ordered-T"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "unordered-T"
+            ],
+            "note": "unordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "unordered-T"
+              }
+            ]
+          },
+          "explained": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "explained-F"
+            ],
+            "note": "explained-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "explained-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>Correct.</p> <p>Correct.</p> <p>This answer is not equivalent to the reference.</p>"
+      }
+    },
+    {
+      "demoId": "examples-09",
+      "variant": 1,
+      "seed": 18,
+      "operation": "authored-test:2",
+      "sympy": {
+        "status": "graded",
+        "score": 0.6666666667,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[2x, 3\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{3, 2x\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{3, 2x, 2x\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> Check list positions: 1, 2.",
+            "notes": [
+              "ordered-F"
+            ],
+            "note": "ordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "ordered-F"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "unordered-T"
+            ],
+            "note": "unordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "unordered-T"
+              }
+            ]
+          },
+          "explained": {
+            "score": 1,
+            "feedback": "<p>Correct.</p> Repeated elements were removed from the set.",
+            "notes": [
+              "explained-T"
+            ],
+            "note": "explained-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "explained-T"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>This answer is not equivalent to the reference.</p> Check list positions: 1, 2. <p>Correct.</p> <p>Correct.</p> Repeated elements were removed from the set."
+      },
+      "maxima": {
+        "status": "graded",
+        "score": 0.6666666667,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[2x, 3\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{3, 2x\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{3, 2x, 2x\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "ordered-F"
+            ],
+            "note": "ordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "ordered-F"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "unordered-T"
+            ],
+            "note": "unordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "unordered-T"
+              }
+            ]
+          },
+          "explained": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "explained-T"
+            ],
+            "note": "explained-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "explained-T"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>This answer is not equivalent to the reference.</p> <p>Correct.</p> <p>Correct.</p>"
+      }
+    },
+    {
+      "demoId": "examples-09",
+      "variant": 1,
+      "seed": 18,
+      "operation": "authored-test:3",
+      "sympy": {
+        "status": "graded",
+        "score": 0,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[3, 2x, 3\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{3\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{3, 3x\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> The list has the wrong number of entries.",
+            "notes": [
+              "ordered-F"
+            ],
+            "note": "ordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "ordered-F"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> The set has the wrong number of elements.",
+            "notes": [
+              "unordered-F"
+            ],
+            "note": "unordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "unordered-F"
+              }
+            ]
+          },
+          "explained": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> Extra elements: 3*x. Missing elements: 2*x.",
+            "notes": [
+              "explained-F"
+            ],
+            "note": "explained-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "explained-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>This answer is not equivalent to the reference.</p> The list has the wrong number of entries. <p>This answer is not equivalent to the reference.</p> The set has the wrong number of elements. <p>This answer is not equivalent to the reference.</p> Extra elements: 3*x. Missing elements: 2*x."
+      },
+      "maxima": {
+        "status": "graded",
+        "score": 0,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[3, 2x, 3\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{3\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{3, 3x\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "ordered-F"
+            ],
+            "note": "ordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "ordered-F"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "unordered-F"
+            ],
+            "note": "unordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "unordered-F"
+              }
+            ]
+          },
+          "explained": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "explained-F"
+            ],
+            "note": "explained-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "explained-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>This answer is not equivalent to the reference.</p> <p>This answer is not equivalent to the reference.</p> <p>This answer is not equivalent to the reference.</p>"
+      }
+    },
+    {
+      "demoId": "examples-09",
+      "variant": 1,
+      "seed": 18,
+      "operation": "authored-test:4",
+      "sympy": {
+        "status": "graded",
+        "score": 0.6666666667,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[3, 2x\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{2x, 3, 3\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{3\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "ordered-T"
+            ],
+            "note": "ordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "ordered-T"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "unordered-T"
+            ],
+            "note": "unordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "unordered-T"
+              }
+            ]
+          },
+          "explained": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> Missing elements: 2*x.",
+            "notes": [
+              "explained-F"
+            ],
+            "note": "explained-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "explained-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>Correct.</p> <p>Correct.</p> <p>This answer is not equivalent to the reference.</p> Missing elements: 2*x."
+      },
+      "maxima": {
+        "status": "graded",
+        "score": 0.6666666667,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[3, 2x\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{2x, 3, 3\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{3\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "ordered-T"
+            ],
+            "note": "ordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "ordered-T"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "unordered-T"
+            ],
+            "note": "unordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "unordered-T"
+              }
+            ]
+          },
+          "explained": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "explained-F"
+            ],
+            "note": "explained-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "explained-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>Correct.</p> <p>Correct.</p> <p>This answer is not equivalent to the reference.</p>"
+      }
+    },
+    {
+      "demoId": "examples-10",
+      "variant": 0,
+      "seed": 17,
+      "operation": "authored-test:2",
+      "sympy": {
+        "status": "graded",
+        "score": 0.6666666667,
+        "inputs": {
+          "nested": {
+            "valid": true,
+            "latex": "\\left[\\left[6, 2x\\right], \\left\\{1, \\left\\{2, 3\\right\\}\\right\\}, \\left[\\right]\\right]",
+            "feedback": ""
+          },
+          "families": {
+            "valid": true,
+            "latex": "\\left\\{\\left\\{1, 2\\right\\}, \\left[6, 2x\\right], \\left[6, 2x\\right]\\right\\}",
+            "feedback": ""
+          },
+          "form": {
+            "valid": true,
+            "latex": "\\left\\{\\left\\{2, 2, 2x\\right\\}, \\left[1, x + 1\\right]\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "nested": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "nested-T"
+            ],
+            "note": "nested-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "nested-T"
+              }
+            ]
+          },
+          "families": {
+            "score": 1,
+            "feedback": "<p>Correct.</p> Repeated elements were removed from the set.",
+            "notes": [
+              "families-T"
+            ],
+            "note": "families-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "families-T"
+              }
+            ]
+          },
+          "form": {
+            "score": 0,
+            "feedback": "<p>Keep the written arithmetic, list order and repeated set entries. Reordering set entries is allowed.</p>",
+            "notes": [
+              "form-type-T",
+              "form-F"
+            ],
+            "note": "form-type-T | form-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "form-type-T"
+              },
+              {
+                "node": "1",
+                "branch": "false",
+                "note": "form-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>Correct.</p> <p>Correct.</p> Repeated elements were removed from the set. <p>Keep the written arithmetic, list order and repeated set entries. Reordering set entries is allowed.</p>"
+      },
+      "maxima": {
+        "status": "graded",
+        "score": 0.6666666667,
+        "inputs": {
+          "nested": {
+            "valid": true,
+            "latex": "\\left[\\left[6, 2x\\right], \\left\\{1, \\left\\{2, 3\\right\\}\\right\\}, \\left[\\right]\\right]",
+            "feedback": ""
+          },
+          "families": {
+            "valid": true,
+            "latex": "\\left\\{\\left\\{1, 2\\right\\}, \\left[6, 2x\\right], \\left[6, 2x\\right]\\right\\}",
+            "feedback": ""
+          },
+          "form": {
+            "valid": true,
+            "latex": "\\left\\{\\left\\{2, 2, 2x\\right\\}, \\left[1, x + 1\\right]\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "nested": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "nested-T"
+            ],
+            "note": "nested-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "nested-T"
+              }
+            ]
+          },
+          "families": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "families-T"
+            ],
+            "note": "families-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "families-T"
+              }
+            ]
+          },
+          "form": {
+            "score": 0,
+            "feedback": "<p>Keep the written arithmetic, list order and repeated set entries. Reordering set entries is allowed.</p>",
+            "notes": [
+              "form-type-T",
+              "form-F"
+            ],
+            "note": "form-type-T | form-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "form-type-T"
+              },
+              {
+                "node": "1",
+                "branch": "false",
+                "note": "form-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>Correct.</p> <p>Correct.</p> <p>Keep the written arithmetic, list order and repeated set entries. Reordering set entries is allowed.</p>"
+      }
+    },
+    {
+      "demoId": "examples-10",
+      "variant": 0,
+      "seed": 17,
+      "operation": "authored-test:3",
+      "sympy": {
+        "status": "graded",
+        "score": 0,
+        "inputs": {
+          "nested": {
+            "valid": true,
+            "latex": "\\left[\\left[2x, 6\\right], \\left\\{1, \\left\\{2, 3\\right\\}\\right\\}, \\left[\\right]\\right]",
+            "feedback": ""
+          },
+          "families": {
+            "valid": true,
+            "latex": "\\left\\{\\left\\{1, 2\\right\\}, \\left[2x, 6\\right]\\right\\}",
+            "feedback": ""
+          },
+          "form": {
+            "valid": true,
+            "latex": "\\left\\{\\left\\{x + x, 2\\right\\}, \\left[1, x + 1\\right]\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "nested": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> Check list positions: 1.",
+            "notes": [
+              "nested-F"
+            ],
+            "note": "nested-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "nested-F"
+              }
+            ]
+          },
+          "families": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> Extra elements: [2*x,6]. Missing elements: [6,2*x].",
+            "notes": [
+              "families-F"
+            ],
+            "note": "families-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "families-F"
+              }
+            ]
+          },
+          "form": {
+            "score": 0,
+            "feedback": "<p>Keep the written arithmetic, list order and repeated set entries. Reordering set entries is allowed.</p>",
+            "notes": [
+              "form-type-T",
+              "form-F"
+            ],
+            "note": "form-type-T | form-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "form-type-T"
+              },
+              {
+                "node": "1",
+                "branch": "false",
+                "note": "form-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>This answer is not equivalent to the reference.</p> Check list positions: 1. <p>This answer is not equivalent to the reference.</p> Extra elements: [2*x,6]. Missing elements: [6,2*x]. <p>Keep the written arithmetic, list order and repeated set entries. Reordering set entries is allowed.</p>"
+      },
+      "maxima": {
+        "status": "graded",
+        "score": 0,
+        "inputs": {
+          "nested": {
+            "valid": true,
+            "latex": "\\left[\\left[2x, 6\\right], \\left\\{1, \\left\\{2, 3\\right\\}\\right\\}, \\left[\\right]\\right]",
+            "feedback": ""
+          },
+          "families": {
+            "valid": true,
+            "latex": "\\left\\{\\left\\{1, 2\\right\\}, \\left[2x, 6\\right]\\right\\}",
+            "feedback": ""
+          },
+          "form": {
+            "valid": true,
+            "latex": "\\left\\{\\left\\{x + x, 2\\right\\}, \\left[1, x + 1\\right]\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "nested": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "nested-F"
+            ],
+            "note": "nested-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "nested-F"
+              }
+            ]
+          },
+          "families": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "families-F"
+            ],
+            "note": "families-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "families-F"
+              }
+            ]
+          },
+          "form": {
+            "score": 0,
+            "feedback": "<p>Keep the written arithmetic, list order and repeated set entries. Reordering set entries is allowed.</p>",
+            "notes": [
+              "form-type-T",
+              "form-F"
+            ],
+            "note": "form-type-T | form-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "form-type-T"
+              },
+              {
+                "node": "1",
+                "branch": "false",
+                "note": "form-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>This answer is not equivalent to the reference.</p> <p>This answer is not equivalent to the reference.</p> <p>Keep the written arithmetic, list order and repeated set entries. Reordering set entries is allowed.</p>"
+      }
+    },
+    {
+      "demoId": "examples-10",
+      "variant": 0,
+      "seed": 17,
+      "operation": "authored-test:4",
+      "sympy": {
+        "status": "graded",
+        "score": 0.3333333333,
+        "inputs": {
+          "nested": {
+            "valid": true,
+            "latex": "\\left[\\left[6, 2x\\right], \\left\\{1, \\left\\{2, 3\\right\\}\\right\\}, \\left[\\right]\\right]",
+            "feedback": ""
+          },
+          "families": {
+            "valid": true,
+            "latex": "\\left\\{\\left\\{1, 2\\right\\}\\right\\}",
+            "feedback": ""
+          },
+          "form": {
+            "valid": true,
+            "latex": "\\left[\\left[x + x, 2, 2\\right], \\left[1, x + 1\\right]\\right]",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "nested": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "nested-T"
+            ],
+            "note": "nested-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "nested-T"
+              }
+            ]
+          },
+          "families": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> Missing elements: [6,2*x].",
+            "notes": [
+              "families-F"
+            ],
+            "note": "families-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "families-F"
+              }
+            ]
+          },
+          "form": {
+            "score": 0,
+            "feedback": "<p>Use the same outer collection type.</p>",
+            "notes": [
+              "form-type-F"
+            ],
+            "note": "form-type-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "form-type-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>Correct.</p> <p>This answer is not equivalent to the reference.</p> Missing elements: [6,2*x]. <p>Use the same outer collection type.</p>"
+      },
+      "maxima": {
+        "status": "graded",
+        "score": 0.3333333333,
+        "inputs": {
+          "nested": {
+            "valid": true,
+            "latex": "\\left[\\left[6, 2x\\right], \\left\\{1, \\left\\{2, 3\\right\\}\\right\\}, \\left[\\right]\\right]",
+            "feedback": ""
+          },
+          "families": {
+            "valid": true,
+            "latex": "\\left\\{\\left\\{1, 2\\right\\}\\right\\}",
+            "feedback": ""
+          },
+          "form": {
+            "valid": true,
+            "latex": "\\left[\\left[x + x, 2, 2\\right], \\left[1, x + 1\\right]\\right]",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "nested": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "nested-T"
+            ],
+            "note": "nested-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "nested-T"
+              }
+            ]
+          },
+          "families": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "families-F"
+            ],
+            "note": "families-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "families-F"
+              }
+            ]
+          },
+          "form": {
+            "score": 0,
+            "feedback": "<p>Use the same outer collection type.</p>",
+            "notes": [
+              "form-type-F"
+            ],
+            "note": "form-type-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "form-type-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>Correct.</p> <p>This answer is not equivalent to the reference.</p> <p>Use the same outer collection type.</p>"
+      }
+    },
+    {
+      "demoId": "examples-11",
+      "variant": 0,
+      "seed": 17,
+      "operation": "authored-test:2",
+      "sympy": {
+        "status": "graded",
+        "score": 0.6666666667,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[3, 2, 1\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{1, 2, 3\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{1, 2, 3, 3\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> Check list positions: 1, 3.",
+            "notes": [
+              "ordered-F"
+            ],
+            "note": "ordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "ordered-F"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "unordered-T"
+            ],
+            "note": "unordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "unordered-T"
+              }
+            ]
+          },
+          "explained": {
+            "score": 1,
+            "feedback": "<p>Correct.</p> Repeated elements were removed from the set.",
+            "notes": [
+              "explained-T"
+            ],
+            "note": "explained-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "explained-T"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>This answer is not equivalent to the reference.</p> Check list positions: 1, 3. <p>Correct.</p> <p>Correct.</p> Repeated elements were removed from the set."
+      },
+      "maxima": {
+        "status": "graded",
+        "score": 0.6666666667,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[3, 2, 1\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{1, 2, 3\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{1, 2, 3, 3\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "ordered-F"
+            ],
+            "note": "ordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "ordered-F"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "unordered-T"
+            ],
+            "note": "unordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "unordered-T"
+              }
+            ]
+          },
+          "explained": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "explained-T"
+            ],
+            "note": "explained-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "explained-T"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>This answer is not equivalent to the reference.</p> <p>Correct.</p> <p>Correct.</p>"
+      }
+    },
+    {
+      "demoId": "examples-11",
+      "variant": 0,
+      "seed": 17,
+      "operation": "authored-test:3",
+      "sympy": {
+        "status": "graded",
+        "score": 0.3333333333,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[1, 2, 3\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{1, 2\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{1, 2, 4\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "ordered-T"
+            ],
+            "note": "ordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "ordered-T"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> The set has the wrong number of elements.",
+            "notes": [
+              "unordered-F"
+            ],
+            "note": "unordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "unordered-F"
+              }
+            ]
+          },
+          "explained": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> Extra elements: 4. Missing elements: 3.",
+            "notes": [
+              "explained-F"
+            ],
+            "note": "explained-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "explained-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>Correct.</p> <p>This answer is not equivalent to the reference.</p> The set has the wrong number of elements. <p>This answer is not equivalent to the reference.</p> Extra elements: 4. Missing elements: 3."
+      },
+      "maxima": {
+        "status": "graded",
+        "score": 0.3333333333,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[1, 2, 3\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{1, 2\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{1, 2, 4\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "ordered-T"
+            ],
+            "note": "ordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "ordered-T"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "unordered-F"
+            ],
+            "note": "unordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "unordered-F"
+              }
+            ]
+          },
+          "explained": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "explained-F"
+            ],
+            "note": "explained-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "explained-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>Correct.</p> <p>This answer is not equivalent to the reference.</p> <p>This answer is not equivalent to the reference.</p>"
+      }
+    },
+    {
+      "demoId": "examples-11",
+      "variant": 0,
+      "seed": 17,
+      "operation": "authored-test:4",
+      "sympy": {
+        "status": "graded",
+        "score": 0.3333333333,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[1, 2\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{1, 2, 3, 3\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{1, 2\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> The list has the wrong number of entries.",
+            "notes": [
+              "ordered-F"
+            ],
+            "note": "ordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "ordered-F"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "unordered-T"
+            ],
+            "note": "unordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "unordered-T"
+              }
+            ]
+          },
+          "explained": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p> Missing elements: 3.",
+            "notes": [
+              "explained-F"
+            ],
+            "note": "explained-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "explained-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>This answer is not equivalent to the reference.</p> The list has the wrong number of entries. <p>Correct.</p> <p>This answer is not equivalent to the reference.</p> Missing elements: 3."
+      },
+      "maxima": {
+        "status": "graded",
+        "score": 0.3333333333,
+        "inputs": {
+          "sequence": {
+            "valid": true,
+            "latex": "\\left[1, 2\\right]",
+            "feedback": ""
+          },
+          "members": {
+            "valid": true,
+            "latex": "\\left\\{1, 2, 3, 3\\right\\}",
+            "feedback": ""
+          },
+          "explained": {
+            "valid": true,
+            "latex": "\\left\\{1, 2\\right\\}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "ordered": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "ordered-F"
+            ],
+            "note": "ordered-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "ordered-F"
+              }
+            ]
+          },
+          "unordered": {
+            "score": 1,
+            "feedback": "<p>Correct.</p>",
+            "notes": [
+              "unordered-T"
+            ],
+            "note": "unordered-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "unordered-T"
+              }
+            ]
+          },
+          "explained": {
+            "score": 0,
+            "feedback": "<p>This answer is not equivalent to the reference.</p>",
+            "notes": [
+              "explained-F"
+            ],
+            "note": "explained-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "explained-F"
+              }
+            ]
+          }
+        },
+        "feedback": "<p>This answer is not equivalent to the reference.</p> <p>Correct.</p> <p>This answer is not equivalent to the reference.</p>"
+      }
+    },
+    {
+      "demoId": "examples-15",
+      "variant": 0,
+      "seed": 17,
+      "operation": "authored-test:3",
+      "sympy": {
+        "status": "graded",
+        "score": 0.5,
+        "inputs": {
+          "rankans": {
+            "valid": true,
+            "latex": "2",
+            "feedback": ""
+          },
+          "pivots": {
+            "valid": true,
+            "latex": "\\begin{pmatrix}2 & 1\\end{pmatrix}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "rankresult": {
+            "score": 1,
+            "feedback": "",
+            "notes": [
+              "rank-T"
+            ],
+            "note": "rank-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "rank-T"
+              }
+            ]
+          },
+          "pivotresult": {
+            "score": 0,
+            "feedback": "Check the entries of the matrix.",
+            "notes": [
+              "pivots-F"
+            ],
+            "note": "pivots-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "pivots-F"
+              }
+            ]
+          }
+        },
+        "feedback": "Check the entries of the matrix."
+      },
+      "maxima": {
+        "status": "graded",
+        "score": 0.5,
+        "inputs": {
+          "rankans": {
+            "valid": true,
+            "latex": "2",
+            "feedback": ""
+          },
+          "pivots": {
+            "valid": true,
+            "latex": "\\begin{pmatrix}2 & 1\\end{pmatrix}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "rankresult": {
+            "score": 1,
+            "feedback": "",
+            "notes": [
+              "rank-T"
+            ],
+            "note": "rank-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "rank-T"
+              }
+            ]
+          },
+          "pivotresult": {
+            "score": 0,
+            "feedback": "",
+            "notes": [
+              "pivots-F"
+            ],
+            "note": "pivots-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "pivots-F"
+              }
+            ]
+          }
+        },
+        "feedback": ""
+      }
+    },
+    {
+      "demoId": "examples-15",
+      "variant": 0,
+      "seed": 17,
+      "operation": "authored-test:4",
+      "sympy": {
+        "status": "graded",
+        "score": 0.5,
+        "inputs": {
+          "rankans": {
+            "valid": true,
+            "latex": "2",
+            "feedback": ""
+          },
+          "pivots": {
+            "valid": true,
+            "latex": "\\begin{pmatrix}1\\end{pmatrix}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "rankresult": {
+            "score": 1,
+            "feedback": "",
+            "notes": [
+              "rank-T"
+            ],
+            "note": "rank-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "rank-T"
+              }
+            ]
+          },
+          "pivotresult": {
+            "score": 0,
+            "feedback": "The matrix has the wrong number of columns.",
+            "notes": [
+              "pivots-F"
+            ],
+            "note": "pivots-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "pivots-F"
+              }
+            ]
+          }
+        },
+        "feedback": "The matrix has the wrong number of columns."
+      },
+      "maxima": {
+        "status": "graded",
+        "score": 0.5,
+        "inputs": {
+          "rankans": {
+            "valid": true,
+            "latex": "2",
+            "feedback": ""
+          },
+          "pivots": {
+            "valid": true,
+            "latex": "\\begin{pmatrix}1\\end{pmatrix}",
+            "feedback": ""
+          }
+        },
+        "prts": {
+          "rankresult": {
+            "score": 1,
+            "feedback": "",
+            "notes": [
+              "rank-T"
+            ],
+            "note": "rank-T",
+            "path": [
+              {
+                "node": "0",
+                "branch": "true",
+                "note": "rank-T"
+              }
+            ]
+          },
+          "pivotresult": {
+            "score": 0,
+            "feedback": "",
+            "notes": [
+              "pivots-F"
+            ],
+            "note": "pivots-F",
+            "path": [
+              {
+                "node": "0",
+                "branch": "false",
+                "note": "pivots-F"
+              }
+            ]
+          }
+        },
+        "feedback": ""
+      }
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "scripts/milestone-two/run.mjs",
+      "bytes": 10555,
+      "sha256": "bc6b0ee831bdac9f6325ba29be998c7104a68d7f3308eabe53bcb5d749953b27"
+    },
+    {
+      "path": "scripts/milestone-two/browser.mjs",
+      "bytes": 21049,
+      "sha256": "e2877b00115c8242133308265ad568f0da9fb98f4a34d3db3dfd754971bdcb94"
+    },
+    {
+      "path": "scripts/milestone-two/serve.mjs",
+      "bytes": 4846,
+      "sha256": "e101637472d4b598997303dd4c5697c4e2228f5f0fe9aa0aa31cd391b672e25e"
+    },
+    {
+      "path": "scripts/milestone-two/materialize.py",
+      "bytes": 17310,
+      "sha256": "dda7676142836f02b1e0f1acfb83de98c8aa78f81745efc8056b9dbcb088f3af"
+    },
+    {
+      "path": "scripts/milestone-two/prepare-runtime.py",
+      "bytes": 7299,
+      "sha256": "8e03ef9af6319456e3468e5663d658f0172adcf4915669312c82b2574d02066d"
+    },
+    {
+      "path": "prototype/backend/worker.js",
+      "bytes": 4438,
+      "sha256": "df01c4487903c5fc2fa07e069bf079824588394ec4433091c727e44da276fd60"
+    },
+    {
+      "path": "prototype/backend/native_adapter.py",
+      "bytes": 10244,
+      "sha256": "839de02fcb03cd4a85c13d5234f425c5b7be9622998bcf0c4e33ec51cb74b124"
+    },
+    {
+      "path": "prototype/runtime/maxima-session.js",
+      "bytes": 11209,
+      "sha256": "6db35ac0bc4e4cb0f02690e55d6f8102daf8d7d051da56d90bc00b4364d49eeb"
+    },
+    {
+      "path": "prototype/runtime/maxima-child.js",
+      "bytes": 6274,
+      "sha256": "ec6ac9112f389c86c9af2bfdf0fbdbdc7fc9ab354516028f837d76546c620593"
+    },
+    {
+      "path": "prototype/quarto/stack-maxima.lua",
+      "bytes": 1672,
+      "sha256": "451de487ffff67c24098ee7d51ba502eeba21eb237bcf2d0a10bd6a6b0c68edd"
+    },
+    {
+      "path": "demos/manifest.json",
+      "bytes": 13544,
+      "sha256": "4896492c28e64cfe16d957af14766db642c2caabf6739509edb0541809087809"
+    }
+  ],
+  "rawReport": "test-results/milestone-two/browser.json"
+}

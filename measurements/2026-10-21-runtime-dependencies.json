@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-10-21T20:12:27.362Z",
+  "discoveredByRun": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39662414639",
+  "scope": "Linked Wasm libraries discovered from the core and all nine optional modules; excludes further share-source HTTP requests",
+  "assets": [
+    {
+      "url": "https://maxima-on-wasm.pages.dev/libecl.so",
+      "status": 200,
+      "contentEncoding": "identity",
+      "transferBytes": 7966927,
+      "fileBytes": 7966927,
+      "sha256": "477e2d4092cc8a6a601e39ddc746440854984115347b62e7faf3b65cc8fa3564",
+      "headers": {
+        "date": "Wed, 21 Oct 2026 19:42:14 GMT",
+        "content-type": "application/octet-stream",
+        "content-length": "7966927",
+        "etag": "\"6f239a83a2fdb7fd4d6d769b46fc7455\"",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-embedder-policy": "require-corp"
+      },
+      "localGzipLevel9Bytes": 2362801
+    },
+    {
+      "url": "https://maxima-on-wasm.pages.dev/libgnuplot.so",
+      "startedAt": "2026-10-21T20:12:26.781Z",
+      "completedAt": "2026-10-21T20:12:27.362Z",
+      "status": 200,
+      "contentEncoding": "identity",
+      "transferBytes": 3937451,
+      "fileBytes": 3937451,
+      "sha256": "c90cc6c149e0e4df484db9f422fb9c535ae34b359da24d61c974578d6bce0772",
+      "localGzipLevel9Bytes": 1955473
+    }
+  ],
+  "dependencyGraph": {
+    "maxima.wasm": [
+      "libecl.so"
+    ],
+    "libecl.so": [],
+    "maxima-plot.fas": [
+      "libgnuplot.so",
+      "libecl.so"
+    ],
+    "libgnuplot.so": [],
+    "maxima-solve.fas": [
+      "libecl.so"
+    ],
+    "maxima-integration.fas": [
+      "libecl.so"
+    ],
+    "maxima-limits.fas": [
+      "libecl.so"
+    ],
+    "maxima-matrix-algebra.fas": [
+      "libecl.so"
+    ],
+    "maxima-number-theory.fas": [
+      "libecl.so"
+    ],
+    "maxima-poisson-series.fas": [
+      "libecl.so"
+    ],
+    "maxima-quadpack.fas": [
+      "libecl.so"
+    ],
+    "maxima-slatec.fas": [
+      "libecl.so"
+    ]
+  }
+}

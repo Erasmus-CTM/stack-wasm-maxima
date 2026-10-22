@@ -1,0 +1,57 @@
+##[group]Run python scripts/milestone-two/materialize.py --stack-sympy-source .m2-sources/stack-sympy --ctm-checkers-source .m2-sources/ctm-checkers --ctm-libs-source .m2-sources/ctm-libs
+2026-10-22T03:47:58.4203511Z [36;1mpython scripts/milestone-two/materialize.py --stack-sympy-source .m2-sources/stack-sympy --ctm-checkers-source .m2-sources/ctm-checkers --ctm-libs-source .m2-sources/ctm-libs[0m
+2026-10-22T03:47:58.4204284Z [36;1mpython scripts/milestone-two/prepare-runtime.py --stack-source .m2-sources/stack --ctm-checkers-source .m2-sources/ctm-checkers[0m
+2026-10-22T03:47:58.4249148Z shell: /usr/bin/bash -e {0}
+2026-10-22T03:47:58.4249310Z env:
+2026-10-22T03:47:58.4249467Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-22T03:47:58.4249711Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-22T03:47:58.4249946Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-22T03:47:58.4250194Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-22T03:47:58.4250409Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-22T03:47:58.4250625Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-22T03:47:58.4250816Z   BUNDLE_EXT: linux-amd64.deb
+2026-10-22T03:47:58.4250962Z ##[endgroup]
+2026-10-22T03:47:58.4888606Z {"project": "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/milestone-two/demo", "cards": 19, "variants": 27, "pythonCheckerCards": 6}
+2026-10-22T03:47:58.7878521Z Traceback (most recent call last):
+2026-10-22T03:47:58.7879291Z   File "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/prepare-runtime.py", line 122, in <module>
+2026-10-22T03:47:58.7879875Z     main()
+2026-10-22T03:47:58.7880377Z   File "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/prepare-runtime.py", line 85, in main
+2026-10-22T03:47:58.7880965Z     assets = list(pool.map(copy_asset, sorted(wanted)))
+2026-10-22T03:47:58.7881338Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-22T03:47:58.7881961Z   File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+2026-10-22T03:47:58.7882494Z     yield _result_or_cancel(fs.pop())
+2026-10-22T03:47:58.7882752Z           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-22T03:47:58.7883268Z   File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+2026-10-22T03:47:58.7883606Z     return fut.result(timeout)
+2026-10-22T03:47:58.7883778Z            ^^^^^^^^^^^^^^^^^^^
+2026-10-22T03:47:58.7884248Z   File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+2026-10-22T03:47:58.7885117Z     return self.__get_result()
+2026-10-22T03:47:58.7885344Z            ^^^^^^^^^^^^^^^^^^^
+2026-10-22T03:47:58.7885710Z   File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+2026-10-22T03:47:58.7886014Z     raise self._exception
+2026-10-22T03:47:58.7886300Z   File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+2026-10-22T03:47:58.7886606Z     result = self.fn(*self.args, **self.kwargs)
+2026-10-22T03:47:58.7886796Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-22T03:47:58.7887152Z   File "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/prepare-runtime.py", line 71, in copy_asset
+2026-10-22T03:47:58.7887499Z     with urlopen(url, timeout=45) as response:
+2026-10-22T03:47:58.7887676Z          ^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-22T03:47:58.7887958Z   File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/urllib/request.py", line 215, in urlopen
+2026-10-22T03:47:58.7936822Z     return opener.open(url, data, timeout)
+2026-10-22T03:47:58.7937133Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-22T03:47:58.7937849Z   File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/urllib/request.py", line 521, in open
+2026-10-22T03:47:58.7973251Z     response = meth(req, response)
+2026-10-22T03:47:58.7973512Z                ^^^^^^^^^^^^^^^^^^^
+2026-10-22T03:47:58.7974088Z   File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/urllib/request.py", line 630, in http_response
+2026-10-22T03:47:58.7974606Z     response = self.parent.error(
+2026-10-22T03:47:58.7974862Z                ^^^^^^^^^^^^^^^^^^
+2026-10-22T03:47:58.7975298Z   File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/urllib/request.py", line 559, in error
+2026-10-22T03:47:58.7975728Z     return self._call_chain(*args)
+2026-10-22T03:47:58.7975976Z            ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-22T03:47:58.7976472Z   File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/urllib/request.py", line 492, in _call_chain
+2026-10-22T03:47:58.7976892Z     result = func(*args)
+2026-10-22T03:47:58.7977106Z              ^^^^^^^^^^^
+2026-10-22T03:47:58.7977599Z   File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/urllib/request.py", line 639, in http_error_default
+2026-10-22T03:47:58.7978128Z     raise HTTPError(req.full_url, code, msg, hdrs, fp)
+2026-10-22T03:47:58.7978503Z urllib.error.HTTPError: HTTP Error 403: Forbidden
+2026-10-22T03:47:58.8162685Z ##[error]Process completed with exit code 1.
+2026-10-22T03:47:58.8214835Z 

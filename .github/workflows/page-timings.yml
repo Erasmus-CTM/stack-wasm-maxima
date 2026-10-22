@@ -1,0 +1,51 @@
+name: Measure deployed comparison timings
+
+on:
+  push:
+    branches: ['research/**']
+    paths:
+      - 'scripts/measure-site-timings.mjs'
+      - '.github/workflows/page-timings.yml'
+  workflow_dispatch:
+    inputs:
+      page_url:
+        description: Deployed comparison page to measure
+        required: true
+        default: 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/maxima/examples.html'
+      expected_html_sha256:
+        description: SHA-256 of that deployed HTML build
+        required: true
+        default: '3e1c86157bfb545423370bcabb75a40ace1249afd30930d6b73f198e5f78a8eb'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: page-timings-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  measure:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install the pinned browser
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Measure first validation and repeated calls on the public page
+        env:
+          TIMING_PAGE_URL: ${{ inputs.page_url || 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/maxima/examples.html' }}
+          EXPECTED_HTML_SHA256: ${{ inputs.expected_html_sha256 || '3e1c86157bfb545423370bcabb75a40ace1249afd30930d6b73f198e5f78a8eb' }}
+        run: node scripts/measure-site-timings.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: page-timings-${{ github.sha }}
+          path: test-results/page-timings/
+          if-no-files-found: error

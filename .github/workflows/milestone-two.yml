@@ -1,0 +1,128 @@
+name: Matched Quarto backend prototype
+
+on:
+  push:
+    branches: ['research/**']
+    paths:
+      - '.github/workflows/milestone-two.yml'
+      - 'scripts/milestone-two/**'
+      - 'prototype/**'
+      - 'demos/manifest.json'
+      - 'measurements/*runtime*.json'
+      - 'package*.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stack-wasm-milestone-two-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  matched-demo:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.8.27
+      - uses: actions/checkout@v7
+        with:
+          repository: Erasmus-CTM/stack-sympy
+          ref: 1b1d50f69fc1e7eb39846b497657d72be325f597
+          path: .m2-sources/stack-sympy
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: c366f175aba6b62caa628bc60f57bb1167fc087b
+          path: .m2-sources/ctm-checkers
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: Erasmus-CTM/ctm-libs
+          ref: 94687f718fd651fc2857bc5242a64e45c8fd4697
+          path: .m2-sources/ctm-libs
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: .m2-sources/stack
+          sparse-checkout: stack/maxima
+          persist-credentials: false
+      - name: Install pinned build and browser dependencies
+        run: |
+          python -m pip install sympy==1.13.3
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Check backend transport and adapter boundaries
+        env:
+          PYTHONPATH: .m2-sources/ctm-checkers/src
+        run: |
+          node prototype/runtime/test-maxima-session.mjs
+          python prototype/backend/test_native_adapter.py
+      - name: Materialize the original questions and both frontend routes
+        id: materialize
+        run: |
+          mkdir -p test-results/milestone-two
+          python scripts/milestone-two/materialize.py --stack-sympy-source .m2-sources/stack-sympy --ctm-checkers-source .m2-sources/ctm-checkers --ctm-libs-source .m2-sources/ctm-libs
+          python scripts/milestone-two/prepare-runtime.py --stack-source .m2-sources/stack --ctm-checkers-source .m2-sources/ctm-checkers 2>&1 | tee test-results/milestone-two/prepare.log
+      - name: Render the actual Quarto pages
+        id: render
+        env:
+          CTM_COMPONENT_DEV: '1'
+          STACK_SYMPY_PYTHON: python
+        run: |
+          export CTM_LIBS_EXTENSION="$PWD/.cache/milestone-two/demo/_extensions/ctm-libs"
+          export CTM_CHECKERS_EXTENSION="$PWD/.cache/milestone-two/demo/_extensions/ctm-checkers"
+          quarto render .cache/milestone-two/demo 2>&1 | tee test-results/milestone-two/render.log
+          python scripts/milestone-two/materialize.py --collect-site .cache/milestone-two/demo/_site --payload-output test-results/milestone-two/frozen-payloads.json 2>&1 | tee test-results/milestone-two/collect.log
+      - name: Verify real UI paths, routing and paired timings
+        id: browser
+        run: node scripts/milestone-two/run.mjs 2>&1 | tee test-results/milestone-two/run.log
+      - name: Record failures that occur before browser reporting
+        if: failure()
+        env:
+          MILESTONE_STEPS: ${{ toJSON(steps) }}
+        run: python scripts/milestone-two/record-build-failure.py
+      - name: Upload rendered site and full diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: milestone-two-${{ github.sha }}
+          path: |
+            .cache/milestone-two/demo/_site/
+            test-results/milestone-two/
+            reports/milestone-two/
+          if-no-files-found: warn
+          include-hidden-files: true
+      - name: Preserve computed reports on the research branch
+        if: always() && startsWith(github.ref, 'refs/heads/research/')
+        run: |
+          if test ! -f reports/milestone-two/latest.json; then exit 0; fi
+          mkdir -p "reports/milestone-two/runs/$GITHUB_RUN_ID"
+          cp reports/milestone-two/latest.* "reports/milestone-two/runs/$GITHUB_RUN_ID/"
+          if test -f test-results/milestone-two/browser.json; then
+            cp test-results/milestone-two/browser.json "reports/milestone-two/runs/$GITHUB_RUN_ID/"
+          fi
+          git config user.name "Codex"
+          git config user.email "noreply@openai.com"
+          git add reports/milestone-two/
+          if ! git diff --cached --quiet; then
+            git commit -m "Record matched Quarto browser evidence" -m "Source run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            git pull --rebase origin "$GITHUB_REF_NAME"
+            git push origin "HEAD:$GITHUB_REF"
+          fi

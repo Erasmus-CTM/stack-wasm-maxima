@@ -1,0 +1,373 @@
+{
+  "schema": 1,
+  "status": "frozen source inventory; hybrid milestone 2 passed at executable source 2493268c2bf3eb9941407f376d20a07fb5da4ec9",
+  "stackSympyRevision": "1b1d50f69fc1e7eb39846b497657d72be325f597",
+  "ctmDependencies": {
+    "comment": "Commits CI uses (.github/actions/ctm-dependencies and site.yml; a head commit's CTM-Review-Refs trailer names others for review). ctm-libs: the library of CTM Assessment (the Python runtime, AI feedback, the bootstrap's target). ctm-checkers: the Python checker library with the STACK engine (ctm_checkers.stack), its example questions (examples/stack, copied into questions/ by scripts/fetch-examples.py) and the native STACK workflow that renders the compliance report. ctm-assessment: the umbrella, for tools/ci/review-dependencies.py (the one copy of every CTM repository).",
+    "ctm-libs": {
+      "repository": "Erasmus-CTM/ctm-libs",
+      "commit": "94687f718fd651fc2857bc5242a64e45c8fd4697"
+    },
+    "ctm-checkers": {
+      "repository": "Erasmus-CTM/ctm-checkers",
+      "commit": "c366f175aba6b62caa628bc60f57bb1167fc087b"
+    },
+    "ctm-assessment": {
+      "repository": "Erasmus-CTM/ctm-assessment",
+      "commit": "deb46814c99404d4f6db80f880d99e300919443a"
+    }
+  },
+  "questionSourceRepository": "Erasmus-CTM/ctm-checkers",
+  "questionSourceRevision": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+  "scope": "Live question blocks on stack-sympy index.qmd and examples.qmd; not the separate import corpus or illustrative code snippets",
+  "variantPolicy": "Materialize the existing CTM frozen variant payload once, preserve the authored seed and variant count, and submit the same payload and answers to both backends. Do not assume that equal seeds in different random-number generators give equal values.",
+  "demos": [
+    {
+      "id": "index-01",
+      "sourcePage": "index.qmd",
+      "sourcePageGitBlobSha": "f9abfd11bb82c446dddc6387d04113e3158a1347",
+      "authoredIdentifier": null,
+      "options": {
+        "file": "questions/polynomial-expansion.xml",
+        "question": "Expand a product (form-sensitive)",
+        "variants": "3",
+        "seed": "17",
+        "review": "true",
+        "feedback": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/polynomial-expansion.xml",
+        "gitBlobSha": "fbd632aab41043787528e86f664864ddd9569a08"
+      }
+    },
+    {
+      "id": "examples-01",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": null,
+      "options": {
+        "file": "questions/rational-equivalence.xml",
+        "question": "Equivalent rational expression",
+        "variants": "3",
+        "seed": "29",
+        "review": "true",
+        "feedback": "true",
+        "label": "rational-practice",
+        "feedback-policy": "two-step-practice"
+      },
+      "questionSource": {
+        "path": "examples/stack/rational-equivalence.xml",
+        "gitBlobSha": "2b182d0b38f697e8721cb0896590bdced9584a5b"
+      }
+    },
+    {
+      "id": "examples-02",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": null,
+      "options": {
+        "file": "questions/upstream/algmap-6-1.xml",
+        "question": "AlgMap-6.1",
+        "variants": "2",
+        "seed": "17",
+        "review": "true",
+        "feedback": "true",
+        "context": "none"
+      },
+      "questionSource": {
+        "path": "examples/stack/upstream/algmap-6-1.xml",
+        "gitBlobSha": "b365633605df8cb208d776f34df5ce7b5ae5effb"
+      }
+    },
+    {
+      "id": "examples-03",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": null,
+      "options": {
+        "file": "questions/hyperbolic-equivalence.xml",
+        "question": "Hyperbolic equivalence",
+        "seed": "17",
+        "review": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/hyperbolic-equivalence.xml",
+        "gitBlobSha": "21dec0abf92bffb720652b071d47f0ba0efc4524"
+      }
+    },
+    {
+      "id": "examples-04",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": null,
+      "options": {
+        "file": "questions/numerical-measurement.xml",
+        "question": "Rectangle and triangle measurements",
+        "seed": "47",
+        "review": "true",
+        "feedback": "true",
+        "context": "measurement-context"
+      },
+      "questionSource": {
+        "path": "examples/stack/numerical-measurement.xml",
+        "gitBlobSha": "90ac465e6e73ac8472adda435d576b6bcaac60ea"
+      }
+    },
+    {
+      "id": "examples-05",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": null,
+      "options": {
+        "file": "questions/upstream/bodmas.xml",
+        "question": "1.1.4.T2 BODMAS",
+        "seed": "29",
+        "review": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/upstream/bodmas.xml",
+        "gitBlobSha": "1fa49860538ac8820311173b19bbf4bfb27acb4d"
+      }
+    },
+    {
+      "id": "examples-06",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": null,
+      "options": {
+        "file": "questions/upstream/rounding-three-dp.xml",
+        "question": "1.1.3.T1 Rounding to n Decimal Places",
+        "seed": "47",
+        "review": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/upstream/rounding-three-dp.xml",
+        "gitBlobSha": "de1a1ad654423351815033cecaf884ec86e05b5c"
+      }
+    },
+    {
+      "id": "examples-07",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": null,
+      "options": {
+        "file": "questions/zero-product.xml",
+        "question": "Zero product equations",
+        "seed": "17",
+        "review": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/zero-product.xml",
+        "gitBlobSha": "a6b5889c1013582145abc48398d94884e6c71e7c"
+      }
+    },
+    {
+      "id": "examples-08",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": null,
+      "options": {
+        "file": "questions/boolean-equivalence.xml",
+        "question": "Boolean equivalence",
+        "seed": "17",
+        "review": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/boolean-equivalence.xml",
+        "gitBlobSha": "ab9064dc625de44f65a2f3e1488f43a861f46c9c"
+      }
+    },
+    {
+      "id": "examples-09",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": "finite-collections",
+      "options": {
+        "file": "questions/finite-collections.xml",
+        "question": "Finite scalar collections",
+        "variants": "2",
+        "seed": "17",
+        "review": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/finite-collections.xml",
+        "gitBlobSha": "497443ac4c9d57302f4217b972bc379f63d51462"
+      }
+    },
+    {
+      "id": "examples-10",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": "nested-collections",
+      "options": {
+        "file": "questions/nested-collections.xml",
+        "question": "Nested finite collections",
+        "seed": "17",
+        "review": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/nested-collections.xml",
+        "gitBlobSha": "e99ce4f4b66ebac3dfa83879f3c8a7acc406b724"
+      }
+    },
+    {
+      "id": "examples-11",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": "finite-author-helpers",
+      "options": {
+        "file": "questions/finite-author-helpers.xml",
+        "question": "Finite author helpers",
+        "seed": "17",
+        "review": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/finite-author-helpers.xml",
+        "gitBlobSha": "4cbd9d09c854aa761023cd1c5f48d888f77b17c7"
+      }
+    },
+    {
+      "id": "examples-12",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": "determinant-one",
+      "options": {
+        "file": "questions/determinant-one.xml",
+        "question": "A nonidentity integer matrix with determinant one",
+        "python-checkers": "questions/matrix-checkers.py",
+        "seed": "17",
+        "review": "true",
+        "feedback": "true",
+        "context": "none"
+      },
+      "questionSource": {
+        "path": "examples/stack/determinant-one.xml",
+        "gitBlobSha": "87eb13fa323f5f03e912ee066c2b5378a1e4c258"
+      },
+      "pythonCheckerSource": {
+        "path": "examples/stack/matrix-checkers.py",
+        "gitBlobSha": "91c6f7d63172a68516f2c16de7f0aa634803c1d6"
+      }
+    },
+    {
+      "id": "examples-13",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": "spd-example",
+      "options": {
+        "file": "questions/symmetric-positive-definite.xml",
+        "question": "A positive definite matrix",
+        "python-checkers": "questions/matrix-checkers.py",
+        "review": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/symmetric-positive-definite.xml",
+        "gitBlobSha": "dc4ff3fdebd962b1f383dfe259e4e800e4e76188"
+      },
+      "pythonCheckerSource": {
+        "path": "examples/stack/matrix-checkers.py",
+        "gitBlobSha": "91c6f7d63172a68516f2c16de7f0aa634803c1d6"
+      }
+    },
+    {
+      "id": "examples-14",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": "spd-separate-example",
+      "options": {
+        "file": "questions/symmetric-positive-definite-prt.xml",
+        "question": "Hermitian symmetry and positive definiteness separately",
+        "python-checkers": "questions/matrix-checkers.py",
+        "review": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/symmetric-positive-definite-prt.xml",
+        "gitBlobSha": "acad631ba4d0fa64b31fe5954019b61648b661fa"
+      },
+      "pythonCheckerSource": {
+        "path": "examples/stack/matrix-checkers.py",
+        "gitBlobSha": "91c6f7d63172a68516f2c16de7f0aa634803c1d6"
+      }
+    },
+    {
+      "id": "examples-15",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": "course-b-rank-pivots",
+      "options": {
+        "file": "questions/course-b-rank-pivots.xml",
+        "question": "Rank and pivot columns of B",
+        "seed": "17",
+        "review": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/course-b-rank-pivots.xml",
+        "gitBlobSha": "733ca771629f3d260774b212c3af6aabe7acb188"
+      }
+    },
+    {
+      "id": "examples-16",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": "course-b-nullspace",
+      "options": {
+        "file": "questions/course-b-nullspace.xml",
+        "question": "A basis for the null space of B",
+        "python-checkers": "questions/matrix-checkers.py",
+        "seed": "17",
+        "review": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/course-b-nullspace.xml",
+        "gitBlobSha": "1d86f5d932ee61eea31bbbb69becf741c3c0257b"
+      },
+      "pythonCheckerSource": {
+        "path": "examples/stack/matrix-checkers.py",
+        "gitBlobSha": "91c6f7d63172a68516f2c16de7f0aa634803c1d6"
+      }
+    },
+    {
+      "id": "examples-17",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": "course-c-nullspace",
+      "options": {
+        "file": "questions/course-c-nullspace.xml",
+        "question": "A basis for the null space of C",
+        "python-checkers": "questions/matrix-checkers.py",
+        "seed": "17",
+        "review": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/course-c-nullspace.xml",
+        "gitBlobSha": "cbc7d491d5e40bd5a8cd7ffb4e088de61c8b90e2"
+      },
+      "pythonCheckerSource": {
+        "path": "examples/stack/matrix-checkers.py",
+        "gitBlobSha": "91c6f7d63172a68516f2c16de7f0aa634803c1d6"
+      }
+    },
+    {
+      "id": "examples-18",
+      "sourcePage": "examples.qmd",
+      "sourcePageGitBlobSha": "5faa93319099404df3642d5156eea1ee56ed174b",
+      "authoredIdentifier": "python-multiple",
+      "options": {
+        "file": "questions/python-checker.xml",
+        "question": "A positive integer multiple (PythonChecker)",
+        "python-checkers": "questions/checkers.py",
+        "variants": "3",
+        "seed": "17",
+        "review": "true"
+      },
+      "questionSource": {
+        "path": "examples/stack/python-checker.xml",
+        "gitBlobSha": "4f9ba7b3a02fe28eade0541fda28272e5eb67880"
+      },
+      "pythonCheckerSource": {
+        "path": "examples/stack/checkers.py",
+        "gitBlobSha": "5ca5b360c6e257129374c4c473dbe4e601a8acb5"
+      }
+    }
+  ]
+}

@@ -1,0 +1,254 @@
+{
+  "schema_version": 1,
+  "engine": "maxima",
+  "metadata": {
+    "reference_layer": "direct_official_maxima_AT",
+    "stack_sha": "33383047af39c204bf4442802a058f8b918b2b1b",
+    "input_preparation": "stack-logic-nouns-numeric-default-v2",
+    "stack_library_version": "2026101500",
+    "maxima_version": "Maxima 5.46.0",
+    "native_scope_sha256": "cc3a75f5e64700f2a34f81edd87ac3ee0395c08a4a91d963e04e9835aac94d36",
+    "execution_isolation": "fresh_maxima_process_per_case",
+    "jobs": 2,
+    "loader_warmup": true,
+    "preloaded_image": null,
+    "case_wall_seconds": 29.580429761999994,
+    "loader_probe": {
+      "i_binding": "%i",
+      "parsed_i": "i",
+      "parsed_fraction": "1/(1+i)",
+      "ev_parsed_fraction": "1/(1+i)",
+      "literal_lowest_terms": [
+        true,
+        false,
+        "ATLowestTerms_not_rat. "
+      ],
+      "parsed_lowest_terms": [
+        true,
+        true,
+        ""
+      ],
+      "ev_parsed_lowest_terms": [
+        true,
+        true,
+        ""
+      ],
+      "eca_cos_evaluated": [
+        true,
+        false,
+        "ATEqualComAss (AlgEquiv-true). "
+      ],
+      "eca_sqrt_evaluated": [
+        true,
+        false,
+        "ATEqualComAss (AlgEquiv-true). "
+      ]
+    }
+  },
+  "observations": [
+    {
+      "case_id": "b687d448f571dfe38ec400ddca0df628e6a2a26fd4078dade228d5cdf76eb811-1",
+      "test": "AlgEquiv",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": true,
+      "answer_note": "",
+      "controlled_error": false
+    },
+    {
+      "case_id": "2cabd2dff3f4f80bb9a3c19d8ca64796d886e0892150c377daafc41f8561f234-1",
+      "test": "AlgEquiv",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": false,
+      "answer_note": "ATAlgEquiv_WrongCase. ",
+      "controlled_error": false
+    },
+    {
+      "case_id": "9a5466436767dca815def28d07754cf6b55795b2249262ccadc16508930c50a0-1",
+      "test": "Sets",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": true,
+      "answer_note": "ATSets_duplicates. ",
+      "controlled_error": false
+    },
+    {
+      "case_id": "393cc814f523053da171187205ccea45ba34a195f3bb4cb43b00fa03d742d14b-1",
+      "test": "Sets",
+      "status": "ok",
+      "cas_valid": false,
+      "correct": false,
+      "answer_note": "ATSets_SB_not_set. ",
+      "controlled_error": false
+    },
+    {
+      "case_id": "016ade3a943e2080185ad15300f764011854ee61dda5ff4a6c2a7b6125be5a85-1",
+      "test": "SameType",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": true,
+      "answer_note": "",
+      "controlled_error": false
+    },
+    {
+      "case_id": "3c91e37b2b24c756887bf74bd438b536631cad9b7f80e5d60347c9973ff4afc4-1",
+      "test": "SameType",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": false,
+      "answer_note": "",
+      "controlled_error": false
+    },
+    {
+      "case_id": "2c56c0b9e8ea5620f024cbf9e561f0bba661faacb9c3974d8ad0be2921e55efc-1",
+      "test": "EqualComAss",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": true,
+      "answer_note": "",
+      "controlled_error": false
+    },
+    {
+      "case_id": "27930b8b17eb8b0b7db625314ffa987727fa116d4ecb3215f3867a220cec42b3-1",
+      "test": "EqualComAss",
+      "status": "ok",
+      "cas_valid": false,
+      "correct": false,
+      "answer_note": "ATEqualComAss (AlgEquiv-false)ATAlgEquiv_WrongCase. ",
+      "controlled_error": false
+    },
+    {
+      "case_id": "a4325c0788be1a52080f4014384af74fe92e77b5dfe0738672fac9b632325bca-1",
+      "test": "FacForm",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": true,
+      "answer_note": "ATFacForm_int_true. ",
+      "controlled_error": false
+    },
+    {
+      "case_id": "3ca2b85893be967dea1398509e57a491d9d6329d531d73d5e3e8566756ade2d9-1",
+      "test": "FacForm",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": false,
+      "answer_note": "ATFacForm_notfactored. ",
+      "controlled_error": false
+    },
+    {
+      "case_id": "e4978ce1ad0395265edc90eaeac66f8db64af6a0bd10afe98790f20098d39119-1",
+      "test": "SingleFrac",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": true,
+      "answer_note": "",
+      "controlled_error": false
+    },
+    {
+      "case_id": "5b9a9047310775455c2aaec136ec55fed81c1699a05fd58f884dcbc742c5e806-1",
+      "test": "SingleFrac",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": false,
+      "answer_note": "ATSingleFrac_ret_exp. ",
+      "controlled_error": false
+    },
+    {
+      "case_id": "e06ffe4c4f8cea9fd89e9158d49ef9463e69045c39807c0fb3fee835cb1f1a4a-1",
+      "test": "LowestTerms",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": true,
+      "answer_note": "",
+      "controlled_error": false
+    },
+    {
+      "case_id": "2aa5f59146d81cbdbc3a7a91ff3ae84bd08d66da6fca0599c0f4a38e30ef34e4-1",
+      "test": "LowestTerms",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": false,
+      "answer_note": "ATLowestTerms_entries. ",
+      "controlled_error": false
+    },
+    {
+      "case_id": "170c87565e268a00abd02e32c2a4d6d1373f5f1bf6af997570e5d06384d5d38f-1",
+      "test": "NumAbsolute",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": true,
+      "answer_note": "",
+      "controlled_error": false
+    },
+    {
+      "case_id": "ed8ae34e281ad7368e6ce4509806b7ab86962493fd95bdc73483443807aae182-1",
+      "test": "NumAbsolute",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": false,
+      "answer_note": "",
+      "controlled_error": false
+    },
+    {
+      "case_id": "6d9edefdf5bdc88df725e8b4355ee8db29bd527343d14acf0ac68bc332442fdd-1",
+      "test": "NumRelative",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": true,
+      "answer_note": "",
+      "controlled_error": false
+    },
+    {
+      "case_id": "3c2c1dbd21b1a6b18ad71fe1578738a6b5d3d8f9db47e874225de24c6832057c-1",
+      "test": "NumRelative",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": false,
+      "answer_note": "",
+      "controlled_error": false
+    },
+    {
+      "case_id": "2f1aff8e19a9d5ec891dd2ecf03e90c41ef7bf7c336a3aafe7db67feb4449aba-1",
+      "test": "NumDecPlaces",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": true,
+      "answer_note": "ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv. ",
+      "controlled_error": false
+    },
+    {
+      "case_id": "13f4cdf3476d93ad3f2c45491133d73a2ebb4100682d0f5ef183bfa7d923d4b7-1",
+      "test": "NumDecPlaces",
+      "status": "ok",
+      "cas_valid": false,
+      "correct": false,
+      "answer_note": "ATNumDecPlaces_SA_Not_num. ",
+      "controlled_error": false
+    },
+    {
+      "case_id": "cab5d111a044b5e1e708117c297dde18ea060fed316bfae9c53408f2c15cb135-1",
+      "test": "AlgEquiv",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": true,
+      "answer_note": "",
+      "controlled_error": false
+    },
+    {
+      "case_id": "72070f1316e2524bc44f178d754779591012ff7e71adddbb1f60d6f82e874823-1",
+      "test": "AlgEquiv",
+      "status": "ok",
+      "cas_valid": true,
+      "correct": false,
+      "answer_note": "ATMatrix_wrongentries. ",
+      "controlled_error": false
+    }
+  ],
+  "summary": {
+    "total": 22,
+    "ok": 22,
+    "error": 0,
+    "unavailable": 0
+  }
+}

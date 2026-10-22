@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "status": "failed before browser execution",
+  "sourceRevision": "145ca0774530ba0ed638ad94f0c2741331dd8b69",
+  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39718723145",
+  "stage": "runtime asset preparation",
+  "materializedCards": 19,
+  "materializedVariants": 27,
+  "pythonCheckerCards": 6,
+  "verifiedBrowserVariants": 0,
+  "reason": "urllib runtime asset request returned HTTP 403",
+  "checksPassed": [
+    "dependency setup",
+    "mock shared-memory result boundary checks",
+    "4 Python adapter boundary tests",
+    "matched source materialization"
+  ],
+  "runsNeeded": [
+    "Render Quarto pages",
+    "Verify identical frozen payloads",
+    "Execute both browser grading paths and measure timings"
+  ],
+  "evidence": "build.log"
+}

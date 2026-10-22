@@ -1,0 +1,865 @@
+---
+title: "Compare SymPy and Maxima"
+subtitle: "The same questions with both assessment backends"
+engine: markdown
+header-includes:
+  - |
+    <script data-ctm-coi-bootstrap src="../ctm-isolation.js"></script>
+ai-feedback:
+  page-policy:
+    math-exercise: brief-mathematics
+---
+
+Each question appears twice: **SymPy** first, then **Maxima**. Both copies use the same question, options, seed and variants. Choose the same variant number in both copies to compare their assessment. Answers, validation, feedback and reset are independent.
+
+Press **Validate answers** to inspect each interpreted response, then **Check answer** to grade it. After an edit, validate again. The first assessment loads that backend; Maxima can take longer to initialize.
+
+## Which questions need CTM?
+
+**11 questions use standard STACK features; 7 require CTM extensions.** There are **3 unchanged upstream questions** and **15 questions authored or adapted for CTM**.
+
+| Question source and features | Count | Questions | Stock STACK status |
+|---|---:|---|---|
+| Unchanged upstream STACK XML | 3 | AlgMap-6.1, BODMAS, rounding | Standard STACK features; the source XML matches the pinned upstream copies. |
+| CTM-authored, standard STACK features | 8 | Rational expression, hyperbolic equivalence, numerical checks, zero-product equations, Boolean equivalence, finite lists/sets, nested collections, finite author helpers | No CTM-only checker, author helper or input extension detected. |
+| CTM PythonChecker extension | 6 | Determinant-one matrix, combined positive-definiteness test, separate symmetry/positivity tests, nullspace bases B and C, positive integer multiple | Requires the CTM Python checker; these files do not run unchanged in stock STACK. |
+| CTM matrix input extension, standard grading | 1 | Rank and pivot columns of B | `AlgEquiv` is standard; adapt the custom resizable matrix configuration for stock STACK. |
+
+::: {.callout-important}
+**PythonChecker means the same Python grading in both columns.**
+
+The six PythonChecker questions use the same supplied Python functions through Pyodide in the SymPy and Maxima copies. Every answer-test node in those six questions is a PythonChecker node: **none is graded by native Maxima**. The column names select the surrounding backend; they do not turn Python into Maxima.
+
+The two nullspace questions also use CTM's `nullspace_basis(A)` author helper and its resizable matrix input. The rank/pivot question uses that input extension without a PythonChecker.
+:::
+
+These labels classify the question XML and its required features. **A complete import and run in stock Moodle/STACK has not been verified here.** Both columns on this page use CTM's frontend, validation and response-tree controller. The Maxima copy delegates ordinary STACK answer-test nodes to the pinned STACK library; its PythonChecker nodes stay in Python.
+
+Read the [question-by-question source audit](https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/research/2026-10-runtime-feasibility/reports/reviewer-site/question-compatibility.json) for the pinned evidence and extension list.
+
+## For teachers
+
+Choose a question to try, then change the response to see which mathematical distinctions its grading preserves. The [authoring guide](https://erasmus-ctm.github.io/stack-sympy/docs/authoring.html) explains how to bring your own questions to a page.
+
+### Algebraic equivalence and written form
+
+#### Equivalent rational expression
+
+**Standard STACK features | CTM-authored question.**
+
+The prompt states the domain $x\ne -n$. A cancelled fraction and the original unreduced expression both receive full credit because the question asks for *any equivalent expression* on that domain. A reciprocal triggers a targeted feedback branch.
+
+::::: {.backend-pair data-demo-id="examples-01"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-01}
+#| file: questions/rational-equivalence.xml
+#| question: Equivalent rational expression
+#| variants: 3
+#| seed: 29
+#| review: true
+#| feedback: true
+#| label: rational-practice
+#| feedback-policy: two-step-practice
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-01}
+#| file: questions/rational-equivalence.xml
+#| question: Equivalent rational expression
+#| variants: 3
+#| seed: 29
+#| review: true
+#| feedback: true
+#| label: rational-practice
+#| feedback-policy: two-step-practice
+:::
+
+::::
+
+:::::
+[Download the rational question](questions/rational-equivalence.xml)
+
+Its **AI Feedback** first asks a guiding question and then offers a worked explanation. The [teaching-policy setup](https://erasmus-ctm.github.io/stack-sympy/docs/authoring.html#choose-a-teaching-policy) shows how to choose a sequence for your own course.
+
+#### An imported STACK question
+
+**Standard STACK features | unchanged upstream STACK XML.**
+
+This unchanged Moodle export asks for a particular written form. Its author tests remain in the XML, so you can inspect how `EqualComAss` grades the response. If an imported question uses an unsupported feature, the site build identifies it for the author.
+
+::::: {.backend-pair data-demo-id="examples-02"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-02}
+#| file: questions/upstream/algmap-6-1.xml
+#| question: AlgMap-6.1
+#| variants: 2
+#| seed: 17
+#| review: true
+#| feedback: true
+#| context: none
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-02}
+#| file: questions/upstream/algmap-6-1.xml
+#| question: AlgMap-6.1
+#| variants: 2
+#| seed: 17
+#| review: true
+#| feedback: true
+#| context: none
+:::
+
+::::
+
+:::::
+[Download the original STACK question](questions/upstream/algmap-6-1.xml)
+
+#### Hyperbolic equivalence
+
+**Standard STACK features | CTM-authored question.**
+
+Find another expression for a logistic function. This question accepts a
+supported equivalent expression using hyperbolic functions, such as `tanh`.
+It checks mathematical equivalence rather than requiring one written form.
+
+::::: {.backend-pair data-demo-id="examples-03"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-03}
+#| file: questions/hyperbolic-equivalence.xml
+#| question: Hyperbolic equivalence
+#| seed: 17
+#| review: true
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-03}
+#| file: questions/hyperbolic-equivalence.xml
+#| question: Hyperbolic equivalence
+#| seed: 17
+#| review: true
+:::
+
+::::
+
+:::::
+[Download XML](questions/hyperbolic-equivalence.xml)
+
+### Numerical answers and precision
+
+#### Three numerical checks
+
+**Standard STACK features | CTM-authored question.**
+
+These fields demonstrate absolute tolerance, relative tolerance, and decimal-place precision. The final field distinguishes `17.5` from `17.50`, because the written precision is part of the task. Their response trees contribute 30%, 40%, and 30% of the total.
+
+::: {#measurement-context .ai-context}
+For a measured quantity, absolute tolerance compares $|x-a|$ to a fixed bound. Relative tolerance compares it to a fraction of the reference value. Written decimal places express the precision of a reported measurement.
+:::
+
+::::: {.backend-pair data-demo-id="examples-04"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-04}
+#| file: questions/numerical-measurement.xml
+#| question: Rectangle and triangle measurements
+#| seed: 47
+#| review: true
+#| feedback: true
+#| context: measurement-context
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-04}
+#| file: questions/numerical-measurement.xml
+#| question: Rectangle and triangle measurements
+#| seed: 47
+#| review: true
+#| feedback: true
+#| context: measurement-context
+:::
+
+::::
+
+:::::
+[Download the numerical question](questions/numerical-measurement.xml)
+
+#### Numeric order of operations from the STACK collection
+
+**Standard STACK features | unchanged upstream STACK XML.**
+
+This unchanged question accepts numerical answers within a relative tolerance. Review mode shows its authored test case and the resulting score.
+
+::::: {.backend-pair data-demo-id="examples-05"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-05}
+#| file: questions/upstream/bodmas.xml
+#| question: 1.1.4.T2 BODMAS
+#| seed: 29
+#| review: true
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-05}
+#| file: questions/upstream/bodmas.xml
+#| question: 1.1.4.T2 BODMAS
+#| seed: 29
+#| review: true
+:::
+
+::::
+
+:::::
+[Download BODMAS XML](questions/upstream/bodmas.xml) · [Read the authoring guide](https://erasmus-ctm.github.io/stack-sympy/docs/authoring.html)
+
+#### Original rounding question
+
+**Standard STACK features | unchanged upstream STACK XML.**
+
+This unchanged question has several answer fields and checks the number of reported decimal places. Its author tests are visible in review mode.
+
+::::: {.backend-pair data-demo-id="examples-06"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-06}
+#| file: questions/upstream/rounding-three-dp.xml
+#| question: 1.1.3.T1 Rounding to n Decimal Places
+#| seed: 47
+#| review: true
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-06}
+#| file: questions/upstream/rounding-three-dp.xml
+#| question: 1.1.3.T1 Rounding to n Decimal Places
+#| seed: 47
+#| review: true
+:::
+
+::::
+
+:::::
+[Download rounding XML](questions/upstream/rounding-three-dp.xml)
+
+### Equations and logic
+
+#### Zero product equations
+
+**Standard STACK features | CTM-authored question.**
+
+Rewrite $ab=0$ as alternatives joined by `or`. Here `AlgEquiv` checks the
+solutions represented by polynomial equations, including repeated-root
+information; it is not simply comparing the strings on either side.
+
+::::: {.backend-pair data-demo-id="examples-07"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-07}
+#| file: questions/zero-product.xml
+#| question: Zero product equations
+#| seed: 17
+#| review: true
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-07}
+#| file: questions/zero-product.xml
+#| question: Zero product equations
+#| seed: 17
+#| review: true
+:::
+
+::::
+
+:::::
+[Download XML](questions/zero-product.xml)
+
+#### Boolean equivalence
+
+**Standard STACK features | CTM-authored question.**
+
+Use De Morgan's law to rewrite `not(a and b)` using `or`. In this question
+`a` and `b` are propositions, and the checker compares their truth values
+for every assignment in its supported finite domain.
+
+::::: {.backend-pair data-demo-id="examples-08"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-08}
+#| file: questions/boolean-equivalence.xml
+#| question: Boolean equivalence
+#| seed: 17
+#| review: true
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-08}
+#| file: questions/boolean-equivalence.xml
+#| question: Boolean equivalence
+#| seed: 17
+#| review: true
+:::
+
+::::
+
+:::::
+[Download XML](questions/boolean-equivalence.xml)
+
+### Collections
+
+#### Finite lists and sets {#finite-lists-and-sets}
+
+**Standard STACK features | CTM-authored question.**
+
+Compare an ordered list with an unordered set. Lists retain positions and
+repetitions; sets ignore order and repeated mathematical members. One field
+also shows feedback about extra, missing or repeated set entries.
+
+::::: {.backend-pair data-demo-id="examples-09"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-09}
+#| file: questions/finite-collections.xml
+#| question: Finite scalar collections
+#| variants: 2
+#| seed: 17
+#| review: true
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-09}
+#| file: questions/finite-collections.xml
+#| question: Finite scalar collections
+#| variants: 2
+#| seed: 17
+#| review: true
+:::
+
+::::
+
+:::::
+#### Nested collections and written form
+
+**Standard STACK features | CTM-authored question.**
+
+Try a list containing another list and a set. The task keeps nested boundaries
+and list order; a separate written-form check can distinguish repeated entries
+or different arithmetic forms even when values agree.
+
+::::: {.backend-pair data-demo-id="examples-10"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-10}
+#| file: questions/nested-collections.xml
+#| question: Nested finite collections
+#| seed: 17
+#| review: true
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-10}
+#| file: questions/nested-collections.xml
+#| question: Nested finite collections
+#| seed: 17
+#| review: true
+:::
+
+::::
+
+:::::
+#### Finite author helpers
+
+**Standard STACK features | CTM-authored question.** `listify`, `setify`, `union`, `intersection`, `setdifference`, `member`, `subsetp` and `cardinality` are ordinary Maxima/STACK functions, not CTM extensions.
+
+This question's list and set are calculated from author variables. Learners
+still enter ordinary list and set literals; the helper functions are for
+preparing question values, not new learner syntax.
+
+::::: {.backend-pair data-demo-id="examples-11"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-11}
+#| file: questions/finite-author-helpers.xml
+#| question: Finite author helpers
+#| seed: 17
+#| review: true
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-11}
+#| file: questions/finite-author-helpers.xml
+#| question: Finite author helpers
+#| seed: 17
+#| review: true
+:::
+
+::::
+
+:::::
+### Matrix conditions
+
+#### Find a nonidentity matrix with determinant one
+
+**CTM extension required: PythonChecker. Python grades this question in both columns; Maxima executes no native answer-test node.**
+
+Enter **any integer $2\times2$ matrix with determinant 1, except the identity**.
+Each of the three conditions earns one third of the score: integer entries,
+determinant one, and nonidentity. You are finding a matrix that satisfies
+conditions, rather than copying a displayed model answer.
+
+::::: {.backend-pair data-demo-id="examples-12"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-12}
+#| file: questions/determinant-one.xml
+#| question: A nonidentity integer matrix with determinant one
+#| python-checkers: questions/matrix-checkers.py
+#| seed: 17
+#| review: true
+#| feedback: true
+#| context: none
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-12}
+#| file: questions/determinant-one.xml
+#| question: A nonidentity integer matrix with determinant one
+#| python-checkers: questions/matrix-checkers.py
+#| seed: 17
+#| review: true
+#| feedback: true
+#| context: none
+:::
+
+::::
+
+:::::
+[Download XML](questions/determinant-one.xml)
+
+The question uses three normal response trees, one per condition. Named
+functions in the [matrix checker file](questions/matrix-checkers.py) check
+integer entries, determinant one and nonidentity; see
+[which test to choose](https://erasmus-ctm.github.io/stack-sympy/docs/python-checker-api.html#choose-the-mathematical-test).
+
+#### A positive definite matrix {#symmetric-positive-definite-matrix}
+
+**CTM extension required: PythonChecker. Python grades this question in both columns; Maxima executes no native answer-test node.**
+
+Give any real symmetric or complex Hermitian positive definite $2\times2$
+matrix, using integers or exact fractions for both real and imaginary
+parts. Enter `%i` for $i$. The identity,
+$\begin{pmatrix}2&1\\1&2\end{pmatrix}$ and
+`matrix([2,%i],[-%i,2])` all pass. The combined `is_hpd` checker makes one
+decision and its response tree awards full credit only when both Hermitian
+symmetry and positivity hold. Compare this with the separate-check
+question below; the [teacher explanation](https://erasmus-ctm.github.io/stack-sympy/docs/python-checker-api.html#symmetric-positive-definite-matrices)
+shows the exact mathematical test.
+
+::::: {.backend-pair data-demo-id="examples-13"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-13}
+#| file: questions/symmetric-positive-definite.xml
+#| question: A positive definite matrix
+#| python-checkers: questions/matrix-checkers.py
+#| review: true
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-13}
+#| file: questions/symmetric-positive-definite.xml
+#| question: A positive definite matrix
+#| python-checkers: questions/matrix-checkers.py
+#| review: true
+:::
+
+::::
+
+:::::
+[Download question XML](questions/symmetric-positive-definite.xml) ·
+[View the supplied matrix checkers](questions/matrix-checkers.py)
+
+#### Hermitian symmetry and positive definiteness separately {#symmetry-and-positive-definiteness-separately}
+
+**CTM extension required: PythonChecker. Python grades this question in both columns; Maxima executes no native answer-test node.**
+
+This version checks Hermitian symmetry and positivity separately, awarding
+half the marks for each. The checker uses Sylvester's criterion. See the
+[four-case comparison](https://erasmus-ctm.github.io/stack-sympy/docs/python-checker-api.html#symmetric-positive-definite-matrices)
+to compare the two scoring choices.
+
+::::: {.backend-pair data-demo-id="examples-14"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-14}
+#| file: questions/symmetric-positive-definite-prt.xml
+#| question: Hermitian symmetry and positive definiteness separately
+#| python-checkers: questions/matrix-checkers.py
+#| review: true
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-14}
+#| file: questions/symmetric-positive-definite-prt.xml
+#| question: Hermitian symmetry and positive definiteness separately
+#| python-checkers: questions/matrix-checkers.py
+#| review: true
+:::
+
+::::
+
+:::::
+[Download the two-PRT XML](questions/symmetric-positive-definite-prt.xml) ·
+[See how to author either scoring policy](https://erasmus-ctm.github.io/stack-sympy/docs/python-checker-api.html#author-the-spd-checker)
+
+### Rank and bases {#matrix-problems-from-ingmat-3a}
+
+These three questions adapt a linear algebra course's rank and null-space exercises.
+
+#### Rank and pivot columns: ordinary STACK answer tests
+
+**CTM input extension required: resizable matrix. Grading uses standard `AlgEquiv`; no PythonChecker is used.** This XML's custom matrix sizing needs adaptation to stock STACK's matrix or varmatrix input configuration.
+
+This question uses `AlgEquiv` and two equally weighted response trees. The rank
+and the complete ordered pivot list each earn half the total.
+
+::::: {.backend-pair data-demo-id="examples-15"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-15}
+#| file: questions/course-b-rank-pivots.xml
+#| question: Rank and pivot columns of B
+#| seed: 17
+#| review: true
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-15}
+#| file: questions/course-b-rank-pivots.xml
+#| question: Rank and pivot columns of B
+#| seed: 17
+#| review: true
+:::
+
+::::
+
+:::::
+[Download XML](questions/course-b-rank-pivots.xml)
+
+#### A basis for the null space of B
+
+**CTM extension required: PythonChecker. Python grades this question in both columns; Maxima executes no native answer-test node.** It also requires CTM's `nullspace_basis(A)` author helper and bounded resizable matrix input. Both need adaptation for stock STACK.
+
+Put one proposed basis vector in each column. A basis is not a unique matrix:
+changing a vector’s nonzero scale can still give a correct answer. Choose the
+number of columns before validating. The checker uses the original matrix
+$B$ to define the space, so another independent basis is accepted.
+
+::::: {.backend-pair data-demo-id="examples-16"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-16}
+#| file: questions/course-b-nullspace.xml
+#| question: A basis for the null space of B
+#| python-checkers: questions/matrix-checkers.py
+#| seed: 17
+#| review: true
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-16}
+#| file: questions/course-b-nullspace.xml
+#| question: A basis for the null space of B
+#| python-checkers: questions/matrix-checkers.py
+#| seed: 17
+#| review: true
+:::
+
+::::
+
+:::::
+[Download XML](questions/course-b-nullspace.xml)
+
+#### A basis for the null space of C
+
+**CTM extension required: PythonChecker. Python grades this question in both columns; Maxima executes no native answer-test node.** It also requires CTM's `nullspace_basis(A)` author helper and bounded resizable matrix input. Both need adaptation for stock STACK.
+
+Here you may reorder or combine basis vectors, provided your columns remain
+independent and span the null space of $C$. Entry-by-entry equality with one
+model matrix would reject many correct answers. The checker uses the
+original matrix $C$ to define the target space.
+
+::::: {.backend-pair data-demo-id="examples-17"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-17}
+#| file: questions/course-c-nullspace.xml
+#| question: A basis for the null space of C
+#| python-checkers: questions/matrix-checkers.py
+#| seed: 17
+#| review: true
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-17}
+#| file: questions/course-c-nullspace.xml
+#| question: A basis for the null space of C
+#| python-checkers: questions/matrix-checkers.py
+#| seed: 17
+#| review: true
+:::
+
+::::
+
+:::::
+[Download XML](questions/course-c-nullspace.xml)
+
+For both basis questions, **green** marks a nonzero vector in the target space
+when the valid submitted vectors are independent. A green family can still be
+incomplete. **Yellow** marks every member of a dependent valid family;
+**red** marks a zero vector or one outside the space. The whole answer earns
+credit only when it is a complete basis. Colors explain the result but do not
+award partial marks. Editing or resizing clears them.
+
+Read [how to author a basis question](https://erasmus-ctm.github.io/stack-sympy/docs/python-checker-api.html#basis-questions-use-the-matrix-in-the-question)
+or [configure its matrix input](https://erasmus-ctm.github.io/stack-sympy/docs/matrix-input.html).
+
+
+### A custom scalar rule
+
+#### Custom Python checker {#custom-python-checker}
+
+**CTM extension required: PythonChecker. Python grades this question in both columns; Maxima executes no native answer-test node.**
+
+Enter any positive integer multiple of the displayed number. A named
+`PythonChecker` function decides whether the submitted integer has the
+required property; the question's ordinary response tree awards credit.
+See the [author API](https://erasmus-ctm.github.io/stack-sympy/docs/python-checker-api.html#pythonchecker-api-and-a-scalar-example).
+
+::::: {.backend-pair data-demo-id="examples-18"}
+
+:::: {.backend-copy data-backend="sympy"}
+
+##### SymPy
+
+```{.stack-question #sympy-examples-18}
+#| file: questions/python-checker.xml
+#| question: A positive integer multiple (PythonChecker)
+#| python-checkers: questions/checkers.py
+#| variants: 3
+#| seed: 17
+#| review: true
+```
+
+::::
+
+:::: {.backend-copy data-backend="maxima"}
+
+##### Maxima
+
+::: {.stack-maxima #maxima-examples-18}
+#| file: questions/python-checker.xml
+#| question: A positive integer multiple (PythonChecker)
+#| python-checkers: questions/checkers.py
+#| variants: 3
+#| seed: 17
+#| review: true
+:::
+
+::::
+
+:::::
+## Startup and response times {#startup-and-response-times}
+
+**The long first Maxima validation is mostly worker setup.** In this run, the first **Validate answers** click took a median **43.28 s**, including **43.10 s** of worker initialization. Later validations took about **12.4 ms**. SymPy's first validation took **5.95 s**.
+
+The first action creates that backend's persistent worker and loads its runtimes. The hybrid Maxima worker currently waits for **both Python and Wasm Maxima/STACK**, even though input validation uses Python. Its internal checkpoints put Python/checkers ready at **6.41 s** and Maxima/STACK ready at **42.90 s**. These start in parallel: the checkpoint times must not be added together. This setup also happens when the first action is on a PythonChecker question, even though that question's answer-test nodes stay in Python.
+
+### Measured on the deployed exercise build
+
+Values are **median (minimum–maximum)**. These are measurements from **22 October 2026**, using the **first rational-expression question, variant 1**, with the same correct answer in both copies. That question uses standard STACK answer tests; this is not a benchmark of the custom PythonChecker matrix questions.
+
+| Measured interval | Samples per backend | SymPy | Maxima |
+|---|---:|---:|---:|
+| First Validate: click → feedback (s) | 3 | 5.95 (5.93–6.13) | 43.28 (40.85–43.76) |
+| Worker initialization, included above (s) | 3 | 5.77 (5.75–5.93) | 43.10 (40.67–43.58) |
+| First validation RPC after initialization (ms) | 3 | 179.0 (178.6–198.3) | 180.1 (178.5–180.5) |
+| Later Validate: click → feedback (ms) | 15 | 12.3 (8.0–12.7) | 12.4 (11.6–13.3) |
+| Later validation RPC (ms) | 15 | 11.4 (7.0–11.9) | 11.5 (10.6–12.4) |
+| First Check after validation: click → feedback (ms) | 3 | 11.6 (10.4–12.3) | 47.7 (47.0–48.4) |
+| Later Check: click → feedback (ms) | 15 | 12.4 (9.0–14.0) | 39.0 (37.2–41.9) |
+| Later grading RPC (ms) | 15 | 11.6 (8.0–13.1) | 38.1 (36.3–40.9) |
+
+“Click → feedback” ends at the browser's verdict DOM update; it excludes any later MathJax painting. RPC time is the actual message/response interval and excludes UI work. Worker initialization is part of the first Validate interval, so these rows must not be summed. The first Check is already after validation and is not a cold-start measurement.
+
+### Method and limits
+
+The [public-page timing run](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39759255662) used Chromium 141.0.7390.37 on one GitHub-hosted Ubuntu runner (4 virtual CPUs). Each backend had **three fresh Chromium processes/profiles and workers**. Each process began with Validate, with **no prior worker calls, authored tests or grading**; then it ran five further validations, its first grade and five further grades. The later-call rows therefore contain 15 operations per backend across three workers. Backend order alternated between trials.
+
+The benchmark checked the deployed HTML SHA-256 before and after all trials, and recorded the frontend, worker, adapter and runtime-manifest fingerprints. It measured the exercise build already published here; this chapter and the compatibility labels add documentation while preserving those question blocks and grading sources. See the [summary and complete raw timing report](https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/research/2026-10-runtime-feasibility/reports/reviewer-site/timings/39759255662) for exact values, hashes and provenance.
+
+Fresh browser profiles give empty browser caches. OS and CDN caches were not cleared. These small-sample timings describe this question on that runner and connection; they do not predict every device, network or question. They also do not establish a performance advantage for Maxima.
+
+**Later questions, variant changes and Reset answers reuse the loaded worker.** Reloading the page creates new workers; cached files can reduce the download part, while runtime initialization still has to run.
+
+## For developers
+
+Use the [authoring guide](https://erasmus-ctm.github.io/stack-sympy/docs/authoring.html) for imports, question options,
+tests and AI Feedback policies. The [Python answer-test guide](https://erasmus-ctm.github.io/stack-sympy/docs/python-checker-api.html)
+explains the basis and property choices and gives the complete
+positive-definiteness checker walkthrough. The questions above link to their
+XML; the positive-definiteness question also links to its Python file. The
+rational activity chooses the `two-step-practice`
+policy, while other feedback activities inherit a four-step sequence; see
+[policy setup](https://erasmus-ctm.github.io/stack-sympy/docs/authoring.html#choose-a-teaching-policy). Run authored tests
+and inspect alternate correct answers before publishing.
+
+## Sources
+
+The determinant-one question adapts a [math-exercise custom-assessment example](https://erasmus-ctm.github.io/math-exercise/custom-assessment.html);
+its [provenance record](questions/determinant-example-provenance.json) gives
+the adaptation and license. The rank/pivot and null-space questions adapt
+[INGMat 3A week 3 exercises](https://aacchhee.github.io/ingmat3a_ntnu/pages/uke3.html#uke3-stotte-oppgaver)
+under CC BY-SA 4.0; their [source record](questions/course-examples-provenance.json)
+identifies the exact originals. The unchanged imported questions come from
+the STACK collection, with [individual source and license details](questions/upstream/sources.json).
