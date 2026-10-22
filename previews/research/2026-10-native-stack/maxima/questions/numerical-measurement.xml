@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Example question authored by the CTM team. Licensed under CC BY-SA 4.0. -->
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Rectangle and triangle measurements</text>
+    </name>
+    <questiontext format="html">
+      <text>&lt;p&gt;A rectangle is \({@p@}\) cm long and \({@q@}\) cm wide. A right triangle has those same perpendicular side lengths.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Find the rectangle perimeter in cm, within \(0.25\) cm. [[input:perimeter]] [[validation:perimeter]] [[feedback:prt1]]&lt;/li&gt;&lt;li&gt;Find the triangle area in cm², within \(2\%\) of the exact value. [[input:area]] [[validation:area]] [[feedback:prt2]]&lt;/li&gt;&lt;li&gt;Write the triangle area to &lt;strong&gt;exactly two decimal places&lt;/strong&gt; (include the final zero). [[input:reported]] [[validation:reported]] [[feedback:prt3]]&lt;/li&gt;&lt;/ol&gt;</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text>&lt;p&gt;Perimeter: \(2({@p@}+{@q@})={@ta_perimeter@}\) cm. Triangle area: \({@p@}\cdot{@q@}/2={@ta_area@}\) cm². To two decimal places, write &lt;strong&gt;17.50&lt;/strong&gt;; the final zero records the requested precision.&lt;/p&gt;</text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber/>
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>p:7;
+q:5;
+ta_perimeter:2*(p+q);
+ta_area:p*q/2;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>&lt;p&gt;[[feedback:prt1]] [[feedback:prt2]] [[feedback:prt3]]&lt;/p&gt;</text>
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Numerical checks: perimeter 24, area 17.5, two-place area 17.50</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text/>
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed/>
+    <input>
+      <name>perimeter</name>
+      <type>numerical</type>
+      <tans>ta_perimeter</tans>
+      <boxsize>18</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>area</name>
+      <type>numerical</type>
+      <tans>ta_area</tans>
+      <boxsize>18</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <input>
+      <name>reported</name>
+      <type>numerical</type>
+      <tans>ta_area</tans>
+      <boxsize>18</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint/>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords/>
+      <allowwords/>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options/>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>0.3000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumAbsolute</answertest>
+        <sans>perimeter</sans>
+        <tans>ta_perimeter</tans>
+        <testoptions>0.25</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-0-T</trueanswernote>
+        <truefeedback format="html">
+          <text>&lt;p&gt;Perimeter is within 0.25 cm.&lt;/p&gt;</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-0-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>&lt;p&gt;Use twice the sum of the side lengths.&lt;/p&gt;</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>0.4000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumRelative</answertest>
+        <sans>area</sans>
+        <tans>ta_area</tans>
+        <testoptions>0.02</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-0-T</trueanswernote>
+        <truefeedback format="html">
+          <text>&lt;p&gt;Triangle area is within 2%.&lt;/p&gt;</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-0-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>&lt;p&gt;Use half the product of the perpendicular sides.&lt;/p&gt;</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>0.3000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text/>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description/>
+        <answertest>NumDecPlaces</answertest>
+        <sans>reported</sans>
+        <tans>ta_area</tans>
+        <testoptions>2</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty/>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-0-T</trueanswernote>
+        <truefeedback format="html">
+          <text>&lt;p&gt;The value and two-decimal-place formatting are both correct.&lt;/p&gt;</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty/>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-0-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>&lt;p&gt;Check the value and type two digits after the decimal point, including a trailing zero.&lt;/p&gt;</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>17</deployedseed>
+    <deployedseed>29</deployedseed>
+    <deployedseed>47</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Exact values with two-place reporting</description>
+      <testinput>
+        <name>perimeter</name>
+        <value>24</value>
+      </testinput>
+      <testinput>
+        <name>area</name>
+        <value>17.5</value>
+      </testinput>
+      <testinput>
+        <name>reported</name>
+        <value>17.50</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Outside tolerance and missing trailing zero</description>
+      <testinput>
+        <name>perimeter</name>
+        <value>25</value>
+      </testinput>
+      <testinput>
+        <name>area</name>
+        <value>20</value>
+      </testinput>
+      <testinput>
+        <name>reported</name>
+        <value>17.5</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-0-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-0-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>Acceptable approximations with precise reporting</description>
+      <testinput>
+        <name>perimeter</name>
+        <value>24.1</value>
+      </testinput>
+      <testinput>
+        <name>area</name>
+        <value>17.65</value>
+      </testinput>
+      <testinput>
+        <name>reported</name>
+        <value>17.50</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

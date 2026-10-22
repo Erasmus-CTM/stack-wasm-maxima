@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Adapted from Andrey Chesnokov, ingmat3a_ntnu, section 3.8; CC BY-SA 4.0. See course-examples-provenance.json. -->
+<quiz><question type="stack">
+<name><text>A basis for the null space of B</text></name>
+<questionvariables><text>A:matrix([1,0,1],[0,1,1],[1,1,2]);</text></questionvariables>
+<questionsimplify>1</questionsimplify>
+<questiontext format="html"><text><![CDATA[<p>Give a basis for the null space of \(B={@A@}\), with one vector in each column. Any basis is accepted. Choose the number of columns yourself; use exact fractions.</p><p>[[input:ans]] [[validation:ans]] [[feedback:result]]</p>]]></text></questiontext>
+<generalfeedback format="html"><text><![CDATA[The equation Bz=0 gives z=(-t,-t,t). Any nonzero multiple of (-1,-1,1) is a basis. Two such columns are dependent.]]></text></generalfeedback>
+<defaultgrade>1</defaultgrade><penalty>0.1</penalty>
+<input><name>ans</name><type>matrix</type><tans>nullspace_basis(A)</tans><boxsize>8</boxsize><strictsyntax>1</strictsyntax><insertstars>0</insertstars><forbidfloat>1</forbidfloat><checkanswertype>1</checkanswertype><mustverify>1</mustverify><showvalidation>1</showvalidation><matrix><rows initial="3" min="3" max="3" resizable="0"/><cols initial="1" min="1" max="3" resizable="1"/></matrix></input>
+<prt><name>result</name><value>1</value><autosimplify>1</autosimplify><node><name>0</name><answertest>PythonChecker</answertest><sans>ans</sans><tans>A</tans><testoptions>{"checker": "basis", "options": {"space": "nullspace"}}</testoptions>
+<truescoremode>=</truescoremode><truescore>1</truescore><truenextnode>-1</truenextnode><trueanswernote>basis-T</trueanswernote>
+<falsescoremode>=</falsescoremode><falsescore>0</falsescore><falsenextnode>-1</falsenextnode><falseanswernote>basis-F</falseanswernote>
+</node></prt>
+<qtest><testcase>1</testcase><testinput><name>ans</name><value>matrix([-1],[-1],[1])</value></testinput><expected><name>result</name><expectedscore>1</expectedscore><expectedpenalty>0</expectedpenalty><expectedanswernote>basis-T</expectedanswernote></expected></qtest>
+<qtest><testcase>2</testcase><testinput><name>ans</name><value>matrix([2],[2],[-2])</value></testinput><expected><name>result</name><expectedscore>1</expectedscore><expectedpenalty>0</expectedpenalty><expectedanswernote>basis-T</expectedanswernote></expected></qtest>
+<qtest><testcase>3</testcase><testinput><name>ans</name><value>matrix([0],[0],[0])</value></testinput><expected><name>result</name><expectedscore>0</expectedscore><expectedpenalty>0.1</expectedpenalty><expectedanswernote>basis-F</expectedanswernote></expected></qtest>
+<qtest><testcase>4</testcase><testinput><name>ans</name><value>matrix([1],[0],[0])</value></testinput><expected><name>result</name><expectedscore>0</expectedscore><expectedpenalty>0.1</expectedpenalty><expectedanswernote>basis-F</expectedanswernote></expected></qtest>
+<qtest><testcase>5</testcase><testinput><name>ans</name><value>matrix([-1,2],[-1,2],[1,-2])</value></testinput><expected><name>result</name><expectedscore>0</expectedscore><expectedpenalty>0.1</expectedpenalty><expectedanswernote>basis-F</expectedanswernote></expected></qtest>
+</question></quiz>

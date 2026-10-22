@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Authored by the CTM team. CC BY-SA 4.0. -->
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Nested finite collections</text>
+    </name>
+    <questiontext format="html">
+      <text>&lt;p&gt;Use lists to preserve order and sets to ignore order. Here a = \({@a@}\).&lt;/p&gt;&lt;p&gt;Reproduce the nested value \({@[[a,2*x],{1,{2,3}},[]]@}\): [[input:nested]] [[validation:nested]] [[feedback:nested]]&lt;/p&gt;&lt;p&gt;Reproduce the family of collections \({@{{1,2},[a,2*x]}@}\): [[input:families]] [[validation:families]] [[feedback:families]]&lt;/p&gt;&lt;p&gt;Reproduce the written form (reorder only) \({@{{x+x,2,2},[1,x+1]}@}\): [[input:form]] [[validation:form]] [[feedback:form]]&lt;/p&gt;</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text>&lt;p&gt;Lists retain order. Nested sets retain their boundaries. EqualComAss also retains written repeated entries and arithmetic form.&lt;/p&gt;</text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber />
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>a:rand_with_step(2,8,1);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text />
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Nested finite collections, a={@a@}</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text />
+    </questiondescription>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed />
+    <deployedseed>17</deployedseed>
+    <deployedseed>29</deployedseed>
+    <deployedseed>47</deployedseed>
+    <input>
+      <name>nested</name>
+      <type>algebraic</type>
+      <tans>[[a,2*x],{1,{2,3}},[]]</tans>
+      <boxsize>18</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint />
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords />
+      <allowwords />
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options />
+    </input>
+    <prt>
+      <name>nested</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text />
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description />
+        <answertest>AlgEquiv</answertest>
+        <sans>nested</sans>
+        <tans>[[a,2*x],{1,{2,3}},[]]</tans>
+        <testoptions />
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty />
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>nested-T</trueanswernote>
+        <truefeedback format="html">
+          <text>&lt;p&gt;Correct.&lt;/p&gt;</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty />
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>nested-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>&lt;p&gt;This answer is not equivalent to the reference.&lt;/p&gt;</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <input>
+      <name>families</name>
+      <type>algebraic</type>
+      <tans>{{1,2},[a,2*x]}</tans>
+      <boxsize>18</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint />
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords />
+      <allowwords />
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options />
+    </input>
+    <prt>
+      <name>families</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text />
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description />
+        <answertest>Sets</answertest>
+        <sans>families</sans>
+        <tans>{{1,2},[a,2*x]}</tans>
+        <testoptions />
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty />
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>families-T</trueanswernote>
+        <truefeedback format="html">
+          <text>&lt;p&gt;Correct.&lt;/p&gt;</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty />
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>families-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>&lt;p&gt;This answer is not equivalent to the reference.&lt;/p&gt;</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <input>
+      <name>form</name>
+      <type>algebraic</type>
+      <tans>{{x+x,2,2},[1,x+1]}</tans>
+      <boxsize>18</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint />
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords />
+      <allowwords />
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options />
+    </input>
+    <prt>
+      <name>form</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text />
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description />
+        <answertest>SameType</answertest>
+        <sans>form</sans>
+        <tans>{{x+x,2,2},[1,x+1]}</tans>
+        <testoptions />
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0</truescore>
+        <truepenalty />
+        <truenextnode>1</truenextnode>
+        <trueanswernote>form-type-T</trueanswernote>
+        <truefeedback format="html">
+          <text />
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty />
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>form-type-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>&lt;p&gt;Use the same outer collection type.&lt;/p&gt;</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <description />
+        <answertest>EqualComAss</answertest>
+        <sans>form</sans>
+        <tans>{{x+x,2,2},[1,x+1]}</tans>
+        <testoptions />
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty />
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>form-T</trueanswernote>
+        <truefeedback format="html">
+          <text>&lt;p&gt;Correct.&lt;/p&gt;</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty />
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>form-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>&lt;p&gt;Keep the written arithmetic, list order and repeated set entries. Reordering set entries is allowed.&lt;/p&gt;</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Collection structure and form control</description>
+      <testinput>
+        <name>nested</name>
+        <value>[[a,x+x],{{3,2},1},[]]</value>
+      </testinput>
+      <testinput>
+        <name>families</name>
+        <value>{[a,x+x],{2,1}}</value>
+      </testinput>
+      <testinput>
+        <name>form</name>
+        <value>{[1,1+x],{2,x+x,2}}</value>
+      </testinput>
+      <expected>
+        <name>nested</name>
+        <expectedscore>1</expectedscore>
+        <expectedpenalty>0</expectedpenalty>
+        <expectedanswernote>nested-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>families</name>
+        <expectedscore>1</expectedscore>
+        <expectedpenalty>0</expectedpenalty>
+        <expectedanswernote>families-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>form</name>
+        <expectedscore>1</expectedscore>
+        <expectedpenalty>0</expectedpenalty>
+        <expectedanswernote>form-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Collection structure and form control</description>
+      <testinput>
+        <name>nested</name>
+        <value>[[a,2*x],{1,{2,3}},[]]</value>
+      </testinput>
+      <testinput>
+        <name>families</name>
+        <value>{{1,2},[a,2*x],[a,2*x]}</value>
+      </testinput>
+      <testinput>
+        <name>form</name>
+        <value>{{2,2,2*x},[1,x+1]}</value>
+      </testinput>
+      <expected>
+        <name>nested</name>
+        <expectedscore>1</expectedscore>
+        <expectedpenalty>0</expectedpenalty>
+        <expectedanswernote>nested-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>families</name>
+        <expectedscore>1</expectedscore>
+        <expectedpenalty>0</expectedpenalty>
+        <expectedanswernote>families-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>form</name>
+        <expectedscore>0</expectedscore>
+        <expectedpenalty>0.1</expectedpenalty>
+        <expectedanswernote>form-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>Collection structure and form control</description>
+      <testinput>
+        <name>nested</name>
+        <value>[[2*x,a],{1,{2,3}},[]]</value>
+      </testinput>
+      <testinput>
+        <name>families</name>
+        <value>{{1,2},[2*x,a]}</value>
+      </testinput>
+      <testinput>
+        <name>form</name>
+        <value>{{x+x,2},[1,x+1]}</value>
+      </testinput>
+      <expected>
+        <name>nested</name>
+        <expectedscore>0</expectedscore>
+        <expectedpenalty>0.1</expectedpenalty>
+        <expectedanswernote>nested-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>families</name>
+        <expectedscore>0</expectedscore>
+        <expectedpenalty>0.1</expectedpenalty>
+        <expectedanswernote>families-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>form</name>
+        <expectedscore>0</expectedscore>
+        <expectedpenalty>0.1</expectedpenalty>
+        <expectedanswernote>form-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description>Collection structure and form control</description>
+      <testinput>
+        <name>nested</name>
+        <value>[[a,2*x],{1,{2,3}},[]]</value>
+      </testinput>
+      <testinput>
+        <name>families</name>
+        <value>{{1,2}}</value>
+      </testinput>
+      <testinput>
+        <name>form</name>
+        <value>[[x+x,2,2],[1,x+1]]</value>
+      </testinput>
+      <expected>
+        <name>nested</name>
+        <expectedscore>1</expectedscore>
+        <expectedpenalty>0</expectedpenalty>
+        <expectedanswernote>nested-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>families</name>
+        <expectedscore>0</expectedscore>
+        <expectedpenalty>0.1</expectedpenalty>
+        <expectedanswernote>families-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>form</name>
+        <expectedscore>0</expectedscore>
+        <expectedpenalty>0.1</expectedpenalty>
+        <expectedanswernote>form-type-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

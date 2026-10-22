@@ -1,0 +1,29 @@
+[
+  {
+    "file": "algmap-6-1.xml",
+    "repository": "maths/moodle-qtype_stack",
+    "commit": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+    "path": "samplequestions/stacklibrary/Algebra-Refresher/06-Simplifying-algebraic-expressions/AlgMap-6-1.xml",
+    "sha256": "946822e4dc83a45f2f44ebc1c8c183c7ce0a74224935cff653088a66b0ee3ba8",
+    "license": "CC-BY-SA-4.0; see COPYING.txt",
+    "license_file": "COPYING.txt"
+  },
+  {
+    "file": "bodmas.xml",
+    "repository": "maths/moodle-qtype_stack",
+    "commit": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+    "path": "samplequestions/stacklibrary/HELM/Course_quiz_1_1-mathematical-notation-and-symbols/top/Default-for-1-1/1-1-4-T2-BODMAS.xml",
+    "sha256": "344e5f97c40cfee520fe9dd9d3bca89f7b286904f2907106a49b38079cac8fdf",
+    "license": "CC-BY-NC-4.0; see HELM-COPYING.txt",
+    "license_file": "HELM-COPYING.txt"
+  },
+  {
+    "file": "rounding-three-dp.xml",
+    "repository": "maths/moodle-qtype_stack",
+    "commit": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+    "path": "samplequestions/stacklibrary/HELM/Course_quiz_1_1-mathematical-notation-and-symbols/top/Default-for-1-1/1-1-3-T1-Rounding-to-n-Decimal-Places.xml",
+    "sha256": "19d0d82d6fcf17978040d3bfa78e6c27b9dcc844a19bc36904a6258ba5876aa2",
+    "license": "CC-BY-NC-4.0; see HELM-COPYING.txt",
+    "license_file": "HELM-COPYING.txt"
+  }
+]

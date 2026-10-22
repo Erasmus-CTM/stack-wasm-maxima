@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CTM team, CC BY-SA 4.0. PythonChecker requires this port and questions/checkers.py. -->
+<quiz><question type="stack">
+<name><text>A positive integer multiple (PythonChecker)</text></name>
+<questionvariables><text>d:rand(3)+2;</text></questionvariables>
+<questionsimplify>1</questionsimplify>
+<questiontext format="html"><text><![CDATA[<p>Enter any positive integer multiple of {@d@}.</p><p>[[input:ans]] [[validation:ans]] [[feedback:prt1]]</p>]]></text></questiontext>
+<generalfeedback format="html"><text><![CDATA[<p>Multiplying the given integer by any positive integer gives an answer. The Python predicate decides whether the condition holds; the response tree awards credit.</p>]]></text></generalfeedback>
+<defaultgrade>1</defaultgrade><penalty>0.1</penalty>
+<input><name>ans</name><type>algebraic</type><tans>d</tans><strictsyntax>1</strictsyntax><insertstars>0</insertstars><forbidfloat>0</forbidfloat><checkanswertype>1</checkanswertype><mustverify>1</mustverify><showvalidation>1</showvalidation></input>
+<prt><name>prt1</name><value>1</value><autosimplify>1</autosimplify><node><name>0</name><answertest>PythonChecker</answertest><sans>ans</sans><tans>d</tans><testoptions>{"checker": "positive_multiple"}</testoptions>
+<truescoremode>=</truescoremode><truescore>1</truescore><truenextnode>-1</truenextnode><trueanswernote>multiple-T</trueanswernote>
+<falsescoremode>=</falsescoremode><falsescore>0</falsescore><falsenextnode>-1</falsenextnode><falseanswernote>multiple-F</falseanswernote>
+</node></prt>
+<qtest><testcase>1</testcase><testinput><name>ans</name><value>d</value></testinput><expected><name>prt1</name><expectedscore>1</expectedscore><expectedpenalty>0</expectedpenalty><expectedanswernote>multiple-T</expectedanswernote></expected></qtest>
+<qtest><testcase>2</testcase><testinput><name>ans</name><value>3*d</value></testinput><expected><name>prt1</name><expectedscore>1</expectedscore><expectedpenalty>0</expectedpenalty><expectedanswernote>multiple-T</expectedanswernote></expected></qtest>
+<qtest><testcase>3</testcase><testinput><name>ans</name><value>-d</value></testinput><expected><name>prt1</name><expectedscore>0</expectedscore><expectedpenalty>0.1</expectedpenalty><expectedanswernote>multiple-F</expectedanswernote></expected></qtest>
+<qtest><testcase>4</testcase><testinput><name>ans</name><value>d+1</value></testinput><expected><name>prt1</name><expectedscore>0</expectedscore><expectedpenalty>0.1</expectedpenalty><expectedanswernote>multiple-F</expectedanswernote></expected></qtest>
+</question></quiz>
