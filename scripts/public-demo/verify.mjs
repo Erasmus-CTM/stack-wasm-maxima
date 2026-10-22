@@ -22,9 +22,9 @@ const runURL = process.env.GITHUB_RUN_ID ? 'https://github.com/' + process.env.G
 await mkdir(output, { recursive: true });
 const report = { schema: 1, createdAt: new Date().toISOString(), sourceRevision, runURL, baseURL: baseURL.href,
   scope: 'Public HTTPS landing and actual matched CTM exercise pages; all accepted cards, variants, authored tests and PythonChecker routes',
-  timingScope: 'Public deployment diagnostics, with fresh browser contexts per exercise page; independent of accepted localhost milestone-two measurements',
+  timingScope: 'Public deployment diagnostics after asset preflight and root-only isolation priming in each fresh grading context; not a cold WAN benchmark and independent of accepted localhost milestone-two measurements',
   serving: { publicHTTPS: true, repeats: 3, freshContextPerExercisePage: true },
-  probes: [], landing: [], publishedPages: [], pages: [], differences: [], failures: [], passed: false };
+  probes: [], isolationNavigations: [], priming: [], landing: [], directNavigation: [], publishedPages: [], pages: [], differences: [], failures: [], passed: false };
 const save = () => writeFile(join(output, 'browser.json'), JSON.stringify(report, null, 2) + '\n');
 let browser;
 
@@ -40,8 +40,10 @@ async function request(path, { method = 'GET', isolation = false, type, expected
   assert.equal(new URL(response.url).origin, baseURL.origin, 'Published assets must stay on the selected origin');
   if (type) assert.ok(new RegExp(type, 'i').test(record.contentType || ''), url + ' has the wrong media type');
   if (isolation) {
-    assert.equal(record.coop, 'same-origin', 'The live page must supply COOP same-origin');
-    assert.ok(['require-corp', 'credentialless'].includes(record.coep), 'The live page must supply a cross-origin isolation COEP');
+    // Static hosting may ignore _headers. Record its unmodified HTTP response;
+    // only effective browser navigation headers can prove SW isolation.
+    record.rawIsolationHeadersPresent = record.coop === 'same-origin' &&
+      ['require-corp', 'credentialless'].includes(record.coep);
   }
   if (method === 'HEAD') {
     assert.ok(!/text\/html/i.test(record.contentType || ''), 'A missing runtime file must not return the HTML application fallback');
@@ -54,18 +56,136 @@ async function request(path, { method = 'GET', isolation = false, type, expected
   return { record, body };
 }
 
+function watchPage(page, observation) {
+  observation.errors = [];
+  observation.networkFailures = [];
+  observation.workers = [];
+  page.on('pageerror', error => observation.errors.push(String(error)));
+  page.on('worker', worker => observation.workers.push(worker.url()));
+  page.on('requestfailed', request => observation.networkFailures.push({ url: request.url(), error: request.failure()?.errorText }));
+  page.on('response', response => {
+    if (response.status() >= 400) observation.networkFailures.push({ url: response.url(), status: response.status() });
+  });
+}
+
+function assertPageHealthy(observation) {
+  assert.deepEqual(observation.errors, [], 'The public page must have no uncaught exceptions');
+  assert.deepEqual(observation.networkFailures.filter(row => !/ERR_ABORTED/.test(row.error || '')), [], 'The public page must have no failed requests');
+}
+
+async function navigateIsolated(page, url, purpose) {
+  const record = { purpose, url, startedAt: new Date().toISOString(), navigations: [] };
+  report.isolationNavigations.push(record);
+  const started = Date.now(), deadline = started + 180000, pending = [];
+  const observer = response => {
+    const request = response.request();
+    if (!request.isNavigationRequest()) return;
+    try { if (request.frame() !== page.mainFrame()) return; } catch { return; }
+    const navigation = { url: response.url(), status: response.status(), fromServiceWorker: response.fromServiceWorker() };
+    record.navigations.push(navigation);
+    pending.push(response.allHeaders().then(headers => Object.assign(navigation, {
+      coop: headers['cross-origin-opener-policy'], coep: headers['cross-origin-embedder-policy'],
+      corp: headers['cross-origin-resource-policy'],
+    })));
+  };
+  page.on('response', observer);
+  const navigationInterruption = error => /Execution context was destroyed|Cannot find context|interrupted by another navigation|ERR_ABORTED/.test(String(error));
+  try {
+    try { await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 90000 }); }
+    catch (error) { if (!navigationInterruption(error)) throw error; }
+    // The page's own first-visit bootstrap may replace the document once.
+    // Retry only navigation-context interruptions, never a missing-isolation
+    // timeout or a failed resource. This survives that automatic reload.
+    for (;;) {
+      const remaining = deadline - Date.now();
+      assert.ok(remaining > 0, 'The public isolation bootstrap did not finish');
+      try {
+        await page.waitForFunction(() => self.crossOriginIsolated && document.readyState === 'complete', null, { timeout: remaining });
+        await page.waitForLoadState('load', { timeout: Math.max(1, deadline - Date.now()) });
+        record.browser = await page.evaluate(() => ({
+          url: location.href, crossOriginIsolated: self.crossOriginIsolated, readyState: document.readyState,
+          secureContext: self.isSecureContext, serviceWorkerSupported: 'serviceWorker' in navigator,
+          controller: navigator.serviceWorker?.controller?.scriptURL || null,
+        }));
+        break;
+      } catch (error) { if (!navigationInterruption(error)) throw error; }
+    }
+    await Promise.all(pending);
+    assert.equal(record.browser.crossOriginIsolated, true, 'The real browser document must be isolated');
+    assert.equal(record.browser.url, url, 'The bootstrap must return to the requested public page');
+    const effective = record.navigations.at(-1);
+    assert.ok(effective, 'Capture the effective browser navigation response');
+    assert.equal(effective.status, 200);
+    assert.equal(effective.coop, 'same-origin', 'Effective browser navigation must have COOP same-origin');
+    assert.ok(['require-corp', 'credentialless'].includes(effective.coep), 'Effective browser navigation must have an isolation COEP');
+    if (effective.fromServiceWorker) assert.ok(record.browser.controller, 'A service-worker navigation must have a real controller');
+    record.reloads = Math.max(0, record.navigations.length - 1);
+    record.elapsedMs = Date.now() - started;
+    return record;
+  } catch (error) {
+    await Promise.allSettled(pending);
+    record.elapsedMs = Date.now() - started;
+    record.error = String(error);
+    throw error;
+  } finally { page.off('response', observer); }
+}
+
+function isolationPrimedBrowser(browser) {
+  return {
+    newContext: async options => {
+      const context = await browser.newContext(options);
+      const primer = await context.newPage();
+      const record = { purpose: 'Root-only isolation setup before the unchanged exercise harness', url: baseURL.href };
+      report.priming.push(record);
+      watchPage(primer, record);
+      try {
+        record.isolation = await navigateIsolated(primer, baseURL.href, 'grading-context-primer-' + report.priming.length);
+        assertPageHealthy(record);
+        assert.deepEqual(record.workers, [], 'Isolation priming must not create any CAS/grading worker');
+        record.noCASInitialized = true;
+        await primer.close();
+        return context;
+      } catch (error) {
+        record.error = String(error);
+        await context.close();
+        throw error;
+      }
+    },
+  };
+}
+
+async function inspectColdDirectNavigation(browser, manifest) {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  const record = { path: 'maxima/examples.html', freshContext: true, priorLandingVisit: false };
+  report.directNavigation.push(record);
+  watchPage(page, record);
+  try {
+    record.isolation = await navigateIsolated(page, new URL(record.path, baseURL).href, 'cold-direct-maxima-examples');
+    await page.waitForFunction(() => document.querySelectorAll('.stack-sympy .stack-reset').length ===
+      document.querySelectorAll('.ctm-demo-card').length && document.querySelectorAll('.ctm-demo-card').length > 0);
+    record.cards = await page.locator('.ctm-demo-card').evaluateAll(cards => cards.map(card => card.dataset.demoId));
+    assert.deepEqual(record.cards, manifest.demos.filter(demo => demo.sourcePage === 'examples.qmd').map(demo => demo.id));
+    assertPageHealthy(record);
+    assert.deepEqual(record.workers, [], 'Direct navigation alone must not initialize grading runtimes');
+    record.screenshot = 'cold-direct-maxima-examples.png';
+    await page.screenshot({ path: join(output, record.screenshot), fullPage: false, animations: 'disabled' });
+  } catch (error) {
+    record.error = { message: String(error), stack: error.stack };
+    report.failures.push({ operation: 'cold-direct-navigation', ...record.error });
+    await page.screenshot({ path: join(output, 'cold-direct-maxima-examples-failure.png'), fullPage: false }).catch(() => {});
+  } finally { await context.close(); }
+}
+
 async function inspectLanding(browser) {
   const exerciseLinks = new Set();
   for (const [name, viewport] of [['desktop', { width: 1440, height: 1000 }], ['mobile', { width: 390, height: 844 }]]) {
     const context = await browser.newContext({ viewport, isMobile: name === 'mobile', deviceScaleFactor: 1 });
     const page = await context.newPage();
-    const observation = { viewport: name, size: viewport, errors: [], networkFailures: [] };
-    page.on('pageerror', error => observation.errors.push(String(error)));
-    page.on('requestfailed', req => observation.networkFailures.push({ url: req.url(), error: req.failure()?.errorText }));
-    page.on('response', response => { if (response.status() >= 400) observation.networkFailures.push({ url: response.url(), status: response.status() }); });
+    const observation = { viewport: name, size: viewport };
+    watchPage(page, observation);
     try {
-      const response = await page.goto(baseURL.href, { waitUntil: 'load', timeout: 90000 });
-      assert.equal(response.status(), 200);
+      observation.isolation = await navigateIsolated(page, baseURL.href, 'landing-' + name);
       observation.document = await page.evaluate(async () => {
         if (document.fonts?.ready) await document.fonts.ready;
         const links = [...document.querySelectorAll('a[href]')].map(anchor => ({ href: anchor.href, literal: anchor.getAttribute('href') }));
@@ -78,8 +198,7 @@ async function inspectLanding(browser) {
       assert.ok(observation.document.scrollWidth <= observation.document.viewportWidth + 2, 'The public landing must fit its viewport');
       assert.deepEqual(observation.document.missingSections, [], 'Landing section links must resolve');
       assert.deepEqual(observation.document.brokenImages, [], 'Landing image assets must load');
-      assert.deepEqual(observation.errors, [], 'The landing must have no uncaught exceptions');
-      assert.deepEqual(observation.networkFailures, [], 'The landing must have no failed requests');
+      assertPageHealthy(observation);
       for (const link of observation.document.links) {
         const target = new URL(link.href);
         if (target.origin === baseURL.origin) exerciseLinks.add(target.pathname);
@@ -106,7 +225,7 @@ async function inspectPublishedPayloads(browser, manifest, acceptedRaw) {
       for (const pageName of ['index', 'examples']) {
         const path = backend + '/' + pageName + '.html';
         await request(path, { isolation: true, type: 'text/html' });
-        await page.goto(new URL(path, baseURL).href, { waitUntil: 'load', timeout: 90000 });
+        await navigateIsolated(page, new URL(path, baseURL).href, 'payload-preflight-' + backend + '-' + pageName);
         const payloads = await page.locator('.ctm-demo-card').evaluateAll(cards => cards.map(card => ({
           demoId: card.dataset.demoId, source: card.querySelector('script.stack-sympy-data')?.textContent,
         })));
@@ -144,6 +263,24 @@ try {
     'scripts/milestone-two/browser.mjs', 'demos/manifest.json', 'reports/milestone-two/latest.json',
   ].map(async path => { const bytes = await readFile(join(root, path)); return { path, bytes: bytes.length, sha256: hash(bytes) }; }));
   await request('', { isolation: true, type: 'text/html' });
+  const { body: publicationBytes } = await request('PUBLICATION.json', { type: 'application/json' });
+  const publication = JSON.parse(publicationBytes);
+  assert.equal(publication.accepted_artifact_sha256, 'bee2255220f31b3e4b681cce6baa170c01ee843d36818bd239baddf52b92e7e1', 'The public package must preserve the accepted artifact identity');
+  assert.equal(publication.accepted_browser_run, 39721228518);
+  assert.equal(publication.accepted_executable_source, accepted.sourceRevision);
+  assert.equal(publication.accepted_site_files.length, 275);
+  const acceptedFiles = new Map(publication.accepted_site_files.map(file => [file.path, file]));
+  const publishedFiles = new Map(publication.files.map(file => [file.path, file]));
+  assert.equal(acceptedFiles.size, publication.accepted_site_files.length, 'Accepted file identities must be unique');
+  assert.equal(publishedFiles.size, publication.files.length, 'Published file identities must be unique');
+  report.publication = { sha256: hash(publicationBytes), acceptedArtifactSha256: publication.accepted_artifact_sha256,
+    acceptedSiteFiles: publication.accepted_site_files.length, publishedFiles: publication.files.length,
+    publicationChanges: publication.publication_changes };
+  for (const path of ['ctm-isolation.js', 'ctm-isolation-worker.js']) {
+    const published = publishedFiles.get(path);
+    assert.ok(published, 'The root-scope browser isolation bootstrap must be declared: ' + path);
+    await request(path, { type: 'javascript', expectedHash: published.sha256 });
+  }
   const { body: materializationBytes } = await request('MATERIALIZATION.json', { type: 'application/json' });
   const materialization = JSON.parse(materializationBytes);
   assert.deepEqual(materialization.sourcePins, acceptedRaw.provenance.sourcePins, 'Published CTM source pins must match the accepted site');
@@ -161,22 +298,30 @@ try {
   ]) {
     const source = accepted.sourceFiles.find(file => file.path === sourcePath);
     assert.ok(source, 'The accepted report must identify the deployed adapter source');
+    assert.equal(acceptedFiles.get(path)?.sha256, source.sha256, 'The accepted artifact must identify the original backend/runtime source');
+    assert.equal(publishedFiles.get(path)?.sha256, source.sha256, 'Publication must preserve accepted backend/runtime bytes');
     await request(path, { expectedHash: source.sha256 });
   }
-  // Check every packaged runtime path exists, without downloading the entire
-  // 57 MB decoded package a second time before the actual grading run.
+  // Public transfer is diagnostic, not a cold-WAN comparison. Verify actual
+  // deployed runtime bytes, as well as both publication manifest identities.
   for (let offset = 0; offset < runtime.runtimeAssets.length; offset += 8) {
-    await Promise.all(runtime.runtimeAssets.slice(offset, offset + 8).map(asset =>
-      request('maxima-runtime/' + asset.path, { method: 'HEAD', type: asset.path.endsWith('.wasm') ? 'application/wasm' : undefined })));
+    await Promise.all(runtime.runtimeAssets.slice(offset, offset + 8).map(asset => {
+      const path = 'maxima-runtime/' + asset.path;
+      assert.equal(acceptedFiles.get(path)?.sha256, asset.sha256, 'The accepted artifact must contain the pinned runtime asset');
+      assert.equal(publishedFiles.get(path)?.sha256, asset.sha256, 'Publication must preserve the pinned runtime asset');
+      return request(path, { expectedHash: asset.sha256, type: asset.path.endsWith('.wasm') ? 'application/wasm' : undefined });
+    }));
   }
   browser = await chromium.launch({ headless: true });
   report.browserVersion = browser.version();
+  await inspectColdDirectNavigation(browser, manifest);
   await inspectLanding(browser);
   await inspectPublishedPayloads(browser, manifest, acceptedRaw);
   const selectedInputs = new Map(), screenshotKinds = new Set();
+  const primedBrowser = isolationPrimedBrowser(browser);
   for (const backend of ['sympy', 'maxima']) {
     for (const pageName of ['index', 'examples']) {
-      const result = await runPage({ browser, baseURL: baseURL.href, backend, pageName,
+      const result = await runPage({ browser: primedBrowser, baseURL: baseURL.href, backend, pageName,
         demos: manifest.demos.filter(demo => demo.sourcePage === pageName + '.qmd'), selectedInputs, screenshotKinds,
         repeats: 3, timeout: 330000, output, onProgress: text => console.log(new Date().toISOString() + ' public ' + text) });
       report.pages.push(result);
@@ -215,7 +360,8 @@ try {
 }
 const summary = { schema: 1, createdAt: report.createdAt, sourceRevision, runURL, baseURL: report.baseURL,
   passed: report.passed, browserVersion: report.browserVersion, acceptedReference: report.acceptedReference,
-  runtime: report.runtime, coverage: report.coverage, screenshots: report.screenshots,
+  runtime: report.runtime, publication: report.publication, coverage: report.coverage, screenshots: report.screenshots,
+  directNavigation: report.directNavigation, isolationNavigations: report.isolationNavigations, priming: report.priming,
   landing: report.landing.map(({ viewport, screenshot, error, document }) => ({ viewport, screenshot, error,
     title: document?.title, scrollWidth: document?.scrollWidth, viewportWidth: document?.viewportWidth })),
   failures: report.failures, differences: report.differences,
@@ -226,6 +372,8 @@ const markdown = [
   'Site: ' + report.baseURL, '', 'Verification source: `' + sourceRevision + '`.', '',
   ...(runURL ? ['Workflow: ' + runURL, ''] : []),
   'This run verifies the public HTTPS deployment. It preserves the accepted localhost milestone-two report separately.', '',
+  'Raw HTTP headers are recorded independently from effective browser navigation headers. The deployment uses a root-scope first-visit service worker to add isolation where static hosting ignores _headers. Cold direct navigation and responsive landing checks include that reload. Each grading context is primed at the root without creating a CAS worker before the unchanged exercise harness runs.', '',
+  'Public timings are diagnostic after byte preflight and isolation priming; they are not a cold WAN benchmark.', '',
   '| Backend | Cards | Variants | PythonChecker cards | Authored test rows | Repeated grades |',
   '|---|---:|---:|---:|---:|---:|',
   ...(report.coverage || []).map(row => '| ' + row.backend + ' | ' + row.cards + ' | ' + row.variants + ' | ' + row.pythonCheckerCards + ' | ' + row.authoredTestRows + ' | ' + row.gradeCalls + ' |'), '',

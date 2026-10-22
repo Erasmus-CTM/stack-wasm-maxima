@@ -11,7 +11,6 @@ ROOT = Path(__file__).resolve().parents[2]
 ACCEPTED_SHA256 = "bee2255220f31b3e4b681cce6baa170c01ee843d36818bd239baddf52b92e7e1"
 PREFIX = ".cache/milestone-two/demo/_site/"
 
-
 def digest(data):
     return hashlib.sha256(data).hexdigest()
 
@@ -47,13 +46,26 @@ def main():
     if len(accepted_files) != 275 or any(not (output / item).is_file() for item in required):
         raise ValueError("Accepted interactive site is incomplete")
     shutil.copyfile(args.comparison_html, output / "index.html")
+    shutil.copyfile(ROOT / "scripts/public-demo/isolation-worker.js", output / "ctm-isolation-worker.js")
+    shutil.copyfile(ROOT / "scripts/public-demo/isolation.js", output / "ctm-isolation.js")
+    for relative in ("index.html", "sympy/index.html", "sympy/examples.html", "maxima/index.html", "maxima/examples.html"):
+        page = output / relative
+        html = page.read_text()
+        if "data-ctm-coi-bootstrap" in html or html.count("</head>") != 1:
+            raise ValueError(f"Cannot safely add isolation bootstrap to {relative}")
+        prefix = "../" if "/" in relative else ""
+        bootstrap = f'<script data-ctm-coi-bootstrap src="{prefix}ctm-isolation.js"></script>'
+        page.write_text(html.replace("</head>", bootstrap + "\n</head>", 1))
     shutil.copyfile(ROOT / "comparison/_headers", output / "_headers")
     files = [{"path": str(path.relative_to(output)), "bytes": path.stat().st_size,
               "sha256": digest(path.read_bytes())} for path in sorted(output.rglob("*")) if path.is_file()]
     record = {"schema": 1, "accepted_browser_run": 39721228518,
               "accepted_executable_source": "2493268c2bf3eb9941407f376d20a07fb5da4ec9",
               "accepted_artifact_sha256": archive_hash, "accepted_site_files": accepted_files,
-              "publication_changes": ["index.html replaced by comparison Quarto page", "_headers added for cross-origin isolation"],
+              "publication_changes": ["index.html replaced by comparison Quarto page",
+                                      "_headers added for hosts that support them",
+                                      "root and all four exercise pages bootstrap a root-scope isolation service worker",
+                                      "grading workers, runtime assets and frozen question payloads unchanged"],
               "files": files}
     (output / "PUBLICATION.json").write_text(json.dumps(record, indent=2) + "\n")
     print(json.dumps({"output": str(output), "files": len(files) + 1,
