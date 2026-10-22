@@ -31,11 +31,14 @@ const question = {name:'Mixed graph response',variables:'a:2;',native:{schema:1,
   ]
 }],qtests:[]};
 const variant = {seed:1,env:{a:'2'},teachers:{ans1:{source:'[1,2]',type:'list'}},tokenValues:{},qtests:[]};
+question.prts[0].nodes[1].true.feedback='AUTHORED_FEEDBACK';
 const events=[], expressions=[], answers={ans1:'[1,2]'};
 const valid = {ans1:{valid:true,latex:'[1,2]',feedback:'',source:'[1,2]'}};
 const paused = {kind:'python',node:'1',score:0.5,notes:['native-start'],feedback:[],path:[{node:'0',branch:'true',note:'native-start'}],
-  events:[{event:'native-at',node:'0'}],environment:{a:'2',b:'3',ans1:'[1,2]'},student:{source:'[1,2]',type:'list'},teacher:{source:'[1,2]',type:'list'}};
-const done = {kind:'done',score:1,notes:['native-start','python','native-end'],feedback:[],path:[
+  events:[{event:'native-at',node:'0'}],environment:{b:'3'},student:{source:'[1,2]',type:'list'},teacher:{source:'[1,2]',type:'list'}};
+const done = {kind:'done',score:1,notes:['native-start','python','native-end'],feedback:[
+  {template:'AUTHORED_FEEDBACK',tokens:{}},{template:'A graph &lt;property&gt; holds',tokens:{},literal:true}
+],path:[
   {node:'0',branch:'true',note:'native-start'},{node:'1',branch:'true',note:'python'},{node:'2',branch:'true',note:'native-end'}
 ],events:[{event:'native-at',node:'2'}]};
 let queued=[valid,paused,done], pythonCalls=0;
@@ -50,6 +53,9 @@ const engine = new Engine({session:{manifest:{stackRevision:'test-stack-pin',sta
   return {valid:true,correct:true,feedback:'A graph <property> holds'};
 }});
 variant.native = await engine.binding(question,variant);
+await assert.rejects(engine.prepare({...question,variables:'a:b:42;'},1),/Nested assignments/);
+await assert.rejects(engine.prepare({...question,variables:'a:assume(x>0);'},1),/State-mutating/);
+await assert.rejects(engine.prepare({...question,variables:'a:eval_string("b:42");'},1),/State-mutating/);
 const result = await engine.grade(question,variant,answers);
 assert.equal(result.status,'graded'); assert.equal(result.score,1); assert.equal(pythonCalls,1); assert.equal(queued.length,0);
 assert.deepEqual(Array.from(result.prts.prt1.path,node=>node.node),['0','1','2']);
@@ -58,6 +64,11 @@ assert.deepEqual(events.filter(event=>event.event==='native-at'||event.event==='
 ]);
 assert.match(expressions[2],/_ctm_current:"1"/,'Continuation must resume at pending Python node');
 assert.match(expressions[2],/b:eval_string\("3"\)/,'Feedback variable state must survive continuation');
+assert.ok(expressions[2].indexOf('AUTHORED_FEEDBACK') < expressions[2].indexOf('A graph &lt;property&gt; holds'),
+  'Resumed Python node must append authored feedback before callback feedback');
+assert.equal(result.prts.prt1.feedback,'AUTHORED_FEEDBACK A graph &lt;property&gt; holds');
+assert.equal((expressions[2].match(/ans1:eval_string/g) || []).length,1,
+  'Continuation must retain the admitted written input, without overwriting it from a simplified snapshot');
 
 // A lexical invalid answer reaches no native PRT and invokes no checker.
 const before = expressions.length;

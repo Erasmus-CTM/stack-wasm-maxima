@@ -66,6 +66,11 @@
       const match = /^([A-Za-z][A-Za-z0-9_]*)\s*:(?!=)/.exec(statement);
       if (!match) throw new Error('Native author code requires name:expression assignments');
       nodeName(match[1]);
+      const rhs = statement.slice(match[0].length).replace(/"(?:\\.|[^"\\])*"/g,'""');
+      if (rhs.includes(':') || rhs.includes('?')) throw new Error('Nested assignments or Lisp escapes are outside this native author subset');
+      if (/\b(?:system|load|batch|batchload|kill|remvalue|remfunction|declare|remove|assume|forget|activate|deactivate|newcontext|killcontext|supcontext|atvalue|compile|translate|modedeclare|define|set_random_state|make_random_state|put|qput|rem|array|fillarray|arrayapply|appendfile|writefile|openw|opena|eval_string|parse_string|funmake|apply)\s*\(/i.test(rhs)) {
+        throw new Error('State-mutating author calls are outside this native assignment subset');
+      }
     }
     return list;
   }
@@ -75,6 +80,10 @@
     if (prt) names.push(...(prt.locals || assignments(prt.feedbackvariables).map(s => s.match(/^\w+/)[0])));
     names.push(...question.inputs.map(input => input.name));
     return unique(names.map(nodeName));
+  }
+
+  function feedbackLocals(prt) {
+    return unique((prt.locals || assignments(prt.feedbackvariables).map(statement => statement.match(/^\w+/)[0])).map(nodeName));
   }
 
   function context(question, extra = [], prt) {
@@ -97,7 +106,10 @@
   }
 
   function snapshot(names) {
-    return map(names.map(name => [name, stringValue(name)]));
+    // Snapshot the already computed values without another simplification.
+    // The previous answer test may have changed simp for its own argument
+    // policy; it must not rewrite held author/feedback values at a pause.
+    return block(['simp:false'], [map(names.map(name => [name, stringValue(name)]))]);
   }
 
   function typeOf(expression) {
@@ -223,14 +235,14 @@
       const definitions = assignments(question.variables);
       const names = question.native?.locals || definitions.map(statement => statement.match(/^\w+/)[0]);
       const teachers = map(question.inputs.map(input => [input.name, map([
-        ['source', stringValue(evaluate(input.teacher))], ['latex', 'tex1(' + evaluate(input.teacher) + ')'],
-        ['type', typeOf(evaluate(input.teacher))],
-        ['shape', '(if matrixp(' + evaluate(input.teacher) + ') then matrix_size(' + evaluate(input.teacher) + ') else und)']
+        ['source', stringValue(input.name)], ['latex', 'tex1(' + input.name + ')'],
+        ['type', typeOf(input.name)],
+        ['shape', '(if matrixp(' + input.name + ') then matrix_size(' + input.name + ') else und)']
       ])]));
       // Author qtests evaluate with each input bound to its model answer, in
       // order, as STACK compute_response does. Grading receives the resulting
       // written source, never an unevaluated teacher-variable alias.
-      const testContext = question.inputs.map(input => input.name + ':' + evaluate(input.teacher));
+      const testContext = question.inputs.map(input => input.name + ':stackmap_get(_ctm_models,' + quote(input.name) + ')');
       const testAnswer = (name, expression) => {
         const input = question.inputs.find(input => input.name === name);
         if (!input) throw new Error('Unknown native authored-test input: ' + name);
@@ -250,8 +262,10 @@
         map([['testcase', quote(test.testcase)], ['answers', map(Object.entries(test.inputs || {}).map(([name, expression]) =>
           [name, testAnswer(name,expression)]))]])
       ])));
-      const expression = block(context(question), [
+      const expression = block(context(question,['_ctm_models']), [
         'set_random_state(make_random_state(' + seed + '))', ...definitions,
+        ...question.inputs.map(input => input.name + ':' + evaluate(input.teacher)),
+        '_ctm_models:' + map(question.inputs.map(input => [input.name,input.name])),
         map([['seed', String(seed)], ['env', snapshot(names)], ['teachers', teachers],
           ['tokenValues', tokenValues(question, null, true)], ['qtests', qtests]])
       ]);
@@ -284,7 +298,7 @@
       for (const input of question.inputs) {
         if (!admitted[input.name]) continue;
         const student = evaluate(admitted[input.name].source);
-        const teacher = evaluate(input.teacher);
+        const teacher = evaluate(variant.teachers[input.name].source);
         const path = 'sconcat(maxima_tempdir,"/ctm-native-validation.txt")';
         const lowest = bool(input.requirelowestterms);
         const validation = input.checkanswertype ?
@@ -357,10 +371,16 @@
     }
 
     prtExpression(question, prt, variant, admitted, continuation, pythonResult) {
-      const names = localNames(question, prt);
+      const names = feedbackLocals(prt);
+      if (names.some(name => question.inputs.some(input => input.name === name))) {
+        throw new Error('Feedback variables cannot reassign learner inputs in this native continuation subset');
+      }
       const locals = context(question, ['_ctm_current','_ctm_score','_ctm_notes','_ctm_feedback','_ctm_path','_ctm_events','_ctm_steps','_ctm_r','_ctm_v'], prt);
       const expressions = restore(variant, admitted);
       if (continuation) {
+        if (canonical(Object.keys(continuation.environment || {}).sort()) !== canonical([...names].sort())) {
+          throw new Error('Native continuation feedback environment does not match this response tree');
+        }
         for (const [name, source] of Object.entries(continuation.environment)) expressions.push(nodeName(name) + ':' + evaluate(source));
         expressions.push('_ctm_current:' + quote(continuation.node), '_ctm_score:' + number(continuation.score),
           '_ctm_notes:' + array(continuation.notes.map(quote)),
@@ -377,10 +397,18 @@
       expressions.push('_ctm_events:[]','_ctm_steps:0');
       const clauses = [];
       for (const node of prt.nodes) {
+        if ([node.student,node.teacher,node.test === 'PythonChecker' ? '' : node.options].some(source =>
+          /\b(?:rand|random|rand_with_step|set_random_state|make_random_state)\s*\(/.test(String(source || '').replace(/"(?:\\.|[^"\\])*"/g,'""')))) {
+          throw new Error('Random response-tree expressions are outside this native subset; freeze random values in question variables');
+        }
         let action;
         if (node.test === 'PythonChecker') {
           if (continuation?.node === node.name && pythonResult) {
-            action = this.branch(question, node, pythonResult.correct ? 'true' : 'false');
+            const branch = this.branch(question, node, pythonResult.correct ? 'true' : 'false');
+            // Match the existing CTM controller: authored branch feedback
+            // precedes the checker's plain-text feedback on this same node.
+            action = pythonResult.feedback && !node.quiet ? '(' + branch + ',_ctm_feedback:endcons(' +
+              map([['template',quote(escape(pythonResult.feedback))],['tokens',map([])],['literal','true']]) + ',_ctm_feedback))' : branch;
           } else {
             action = 'return(' + map([
               ['kind','"python"'], ['node',quote(node.name)], ['score','_ctm_score'], ['notes','_ctm_notes'],
@@ -461,12 +489,11 @@
             return {status:'invalid',score:0,inputs,prts,feedback};
           }
           if (pythonResult.assessment && !node.quiet && inputs[node.student]) inputs[node.student].assessment = pythonResult.assessment;
-          if (pythonResult.feedback && !node.quiet) result.feedback.push({template:escape(pythonResult.feedback),tokens:{}});
           state = result;
         }
         if (result?.kind !== 'done') throw new Error('Native Python continuation bound exceeded');
         const notes = result.notes || [];
-        prts[prt.name] = {score:rounding(result.score), feedback:(result.feedback || []).map(piece => renderTemplate(piece.template,piece.tokens)).filter(Boolean).join(' '),
+        prts[prt.name] = {score:rounding(result.score), feedback:(result.feedback || []).map(piece => piece.literal ? piece.template : renderTemplate(piece.template,piece.tokens)).filter(Boolean).join(' '),
           notes, note:notes.filter(Boolean).join(' | '), path:result.path};
       }
       const totalWeight = question.prts.reduce((total,prt) => total + prt.value, 0);

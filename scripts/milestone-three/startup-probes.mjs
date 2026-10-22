@@ -51,7 +51,7 @@ const traceLisp = ${JSON.stringify(traceLisp)};
 const forwardImport = self.importScripts.bind(self);
 const forwardPost = self.postMessage.bind(self);
 const loads = [], filesystem = new Map();
-let lineBuffer = '', observationInstalled = false;
+let lineBuffer = '', observationInstalled = false, observedLines = 0;
 let diagnosticStarted = null, coreReadyMs = null, stackLoadStartedMs = null;
 function recordText(text) {
   lineBuffer += text;
@@ -60,6 +60,7 @@ function recordText(text) {
   while ((end=lineBuffer.indexOf('\\n')) >= 0) {
     const line = lineBuffer.slice(0,end).replace(/\\r$/, '');
     lineBuffer = lineBuffer.slice(end+1);
+    if(observedLines++ < 500)forwardPost({type:'diagnostic',text:line.slice(0,4000)});
     if(line.includes('CTMCORE-READY') && coreReadyMs===null)coreReadyMs=performance.now()-diagnosticStarted;
     if(line.includes('CTMSTACK-LOAD-START') && stackLoadStartedMs===null)stackLoadStartedMs=performance.now()-diagnosticStarted;
     const at = line.indexOf('CTMSTARTUP|');
@@ -164,9 +165,11 @@ await writeFile(resolve(root,'startup-probe-worker.js'), `
 importScripts('runtime/maxima-session.js');
 self.onmessage=async({data})=>{
   let session;
+  const diagnostics=[];
   try {
     session=new MaximaSession({baseURL:'./maxima-runtime/',stackSourceURL:'./stack-sources.json',
-      childURL:new URL('startup-probe/'+data.mode+'/',self.location.href),preload:true});
+      childURL:new URL('startup-probe/'+data.mode+'/',self.location.href),preload:true,
+      onEvent:event=>{if(diagnostics.length<600)diagnostics.push(event);}});
     const initialization=await session.init();
     const probes=[
       {test:'AlgEquiv',student:'(x+1)^2',teacher:'x^2+2*x+1'},
@@ -175,8 +178,8 @@ self.onmessage=async({data})=>{
       {test:'NumDecPlaces',student:'1.75',teacher:'7/4',options:'2',raw:'1.75'}
     ];
     const results=probes.map(request=>({request,result:session.assess(request)}));
-    self.postMessage({ok:true,initialization,results});
-  }catch(error){self.postMessage({ok:false,error:String(error),stack:error.stack});}
+    self.postMessage({ok:true,initialization,results,diagnostics});
+  }catch(error){self.postMessage({ok:false,error:String(error),stack:error.stack,diagnostics});}
   finally{if(session)session.terminate();}
 };
 `);
@@ -188,6 +191,9 @@ try {
     try {
       reports.browserVersion=browser.version();
       const page=await browser.newPage();
+      const consoleMessages=[];
+      page.on('console',message=>{if(consoleMessages.length<600)consoleMessages.push({type:message.type(),text:message.text().slice(0,4000)});});
+      page.on('pageerror',error=>consoleMessages.push({type:'pageerror',text:String(error)}));
       const requestStart=app.requests.length;
       await page.goto(app.baseURL+'startup-probe.html');
       const result=await page.evaluate(mode=>new Promise(resolveResult=>{
@@ -197,9 +203,10 @@ try {
         worker.onerror=error=>{clearTimeout(timer);worker.terminate();resolveResult({ok:false,error:error.message});};
         worker.postMessage({mode});
       }),mode);
-      reports.samples.push({mode,...result,requests:app.requests.slice(requestStart)});
+      reports.samples.push({mode,...result,consoleMessages,requests:app.requests.slice(requestStart)});
       await writeFile(resolve(output,'startup-probes.json'),JSON.stringify(reports,null,2)+'\n');
       console.log(JSON.stringify({mode,ok:result.ok,error:result.error,initializationMs:result.initialization?.elapsedMs,
+        diagnostics:result.ok ? undefined : result.diagnostics, consoleMessages:result.ok ? undefined : consoleMessages,
         loads:result.initialization?.stages?.startupProfile?.loads?.length,
         slowestLoads:result.initialization?.stages?.startupProfile?.loads?.slice().sort((a,b)=>b.elapsedMs-a.elapsedMs).slice(0,12)}));
       assert.equal(result.ok,true,result.error);

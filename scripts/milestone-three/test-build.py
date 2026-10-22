@@ -45,6 +45,18 @@ class NativeBuild(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "dangling next node"):
             compiler.compile_question(ET.tostring(root), importer, "broken", python=True)
 
+    def test_feedback_randomness_fails_at_build_but_literals_and_question_randomness_do_not(self):
+        body = compiler.authored_question("Random", "[[input:ans]]", "value", variables="value:rand(3)+1;")
+        root = ET.fromstring(body)
+        prt = root.find("question/prt")
+        feedback = compiler.subelement(compiler.subelement(prt, "feedbackvariables", ""), "text", "later:rand_with_step(1,4,1);")
+        with self.assertRaisesRegex(ValueError, r"prt\[prt1\]/feedbackvariables: random feedback variables"):
+            compiler.compile_question(ET.tostring(root), importer, "random")
+        feedback.text = 'message:"rand(3)"; /* rand_with_step(1,4,1) */'
+        question = compiler.compile_question(ET.tostring(root), importer, "random")
+        self.assertEqual(question["native"]["locals"], ["value"])
+        self.assertEqual(question["prts"][0]["locals"], ["message"])
+
     def test_escaped_upstream_source_stays_inert_and_board_is_live(self):
         path = compiler.UPSTREAM + "4_JSON_and_complex_binding.xml"
         body = compiler.source_bytes(STACK_SOURCE, path)

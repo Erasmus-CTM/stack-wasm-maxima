@@ -251,6 +251,9 @@ def compile_question(body, importer, identifier, *, python=False):
         question[field] = template(question[field])
     for prt in question["prts"]:
         prt["locals"] = local_names(prt["feedbackvariables"])
+        feedback_code = re.sub(r'"(?:\\.|[^"\\])*"', '""', COMMENT.sub("", prt["feedbackvariables"]))
+        if re.search(r"\b(?:rand|random|rand_with_step|set_random_state|make_random_state)\s*\(", feedback_code):
+            raise ValueError(f"{identifier}: prt[{prt['name']}]/feedbackvariables: random feedback variables are outside the native continuation subset; freeze random values in questionvariables")
         for node in prt["nodes"]:
             for branch in ("true", "false"):
                 node[branch]["feedback"] = template(node[branch]["feedback"], "feedback")

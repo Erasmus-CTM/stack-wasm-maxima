@@ -50,7 +50,7 @@ return {{Pandoc=function(doc)
     assert(prepared == id, 'stack-native prepared identity must match the authored identifier')
     setup()
     local fragment = read(pandoc.path.join({quarto.project.directory,'.native-prepared',id .. '.html'}))
-    assert(fragment:find('data%-stack%-id="' .. id .. '"'), 'stack-native fragment identity mismatch')
+    assert(fragment:find('data-stack-id="' .. id .. '"',1,true), 'stack-native fragment identity mismatch')
     native = true
     return pandoc.RawBlock('html', fragment)
   end})
