@@ -1,0 +1,42 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - maxima/examples.qmd
+  resources:
+    - backend/**
+    - runtime/**
+    - maxima-runtime/**
+    - stack-sources.json
+    - runtime-assets.json
+    - MATERIALIZATION.json
+    - ctm-isolation.js
+    - ctm-isolation-worker.js
+    - maxima/questions/**
+
+website:
+  title: "STACK Maxima"
+  navbar:
+    left:
+      - href: maxima/examples.qmd
+        text: Worked questions
+    right:
+      - icon: github
+        href: https://github.com/Erasmus-CTM/stack-wasm-maxima
+        aria-label: Source repository
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    html-math-method: mathjax
+    code-copy: true
+
+filters:
+  - stack-maxima
+  - stack-sympy
+
+ai-feedback:
+  policy-files: feedback/course.yml
+  project-policy:
+    math-exercise: course-mathematics

@@ -21,6 +21,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_MANIFEST = ROOT / "demos/manifest.json"
 QUESTION_BLOCK = re.compile(r"```\{([^\n]*)\}\r?\n([\s\S]*?)\r?\n```", re.M)
+MAXIMA_DIV = re.compile(r"^:::\s*\{([^}\n]*\.stack-maxima[^}\n]*)\}\r?\n([\s\S]*?)^:::\s*$", re.M)
 SOURCE_PANEL = re.compile(
     r'(<summary>Show source</summary>\s*<pre><code class="language-markdown">)([\s\S]*?)(</code></pre>)'
 )
@@ -223,6 +224,57 @@ def materialize(args, manifest: dict) -> None:
                       "variants": record["variants"], "pythonCheckerCards": record["pythonCheckerCards"]}))
 
 
+def prepare_existing(args, manifest: dict) -> None:
+    """Stage pinned dependencies for tracked Quarto source without rewriting it."""
+    output = args.prepare_existing.resolve()
+    source = output / "maxima/examples.qmd"
+    if not source.is_file():
+        raise ValueError("The tracked reviewer source is missing: " + str(source))
+    sympy = args.stack_sympy_source.resolve()
+    checkers = args.ctm_checkers_source.resolve()
+    libs = args.ctm_libs_source.resolve()
+    pinned_checkout(sympy, manifest["stackSympyRevision"])
+    pinned_checkout(checkers, manifest["questionSourceRevision"])
+    pinned_checkout(libs, manifest["ctmDependencies"]["ctm-libs"]["commit"])
+
+    blocks = [options(body) for _, body in MAXIMA_DIV.findall(source.read_text(encoding="utf-8"))]
+    demos = [demo for demo in manifest["demos"] if demo["sourcePage"] == "examples.qmd"]
+    if len(blocks) != len(demos):
+        raise ValueError(f"Expected {len(demos)} tracked stack-maxima blocks; found {len(blocks)}")
+    for block, demo in zip(blocks, demos):
+        if block != demo["options"]:
+            raise ValueError("Tracked options differ from the accepted manifest for " + demo["id"])
+
+    copy_tree(sympy / "_extensions/stack-sympy", output / "_extensions/stack-sympy")
+    copy_tree(checkers / "_extensions/ctm-checkers", output / "_extensions/ctm-checkers")
+    copy_tree(libs / "_extensions/ctm-libs", output / "_extensions/ctm-libs")
+    copy_tree(ROOT / "prototype/quarto", output / "_extensions/stack-maxima")
+    copy_tree(sympy / "feedback", output / "feedback")
+    examples = checkers / "examples/stack"
+    shutil.copytree(examples, output / "maxima/questions", dirs_exist_ok=True,
+                    ignore=lambda directory, names: {"probes", "supplement"} & set(names)
+                    if Path(directory) == examples else ())
+    patches = patch_frontend(output / "_extensions/stack-sympy")
+    shutil.copy2(ROOT / "scripts/public-demo/isolation.js", output / "ctm-isolation.js")
+    shutil.copy2(ROOT / "scripts/public-demo/isolation-worker.js", output / "ctm-isolation-worker.js")
+    write_json(output / "MATERIALIZATION.json", {
+        "schema": 1,
+        "sourcePins": {
+            "stack-sympy": manifest["stackSympyRevision"],
+            "ctm-checkers": manifest["questionSourceRevision"],
+            "ctm-libs": manifest["ctmDependencies"]["ctm-libs"]["commit"],
+        },
+        "frontendPatches": patches,
+        "trackedPage": str(source.relative_to(ROOT)),
+        "trackedPageSha256": digest(source.read_bytes()),
+        "cards": len(demos),
+        "variants": sum(int(demo["options"].get("variants", 1)) for demo in demos),
+        "pythonCheckerCards": sum("pythonCheckerSource" in demo for demo in demos),
+    })
+    print(json.dumps({"project": str(output), "trackedPage": str(source),
+                      "cards": len(demos), "variants": sum(int(demo["options"].get("variants", 1)) for demo in demos)}))
+
+
 class Cards(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=False)
@@ -392,12 +444,18 @@ def main() -> int:
     parser.add_argument("--ctm-checkers-source", type=Path)
     parser.add_argument("--ctm-libs-source", type=Path)
     parser.add_argument("--output", type=Path, default=ROOT / ".cache/milestone-two/demo")
+    parser.add_argument("--prepare-existing", type=Path,
+                        help="Stage pinned dependencies for an existing tracked Quarto project")
     parser.add_argument("--collect-site", type=Path, help="Check rendered pair and collect its actual frozen payloads")
     parser.add_argument("--payload-output", type=Path)
     args = parser.parse_args()
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
     if args.collect_site:
         collect(args, manifest)
+    elif args.prepare_existing:
+        if not all((args.stack_sympy_source, args.ctm_checkers_source, args.ctm_libs_source)):
+            parser.error("preparing tracked source requires all three pinned source checkouts")
+        prepare_existing(args, manifest)
     else:
         if not all((args.stack_sympy_source, args.ctm_checkers_source, args.ctm_libs_source)):
             parser.error("materialization requires all three pinned source checkouts")

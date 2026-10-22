@@ -1,0 +1,149 @@
+name: Test and publish the tracked Quarto reviewer page
+
+on:
+  push:
+    branches: [main, 'research/**']
+    paths:
+      - '.github/workflows/site.yml'
+      - 'site/**'
+      - 'prototype/**'
+      - 'scripts/milestone-two/**'
+      - 'scripts/public-demo/isolation*.js'
+      - 'scripts/site/**'
+      - 'demos/manifest.json'
+      - 'measurements/*runtime*.json'
+      - 'reports/milestone-one/browser-3338304.json'
+      - 'package*.json'
+  pull_request:
+    paths:
+      - '.github/workflows/site.yml'
+      - 'site/**'
+      - 'prototype/**'
+      - 'scripts/milestone-two/**'
+      - 'scripts/public-demo/isolation*.js'
+      - 'scripts/site/**'
+      - 'demos/manifest.json'
+      - 'measurements/*runtime*.json'
+      - 'reports/milestone-one/browser-3338304.json'
+      - 'package*.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stack-maxima-reviewer-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  site:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.8.27
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/stack-sympy
+          ref: 1b1d50f69fc1e7eb39846b497657d72be325f597
+          path: .site-sources/stack-sympy
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: c366f175aba6b62caa628bc60f57bb1167fc087b
+          path: .site-sources/ctm-checkers
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-libs
+          ref: 94687f718fd651fc2857bc5242a64e45c8fd4697
+          path: .site-sources/ctm-libs
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: .site-sources/stack
+          sparse-checkout: stack/maxima
+          persist-credentials: false
+      - name: Install the pinned browser dependencies
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Stage pinned dependencies around the tracked QMD
+        run: |
+          python scripts/milestone-two/materialize.py --prepare-existing site \
+            --stack-sympy-source .site-sources/stack-sympy \
+            --ctm-checkers-source .site-sources/ctm-checkers \
+            --ctm-libs-source .site-sources/ctm-libs
+          python scripts/milestone-two/prepare-runtime.py --output site \
+            --stack-source .site-sources/stack \
+            --ctm-checkers-source .site-sources/ctm-checkers
+      - name: Render the committed Quarto page
+        env:
+          CTM_COMPONENT_DEV: '1'
+          STACK_SYMPY_PYTHON: python
+        run: |
+          export CTM_LIBS_EXTENSION="$PWD/site/_extensions/ctm-libs"
+          export CTM_CHECKERS_EXTENSION="$PWD/site/_extensions/ctm-checkers"
+          quarto render site
+      - name: Exercise validation and Maxima grading in the rendered page
+        run: node scripts/site/smoke.mjs site/_site test-results/reviewer-site
+      - name: Upload the tested Quarto site
+        uses: actions/upload-artifact@v4
+        with:
+          name: reviewer-site-${{ github.sha }}
+          path: site/_site/
+          if-no-files-found: error
+      - name: Upload browser evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reviewer-evidence-${{ github.sha }}
+          path: test-results/reviewer-site/
+          if-no-files-found: warn
+
+  publish:
+    needs: site
+    if: github.event_name == 'push' && needs.site.result == 'success'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    concurrency:
+      group: stack-maxima-pages
+      cancel-in-progress: false
+    steps:
+      - name: Check branch head under publication lock
+        id: head
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = context.ref.replace(/^refs\/heads\//, '');
+            const {data} = await github.rest.git.getRef({
+              owner: context.repo.owner, repo: context.repo.repo, ref: `heads/${branch}`
+            });
+            core.setOutput('current', String(data.object.sha === context.sha));
+      - uses: actions/download-artifact@v4
+        if: steps.head.outputs.current == 'true'
+        with:
+          name: reviewer-site-${{ github.sha }}
+          path: reviewer-site
+      - name: Publish only the tested Quarto output
+        if: steps.head.outputs.current == 'true'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: reviewer-site
+          publish_branch: gh-pages
+          destination_dir: ${{ github.ref == 'refs/heads/main' && '.' || format('previews/{0}', github.ref_name) }}
+          keep_files: true
