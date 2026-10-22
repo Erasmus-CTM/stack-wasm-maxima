@@ -561,8 +561,21 @@ try {
         answers:{perimeter:'24',area:'17.5',reported:'17.5'},status:'graded',score:0.7});
       for(const probe of probes) {
         if(probe.seed!==undefined && probe.seed!==row.seed || probe.variant!==undefined && probe.variant!==variant)continue;
+        // The unchanged STACK point binding passes three numeric values to
+        // JSXGraph as homogeneous [w,x,y] coordinates. Its serializer writes
+        // the resulting ordinary pair back into the input before collection.
+        // Test that actual UI contract separately from the raw checker input.
+        const homogeneousCoordinateProbe=['native-python-board','native-mixed-board'].includes(id) &&
+          probe.name==='wrong-length coordinate list [2,2,2]' && probe.answers.ans==='[2,2,2]';
+        const submittedAnswers=homogeneousCoordinateProbe ? {ans:'[1,1]'} : probe.answers;
+        const uiScore=homogeneousCoordinateProbe ? (id==='native-python-board' ? 1 : 0.25) : probe.score;
         await fillAnswers(card,probe.answers);
         const observed={name:probe.name,expected:probe,validation:await action(card,'validate')};
+        assert.deepEqual(observed.validation.call.answers,submittedAnswers,
+          id+': validation must assess the exact declared submitted answer');
+        if(homogeneousCoordinateProbe)observed.uiCanonicalization={
+          kind:'unchanged STACK/JSXGraph homogeneous point coordinates',typed:probe.answers,
+          submitted:observed.validation.call.answers,expectedScore:uiScore};
         const validation=observed.validation.call.response.result;
         assert.equal(validation.status,probe.status==='invalid'?'invalid':'valid',id+': '+probe.name);
         if(probe.status==='invalid') {
@@ -577,9 +590,22 @@ try {
         } else {
           observed.grade=await action(card,'grade');
           const graded=observed.grade.call.response.result;
+          assert.deepEqual(observed.grade.call.answers,submittedAnswers,
+            id+': grading must assess the exact validated submitted answer');
           assert.equal(graded.status,probe.status || 'graded');
           assert.equal(observed.grade.call.response.backend.restarts,0,'A bounded wrong answer must grade without restarting the native worker');
-          if(probe.score!==undefined)assert.equal(graded.score,probe.score,id+': '+probe.name);
+          if(uiScore!==undefined)assert.equal(graded.score,uiScore,id+': '+probe.name+' (actual UI submission)');
+          if(homogeneousCoordinateProbe) {
+            observed.rawNative=await directNative({type:'grade',question:payload.question,
+              variant:payload.variants[variant],answers:probe.answers});
+            assert.deepEqual(observed.rawNative.request.answers,probe.answers,'The raw regression must retain all three entries');
+            assert.equal(observed.rawNative.response.result.status,probe.status);
+            assert.equal(observed.rawNative.response.result.score,probe.score,
+              id+': the raw three-entry list must still receive zero from the actual native/Python tree');
+            assert.equal(observed.rawNative.response.backend.restarts,0,'Raw wrong-length grading must not restart the worker');
+            observed.rawNative.routing=assertRouteOrder(payload.question,observed.rawNative.response.result,observed.rawNative.events);
+            if(probe.sequence)assert.deepEqual(observed.rawNative.routing.actual,probe.sequence);
+          }
           if(probe.assessment) {
             const assessments=('rows' in probe.assessment || 'columns' in probe.assessment)
               ? {[payload.question.inputs[0].name]:probe.assessment} : probe.assessment;

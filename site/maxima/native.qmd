@@ -4,6 +4,7 @@ subtitle: "Milestone 3 — native STACK execution with optional PythonChecker"
 header-includes:
   - |
     <script data-ctm-coi-bootstrap src="../ctm-isolation.js"></script>
+    <style>.stack-native-backend pre { max-width: 100%; overflow-x: auto; }</style>
 ---
 
 These exercises use the same CTM question controls as the [backend comparison](examples.qmd).
@@ -86,6 +87,7 @@ with itself.** [Source XML](native-questions/native-json.xml).
 exchanges the same coordinate-list response as an ordinary STACK binding. The existing
 PythonChecker API decides whether both coordinates are positive.
 Switch variants to see a different initial point; the accepted condition stays the same.
+Typing in the bound input moves the point; the board writes back its resulting coordinate pair.
 [Source XML](native-questions/native-python-board.xml) · [Checker source](native-questions/native-checkers.py).
 
 ::: {.stack-native #native-python-board}
