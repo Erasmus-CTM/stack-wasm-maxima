@@ -247,8 +247,10 @@ STACK's own statement, at that commit: its
 says the source code is "Licensed under the GNU General Public, License Version 3"
 and links to `COPYING.txt`, which is only the text of the GNU GPL version 3 (the
 standard text, which has no "or later" grant of its own;
-[GPL-3.0 text](LICENSES/GPL-3.0-or-later.txt)). Neither file says "or any later
-version". That wording appears only in the headers of individual files: for
+[GPL-3.0 text](LICENSES/GPL-3.0-or-later.txt)). Neither file grants STACK
+under "or any later version" (the phrase occurs in the GPL text itself only in
+its section 14 and appendix). The grant appears only in the headers of
+individual files: for
 example the PHP language file `lang/en/qtype_stack.php`, `corsscripts/stackmplite.js`
 ("either version 3 of the License, or (at your option) any later version") and
 `corsscripts/stackjsxgraph.js` ("GNU GPL v3 or later"). So the project licence is
