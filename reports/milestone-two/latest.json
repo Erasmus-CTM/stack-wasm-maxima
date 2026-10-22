@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "createdAt": "2026-10-22T05:07:39.266Z",
-  "sourceRevision": "41a580f4451d4a6ab47bcc5b159c3950a7b71c91",
-  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39726102585",
-  "passed": true,
-  "status": "passed",
+  "createdAt": "2026-10-22T08:03:45.293Z",
+  "sourceRevision": "9f58c414aad41983eae892c612a6cfddd43b88dc",
+  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39744713793",
+  "passed": false,
+  "status": "failed",
   "browserName": "chromium",
   "browserVersion": "141.0.7390.37",
   "repeats": 3,
@@ -19,9 +19,9 @@
     "expectedCards": 19,
     "expectedVariants": 27,
     "sympyVariants": 27,
-    "maximaVariants": 27,
+    "maximaVariants": 0,
     "sympyPythonCheckerCards": 6,
-    "maximaPythonCheckerCards": 6
+    "maximaPythonCheckerCards": 0
   },
   "runtime": {
     "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
@@ -916,31 +916,31 @@
       "workerInitializationMs": [
         {
           "page": "index",
-          "workerInitMs": 6193.075000000012,
+          "workerInitMs": 3507.8150000000314,
           "workerInitOK": true,
           "backend": null,
-          "pageNavigationToFirstGradeMs": 7770.930000000022
+          "pageNavigationToFirstGradeMs": 4248.224999999977
         },
         {
           "page": "examples",
-          "workerInitMs": 6225.8399999999965,
+          "workerInitMs": 3598.9049999999697,
           "workerInitOK": true,
           "backend": null,
-          "pageNavigationToFirstGradeMs": 7701.950000000012
+          "pageNavigationToFirstGradeMs": 4433
         }
       ],
-      "validationMedianMs": 12.794999999983702,
-      "gradeMedianMs": 13.084999999991851,
+      "validationMedianMs": 14.539999999979045,
+      "gradeMedianMs": 14.40500000002794,
       "authoredTestRows": 121,
       "encodedResponseBodyBytesByPage": [
         {
           "page": "index",
-          "encodedResponseBodyBytes": 10502009,
+          "encodedResponseBodyBytes": 10501978,
           "responseHeaderBytes": 15281
         },
         {
           "page": "examples",
-          "encodedResponseBodyBytes": 10523032,
+          "encodedResponseBodyBytes": 10522899,
           "responseHeaderBytes": 15281
         }
       ]
@@ -948,67 +948,60 @@
     {
       "backend": "maxima",
       "pages": 2,
-      "variants": 27,
+      "variants": 0,
       "workerInitializationMs": [
         {
           "page": "index",
-          "workerInitMs": 40645.875,
+          "workerInitMs": 3607.4099999999744,
           "workerInitOK": true,
-          "backend": {
-            "id": "maxima",
-            "mode": "hybrid",
-            "validation": "ctm-sympy",
-            "controller": "ctm",
-            "nativeATCount": 0,
-            "pythonCheckerCount": 0,
-            "perTest": {},
-            "timings": {
-              "pythonReadyMs": 6736.159999999974,
-              "maximaReadyMs": 40599.82500000001,
-              "readyMs": 40631.13500000001
-            }
-          },
-          "pageNavigationToFirstGradeMs": 44843.96000000002
+          "backend": null,
+          "pageNavigationToFirstGradeMs": null
         },
         {
           "page": "examples",
-          "workerInitMs": 39797.47499999998,
+          "workerInitMs": 3480.6149999999907,
           "workerInitOK": true,
-          "backend": {
-            "id": "maxima",
-            "mode": "hybrid",
-            "validation": "ctm-sympy",
-            "controller": "ctm",
-            "nativeATCount": 0,
-            "pythonCheckerCount": 0,
-            "perTest": {},
-            "timings": {
-              "pythonReadyMs": 6584.210000000021,
-              "maximaReadyMs": 39751.79000000004,
-              "readyMs": 39776.46000000002
-            }
-          },
-          "pageNavigationToFirstGradeMs": 41238.47000000003
+          "backend": null,
+          "pageNavigationToFirstGradeMs": null
         }
       ],
-      "validationMedianMs": 13.42000000004191,
-      "gradeMedianMs": 60.335000000020955,
-      "authoredTestRows": 121,
+      "validationMedianMs": null,
+      "gradeMedianMs": null,
+      "authoredTestRows": 0,
       "encodedResponseBodyBytesByPage": [
         {
           "page": "index",
-          "encodedResponseBodyBytes": 21263151,
-          "responseHeaderBytes": 79460
+          "encodedResponseBodyBytes": 10502205,
+          "responseHeaderBytes": 15281
         },
         {
           "page": "examples",
-          "encodedResponseBodyBytes": 21286542,
-          "responseHeaderBytes": 80404
+          "encodedResponseBodyBytes": 10523140,
+          "responseHeaderBytes": 15281
         }
       ]
     }
   ],
-  "failures": [],
+  "failures": [
+    {
+      "backend": "maxima",
+      "page": "index",
+      "active": "index-01:0",
+      "message": "AssertionError [ERR_ASSERTION]: The Maxima page must answer through its backend\n+ actual - expected\n\n+ undefined\n- 'maxima'\n",
+      "stack": "AssertionError [ERR_ASSERTION]: The Maxima page must answer through its backend\n+ actual - expected\n\n+ undefined\n- 'maxima'\n\n    at verifyRoutes (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/browser.mjs:142:12)\n    at async runPage (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/browser.mjs:233:28)\n    at async file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/run.mjs:85:22"
+    },
+    {
+      "backend": "maxima",
+      "page": "examples",
+      "active": "examples-01:0",
+      "message": "AssertionError [ERR_ASSERTION]: The Maxima page must answer through its backend\n+ actual - expected\n\n+ undefined\n- 'maxima'\n",
+      "stack": "AssertionError [ERR_ASSERTION]: The Maxima page must answer through its backend\n+ actual - expected\n\n+ undefined\n- 'maxima'\n\n    at verifyRoutes (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/browser.mjs:142:12)\n    at async runPage (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/browser.mjs:233:28)\n    at async file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/run.mjs:85:22"
+    },
+    {
+      "operation": "coverage",
+      "message": "All 19 cards / 27 variants and six PythonChecker cards must complete"
+    }
+  ],
   "differences": [],
   "screenshots": [
     {
@@ -1030,28 +1023,6 @@
       "seed": 17,
       "kind": "matrix",
       "path": "sympy-matrix-examples-12-v1.png",
-      "relativeTo": "browser.json",
-      "gradeState": "correct"
-    },
-    {
-      "backend": "maxima",
-      "page": "index",
-      "demoId": "index-01",
-      "variant": 0,
-      "seed": 17,
-      "kind": "scalar",
-      "path": "maxima-scalar-index-01-v1.png",
-      "relativeTo": "browser.json",
-      "gradeState": "correct"
-    },
-    {
-      "backend": "maxima",
-      "page": "examples",
-      "demoId": "examples-12",
-      "variant": 0,
-      "seed": 17,
-      "kind": "matrix",
-      "path": "maxima-matrix-examples-12-v1.png",
       "relativeTo": "browser.json",
       "gradeState": "correct"
     }
@@ -1124,8 +1095,8 @@
     },
     {
       "path": "prototype/quarto/stack-maxima.lua",
-      "bytes": 1672,
-      "sha256": "451de487ffff67c24098ee7d51ba502eeba21eb237bcf2d0a10bd6a6b0c68edd"
+      "bytes": 2067,
+      "sha256": "9490bee3655d73d2d45d7f52b92664946a7ee9a4f850dc559937fd3a1a5d211d"
     },
     {
       "path": "demos/manifest.json",
