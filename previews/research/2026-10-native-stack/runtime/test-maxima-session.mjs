@@ -63,4 +63,21 @@ for (const note of ['ATAlgEquiv_STACKERROR_TAns. ', 'ATNumDecPlaces_OptNotInt. '
 }
 const malformed = sessionWith([true, true, '', ['unexpected']]);
 assert.throws(() => malformed.assess({ test: 'AlgEquiv', student: 'x', teacher: 'x' }), /Invalid native/);
+const program = sessionWith({env:{a:'1/3'}, answer:[1, 2], valid:true});
+let observed;
+program.options.onEvaluate = value => { observed = value; };
+assert.deepEqual(JSON.parse(JSON.stringify(program.evaluate('["stack_map",["valid",true]]'))), {env:{a:'1/3'}, answer:[1,2], valid:true});
+assert.match(program.command, /errcatch\(\["stack_map"/);
+assert.equal(observed.result.env.a, '1/3');
+assert.throws(() => program.evaluate(''), /Invalid native question/);
+const programFailure = sessionWith(null);
+programFailure.write = () => {
+  const bytes = new TextEncoder().encode(JSON.stringify([false, 'Native evaluation failed']));
+  programFailure.output.set(bytes);
+  Atomics.store(programFailure.control, 3, bytes.length);
+  Atomics.store(programFailure.control, 6, Atomics.load(programFailure.control, 5));
+  Atomics.store(programFailure.control, 2, 1);
+};
+assert.throws(() => programFailure.evaluate('1/0'), /Native evaluation failed/);
+assert.equal(programFailure.poisoned, true);
 console.log('Shared-memory result boundary checks passed (mock transport).');

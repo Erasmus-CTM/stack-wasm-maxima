@@ -139,8 +139,8 @@
   "renderedPagePatches": [
     {
       "path": "maxima/examples.html",
-      "sourceSha256": "4de5728db4037dbde5b9b6baf090793d46ecb7c6e0ed542c0ae6ccc2013a1edd",
-      "materializedSha256": "3d6b57a0e983a00c86f92ab92ed38d5b646830ed4566f4c63a3576302ca5d8b4",
+      "sourceSha256": "9dcaed9b9099bb00223f69451d64c496a7b46e1f8acbb31b82d578a50d411048",
+      "materializedSha256": "923be91fc4f6d9d653541c057c47f1e8585b94771b659fce8ad29ae1d6b2ab6e",
       "obsoleteEs6PolyfillRemoved": 1,
       "sourcePanelCount": 36,
       "authoredBlocks": [
