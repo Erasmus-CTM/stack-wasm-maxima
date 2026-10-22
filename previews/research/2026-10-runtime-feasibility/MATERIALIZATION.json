@@ -18,7 +18,7 @@
     }
   ],
   "trackedPage": "site/maxima/examples.qmd",
-  "trackedPageSha256": "78fcc2b26d482ac661475f5685ea0ebc72b712177d47a5597c46c47466b85f96",
+  "trackedPageSha256": "00f964adc695adff89bf8b69301fd97bdff4f711c8b45e26bba8d448b9c778d4",
   "backends": [
     "sympy",
     "maxima"
@@ -139,8 +139,8 @@
   "renderedPagePatches": [
     {
       "path": "maxima/examples.html",
-      "sourceSha256": "fd8ba8b11998d8d3340df937f0b39290f115520adc35b646f6d150f0b47a67ab",
-      "materializedSha256": "3e1c86157bfb545423370bcabb75a40ace1249afd30930d6b73f198e5f78a8eb",
+      "sourceSha256": "2024ae604ddec194ddf5c2b24d6d199a98a0de150f9543e6b86325cc3ee5cb89",
+      "materializedSha256": "62ff5a770561a43e8fc878d52efde513db08464b123b2e98301e35980635f677",
       "obsoleteEs6PolyfillRemoved": 1,
       "sourcePanelCount": 36,
       "authoredBlocks": [
@@ -584,7 +584,7 @@
   "postRender": {
     "script": "scripts/site/post-render.py",
     "scriptSha256": "e10cf770e4f7a260999a73775e259cccff1c8d668a0865f443832811931d9fd9",
-    "trackedPageSha256": "78fcc2b26d482ac661475f5685ea0ebc72b712177d47a5597c46c47466b85f96",
+    "trackedPageSha256": "00f964adc695adff89bf8b69301fd97bdff4f711c8b45e26bba8d448b9c778d4",
     "renderedCards": 36,
     "renderedPairs": 18,
     "renderedSourcePanels": 36,
