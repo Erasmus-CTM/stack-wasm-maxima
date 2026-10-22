@@ -48,6 +48,12 @@ def main():
     patches = json.loads((work / 'logs/build-patches.json').read_text())
     if len(patches['patches']) != len(pins.get('buildPatches', [])) or not all(row['applied'] for row in patches['patches']):
         raise ValueError('Pinned build patches did not all apply')
+    for record in patches['patches']:
+        if record['sourceFilesUnmodified'] is not True:
+            raise ValueError('Build patch changed original sources')
+        effective = work / record['derivedRecipe']['path']
+        if hashlib.sha256(effective.read_bytes()).hexdigest() != record['derivedRecipe']['sha256']:
+            raise ValueError('Effective build recipe changed after derivation')
     for pin in pins['sources']:
         suffix = '.tar' if pin['archive']['format'] == 'git-archive-tar' else '.tar.gz'
         archive = work / 'source-archives' / (pin['name'] + suffix)
@@ -78,6 +84,7 @@ def main():
                 shutil.copy2(source, target)
     shutil.copytree(work / 'source-archives', args.output / 'sources', dirs_exist_ok=True)
     shutil.copytree(work / 'logs', args.output / 'logs', dirs_exist_ok=True)
+    shutil.copytree(work / 'build-recipes', args.output / 'build-recipes', dirs_exist_ok=True)
     recipe = {'repository':'https://github.com/Erasmus-CTM/stack-wasm-maxima',
               'revision':os.environ.get('GITHUB_SHA') or subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
               'files':[]}

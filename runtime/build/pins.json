@@ -109,7 +109,7 @@
   ],
   "notices": {
     "repository": "Erasmus-CTM/stack-wasm-maxima",
-    "commit": "5f78e2adf328a1b0f5f74fc993f0212198165e96",
+    "commit": "b34bfc8af10cd80b6130baabe88a47c9a32c0333",
     "path": "site/LICENSES"
   },
   "stack": [
@@ -139,8 +139,8 @@
     {
       "source": "maxima",
       "path": "runtime/build/patches/maxima-gnuplot-cross-host.patch",
-      "sha256": "af20a540c61a81fc3d9c7b2c4b62f08449ea53e7fe296b198ccd643e97e3a564",
-      "reason": "Declare gnuplot as an Emscripten cross build; otherwise Autoconf tries to execute a Wasm conftest as a native Linux executable and exits 77. No mathematical source changes."
+      "sha256": "0e799e4fd35471aa48403d43c4cc361c39d2cd74db14b2df073f6722bb2c90b6",
+      "reason": "Use an explicit wasm32 host, compile the complete gnuplot archive with PIC, and link a genuine Emscripten SIDE_MODULE=1 because stock libtool does not emit shared libraries for this host. Applied to an external derived build recipe; original sources remain clean."
     }
   ]
 }

@@ -44,6 +44,16 @@
       "fix": "Separate SHA-pinned build-only Makefile patch declares --host=wasm32-unknown-emscripten --build=x86_64-pc-linux-gnu, matching the adjacent ECL recipe.",
       "diagnosticGap": "The old artifact did not include gnuplot/config.log, so only the full Actions job log is available; all subbuild config.log files are now retained.",
       "upstreamOffer": "Prepared public patch in PR 7; not posted to GitLab because no authenticated session or credential was available."
+    },
+    {
+      "run": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39868037264",
+      "revision": "87f4d7d",
+      "outcome": "failed",
+      "stage": "gnuplot installation/side-module copy; native Maxima configure version",
+      "failure": "Explicit wasm32 configure succeeded, but libtool shared-library support was disabled; only libgnuplot.a was installed, so libgnuplot.so.0.0.0 copy failed. In-place build Makefile patch also made Maxima git-describe version end in _dirty.",
+      "fix": "Derive an external Makefile without modifying the source checkout, compile gnuplot with -fPIC, and link its complete static archive with emcc -sSIDE_MODULE=1 and --whole-archive. Build gnuplot before longer phases; preserve original/patch/effective hashes.",
+      "sourceEdits": "No mathematical source modifications; original source archive and clean source version are retained.",
+      "rawEvidence": "Actions job 120135104354 and always-uploaded subbuild config.log files."
     }
   ]
 }

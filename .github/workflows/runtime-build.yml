@@ -25,7 +25,7 @@ jobs:
           node-version: '22'
       - uses: actions/checkout@v4
         with:
-          ref: 5f78e2adf328a1b0f5f74fc993f0212198165e96
+          ref: b34bfc8af10cd80b6130baabe88a47c9a32c0333
           path: .cache/runtime-build/notices
           persist-credentials: false
       - name: Check owned-runtime manifest integrity
@@ -212,6 +212,7 @@ jobs:
             .cache/runtime-build/source-manifest.json
             .cache/runtime-build/source-progress.json
             .cache/runtime-build/source-archives/
+            .cache/runtime-build/build-recipes/
             .cache/runtime-build/sources/ecl/build/config.log
             .cache/runtime-build/sources/**/config.log
             .cache/runtime-build/validation/

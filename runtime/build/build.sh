@@ -13,6 +13,7 @@ mkdir -p "$WORK/logs"
 exec > >(tee "$WORK/logs/build.log") 2>&1
 printf 'Build started: '; date -u +%FT%TZ
 python "$ROOT/runtime/build/apply-build-patches.py"
+MAKE_RECIPE="$WORK/build-recipes/maxima/wasm/Makefile"
 python "$ROOT/runtime/build/prepare-toolchain.py"
 if [[ -n "${GITHUB_OUTPUT:-}" ]]; then printf 'sdk_cache_ready=true\n' >> "$GITHUB_OUTPUT"; fi
 export EMSDK_KEEP_DOWNLOADS=1
@@ -36,8 +37,10 @@ cd "$GNUPLOT_SRCDIR"
 libtoolize --copy
 ./prepare
 cd "$MAXIMA/wasm"
+# Fail on gnuplot configuration/linking before the longer ECL/Maxima builds.
+make -f "$MAKE_RECIPE" -j2 maxima-ecl-combined/libgnuplot.so
 # Run the upstream 32-bit host recipe first; a pinned cache can provide it.
-make -j2 "$ECL_TO_RUN"
+make -f "$MAKE_RECIPE" -j2 "$ECL_TO_RUN"
 file "$ECL_TO_RUN" | tee "$WORK/logs/host-format.txt"
 grep -Eq 'ELF 32-bit.*Intel 80386' "$WORK/logs/host-format.txt"
 "$ECL_TO_RUN" --norc --eval '(unless (= (integer-length most-positive-fixnum) 29) (ext:quit 65))' --eval '(format t "CTM-HOST-ECL|~a|~a~%" (lisp-implementation-version) (integer-length most-positive-fixnum))' --eval '(ext:quit)'
@@ -47,6 +50,6 @@ targets=(maxima-ecl-combined/maxima.wasm maxima-ecl-combined/libecl.so maxima-ec
 for module in slatec quadpack plot solve poisson-series matrix-algebra number-theory limits integration; do
  targets+=("maxima-ecl-combined/maxima-$module.fas")
 done
-make -j2 "${targets[@]}"
+make -f "$MAKE_RECIPE" -j2 "${targets[@]}"
 node "$ROOT/runtime/build/inspect-wasm.mjs" maxima-ecl-combined/maxima.wasm > "$WORK/logs/wasm-memory.json"
 printf 'Build completed: '; date -u +%FT%TZ

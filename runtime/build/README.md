@@ -132,3 +132,14 @@ source changes. See patches/README.md for the failed run and upstream offer:
 the patch is publicly ready in PR 7 but has NOT been posted to GitLab because
 no authenticated session or credential is available. All subbuild config logs
 are now preserved to close the diagnostic gap in the failed attempt.
+
+The next compiler attempt (39868037264) confirmed gnuplot cross configure now
+works, but stock libtool disables shared libraries for the wasm32 host. It
+installed only libgnuplot.a, so the original .so copy failed. The separate build
+patch now compiles PIC and links that complete archive as a real Emscripten
+SIDE_MODULE=1. It is applied to an external derived Makefile; original sources
+remain clean, preserving the pinned version and share paths without hiding the
+patch from provenance. gnuplot builds before the longer host/Maxima phases to
+fail early. All original/effective recipe hashes are retained. The notices
+checkout is refreshed to licence PR 4 commit
+b34bfc8af10cd80b6130baabe88a47c9a32c0333; its texts are copied unchanged.
