@@ -6,7 +6,8 @@ import json
 from pathlib import Path
 import unittest
 
-from ctm_checkers.stack.checkers import CheckerError, source_descriptor
+from ctm_checkers.stack.checkers import CheckerError, invoke, source_descriptor
+from ctm_checkers.stack.expressions import evaluate
 
 import python_bridge as bridge
 
@@ -15,11 +16,12 @@ def value(source, kind="scalar"):
     return {"source": source, "type": kind}
 
 
-def request(student, teacher, body="return student == teacher", *, options=None):
+def request(student, teacher, body="return student == teacher", *, options=None, assumptions=None):
     return {"descriptor": {"api_version": 1,
                            "source": "def check(student,teacher,options):\n    " + body + "\nCHECKERS={'check':check}\n"},
             "options": json.dumps({"checker": "check", "options": options or {}}),
-            "student": student, "teacher": teacher}
+            "student": student, "teacher": teacher,
+            "assumptions": assumptions if assumptions is not None else {"real": False, "positive": False}}
 
 
 class NativePythonBridgeTests(unittest.TestCase):
@@ -40,6 +42,45 @@ class NativePythonBridgeTests(unittest.TestCase):
                 self.assertTrue(bridge.call(r)["correct"])
         self.assertTrue(bridge.call(request(value("true", "logical"), value("true", "logical"),
                                             "return student is __import__('sympy').true"))["correct"])
+
+    def test_symbolic_assumptions_match_existing_checker_api(self):
+        # The existing CTM engine decodes learner and teacher values with both
+        # question flags before invoke(). Canonical text alone loses these
+        # SymPy symbol properties, including positive implying real.
+        cases = [({"real": False, "positive": False}, None, None),
+                 ({"real": True, "positive": False}, True, None),
+                 ({"real": False, "positive": True}, True, True),
+                 ({"real": True, "positive": True}, True, True)]
+        body = ("return student.is_real is options['real'] and teacher.is_real is options['real'] "
+                "and student.is_positive is options['positive'] and teacher.is_positive is options['positive']")
+        for assumptions, expected_real, expected_positive in cases:
+            with self.subTest(assumptions=assumptions):
+                r = request(value("x"), value("x"), body,
+                            assumptions=assumptions,
+                            options={"real": expected_real, "positive": expected_positive})
+                expected = invoke(r["descriptor"], r["options"],
+                                  evaluate("x", student=True, assumptions=assumptions),
+                                  evaluate("x", assumptions=assumptions))
+                actual = bridge.call(r)
+                self.assertEqual(actual, expected)
+                self.assertTrue(actual["correct"])
+        r = request(value("[x,1/3]", "list"), value("matrix([x],[1/3])", "matrix"),
+                    "return student.args[0].is_positive is True and teacher[0,0].is_positive is True and student.args[1] == teacher[1,0]",
+                    assumptions={"real": False, "positive": True})
+        self.assertTrue(bridge.call(r)["correct"])
+
+    def test_assumption_metadata_is_explicit_and_bounded(self):
+        for flags in ({}, {"real": True}, {"real": 1, "positive": False},
+                      {"real": False, "positive": "true"},
+                      {"real": False, "positive": False, "integer": True}, None):
+            with self.subTest(flags=flags), self.assertRaises(CheckerError):
+                r = request(value("x"), value("x"))
+                r["assumptions"] = flags
+                bridge.call(r)
+        r = request(value("x"), value("x"))
+        del r["assumptions"]
+        with self.assertRaises(CheckerError):
+            bridge.call(r)
 
     def test_existing_matrix_checker_and_vector_assessment(self):
         root = Path(__file__).resolve().parents[2]

@@ -42,9 +42,13 @@ jobs:
           sparse-checkout: stack/maxima
           persist-credentials: false
       - name: Install browser dependencies
+        timeout-minutes: 8
         run: |
           npm ci --ignore-scripts --no-audit --no-fund
-          npx playwright install --with-deps chromium
+          # ubuntu-24.04 already supplies the shared libraries for its Chrome.
+          # Install the pinned Playwright browser without an unrelated apt
+          # transaction delaying this isolated diagnostic experiment.
+          npx playwright install chromium
       - name: Prepare the pinned runtime
         run: |
           python scripts/milestone-two/prepare-runtime.py --output .cache/loader-demo \

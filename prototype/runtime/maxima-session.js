@@ -27,7 +27,10 @@
       this.poisoned = false;
     }
     event(event, data) {
-      if (typeof this.options.onEvent === 'function') this.options.onEvent(Object.assign({ event }, data));
+      // Diagnostics cannot change the result or lifecycle of an assessment.
+      try {
+        if (typeof this.options.onEvent === 'function') this.options.onEvent(Object.assign({ event }, data));
+      } catch (_) {}
     }
     async init() {
       if (this.ready && !this.poisoned) return this.ready;
@@ -141,7 +144,8 @@
         }
         const result = response[1];
         if (typeof this.options.onEvaluate === 'function') {
-          this.options.onEvaluate({expression, result, elapsedMs:performance.now() - started});
+          try { this.options.onEvaluate({expression, result, elapsedMs:performance.now() - started}); }
+          catch (_) {} // A diagnostic observer cannot poison a successful CAS call.
         }
         return result;
       } catch (error) {

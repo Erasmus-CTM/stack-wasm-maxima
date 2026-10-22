@@ -26,7 +26,7 @@
     const document = scope.document;
     const mirrors = new Map(), metadata = new Map(), pending = new Map();
     const validationListeners = new Map(), buttonListeners = new Map();
-    const desired = new Map(), writing = new Set(), pumps = new Map();
+    const desired = new Map(), writing = new Set(), pumps = new Map(), writeErrors = new Map();
     let generation = null, epoch = -1, sequence = 0, applying = false, disposed = false;
     let latestState = null, helloTimer, loadTimer;
     let resolveReady, rejectReady;
@@ -72,7 +72,9 @@
       input.addEventListener('change', () => {
         if (applying || disposed) return;
         if (typeof input.value !== 'string' || input.value.length > MAX_VALUE) {
-          displayError('The graphical response exceeds the input limit.');
+          const error = new Error('The graphical response exceeds the input limit.');
+          writeErrors.set(name, {error, revision:latestState.inputs[name].revision});
+          displayError(error.message);
           applyState(latestState); return;
         }
         desired.set(name, input.value);
@@ -108,6 +110,9 @@
         for (const name of names) {
           const row = state.inputs[name];
           metadata.set(name, row.metadata || {});
+          if (!writing.has(name) && !desired.has(name) && row.revision > (writeErrors.get(name)?.revision ?? Infinity)) {
+            writeErrors.delete(name);
+          }
           const input = mirrors.get(name);
           // Keep a more recent drag while its preceding write is in flight.
           if (input && !desired.has(name) && !writing.has(name) && input.value !== row.value) {
@@ -136,10 +141,12 @@
           const value = desired.get(name);
           desired.delete(name);
           const state = await request('set-input', {name, value, inputRevision: latestState.inputs[name].revision});
+          writeErrors.delete(name);
           applyState(state);
         }
       } catch (error) {
         desired.delete(name);
+        writeErrors.set(name, {error, revision:latestState.inputs[name].revision});
         if (!disposed) displayError(error?.message || error);
       } finally { writing.delete(name); applyState(latestState); }
     }
@@ -147,7 +154,10 @@
       if (pumps.has(name)) return pumps.get(name);
       const task = pump(name);
       pumps.set(name, task);
-      task.finally(() => { if (pumps.get(name) === task) pumps.delete(name); });
+      task.finally(() => {
+        if (pumps.get(name) === task) pumps.delete(name);
+        if (!disposed && desired.has(name)) startWrite(name);
+      });
       return task;
     }
     function receive(event) {
@@ -209,8 +219,9 @@
       },
       clear_input: async function (name) {
         inputName(name); await ready;
-        return request('set-input', {name, value:'', inputRevision:latestState?.inputs?.[name]?.revision})
-          .then(state => { applyState(state); });
+        desired.set(name, '');
+        await startWrite(name);
+        if (writeErrors.has(name)) throw writeErrors.get(name).error;
       },
       get_content: function (elementId) {
         if (typeof elementId !== 'string' || elementId.length > 256) return Promise.reject(new Error('Invalid STACK content identifier'));
@@ -248,6 +259,7 @@
       // A parent collecting the response before Validate must wait until the
       // most recent drag has reached the question's ordinary input controls.
       while (pumps.size) await Promise.all(pumps.values());
+      if (writeErrors.size) throw writeErrors.values().next().value.error;
       return {inputs:Object.fromEntries(names.map(name => [name, mirrors.get(name)?.value ?? latestState.inputs[name].value]))};
     }});
     return api;

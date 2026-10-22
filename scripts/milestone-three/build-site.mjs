@@ -37,9 +37,14 @@ const programs = [], messages = [];
 const report = {...data, sourceRevision:sourceSha, createdAt:new Date().toISOString(), programs,
   buildSourceFiles:[], preparation:{backend:'maxima-native',worker:'native/backend-worker.js',actualWasm:true},questions:[]};
 for(const path of ['scripts/milestone-three/compile.py','scripts/milestone-three/build-site.mjs','scripts/milestone-three/render-cards.py',
-  'prototype/native/engine.js','prototype/native/input.js','prototype/runtime/maxima-session.js','prototype/runtime/maxima-child.js',
+  'prototype/native/engine.js','prototype/native/input.js','prototype/native/feedback.js','scripts/milestone-three/stage-feedback.py',
+  'prototype/runtime/maxima-session.js','prototype/runtime/maxima-child.js',
   'prototype/jsxgraph/frame.js','prototype/jsxgraph/host.js']) {
   const bytes=await readFile(join(repository,path));report.buildSourceFiles.push({path,bytes:bytes.length,sha256:hash(bytes)});
+}
+report.nativeAssets=[];
+for(const path of ['stack-parser.js','input-rules.json','input-provenance.json','feedback-messages.json','feedback-provenance.json']) {
+  const bytes=await readFile(join(site,'native',path));report.nativeAssets.push({path:'native/'+path,bytes:bytes.length,sha256:hash(bytes)});
 }
 report.jsxgraphBindings={repository:'maths/moodle-qtype_stack',revision:data.stackRevision,path:'corsscripts/stackjsxgraph.js',sha256:hash(bindingSource)};
 await writeFile(join(site,'native-build.html'),'<!doctype html><title>Native build preparation</title>');

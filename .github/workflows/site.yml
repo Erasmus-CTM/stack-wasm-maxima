@@ -83,6 +83,7 @@ jobs:
             stack/cas
             stack/maximaparser
             corsscripts
+            lang/en
             samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs
           persist-credentials: false
       - uses: actions/checkout@v4
@@ -106,6 +107,8 @@ jobs:
             --ctm-checkers-source .site-sources/ctm-checkers
           node scripts/milestone-two/test-frontend-pools.mjs site/_extensions/stack-sympy/stack-sympy.js
           python scripts/milestone-three/stage-parser.py --stack-source .site-sources/stack --output site/native
+          python scripts/milestone-three/stage-feedback.py --stack-source .site-sources/stack --output site/native
+          node prototype/native/test-feedback.mjs site/native
           python scripts/milestone-three/compile.py --stack-source .site-sources/stack \
             --ctm-checkers-source .site-sources/ctm-checkers --output site/native/questions.json \
             --resources site/maxima/native-questions
@@ -133,10 +136,12 @@ jobs:
       - name: Exercise native questions, graphical inputs and Python continuations
         run: node scripts/milestone-three/browser.mjs site/_site test-results/milestone-three
       - name: Install the independent native Maxima reference
+        if: ${{ !cancelled() && hashFiles('test-results/milestone-three/browser.json') != '' }}
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends maxima maxima-share
       - name: Compare captured native programs with the independent native runtime
+        if: ${{ !cancelled() && hashFiles('test-results/milestone-three/browser.json') != '' }}
         run: |
           python scripts/milestone-three/native-reference.py --browser-report test-results/milestone-three/browser.json \
             --stack-source .site-sources/stack --output test-results/milestone-three/native-reference

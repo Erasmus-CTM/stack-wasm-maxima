@@ -76,6 +76,15 @@ class NativeBuild(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unknown input"):
             compiler.compile_question(body, importer, "bad-ref")
 
+    def test_matrix_binding_and_ignored_board_options_fail_at_build(self):
+        body = compiler.authored_question("Matrix binding", compiler.POINT_PROMPT, "matrix([1,0],[0,1])", input_type="matrix", matrix=True)
+        with self.assertRaisesRegex(ValueError, "matrix input bindings"):
+            compiler.compile_question(body, importer, "matrix-binding")
+        for option in ('version="cdn-1.12.2"', 'aspect-ratio="1/1"'):
+            body = compiler.authored_question("Board options", compiler.POINT_PROMPT.replace('[[jsxgraph ', '[[jsxgraph '+option+' '), "[2,2]")
+            with self.assertRaisesRegex(ValueError, "attributes outside the compatibility subset"):
+                compiler.compile_question(body, importer, "board-option")
+
     def test_native_display_strings_cannot_create_html(self):
         q = {"name": "Display", "inputs": [], "prts": [], "native": {"tokens": [{"id": "t0", "format": "source"}]}}
         output = renderer.render_html('<p>@@CTM_NATIVE_t0@@</p>', q,

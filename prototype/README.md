@@ -2,9 +2,11 @@
 
 This prototype reuses the pinned stack-sympy pages, CTM frontend, XML questions, frozen variant generator, input validation, PRT controller, feedback and PythonChecker implementation. The Maxima edition changes the authoring class to `stack-maxima` and dispatches ordinary answer tests to unmodified STACK libraries in a persistent Wasm Maxima worker.
 
-This is a hybrid prototype: both editions still load Pyodide and SymPy. It tests whether the native STACK grading seam works with the existing application. It does not demonstrate removal of Python resources or a faster cold start.
+The paired milestone-2 comparison is a hybrid prototype: both editions load Pyodide and SymPy. Its Maxima worker now starts Maxima only when a native answer test is required; input validation and PythonChecker-only routes do not start it. The separate milestone-3 native page prepares and validates with Maxima and loads Python only if execution reaches a PythonChecker node.
 
 CTM also formats native decimal/list/set/matrix diagnostics. List positions come from native answer notes; the existing CTM collection formatter supplies the wording and bounded set descriptions, with consistency checks against native verdicts and diagnostic keys. No extra CAS calls or SymPy answer-test fallback are used. Raw upstream feedback is retained for inspection; this is not a general translation of STACK's feedback protocol.
+
+That collection formatter describes the hybrid comparison. The native page uses `prototype/native/feedback.js` with 63 selected exact English STACK messages staged by `scripts/milestone-three/stage-feedback.py`. Unknown protocols remain visible as escaped labelled raw text; native verdicts and raw diagnostic events remain unchanged.
 
 Selection is per question card. An ordinary `stack-question` block uses SymPy; a `stack-maxima` block selects the named Maxima worker through its enclosing wrapper. Each backend has its own persistent worker, queue, request IDs and reset handling. Missing Maxima configuration fails closed. General course settings and production backend registration remain later integration work.
 
@@ -55,6 +57,14 @@ A Maxima question is authored as:
 ```
 
 The small Quarto filter converts that block into the existing CTM question block. A guarded frontend patch supplies a worker URL and status label; the default worker remains SymPy.
+
+## Native questions and graphical answers
+
+[site/maxima/native.qmd](../site/maxima/native.qmd) contains nine questions and ten variants, including two unchanged upstream JSXGraph examples, a graphical PythonChecker question and a mixed native/Python/native response tree. The page explicitly documents the supported input and author subset. Its upstream self-comparison examples demonstrate bindings and JSON exchange; their full-credit result alone is not evidence of mathematical grading.
+
+The site workflow compiles structural XML with the existing CTM importer, stages the pinned STACK parser/security/feedback sources, prepares variants in the actual Wasm worker and renders boards with pinned `jsxgraph/jsxgraph-quarto`. `stack-native.lua` inserts the existing CTM card shell. The worker executes native validation and PRT programs, pauses at a visited PythonChecker node and resumes with the same branch state. It never substitutes SymPy for a failed native operation. A poisoned CAS child reports an error and is recreated on the next request.
+
+CI drives actual buttons, drags and JSON exchange, checks that native-only operations request no Python assets, and replays captured generated Maxima programs in an independent native Maxima process using the same pinned STACK sources. That replay verifies runtime agreement; it does not provide a second implementation of Moodle's PHP parser/controller. Loading experiments and exact-build public UI timing runs remain separate from ordinary functional builds.
 
 ## Verify and measure
 

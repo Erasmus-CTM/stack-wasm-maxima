@@ -23,11 +23,15 @@ await mkdir(output, {recursive:true});
 function observeNativeWorkers() {
   const RealWorker = window.Worker;
   const state = window.__nativeHarness = {workers:[], calls:[], events:[]};
+  // Keep live references outside the JSON evidence object. Late diagnostic
+  // regressions reuse the same real worker after all reviewer-facing UI tests.
+  const workerObjects = window.__nativeWorkerObjects = [];
   window.Worker = class extends RealWorker {
     constructor(url, options) {
       super(url, options);
       const descriptor = {id:state.workers.length, url:String(url), createdAt:performance.now()};
       state.workers.push(descriptor);
+      workerObjects.push(this);
       this.addEventListener('message', ({data}) => {
         const receivedAt = performance.now();
         if (data?.type === 'backend-event') {state.events.push({worker:descriptor.id, receivedAt, data}); return;}
@@ -135,6 +139,14 @@ function assertRouteOrder(question,result,events) {
   return {required,actual};
 }
 
+function assertReadableNativeFeedback(result,events,{key,message}) {
+  const raw=events.filter(row=>row.data.event==='native-at' && row.data.nativeFeedback?.includes("stack_trans('"+key+"'"));
+  assert.ok(raw.length>0,'Real native answer-test evidence must retain the exact '+key+' translation protocol');
+  assert.match(result.feedback,message,'Native grade feedback must contain the pinned readable English message');
+  assert.doesNotMatch(result.feedback,/stack_trans\(|!NEWLINE!|!quot!|Native STACK feedback \(untranslated\)/,'Supported native feedback must render without raw protocol');
+  return {key,raw:raw.map(row=>row.data.nativeFeedback),rendered:result.feedback};
+}
+
 async function assertNoPython(label) {
   await Promise.allSettled(networkTasks);
   const assets=report.network.filter(row=>pythonAsset(row.url));
@@ -142,6 +154,126 @@ async function assertNoPython(label) {
   const replies=await page.evaluate(()=>window.__nativeHarness.calls.filter(row=>row.response?.backend).map(row=>row.response.backend));
   assert.ok(replies.every(backend=>backend.pythonLoaded!==true),label+': worker must report Python uninitialized');
   report.nativeOnlyNetwork={through:label,requests:report.network.length,pythonAssets:assets};
+}
+
+async function directNative(request, {allowWorkerError=false}={}) {
+  const observed=await page.evaluate(async request=>{
+    const state=window.__nativeHarness;
+    const descriptor=state.workers.find(row=>/\/native\/backend-worker\.js(?:[?#]|$)/.test(row.url));
+    if(!descriptor)throw new Error('No initialized native worker is available for the diagnostic regression');
+    const worker=window.__nativeWorkerObjects[descriptor.id];
+    const id='native-regression-'+(window.__nativeDirectSequence=(window.__nativeDirectSequence||0)+1);
+    const response=await new Promise((resolve,reject)=>{
+      const timer=setTimeout(()=>{worker.removeEventListener('message',receive);reject(new Error('Native diagnostic request timed out: '+request.type));},330000);
+      function receive({data}) {
+        if(data?.id!==id)return;
+        clearTimeout(timer);worker.removeEventListener('message',receive);resolve(data);
+      }
+      worker.addEventListener('message',receive);worker.postMessage({...request,id});
+    });
+    return {request,response,worker:descriptor.id,events:state.events.filter(row=>row.worker===descriptor.id && row.data?.requestId===id)};
+  },request);
+  assert.equal(observed.response.backend?.id,'maxima-native','Diagnostic requests must execute on the real initialized native backend');
+  if(!allowWorkerError)assert.equal(observed.response.ok,true,observed.response.error || request.type+' diagnostic request failed');
+  return observed;
+}
+
+// These are explicit CTM regression fixtures, distinct from the unchanged
+// upstream question inventory. Their literal authored spellings exercise the
+// CAS boundaries that ordinary graph/JSON examples do not cover.
+async function formRegressions(questions) {
+  const original=questions.find(row=>row.id==='native-mixed-board').payload.question;
+  const simple=(id,{teacher='1/2',test='LowestTerms',type='algebraic'}={})=>{
+    const question=structuredClone(original),input=structuredClone(question.inputs[0]);
+    Object.assign(question,{name:id,variables:'',simplify:true,questiontext:'CTM native boundary regression',generalfeedback:'',specificfeedback:'',questionnote:'',qtests:[]});
+    question.native={schema:1,id,locals:[],tokens:[],boards:[]};
+    Object.assign(input,{type,teacher,checkanswertype:false});question.inputs=[input];
+    delete question.python_checkers;
+    const branch=(score,note)=>({mode:'=',score,next:-1,note,feedback:''});
+    question.prts=[{name:'prt1',value:1,autosimplify:true,feedbackvariables:'',locals:[],nodes:[{
+      name:'0',test,student:input.name,teacher,options:'',quiet:false,true:branch(1,'form-T'),false:branch(0,'form-F')
+    }]}];
+    return question;
+  };
+  const evidence=[];
+  const prepare=async question=>{
+    const row={id:question.native.id,provenance:'CTM authored boundary regression; not an upstream example',question,questionSha256:hash(JSON.stringify(question))};
+    evidence.push(row);report.formRegressions=evidence;
+    row.preparation=await directNative({type:'prepare',question,seed:1});
+    return {row,variant:row.preparation.response.result};
+  };
+  for(const [id,test,teacher,answers] of [
+    ['regression-lowest-terms','LowestTerms','1/2',['2/4','1/2']],
+    ['regression-written-form','EqualComAss','2*x',['x+x','2*x']]
+  ]) {
+    const question=simple(id,{test,teacher}),name=question.inputs[0].name;
+    question.qtests=answers.map((answer,index)=>({testcase:String(index+1),inputs:{[name]:answer},expected:{prt1:{score:index,penalty:index?0:question.penalty,note:index?'form-T':'form-F'}}}));
+    const {row,variant}=await prepare(question);
+    assert.deepEqual(variant.qtests.map(test=>test.answers[name]),answers,'Native qtest preparation must retain the literal authored written operations');
+    row.authoredTests=await directNative({type:'tests',question,variant});
+    assert.equal(row.authoredTests.response.result.passed,true,id+': actual native form-sensitive tests must distinguish written expressions');
+    assert.equal(row.authoredTests.response.result.results.length,2);
+    if(test==='LowestTerms')row.nativeFeedback=assertReadableNativeFeedback(row.authoredTests.response.result.results[0].actual,row.authoredTests.events,
+      {key:'ATLowestTerms_wrong',message:/cancel fractions/i});
+  }
+  for(const [id,type,raw] of [
+    ['regression-json-qtest','json','[{"x":1,"y":2,"color":"red"}]'],
+    ['regression-string-qtest','string','plain "quoted" text']
+  ]) {
+    const question=simple(id,{test:'AlgEquiv',teacher:JSON.stringify(raw),type}),name=question.inputs[0].name;
+    question.prts[0].nodes[0].teacher=name;
+    question.qtests=[{testcase:'1',inputs:{[name]:JSON.stringify(raw)},expected:{prt1:{score:1,penalty:0,note:'form-T'}}}];
+    const {row,variant}=await prepare(question);
+    assert.equal(variant.qtests[0].answers[name],raw,'Native '+type+' authored answers must contain raw text, without outer Maxima source quotes');
+    row.authoredTests=await directNative({type:'tests',question,variant});
+    assert.equal(row.authoredTests.response.result.passed,true,id+': raw text must survive actual native validation and grading');
+  }
+  for(const [id,test,teacher,answers,scores] of [
+    ['regression-mixed-lowest-terms','LowestTerms','1/2',['[2/4,2]','[1/2,2]'],[0.75,1]],
+    ['regression-mixed-written-form','EqualComAss','2*x',['[x+x,2]','[2*x,2]'],[0.5,0.75]]
+  ]) {
+    const question=structuredClone(original),name=question.inputs[0].name;
+    Object.assign(question,{name:id,variables:'',qtests:[],simplify:true});
+    question.native={schema:1,id,locals:[],tokens:[],boards:[]};
+    question.inputs[0].teacher='['+teacher+',2]';question.inputs[0].checkanswertype=false;
+    question.prts[0].feedbackvariables='';question.prts[0].locals=[];
+    const last=question.prts[0].nodes[2];Object.assign(last,{test,student:name+'[1]',teacher,options:''});
+    const {row,variant}=await prepare(question);row.probes=[];
+    for(let index=0;index<answers.length;index++) {
+      const observed=await directNative({type:'grade',question,variant,answers:{[name]:answers[index]}});
+      assert.equal(observed.response.result.status,'graded');
+      assert.equal(observed.response.result.score,scores[index],id+': late native form test must see the original written input across Python continuation');
+      const routing=assertRouteOrder(question,observed.response.result,observed.events);
+      assert.deepEqual(routing.actual,['AlgEquiv','PythonChecker',test]);
+      row.probes.push({answer:answers[index],expectedScore:scores[index],observed,routing});
+    }
+    const repeated=await directNative({type:'grade',question,variant,answers:{[name]:answers[0]}});
+    assert.equal(repeated.response.result.score,scores[0],'A later answer must not leak into the next native/Python continuation');row.repeated=repeated;
+  }
+  const rejected=simple('regression-rejected-assignment');
+  rejected.variables='a:ctmleakprobevariable:42;';rejected.native.locals=['a'];
+  const failure=await directNative({type:'prepare',question:rejected,seed:1},{allowWorkerError:true});
+  assert.equal(failure.response.ok,false);assert.match(failure.response.error,/Nested assignments/);
+  assert.equal(failure.events.some(row=>row.data.event==='native-evaluate'),false,'Nested assignment must be rejected before a native program executes');
+  evidence.push({id:rejected.native.id,provenance:'CTM authored boundary regression; not an upstream example',question:rejected,questionSha256:hash(JSON.stringify(rejected)),rejection:failure});
+  const following=simple('regression-no-assignment-leak');following.variables='a:ctmleakprobevariable;';following.native.locals=['a'];
+  const {row,variant}=await prepare(following);assert.equal(variant.env.a,'ctmleakprobevariable','Rejected question code must leave no global variable assignment');row.precedingRejectedQuestion=rejected.native.id;
+  const frozen=simple('regression-frozen-random-teacher',{test:'AlgEquiv',teacher:'rand(5)'});frozen.prts[0].nodes[0].teacher=frozen.inputs[0].name;
+  const prepared=await prepare(frozen),name=frozen.inputs[0].name,source=prepared.variant.teachers[name].source;
+  assert.match(source,/^\d+$/);prepared.row.validations=[];
+  for(let index=0;index<3;index++) {
+    const observed=await directNative({type:'validate',question:frozen,variant:prepared.variant,answers:{[name]:source}});
+    assert.equal(observed.response.result.status,'valid');
+    const programs=observed.events.filter(row=>row.data.event==='native-evaluate');
+    assert.ok(programs.length>0);assert.ok(programs.every(row=>!row.data.expression.includes('rand(')),'Validation must use the frozen model answer without rerolling the teacher');
+    prepared.row.validations.push(observed);
+  }
+  const randomPrt=simple('regression-random-prt-rejected');randomPrt.prts[0].nodes[0].teacher='rand(5)';
+  const rejection=await directNative({type:'prepare',question:randomPrt,seed:1},{allowWorkerError:true});
+  assert.equal(rejection.response.ok,false);assert.match(rejection.response.error,/Random response-tree expressions/);
+  assert.equal(rejection.events.some(row=>row.data.event==='native-evaluate'),false,'Random response-tree source must be rejected before a native program executes');
+  evidence.push({id:randomPrt.native.id,provenance:'CTM authored boundary regression; not an upstream example',question:randomPrt,questionSha256:hash(JSON.stringify(randomPrt)),rejection});
+  return evidence;
 }
 
 async function awaitBoards(card) {
@@ -288,7 +420,6 @@ try {
         const name=payload.question.inputs[0].name;
         probes.push({name:'incomplete fraction is invalid',answers:{...positive.inputs,[name]:'1/'},status:'invalid'});
         probes.push({name:'division by zero is invalid',answers:{...positive.inputs,[name]:'1/0'},status:'invalid'});
-        probes.push({name:'admitted native mathematical error is invalid',answers:{...positive.inputs,[name]:'gcd([1],1)'},status:'invalid'});
       }
       if(id==='native-numerical') probes.push({name:'missing written trailing zero',
         answers:{perimeter:'24',area:'17.5',reported:'17.5'},status:'graded',score:0.7});
@@ -298,8 +429,16 @@ try {
         const observed={name:probe.name,expected:probe,validation:await action(card,'validate')};
         const validation=observed.validation.call.response.result;
         assert.equal(validation.status,probe.status==='invalid'?'invalid':'valid',id+': '+probe.name);
-        if(probe.status==='invalid')assert.equal(await card.locator('.stack-check').isDisabled(),true);
-        else {
+        if(probe.status==='invalid') {
+          assert.equal(await card.locator('.stack-check').isDisabled(),true);
+          if(probe.name==='division by zero is invalid') {
+            const native=observed.validation.events.filter(row=>row.data.event==='native-evaluate' && row.data.operation==='validate');
+            assert.ok(native.length>0,'Division by zero must exercise the actual native CAS error path after structural admission');
+            assert.ok(native.some(row=>Object.values(row.data.result).some(input=>input.valid===false)),'A native program must return the invalid domain result');
+            assert.equal(observed.validation.call.response.backend.restarts,0,'An ordinary mathematical domain error must not restart the worker');
+            observed.nativeDomainError={actualPrograms:native.length,restarts:0};
+          }
+        } else {
           observed.grade=await action(card,'grade');
           const graded=observed.grade.call.response.result;
           assert.equal(graded.status,probe.status || 'graded');
@@ -311,6 +450,13 @@ try {
           }
           observed.routing=assertRouteOrder(payload.question,graded,observed.grade.events);
           if(probe.sequence)assert.deepEqual(observed.routing.actual,probe.sequence);
+          if(id==='native-numerical' && probe.name==='missing written trailing zero') {
+            observed.nativeFeedback=assertReadableNativeFeedback(graded,observed.grade.events,
+              {key:'ATNumDecPlaces_Wrong_DPs',message:/wrong number of decimal places/i});
+            observed.nativeFeedback.visible=await card.locator('.stack-result').textContent();
+            assert.match(observed.nativeFeedback.visible,/wrong number of decimal places/i,'Readable native precision feedback must appear in the actual question UI');
+            assert.doesNotMatch(observed.nativeFeedback.visible,/stack_trans\(|!NEWLINE!|!quot!/);
+          }
         }
         row.probes.push(observed);
       }
@@ -378,12 +524,14 @@ try {
   await page.waitForFunction(before=>window.__nativeHarness.calls.slice(before).some(row=>row.type==='validate' && row.response),beforeCalls,{timeout:120000});
   assert.equal(await stale.card.locator('.stack-result').textContent(),'');assert.equal(await stale.card.locator('.stack-check').isDisabled(),true);
   report.staleReply={id:stale.id,passed:true,state:await state(stale.card)};
+  await formRegressions(questions);
   report.observation=await page.evaluate(()=>window.__nativeHarness);
   report.programs.push(...report.observation.events.filter(row=>row.data.event==='native-evaluate').map(row=>row.data));
   const operations=new Set(report.programs.map(row=>row.operation));
   for(const operation of ['prepare','validate','prt'])assert.ok(operations.has(operation),'Missing actual '+operation+' native program evidence');
   report.coverage={cards:questions.length,variants:report.rows.length,authoredRows:report.rows.reduce((n,row)=>n+(row.authoredTests?.call.response.result.results.length || 0),0),
     pythonCards:questions.filter(row=>row.python).length,graphics:report.graphics.length,programs:report.programs.length,
+    boundaryRegressionFixtures:report.formRegressions.length,
     invalidProbes:report.rows.flatMap(row=>row.probes).filter(probe=>probe.expected.status==='invalid').length,
     nonFullCreditProbes:report.rows.flatMap(row=>row.probes).filter(probe=>typeof probe.expected.score==='number' && probe.expected.score<1).length};
   assert.ok(report.coverage.pythonCards>=2 && report.coverage.graphics>=3);

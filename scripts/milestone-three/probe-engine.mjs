@@ -16,7 +16,8 @@ const report = {schema:1,createdAt:new Date().toISOString(),sourceRevision:proce
   runtime:JSON.parse(await readFile(resolve(root,'runtime-assets.json'))),
   scope:'Actual native worker preparation/validation/PRTs. Browser UI and graphical interaction have separate checks.',
   sourcePins:{stack:inventory.stackRevision,checkers:inventory.ctmCheckersRevision},files:[],programs:[],events:[],rows:[],passed:false};
-for(const path of ['native/questions.json','native/engine.js','native/input.js','native/backend-worker.js','runtime/maxima-session.js','runtime/maxima-child.js']) {
+for(const path of ['native/questions.json','native/engine.js','native/input.js','native/input-rules.json','native/input-provenance.json',
+  'native/feedback.js','native/feedback-messages.json','native/feedback-provenance.json','native/backend-worker.js','runtime/maxima-session.js','runtime/maxima-child.js']) {
   const bytes=await readFile(resolve(root,path)); report.files.push({path,bytes:bytes.length,sha256:hash(bytes)});
 }
 await writeFile(resolve(root,'native-probe.html'),'<!doctype html><title>Native engine probe</title>');

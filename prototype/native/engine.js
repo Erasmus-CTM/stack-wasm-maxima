@@ -7,6 +7,8 @@
 
   const NAME = /^[A-Za-z][A-Za-z0-9_]*$/;
   const TOKEN = /@@CTM_NATIVE_([A-Za-z0-9_]+)@@/g;
+  const MUTATING_CALL = /\b(?:system|load|batch|batchload|kill|remvalue|remfunction|declare|remove|assume|forget|activate|deactivate|newcontext|killcontext|supcontext|atvalue|compile|translate|modedeclare|define|set_random_state|make_random_state|put|qput|rem|array|fillarray|arrayapply|appendfile|writefile|stringout|save|openw|opena|with_stdout|delete_file|rename_file|eval_string|parse_string|funmake|apply|depends|gradef|matchdeclare|defmatch|defrule|remrule|tellsimp|tellsimpafter|setup_autoload|autoload|setelmx|push|pop|print|printf|disp|display)\s*\(/i;
+  const RANDOM_CALL = /\b(?:rand|random|rand_with_step|set_random_state|make_random_state)\s*\(/;
   // Maxima does not implement JSON's \n/\u string escapes. Preserve actual
   // control characters explicitly rather than changing feedback or JSON data.
   const quote = value => {
@@ -66,13 +68,19 @@
       const match = /^([A-Za-z][A-Za-z0-9_]*)\s*:(?!=)/.exec(statement);
       if (!match) throw new Error('Native author code requires name:expression assignments');
       nodeName(match[1]);
-      const rhs = statement.slice(match[0].length).replace(/"(?:\\.|[^"\\])*"/g,'""');
-      if (rhs.includes(':') || rhs.includes('?')) throw new Error('Nested assignments or Lisp escapes are outside this native author subset');
-      if (/\b(?:system|load|batch|batchload|kill|remvalue|remfunction|declare|remove|assume|forget|activate|deactivate|newcontext|killcontext|supcontext|atvalue|compile|translate|modedeclare|define|set_random_state|make_random_state|put|qput|rem|array|fillarray|arrayapply|appendfile|writefile|openw|opena|eval_string|parse_string|funmake|apply)\s*\(/i.test(rhs)) {
-        throw new Error('State-mutating author calls are outside this native assignment subset');
-      }
+      pureExpression(statement.slice(match[0].length), true);
     }
     return list;
+  }
+
+  function pureExpression(source, allowRandom = false) {
+    if (!String(source || '').trim()) return;
+    const parts = statements(source);
+    if (parts.length !== 1) throw new Error('A native author operand must be one expression');
+    const code = parts[0].replace(/"(?:\\.|[^"\\])*"/g,'""');
+    if (code.includes(':') || code.includes('?')) throw new Error('Nested assignments or Lisp escapes are outside this native author subset');
+    if (MUTATING_CALL.test(code)) throw new Error('State-mutating author calls are outside this native expression subset');
+    if (!allowRandom && RANDOM_CALL.test(code)) throw new Error('Random response-tree expressions are outside this native subset; freeze random values in question variables');
   }
 
   function localNames(question, prt) {
@@ -147,6 +155,17 @@
       if (token.string) return escape(token.value);
       return token.wrap === false ? escape(token.value) : '\\(' + escape(token.value) + '\\)';
     });
+  }
+
+  function renderFeedbackPiece(piece) {
+    if (Object.prototype.hasOwnProperty.call(piece,'nativeFeedback')) {
+      const raw = piece.nativeFeedback;
+      if (typeof raw !== 'string') throw new Error('Invalid native feedback protocol');
+      if (!raw) return '';
+      if (scope.NativeFeedback && typeof scope.NativeFeedback.format === 'function') return scope.NativeFeedback.format(raw);
+      return '<span class="stack-native-feedback-raw">Native STACK feedback (untranslated): <code>' + escape(raw) + '</code></span>';
+    }
+    return piece.literal ? piece.template : renderTemplate(piece.template,piece.tokens);
   }
 
   function feedbackPiece(question, template) {
@@ -233,6 +252,18 @@
     async prepare(question, seed = 1) {
       if (!Number.isSafeInteger(seed) || seed < 0 || seed > 2147483647) throw new Error('Native seed must be an integer from 0 to 2147483647');
       const definitions = assignments(question.variables);
+      for (const input of question.inputs) pureExpression(input.teacher,true);
+      for (const token of question.native?.tokens || []) pureExpression(token.source,token.phase !== 'feedback');
+      for (const prt of question.prts) {
+        for (const statement of assignments(prt.feedbackvariables)) pureExpression(statement.slice(statement.indexOf(':') + 1));
+        if (feedbackLocals(prt).some(name => question.inputs.some(input => input.name === name))) throw new Error('Feedback variables cannot reassign learner inputs in this native continuation subset');
+        for (const node of prt.nodes) {
+          pureExpression(node.student);
+          pureExpression(node.teacher);
+          if (node.test !== 'PythonChecker') pureExpression(node.options);
+        }
+      }
+      for (const test of question.qtests || []) for (const expression of Object.values(test.inputs || {})) pureExpression(expression,true);
       const names = question.native?.locals || definitions.map(statement => statement.match(/^\w+/)[0]);
       const teachers = map(question.inputs.map(input => [input.name, map([
         ['source', stringValue(input.name)], ['latex', 'tex1(' + input.name + ')'],
@@ -318,20 +349,27 @@
           extra.push('if not matrixp(_ctm_s) then _ctm_lines:endcons("Enter a matrix",_ctm_lines)' +
             ' else (_ctm_shape:matrix_size(_ctm_s),if ' + shape + ' then _ctm_lines:endcons("Matrix dimensions do not match this input",_ctm_lines))');
         }
-        checks.push([input.name, block(['_ctm_s','_ctm_t','_ctm_v','_ctm_r','_ctm_lines','_ctm_stream','_ctm_line','_ctm_shape','_ctm_good',
-          '%ERR:["stack_map"]','%NOTES:["stack_map"]','%FEEDBACK:["stack_map"]'], [
-          'simp:false', '_ctm_lines:[]', '_ctm_t:' + teacher, '_ctm_r:errcatch(_ctm_s:' + student + ')',
-          'if _ctm_r=[] then return(' + map([['valid','false'],['latex','""'],
-            ['feedback','"Native STACK could not evaluate this expression"'],['source','""']]) + ')',
-          scalar ? '_ctm_r:errcatch(with_stdout(' + path + ',_ctm_v:' + validation + '))' : '_ctm_r:[_ctm_s]',
+        // A held input may evaluate successfully with simp:false but fail
+        // during a numerical check, TeX conversion or canonical rendering.
+        // All learner-dependent work belongs to the same error boundary.
+        const learnerChecks = [
+          '_ctm_s:' + student,
+          scalar ? 'with_stdout(' + path + ',_ctm_v:' + validation + ')' : '_ctm_v:_ctm_s',
           ...(scalar ? ['_ctm_stream:openr(' + path + ')','_ctm_line:readline(_ctm_stream)',
             'while not is(_ctm_line=false) do (if slength(_ctm_line)>0 then _ctm_lines:endcons(_ctm_line,_ctm_lines),_ctm_line:readline(_ctm_stream))',
             'close(_ctm_stream)'] : []),
-          'if _ctm_r=[] or length(%ERR)>1 then _ctm_lines:endcons("Native STACK could not evaluate this expression",_ctm_lines)',
+          'if length(%ERR)>1 then _ctm_lines:endcons("Native STACK could not evaluate this expression",_ctm_lines)',
           ...extra,
-          '_ctm_good:is(_ctm_r#[] and _ctm_lines=[] and length(%ERR)=1)',
+          '_ctm_good:is(_ctm_lines=[] and length(%ERR)=1)',
           map([['valid','_ctm_good'], ['latex','if _ctm_good then tex1(_ctm_s) else ""'],
             ['feedback','simplode(_ctm_lines," ")'], ['source','if _ctm_good then string(ev(_ctm_s,simp)) else ""']])
+        ];
+        checks.push([input.name, block(['_ctm_s','_ctm_t','_ctm_v','_ctm_r','_ctm_lines','_ctm_stream','_ctm_line','_ctm_shape','_ctm_good',
+          '%ERR:["stack_map"]','%NOTES:["stack_map"]','%FEEDBACK:["stack_map"]'], [
+          'simp:false', '_ctm_lines:[]', '_ctm_t:' + teacher,
+          '_ctm_r:errcatch(' + block([],learnerChecks) + ')',
+          'if _ctm_r=[] then ' + map([['valid','false'],['latex','""'],
+            ['feedback','"Native STACK could not evaluate this expression"'],['source','""']]) + ' else first(_ctm_r)'
         ])]);
       }
       return block(context(question), [...restore(variant), map(checks)]);
@@ -388,7 +426,7 @@
           '_ctm_feedback:' + this.literal(continuation.feedback));
       } else {
         const feedback = assignments(prt.feedbackvariables);
-        if (feedback.some(statement => /\b(?:rand|random|rand_with_step|set_random_state|make_random_state)\s*\(/.test(statement.replace(/"(?:\\.|[^"\\])*"/g,'""')))) {
+        if (feedback.some(statement => RANDOM_CALL.test(statement.replace(/"(?:\\.|[^"\\])*"/g,'""')))) {
           throw new Error('Random feedback variables are outside this native continuation subset; freeze random values in question variables');
         }
         expressions.push('simp:' + bool(prt.autosimplify !== false), ...feedback,
@@ -398,7 +436,7 @@
       const clauses = [];
       for (const node of prt.nodes) {
         if ([node.student,node.teacher,node.test === 'PythonChecker' ? '' : node.options].some(source =>
-          /\b(?:rand|random|rand_with_step|set_random_state|make_random_state)\s*\(/.test(String(source || '').replace(/"(?:\\.|[^"\\])*"/g,'""')))) {
+          RANDOM_CALL.test(String(source || '').replace(/"(?:\\.|[^"\\])*"/g,'""')))) {
           throw new Error('Random response-tree expressions are outside this native subset; freeze random values in question variables');
         }
         let action;
@@ -437,7 +475,9 @@
               ' then error("Native answer-test author configuration failed")',
             '_ctm_events:endcons(' + map([['event','"native-at"'],['prt',quote(prt.name)],['node',quote(node.name)],
               ['test',quote(node.test)],['cas_valid','_ctm_v[1]'],['correct','_ctm_v[2]'],['answerNote','_ctm_v[3]'],['nativeFeedback','_ctm_v[4]']]) + ',_ctm_events)',
-            'if is(_ctm_v[2]=true) then ' + this.branch(question,node,'true') + ' else ' + this.branch(question,node,'false')
+            'if is(_ctm_v[2]=true) then ' + this.branch(question,node,'true') + ' else ' + this.branch(question,node,'false'),
+            ...(!node.quiet ? ['if not stringp(_ctm_v[4]) then error("Invalid native feedback protocol")',
+              'if not is(_ctm_v[4]="") then _ctm_feedback:endcons(' + map([['nativeFeedback','_ctm_v[4]']]) + ',_ctm_feedback)'] : [])
           ].join(',') + ')';
         }
         clauses.push('if _ctm_current=' + quote(node.name) + ' then ' + action);
@@ -479,7 +519,8 @@
           if (!node || typeof this.pythonCheck !== 'function') throw new Error('PythonChecker is not configured for this native question');
           this.emit({event:'python-checker',phase:'pause',prt:prt.name,node:node.name});
           pythonResult = await this.pythonCheck({descriptor:question.python_checkers,options:node.options,
-            student:result.student,teacher:result.teacher});
+            student:result.student,teacher:result.teacher,
+            assumptions:{real:Boolean(question.assumereal),positive:Boolean(question.assumepositive)}});
           if (!pythonResult || typeof pythonResult.valid !== 'boolean' || typeof pythonResult.correct !== 'boolean') throw new Error('Malformed PythonChecker result');
           this.emit({event:'python-checker',phase:'resume',prt:prt.name,node:node.name,valid:pythonResult.valid,correct:pythonResult.correct});
           if (!pythonResult.valid) {
@@ -493,7 +534,7 @@
         }
         if (result?.kind !== 'done') throw new Error('Native Python continuation bound exceeded');
         const notes = result.notes || [];
-        prts[prt.name] = {score:rounding(result.score), feedback:(result.feedback || []).map(piece => piece.literal ? piece.template : renderTemplate(piece.template,piece.tokens)).filter(Boolean).join(' '),
+        prts[prt.name] = {score:rounding(result.score), feedback:(result.feedback || []).map(renderFeedbackPiece).filter(Boolean).join(' '),
           notes, note:notes.filter(Boolean).join(' | '), path:result.path};
       }
       const totalWeight = question.prts.reduce((total,prt) => total + prt.value, 0);

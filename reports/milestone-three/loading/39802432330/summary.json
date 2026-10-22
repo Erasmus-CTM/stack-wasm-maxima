@@ -1,0 +1,171 @@
+{
+  "schema": 1,
+  "sourceRevision": "d79391075ee2450ad2e43c04866d6bc9f743435e",
+  "measuredPRMergeRevision": "4113f05db47f45818bc1fbad193eb3d76e4f23fc",
+  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39802432330",
+  "artifactId": 12437915883,
+  "artifactZIPsha256": "a04514b0d09a076e35bf73fcf710c9393c2c2f606a69b862cfcff134e0751015",
+  "scope": "Local static server; added80ms is simulated request latency. Not public page timings. Fresh browser process/profile/worker per sample, OS and server gzip caches not cleared.",
+  "conditions": [
+    {
+      "latencyMs": 80,
+      "passed": true,
+      "rawReport": "loader-latency-80ms.json.gz",
+      "rawSha256": "e7bd4a283dfd5a9ecb6d073a36cc3b31a74d4ef29c49f247c9fd75e1356b2355",
+      "loaderFingerprints": [
+        {
+          "path": "stack-sources.json",
+          "sha256": "c3ba37a638dbbe1d2739bf1f2106dc4ca6bcc1f84f84dbe658b15151b7147f0b",
+          "bytes": 979328
+        },
+        {
+          "path": "runtime/maxima-child.js",
+          "sha256": "e3130484da96fe64a4fa0942c0aa975b433d6c24c525ab423b295cc7d6b999e5",
+          "bytes": 8641
+        },
+        {
+          "path": "runtime/maxima-session.js",
+          "sha256": "a7f1201a061b015ccf6c16ace068ada6b3172dfc6c5802ce8147c2e50ec4ed75",
+          "bytes": 11301
+        },
+        {
+          "path": "maxima-runtime/runtime-preload.json",
+          "sha256": "e61ceedf756291f3218da52b0a06a3ef330ce27a8f635c008ec46cb10ba37495",
+          "bytes": 4983076
+        }
+      ],
+      "conditions": [
+        {
+          "preload": false,
+          "initializationMs": {
+            "n": 3,
+            "median": 48319.58999999997,
+            "min": 48024.76000000001,
+            "max": 48378.774999999965
+          },
+          "firstATms": {
+            "n": 3,
+            "median": 2706.9649999999674,
+            "min": 2699.5,
+            "max": 2708.024999999907
+          },
+          "requests": [
+            137,
+            137,
+            137
+          ],
+          "HEADrequests": [
+            63,
+            63,
+            63
+          ]
+        },
+        {
+          "preload": true,
+          "initializationMs": {
+            "n": 3,
+            "median": 37393.765000000014,
+            "min": 37276.47499999998,
+            "max": 37628.71499999997
+          },
+          "firstATms": {
+            "n": 3,
+            "median": 2362.20000000007,
+            "min": 2353.9150000000373,
+            "max": 2364.1999999999534
+          },
+          "requests": [
+            12,
+            12,
+            12
+          ],
+          "HEADrequests": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "latencyMs": 0,
+      "passed": true,
+      "rawReport": "loader-local.json.gz",
+      "rawSha256": "c75c7dae3f78144ba7ccc2f2bfbabcce7b10b23d083ee1c037dc36800fa33ce2",
+      "loaderFingerprints": [
+        {
+          "path": "stack-sources.json",
+          "sha256": "c3ba37a638dbbe1d2739bf1f2106dc4ca6bcc1f84f84dbe658b15151b7147f0b",
+          "bytes": 979328
+        },
+        {
+          "path": "runtime/maxima-child.js",
+          "sha256": "e3130484da96fe64a4fa0942c0aa975b433d6c24c525ab423b295cc7d6b999e5",
+          "bytes": 8641
+        },
+        {
+          "path": "runtime/maxima-session.js",
+          "sha256": "a7f1201a061b015ccf6c16ace068ada6b3172dfc6c5802ce8147c2e50ec4ed75",
+          "bytes": 11301
+        },
+        {
+          "path": "maxima-runtime/runtime-preload.json",
+          "sha256": "e61ceedf756291f3218da52b0a06a3ef330ce27a8f635c008ec46cb10ba37495",
+          "bytes": 4983076
+        }
+      ],
+      "conditions": [
+        {
+          "preload": false,
+          "initializationMs": {
+            "n": 3,
+            "median": 38571.889999999956,
+            "min": 37807.54999999999,
+            "max": 38832.06
+          },
+          "firstATms": {
+            "n": 3,
+            "median": 2378.7000000000116,
+            "min": 2369.679999999993,
+            "max": 2385.3150000000023
+          },
+          "requests": [
+            137,
+            137,
+            137
+          ],
+          "HEADrequests": [
+            63,
+            63,
+            63
+          ]
+        },
+        {
+          "preload": true,
+          "initializationMs": {
+            "n": 3,
+            "median": 36705.31,
+            "min": 36536.875,
+            "max": 36830.88500000001
+          },
+          "firstATms": {
+            "n": 3,
+            "median": 2369.5250000000233,
+            "min": 2360.9099999999744,
+            "max": 2395.8800000000047
+          },
+          "requests": [
+            12,
+            12,
+            12
+          ],
+          "HEADrequests": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

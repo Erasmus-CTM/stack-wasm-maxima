@@ -42,7 +42,7 @@ def _kind(value):
     raise CheckerError("Native PythonChecker value is outside the v1 mathematical vocabulary")
 
 
-def decode_value(value, field):
+def decode_value(value, field, *, assumptions):
     """Admit canonical Maxima source using CTM's bounded parser, never eval.
 
     JSON objects and strings are not implicit PythonChecker API extensions.
@@ -59,7 +59,9 @@ def decode_value(value, field):
     try:
         # student=True selects the same mathematical function vocabulary used
         # for ordinary learner values, excluding author evaluation helpers.
-        decoded = evaluate(source, student=True)
+        # Canonical Maxima text does not encode symbol assumptions; carry the
+        # same bounded question flags used by the existing CTM engine.
+        decoded = evaluate(source, student=True, assumptions=assumptions)
     except (InvalidAnswer, Unsupported, TypeError, ValueError, ZeroDivisionError) as exc:
         raise CheckerError(f"Native PythonChecker {field} cannot be decoded: {exc}") from exc
     observed = _kind(decoded)
@@ -71,10 +73,14 @@ def decode_value(value, field):
 def call(request):
     """Invoke exactly one named checker without a grading/controller fallback."""
     if (type(request) is not dict
-            or set(request) != {"descriptor", "options", "student", "teacher"}):
-        raise CheckerError("Native PythonChecker request requires descriptor, options, student and teacher")
-    student = decode_value(request["student"], "student")
-    teacher = decode_value(request["teacher"], "teacher")
+            or set(request) != {"descriptor", "options", "student", "teacher", "assumptions"}):
+        raise CheckerError("Native PythonChecker request requires descriptor, options, student, teacher and assumptions")
+    assumptions = request["assumptions"]
+    if (type(assumptions) is not dict or set(assumptions) != {"real", "positive"}
+            or any(type(value) is not bool for value in assumptions.values())):
+        raise CheckerError("Native PythonChecker assumptions require explicit real and positive boolean flags")
+    student = decode_value(request["student"], "student", assumptions=assumptions)
+    teacher = decode_value(request["teacher"], "teacher", assumptions=assumptions)
     return invoke(request["descriptor"], request["options"], student, teacher)
 
 

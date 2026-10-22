@@ -54,6 +54,7 @@ jobs:
             stack/cas
             stack/maximaparser
             corsscripts
+            lang/en
             samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs
           persist-credentials: false
       - name: Install build and browser dependencies
@@ -78,7 +79,9 @@ jobs:
           python scripts/milestone-two/prepare-runtime.py --output .cache/loader-demo \
             --stack-source .m2-sources/stack --ctm-checkers-source .m2-sources/ctm-checkers
           python scripts/milestone-three/stage-parser.py --stack-source .m2-sources/stack --output .cache/loader-demo/native
+          python scripts/milestone-three/stage-feedback.py --stack-source .m2-sources/stack --output .cache/loader-demo/native
           node prototype/native/test-input.mjs .cache/loader-demo/native
+          node prototype/native/test-feedback.mjs .cache/loader-demo/native
           python scripts/milestone-three/compile.py --stack-source .m2-sources/stack \
             --ctm-checkers-source .m2-sources/ctm-checkers --output .cache/loader-demo/native/questions.json \
             --resources .cache/loader-demo/native-questions

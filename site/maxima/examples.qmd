@@ -14,6 +14,8 @@ Each question appears twice: **SymPy** first, then **Maxima**. Both copies use t
 
 Press **Validate answers** to inspect each interpreted response, then **Check answer** to grade it. After an edit, validate again. The first assessment loads that backend; Maxima can take longer to initialize.
 
+The [native questions and graphical answers](native.qmd) page also demonstrates native question preparation, input validation and response trees, with optional PythonChecker nodes.
+
 ## Which questions need CTM?
 
 **11 questions use standard STACK features; 7 require CTM extensions.** There are **3 unchanged upstream questions** and **15 questions authored or adapted for CTM**.
@@ -811,9 +813,11 @@ See the [author API](https://erasmus-ctm.github.io/stack-sympy/docs/python-check
 :::::
 ## Startup and response times {#startup-and-response-times}
 
-**The long first Maxima validation is mostly worker setup.** In this run, the first **Validate answers** click took a median **43.28 s**, including **43.10 s** of worker initialization. Later validations took about **12.4 ms**. SymPy's first validation took **5.95 s**.
+**Historical baseline: the long first Maxima validation was mostly worker setup.** In the original measured build, the first **Validate answers** click took a median **43.28 s**, including **43.10 s** of worker initialization. Later validations took about **12.4 ms**. SymPy's first validation took **5.95 s**.
 
-The first action creates that backend's persistent worker and loads its runtimes. The hybrid Maxima worker currently waits for **both Python and Wasm Maxima/STACK**, even though input validation uses Python. Its internal checkpoints put Python/checkers ready at **6.41 s** and Maxima/STACK ready at **42.90 s**. These start in parallel: the checkpoint times must not be added together. This setup also happens when the first action is on a PythonChecker question, even though that question's answer-test nodes stay in Python.
+That build waited for **both Python and Wasm Maxima/STACK**, even though input validation uses Python. Its internal checkpoints put Python/checkers ready at **6.41 s** and Maxima/STACK ready at **42.90 s**. Those started in parallel: the checkpoint times must not be added together.
+
+**The current loading path has changed.** This comparison's hybrid Maxima worker starts Python for validation and defers Maxima until native grading is needed. PythonChecker-only questions do not start Maxima. Native library files also have a verified preload package to reduce sequential network requests. The table below remains the original baseline; it is not an automatic measurement of each build. Updated public timings will identify their exact deployed build separately.
 
 ### Measured on the deployed exercise build
 
@@ -836,7 +840,7 @@ Values are **median (minimum–maximum)**. These are measurements from **22 Octo
 
 The [public-page timing run](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39759255662) used Chromium 141.0.7390.37 on one GitHub-hosted Ubuntu runner (4 virtual CPUs). Each backend had **three fresh Chromium processes/profiles and workers**. Each process began with Validate, with **no prior worker calls, authored tests or grading**; then it ran five further validations, its first grade and five further grades. The later-call rows therefore contain 15 operations per backend across three workers. Backend order alternated between trials.
 
-The benchmark checked the deployed HTML SHA-256 before and after all trials, and recorded the frontend, worker, adapter and runtime-manifest fingerprints. It measured the exercise build already published here; this chapter and the compatibility labels add documentation while preserving those question blocks and grading sources. See the [summary and complete raw timing report](https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/research/2026-10-runtime-feasibility/reports/reviewer-site/timings/39759255662) for exact values, hashes and provenance.
+The benchmark checked the deployed HTML SHA-256 before and after all trials, and recorded the frontend, worker, adapter and runtime-manifest fingerprints. It measured the original milestone 2 exercise build. See the [summary and complete raw timing report](https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/research/2026-10-runtime-feasibility/reports/reviewer-site/timings/39759255662) for exact values, hashes and provenance.
 
 Fresh browser profiles give empty browser caches. OS and CDN caches were not cleared. These small-sample timings describe this question on that runner and connection; they do not predict every device, network or question. They also do not establish a performance advantage for Maxima.
 

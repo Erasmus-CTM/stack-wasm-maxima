@@ -16,6 +16,7 @@ const py = {
       await new Promise(resolve => setTimeout(resolve,0));
       const request = JSON.parse(namespace.get('_ctm_native_python_request'));
       namespace.delete('_ctm_native_python_request');
+      assert.deepEqual(request.assumptions,{real:true,positive:false},'Question assumption flags must reach Python unchanged');
       if (fail) throw new Error('injected PythonChecker failure');
       return JSON.stringify({valid:true, correct:request.student.source === request.teacher.source,
         feedback:'', note:'', implementation:'python-checker-v1', assessment:{columns:['correct']}});
@@ -33,7 +34,7 @@ vm.runInNewContext(source, {self:scope, performance, URL, TextEncoder,
 const bridge = new scope.NativePythonBridge({runtime:'runtime.js',checkers:['checkers.js','stack.js'],onEvent:data=>events.push(data)});
 assert.equal(imports.length, 0, 'Native-only construction must load no Python scripts');
 assert.equal(starts, 0);
-const request = {descriptor:{api_version:1,source:'CHECKERS={}'},options:'{"checker":"check"}',
+const request = {descriptor:{api_version:1,source:'CHECKERS={}'},options:'{"checker":"check"}',assumptions:{real:true,positive:false},
   student:{type:'scalar',source:'1/3'}, teacher:{type:'scalar',source:'1/3'}};
 const results = await Promise.all([bridge.invoke(request),bridge.invoke(request)]);
 assert.equal(starts, 1);

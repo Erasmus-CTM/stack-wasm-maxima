@@ -177,11 +177,22 @@ try {
   mirror.value = '[9,10]'; mirror.dispatchEvent(new FakeEvent('change'));
   await settle();
   assert.equal(input.value, '[7,8]', 'Read-only host inputs cannot be edited by a board');
+  await assert.rejects(responseProvider(), /read-only/, 'A failed graphical write cannot collect the previous answer');
+  validateButton.click(); await settle();
+  assert.equal(validations, 1, 'A rejected write prevents the shared Validate handler from grading stale input');
   input.removeAttribute('readonly');
+  mirror.value = '[10,11]'; mirror.dispatchEvent(new FakeEvent('change')); await settle();
+  assert.equal((await responseProvider()).inputs.ans1, '[10,11]', 'A successful new edit recovers collection');
+  mirror.value = '[12,13]'; mirror.dispatchEvent(new FakeEvent('change'));
+  await api.clear_input('ans1'); await settle();
+  assert.equal(input.value, '', 'Clear is serialized after an in-flight graphical edit');
   const writes = sentToHost.filter(message => message.operation === 'set-input').length;
   mirror.value = 'x'.repeat(32769); mirror.dispatchEvent(new FakeEvent('change'));
   await settle();
   assert.equal(sentToHost.filter(message => message.operation === 'set-input').length, writes, 'Oversized data is rejected before transport');
+  await assert.rejects(responseProvider(), /input limit/, 'An oversized edit cannot collect the previous answer');
+  input.value = '[14,15]'; input.dispatchEvent(new FakeEvent('input', {bubbles:true})); await settle();
+  assert.equal((await responseProvider()).inputs.ans1, '[14,15]', 'A newer explicit host edit recovers collection');
 
   resetButton.addEventListener('click', () => { input.value = ''; });
   const reloads = frame.srcWrites;

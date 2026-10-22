@@ -2,7 +2,7 @@
 // The native question path shares CTM's worker/card protocol. Python is loaded
 // only by an actually visited PythonChecker continuation.
 'use strict';
-importScripts('../runtime/maxima-session.js', 'stack-parser.js', 'input.js', 'python-bridge.js', 'engine.js');
+importScripts('../runtime/maxima-session.js', 'stack-parser.js', 'input.js', 'feedback.js', 'python-bridge.js', 'engine.js');
 let queue = Promise.resolve(), starting, session, engine, python, currentRequest, configuration;
 const counters = {nativeEvaluations:0, pythonCheckerCount:0, restarts:0};
 const timings = {};
@@ -13,13 +13,22 @@ function metadata() {
 function event(data) {
   self.postMessage({type:'backend-event',backend:'maxima-native',requestId:currentRequest,...data});
 }
+function discardPoisonedSession(error) {
+  session.terminate(); starting = null; engine = null;
+  counters.restarts++;
+  event({event:'native-restart-needed',error:String(error?.message || error)});
+}
 function init(message) {
   if (!starting) {
     starting = (async () => {
       const started = performance.now();
-      const response = await fetch(new URL('input-rules.json', self.location.href));
-      if (!response.ok) throw new Error('Native input rules HTTP ' + response.status);
-      self.NativeInputRules = await response.json();
+      const [rules, messages] = await Promise.all(['input-rules.json','feedback-messages.json'].map(async path => {
+        const response = await fetch(new URL(path, self.location.href));
+        if (!response.ok) throw new Error('Native ' + path + ' HTTP ' + response.status);
+        return response.json();
+      }));
+      self.NativeInputRules = rules;
+      self.NativeFeedbackMessages = messages;
       session = new self.MaximaSession({
         baseURL:new URL('../maxima-runtime/',self.location.href).href,
         stackSourceURL:new URL('../stack-sources.json',self.location.href).href,
@@ -54,9 +63,16 @@ function init(message) {
 async function handle(message) {
   currentRequest = message.id;
   try {
+    // An asynchronous child error can arrive while the queue is idle. Recover
+    // before the next request; a program that already failed is never replayed.
+    if (starting && session?.poisoned) discardPoisonedSession('Native child failed between requests');
     let result;
     if (message.type === 'init') {
-      configuration = {runtime:message.runtime,checkers:message.checkers,recordPrograms:message.recordPrograms === true};
+      const requested = {runtime:message.runtime,checkers:message.checkers,recordPrograms:message.recordPrograms === true};
+      if (configuration && JSON.stringify(requested) !== JSON.stringify(configuration)) {
+        throw new Error('Native worker configuration is fixed by its first init; create a new worker to change it.');
+      }
+      configuration ||= requested;
       await init(configuration); result = 'ready';
     }
     else {
@@ -75,9 +91,7 @@ async function handle(message) {
     self.postMessage({id:message.id,ok:true,result,backend:metadata()});
   } catch(error) {
     if (session?.poisoned) {
-      session.terminate(); starting = null; engine = null;
-      counters.restarts++;
-      event({event:'native-restart-needed',error:String(error?.message || error)});
+      if (starting) discardPoisonedSession(error);
     }
     self.postMessage({id:message.id,ok:false,error:String(error?.message || error),backend:metadata()});
   } finally { currentRequest = null; }

@@ -11,7 +11,7 @@ const scope = {NativeInput:{AdmissionError,admit: raw => {
   if (raw === 'bad') throw new AdmissionError('Invalid lexical input');
   if (raw === 'broken-controller') throw new Error('Invalid input rules configuration');
   return {raw,source:raw,type:'list'};
-}}};
+}},NativeFeedback:{format:raw=>'NATIVE: '+raw}};
 const context = vm.createContext({self:scope,TextEncoder,crypto:webcrypto});
 vm.runInContext(await readFile(new URL('engine.js',import.meta.url),'utf8'),context);
 const Engine = scope.NativeStackEngine;
@@ -21,7 +21,7 @@ assert.equal(Engine.renderTemplate('x=@@CTM_NATIVE_t0@@', {t0:{format:'latex',va
 assert.equal(Engine.renderTemplate('@@CTM_NATIVE_t0@@', {t0:{format:'latex',value:'<script>',string:true}}), '&lt;script&gt;');
 
 const branch = (score,next=-1,note='n') => ({mode:'=',score,next,note,feedback:''});
-const question = {name:'Mixed graph response',variables:'a:2;',native:{schema:1,id:'mixed-graph',locals:['a'],tokens:[]},simplify:true,inputs:[
+const question = {name:'Mixed graph response',variables:'a:2;',native:{schema:1,id:'mixed-graph',locals:['a'],tokens:[]},simplify:true,assumereal:true,assumepositive:true,inputs:[
   {name:'ans1',type:'algebraic',teacher:'[1,2]',checkanswertype:false}
 ],python_checkers:{api_version:1,source:'CHECKERS = {}'},penalty:0.1,prts:[{
   name:'prt1',value:1,autosimplify:true,feedbackvariables:'b:a+1;',locals:['b'],nodes:[
@@ -37,7 +37,8 @@ const valid = {ans1:{valid:true,latex:'[1,2]',feedback:'',source:'[1,2]'}};
 const paused = {kind:'python',node:'1',score:0.5,notes:['native-start'],feedback:[],path:[{node:'0',branch:'true',note:'native-start'}],
   events:[{event:'native-at',node:'0'}],environment:{b:'3'},student:{source:'[1,2]',type:'list'},teacher:{source:'[1,2]',type:'list'}};
 const done = {kind:'done',score:1,notes:['native-start','python','native-end'],feedback:[
-  {template:'AUTHORED_FEEDBACK',tokens:{}},{template:'A graph &lt;property&gt; holds',tokens:{},literal:true}
+  {template:'AUTHORED_FEEDBACK',tokens:{}},{template:'A graph &lt;property&gt; holds',tokens:{},literal:true},
+  {nativeFeedback:'a native diagnostic'}
 ],path:[
   {node:'0',branch:'true',note:'native-start'},{node:'1',branch:'true',note:'python'},{node:'2',branch:'true',note:'native-end'}
 ],events:[{event:'native-at',node:'2'}]};
@@ -50,12 +51,16 @@ const engine = new Engine({session:{manifest:{stackRevision:'test-stack-pin',sta
   pythonCalls++;
   assert.equal(request.options,'{"checker":"graph"}');
   assert.deepEqual(request.student,{source:'[1,2]',type:'list'});
+  assert.deepEqual(JSON.parse(JSON.stringify(request.assumptions)),{real:true,positive:true});
   return {valid:true,correct:true,feedback:'A graph <property> holds'};
 }});
 variant.native = await engine.binding(question,variant);
 await assert.rejects(engine.prepare({...question,variables:'a:b:42;'},1),/Nested assignments/);
 await assert.rejects(engine.prepare({...question,variables:'a:assume(x>0);'},1),/State-mutating/);
 await assert.rejects(engine.prepare({...question,variables:'a:eval_string("b:42");'},1),/State-mutating/);
+await assert.rejects(engine.prepare({...question,inputs:[{...question.inputs[0],teacher:'assume(x>0)'}]},1),/State-mutating/);
+await assert.rejects(engine.prepare({...question,native:{...question.native,tokens:[{id:'unsafe',source:'kill(b)',phase:'feedback'}]}},1),/State-mutating/);
+await assert.rejects(engine.prepare({...question,prts:[{...question.prts[0],nodes:[{...question.prts[0].nodes[0],teacher:'b:42'}]}]},1),/Nested assignments/);
 const result = await engine.grade(question,variant,answers);
 assert.equal(result.status,'graded'); assert.equal(result.score,1); assert.equal(pythonCalls,1); assert.equal(queued.length,0);
 assert.deepEqual(Array.from(result.prts.prt1.path,node=>node.node),['0','1','2']);
@@ -66,7 +71,7 @@ assert.match(expressions[2],/_ctm_current:"1"/,'Continuation must resume at pend
 assert.match(expressions[2],/b:eval_string\("3"\)/,'Feedback variable state must survive continuation');
 assert.ok(expressions[2].indexOf('AUTHORED_FEEDBACK') < expressions[2].indexOf('A graph &lt;property&gt; holds'),
   'Resumed Python node must append authored feedback before callback feedback');
-assert.equal(result.prts.prt1.feedback,'AUTHORED_FEEDBACK A graph &lt;property&gt; holds');
+assert.equal(result.prts.prt1.feedback,'AUTHORED_FEEDBACK A graph &lt;property&gt; holds NATIVE: a native diagnostic');
 assert.equal((expressions[2].match(/ans1:eval_string/g) || []).length,1,
   'Continuation must retain the admitted written input, without overwriting it from a simplified snapshot');
 

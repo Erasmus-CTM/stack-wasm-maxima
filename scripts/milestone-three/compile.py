@@ -228,13 +228,19 @@ def compile_question(body, importer, identifier, *, python=False):
             if residue:
                 raise ValueError(f"{identifier}: unrecognized JSXGraph attribute syntax {residue!r}")
             refs = {name[len("input-ref-"):]: value for name, value in parsed.items() if name.startswith("input-ref-")}
-            if not set(refs) <= {inp["name"] for inp in question["inputs"]}:
+            input_map = {inp["name"]: inp for inp in question["inputs"]}
+            if not set(refs) <= set(input_map):
                 raise ValueError(f"{identifier}: JSXGraph references an unknown input")
+            if any(input_map[name]["type"] == "matrix" for name in refs):
+                raise ValueError(f"{identifier}: JSXGraph matrix input bindings are outside the text-input adapter subset")
             if any(not re.fullmatch(r"[A-Za-z_$][A-Za-z0-9_$]*", value) for value in refs.values()):
                 raise ValueError(f"{identifier}: invalid JSXGraph input reference variable")
-            allowed = {"width", "height", "aspect-ratio", "version"} | {"input-ref-" + name for name in refs}
+            allowed = {"width", "height"} | {"input-ref-" + name for name in refs}
             if not set(parsed) <= allowed:
                 raise ValueError(f"{identifier}: JSXGraph attributes outside the compatibility subset: {set(parsed) - allowed}")
+            for axis in ("width", "height"):
+                if axis in parsed and not re.fullmatch(r"[0-9]+(?:\.[0-9]+)?(?:px)?", parsed[axis]):
+                    raise ValueError(f"{identifier}: JSXGraph {axis} requires pixel dimensions in this compatibility subset")
             spec = {"id": f"b{len(boards)}", "phase": phase, "attributes": parsed,
                     "inputs": refs, "code": tokenize(match[2], phase, "javascript")}
             boards.append(spec)

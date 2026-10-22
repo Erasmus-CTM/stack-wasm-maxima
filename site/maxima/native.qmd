@@ -1,6 +1,9 @@
 ---
 title: "Native questions and graphical answers"
 subtitle: "Milestone 3 — native STACK execution with optional PythonChecker"
+header-includes:
+  - |
+    <script data-ctm-coi-bootstrap src="../ctm-isolation.js"></script>
 ---
 
 These exercises use the same CTM question controls as the [backend comparison](examples.qmd).
@@ -113,8 +116,52 @@ one entry in its second column. [Source XML](native-questions/native-matrix-pyth
 
 ## Build and execution evidence
 
+### Supported subset
+
+The native controller accepts algebraic, numerical and matrix inputs, plus string and
+JSON inputs transported as quoted strings. Mathematical input uses the pinned
+STACK-MP-lite recognizer and STACK security data, a bounded expression/function allowlist,
+`strictsyntax=1` and `insertstars=0` or `1`. It preserves written forms for native tests
+such as `LowestTerms` and decimal-place checks. Native STACK performs type and lowest-terms
+validation; admission also handles `forbidfloat` and explicit `forbidwords`.
+
+Learner assignments, indexing, statements and arbitrary function calls are unsupported.
+So are `allowwords`, forbidden-word shorthand lists and other corrective-input modes.
+The [input implementation](https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/research/2026-10-native-stack/prototype/native/input.js)
+defines the exact function list and size/depth limits.
+
+Question variables use top-level assignments, with prepared values and model answers
+frozen for each seed. Nested assignments, state-mutating author calls and random
+response-tree/feedback expressions are outside this subset. Feedback variables cannot
+reassign learner inputs. Authors remain trusted; these checks define supported state
+behavior, not an author-code sandbox. Boards belong to the prepared question and cannot
+be created by feedback.
+
+The feedback adapter displays 63 selected English messages from the pinned STACK source.
+Unknown or unsupported protocols remain visible as escaped, labelled raw feedback.
+This is bounded translation, not Moodle's complete feedback interpreter.
+
 The [native build manifest](../native/build-manifest.json) records the pinned source
 revisions, original XML hashes, actual native preparation programs and prepared variants.
 Browser CI exercises the controls, the JSON bridge, native and Python routing, partial
 credit, reset and question independence. Loading measurements are reported separately
 from ordinary functional builds.
+
+### Loading measurements
+
+The loader now fetches one verified package of the original runtime library files.
+A controlled comparison used three fresh Chromium processes per condition and loader,
+then ran a real native answer test in every sample:
+
+| Local server condition | Original native readiness, median | Bundled readiness, median | HTTP requests |
+| --- | ---: | ---: | ---: |
+| No added latency | 38.57 s | 36.71 s | 137 → 12 |
+| Simulated 80 ms per request | 48.32 s | 37.39 s | 137 → 12 |
+
+These are **local loader measurements**, including an explicitly simulated latency,
+from [run 39802432330](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39802432330).
+They measure native readiness, not button-to-verdict time on this public page.
+[Raw reports and exact source hashes](https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/research/2026-10-native-stack/reports/milestone-three/loading)
+keep the experiment reproducible. First validation on this native page still needs
+the native runtime; a PythonChecker adds its own lazy startup when its node is reached.
+Ordinary site builds run functional checks and leave these benchmark statistics frozen.
