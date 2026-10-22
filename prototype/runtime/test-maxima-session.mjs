@@ -5,8 +5,16 @@ import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 
 const scope = { location: { href: 'http://localhost/backend/worker.js' } };
+class BrowserTextDecoder extends TextDecoder {
+  decode(value, options) {
+    if (value?.buffer instanceof SharedArrayBuffer || value instanceof SharedArrayBuffer) {
+      throw new TypeError('The provided ArrayBufferView value must not be shared.');
+    }
+    return super.decode(value, options);
+  }
+}
 vm.runInNewContext(await readFile(new URL('maxima-session.js', import.meta.url), 'utf8'), {
-  self: scope, URL, performance, Atomics, TextDecoder, SharedArrayBuffer, Uint8Array, Int32Array,
+  self: scope, URL, performance, Atomics, TextDecoder: BrowserTextDecoder, SharedArrayBuffer, Uint8Array, Int32Array,
 });
 
 function sessionWith(value) {
@@ -14,7 +22,7 @@ function sessionWith(value) {
   session.ready = Promise.resolve();
   session.manifest = { tests: { AlgEquiv: [false, true, false], NumDecPlaces: [true, false, true] } };
   session.control = new Int32Array(new SharedArrayBuffer(32));
-  session.output = new Uint8Array(4096);
+  session.output = new Uint8Array(new SharedArrayBuffer(4096));
   session.child = { terminate() { session.terminated = true; } };
   session.write = command => {
     session.command = command;
@@ -28,6 +36,9 @@ function sessionWith(value) {
 }
 
 const feedback = "stack_trans('ATNumDecPlaces_Wrong_DPs'); !NEWLINE!";
+// Node's native decoder accepts shared buffers; enforce the browser boundary
+// here so replacing slice() with a shared subarray() fails this regression.
+assert.throws(() => new BrowserTextDecoder().decode(new Uint8Array(new SharedArrayBuffer(8))), /must not be shared/);
 const normal = sessionWith([true, false, 'ATNumDecPlaces_Wrong_DPs. ', feedback]);
 const result = normal.assess({ test: 'NumDecPlaces', student: '1.50', teacher: '1.5', options: '3', raw: '1.50',
   assumptions: { positive: false, real: true } });

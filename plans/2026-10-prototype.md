@@ -10,6 +10,10 @@ The existing frontend's persistent serialized worker is reused. The demo materia
 
 Substantial implementation increments are committed on this research branch. The previous milestone's accepted source and computed reports remain available independently.
 
+The executable browser harness and [milestone-two workflow](../.github/workflows/milestone-two.yml) now exist. They render both routes, require identical frozen payloads, drive the existing scalar/matrix controls, run authored tests for every variant, validate/check/reset, test stale replies, and retain request-specific native/Python routing evidence. Full result differences and failed authored expectations are failures for review, never silent fallback. The first CI attempt stopped at runtime downloading (HTTP 403), before rendering or grading; [its evidence](../reports/milestone-two/runs/39718723145/build.json) is preserved. The downloader now uses the same Node fetch path as the accepted milestone-one experiment, retaining all hash checks.
+
+Local checks cover all 19 `stack-maxima` blocks through Pandoc, JavaScript syntax, mocked shared-memory result boundaries and the Python adapter's admission/contract tests. These checks do not establish browser grading correctness. Local Chromium and Quarto's theme compiler cannot execute in this sandbox; the GitHub workflow is the execution authority for the full rendered experiment.
+
 ## Decision: proceed now
 
 Milestone 1 is independent of the open CTM consolidation PRs. It uses pinned source checkouts and does not modify ctm-assessment, ctm-libs, ctm-checkers, stack-sympy, or either course.
@@ -25,8 +29,8 @@ The first usable Quarto prototype will reuse existing question cards, inputs and
 ## Milestones
 
 1. **Load and assess in Wasm.** Verify the measured Maxima core hashes; mount unmodified STACK sources at 10d323311b7f39fb7b092dd10ce75f7d8632f525 and 33383047af39c204bf4442802a058f8b918b2b1b in separate workers; run representative official answer tests; compare stable CAS results with the existing CTM native oracle. Record dependencies, versions, raw logs, failures and source hashes.
-2. **The matching Quarto demo project.** Register a Maxima backend while keeping the existing frontend contract. Run the exact XML demo questions and frozen variants already used in the stack-sympy documentation, including scalar and matrix examples, through ::: stack-maxima blocks. Reuse the CTM UI and record paired startup, validation and grading timings against the SymPy backend. Prepare each question with the selected backend; record unsupported extensions explicitly.
-3. **PythonChecker bridge.** Keep Python code in ctm-checkers/Pyodide. Integrate PythonChecker results inside the backend orchestrator, including mixed PRT ordering, partial credit and matrix assessment data.
+2. **The matching Quarto demo project.** Register a Maxima answer-test backend while keeping the existing frontend contract. Run the exact XML demo questions and CTM-frozen variants already used in the stack-sympy documentation, including scalar and matrix examples, through ::: stack-maxima blocks. Reuse the CTM UI and record paired startup, validation and grading timings against the SymPy backend. This hybrid milestone retains CTM preparation, input validation and PRT orchestration; it does not establish native STACK question preparation or PHP input-controller parity. Record unsupported extensions explicitly.
+3. **Full native backend and PythonChecker bridge.** Move preparation/validation/PRTs behind the native backend where appropriate. Keep PythonChecker code in ctm-checkers/Pyodide and preserve mixed-node ordering, partial credit and matrix assessment data. The hybrid milestone already retains PythonChecker through CTM's existing controller; compiled native Maxima PRTs would need a continuation/callback bridge.
 4. **Reliability and packaging.** Extend goldens and browser coverage, isolation/reset, cancellation/restart and first-grade network/memory measurements. Integrate with settled CTM runtime/settings and offline asset manifests.
 
 ## Milestone 1 acceptance and limits
@@ -47,7 +51,8 @@ Every run records whether it actually completed. Unperformed checks remain under
 
 ## Runs needed
 
-- Build the matching Quarto demo described in [the frozen inventory](../demos/README.md), preserving the existing CTM frontend.
+- Complete a successful end-to-end workflow for the matching Quarto demo described in [the frozen inventory](../demos/README.md), preserving the existing CTM frontend and all 27 variants.
 - Address the observed 78–81 second STACK initialization in the unoptimized dependency harness; compare preload/compilation options and measure cold-page behavior separately.
-- Complete the PythonChecker bridge before declaring the entire 19-card / 27-variant paired demo complete.
+- Verify all six PythonChecker cards through the hybrid orchestrator before declaring the entire paired demo complete.
+- Translate native `stack_trans` feedback before claiming complete native feedback parity; raw native feedback is currently preserved in routing diagnostics while CTM displays its authored feedback.
 - Obtain a separate implementation review before proposing production integration.

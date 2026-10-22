@@ -24,6 +24,10 @@ QUESTION_BLOCK = re.compile(r"```\{([^\n]*)\}\r?\n([\s\S]*?)\r?\n```", re.M)
 SOURCE_PANEL = re.compile(
     r'(<summary>Show source</summary>\s*<pre><code class="language-markdown">)([\s\S]*?)(</code></pre>)'
 )
+OBSOLETE_POLYFILL = re.compile(
+    r'^[ \t]*<script src="https://cdnjs\.cloudflare\.com/polyfill/v3/polyfill\.min\.js\?features=es6"></script>\n?',
+    re.M,
+)
 
 
 def blob_sha(data: bytes) -> str:
@@ -261,11 +265,13 @@ def collect(args, manifest: dict) -> None:
     provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
     expected = {d["id"]: d for d in manifest["demos"]}
     results = {}
+    page_patches = []
     for backend in ("sympy", "maxima"):
         cards = {}
         for page in ("index", "examples"):
             path = site / backend / (page + ".html")
             text = path.read_text(encoding="utf-8")
+            original = text
             parser = Cards()
             parser.feed(text)
             ids = [d["id"] for d in manifest["demos"] if d["sourcePage"] == page + ".qmd"]
@@ -285,7 +291,18 @@ def collect(args, manifest: dict) -> None:
                 text, count = SOURCE_PANEL.subn(source_panel, text)
                 if count != len(ids):
                     raise ValueError(f"Expected {len(ids)} source panels on {path}; found {count}")
-                path.write_text(text, encoding="utf-8")
+            # Quarto 1.8.27's template injects this obsolete ES6 polyfill on
+            # pages with static mathematics. It lacks compatible COEP/CORP
+            # headers. Both Wasm runtimes require modern browsers already;
+            # remove the identical optional shim from both rendered routes.
+            text, removed = OBSOLETE_POLYFILL.subn("", text)
+            if removed > 1:
+                raise ValueError(f"Unexpected duplicate template polyfill on {path}")
+            path.write_text(text, encoding="utf-8")
+            page_patches.append({"path": path.relative_to(site).as_posix(),
+                                 "sourceSha256": digest(original.encode()),
+                                 "materializedSha256": digest(text.encode()),
+                                 "obsoleteEs6PolyfillRemoved": removed})
         if cards.keys() != expected.keys():
             raise ValueError(f"Incomplete {backend} question inventory")
         results[backend] = cards
@@ -299,6 +316,8 @@ def collect(args, manifest: dict) -> None:
     record = {"schema": 1, "sourcePins": provenance["sourcePins"],
               "pairedPayloadsIdentical": True, "cards": len(frozen),
               "variants": sum(len(row["payload"]["variants"]) for row in frozen), "demos": frozen}
+    provenance["renderedPagePatches"] = page_patches
+    write_json(provenance_path, provenance)
     target = args.payload_output or site.parent / "frozen-payloads.json"
     write_json(target, record)
     print(json.dumps({"pairedPayloadsIdentical": True, "cards": record["cards"],

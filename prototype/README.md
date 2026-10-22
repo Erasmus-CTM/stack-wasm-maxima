@@ -31,6 +31,8 @@ node scripts/milestone-two/serve.mjs
 
 Open the printed localhost address. The pages live under `maxima/` and `sympy/`. This host supplies cross-origin isolation headers and gzip compression, including for the runtime's lazy file requests.
 
+The post-render collector removes Quarto 1.8.27's optional ES6 polyfill tag identically from both editions: that obsolete CDN response is blocked by the required isolation headers, and both Wasm runtimes already require modern browsers. Page hashes and removal counts are recorded in `MATERIALIZATION.json`; the question payloads and CTM controls are unchanged.
+
 A Maxima question is authored as:
 
 ```markdown

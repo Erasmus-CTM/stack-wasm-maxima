@@ -1,6 +1,6 @@
 # Matched documentation demos
 
-This directory freezes the first paired-demo target: all **19 live question cards / 27 variants** on stack-sympy's `index.qmd` and `examples.qmd` at the source revision in `manifest.json`. It includes the six PythonChecker cards. This inventory is not yet an executable Maxima Quarto extension.
+This directory freezes the paired-demo target: all **19 live question cards / 27 variants** on stack-sympy's `index.qmd` and `examples.qmd` at the source revision in `manifest.json`. It includes the six PythonChecker cards. The executable hybrid adapter, materializer and browser harness are in [prototype](../prototype/README.md); acceptance depends on the recorded browser results.
 
 The XML and Python files have one home, in `ctm-checkers/examples/stack`. The stack-sympy site copies them from its pinned ctm-checkers commit during rendering; they are not authored in stack-sympy. The manifest records that exact pin and every referenced XML/checker Git blob SHA. Milestone 1's newer native-fixture oracle pin is a separate dependency and must not silently replace the documentation pin.
 
@@ -21,7 +21,7 @@ For example, the landing-page question becomes:
 :::
 ```
 
-This is the proposed authoring syntax. The renderer/backend wiring is the next milestone; adding the block to an arbitrary project does not currently enable Maxima.
+This syntax is implemented in the generated comparison project. It requires this prototype's extension, worker, runtime assets and isolation-capable host; adding the block alone to an arbitrary project does not install those dependencies.
 
 ## Paired measurement conditions
 

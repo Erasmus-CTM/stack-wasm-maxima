@@ -154,7 +154,10 @@
         if (Atomics.load(this.control, C.RESPONSE) !== id) throw new Error('Maxima response identifier mismatch');
         const length = Atomics.load(this.control, C.RESULT_LENGTH);
         if (length < 1 || length > this.output.length) throw new Error('Invalid Maxima result size');
-        const result = JSON.parse(new TextDecoder().decode(this.output.subarray(0, length)));
+        // Browser TextDecoder rejects SharedArrayBuffer-backed views. The
+        // result-ready atomic publishes these bytes; copy them into ordinary
+        // memory before decoding, while this serialized call owns the slot.
+        const result = JSON.parse(new TextDecoder().decode(this.output.slice(0, length)));
         if (Atomics.load(this.control, C.RESULT) !== 1) throw new Error(result.error || 'Maxima runtime failed');
         if (!Array.isArray(result) || result[0] !== true || !Array.isArray(result[1])) {
           throw new Error(Array.isArray(result) ? String(result[1]) : 'Malformed Maxima result');
