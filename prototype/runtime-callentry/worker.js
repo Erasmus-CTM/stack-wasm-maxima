@@ -110,8 +110,11 @@ function lispEval(text) {
   try {
     const p = stringToUTF8OnStack(text);
     const string = resolveGlobalSymbol('ecl_make_constant_base_string').sym(p, -1);
-    const form = resolveGlobalSymbol('si_string_to_object').sym(1, string);
-    return resolveGlobalSymbol('si_safe_eval').sym(3, form, 1, 1);
+    const form = resolveGlobalSymbol('si_string_to_object').sym(1, string, 0);
+    // Wasm lowers C varargs to a pointer, not another Lisp object.
+    const optional = stackAlloc(4);
+    HEAPU32[optional >> 2] = 1; // ECL_NIL: safe-eval error fallback.
+    return resolveGlobalSymbol('si_safe_eval').sym(3, form, 1, optional);
   } finally { stackRestore(saved); }
 }
 function evaluate(expression) {
@@ -137,10 +140,11 @@ async function directMessage({data}) {
     const suite=await runSuite(session,data.fixtures,data.question);
     const failed=evaluate('error("intentional step-zero CAS error")');
     const recovered=evaluate('6*7');
-    self.postMessage({type:'complete',suite,recovery:{failed,recovered},tail});return;
+    self.postMessage({type:'complete',suite,internalRecovery:{failed,recovered},tail});return;
   }
   const t=performance.now();
+  output='';
   const value=data.lisp ? lispEval(data.lisp) : evaluate(data.expression);
-  self.postMessage({type:'evaluated',id:data.id,value,tail,elapsedMs:performance.now()-t});
+  self.postMessage({type:'evaluated',id:data.id,value,output,tail,elapsedMs:performance.now()-t});
  } catch(e) {self.postMessage({type:'failure',id:data.id,error:String(e.stack||e),tail});}
 }

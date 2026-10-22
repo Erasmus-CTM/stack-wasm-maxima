@@ -14,8 +14,10 @@ student input parser or a production runtime replacement.
 2. Exported entry: `resolveGlobalSymbol` resolves the existing dynamic ECL
    exports. The adapter creates a Lisp string with
    `ecl_make_constant_base_string`, reads it with `si_string_to_object`, and
-   invokes `si_safe_eval`. Its optional environment/error values use this
-   runtime's ECL NIL representation (1). The Lisp expression calls
+   invokes `si_safe_eval`. Its environment and error fallback use this
+   runtime's ECL NIL representation (1). Emscripten lowers the C variadic
+   optional error argument to a pointer: a temporary Wasm stack slot contains
+   NIL, and its address is passed to `si_safe_eval`. The Lisp expression calls
    `maxima::$eval_string`, with the same per-program `errcatch` and STACK error
    maps as the existing session. JSON is emitted synchronously to an ordinary
    JS string. Each call restores the Emscripten temporary stack in `finally`.
@@ -78,6 +80,9 @@ not cold public-page medians.
 Ordinary CAS errors return `[false, message]`. The direct suite evaluates an
 intentional `error(...)` and then `6*7` in the same worker; the runner also
 checks two separate postMessage requests without recreating that worker.
+It additionally exercises a Lisp-level `error`, checks ECL safe-eval's NIL
+fallback, then verifies a marker from the next Lisp request. Internal and
+external recovery evidence are kept separately.
 Runtime exceptions/protocol failures remain failures. This is not yet the
 production CAS/author/runtime outcome taxonomy or a cancellation adapter.
 
@@ -97,4 +102,10 @@ No startup acceleration is attempted. Cancellation, Firefox/WebKit, memory
 retention over long sessions, broader native questions, the old STACK pin and
 the complete 316-program replay remain outside this spike. Any assumption
 about their behaviour is unmeasured. The pending licence-notices PR remains a
-base-branch dependency; this step does not duplicate its licence texts.
+base-branch dependency ([PR #4](https://github.com/Erasmus-CTM/stack-wasm-maxima/pull/4));
+its files do not overlap this change, and this step does not duplicate its licence texts.
+Independent review caught an incorrect direct optional argument in the initial
+safe-eval adapter: ordinary Maxima errcatch success did not exercise ECL's error
+fallback. The real varargs stack slot and explicit Lisp-level recovery checks
+address that gap. It also prompted strict timeout/failure/message-completeness
+checks before any route is marked passed.

@@ -9,12 +9,19 @@ the teacher answer scored 1. A CAS error returned
 `[false,"intentional step-zero CAS error"]`, then the same worker returned
 `[true,42]` for a new call.
 
-The full local observation is `local-success.json`. It covers the same-worker
+The full initial local observation is `local-success.json`. All local attempts
+were working-tree development runs: their `sourceRevision` is the checked-out
+base/previous HEAD, not a reproduction claim for that commit. Runtime and STACK
+hashes were checked, but the original local artifacts did not fingerprint every
+uncommitted harness byte. They remain unchanged as historical evidence. Future
+runs record dirty state, harness hashes and the actual JS responses served;
+CI at the final PR commit is the reproducible acceptance authority. It covers the same-worker
 internal error/recovery calls. The final harness additionally checks distinct
 postMessage error/recovery requests; CI is the authority for that final check.
 The isolated baseline and two nonisolated pages ran sequentially in one browser,
-so the timings below are single local observations, with a warm HTTP cache after
-the baseline. They do not establish a startup improvement.
+with a fresh browser context and different localhost origin per route. These
+are single local-server observations. OS/filesystem/process warming is
+uncontrolled; no HTTP-cache reuse or startup improvement is claimed.
 
 | Route | Ready (s) | Prepare program (ms) | First validate (ms) | Grade's validate (ms) | PRT program (ms) |
 |---|---:|---:|---:|---:|---:|
@@ -28,3 +35,11 @@ source files changed. Failed development observations are retained under
 `attempts/`; their causes and the reproduction commands are documented in the
 prototype README. Licence notices remain dependent on the separate PR being
 prepared by AC. No step 1 work has started.
+
+The follow-up working-tree observation `local-reviewed-abi-success.json` passed
+all three routes after the safe-eval varargs correction. Both nonisolated
+workers returned the intentional CAS error, then 42 in a separate message;
+they also returned ECL NIL (1) for an intentional Lisp-level error and emitted
+`LISPRECOVER|42` on the next Lisp request. Its sourceRevision has the same
+historical working-tree caveat above. Final strict completeness/provenance
+assertions are verified again by the PR workflow at its exact commit.

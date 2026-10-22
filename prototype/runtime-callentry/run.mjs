@@ -11,9 +11,11 @@ const {chromium}=require('playwright');
 const site=resolve(process.argv[2]||'.cache/callentry'), out=resolve(process.argv[3]||'test-results/runtime-callentry');
 const here=resolve('prototype/runtime-callentry');
 await mkdir(out,{recursive:true});
-const report={schema:1,sourceRevision:process.env.GITHUB_SHA||execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),createdAt:new Date().toISOString(),passed:false,routes:[],errors:[]};
+const report={schema:1,harnessWorkingTreeDirty:execFileSync('git',['status','--porcelain','--','prototype/runtime-callentry','.github/workflows/runtime-callentry.yml'],{encoding:'utf8'}).trim().length>0,sourceRevision:process.env.GITHUB_SHA||execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),createdAt:new Date().toISOString(),passed:false,routes:[],errors:[]};
 const digest=b=>createHash('sha256').update(b).digest('hex');
-let browser;const servers=[];
+let browser;const servers=[];report.servedScripts=[];
+report.harnessScripts=[];
+for(const name of ['run.mjs','worker.js','suite.js','baseline.js'])report.harnessScripts.push({path:'prototype/runtime-callentry/'+name,sha256:digest(await readFile(resolve(here,name)))});
 async function serve(isolated){
  const server=createServer(async(q,r)=>{try {
   if(isolated){r.setHeader('Cross-Origin-Opener-Policy','same-origin');r.setHeader('Cross-Origin-Embedder-Policy','require-corp');}
@@ -22,7 +24,7 @@ async function serve(isolated){
   const local=['worker.js','suite.js','baseline.js'].includes(path.slice(1));
   const root=local?here:site,target=resolve(root,'.'+path), rel=relative(root,target);
   assert.ok(!isAbsolute(rel)&&!rel.startsWith('..'));
-  let bytes=await readFile(target);r.setHeader('Content-Type',extname(target)==='.js'?'application/javascript':extname(target)==='.wasm'?'application/wasm':'application/octet-stream');
+  let bytes=await readFile(target);if(extname(target)==='.js')report.servedScripts.push({isolated,path,sha256:digest(bytes)});r.setHeader('Content-Type',extname(target)==='.js'?'application/javascript':extname(target)==='.wasm'?'application/wasm':'application/octet-stream');
   if(q.headers.range){const m=/^bytes=(\d+)-(\d*)$/.exec(q.headers.range);assert.ok(m);let a=+m[1],z=m[2]?+m[2]:bytes.length-1;assert.ok(a<=z&&z<bytes.length);r.statusCode=206;r.setHeader('Content-Range',`bytes ${a}-${z}/${bytes.length}`);bytes=bytes.subarray(a,z+1);}
   r.setHeader('Content-Length',bytes.length);r.end(q.method==='HEAD'?undefined:bytes);
  }catch(e){r.statusCode=404;r.end(String(e));}});
@@ -58,8 +60,12 @@ try{
      worker.postMessage({id:'after-error',expression:'6*7'});
     }
     if(data.type==='evaluated'&&data.id==='after-error') {
-     messages.find(m=>m.type==='complete').recovery.recovered=data.value;done();
-    }};
+     messages.find(m=>m.type==='complete').recovery.recovered=data.value;
+     worker.postMessage({id:'lisp-error',lisp:'(error "intentional Lisp-level error")'});
+    }
+    if(data.type==='evaluated'&&data.id==='lisp-error')worker.postMessage({id:'lisp-recovered',lisp:'(format t "LISPRECOVER|~a~%" (+ 20 22))'});
+    if(data.type==='evaluated'&&data.id==='lisp-recovered')done();
+   };
    worker.postMessage(mode==='baseline'?{fixtures,question}:{type:'start',baseURL:'/maxima-runtime/',manifest,route:mode});
   }),{mode,manifest,fixtures,question});
   Object.assign(row,result);await page.close();
@@ -69,16 +75,28 @@ try{
   const complete=row.messages.find(m=>m.type==='complete');
   if(!complete)throw new Error(mode+' failed: '+JSON.stringify(row.messages).slice(-3000));
   assert.equal(row.isolated,mode==='baseline');
-  if(mode!=='baseline'){assert.equal(row.messages.filter(m=>m.type==='evaluated'&&m.id==='cas-error').length,1);assert.equal(row.messages.filter(m=>m.type==='evaluated'&&m.id==='after-error').length,1);assert.equal(row.sab,'undefined');assert.equal(complete.recovery.failed[0],false);assert.deepEqual(complete.recovery.recovered,[true,42]);}
-  row.passed=true;
+  if(mode!=='baseline') {
+   assert.equal(row.sab,'undefined');
+   assert.deepEqual(row.messages.filter(m=>m.type==='evaluated').map(m=>m.id),
+    ['cas-error','after-error','lisp-error','lisp-recovered'],'External requests must complete exactly once in order');
+   for(const recovery of [complete.internalRecovery,complete.recovery]) {
+    assert.deepEqual(recovery.failed,[false,'intentional step-zero CAS error']);
+    assert.deepEqual(recovery.recovered,[true,42]);
+   }
+   assert.equal(row.messages.find(m=>m.type==='evaluated'&&m.id==='lisp-error').value,1,
+    'safe-eval must return the requested NIL fallback');
+   assert.ok(row.messages.find(m=>m.type==='evaluated'&&m.id==='lisp-recovered').output.includes('LISPRECOVER|42'));
+  }
+  row.executed=true;
   await writeFile(resolve(out,mode+'.json'),JSON.stringify(row,null,2)+'\n');
  }
- const normalized=suite=>({rows:suite.rows.map(({name,result})=>({name,result})),native:suite.native});
+ const normalized=suite=>({rows:suite.rows.map(({name,expression,result})=>({name,expression,result})),native:suite.native});
  const baseline=report.routes[0].messages.find(m=>m.type==='complete').suite;
  assert.equal(baseline.rows.length,26,'Expected 22 answer tests and 4 native programs');
  for(const row of report.routes.slice(1))assert.deepEqual(normalized(row.messages.find(m=>m.type==='complete').suite),normalized(baseline),row.mode+' transport parity');
  const reference=JSON.parse(await readFile('reports/milestone-one/native-'+manifest.stackRevision.slice(0,7)+'.json','utf8'));
  for(const row of baseline.rows.slice(0,22)){const expected=reference.observations.find(o=>o.case_id===row.name);assert.deepEqual(row.result.slice(0,3),[expected.cas_valid,expected.correct,expected.answer_note]);}
+ for(const row of report.routes){row.passed=true;await writeFile(resolve(out,row.mode+'.json'),JSON.stringify(row,null,2)+'\n');}
  report.passed=true;
 }catch(e){report.errors.push(String(e.stack||e));}
 finally{await browser?.close();await Promise.all(servers.map(s=>new Promise(y=>s.close(y))));await writeFile(resolve(out,'report.json'),JSON.stringify(report,null,2)+'\n');}
