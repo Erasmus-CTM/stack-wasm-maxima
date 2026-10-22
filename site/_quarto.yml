@@ -7,6 +7,7 @@ project:
     - maxima/examples.qmd
     - maxima/native.qmd
     - maxima/data-flow.qmd
+    - licenses.qmd
   resources:
     - backend/**
     - runtime/**
@@ -20,6 +21,7 @@ project:
     - ctm-isolation-worker.js
     - maxima/questions/**
     - maxima/native-questions/**
+    - LICENSES/**
 
 website:
   title: "STACK Maxima"
@@ -32,6 +34,8 @@ website:
       - href: maxima/data-flow.qmd
         text: Data flow
     right:
+      - href: licenses.qmd
+        text: Licences and sources
       - icon: github
         href: https://github.com/Erasmus-CTM/stack-wasm-maxima
         aria-label: Source repository
