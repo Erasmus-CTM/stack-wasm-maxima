@@ -8,6 +8,7 @@ on:
       - 'scripts/milestone-two/**'
       - 'prototype/**'
       - 'demos/manifest.json'
+      - 'measurements/*runtime*.json'
       - 'package*.json'
   workflow_dispatch:
 

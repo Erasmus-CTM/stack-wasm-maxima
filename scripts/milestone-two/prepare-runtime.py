@@ -38,12 +38,14 @@ def main() -> None:
     oracle = importlib.import_module("native_compliance.maxima_runner")
     inventory = json.loads((ROOT / "measurements/2026-10-21-runtime-assets.json").read_text())
     linked = json.loads((ROOT / "measurements/2026-10-21-runtime-dependencies.json").read_text())
+    demo_linked = json.loads((ROOT / "measurements/2026-10-22-demo-runtime-dependencies.json").read_text())
     observed = json.loads((ROOT / "reports/milestone-one/browser-3338304.json").read_text())
     wanted = set(inventory["groups"]["maximaCore"] + inventory["groups"]["maximaOptionalModules"])
     wanted.update(a["url"] for a in linked["assets"])
+    wanted.update(a["url"] for a in demo_linked["assets"])
     wanted.update(a["url"] for a in observed["servedAssets"])
     records = {}
-    for asset in inventory["assets"] + linked["assets"] + observed["servedAssets"]:
+    for asset in inventory["assets"] + linked["assets"] + demo_linked["assets"] + observed["servedAssets"]:
         if asset["url"] not in wanted:
             continue
         old = records.get(asset["url"])
@@ -88,13 +90,20 @@ def main() -> None:
 
     with ThreadPoolExecutor(max_workers=6) as pool:
         assets = list(pool.map(copy_asset, sorted(wanted)))
+    index = (runtime / "share_files.js").read_bytes()
+    if hashlib.sha256(index).hexdigest() != demo_linked["shareIndexSha256"]:
+        raise ValueError("Demo dependencies name another runtime share index")
+    import re
+    declared = {BASE + match[3] for match in re.finditer(
+        r"FS\.createLazyFile\('([^']*)',\s*'([^']*)',\s*'([^']*)'", index.decode("utf-8"))}
+    if not {asset["url"] for asset in demo_linked["assets"]} <= declared:
+        raise ValueError("Demo dependencies must be declared by the pinned runtime")
     files = []
     for path in sorted((stack / "stack/maxima").rglob("*")):
         if path.is_file() and path.suffix in (".mac", ".lisp"):
             data = path.read_bytes()
             files.append({"path": path.relative_to(stack).as_posix(), "bytes": len(data),
                           "sha256": hashlib.sha256(data).hexdigest(), "content": data.decode("utf-8")})
-    import re
     version = re.search(r"stackmaximaversion:(\d+)", (stack / "stack/maxima/stackmaxima.mac").read_text())[1]
     startup = "\n".join([
         'm2_emit(s):=printf(true,"~%~a~%",s)$',

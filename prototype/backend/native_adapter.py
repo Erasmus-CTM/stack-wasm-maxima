@@ -171,6 +171,13 @@ def install(assess_json, on_event=None):
         feedback = result.get("feedback", "")
         if not isinstance(feedback, str):
             raise RuntimeError("Malformed native Maxima feedback")
+        # Translate the native diagnostic key into CTM's existing feedback
+        # wording. This never recomputes the native verdict; the unmodified
+        # stack_trans payload remains in the worker's nativeFeedback event.
+        note_tokens = {token.strip() for item in notes for token in item.split(".")}
+        if (name == "NumDecPlaces" and result["cas_valid"] and not result["correct"]
+                and "ATNumDecPlaces_Wrong_DPs" in note_tokens and not feedback):
+            feedback = "Incorrect number of decimal places"
         # Native cas_valid denotes AT applicability, not input validity.
         # CTM's validated ordinary wrong answer follows its authored false
         # branch even when STACK's first AT flag is false.
