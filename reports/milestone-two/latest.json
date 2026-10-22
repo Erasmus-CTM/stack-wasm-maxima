@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "createdAt": "2026-10-22T03:53:21.546Z",
-  "sourceRevision": "2c58fb3a9baabee331f4f4b7df042352f4945df0",
-  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39719130379",
+  "createdAt": "2026-10-22T03:58:44.748Z",
+  "sourceRevision": "c95dfd23e7a93bbbbfdf40eadd545f00b2201b91",
+  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39719653956",
   "passed": false,
   "status": "failed",
   "browserName": "chromium",
@@ -19,7 +19,7 @@
     "expectedCards": 19,
     "expectedVariants": 27,
     "sympyVariants": 27,
-    "maximaVariants": 0,
+    "maximaVariants": 8,
     "sympyPythonCheckerCards": 6,
     "maximaPythonCheckerCards": 0
   },
@@ -31,31 +31,31 @@
       "workerInitializationMs": [
         {
           "page": "index",
-          "workerInitMs": 3357.8699999999953,
+          "workerInitMs": 3673.914999999979,
           "workerInitOK": true,
           "backend": null,
-          "pageNavigationToFirstGradeMs": 4089.324999999997
+          "pageNavigationToFirstGradeMs": 4454.429999999993
         },
         {
           "page": "examples",
-          "workerInitMs": 3623.7449999999953,
+          "workerInitMs": 3756.5,
           "workerInitOK": true,
           "backend": null,
-          "pageNavigationToFirstGradeMs": 4446.819999999992
+          "pageNavigationToFirstGradeMs": 4818.104999999981
         }
       ],
-      "validationMedianMs": 14.184999999997672,
-      "gradeMedianMs": 14.64999999999418,
+      "validationMedianMs": 13.730000000039581,
+      "gradeMedianMs": 14.285000000032596,
       "authoredTestRows": 121,
       "encodedResponseBodyBytesByPage": [
         {
           "page": "index",
-          "encodedResponseBodyBytes": 10501925,
+          "encodedResponseBodyBytes": 10502015,
           "responseHeaderBytes": 15281
         },
         {
           "page": "examples",
-          "encodedResponseBodyBytes": 10523035,
+          "encodedResponseBodyBytes": 10523021,
           "responseHeaderBytes": 15281
         }
       ]
@@ -63,11 +63,11 @@
     {
       "backend": "maxima",
       "pages": 2,
-      "variants": 0,
+      "variants": 8,
       "workerInitializationMs": [
         {
           "page": "index",
-          "workerInitMs": 22937.815000000002,
+          "workerInitMs": 25604.314999999944,
           "workerInitOK": true,
           "backend": {
             "id": "maxima",
@@ -78,16 +78,16 @@
             "pythonCheckerCount": 0,
             "perTest": {},
             "timings": {
-              "pythonReadyMs": 3919.845000000001,
-              "maximaReadyMs": 22909.39,
-              "readyMs": 22922.464999999997
+              "pythonReadyMs": 4453.290000000037,
+              "maximaReadyMs": 25572.300000000047,
+              "readyMs": 25587.630000000005
             }
           },
-          "pageNavigationToFirstGradeMs": null
+          "pageNavigationToFirstGradeMs": 28090.27000000002
         },
         {
           "page": "examples",
-          "workerInitMs": 23702.76000000001,
+          "workerInitMs": 25614.405000000028,
           "workerInitOK": true,
           "backend": {
             "id": "maxima",
@@ -98,56 +98,38 @@
             "pythonCheckerCount": 0,
             "perTest": {},
             "timings": {
-              "pythonReadyMs": 3844.810000000012,
-              "maximaReadyMs": 23671.694999999992,
-              "readyMs": 23684.710000000006
+              "pythonReadyMs": 4213.25,
+              "maximaReadyMs": 25581.224999999977,
+              "readyMs": 25596.859999999986
             }
           },
-          "pageNavigationToFirstGradeMs": null
+          "pageNavigationToFirstGradeMs": 26615.52000000002
         }
       ],
-      "validationMedianMs": null,
-      "gradeMedianMs": null,
-      "authoredTestRows": 0,
+      "validationMedianMs": 14.010000000009313,
+      "gradeMedianMs": 41.49500000002445,
+      "authoredTestRows": 22,
       "encodedResponseBodyBytesByPage": [
         {
           "page": "index",
-          "encodedResponseBodyBytes": 21248610,
-          "responseHeaderBytes": 77572
+          "encodedResponseBodyBytes": 21255485,
+          "responseHeaderBytes": 79460
         },
         {
           "page": "examples",
-          "encodedResponseBodyBytes": 21269676,
-          "responseHeaderBytes": 77572
+          "encodedResponseBodyBytes": 21276642,
+          "responseHeaderBytes": 79784
         }
       ]
     }
   ],
   "failures": [
     {
-      "backend": "sympy",
-      "page": "examples",
-      "operation": "network",
-      "requests": [
-        {
-          "url": "https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6",
-          "failed": "net::ERR_BLOCKED_BY_RESPONSE.NotSameOriginAfterDefaultedToSameOriginByCoep"
-        }
-      ]
-    },
-    {
-      "backend": "maxima",
-      "page": "index",
-      "active": "index-01:0",
-      "message": "AssertionError [ERR_ASSERTION]: tests: Traceback (most recent call last):\n  File \"/lib/python313.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n    ...<9 lines>...\n    .run_async(globals, locals)\n  File \"/lib/python313.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n  File \"<exec>\", line 2, in <module>\n  File \"/tmp/ctm-checkers/73148f7a01a85b86/ctm_checkers-0.6.0-py3-none-any.whl/ctm_checkers/browser.py\", line 68, in call\n    return json.dumps(handler(request))\n                      ~~~~~~~^^^^^^^^^\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 35, in tests\n    return _envelope(lambda: run_question_tests(request[\"question\"], seeds=[request[\"variant\"][\"seed\"]],\n                                                variants=[request[\"variant\"]]))\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 18, in _envelope\n    result = run()\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 35, in <lambda>\n    return _envelope(lambda: run_question_tests(request[\"question\"], seeds=[request[\"variant\"][\"seed\"]],\n                             ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                                                variants=[request[\"variant\"]]))\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/engine.py\", line 757, in run_question_tests\n    actual = grade(question, raw, variant=variant, displayed=displayed)\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/engine.py\", line 668, in grade\n    result = answer_test(node[\"test\"], tested_student, teacher, node[\"options\"],\n                         env=penv, raw=raw_student or (tested_student if isinstance(tested_student, str) else \"\"), assumptions=assumptions)\n  File \"<exec>\", line 156, in native_answer_test\n  File \"http://127.0.0.1:41045/backend/worker.js\", line 52, in Object.<anonymous>\n  File \"http://127.0.0.1:41045/runtime/maxima-session.js\", line 157, in MaximaSession.assess\npyodide.ffi.JsException: TypeError: Failed to execute 'decode' on 'TextDecoder': The provided ArrayBufferView value must not be shared.\n\n\nfalse !== true\n",
-      "stack": "AssertionError [ERR_ASSERTION]: tests: Traceback (most recent call last):\n  File \"/lib/python313.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n    ...<9 lines>...\n    .run_async(globals, locals)\n  File \"/lib/python313.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n  File \"<exec>\", line 2, in <module>\n  File \"/tmp/ctm-checkers/73148f7a01a85b86/ctm_checkers-0.6.0-py3-none-any.whl/ctm_checkers/browser.py\", line 68, in call\n    return json.dumps(handler(request))\n                      ~~~~~~~^^^^^^^^^\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 35, in tests\n    return _envelope(lambda: run_question_tests(request[\"question\"], seeds=[request[\"variant\"][\"seed\"]],\n                                                variants=[request[\"variant\"]]))\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 18, in _envelope\n    result = run()\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 35, in <lambda>\n    return _envelope(lambda: run_question_tests(request[\"question\"], seeds=[request[\"variant\"][\"seed\"]],\n                             ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                                                variants=[request[\"variant\"]]))\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/engine.py\", line 757, in run_question_tests\n    actual = grade(question, raw, variant=variant, displayed=displayed)\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/engine.py\", line 668, in grade\n    result = answer_test(node[\"test\"], tested_student, teacher, node[\"options\"],\n                         env=penv, raw=raw_student or (tested_student if isinstance(tested_student, str) else \"\"), assumptions=assumptions)\n  File \"<exec>\", line 156, in native_answer_test\n  File \"http://127.0.0.1:41045/backend/worker.js\", line 52, in Object.<anonymous>\n  File \"http://127.0.0.1:41045/runtime/maxima-session.js\", line 157, in MaximaSession.assess\npyodide.ffi.JsException: TypeError: Failed to execute 'decode' on 'TextDecoder': The provided ArrayBufferView value must not be shared.\n\n\nfalse !== true\n\n    at action (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/browser.mjs:113:10)\n    at async runPage (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/browser.mjs:223:31)\n    at async file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/run.mjs:69:22"
-    },
-    {
       "backend": "maxima",
       "page": "examples",
-      "active": "examples-01:0",
-      "message": "AssertionError [ERR_ASSERTION]: tests: Traceback (most recent call last):\n  File \"/lib/python313.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n    ...<9 lines>...\n    .run_async(globals, locals)\n  File \"/lib/python313.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n  File \"<exec>\", line 2, in <module>\n  File \"/tmp/ctm-checkers/73148f7a01a85b86/ctm_checkers-0.6.0-py3-none-any.whl/ctm_checkers/browser.py\", line 68, in call\n    return json.dumps(handler(request))\n                      ~~~~~~~^^^^^^^^^\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 35, in tests\n    return _envelope(lambda: run_question_tests(request[\"question\"], seeds=[request[\"variant\"][\"seed\"]],\n                                                variants=[request[\"variant\"]]))\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 18, in _envelope\n    result = run()\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 35, in <lambda>\n    return _envelope(lambda: run_question_tests(request[\"question\"], seeds=[request[\"variant\"][\"seed\"]],\n                             ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                                                variants=[request[\"variant\"]]))\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/engine.py\", line 757, in run_question_tests\n    actual = grade(question, raw, variant=variant, displayed=displayed)\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/engine.py\", line 668, in grade\n    result = answer_test(node[\"test\"], tested_student, teacher, node[\"options\"],\n                         env=penv, raw=raw_student or (tested_student if isinstance(tested_student, str) else \"\"), assumptions=assumptions)\n  File \"<exec>\", line 156, in native_answer_test\n  File \"http://127.0.0.1:41045/backend/worker.js\", line 52, in Object.<anonymous>\n  File \"http://127.0.0.1:41045/runtime/maxima-session.js\", line 157, in MaximaSession.assess\npyodide.ffi.JsException: TypeError: Failed to execute 'decode' on 'TextDecoder': The provided ArrayBufferView value must not be shared.\n\n\nfalse !== true\n",
-      "stack": "AssertionError [ERR_ASSERTION]: tests: Traceback (most recent call last):\n  File \"/lib/python313.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n    ...<9 lines>...\n    .run_async(globals, locals)\n  File \"/lib/python313.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n  File \"<exec>\", line 2, in <module>\n  File \"/tmp/ctm-checkers/73148f7a01a85b86/ctm_checkers-0.6.0-py3-none-any.whl/ctm_checkers/browser.py\", line 68, in call\n    return json.dumps(handler(request))\n                      ~~~~~~~^^^^^^^^^\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 35, in tests\n    return _envelope(lambda: run_question_tests(request[\"question\"], seeds=[request[\"variant\"][\"seed\"]],\n                                                variants=[request[\"variant\"]]))\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 18, in _envelope\n    result = run()\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 35, in <lambda>\n    return _envelope(lambda: run_question_tests(request[\"question\"], seeds=[request[\"variant\"][\"seed\"]],\n                             ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                                                variants=[request[\"variant\"]]))\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/engine.py\", line 757, in run_question_tests\n    actual = grade(question, raw, variant=variant, displayed=displayed)\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/engine.py\", line 668, in grade\n    result = answer_test(node[\"test\"], tested_student, teacher, node[\"options\"],\n                         env=penv, raw=raw_student or (tested_student if isinstance(tested_student, str) else \"\"), assumptions=assumptions)\n  File \"<exec>\", line 156, in native_answer_test\n  File \"http://127.0.0.1:41045/backend/worker.js\", line 52, in Object.<anonymous>\n  File \"http://127.0.0.1:41045/runtime/maxima-session.js\", line 157, in MaximaSession.assess\npyodide.ffi.JsException: TypeError: Failed to execute 'decode' on 'TextDecoder': The provided ArrayBufferView value must not be shared.\n\n\nfalse !== true\n\n    at action (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/browser.mjs:113:10)\n    at async runPage (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/browser.mjs:223:31)\n    at async file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/run.mjs:69:22"
+      "active": "examples-03:0",
+      "message": "AssertionError [ERR_ASSERTION]: tests: Traceback (most recent call last):\n  File \"/lib/python313.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n    ...<9 lines>...\n    .run_async(globals, locals)\n  File \"/lib/python313.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n  File \"<exec>\", line 2, in <module>\n  File \"/tmp/ctm-checkers/73148f7a01a85b86/ctm_checkers-0.6.0-py3-none-any.whl/ctm_checkers/browser.py\", line 68, in call\n    return json.dumps(handler(request))\n                      ~~~~~~~^^^^^^^^^\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 35, in tests\n    return _envelope(lambda: run_question_tests(request[\"question\"], seeds=[request[\"variant\"][\"seed\"]],\n                                                variants=[request[\"variant\"]]))\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 18, in _envelope\n    result = run()\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 35, in <lambda>\n    return _envelope(lambda: run_question_tests(request[\"question\"], seeds=[request[\"variant\"][\"seed\"]],\n                             ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                                                variants=[request[\"variant\"]]))\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/engine.py\", line 757, in run_question_tests\n    actual = grade(question, raw, variant=variant, displayed=displayed)\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/engine.py\", line 668, in grade\n    result = answer_test(node[\"test\"], tested_student, teacher, node[\"options\"],\n                         env=penv, raw=raw_student or (tested_student if isinstance(tested_student, str) else \"\"), assumptions=assumptions)\n  File \"<exec>\", line 156, in native_answer_test\n  File \"http://127.0.0.1:38427/backend/worker.js\", line 52, in Object.<anonymous>\n  File \"http://127.0.0.1:38427/runtime/maxima-session.js\", line 163, in MaximaSession.assess\npyodide.ffi.JsException: Error: CAS evaluation failed\n\n\nfalse !== true\n",
+      "stack": "AssertionError [ERR_ASSERTION]: tests: Traceback (most recent call last):\n  File \"/lib/python313.zip/_pyodide/_base.py\", line 597, in eval_code_async\n    await CodeRunner(\n    ...<9 lines>...\n    .run_async(globals, locals)\n  File \"/lib/python313.zip/_pyodide/_base.py\", line 411, in run_async\n    coroutine = eval(self.code, globals, locals)\n  File \"<exec>\", line 2, in <module>\n  File \"/tmp/ctm-checkers/73148f7a01a85b86/ctm_checkers-0.6.0-py3-none-any.whl/ctm_checkers/browser.py\", line 68, in call\n    return json.dumps(handler(request))\n                      ~~~~~~~^^^^^^^^^\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 35, in tests\n    return _envelope(lambda: run_question_tests(request[\"question\"], seeds=[request[\"variant\"][\"seed\"]],\n                                                variants=[request[\"variant\"]]))\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 18, in _envelope\n    result = run()\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/page.py\", line 35, in <lambda>\n    return _envelope(lambda: run_question_tests(request[\"question\"], seeds=[request[\"variant\"][\"seed\"]],\n                             ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n                                                variants=[request[\"variant\"]]))\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/engine.py\", line 757, in run_question_tests\n    actual = grade(question, raw, variant=variant, displayed=displayed)\n  File \"/tmp/ctm-checkers/bf60c8e8daa9d15d/ctm_checkers_stack-0.6.0-py3-none-any.whl/ctm_checkers/stack/engine.py\", line 668, in grade\n    result = answer_test(node[\"test\"], tested_student, teacher, node[\"options\"],\n                         env=penv, raw=raw_student or (tested_student if isinstance(tested_student, str) else \"\"), assumptions=assumptions)\n  File \"<exec>\", line 156, in native_answer_test\n  File \"http://127.0.0.1:38427/backend/worker.js\", line 52, in Object.<anonymous>\n  File \"http://127.0.0.1:38427/runtime/maxima-session.js\", line 163, in MaximaSession.assess\npyodide.ffi.JsException: Error: CAS evaluation failed\n\n\nfalse !== true\n\n    at action (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/browser.mjs:113:10)\n    at async runPage (file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/browser.mjs:223:31)\n    at async file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-two/run.mjs:69:22"
     },
     {
       "backend": "maxima",
@@ -155,8 +137,14 @@
       "operation": "network",
       "requests": [
         {
-          "url": "https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6",
-          "failed": "net::ERR_BLOCKED_BY_RESPONSE.NotSameOriginAfterDefaultedToSameOriginByCoep"
+          "url": "http://127.0.0.1:38427/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trgsmp.mac",
+          "method": "HEAD",
+          "status": 404,
+          "resourceType": "xhr",
+          "requestBodySize": 0,
+          "requestHeadersSize": 465,
+          "responseBodySize": 0,
+          "responseHeadersSize": 324
         }
       ]
     },
@@ -184,8 +172,8 @@
     },
     {
       "path": "scripts/milestone-two/materialize.py",
-      "bytes": 16225,
-      "sha256": "77a22f4090e5dcec405ee586f827c1b00dbcc29ceedc6bd37452fc2e337a4af0"
+      "bytes": 17310,
+      "sha256": "dda7676142836f02b1e0f1acfb83de98c8aa78f81745efc8056b9dbcb088f3af"
     },
     {
       "path": "scripts/milestone-two/prepare-runtime.py",
@@ -204,8 +192,8 @@
     },
     {
       "path": "prototype/runtime/maxima-session.js",
-      "bytes": 10982,
-      "sha256": "875bf3e9c15b1e701a498c87cc34ed5ee04b3ffd4a70175e2e640edad76a2deb"
+      "bytes": 11209,
+      "sha256": "6db35ac0bc4e4cb0f02690e55d6f8102daf8d7d051da56d90bc00b4364d49eeb"
     },
     {
       "path": "prototype/runtime/maxima-child.js",
