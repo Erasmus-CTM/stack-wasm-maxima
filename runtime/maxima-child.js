@@ -7,6 +7,37 @@ const nativeImport = self.importScripts.bind(self);
 let control, sharedInput, sharedOutput, manifest, runtimeBase;
 let pendingInput = new Uint32Array(0), inputIndex = 0;
 let outputLine = '', stdoutTail = '', initialized = false;
+let stages = {}, started;
+const hex = bytes => Array.from(new Uint8Array(bytes), n => n.toString(16).padStart(2, '0')).join('');
+async function preloadFiles(base, spec) {
+  const mounted = new Map();
+  if (!spec) return mounted; // Older manifests retain the original loader.
+  const records = new Map(manifest.runtimeAssets.map(file => [file.path, file]));
+  if (!Array.isArray(spec.paths) || new Set(spec.paths).size !== spec.paths.length ||
+      !spec.paths.every(path => records.has(path))) throw new Error('Invalid runtime preload index');
+  const url = new URL(spec.path, base);
+  if (url.origin !== new URL(base).origin || !url.href.startsWith(base)) throw new Error('Unsafe runtime preload URL');
+  const response = await fetch(url);
+  if (!response.ok) throw new Error('Runtime preload HTTP ' + response.status);
+  const bytes = new Uint8Array(await response.arrayBuffer());
+  if (bytes.length !== spec.fileBytes || hex(await crypto.subtle.digest('SHA-256', bytes)) !== spec.sha256) {
+    throw new Error('Runtime preload hash mismatch');
+  }
+  const pack = JSON.parse(new TextDecoder().decode(bytes));
+  if (pack.schema !== 1 || !Array.isArray(pack.files) || pack.files.length !== spec.paths.length) {
+    throw new Error('Invalid runtime preload package');
+  }
+  for (const file of pack.files) {
+    if (!spec.paths.includes(file.path) || mounted.has(new URL(file.path, base).href)) throw new Error('Unexpected runtime preload file');
+    const value = Uint8Array.from(atob(file.content), character => character.charCodeAt(0));
+    const record = records.get(file.path);
+    if (value.length !== record.fileBytes || hex(await crypto.subtle.digest('SHA-256', value)) !== record.sha256) {
+      throw new Error('Runtime preload source hash mismatch: ' + file.path);
+    }
+    mounted.set(new URL(file.path, base).href, value);
+  }
+  return mounted;
+}
 function fail(error) {
   const message = String(error && (error.stack || error.message) || error);
   if (control && Atomics.load(control, C.REQUEST) > 0) {
@@ -35,7 +66,8 @@ function consume(text) {
     const result = /^CTMMAXIMA\|(\d+)\|(.+)$/.exec(line);
     if (ready) {
       initialized = true;
-      self.postMessage({ type: 'ready', stackLibraryVersion: ready[1], maximaVersion: ready[2] });
+      stages.readyMs = performance.now() - started;
+      self.postMessage({ type: 'ready', stackLibraryVersion: ready[1], maximaVersion: ready[2], stages });
     } else if (result) {
       const id = Number(result[1]);
       if (id !== Atomics.load(control, C.REQUEST)) throw new Error('Unexpected native response identifier');
@@ -74,11 +106,15 @@ self.addEventListener('error', event => fail(event.message || 'Native runtime er
 self.onmessage = async ({ data }) => {
   if (data.type !== 'start' || control) return;
   try {
+    started = performance.now();
     runtimeBase = new URL(data.baseURL, self.location.href).href;
     manifest = data.manifest;
     control = new Int32Array(data.buffers[0]);
     sharedInput = new Uint32Array(data.buffers[1]);
     sharedOutput = new Uint8Array(data.buffers[2]);
+    const preloaded = await preloadFiles(runtimeBase, data.preload === false ? null : manifest.preload);
+    stages.preloadMs = performance.now() - started;
+    stages.preloadedFiles = preloaded.size;
     nativeImport(new URL('maxima_thread.js', runtimeBase).href);
     const upstreamStart = self.onmessage;
     const preInit = Module.preInit;
@@ -86,11 +122,18 @@ self.onmessage = async ({ data }) => {
     Module.preInit = function () {
       const lazy = FS.createLazyFile;
       FS.createLazyFile = function (parent, name, url, canRead, canWrite) {
-        return lazy.call(this, parent, name, new URL(url, runtimeBase).href, canRead, canWrite);
+        const absolute = new URL(url, runtimeBase).href;
+        if (preloaded.has(absolute)) {
+          const file = FS.createDataFile(parent, name, preloaded.get(absolute), canRead, canWrite);
+          preloaded.delete(absolute); // MEMFS owns the mounted copy now.
+          return file;
+        }
+        return lazy.call(this, parent, name, absolute, canRead, canWrite);
       };
       preInit();
     };
     Module.preRun.push(function () {
+      stages.wasmReadyMs = performance.now() - started;
       const missing = new FS.ErrnoError(44);
       MEMFS.ops_table.dir.node.lookup = function () { throw missing; };
       const ioctl = FS.ioctl;

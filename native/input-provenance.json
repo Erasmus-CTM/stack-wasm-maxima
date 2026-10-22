@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+  "sourceFiles": [
+    {
+      "path": "corsscripts/stackmplite.js",
+      "sha256": "6c9bddd5edd62bb29b138f2729b35acf1ee52254a6487252c102d98d4a549463",
+      "bytes": 56673
+    },
+    {
+      "path": "stack/cas/security-map.json",
+      "sha256": "6a0435870103287eb3ed2f4048e58f76be0e9abc81c0bde9afe76292978bfd58",
+      "bytes": 140997
+    },
+    {
+      "path": "stack/maximaparser/unicode/symbols-stack.json",
+      "sha256": "dcdf658aa7d23d0767eeafa4249e166469d5ab2e37cbe8010a279b870aa5ea43",
+      "bytes": 1211
+    },
+    {
+      "path": "stack/maximaparser/unicode/letters-stack.json",
+      "sha256": "38983ed0f7b43213fe59f09497601629007b4b6434b24f0b047b06bda2d044b7",
+      "bytes": 26665
+    }
+  ],
+  "parser": {
+    "path": "stack-parser.js",
+    "sha256": "be66f716145baece0fb3ca280c4318aa23c0b20a73428ceecaab2d645b4e981f",
+    "bytes": 56679,
+    "transformation": "Wrap unchanged parser body and replace terminal ES export with self.StackMaximaParser"
+  },
+  "rules": {
+    "path": "input-rules.json",
+    "sha256": "e01ddcb2fcb7e081e132f3971748f7b6e3b7e8251701546aefe95b9281e4ca6c",
+    "bytes": 70120
+  },
+  "scope": "Bounded admission for native Maxima; STACK-MP-lite recognizes syntax, Maxima determines operator precedence"
+}

@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-bde5125251bafac8b66f8d2ca2550cce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-4f504391229830b406574e462f7afa43.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/ai-feedback-0.9.0/feedback-core.js"></script>
 <script src="../site_libs/quarto-contrib/ai-feedback-0.9.0/feedback-dom.js"></script>
 <script src="../site_libs/quarto-contrib/ai-feedback-0.9.0/ai-feedback.js"></script>
@@ -131,6 +131,14 @@ window.Quarto = {
     <a class="nav-link active" href="../maxima/examples.html" aria-current="page"> 
 <span class="menu-text">Worked questions</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../maxima/native.html"> 
+<span class="menu-text">Native questions</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../maxima/data-flow.html"> 
+<span class="menu-text">Data flow</span></a>
+  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
@@ -165,10 +173,12 @@ window.Quarto = {
   <li><a href="#matrix-problems-from-ingmat-3a" id="toc-matrix-problems-from-ingmat-3a" class="nav-link" data-scroll-target="#matrix-problems-from-ingmat-3a">Rank and bases</a></li>
   <li><a href="#a-custom-scalar-rule" id="toc-a-custom-scalar-rule" class="nav-link" data-scroll-target="#a-custom-scalar-rule">A custom scalar rule</a></li>
   </ul></li>
+  <li><a href="#answer-pipeline" id="toc-answer-pipeline" class="nav-link" data-scroll-target="#answer-pipeline">Where does an answer go?</a></li>
   <li><a href="#startup-and-response-times" id="toc-startup-and-response-times" class="nav-link" data-scroll-target="#startup-and-response-times">Startup and response times</a>
   <ul class="collapse">
-  <li><a href="#measured-on-the-deployed-exercise-build" id="toc-measured-on-the-deployed-exercise-build" class="nav-link" data-scroll-target="#measured-on-the-deployed-exercise-build">Measured on the deployed exercise build</a></li>
+  <li><a href="#frozen-public-measurements-milestone-3" id="toc-frozen-public-measurements-milestone-3" class="nav-link" data-scroll-target="#frozen-public-measurements-milestone-3">Frozen public measurements: milestone 3</a></li>
   <li><a href="#method-and-limits" id="toc-method-and-limits" class="nav-link" data-scroll-target="#method-and-limits">Method and limits</a></li>
+  <li><a href="#historical-milestone-2-baseline" id="toc-historical-milestone-2-baseline" class="nav-link" data-scroll-target="#historical-milestone-2-baseline">Historical milestone 2 baseline</a></li>
   </ul></li>
   <li><a href="#for-developers" id="toc-for-developers" class="nav-link" data-scroll-target="#for-developers">For developers</a></li>
   <li><a href="#sources" id="toc-sources" class="nav-link" data-scroll-target="#sources">Sources</a></li>
@@ -203,6 +213,7 @@ window.Quarto = {
 <script>window.CTMStackBackends=window.CTMStackBackends||{};window.CTMStackBackends.maxima={workerURL:"../backend/worker.js",label:"Maxima",loadTimeout:240000};</script>
 <p>Each question appears twice: <strong>SymPy</strong> first, then <strong>Maxima</strong>. Both copies use the same question, options, seed and variants. Choose the same variant number in both copies to compare their assessment. Answers, validation, feedback and reset are independent.</p>
 <p>Press <strong>Validate answers</strong> to inspect each interpreted response, then <strong>Check answer</strong> to grade it. After an edit, validate again. The first assessment loads that backend; Maxima can take longer to initialize.</p>
+<p>The <a href="../maxima/native.html">native questions and graphical answers</a> page also demonstrates native question preparation, input validation and response trees, with optional PythonChecker nodes.</p>
 <section id="which-questions-need-ctm" class="level2">
 <h2 class="anchored" data-anchor-id="which-questions-need-ctm">Which questions need CTM?</h2>
 <p><strong>11 questions use standard STACK features; 7 require CTM extensions.</strong> There are <strong>3 unchanged upstream questions</strong> and <strong>15 questions authored or adapted for CTM</strong>.</p>
@@ -1310,7 +1321,7 @@ ta:ev(a*x+b*y-c*x-d*y+5,simp);&lt;/text&gt;
 <p><strong>Standard STACK features | CTM-authored question.</strong></p>
 <p>These fields demonstrate absolute tolerance, relative tolerance, and decimal-place precision. The final field distinguishes <code>17.5</code> from <code>17.50</code>, because the written precision is part of the task. Their response trees contribute 30%, 40%, and 30% of the total.</p>
 <div id="measurement-context" class="ai-context">
-<p>For a measured quantity, absolute tolerance compares <span data-ai-feedback-tex="|x-a|" data-ai-feedback-display="false"><span class="math inline">\(|x-a|\)</span></span> to a fixed bound. Relative tolerance compares it to a fraction of the reference value. Written decimal places express the precision of a reported measurement.</p>
+<p>For a measured quantity, absolute tolerance compares <span data-ai-feedback-display="false" data-ai-feedback-tex="|x-a|"><span class="math inline">\(|x-a|\)</span></span> to a fixed bound. Relative tolerance compares it to a fraction of the reference value. Written decimal places express the precision of a reported measurement.</p>
 </div>
 <div class="backend-pair" data-demo-id="examples-04">
 <section id="sympy-3" class="level5 backend-copy" data-backend="sympy">
@@ -7899,87 +7910,86 @@ ta6: dispdp(a4,3)&lt;/text&gt;
 </section>
 </section>
 </section>
+<section id="answer-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="answer-pipeline">Where does an answer go?</h2>
+<p>Read <a href="../maxima/data-flow.html">Data flow</a> for the typed-input and JSXGraph walkthroughs, with expanded developer details and diagrams of validation and grading.</p>
+</section>
 <section id="startup-and-response-times" class="level2">
 <h2 class="anchored" data-anchor-id="startup-and-response-times">Startup and response times</h2>
-<p><strong>The long first Maxima validation is mostly worker setup.</strong> In this run, the first <strong>Validate answers</strong> click took a median <strong>43.28 s</strong>, including <strong>43.10 s</strong> of worker initialization. Later validations took about <strong>12.4 ms</strong>. SymPy’s first validation took <strong>5.95 s</strong>.</p>
-<p>The first action creates that backend’s persistent worker and loads its runtimes. The hybrid Maxima worker currently waits for <strong>both Python and Wasm Maxima/STACK</strong>, even though input validation uses Python. Its internal checkpoints put Python/checkers ready at <strong>6.41 s</strong> and Maxima/STACK ready at <strong>42.90 s</strong>. These start in parallel: the checkpoint times must not be added together. This setup also happens when the first action is on a PythonChecker question, even though that question’s answer-test nodes stay in Python.</p>
-<section id="measured-on-the-deployed-exercise-build" class="level3">
-<h3 class="anchored" data-anchor-id="measured-on-the-deployed-exercise-build">Measured on the deployed exercise build</h3>
-<p>Values are <strong>median (minimum–maximum)</strong>. These are measurements from <strong>22 October 2026</strong>, using the <strong>first rational-expression question, variant 1</strong>, with the same correct answer in both copies. That question uses standard STACK answer tests; this is not a benchmark of the custom PythonChecker matrix questions.</p>
+<section id="frozen-public-measurements-milestone-3" class="level3">
+<h3 class="anchored" data-anchor-id="frozen-public-measurements-milestone-3">Frozen public measurements: milestone 3</h3>
+<p><strong>The hybrid Maxima worker now defers native startup until its first ordinary Check.</strong> On the measured build, first Validate took <strong>5.99 s</strong>, while first Check took <strong>38.45 s</strong> including <strong>38.40 s</strong> of deferred Maxima/STACK initialization. Later Checks took <strong>42 ms</strong>. Validation still uses Python in both columns. A PythonChecker-only question does not start Maxima.</p>
+<p>These frozen measurements describe deployed source <strong><code>15fa33299d68d64e122a2661a2868feb30130edb</code></strong>, measured on <strong>22 October 2026</strong> by <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39831459804/attempts/2">benchmark attempt 2</a>. Subsequent page edits do not rerun or relabel this batch. The workload is the first rational-expression question, variant 1, with the same accepted answer in both columns.</p>
+<p>Values are <strong>median / minimum / maximum</strong>. First-call rows have <strong>3 samples per backend</strong>; warm rows have <strong>15 samples per backend</strong>, five calls in each of three fresh processes.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 20%">
-<col style="width: 26%">
-<col style="width: 26%">
-<col style="width: 26%">
+<col style="width: 27%">
+<col style="width: 36%">
+<col style="width: 36%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Measured interval</th>
-<th style="text-align: right;">Samples per backend</th>
+<th>Interval</th>
 <th style="text-align: right;">SymPy</th>
-<th style="text-align: right;">Maxima</th>
+<th style="text-align: right;">Hybrid Maxima</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>First Validate: click → feedback (s)</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">5.95 (5.93–6.13)</td>
-<td style="text-align: right;">43.28 (40.85–43.76)</td>
+<td>First Validate: UI (s)</td>
+<td style="text-align: right;">5.901 / 5.899 / 5.944</td>
+<td style="text-align: right;">5.992 / 5.931 / 6.315</td>
 </tr>
 <tr class="even">
-<td>Worker initialization, included above (s)</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">5.77 (5.75–5.93)</td>
-<td style="text-align: right;">43.10 (40.67–43.58)</td>
+<td>Worker initialization (s)</td>
+<td style="text-align: right;">5.715 / 5.710 / 5.755</td>
+<td style="text-align: right;">5.805 / 5.742 / 6.131</td>
 </tr>
 <tr class="odd">
-<td>First validation RPC after initialization (ms)</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">179.0 (178.6–198.3)</td>
-<td style="text-align: right;">180.1 (178.5–180.5)</td>
+<td>First Validate: worker RPC (ms)</td>
+<td style="text-align: right;">186.53 / 183.96 / 187.32</td>
+<td style="text-align: right;">184.38 / 182.02 / 187.16</td>
 </tr>
 <tr class="even">
-<td>Later Validate: click → feedback (ms)</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">12.3 (8.0–12.7)</td>
-<td style="text-align: right;">12.4 (11.6–13.3)</td>
+<td>Warm Validate: UI (ms)</td>
+<td style="text-align: right;">11.79 / 9.77 / 12.33</td>
+<td style="text-align: right;">12.15 / 11.25 / 12.45</td>
 </tr>
 <tr class="odd">
-<td>Later validation RPC (ms)</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">11.4 (7.0–11.9)</td>
-<td style="text-align: right;">11.5 (10.6–12.4)</td>
+<td>First Check after validation: UI (s)</td>
+<td style="text-align: right;">0.011 / 0.011 / 0.012</td>
+<td style="text-align: right;">38.446 / 38.178 / 38.964</td>
 </tr>
 <tr class="even">
-<td>First Check after validation: click → feedback (ms)</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">11.6 (10.4–12.3)</td>
-<td style="text-align: right;">47.7 (47.0–48.4)</td>
+<td>First Check: worker RPC (s)</td>
+<td style="text-align: right;">0.009 / 0.009 / 0.010</td>
+<td style="text-align: right;">38.444 / 38.175 / 38.962</td>
 </tr>
 <tr class="odd">
-<td>Later Check: click → feedback (ms)</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">12.4 (9.0–14.0)</td>
-<td style="text-align: right;">39.0 (37.2–41.9)</td>
+<td>Warm Check: UI (ms)</td>
+<td style="text-align: right;">11.71 / 10.02 / 12.98</td>
+<td style="text-align: right;">42.26 / 40.49 / 46.85</td>
 </tr>
 <tr class="even">
-<td>Later grading RPC (ms)</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">11.6 (8.0–13.1)</td>
-<td style="text-align: right;">38.1 (36.3–40.9)</td>
+<td>Warm Check: worker RPC (ms)</td>
+<td style="text-align: right;">10.80 / 9.06 / 12.17</td>
+<td style="text-align: right;">41.41 / 39.71 / 45.85</td>
 </tr>
 </tbody>
 </table>
-<p>“Click → feedback” ends at the browser’s verdict DOM update; it excludes any later MathJax painting. RPC time is the actual message/response interval and excludes UI work. Worker initialization is part of the first Validate interval, so these rows must not be summed. The first Check is already after validation and is not a cold-start measurement.</p>
+<p>For hybrid Maxima, deferred native initialization alone was <strong>38.401 / 38.129 / 38.919 s</strong> (3 samples). It is included in first Check and its worker RPC; these intervals must not be added together. First Check follows six validations, so it is the first native grade, not a cold page or a cold Python worker.</p>
+<p><strong>UI time</strong> runs from the actual button click to the verdict DOM update. <strong>Worker RPC</strong> time runs from the real worker message to its response. Initialization is recorded separately and is included in the relevant first UI operation. Page navigation, HTML loading, isolation bootstrap, answer entry and later MathJax painting are outside these button intervals.</p>
+<p>The <a href="../maxima/native.html#public-startup-and-response-times">native assessment page</a> measures the different path where native STACK also prepares questions, validates inputs and runs response trees. Its warm grading is more expensive than this page’s hybrid answer-test delegation; the two controllers should not be treated as identical workloads.</p>
 </section>
 <section id="method-and-limits" class="level3">
 <h3 class="anchored" data-anchor-id="method-and-limits">Method and limits</h3>
-<p>The <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39759255662">public-page timing run</a> used Chromium 141.0.7390.37 on one GitHub-hosted Ubuntu runner (4 virtual CPUs). Each backend had <strong>three fresh Chromium processes/profiles and workers</strong>. Each process began with Validate, with <strong>no prior worker calls, authored tests or grading</strong>; then it ran five further validations, its first grade and five further grades. The later-call rows therefore contain 15 operations per backend across three workers. Backend order alternated between trials.</p>
-<p>The benchmark checked the deployed HTML SHA-256 before and after all trials, and recorded the frontend, worker, adapter and runtime-manifest fingerprints. It measured the exercise build already published here; this chapter and the compatibility labels add documentation while preserving those question blocks and grading sources. See the <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/research/2026-10-runtime-feasibility/reports/reviewer-site/timings/39759255662">summary and complete raw timing report</a> for exact values, hashes and provenance.</p>
-<p>Fresh browser profiles give empty browser caches. OS and CDN caches were not cleared. These small-sample timings describe this question on that runner and connection; they do not predict every device, network or question. They also do not establish a performance advantage for Maxima.</p>
-<p><strong>Later questions, variant changes and Reset answers reuse the loaded worker.</strong> Reloading the page creates new workers; cached files can reduce the download part, while runtime initialization still has to run.</p>
+<p>The runner used Chromium <strong>141.0.7390.37</strong> on GitHub-hosted Ubuntu, <strong>4 virtual CPUs</strong>. Each backend had three fresh Chromium processes, profiles and workers. Each started with Validate and zero prior assessment RPCs, then five warm validations, its first grade and five warm grades. Backend order alternated. OS and CDN caches were not cleared; provenance fetches can warm CDN caches.</p>
+<p>The benchmark verified the exact final browser navigation HTML and public asset fingerprints, then checked HTML/assets again after the samples. See the <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/research/2026-10-native-stack/reports/milestone-three/timings/39831459804-attempt-2/">frozen summaries, sample times, hashes and provenance</a> and the <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/research/2026-10-native-stack/reports/milestone-three/timings/README.md">timing evidence guide</a>. This is one accepted answer on one runner, not a device/network benchmark, a confidence interval or evidence of a general performance advantage. Ordinary functional builds leave these statistics frozen.</p>
+</section>
+<section id="historical-milestone-2-baseline" class="level3">
+<h3 class="anchored" data-anchor-id="historical-milestone-2-baseline">Historical milestone 2 baseline</h3>
+<p>The original eager-start build waited for Python and Maxima together: first Maxima Validate was <strong>43.28 s</strong>, including <strong>43.10 s</strong> of worker initialization; warm Validate was about <strong>12.4 ms</strong>. SymPy first Validate was <strong>5.95 s</strong>. Those are historical values from <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39759255662">run 39759255662</a>, with <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/research/2026-10-runtime-feasibility/reports/reviewer-site/timings/39759255662">its original report</a>. They used an earlier build and run, so the change between batches is not a controlled speedup estimate.</p>
+<p>Later questions, variant changes and Reset reuse the loaded worker. Reloading creates new workers; cached files can reduce download work while runtime initialization remains.</p>
 </section>
 </section>
 <section id="for-developers" class="level2">
