@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "createdAt": "2026-10-22T15:11:25.963Z",
-  "sourceRevision": "d79391075ee2450ad2e43c04866d6bc9f743435e",
-  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39802246170",
+  "createdAt": "2026-10-22T15:37:49.440Z",
+  "sourceRevision": "479b25b714f5bc86c70cc1b5aada974a6f5ea5b3",
+  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39805291088",
   "passed": true,
   "status": "passed",
   "browserName": "chromium",
@@ -916,31 +916,31 @@
       "workerInitializationMs": [
         {
           "page": "index",
-          "workerInitMs": 6093.900000000009,
+          "workerInitMs": 5967.680000000051,
           "workerInitOK": true,
           "backend": null,
-          "pageNavigationToFirstGradeMs": 7137.634999999995
+          "pageNavigationToFirstGradeMs": 6993.234999999986
         },
         {
           "page": "examples",
-          "workerInitMs": 6230.955000000002,
+          "workerInitMs": 5691.910000000033,
           "workerInitOK": true,
           "backend": null,
-          "pageNavigationToFirstGradeMs": 7515.270000000004
+          "pageNavigationToFirstGradeMs": 7115.5950000000885
         }
       ],
-      "validationMedianMs": 13.125,
-      "gradeMedianMs": 13.355000000010477,
+      "validationMedianMs": 12.45000000006985,
+      "gradeMedianMs": 13.010000000009313,
       "authoredTestRows": 121,
       "encodedResponseBodyBytesByPage": [
         {
           "page": "index",
-          "encodedResponseBodyBytes": 10502486,
+          "encodedResponseBodyBytes": 10502511,
           "responseHeaderBytes": 15281
         },
         {
           "page": "examples",
-          "encodedResponseBodyBytes": 10523465,
+          "encodedResponseBodyBytes": 10523475,
           "responseHeaderBytes": 15281
         }
       ]
@@ -952,7 +952,7 @@
       "workerInitializationMs": [
         {
           "page": "index",
-          "workerInitMs": 5885.684999999998,
+          "workerInitMs": 5762.0650000000605,
           "workerInitOK": true,
           "backend": {
             "id": "maxima",
@@ -964,15 +964,15 @@
             "perTest": {},
             "maximaState": "not-started",
             "timings": {
-              "pythonReadyMs": 5847.399999999994,
-              "readyMs": 5871.540000000008
+              "pythonReadyMs": 5720.110000000102,
+              "readyMs": 5747.270000000019
             }
           },
-          "pageNavigationToFirstGradeMs": 50102.59
+          "pageNavigationToFirstGradeMs": 48931.17000000004
         },
         {
           "page": "examples",
-          "workerInitMs": 6075.815000000002,
+          "workerInitMs": 5817.889999999898,
           "workerInitOK": true,
           "backend": {
             "id": "maxima",
@@ -984,25 +984,25 @@
             "perTest": {},
             "maximaState": "not-started",
             "timings": {
-              "pythonReadyMs": 6014.125,
-              "readyMs": 6043.4100000000035
+              "pythonReadyMs": 5764.314999999944,
+              "readyMs": 5795.099999999977
             }
           },
-          "pageNavigationToFirstGradeMs": 44948.81
+          "pageNavigationToFirstGradeMs": 46353.25
         }
       ],
-      "validationMedianMs": 13.24000000001979,
-      "gradeMedianMs": 62.335000000020955,
+      "validationMedianMs": 13.139999999897555,
+      "gradeMedianMs": 60.52000000001863,
       "authoredTestRows": 121,
       "encodedResponseBodyBytesByPage": [
         {
           "page": "index",
-          "encodedResponseBodyBytes": 21582434,
+          "encodedResponseBodyBytes": 21582801,
           "responseHeaderBytes": 20455
         },
         {
           "page": "examples",
-          "encodedResponseBodyBytes": 21603576,
+          "encodedResponseBodyBytes": 21603895,
           "responseHeaderBytes": 20455
         }
       ]
@@ -1079,8 +1079,8 @@
     },
     {
       "path": "scripts/milestone-two/prepare-runtime.py",
-      "bytes": 8336,
-      "sha256": "d09720c2d7c25a18bea29054d40ef89524bd068544d298d0fce2493c0f55db9c"
+      "bytes": 8358,
+      "sha256": "50130b848d60dcebb33e1134392c2f80700424267e3bd17e8e7ae4c4bd7247f8"
     },
     {
       "path": "scripts/milestone-two/fetch-runtime.mjs",
@@ -1114,13 +1114,13 @@
     },
     {
       "path": "prototype/runtime/maxima-session.js",
-      "bytes": 11301,
-      "sha256": "a7f1201a061b015ccf6c16ace068ada6b3172dfc6c5802ce8147c2e50ec4ed75"
+      "bytes": 14109,
+      "sha256": "be0be2cb61d5e286dbfd33826373e99c8ab246a03f75e819518fb3231dde6890"
     },
     {
       "path": "prototype/runtime/maxima-child.js",
-      "bytes": 8641,
-      "sha256": "e3130484da96fe64a4fa0942c0aa975b433d6c24c525ab423b295cc7d6b999e5"
+      "bytes": 8766,
+      "sha256": "83da6c056fc6c425d0aa8e9464617854c93575fed15205529fae12c9d10db4cb"
     },
     {
       "path": "prototype/quarto/stack-maxima.lua",
