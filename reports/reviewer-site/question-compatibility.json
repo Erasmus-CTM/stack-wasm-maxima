@@ -1,0 +1,526 @@
+{
+  "schema": 1,
+  "auditDate": "2026-10-22",
+  "scope": "The 18 question sources shown twice on site/maxima/examples.qmd. Each backend has 24 frozen variants.",
+  "classification": "Source-feature audit; not a full Moodle/STACK import or execution test.",
+  "sourcePins": {
+    "ctmCheckersRepository": "Erasmus-CTM/ctm-checkers",
+    "ctmCheckersCommit": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+    "stackRepository": "maths/moodle-qtype_stack",
+    "stackCommit": "33383047af39c204bf4442802a058f8b918b2b1b",
+    "upstreamQuestionCommit": "10d323311b7f39fb7b092dd10ce75f7d8632f525"
+  },
+  "counts": {
+    "questions": 18,
+    "standardFeatureQuestions": 11,
+    "unchangedUpstreamQuestions": 3,
+    "ctmAuthoredStandardQuestions": 8,
+    "ctmExtensionQuestions": 7,
+    "pythonCheckerQuestions": 6,
+    "matrixOnlyExtensionQuestions": 1,
+    "ctmAuthoredOrAdaptedQuestions": 15,
+    "variantsPerBackend": 24
+  },
+  "important": "All answer-test nodes of the six PythonChecker questions run through the same supplied Python implementation in both columns. Native Maxima executes no answer-test node for those six questions.",
+  "caveat": "Standard STACK features describes the source XML and authoring functions; it is not a verified unchanged Moodle import or complete stock STACK run. Both displayed backends still use CTM validation, PRT control and frontend code. CTM-authored standard-feature questions were inspected for CTM-only features; only the three upstream question XML files were directly compared against their original upstream files.",
+  "evidence": [
+    {
+      "id": "ctm-question-sources",
+      "repository": "Erasmus-CTM/ctm-checkers",
+      "commit": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+      "paths": [
+        "examples/stack/README.md",
+        "examples/stack/upstream/sources.json",
+        "examples/stack/course-examples-provenance.json"
+      ]
+    },
+    {
+      "id": "ctm-matrix-input",
+      "repository": "Erasmus-CTM/ctm-checkers",
+      "commit": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+      "path": "src/ctm_checkers/stack/importer.py",
+      "symbol": "_matrix_config",
+      "finding": "Explicit port extension: bounded learner dimensions, never native options."
+    },
+    {
+      "id": "ctm-author-basis-helper",
+      "repository": "Erasmus-CTM/ctm-checkers",
+      "commit": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+      "paths": [
+        "src/ctm_checkers/stack/expressions.py",
+        "src/ctm_checkers/stack/matrix_models.py"
+      ],
+      "finding": "AUTHOR_BASIS_FUNCTIONS dispatches nullspace_basis to Python basis_model; it is not a stock STACK helper in the pinned source."
+    },
+    {
+      "id": "standard-set-list-functions",
+      "repository": "maths/moodle-qtype_stack",
+      "commit": "33383047af39c204bf4442802a058f8b918b2b1b",
+      "paths": [
+        "stack/cas/security-map.json",
+        "stack/maxima/stackmaxima.mac"
+      ],
+      "finding": "The finite-author helper functions and rand_with_step are upstream functions; native ATList, ATSet and ATSets handle collections."
+    }
+  ],
+  "questions": [
+    {
+      "id": "examples-01",
+      "title": "Equivalent rational expression",
+      "sourceXml": "examples/stack/rational-equivalence.xml",
+      "sourceGitBlobSha": "2b182d0b38f697e8721cb0896590bdced9584a5b",
+      "variants": 3,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "standard-stack-features",
+      "label": "**Standard STACK features | CTM-authored question.**",
+      "answerTests": [
+        "AlgEquiv"
+      ],
+      "extensions": [],
+      "pythonGradingInBothColumns": false,
+      "nativeMaximaAnswerTestNodes": 2,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/rational-equivalence.xml",
+      "pythonCheckerNodes": 0,
+      "assessmentInSympyColumn": "The CTM SymPy answer-test implementation",
+      "assessmentInMaximaColumn": "The pinned native STACK answer-test implementation in Wasm Maxima"
+    },
+    {
+      "id": "examples-02",
+      "title": "AlgMap-6.1",
+      "sourceXml": "examples/stack/upstream/algmap-6-1.xml",
+      "sourceGitBlobSha": "b365633605df8cb208d776f34df5ce7b5ae5effb",
+      "variants": 2,
+      "authorship": "unchanged-upstream",
+      "compatibility": "standard-stack-features",
+      "label": "**Standard STACK features | unchanged upstream STACK XML.**",
+      "answerTests": [
+        "EqualComAss"
+      ],
+      "extensions": [],
+      "pythonGradingInBothColumns": false,
+      "nativeMaximaAnswerTestNodes": 1,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/upstream/algmap-6-1.xml",
+      "upstreamEvidence": {
+        "sourceRecord": "examples/stack/upstream/sources.json",
+        "commit": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+        "exactXmlContentCompared": true,
+        "matchingGitBlobSha": "b365633605df8cb208d776f34df5ce7b5ae5effb"
+      },
+      "pythonCheckerNodes": 0,
+      "assessmentInSympyColumn": "The CTM SymPy answer-test implementation",
+      "assessmentInMaximaColumn": "The pinned native STACK answer-test implementation in Wasm Maxima"
+    },
+    {
+      "id": "examples-03",
+      "title": "Hyperbolic equivalence",
+      "sourceXml": "examples/stack/hyperbolic-equivalence.xml",
+      "sourceGitBlobSha": "21dec0abf92bffb720652b071d47f0ba0efc4524",
+      "variants": 1,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "standard-stack-features",
+      "label": "**Standard STACK features | CTM-authored question.**",
+      "answerTests": [
+        "AlgEquiv"
+      ],
+      "extensions": [],
+      "pythonGradingInBothColumns": false,
+      "nativeMaximaAnswerTestNodes": 1,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/hyperbolic-equivalence.xml",
+      "pythonCheckerNodes": 0,
+      "assessmentInSympyColumn": "The CTM SymPy answer-test implementation",
+      "assessmentInMaximaColumn": "The pinned native STACK answer-test implementation in Wasm Maxima"
+    },
+    {
+      "id": "examples-04",
+      "title": "Rectangle and triangle measurements",
+      "sourceXml": "examples/stack/numerical-measurement.xml",
+      "sourceGitBlobSha": "90ac465e6e73ac8472adda435d576b6bcaac60ea",
+      "variants": 1,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "standard-stack-features",
+      "label": "**Standard STACK features | CTM-authored question.**",
+      "answerTests": [
+        "NumAbsolute",
+        "NumRelative",
+        "NumDecPlaces"
+      ],
+      "extensions": [],
+      "pythonGradingInBothColumns": false,
+      "nativeMaximaAnswerTestNodes": 3,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/numerical-measurement.xml",
+      "pythonCheckerNodes": 0,
+      "assessmentInSympyColumn": "The CTM SymPy answer-test implementation",
+      "assessmentInMaximaColumn": "The pinned native STACK answer-test implementation in Wasm Maxima"
+    },
+    {
+      "id": "examples-05",
+      "title": "1.1.4.T2 BODMAS",
+      "sourceXml": "examples/stack/upstream/bodmas.xml",
+      "sourceGitBlobSha": "1fa49860538ac8820311173b19bbf4bfb27acb4d",
+      "variants": 1,
+      "authorship": "unchanged-upstream",
+      "compatibility": "standard-stack-features",
+      "label": "**Standard STACK features | unchanged upstream STACK XML.**",
+      "answerTests": [
+        "NumRelative"
+      ],
+      "extensions": [],
+      "pythonGradingInBothColumns": false,
+      "nativeMaximaAnswerTestNodes": 1,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/upstream/bodmas.xml",
+      "upstreamEvidence": {
+        "sourceRecord": "examples/stack/upstream/sources.json",
+        "commit": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+        "exactXmlContentCompared": true,
+        "matchingGitBlobSha": "1fa49860538ac8820311173b19bbf4bfb27acb4d"
+      },
+      "pythonCheckerNodes": 0,
+      "assessmentInSympyColumn": "The CTM SymPy answer-test implementation",
+      "assessmentInMaximaColumn": "The pinned native STACK answer-test implementation in Wasm Maxima"
+    },
+    {
+      "id": "examples-06",
+      "title": "1.1.3.T1 Rounding to n Decimal Places",
+      "sourceXml": "examples/stack/upstream/rounding-three-dp.xml",
+      "sourceGitBlobSha": "de1a1ad654423351815033cecaf884ec86e05b5c",
+      "variants": 1,
+      "authorship": "unchanged-upstream",
+      "compatibility": "standard-stack-features",
+      "label": "**Standard STACK features | unchanged upstream STACK XML.**",
+      "answerTests": [
+        "NumDecPlaces"
+      ],
+      "extensions": [],
+      "pythonGradingInBothColumns": false,
+      "nativeMaximaAnswerTestNodes": 6,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/upstream/rounding-three-dp.xml",
+      "upstreamEvidence": {
+        "sourceRecord": "examples/stack/upstream/sources.json",
+        "commit": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+        "exactXmlContentCompared": true,
+        "matchingGitBlobSha": "de1a1ad654423351815033cecaf884ec86e05b5c"
+      },
+      "pythonCheckerNodes": 0,
+      "assessmentInSympyColumn": "The CTM SymPy answer-test implementation",
+      "assessmentInMaximaColumn": "The pinned native STACK answer-test implementation in Wasm Maxima"
+    },
+    {
+      "id": "examples-07",
+      "title": "Zero product equations",
+      "sourceXml": "examples/stack/zero-product.xml",
+      "sourceGitBlobSha": "a6b5889c1013582145abc48398d94884e6c71e7c",
+      "variants": 1,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "standard-stack-features",
+      "label": "**Standard STACK features | CTM-authored question.**",
+      "answerTests": [
+        "AlgEquiv"
+      ],
+      "extensions": [],
+      "pythonGradingInBothColumns": false,
+      "nativeMaximaAnswerTestNodes": 1,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/zero-product.xml",
+      "pythonCheckerNodes": 0,
+      "assessmentInSympyColumn": "The CTM SymPy answer-test implementation",
+      "assessmentInMaximaColumn": "The pinned native STACK answer-test implementation in Wasm Maxima"
+    },
+    {
+      "id": "examples-08",
+      "title": "Boolean equivalence",
+      "sourceXml": "examples/stack/boolean-equivalence.xml",
+      "sourceGitBlobSha": "ab9064dc625de44f65a2f3e1488f43a861f46c9c",
+      "variants": 1,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "standard-stack-features",
+      "label": "**Standard STACK features | CTM-authored question.**",
+      "answerTests": [
+        "AlgEquiv"
+      ],
+      "extensions": [],
+      "pythonGradingInBothColumns": false,
+      "nativeMaximaAnswerTestNodes": 1,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/boolean-equivalence.xml",
+      "pythonCheckerNodes": 0,
+      "assessmentInSympyColumn": "The CTM SymPy answer-test implementation",
+      "assessmentInMaximaColumn": "The pinned native STACK answer-test implementation in Wasm Maxima"
+    },
+    {
+      "id": "examples-09",
+      "title": "Finite scalar collections",
+      "sourceXml": "examples/stack/finite-collections.xml",
+      "sourceGitBlobSha": "497443ac4c9d57302f4217b972bc379f63d51462",
+      "variants": 2,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "standard-stack-features",
+      "label": "**Standard STACK features | CTM-authored question.**",
+      "answerTests": [
+        "AlgEquiv",
+        "Sets"
+      ],
+      "extensions": [],
+      "pythonGradingInBothColumns": false,
+      "nativeMaximaAnswerTestNodes": 3,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/finite-collections.xml",
+      "pythonCheckerNodes": 0,
+      "assessmentInSympyColumn": "The CTM SymPy answer-test implementation",
+      "assessmentInMaximaColumn": "The pinned native STACK answer-test implementation in Wasm Maxima"
+    },
+    {
+      "id": "examples-10",
+      "title": "Nested finite collections",
+      "sourceXml": "examples/stack/nested-collections.xml",
+      "sourceGitBlobSha": "e99ce4f4b66ebac3dfa83879f3c8a7acc406b724",
+      "variants": 1,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "standard-stack-features",
+      "label": "**Standard STACK features | CTM-authored question.**",
+      "answerTests": [
+        "AlgEquiv",
+        "Sets",
+        "SameType",
+        "EqualComAss"
+      ],
+      "extensions": [],
+      "pythonGradingInBothColumns": false,
+      "nativeMaximaAnswerTestNodes": 4,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/nested-collections.xml",
+      "pythonCheckerNodes": 0,
+      "assessmentInSympyColumn": "The CTM SymPy answer-test implementation",
+      "assessmentInMaximaColumn": "The pinned native STACK answer-test implementation in Wasm Maxima"
+    },
+    {
+      "id": "examples-11",
+      "title": "Finite author helpers",
+      "sourceXml": "examples/stack/finite-author-helpers.xml",
+      "sourceGitBlobSha": "4cbd9d09c854aa761023cd1c5f48d888f77b17c7",
+      "variants": 1,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "standard-stack-features",
+      "label": "**Standard STACK features | CTM-authored question.** `listify`, `setify`, `union`, `intersection`, `setdifference`, `member`, `subsetp` and `cardinality` are ordinary Maxima/STACK functions, not CTM extensions.",
+      "answerTests": [
+        "AlgEquiv",
+        "Sets"
+      ],
+      "extensions": [],
+      "pythonGradingInBothColumns": false,
+      "nativeMaximaAnswerTestNodes": 3,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/finite-author-helpers.xml",
+      "standardFunctions": [
+        "listify",
+        "setify",
+        "union",
+        "intersection",
+        "setdifference",
+        "member",
+        "subsetp",
+        "cardinality"
+      ],
+      "pythonCheckerNodes": 0,
+      "assessmentInSympyColumn": "The CTM SymPy answer-test implementation",
+      "assessmentInMaximaColumn": "The pinned native STACK answer-test implementation in Wasm Maxima"
+    },
+    {
+      "id": "examples-12",
+      "title": "A nonidentity integer matrix with determinant one",
+      "sourceXml": "examples/stack/determinant-one.xml",
+      "sourceGitBlobSha": "87eb13fa323f5f03e912ee066c2b5378a1e4c258",
+      "variants": 1,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "ctm-extension-required",
+      "label": "**CTM extension required: PythonChecker. Python grades this question in both columns; Maxima executes no native answer-test node.**",
+      "answerTests": [
+        "PythonChecker"
+      ],
+      "extensions": [
+        "PythonChecker"
+      ],
+      "pythonGradingInBothColumns": true,
+      "nativeMaximaAnswerTestNodes": 0,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/determinant-one.xml",
+      "pythonCheckerSource": {
+        "path": "examples/stack/matrix-checkers.py",
+        "gitBlobSha": "91c6f7d63172a68516f2c16de7f0aa634803c1d6"
+      },
+      "pythonCheckerNodes": 3,
+      "assessmentInSympyColumn": "The shared supplied PythonChecker implementation in Pyodide",
+      "assessmentInMaximaColumn": "The same supplied PythonChecker implementation in Pyodide; no native Maxima answer-test node"
+    },
+    {
+      "id": "examples-13",
+      "title": "A positive definite matrix",
+      "sourceXml": "examples/stack/symmetric-positive-definite.xml",
+      "sourceGitBlobSha": "dc4ff3fdebd962b1f383dfe259e4e800e4e76188",
+      "variants": 1,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "ctm-extension-required",
+      "label": "**CTM extension required: PythonChecker. Python grades this question in both columns; Maxima executes no native answer-test node.**",
+      "answerTests": [
+        "PythonChecker"
+      ],
+      "extensions": [
+        "PythonChecker"
+      ],
+      "pythonGradingInBothColumns": true,
+      "nativeMaximaAnswerTestNodes": 0,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/symmetric-positive-definite.xml",
+      "pythonCheckerSource": {
+        "path": "examples/stack/matrix-checkers.py",
+        "gitBlobSha": "91c6f7d63172a68516f2c16de7f0aa634803c1d6"
+      },
+      "pythonCheckerNodes": 1,
+      "assessmentInSympyColumn": "The shared supplied PythonChecker implementation in Pyodide",
+      "assessmentInMaximaColumn": "The same supplied PythonChecker implementation in Pyodide; no native Maxima answer-test node"
+    },
+    {
+      "id": "examples-14",
+      "title": "Hermitian symmetry and positive definiteness separately",
+      "sourceXml": "examples/stack/symmetric-positive-definite-prt.xml",
+      "sourceGitBlobSha": "acad631ba4d0fa64b31fe5954019b61648b661fa",
+      "variants": 1,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "ctm-extension-required",
+      "label": "**CTM extension required: PythonChecker. Python grades this question in both columns; Maxima executes no native answer-test node.**",
+      "answerTests": [
+        "PythonChecker"
+      ],
+      "extensions": [
+        "PythonChecker"
+      ],
+      "pythonGradingInBothColumns": true,
+      "nativeMaximaAnswerTestNodes": 0,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/symmetric-positive-definite-prt.xml",
+      "pythonCheckerSource": {
+        "path": "examples/stack/matrix-checkers.py",
+        "gitBlobSha": "91c6f7d63172a68516f2c16de7f0aa634803c1d6"
+      },
+      "pythonCheckerNodes": 2,
+      "assessmentInSympyColumn": "The shared supplied PythonChecker implementation in Pyodide",
+      "assessmentInMaximaColumn": "The same supplied PythonChecker implementation in Pyodide; no native Maxima answer-test node"
+    },
+    {
+      "id": "examples-15",
+      "title": "Rank and pivot columns of B",
+      "sourceXml": "examples/stack/course-b-rank-pivots.xml",
+      "sourceGitBlobSha": "733ca771629f3d260774b212c3af6aabe7acb188",
+      "variants": 1,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "ctm-extension-required",
+      "label": "**CTM input extension required: resizable matrix. Grading uses standard `AlgEquiv`; no PythonChecker is used.** This XML's custom matrix sizing needs adaptation to stock STACK's matrix or varmatrix input configuration.",
+      "answerTests": [
+        "AlgEquiv"
+      ],
+      "extensions": [
+        "ctm-bounded-resizable-matrix-input"
+      ],
+      "pythonGradingInBothColumns": false,
+      "nativeMaximaAnswerTestNodes": 2,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/course-b-rank-pivots.xml",
+      "stockStackAdaptation": "Retain standard AlgEquiv grading; translate CTM <matrix><rows .../><cols .../></matrix> sizing to native matrix/varmatrix configuration.",
+      "pythonCheckerNodes": 0,
+      "assessmentInSympyColumn": "The CTM SymPy answer-test implementation",
+      "assessmentInMaximaColumn": "The pinned native STACK answer-test implementation in Wasm Maxima"
+    },
+    {
+      "id": "examples-16",
+      "title": "A basis for the null space of B",
+      "sourceXml": "examples/stack/course-b-nullspace.xml",
+      "sourceGitBlobSha": "1d86f5d932ee61eea31bbbb69becf741c3c0257b",
+      "variants": 1,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "ctm-extension-required",
+      "label": "**CTM extension required: PythonChecker. Python grades this question in both columns; Maxima executes no native answer-test node.** It also requires CTM's `nullspace_basis(A)` author helper and bounded resizable matrix input. Both need adaptation for stock STACK.",
+      "answerTests": [
+        "PythonChecker"
+      ],
+      "extensions": [
+        "PythonChecker",
+        "ctm-bounded-resizable-matrix-input",
+        "ctm-nullspace_basis-author-helper"
+      ],
+      "pythonGradingInBothColumns": true,
+      "nativeMaximaAnswerTestNodes": 0,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/course-b-nullspace.xml",
+      "pythonCheckerSource": {
+        "path": "examples/stack/matrix-checkers.py",
+        "gitBlobSha": "91c6f7d63172a68516f2c16de7f0aa634803c1d6"
+      },
+      "stockStackAdaptation": "Replace the PythonChecker, CTM nullspace_basis(A) author helper and CTM resizable matrix sizing.",
+      "pythonCheckerNodes": 1,
+      "assessmentInSympyColumn": "The shared supplied PythonChecker implementation in Pyodide",
+      "assessmentInMaximaColumn": "The same supplied PythonChecker implementation in Pyodide; no native Maxima answer-test node"
+    },
+    {
+      "id": "examples-17",
+      "title": "A basis for the null space of C",
+      "sourceXml": "examples/stack/course-c-nullspace.xml",
+      "sourceGitBlobSha": "cbc7d491d5e40bd5a8cd7ffb4e088de61c8b90e2",
+      "variants": 1,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "ctm-extension-required",
+      "label": "**CTM extension required: PythonChecker. Python grades this question in both columns; Maxima executes no native answer-test node.** It also requires CTM's `nullspace_basis(A)` author helper and bounded resizable matrix input. Both need adaptation for stock STACK.",
+      "answerTests": [
+        "PythonChecker"
+      ],
+      "extensions": [
+        "PythonChecker",
+        "ctm-bounded-resizable-matrix-input",
+        "ctm-nullspace_basis-author-helper"
+      ],
+      "pythonGradingInBothColumns": true,
+      "nativeMaximaAnswerTestNodes": 0,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/course-c-nullspace.xml",
+      "pythonCheckerSource": {
+        "path": "examples/stack/matrix-checkers.py",
+        "gitBlobSha": "91c6f7d63172a68516f2c16de7f0aa634803c1d6"
+      },
+      "stockStackAdaptation": "Replace the PythonChecker, CTM nullspace_basis(A) author helper and CTM resizable matrix sizing.",
+      "pythonCheckerNodes": 1,
+      "assessmentInSympyColumn": "The shared supplied PythonChecker implementation in Pyodide",
+      "assessmentInMaximaColumn": "The same supplied PythonChecker implementation in Pyodide; no native Maxima answer-test node"
+    },
+    {
+      "id": "examples-18",
+      "title": "A positive integer multiple (PythonChecker)",
+      "sourceXml": "examples/stack/python-checker.xml",
+      "sourceGitBlobSha": "4f9ba7b3a02fe28eade0541fda28272e5eb67880",
+      "variants": 3,
+      "authorship": "ctm-authored-or-adapted",
+      "compatibility": "ctm-extension-required",
+      "label": "**CTM extension required: PythonChecker. Python grades this question in both columns; Maxima executes no native answer-test node.**",
+      "answerTests": [
+        "PythonChecker"
+      ],
+      "extensions": [
+        "PythonChecker"
+      ],
+      "pythonGradingInBothColumns": true,
+      "nativeMaximaAnswerTestNodes": 0,
+      "stockMoodleExecutionVerified": false,
+      "sourceUrl": "https://github.com/Erasmus-CTM/ctm-checkers/blob/c366f175aba6b62caa628bc60f57bb1167fc087b/examples/stack/python-checker.xml",
+      "pythonCheckerSource": {
+        "path": "examples/stack/checkers.py",
+        "gitBlobSha": "5ca5b360c6e257129374c4c473dbe4e601a8acb5"
+      },
+      "pythonCheckerNodes": 1,
+      "assessmentInSympyColumn": "The shared supplied PythonChecker implementation in Pyodide",
+      "assessmentInMaximaColumn": "The same supplied PythonChecker implementation in Pyodide; no native Maxima answer-test node"
+    }
+  ]
+}

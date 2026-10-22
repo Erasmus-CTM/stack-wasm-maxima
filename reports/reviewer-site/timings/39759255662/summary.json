@@ -1,0 +1,230 @@
+{
+  "schema": 1,
+  "createdAt": "2026-10-22T09:56:42.794Z",
+  "pageURL": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/maxima/examples.html",
+  "benchmarkSource": "ec553c3c9fcbe3830ec39dc97110479be3081823",
+  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39759255662",
+  "expectedHTML": "3e1c86157bfb545423370bcabb75a40ace1249afd30930d6b73f198e5f78a8eb",
+  "measuredExerciseSource": "3ec984fdf6e52955c3c6ed9f8e1e3a332750d8c6",
+  "method": {
+    "startsPerBackend": 3,
+    "warmCallsPerStart": 5,
+    "workload": "examples-01, variant 1, the same accepted full-credit rational expression",
+    "firstAction": "Validate answers; no authored tests or grading before it",
+    "uiClock": "Browser performance.now: captured button click to verdict DOM mutation; excludes later MathJax paint",
+    "workerClock": "Browser performance.now: actual worker postMessage to response",
+    "cache": "A fresh Chromium process/profile and worker for every sample. OS and CDN caches are not cleared.",
+    "scope": "Public GitHub Pages from one GitHub-hosted Linux runner; not a user-device or general workload benchmark."
+  },
+  "runner": {
+    "platform": "linux",
+    "architecture": "x64",
+    "cpus": 4,
+    "cpu": "AMD EPYC 9V74 80-Core Processor"
+  },
+  "fingerprints": [
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/MATERIALIZATION.json",
+      "bytes": 21520,
+      "sha256": "2f3e6026029d336d6be5c48dafb13447b80bd803f2d1128904e9502cfc289213"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/stack-sources.json",
+      "bytes": 974107,
+      "sha256": "9a1fb1644dbe1592bcb7d573c9f79e28676c1649b839cb30580b7171ecc85f0d"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/runtime-assets.json",
+      "bytes": 26149,
+      "sha256": "c9bc9519bc0d8228274c3d0210345b921bdaf0e0c44431f5ca812f692b261613"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/backend/worker.js",
+      "bytes": 4438,
+      "sha256": "df01c4487903c5fc2fa07e069bf079824588394ec4433091c727e44da276fd60"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/backend/native_adapter.py",
+      "bytes": 14757,
+      "sha256": "a0f2d5a16c9501a321236d79df8fcb27ad48572770d243cf7d319f17b143e3e5"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/runtime/maxima-session.js",
+      "bytes": 11209,
+      "sha256": "6db35ac0bc4e4cb0f02690e55d6f8102daf8d7d051da56d90bc00b4364d49eeb"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/runtime/maxima-child.js",
+      "bytes": 6274,
+      "sha256": "ec6ac9112f389c86c9af2bfdf0fbdbdc7fc9ab354516028f837d76546c620593"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/site_libs/quarto-contrib/stack-sympy-0.3.0/worker.js",
+      "bytes": 2432,
+      "sha256": "bea2527ed64cba71eb28e1f6ae1abad0c55b08e09527387341ce4ebe95484444"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/site_libs/quarto-contrib/stack-sympy-0.3.0/stack-sympy.js",
+      "bytes": 25903,
+      "sha256": "125726c5de20ea9bf09456f5ea1b476bb02c429d486df1a9b0a26c8b3bf60882"
+    }
+  ],
+  "passed": true,
+  "htmlBefore": {
+    "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/maxima/examples.html",
+    "bytes": 719720,
+    "sha256": "3e1c86157bfb545423370bcabb75a40ace1249afd30930d6b73f198e5f78a8eb"
+  },
+  "sourcePins": {
+    "stack-sympy": "1b1d50f69fc1e7eb39846b497657d72be325f597",
+    "ctm-checkers": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+    "ctm-libs": "94687f718fd651fc2857bc5242a64e45c8fd4697"
+  },
+  "trackedPageSha256": "78fcc2b26d482ac661475f5685ea0ebc72b712177d47a5597c46c47466b85f96",
+  "frontendPatches": [
+    {
+      "path": "_extensions/stack-sympy/stack-sympy.js",
+      "sourceSha256": "53832ffd115c64fa2e28fb96ebebf6e99ebcec2e43c971a075cf7283e0731633",
+      "materializedSha256": "125726c5de20ea9bf09456f5ea1b476bb02c429d486df1a9b0a26c8b3bf60882",
+      "substitutions": [
+        "worker prefix enclosed in createBackend(descriptor)",
+        "initialize(card) captures its nearest wrapper's backend",
+        "grade status uses the selected backend label"
+      ]
+    }
+  ],
+  "browserVersion": "141.0.7390.37",
+  "htmlAfter": {
+    "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/maxima/examples.html",
+    "bytes": 719720,
+    "sha256": "3e1c86157bfb545423370bcabb75a40ace1249afd30930d6b73f198e5f78a8eb"
+  },
+  "statistics": {
+    "sympy": {
+      "firstValidationUI": {
+        "n": 3,
+        "median": 5952.7300000000105,
+        "min": 5933.6449999999895,
+        "max": 6129.209999999999
+      },
+      "initialization": {
+        "n": 3,
+        "median": 5771.684999999998,
+        "min": 5752.829999999987,
+        "max": 5928.550000000003
+      },
+      "firstValidationWorker": {
+        "n": 3,
+        "median": 178.95999999999185,
+        "min": 178.63000000000466,
+        "max": 198.3050000000003
+      },
+      "warmValidationUI": {
+        "n": 15,
+        "median": 12.27499999999418,
+        "min": 8,
+        "max": 12.730000000010477
+      },
+      "warmValidationWorker": {
+        "n": 15,
+        "median": 11.369999999995343,
+        "min": 6.9649999999965075,
+        "max": 11.949999999982538
+      },
+      "firstGradeUI": {
+        "n": 3,
+        "median": 11.64000000001397,
+        "min": 10.389999999984866,
+        "max": 12.25499999999738
+      },
+      "warmGradeUI": {
+        "n": 15,
+        "median": 12.415000000000873,
+        "min": 9.029999999998836,
+        "max": 13.989999999997963
+      },
+      "warmGradeWorker": {
+        "n": 15,
+        "median": 11.60000000000582,
+        "min": 8.029999999998836,
+        "max": 13.065000000002328
+      }
+    },
+    "maxima": {
+      "firstValidationUI": {
+        "n": 3,
+        "median": 43278.325,
+        "min": 40852.49000000002,
+        "max": 43764.255
+      },
+      "initialization": {
+        "n": 3,
+        "median": 43096.10000000002,
+        "min": 40669.79500000001,
+        "max": 43583.51
+      },
+      "firstValidationWorker": {
+        "n": 3,
+        "median": 180.1350000000093,
+        "min": 178.51499999999942,
+        "max": 180.4550000000163
+      },
+      "warmValidationUI": {
+        "n": 15,
+        "median": 12.385000000009313,
+        "min": 11.605000000010477,
+        "max": 13.339999999996508
+      },
+      "warmValidationWorker": {
+        "n": 15,
+        "median": 11.464999999996508,
+        "min": 10.61500000001979,
+        "max": 12.410000000003492
+      },
+      "firstGradeUI": {
+        "n": 3,
+        "median": 47.679999999993015,
+        "min": 46.970000000001164,
+        "max": 48.38000000000466
+      },
+      "warmGradeUI": {
+        "n": 15,
+        "median": 39.02500000000873,
+        "min": 37.205000000001746,
+        "max": 41.85500000001048
+      },
+      "warmGradeWorker": {
+        "n": 15,
+        "median": 38.06999999999243,
+        "min": 36.345000000001164,
+        "max": 40.93000000002212
+      }
+    }
+  },
+  "artifact": {
+    "id": 12417052320,
+    "name": "page-timings-ec553c3c9fcbe3830ec39dc97110479be3081823",
+    "size_in_bytes": 17386,
+    "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12417052320",
+    "archive_download_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12417052320/zip",
+    "expired": false,
+    "created_at": "2026-10-22T09:59:23Z",
+    "expires_at": "2027-01-20T09:56:15Z",
+    "updated_at": "2026-10-22T09:59:23Z",
+    "digest": "sha256:c7f866aa72d17a636025104bf245d1d907d009291ab10f61384f7e6ff47ddd50",
+    "workflow_run": {
+      "id": 39759255662,
+      "repository_id": 1428812079,
+      "head_repository_id": 1428812079,
+      "head_branch": "research/2026-10-runtime-feasibility",
+      "head_sha": "ec553c3c9fcbe3830ec39dc97110479be3081823"
+    }
+  },
+  "rawReport": {
+    "path": "timings.json.gz",
+    "uncompressedBytes": 258454,
+    "uncompressedSha256": "29647304cc730c84c4c7ff4198639dbc5b7a8003699ba4c4b93ce064f9e615bb",
+    "bytes": 14787,
+    "sha256": "0ed176f31d42fc841644734157b93ff670ae0aed6f144bcf7c8fc5aae54a9fba"
+  }
+}
