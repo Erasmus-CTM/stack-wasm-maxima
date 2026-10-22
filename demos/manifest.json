@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "frozen source inventory; runtime demo integration pending milestone 1",
+  "status": "frozen source inventory; hybrid milestone 2 passed at executable source 2493268c2bf3eb9941407f376d20a07fb5da4ec9",
   "stackSympyRevision": "1b1d50f69fc1e7eb39846b497657d72be325f597",
   "ctmDependencies": {
     "comment": "Commits CI uses (.github/actions/ctm-dependencies and site.yml; a head commit's CTM-Review-Refs trailer names others for review). ctm-libs: the library of CTM Assessment (the Python runtime, AI feedback, the bootstrap's target). ctm-checkers: the Python checker library with the STACK engine (ctm_checkers.stack), its example questions (examples/stack, copied into questions/ by scripts/fetch-examples.py) and the native STACK workflow that renders the compliance report. ctm-assessment: the umbrella, for tools/ci/review-dependencies.py (the one copy of every CTM repository).",

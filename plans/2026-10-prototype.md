@@ -4,7 +4,9 @@ Status: milestone 1 passed in [CI run 39669805961](https://github.com/Erasmus-CT
 
 ## Milestone 2 implementation
 
-Status: in progress. The first matched prototype retains CTM's input validation, frozen variants, response-tree orchestration, CAStext and PythonChecker implementation. Native STACK answer-test decisions are delegated to Maxima through a persistent child worker. This is an explicitly hybrid backend; paired reports must identify the shared Python costs and actual native/Python routes.
+Status: **passed** in [CI run 39721228518](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39721228518), measured source `2493268c2bf3eb9941407f376d20a07fb5da4ec9`. Both backends complete all 19 cards / 27 variants, six PythonChecker cards and 121 authored test rows, with zero structured-result differences. See the [completion report](../reports/milestone-two/2026-10-22-completion.md).
+
+The matched prototype retains CTM's input validation, frozen variants, response-tree orchestration, CAStext and PythonChecker implementation. Native STACK answer-test decisions are delegated to Maxima through a persistent child worker. CTM formats bounded native diagnostic feedback, with consistency guards; there is no SymPy answer-test fallback. The shared Python costs and actual native/Python routes are recorded separately.
 
 The existing frontend's persistent serialized worker is reused. The demo materializer provides one guarded backend descriptor seam and a thin `stack-maxima` block adapter; it does not maintain a second question UI. The benchmark will verify identical rendered payloads for both routes and exercise all 27 variants, authored tests, normal UI state transitions and repeated timings.
 
@@ -49,10 +51,10 @@ The local execution helpers were unavailable when this milestone began. The repo
 
 Every run records whether it actually completed. Unperformed checks remain under Runs needed. A failed experiment is useful evidence and must retain its diagnostic output.
 
-## Runs needed
+## Next milestones and runs needed
 
-- Complete a successful end-to-end workflow for the matching Quarto demo described in [the frozen inventory](../demos/README.md), preserving the existing CTM frontend and all 27 variants.
-- Address the observed 78–81 second STACK initialization in the unoptimized dependency harness; compare preload/compilation options and measure cold-page behavior separately.
-- Verify all six PythonChecker cards through the hybrid orchestrator before declaring the entire paired demo complete.
-- Translate native `stack_trans` feedback before claiming complete native feedback parity; raw native feedback is currently preserved in routing diagnostics while CTM displays its authored feedback.
-- Obtain a separate implementation review before proposing production integration.
+- Develop native question preparation/input validation and the native PRT/PythonChecker bridge as milestone 3, while retaining the existing public CTM request/result contract.
+- Optimize and remeasure runtime startup. The accepted paired demo observes 24.7–26.1 seconds for hybrid Maxima worker initialization versus 3.55–3.58 seconds for SymPy, with fresh browser caches and prepared gzip localhost assets. The earlier 78–81 seconds describe a different dependency harness.
+- Extend native feedback translation beyond the bounded diagnostics used in these demos. CTM's structural set descriptions remain checked against native diagnostic keys and verdicts.
+- Establish general namespace isolation, cancellation/restart, other browser engines, memory measurements, offline/exam packaging and production backend registration as milestone 4.
+- Obtain another implementation/security review for production integration. The independent milestone-two review found no blocking, high or medium defect for the curated hybrid target; it does not certify production readiness.
