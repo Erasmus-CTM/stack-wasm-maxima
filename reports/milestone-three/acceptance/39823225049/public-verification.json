@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "sourceRevision": "15fa33299d68d64e122a2661a2868feb30130edb",
+  "repository": "Erasmus-CTM/stack-wasm-maxima",
+  "workflowRun": 39823225049,
+  "workflowUrl": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39823225049",
+  "reviewerJob": {"id": 119979644740, "conclusion": "success", "nativeBrowserPassed": true, "independentOraclePassed": true},
+  "publicationJob": {"id": 119993878416, "conclusion": "success", "deployedBrowserChecksPassed": true},
+  "artifact": {
+    "id": 12448045201,
+    "name": "reviewer-site-15fa33299d68d64e122a2661a2868feb30130edb",
+    "url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39823225049/artifacts/12448045201",
+    "zipSha256": "d32eb0462a485b9b29c279ffc1b300db23f5f5b10b3ff7becea7efdd51174ebc",
+    "downloadDigestMatchesGitHub": true
+  },
+  "verification": {
+    "method": "Download accepted workflow artifact ZIP, verify its SHA256 against GitHub artifact digest, extract HTML, independently download public response bodies with PowerShell Invoke-WebRequest, and compare SHA256 byte hashes.",
+    "allPublicHtmlMatchArtifact": true,
+    "publicManifestUrl": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/build-manifest.json",
+    "publicManifestSourceRevision": "15fa33299d68d64e122a2661a2868feb30130edb"
+  },
+  "html": [
+    {"path": "maxima/examples.html", "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html", "artifactSha256": "ab1be8fe366093b3134c60010160bdb7839d62bbdb598d6c0a5735d36c314942", "publicSha256": "ab1be8fe366093b3134c60010160bdb7839d62bbdb598d6c0a5735d36c314942"},
+    {"path": "maxima/native.html", "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/native.html", "artifactSha256": "a483b6d59808a4e626a5eeb6303dea0528c6acbd9fcf1f10f896807859d7ddae", "publicSha256": "a483b6d59808a4e626a5eeb6303dea0528c6acbd9fcf1f10f896807859d7ddae"},
+    {"path": "maxima/data-flow.html", "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/data-flow.html", "artifactSha256": "683bcb72fb572d8e8a3617b271c39b84a1ab90f57c9889ea60cd36c76d66b9b1", "publicSha256": "683bcb72fb572d8e8a3617b271c39b84a1ab90f57c9889ea60cd36c76d66b9b1"}
+  ],
+  "scope": "Summary-only provenance of the accepted deployment; no raw question payloads or independent claim of new timing measurements. URLs can change on later deployment; hashes identify the observed build."
+}

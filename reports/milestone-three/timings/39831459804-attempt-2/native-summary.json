@@ -1,0 +1,1962 @@
+{
+  "schema": 1,
+  "evidenceScope": "Explicit summary whitelist; original artifact retains full raw diagnostic evidence. No worker programs, question payloads, answer bodies, console bodies or network bodies are copied here.",
+  "run": 39831459804,
+  "runAttempt": 2,
+  "artifact": {
+    "id": 12450225673,
+    "url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39831459804/artifacts/12450225673",
+    "digest": "sha256:1fcc1ae388e5c22ac8023e8a08f3d28d7d9589a1ab0e907076f183d1612fe2d3",
+    "sizeBytes": 93050,
+    "expiresAt": "2027-01-20T18:32:26Z"
+  },
+  "createdAt": "2026-10-22T18:35:31.902Z",
+  "pageURL": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/native.html",
+  "expectedHTML": "a483b6d59808a4e626a5eeb6303dea0528c6acbd9fcf1f10f896807859d7ddae",
+  "benchmarkSource": "1886d5dd3ef30edb5096601cea841684c0290860",
+  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39831459804",
+  "method": {
+    "freshStarts": 3,
+    "warmCallsPerStart": 5,
+    "nativeWorkload": "native-rational, variant 1, actual native-prepared model answer",
+    "optionalWorkload": "native-python-board, variant 1, accepted coordinate list [2,2]",
+    "order": "First native Validate; 5 warm Validate; first native grade and 5 warm grades; graphical PythonChecker native Validate; first Python grade and 5 warm grades",
+    "uiClock": "Browser performance.now: original click at window capture to verdict DOM mutation, including graphical collection/replay; excludes later MathJax paint",
+    "workerClock": "Browser performance.now: real postMessage to response. Initialization is recorded separately and is included in first native Validate UI time.",
+    "cache": "Fresh Chromium process, context/profile and worker per sample; OS and CDN caches are not cleared. Provenance fetches outside timed intervals can warm CDN caches.",
+    "scope": "One public build, two accepted-answer workloads and one runner; descriptive samples, not a general device/network benchmark or confidence interval."
+  },
+  "limitations": [
+    "First Python grade reuses an initialized native worker and measures incremental Python startup, not a second cold page.",
+    "Diagnostic stage clocks have different origins from the page clock.",
+    "UI completion is verdict DOM update, not final mathematics rendering.",
+    "Only these accepted answers and this exact deployment are measured; no previous-build speedup is inferred."
+  ],
+  "runner": {
+    "platform": "linux",
+    "architecture": "x64",
+    "cpus": 4,
+    "cpu": "AMD EPYC 7763 64-Core Processor"
+  },
+  "browserVersion": "141.0.7390.37",
+  "htmlBefore": {
+    "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/native.html",
+    "bytes": 16855012,
+    "sha256": "a483b6d59808a4e626a5eeb6303dea0528c6acbd9fcf1f10f896807859d7ddae"
+  },
+  "htmlAfter": {
+    "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/native.html",
+    "bytes": 16855012,
+    "sha256": "a483b6d59808a4e626a5eeb6303dea0528c6acbd9fcf1f10f896807859d7ddae"
+  },
+  "statistics": {
+    "nativeInitialization": {
+      "n": 3,
+      "median": 38599.649999999965,
+      "min": 38399.840000000026,
+      "max": 40664.580000000016
+    },
+    "native": {
+      "firstValidation": {
+        "ui": {
+          "n": 3,
+          "median": 38716.45499999996,
+          "min": 38513.93500000003,
+          "max": 40781.869999999995
+        },
+        "worker": {
+          "n": 3,
+          "median": 114.67499999998836,
+          "min": 112.08500000002095,
+          "max": 114.92999999999302
+        }
+      },
+      "warmValidation": {
+        "ui": {
+          "n": 15,
+          "median": 103.89000000001397,
+          "min": 100.07000000000698,
+          "max": 111.04500000004191
+        },
+        "worker": {
+          "n": 15,
+          "median": 102.80999999999767,
+          "min": 99.06500000000233,
+          "max": 109.93499999999767
+        }
+      },
+      "firstGrade": {
+        "ui": {
+          "n": 3,
+          "median": 418.15500000002794,
+          "min": 413.0200000000186,
+          "max": 422.3300000000163
+        },
+        "worker": {
+          "n": 3,
+          "median": 416.85999999998603,
+          "min": 411.70999999996275,
+          "max": 420.84499999997206
+        }
+      },
+      "warmGrade": {
+        "ui": {
+          "n": 15,
+          "median": 335.7050000000163,
+          "min": 328.75,
+          "max": 408.7050000000163
+        },
+        "worker": {
+          "n": 15,
+          "median": 334.60999999998603,
+          "min": 327.8300000000163,
+          "max": 407.7050000000163
+        }
+      }
+    },
+    "python": {
+      "validation": {
+        "ui": {
+          "n": 3,
+          "median": 2180.655000000028,
+          "min": 1697.0349999999744,
+          "max": 2223.2799999999697
+        },
+        "worker": {
+          "n": 3,
+          "median": 1376.6849999999977,
+          "min": 1081.5050000000047,
+          "max": 1420.6300000000047
+        }
+      },
+      "firstGrade": {
+        "ui": {
+          "n": 3,
+          "median": 6128.244999999995,
+          "min": 6040.725000000035,
+          "max": 6237.974999999977
+        },
+        "worker": {
+          "n": 3,
+          "median": 6108.549999999988,
+          "min": 6020.244999999995,
+          "max": 6217.130000000005
+        }
+      },
+      "warmGrade": {
+        "ui": {
+          "n": 15,
+          "median": 331.67499999998836,
+          "min": 325.125,
+          "max": 402.90499999996973
+        },
+        "worker": {
+          "n": 15,
+          "median": 312.1149999999907,
+          "min": 305.7150000000256,
+          "max": 382.99499999999534
+        }
+      }
+    },
+    "pythonInitialization": {
+      "n": 3,
+      "median": 5798.229999999981,
+      "min": 5704.514999999956,
+      "max": 5896.984999999986
+    }
+  },
+  "passed": true,
+  "measuredDeploymentSource": "15fa33299d68d64e122a2661a2868feb30130edb",
+  "fingerprints": {
+    "before": [
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/MATERIALIZATION.json",
+        "bytes": 21520,
+        "sha256": "23e2f623ab598206152cf7c46c77f0d8aa65803f51e867b05d684413ee696730"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/stack-sources.json",
+        "bytes": 979328,
+        "sha256": "c3ba37a638dbbe1d2739bf1f2106dc4ca6bcc1f84f84dbe658b15151b7147f0b"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/runtime-assets.json",
+        "bytes": 26149,
+        "sha256": "c9bc9519bc0d8228274c3d0210345b921bdaf0e0c44431f5ca812f692b261613"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/build-manifest.json",
+        "bytes": 18858990,
+        "sha256": "fc5ebb3a41e675373deed19d9a6e9754b1619b60df3deff0ee1a07797dc82e8b"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/runtime/maxima-session.js",
+        "bytes": 14314,
+        "sha256": "b2ee08fd8d5e4cb47a54ddd8276ad837d5cf5bbd72fcebb87c5c88dd37c6a5e0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/runtime/maxima-child.js",
+        "bytes": 8766,
+        "sha256": "83da6c056fc6c425d0aa8e9464617854c93575fed15205529fae12c9d10db4cb"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/backend-worker.js",
+        "bytes": 5104,
+        "sha256": "f25bd0626b6443de40de153bd1248a2e52affb3797bbfba1e0ae9ebc9f37dceb"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/engine.js",
+        "bytes": 36520,
+        "sha256": "642e1cdd481b57f74f3b4733796812c131f37068feecbf3d4f6717f794bd99b1"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/input.js",
+        "bytes": 17611,
+        "sha256": "0fbea684c259dbd132ca4e1dda1d91399cdeb2d807d616fc7af32406f7122333"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/input-rules.json",
+        "bytes": 70120,
+        "sha256": "e01ddcb2fcb7e081e132f3971748f7b6e3b7e8251701546aefe95b9281e4ca6c"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/stack-parser.js",
+        "bytes": 56679,
+        "sha256": "be66f716145baece0fb3ca280c4318aa23c0b20a73428ceecaab2d645b4e981f"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/input-provenance.json",
+        "bytes": 1326,
+        "sha256": "a27352f9f7959bd5ec2f8024c155ad27a33a9a86047efd00cdd65e0cf87cd364"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/feedback.js",
+        "bytes": 6944,
+        "sha256": "a7e441a62db8a8f3e4d5d74e52440466e7e36174763cfae9ffafa34e6db8cdf8"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/feedback-messages.json",
+        "bytes": 7727,
+        "sha256": "d3cd425f8b40194636ec0cd4992046b9de42c9cb3f6df4d285f1e721484400b4"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/feedback-provenance.json",
+        "bytes": 2806,
+        "sha256": "e7072387bf47a9b09eb45f8aa04626aa66c8931c6bb00e6c0e1d844027222951"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/python-bridge.js",
+        "bytes": 5030,
+        "sha256": "bb43ac0b4b2baedb5f88680b7fdbebe9883d3eaab39b696f80bcdd1af9672ce5"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/python_bridge.py",
+        "bytes": 5111,
+        "sha256": "6af06b5b2a4b5ee7368664e33d00ba8036dd7a157fd59ff00f5f8d45f30b814c"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/jsxgraph/host.js",
+        "bytes": 18430,
+        "sha256": "6089c7ebdbdedcd63aa78843ae035d08c7b50048fb850a3e69467ce1b2bb9731"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/jsxgraph/frame.js",
+        "bytes": 13159,
+        "sha256": "254eb9f327f2b62bd650c01102a3e04c06ed4550f0ff149d2c774d7618443717"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-nav/quarto-nav.js",
+        "bytes": 9636,
+        "sha256": "a3e9c8c52dd54d783a6d9294357ef104d17d03faf0a404b592216c0d71a9f717"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-nav/headroom.min.js",
+        "bytes": 4570,
+        "sha256": "5b80cc4165a661a3f2060d6bdb5ccff591f04c4f8e39a06c12d3c2544587cb17"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/clipboard/clipboard.min.js",
+        "bytes": 9160,
+        "sha256": "e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-search/autocomplete.umd.js",
+        "bytes": 96397,
+        "sha256": "cd9db3b7d812139a4679a2566ea8f01b2a80159490a60b9e9e813e81b5e00a05"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-search/fuse.min.js",
+        "bytes": 23539,
+        "sha256": "c57339c3fa16b1d69d9a6b46749a8139ef8d4fc9bbfe48144ff897aa7d4222ec"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-search/quarto-search.js",
+        "bytes": 37174,
+        "sha256": "b685d6ad9b22c04e3f55bcf54e56db7fed463bc881bc92007406e9879a0ec6be"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-html/quarto.js",
+        "bytes": 26885,
+        "sha256": "14589dacd0cf625c4e6891269681a0a8e20aaa5390864ca6a69f2fff1514719a"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-html/tabsets/tabsets.js",
+        "bytes": 2882,
+        "sha256": "a9c226bf70e82eaf5476f619cecfb70b4446b87ce4d1634d6404b0b2ba006d15"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-html/axe/axe-check.js",
+        "bytes": 4884,
+        "sha256": "88e2922e397018186991fa708947be84f96f85578e3c7601d29a5e58e367211d"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-html/popper.min.js",
+        "bytes": 20084,
+        "sha256": "4d50586b184724d39ddfe0f6582861664eddd5e806e5a79e0dbaa832361414d0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-html/tippy.umd.min.js",
+        "bytes": 24033,
+        "sha256": "41181eeec6d7ba64cb9165f0e95563e34e026bde79e7c13aeec83270429b6fae"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-html/anchor.min.js",
+        "bytes": 5888,
+        "sha256": "69098e105d990f834cff1b7886d873444228ff63c590e5ff834d568f1115ed8b"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/bootstrap/bootstrap.min.js",
+        "bytes": 80668,
+        "sha256": "d2ea6c1e0cabca20d18e924b25a1cd0187c38ba7c33f60ab06e1b0402b9bcdb5"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/ctm-runtime-0.9.0/pyodide-runtime.js",
+        "bytes": 21134,
+        "sha256": "f823142894fd78db70a6429b2c0c9a31cd4c1d1aef9ec0ed77301ba69bd852b3"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/ctm-checkers-0.6.0/ctm-checkers.js",
+        "bytes": 41231,
+        "sha256": "4e78645d9511bb8bb3a31f7f87c413b4ef779161e835f40d512f2640ed4f32e8"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/ctm-checkers-stack-0.6.0/ctm-checkers-stack.js",
+        "bytes": 145406,
+        "sha256": "83e6a000520ac51b689ae6bd53c993dddfb3228e8e7291b109f8cf8461676cea"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/ctm-isolation.js",
+        "bytes": 1600,
+        "sha256": "2713dec1f019c63d3c99650a9fed1b12d5518fc221136cb1182e8392a458e5b0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/stack-sympy-0.3.0/matrix-input.js",
+        "bytes": 13748,
+        "sha256": "dff9b175a5f34aae3de37994892fcb7705e079effd5de89fd5f0272d800f370e"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/stack-sympy-0.3.0/stack-sympy.js",
+        "bytes": 25903,
+        "sha256": "125726c5de20ea9bf09456f5ea1b476bb02c429d486df1a9b0a26c8b3bf60882"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/ctm-stack-jsxgraph-1/host.js",
+        "bytes": 18430,
+        "sha256": "6089c7ebdbdedcd63aa78843ae035d08c7b50048fb850a3e69467ce1b2bb9731"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/libecl.so",
+        "bytes": 7966927,
+        "sha256": "477e2d4092cc8a6a601e39ddc746440854984115347b62e7faf3b65cc8fa3564"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/libgnuplot.so",
+        "bytes": 3937451,
+        "sha256": "c90cc6c149e0e4df484db9f422fb9c535ae34b359da24d61c974578d6bce0772"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-integration.fas",
+        "bytes": 2156309,
+        "sha256": "f9cfeaaf6dcf3063428a19b08bd1b27cfd7618db3f7e3443a69ad26fcbe95db4"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-limits.fas",
+        "bytes": 985243,
+        "sha256": "df76a340b53864025e4a8030789a40a91a5d8b6cc0724c11c0e271af9814a5c0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-matrix-algebra.fas",
+        "bytes": 645537,
+        "sha256": "25a1496b2170cb0ee1d66adc44e89d934e96ea9af1f93c879db02be56e1b3c07"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-number-theory.fas",
+        "bytes": 1429150,
+        "sha256": "833ac50171d72c4bff7278ae1c989117b15c49a67516790683380d0f5aa0d887"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-plot.fas",
+        "bytes": 1135430,
+        "sha256": "1d7bf17af3a92c744984ddc0c37430ca3dd6139f69bb387d0ef43832abff0b67"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-poisson-series.fas",
+        "bytes": 217426,
+        "sha256": "439ab53ff86b76052105dbcc8770c04109c7ea95efb89b2440a9a2a533eff9fd"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-quadpack.fas",
+        "bytes": 3714554,
+        "sha256": "26ca2a9811792cb023730014f9e9179af0e5e47c47fdf64528558d1dbc0c0def"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-slatec.fas",
+        "bytes": 6182186,
+        "sha256": "3123d401b7ab973a66b7e585ea0e746a5c899937e1b0ebdf399589eb9d2a003e"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-solve.fas",
+        "bytes": 1373325,
+        "sha256": "7c2b44e14bc16f3b51b2185b5877c0667d8ae27c8fd5f34546d494e118febaf7"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima.js",
+        "bytes": 1239434,
+        "sha256": "4b0b3ecc4eb229b35595e3e5f4063565502df023559d355a23306696af2fdf87"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima.wasm",
+        "bytes": 23611995,
+        "sha256": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima_thread.js",
+        "bytes": 3229,
+        "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/info/maxima-index-html.lisp",
+        "bytes": 240539,
+        "sha256": "1447fa3ae889b6e2466bee0b1825e24d2c5c06049a2aea46ae841f3736238ce9"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/info/maxima-index.lisp",
+        "bytes": 262119,
+        "sha256": "c4f25a08a93e2d730bec935a031537f6d01a069ad61f220f473a14f7aabd2160"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp",
+        "bytes": 83712,
+        "sha256": "027ea2adca8ee282261ef2c860a09506ade398ec8bee53d10f45b4edf3066aa0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/diag.mac",
+        "bytes": 13815,
+        "sha256": "058e2c46b050371cb10f45146c80daaabc38699fe057e31826a9c8566c26ea1e"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp",
+        "bytes": 5719,
+        "sha256": "ff90059ce466a6f111838b6a31876f77c9b7d4947528b16d1642eea97b9fdbd3"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/simplifying.lisp",
+        "bytes": 3674,
+        "sha256": "fa7c62ce99c4aac44587ef4eeb301d15b902f8349945e4163f3148fa5f1da12f"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/trigtools/trigtools.mac",
+        "bytes": 5020,
+        "sha256": "cae0f3c2f902ddfa05099d7bd59e9f0b85a8b616f72085d1fc69ac6eab14fbbc"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac",
+        "bytes": 69297,
+        "sha256": "c9b7d891f0a59d62a4acc0171d46d9234cb9613364c7760206fb34ebf4c2d15a"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp",
+        "bytes": 665,
+        "sha256": "a55a311e59742454623026388173bf8bc53933741bf1eec54dc9754d908d3b89"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac",
+        "bytes": 75917,
+        "sha256": "bca2baca2a951be94c48d903e9f742dc6c48af56c0ee8d71852d21e8b2c4e674"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp",
+        "bytes": 67103,
+        "sha256": "785a5040c4ddccbf86cbfe545ecd6df9c9c91b3fd0943d175c63ea6842c6361b"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+        "bytes": 231,
+        "sha256": "45def400e51ed424494d988f0c37e8e880247bda9ae249d54e8f2e33b856dbd9"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.system",
+        "bytes": 288,
+        "sha256": "b3540ed3cc0623c7269f74418fd316551f4302fd11235d05366158251eb0ece4"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/gnuplot.lisp",
+        "bytes": 160983,
+        "sha256": "6a3207114a838113174240e0d1873b19ee3914eaa2a6f7ece59d537e242a490f"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/grcommon.lisp",
+        "bytes": 102070,
+        "sha256": "db6d1ffd9a740856ca1a31541ff727ab868b98a7815c20ddf0f0eb65ba79f023"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/picture.lisp",
+        "bytes": 16364,
+        "sha256": "cf2fe24284c017ad30c476af6269f04555d572aea851ee8f0ed580df364123a2"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/vtk.lisp",
+        "bytes": 141890,
+        "sha256": "a28dc5a4333b10e568a216a69f658c93a4000cd4f354fc6f8c8454d348e4f5fe"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp",
+        "bytes": 22207,
+        "sha256": "b48ebeea74f5bf175e3d42adaceebe7e6d806e9697723309e03b94c509848bf0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb1.lisp",
+        "bytes": 9238,
+        "sha256": "3a68fba9fbb1c8e436eaa28841a9c2a43194f976fac12765c536f9f0a631d3a5"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb2.lisp",
+        "bytes": 1910,
+        "sha256": "1673fc162449c44506e0681fc156cae1d48064cf675bcdfa9958e472d21cfb15"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-daxpy.lisp",
+        "bytes": 5461,
+        "sha256": "8b9d6701475ae051929eed656a6e61c6077e569e8c41a3fa5b30f42972d317f6"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-ddot.lisp",
+        "bytes": 5327,
+        "sha256": "2ff8618463103d462dd94fc802c89536edc2ba78ff3701cbc5feb2a2e5e3ae7d"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.lisp",
+        "bytes": 35249,
+        "sha256": "daf18d1bbf8a3e870d9bea27ffc5365b261a227226f5a3077906dfaa6774f366"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.mac",
+        "bytes": 185,
+        "sha256": "f1136424d74dcd47337b9c96536f90d1b47a580dd5c1c552d2931c3620493816"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/maxima-lbfgs.lisp",
+        "bytes": 5510,
+        "sha256": "caee6aac20da81e78303b075cd8d855ff5a846a010116ba7f3b44e492397f611"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcsrch.lisp",
+        "bytes": 9933,
+        "sha256": "3e90e87f806cb09b48885c04473e8caf36646212c21926eb6112b783633f1b04"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcstep.lisp",
+        "bytes": 7096,
+        "sha256": "e95233ea91210438ef1ff783bae0ffd6e57cfd42a6a143904ac835923e4e24b2"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/eigens-by-jacobi.lisp",
+        "bytes": 5461,
+        "sha256": "7ad415c80a119bf62a0b1786fe12417c15ffbcc7ac6eb224684eac840b90c856"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-extra.lisp",
+        "bytes": 6189,
+        "sha256": "511f4576fd99db0dfc99bea2ee4fa7b4ea9e8bad619c0ee0c4515bce629a15bf"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-utilities.lisp",
+        "bytes": 6658,
+        "sha256": "da67e38dc83182b95b89476df4b436c95a90b797c0d02197c7dadbf6ba2202b0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalgcholesky.lisp",
+        "bytes": 2533,
+        "sha256": "fadfe281f1ae18d9ef9d658c7b38507e56285d3bec53ce5dc0e67427988ce71b"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linearalgebra.mac",
+        "bytes": 12218,
+        "sha256": "6f509719c842128e9c8fb34a91e2b0efeec38e45f9a1dbe11fd2cfe3a76e45cf"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/load-linearalgebra-lisp-files.lisp",
+        "bytes": 818,
+        "sha256": "ff456f078307f59c845d2ba6712e4bf2d4dd90908979cda01abcfb37b4daa778"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/lu.lisp",
+        "bytes": 12284,
+        "sha256": "493fc8dd91b5283f365b90d5babc0a4c0884ba68a43d0e08a5025e2e6fd6cdb0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/matrixexp.lisp",
+        "bytes": 6603,
+        "sha256": "06810384023da28279abc1a1c0ac296c192cdaacab8fb0dc2e80f5a9b8ef5d87"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/mring.lisp",
+        "bytes": 16809,
+        "sha256": "c4af22f8e472e182cef693328d3000e36749397202d5d48ca5db2178a320b0c8"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+        "bytes": 211935,
+        "sha256": "5752e3cb3b1653009ea11d92c54ccda008275225f76c5e869f7f08d173133d8d"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/macro/basic.mac",
+        "bytes": 1106,
+        "sha256": "ec99cf76b3653dcfe661d58b5868d51d2718b0f6e73a75696ff11fc2596536b7"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/macro/packg.mac",
+        "bytes": 1571,
+        "sha256": "be614af9f8583290f54879a5978156f768798ee3e5ce4d67ed7ee44265dfeb8a"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac",
+        "bytes": 8120,
+        "sha256": "cc63e4b33108bfc8cb3657c7dd84861bb40be5202e1fa5eff5dcb4ff842efe0c"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/facexp.mac",
+        "bytes": 11079,
+        "sha256": "a749264a1679b7a7eee0d1f01e5459b81bd589ae1bf908232dd3d6588c0fdbfd"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac",
+        "bytes": 4915,
+        "sha256": "59319fd8623025ce5444ac508f4d6defce594829b26e8ec950c7b5e2cc6f2181"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac",
+        "bytes": 8469,
+        "sha256": "9c60b72c98b369a7a98e5d7076c9f7db03c05189cbc5c0623d0c1ec6ba56a960"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/lrats.mac",
+        "bytes": 2536,
+        "sha256": "8ba7506bf7a30695f3d513d2a89b62852689f9a44b13822e656cb45ebce23ba2"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/inference_result.lisp",
+        "bytes": 8238,
+        "sha256": "c56c33c6bc6e0cc1e735f3d0025c2e615f40b481093fa48e6197a24728485faf"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/numstats.lisp",
+        "bytes": 12080,
+        "sha256": "c961431de9c647558c3f2f993a64abd6af69fde6a849e24d089255b8c9497811"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/stats.mac",
+        "bytes": 66662,
+        "sha256": "d6dd9065e460e92512c3050508e7c0918e6da258fc4c02d1587e2c6f3a60050c"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp",
+        "bytes": 5901,
+        "sha256": "acc82d7fb13251e2a67ce4f9162ca7184d5a9ce8e35e848d063d0f410f530ff1"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp",
+        "bytes": 10760,
+        "sha256": "75c9b17bd4f33a896f4207e6652d5ab63c63edd200858ddab6fec0d40adb8273"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp",
+        "bytes": 2395,
+        "sha256": "39ef5cc589851f013f5846c89f8d2dd3cc847dfea040e55dc662f5f74ff7ae6b"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp",
+        "bytes": 8193,
+        "sha256": "c8fb5a9241e800c0173c76ac87344a02cd35c972c4595868c9ca2b037ca729db"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp",
+        "bytes": 21346,
+        "sha256": "35ec2642b830737b1c5543692c9c2385fd5970ce70028189966d36e3bdd434ac"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp",
+        "bytes": 13633,
+        "sha256": "c19ee8b7532cce05bfaa382c1877110d61113caad7a09af52cc29648d6b6cfeb"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.lisp",
+        "bytes": 7501,
+        "sha256": "e8f6d2fb9a8d4a3184b644b49175d2a2ad4b9b6c0759e34ad7ce9e01588ce50c"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.mac",
+        "bytes": 76,
+        "sha256": "ca75d7da5c533701f736efd8b9ae8ea160b650d1b7f6066c2479e2363d13c248"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp",
+        "bytes": 47721,
+        "sha256": "5b5678e3fbd9efab7e9870bf8cfb34652907a196ec7aee4f20ccee21e94d6211"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.mac",
+        "bytes": 184,
+        "sha256": "fe11a711f0af6214a976aca4ac0a1e52720186790bb4b9c61d1e606ee40e3118"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp",
+        "bytes": 6599,
+        "sha256": "e4179ffab65b8e2c98162634d2c408e8e04c6577e943a8dacd99faa7f90bd1fb"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp",
+        "bytes": 24670,
+        "sha256": "bfcae0e610d039bb43d71e6bfa2723820df3cfe0fca012a05530f73c1a8d0e3d"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve.mac",
+        "bytes": 26278,
+        "sha256": "2441e553d1604a55dad602cdb2e997c6f48eff668932d7cc7b7a12ec0ca1fb5e"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve_extra.lisp",
+        "bytes": 6966,
+        "sha256": "0a364d75e9e6700c0cb170dc6bf08fbc3a700739e87218a8b029ffd0ee340b30"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/atrig1.mac",
+        "bytes": 1528,
+        "sha256": "11843e2e013d1e9888251c1acb0109c3b6f7d9c7d57cb9db9e1a285744b02dd8"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/ntrig.mac",
+        "bytes": 1096,
+        "sha256": "3a2422f3c749c9fd8673c9dbda0e1f125f4b06c6ac7e8ec408c4fbcc8279df58"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/spangl.mac",
+        "bytes": 1945,
+        "sha256": "999b974b59ce420302ac818e49b6876b42615788b4a18c887d4f961e39e84a65"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trgsmp.mac",
+        "bytes": 4874,
+        "sha256": "0f5db0cb2e22d4ce8536e84a3767830e76ac1751f4555ca253b86c70aa3c56a1"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trigrat.lisp",
+        "bytes": 1909,
+        "sha256": "5da6c242383b117fc4d75b241193ab6976b63fe58542ef17b3332ead900973ec"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share_files.js",
+        "bytes": 533835,
+        "sha256": "0a325df1e0e85c65ebaf3102fd75cb2db2d989735a0976e97c1a2108a8f5bca0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/runtime-preload.json",
+        "bytes": 4983076,
+        "sha256": "e61ceedf756291f3218da52b0a06a3ef330ce27a8f635c008ec46cb10ba37495"
+      }
+    ],
+    "after": [
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/MATERIALIZATION.json",
+        "bytes": 21520,
+        "sha256": "23e2f623ab598206152cf7c46c77f0d8aa65803f51e867b05d684413ee696730"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/stack-sources.json",
+        "bytes": 979328,
+        "sha256": "c3ba37a638dbbe1d2739bf1f2106dc4ca6bcc1f84f84dbe658b15151b7147f0b"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/runtime-assets.json",
+        "bytes": 26149,
+        "sha256": "c9bc9519bc0d8228274c3d0210345b921bdaf0e0c44431f5ca812f692b261613"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/build-manifest.json",
+        "bytes": 18858990,
+        "sha256": "fc5ebb3a41e675373deed19d9a6e9754b1619b60df3deff0ee1a07797dc82e8b"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/runtime/maxima-session.js",
+        "bytes": 14314,
+        "sha256": "b2ee08fd8d5e4cb47a54ddd8276ad837d5cf5bbd72fcebb87c5c88dd37c6a5e0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/runtime/maxima-child.js",
+        "bytes": 8766,
+        "sha256": "83da6c056fc6c425d0aa8e9464617854c93575fed15205529fae12c9d10db4cb"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/backend-worker.js",
+        "bytes": 5104,
+        "sha256": "f25bd0626b6443de40de153bd1248a2e52affb3797bbfba1e0ae9ebc9f37dceb"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/engine.js",
+        "bytes": 36520,
+        "sha256": "642e1cdd481b57f74f3b4733796812c131f37068feecbf3d4f6717f794bd99b1"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/input.js",
+        "bytes": 17611,
+        "sha256": "0fbea684c259dbd132ca4e1dda1d91399cdeb2d807d616fc7af32406f7122333"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/input-rules.json",
+        "bytes": 70120,
+        "sha256": "e01ddcb2fcb7e081e132f3971748f7b6e3b7e8251701546aefe95b9281e4ca6c"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/stack-parser.js",
+        "bytes": 56679,
+        "sha256": "be66f716145baece0fb3ca280c4318aa23c0b20a73428ceecaab2d645b4e981f"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/input-provenance.json",
+        "bytes": 1326,
+        "sha256": "a27352f9f7959bd5ec2f8024c155ad27a33a9a86047efd00cdd65e0cf87cd364"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/feedback.js",
+        "bytes": 6944,
+        "sha256": "a7e441a62db8a8f3e4d5d74e52440466e7e36174763cfae9ffafa34e6db8cdf8"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/feedback-messages.json",
+        "bytes": 7727,
+        "sha256": "d3cd425f8b40194636ec0cd4992046b9de42c9cb3f6df4d285f1e721484400b4"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/feedback-provenance.json",
+        "bytes": 2806,
+        "sha256": "e7072387bf47a9b09eb45f8aa04626aa66c8931c6bb00e6c0e1d844027222951"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/python-bridge.js",
+        "bytes": 5030,
+        "sha256": "bb43ac0b4b2baedb5f88680b7fdbebe9883d3eaab39b696f80bcdd1af9672ce5"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/python_bridge.py",
+        "bytes": 5111,
+        "sha256": "6af06b5b2a4b5ee7368664e33d00ba8036dd7a157fd59ff00f5f8d45f30b814c"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/jsxgraph/host.js",
+        "bytes": 18430,
+        "sha256": "6089c7ebdbdedcd63aa78843ae035d08c7b50048fb850a3e69467ce1b2bb9731"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/jsxgraph/frame.js",
+        "bytes": 13159,
+        "sha256": "254eb9f327f2b62bd650c01102a3e04c06ed4550f0ff149d2c774d7618443717"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-nav/quarto-nav.js",
+        "bytes": 9636,
+        "sha256": "a3e9c8c52dd54d783a6d9294357ef104d17d03faf0a404b592216c0d71a9f717"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-nav/headroom.min.js",
+        "bytes": 4570,
+        "sha256": "5b80cc4165a661a3f2060d6bdb5ccff591f04c4f8e39a06c12d3c2544587cb17"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/clipboard/clipboard.min.js",
+        "bytes": 9160,
+        "sha256": "e17a1d816e13c0826e0ed7febfabc3277f45571234bde0bf9120829a7169edc9"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-search/autocomplete.umd.js",
+        "bytes": 96397,
+        "sha256": "cd9db3b7d812139a4679a2566ea8f01b2a80159490a60b9e9e813e81b5e00a05"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-search/fuse.min.js",
+        "bytes": 23539,
+        "sha256": "c57339c3fa16b1d69d9a6b46749a8139ef8d4fc9bbfe48144ff897aa7d4222ec"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-search/quarto-search.js",
+        "bytes": 37174,
+        "sha256": "b685d6ad9b22c04e3f55bcf54e56db7fed463bc881bc92007406e9879a0ec6be"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-html/quarto.js",
+        "bytes": 26885,
+        "sha256": "14589dacd0cf625c4e6891269681a0a8e20aaa5390864ca6a69f2fff1514719a"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-html/tabsets/tabsets.js",
+        "bytes": 2882,
+        "sha256": "a9c226bf70e82eaf5476f619cecfb70b4446b87ce4d1634d6404b0b2ba006d15"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-html/axe/axe-check.js",
+        "bytes": 4884,
+        "sha256": "88e2922e397018186991fa708947be84f96f85578e3c7601d29a5e58e367211d"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-html/popper.min.js",
+        "bytes": 20084,
+        "sha256": "4d50586b184724d39ddfe0f6582861664eddd5e806e5a79e0dbaa832361414d0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-html/tippy.umd.min.js",
+        "bytes": 24033,
+        "sha256": "41181eeec6d7ba64cb9165f0e95563e34e026bde79e7c13aeec83270429b6fae"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-html/anchor.min.js",
+        "bytes": 5888,
+        "sha256": "69098e105d990f834cff1b7886d873444228ff63c590e5ff834d568f1115ed8b"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/bootstrap/bootstrap.min.js",
+        "bytes": 80668,
+        "sha256": "d2ea6c1e0cabca20d18e924b25a1cd0187c38ba7c33f60ab06e1b0402b9bcdb5"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/ctm-runtime-0.9.0/pyodide-runtime.js",
+        "bytes": 21134,
+        "sha256": "f823142894fd78db70a6429b2c0c9a31cd4c1d1aef9ec0ed77301ba69bd852b3"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/ctm-checkers-0.6.0/ctm-checkers.js",
+        "bytes": 41231,
+        "sha256": "4e78645d9511bb8bb3a31f7f87c413b4ef779161e835f40d512f2640ed4f32e8"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/ctm-checkers-stack-0.6.0/ctm-checkers-stack.js",
+        "bytes": 145406,
+        "sha256": "83e6a000520ac51b689ae6bd53c993dddfb3228e8e7291b109f8cf8461676cea"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/ctm-isolation.js",
+        "bytes": 1600,
+        "sha256": "2713dec1f019c63d3c99650a9fed1b12d5518fc221136cb1182e8392a458e5b0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/stack-sympy-0.3.0/matrix-input.js",
+        "bytes": 13748,
+        "sha256": "dff9b175a5f34aae3de37994892fcb7705e079effd5de89fd5f0272d800f370e"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/stack-sympy-0.3.0/stack-sympy.js",
+        "bytes": 25903,
+        "sha256": "125726c5de20ea9bf09456f5ea1b476bb02c429d486df1a9b0a26c8b3bf60882"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/ctm-stack-jsxgraph-1/host.js",
+        "bytes": 18430,
+        "sha256": "6089c7ebdbdedcd63aa78843ae035d08c7b50048fb850a3e69467ce1b2bb9731"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/libecl.so",
+        "bytes": 7966927,
+        "sha256": "477e2d4092cc8a6a601e39ddc746440854984115347b62e7faf3b65cc8fa3564"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/libgnuplot.so",
+        "bytes": 3937451,
+        "sha256": "c90cc6c149e0e4df484db9f422fb9c535ae34b359da24d61c974578d6bce0772"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-integration.fas",
+        "bytes": 2156309,
+        "sha256": "f9cfeaaf6dcf3063428a19b08bd1b27cfd7618db3f7e3443a69ad26fcbe95db4"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-limits.fas",
+        "bytes": 985243,
+        "sha256": "df76a340b53864025e4a8030789a40a91a5d8b6cc0724c11c0e271af9814a5c0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-matrix-algebra.fas",
+        "bytes": 645537,
+        "sha256": "25a1496b2170cb0ee1d66adc44e89d934e96ea9af1f93c879db02be56e1b3c07"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-number-theory.fas",
+        "bytes": 1429150,
+        "sha256": "833ac50171d72c4bff7278ae1c989117b15c49a67516790683380d0f5aa0d887"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-plot.fas",
+        "bytes": 1135430,
+        "sha256": "1d7bf17af3a92c744984ddc0c37430ca3dd6139f69bb387d0ef43832abff0b67"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-poisson-series.fas",
+        "bytes": 217426,
+        "sha256": "439ab53ff86b76052105dbcc8770c04109c7ea95efb89b2440a9a2a533eff9fd"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-quadpack.fas",
+        "bytes": 3714554,
+        "sha256": "26ca2a9811792cb023730014f9e9179af0e5e47c47fdf64528558d1dbc0c0def"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-slatec.fas",
+        "bytes": 6182186,
+        "sha256": "3123d401b7ab973a66b7e585ea0e746a5c899937e1b0ebdf399589eb9d2a003e"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima-solve.fas",
+        "bytes": 1373325,
+        "sha256": "7c2b44e14bc16f3b51b2185b5877c0667d8ae27c8fd5f34546d494e118febaf7"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima.js",
+        "bytes": 1239434,
+        "sha256": "4b0b3ecc4eb229b35595e3e5f4063565502df023559d355a23306696af2fdf87"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima.wasm",
+        "bytes": 23611995,
+        "sha256": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/maxima_thread.js",
+        "bytes": 3229,
+        "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/info/maxima-index-html.lisp",
+        "bytes": 240539,
+        "sha256": "1447fa3ae889b6e2466bee0b1825e24d2c5c06049a2aea46ae841f3736238ce9"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/info/maxima-index.lisp",
+        "bytes": 262119,
+        "sha256": "c4f25a08a93e2d730bec935a031537f6d01a069ad61f220f473a14f7aabd2160"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp",
+        "bytes": 83712,
+        "sha256": "027ea2adca8ee282261ef2c860a09506ade398ec8bee53d10f45b4edf3066aa0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/diag.mac",
+        "bytes": 13815,
+        "sha256": "058e2c46b050371cb10f45146c80daaabc38699fe057e31826a9c8566c26ea1e"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp",
+        "bytes": 5719,
+        "sha256": "ff90059ce466a6f111838b6a31876f77c9b7d4947528b16d1642eea97b9fdbd3"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/simplifying.lisp",
+        "bytes": 3674,
+        "sha256": "fa7c62ce99c4aac44587ef4eeb301d15b902f8349945e4163f3148fa5f1da12f"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/trigtools/trigtools.mac",
+        "bytes": 5020,
+        "sha256": "cae0f3c2f902ddfa05099d7bd59e9f0b85a8b616f72085d1fc69ac6eab14fbbc"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac",
+        "bytes": 69297,
+        "sha256": "c9b7d891f0a59d62a4acc0171d46d9234cb9613364c7760206fb34ebf4c2d15a"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp",
+        "bytes": 665,
+        "sha256": "a55a311e59742454623026388173bf8bc53933741bf1eec54dc9754d908d3b89"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac",
+        "bytes": 75917,
+        "sha256": "bca2baca2a951be94c48d903e9f742dc6c48af56c0ee8d71852d21e8b2c4e674"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp",
+        "bytes": 67103,
+        "sha256": "785a5040c4ddccbf86cbfe545ecd6df9c9c91b3fd0943d175c63ea6842c6361b"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+        "bytes": 231,
+        "sha256": "45def400e51ed424494d988f0c37e8e880247bda9ae249d54e8f2e33b856dbd9"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.system",
+        "bytes": 288,
+        "sha256": "b3540ed3cc0623c7269f74418fd316551f4302fd11235d05366158251eb0ece4"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/gnuplot.lisp",
+        "bytes": 160983,
+        "sha256": "6a3207114a838113174240e0d1873b19ee3914eaa2a6f7ece59d537e242a490f"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/grcommon.lisp",
+        "bytes": 102070,
+        "sha256": "db6d1ffd9a740856ca1a31541ff727ab868b98a7815c20ddf0f0eb65ba79f023"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/picture.lisp",
+        "bytes": 16364,
+        "sha256": "cf2fe24284c017ad30c476af6269f04555d572aea851ee8f0ed580df364123a2"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/vtk.lisp",
+        "bytes": 141890,
+        "sha256": "a28dc5a4333b10e568a216a69f658c93a4000cd4f354fc6f8c8454d348e4f5fe"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp",
+        "bytes": 22207,
+        "sha256": "b48ebeea74f5bf175e3d42adaceebe7e6d806e9697723309e03b94c509848bf0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb1.lisp",
+        "bytes": 9238,
+        "sha256": "3a68fba9fbb1c8e436eaa28841a9c2a43194f976fac12765c536f9f0a631d3a5"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb2.lisp",
+        "bytes": 1910,
+        "sha256": "1673fc162449c44506e0681fc156cae1d48064cf675bcdfa9958e472d21cfb15"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-daxpy.lisp",
+        "bytes": 5461,
+        "sha256": "8b9d6701475ae051929eed656a6e61c6077e569e8c41a3fa5b30f42972d317f6"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-ddot.lisp",
+        "bytes": 5327,
+        "sha256": "2ff8618463103d462dd94fc802c89536edc2ba78ff3701cbc5feb2a2e5e3ae7d"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.lisp",
+        "bytes": 35249,
+        "sha256": "daf18d1bbf8a3e870d9bea27ffc5365b261a227226f5a3077906dfaa6774f366"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.mac",
+        "bytes": 185,
+        "sha256": "f1136424d74dcd47337b9c96536f90d1b47a580dd5c1c552d2931c3620493816"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/maxima-lbfgs.lisp",
+        "bytes": 5510,
+        "sha256": "caee6aac20da81e78303b075cd8d855ff5a846a010116ba7f3b44e492397f611"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcsrch.lisp",
+        "bytes": 9933,
+        "sha256": "3e90e87f806cb09b48885c04473e8caf36646212c21926eb6112b783633f1b04"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcstep.lisp",
+        "bytes": 7096,
+        "sha256": "e95233ea91210438ef1ff783bae0ffd6e57cfd42a6a143904ac835923e4e24b2"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/eigens-by-jacobi.lisp",
+        "bytes": 5461,
+        "sha256": "7ad415c80a119bf62a0b1786fe12417c15ffbcc7ac6eb224684eac840b90c856"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-extra.lisp",
+        "bytes": 6189,
+        "sha256": "511f4576fd99db0dfc99bea2ee4fa7b4ea9e8bad619c0ee0c4515bce629a15bf"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-utilities.lisp",
+        "bytes": 6658,
+        "sha256": "da67e38dc83182b95b89476df4b436c95a90b797c0d02197c7dadbf6ba2202b0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalgcholesky.lisp",
+        "bytes": 2533,
+        "sha256": "fadfe281f1ae18d9ef9d658c7b38507e56285d3bec53ce5dc0e67427988ce71b"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linearalgebra.mac",
+        "bytes": 12218,
+        "sha256": "6f509719c842128e9c8fb34a91e2b0efeec38e45f9a1dbe11fd2cfe3a76e45cf"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/load-linearalgebra-lisp-files.lisp",
+        "bytes": 818,
+        "sha256": "ff456f078307f59c845d2ba6712e4bf2d4dd90908979cda01abcfb37b4daa778"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/lu.lisp",
+        "bytes": 12284,
+        "sha256": "493fc8dd91b5283f365b90d5babc0a4c0884ba68a43d0e08a5025e2e6fd6cdb0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/matrixexp.lisp",
+        "bytes": 6603,
+        "sha256": "06810384023da28279abc1a1c0ac296c192cdaacab8fb0dc2e80f5a9b8ef5d87"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/mring.lisp",
+        "bytes": 16809,
+        "sha256": "c4af22f8e472e182cef693328d3000e36749397202d5d48ca5db2178a320b0c8"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+        "bytes": 211935,
+        "sha256": "5752e3cb3b1653009ea11d92c54ccda008275225f76c5e869f7f08d173133d8d"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/macro/basic.mac",
+        "bytes": 1106,
+        "sha256": "ec99cf76b3653dcfe661d58b5868d51d2718b0f6e73a75696ff11fc2596536b7"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/macro/packg.mac",
+        "bytes": 1571,
+        "sha256": "be614af9f8583290f54879a5978156f768798ee3e5ce4d67ed7ee44265dfeb8a"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac",
+        "bytes": 8120,
+        "sha256": "cc63e4b33108bfc8cb3657c7dd84861bb40be5202e1fa5eff5dcb4ff842efe0c"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/facexp.mac",
+        "bytes": 11079,
+        "sha256": "a749264a1679b7a7eee0d1f01e5459b81bd589ae1bf908232dd3d6588c0fdbfd"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac",
+        "bytes": 4915,
+        "sha256": "59319fd8623025ce5444ac508f4d6defce594829b26e8ec950c7b5e2cc6f2181"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac",
+        "bytes": 8469,
+        "sha256": "9c60b72c98b369a7a98e5d7076c9f7db03c05189cbc5c0623d0c1ec6ba56a960"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/lrats.mac",
+        "bytes": 2536,
+        "sha256": "8ba7506bf7a30695f3d513d2a89b62852689f9a44b13822e656cb45ebce23ba2"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/inference_result.lisp",
+        "bytes": 8238,
+        "sha256": "c56c33c6bc6e0cc1e735f3d0025c2e615f40b481093fa48e6197a24728485faf"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/numstats.lisp",
+        "bytes": 12080,
+        "sha256": "c961431de9c647558c3f2f993a64abd6af69fde6a849e24d089255b8c9497811"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/stats.mac",
+        "bytes": 66662,
+        "sha256": "d6dd9065e460e92512c3050508e7c0918e6da258fc4c02d1587e2c6f3a60050c"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp",
+        "bytes": 5901,
+        "sha256": "acc82d7fb13251e2a67ce4f9162ca7184d5a9ce8e35e848d063d0f410f530ff1"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp",
+        "bytes": 10760,
+        "sha256": "75c9b17bd4f33a896f4207e6652d5ab63c63edd200858ddab6fec0d40adb8273"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp",
+        "bytes": 2395,
+        "sha256": "39ef5cc589851f013f5846c89f8d2dd3cc847dfea040e55dc662f5f74ff7ae6b"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp",
+        "bytes": 8193,
+        "sha256": "c8fb5a9241e800c0173c76ac87344a02cd35c972c4595868c9ca2b037ca729db"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp",
+        "bytes": 21346,
+        "sha256": "35ec2642b830737b1c5543692c9c2385fd5970ce70028189966d36e3bdd434ac"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp",
+        "bytes": 13633,
+        "sha256": "c19ee8b7532cce05bfaa382c1877110d61113caad7a09af52cc29648d6b6cfeb"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.lisp",
+        "bytes": 7501,
+        "sha256": "e8f6d2fb9a8d4a3184b644b49175d2a2ad4b9b6c0759e34ad7ce9e01588ce50c"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.mac",
+        "bytes": 76,
+        "sha256": "ca75d7da5c533701f736efd8b9ae8ea160b650d1b7f6066c2479e2363d13c248"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp",
+        "bytes": 47721,
+        "sha256": "5b5678e3fbd9efab7e9870bf8cfb34652907a196ec7aee4f20ccee21e94d6211"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.mac",
+        "bytes": 184,
+        "sha256": "fe11a711f0af6214a976aca4ac0a1e52720186790bb4b9c61d1e606ee40e3118"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp",
+        "bytes": 6599,
+        "sha256": "e4179ffab65b8e2c98162634d2c408e8e04c6577e943a8dacd99faa7f90bd1fb"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp",
+        "bytes": 24670,
+        "sha256": "bfcae0e610d039bb43d71e6bfa2723820df3cfe0fca012a05530f73c1a8d0e3d"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve.mac",
+        "bytes": 26278,
+        "sha256": "2441e553d1604a55dad602cdb2e997c6f48eff668932d7cc7b7a12ec0ca1fb5e"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve_extra.lisp",
+        "bytes": 6966,
+        "sha256": "0a364d75e9e6700c0cb170dc6bf08fbc3a700739e87218a8b029ffd0ee340b30"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/atrig1.mac",
+        "bytes": 1528,
+        "sha256": "11843e2e013d1e9888251c1acb0109c3b6f7d9c7d57cb9db9e1a285744b02dd8"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/ntrig.mac",
+        "bytes": 1096,
+        "sha256": "3a2422f3c749c9fd8673c9dbda0e1f125f4b06c6ac7e8ec408c4fbcc8279df58"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/spangl.mac",
+        "bytes": 1945,
+        "sha256": "999b974b59ce420302ac818e49b6876b42615788b4a18c887d4f961e39e84a65"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trgsmp.mac",
+        "bytes": 4874,
+        "sha256": "0f5db0cb2e22d4ce8536e84a3767830e76ac1751f4555ca253b86c70aa3c56a1"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trigrat.lisp",
+        "bytes": 1909,
+        "sha256": "5da6c242383b117fc4d75b241193ab6976b63fe58542ef17b3332ead900973ec"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/share_files.js",
+        "bytes": 533835,
+        "sha256": "0a325df1e0e85c65ebaf3102fd75cb2db2d989735a0976e97c1a2108a8f5bca0"
+      },
+      {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima-runtime/runtime-preload.json",
+        "bytes": 4983076,
+        "sha256": "e61ceedf756291f3218da52b0a06a3ef330ce27a8f635c008ec46cb10ba37495"
+      }
+    ]
+  },
+  "provenance": {
+    "sourceRevision": "15fa33299d68d64e122a2661a2868feb30130edb",
+    "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+    "ctmCheckersRevision": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+    "jsxgraphQuartoRevision": "ba2daa52fa6b1c65b37322bca3f02643e31a688e",
+    "buildSourceFiles": [
+      {
+        "path": "scripts/milestone-three/compile.py",
+        "bytes": 24383,
+        "sha256": "e15bc6998a72294ceb88b4589342c1affbefdb781f1226b05da134f9e11e5661"
+      },
+      {
+        "path": "scripts/milestone-three/build-site.mjs",
+        "bytes": 12286,
+        "sha256": "262b287e897b85d3561eb5260dff0588f591de97dc07758172961bb2f53e15b2"
+      },
+      {
+        "path": "scripts/milestone-three/render-cards.py",
+        "bytes": 7545,
+        "sha256": "4efd920033de4be785aec595c50b950e6c92dd414f096437cb537e7d234b8454"
+      },
+      {
+        "path": "prototype/native/engine.js",
+        "bytes": 36520,
+        "sha256": "642e1cdd481b57f74f3b4733796812c131f37068feecbf3d4f6717f794bd99b1"
+      },
+      {
+        "path": "prototype/native/input.js",
+        "bytes": 17611,
+        "sha256": "0fbea684c259dbd132ca4e1dda1d91399cdeb2d807d616fc7af32406f7122333"
+      },
+      {
+        "path": "prototype/native/feedback.js",
+        "bytes": 6944,
+        "sha256": "a7e441a62db8a8f3e4d5d74e52440466e7e36174763cfae9ffafa34e6db8cdf8"
+      },
+      {
+        "path": "prototype/native/backend-worker.js",
+        "bytes": 5104,
+        "sha256": "f25bd0626b6443de40de153bd1248a2e52affb3797bbfba1e0ae9ebc9f37dceb"
+      },
+      {
+        "path": "prototype/native/python-bridge.js",
+        "bytes": 5030,
+        "sha256": "bb43ac0b4b2baedb5f88680b7fdbebe9883d3eaab39b696f80bcdd1af9672ce5"
+      },
+      {
+        "path": "prototype/native/python_bridge.py",
+        "bytes": 5111,
+        "sha256": "6af06b5b2a4b5ee7368664e33d00ba8036dd7a157fd59ff00f5f8d45f30b814c"
+      },
+      {
+        "path": "scripts/milestone-three/stage-feedback.py",
+        "bytes": 5749,
+        "sha256": "db9ff3beb8ebbccae4018530b60327762e09a4a358c8cdf93ad630e65fe6c54e"
+      },
+      {
+        "path": "prototype/runtime/maxima-session.js",
+        "bytes": 14314,
+        "sha256": "b2ee08fd8d5e4cb47a54ddd8276ad837d5cf5bbd72fcebb87c5c88dd37c6a5e0"
+      },
+      {
+        "path": "prototype/runtime/maxima-child.js",
+        "bytes": 8766,
+        "sha256": "83da6c056fc6c425d0aa8e9464617854c93575fed15205529fae12c9d10db4cb"
+      },
+      {
+        "path": "prototype/jsxgraph/frame.js",
+        "bytes": 13159,
+        "sha256": "254eb9f327f2b62bd650c01102a3e04c06ed4550f0ff149d2c774d7618443717"
+      },
+      {
+        "path": "prototype/jsxgraph/host.js",
+        "bytes": 18430,
+        "sha256": "6089c7ebdbdedcd63aa78843ae035d08c7b50048fb850a3e69467ce1b2bb9731"
+      }
+    ],
+    "nativeAssets": [
+      {
+        "path": "native/stack-parser.js",
+        "bytes": 56679,
+        "sha256": "be66f716145baece0fb3ca280c4318aa23c0b20a73428ceecaab2d645b4e981f"
+      },
+      {
+        "path": "native/input-rules.json",
+        "bytes": 70120,
+        "sha256": "e01ddcb2fcb7e081e132f3971748f7b6e3b7e8251701546aefe95b9281e4ca6c"
+      },
+      {
+        "path": "native/input-provenance.json",
+        "bytes": 1326,
+        "sha256": "a27352f9f7959bd5ec2f8024c155ad27a33a9a86047efd00cdd65e0cf87cd364"
+      },
+      {
+        "path": "native/feedback-messages.json",
+        "bytes": 7727,
+        "sha256": "d3cd425f8b40194636ec0cd4992046b9de42c9cb3f6df4d285f1e721484400b4"
+      },
+      {
+        "path": "native/feedback-provenance.json",
+        "bytes": 2806,
+        "sha256": "e7072387bf47a9b09eb45f8aa04626aa66c8931c6bb00e6c0e1d844027222951"
+      }
+    ],
+    "sourcePins": {
+      "stack-sympy": "1b1d50f69fc1e7eb39846b497657d72be325f597",
+      "ctm-checkers": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+      "ctm-libs": "94687f718fd651fc2857bc5242a64e45c8fd4697"
+    },
+    "frontendPatches": [
+      {
+        "path": "_extensions/stack-sympy/stack-sympy.js",
+        "sourceSha256": "53832ffd115c64fa2e28fb96ebebf6e99ebcec2e43c971a075cf7283e0731633",
+        "materializedSha256": "125726c5de20ea9bf09456f5ea1b476bb02c429d486df1a9b0a26c8b3bf60882",
+        "substitutions": [
+          "worker prefix enclosed in createBackend(descriptor)",
+          "initialize(card) captures its nearest wrapper's backend",
+          "grade status uses the selected backend label"
+        ]
+      }
+    ],
+    "trackedPageSha256": "74eee5dbba102f1f4c74889e58893dbefa65a2284556af17b322ae312279ce09",
+    "preparation": {
+      "actualWasm": true,
+      "finalPythonLoaded": false
+    }
+  },
+  "samples": [
+    {
+      "repetition": 1,
+      "passed": true,
+      "finalBrowserDocument": {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/native.html",
+        "status": 200,
+        "fromServiceWorker": true,
+        "coop": "same-origin",
+        "coep": "require-corp",
+        "bytes": 16855012,
+        "sha256": "a483b6d59808a4e626a5eeb6303dea0528c6acbd9fcf1f10f896807859d7ddae"
+      },
+      "navigationCapture": {
+        "maxTotalBufferSize": 268435456,
+        "maxResourceBufferSize": 67108864
+      },
+      "browserLifecycle": [
+        {
+          "event": "disconnected",
+          "expectedClosure": true,
+          "phase": "complete",
+          "runnerMs": 62281.349276
+        }
+      ],
+      "native": {
+        "initializationMs": 38399.840000000026,
+        "initializationStages": {
+          "readyMs": 38332.890000000014,
+          "maximaStages": {
+            "preloadMs": 399.71999999997206,
+            "preloadedFiles": 68,
+            "wasmReadyMs": 1051.125,
+            "readyMs": 38293.30499999999
+          }
+        },
+        "firstValidation": {
+          "uiMs": 38513.93500000003,
+          "workerMs": 112.08500000002095
+        },
+        "warmValidation": [
+          {
+            "uiMs": 111.04500000004191,
+            "workerMs": 109.93499999999767
+          },
+          {
+            "uiMs": 104.26000000000931,
+            "workerMs": 103.28499999997439
+          },
+          {
+            "uiMs": 103.80999999999767,
+            "workerMs": 102.76500000001397
+          },
+          {
+            "uiMs": 100.07000000000698,
+            "workerMs": 99.06500000000233
+          },
+          {
+            "uiMs": 100.23499999998603,
+            "workerMs": 99.10999999998603
+          }
+        ],
+        "firstGrade": {
+          "uiMs": 413.0200000000186,
+          "workerMs": 411.70999999996275
+        },
+        "warmGrade": [
+          {
+            "uiMs": 334.6699999999837,
+            "workerMs": 333.570000000007
+          },
+          {
+            "uiMs": 328.945000000007,
+            "workerMs": 327.88000000000466
+          },
+          {
+            "uiMs": 328.75,
+            "workerMs": 327.8300000000163
+          },
+          {
+            "uiMs": 344.57500000001164,
+            "workerMs": 343.58500000002095
+          },
+          {
+            "uiMs": 408.7050000000163,
+            "workerMs": 407.7050000000163
+          }
+        ]
+      },
+      "python": {
+        "validation": {
+          "uiMs": 2223.2799999999697,
+          "workerMs": 1420.6300000000047
+        },
+        "firstGrade": {
+          "uiMs": 6128.244999999995,
+          "workerMs": 6108.549999999988
+        },
+        "warmGrade": [
+          {
+            "uiMs": 325.125,
+            "workerMs": 305.7150000000256
+          },
+          {
+            "uiMs": 334.0799999999581,
+            "workerMs": 314.42499999998836
+          },
+          {
+            "uiMs": 397.79999999998836,
+            "workerMs": 379.054999999993
+          },
+          {
+            "uiMs": 329.20000000001164,
+            "workerMs": 310.054999999993
+          },
+          {
+            "uiMs": 330.3949999999604,
+            "workerMs": 311.5800000000163
+          }
+        ],
+        "initializationStages": {
+          "requestId": 15,
+          "calls": 0,
+          "timings": {
+            "readyMs": 5798.229999999981
+          }
+        }
+      },
+      "nativeOnlyEvidence": {
+        "through": "python-board-native-validation",
+        "requestCount": 103,
+        "workerCalls": 14,
+        "pythonAssetCount": 0,
+        "pythonLoaded": false
+      },
+      "checks": {
+        "firstActionRPCsBefore": 0,
+        "firstActionInitCount": 1,
+        "firstActionValidationCount": 1,
+        "workerCount": 1,
+        "workerCreatedAfterFirstClick": true,
+        "rpcCount": 20,
+        "initializationCount": 1,
+        "pythonCallbackCount": 6,
+        "pythonReadyEventCount": 1,
+        "pageErrorCount": 0,
+        "httpErrorCount": 0,
+        "allBrowserClosuresExpected": true
+      }
+    },
+    {
+      "repetition": 2,
+      "passed": true,
+      "finalBrowserDocument": {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/native.html",
+        "status": 200,
+        "fromServiceWorker": true,
+        "coop": "same-origin",
+        "coep": "require-corp",
+        "bytes": 16855012,
+        "sha256": "a483b6d59808a4e626a5eeb6303dea0528c6acbd9fcf1f10f896807859d7ddae"
+      },
+      "navigationCapture": {
+        "maxTotalBufferSize": 268435456,
+        "maxResourceBufferSize": 67108864
+      },
+      "browserLifecycle": [
+        {
+          "event": "disconnected",
+          "expectedClosure": true,
+          "phase": "complete",
+          "runnerMs": 62700.171864
+        }
+      ],
+      "native": {
+        "initializationMs": 38599.649999999965,
+        "initializationStages": {
+          "readyMs": 38496.24000000005,
+          "maximaStages": {
+            "preloadMs": 370.66499999997905,
+            "preloadedFiles": 68,
+            "wasmReadyMs": 985.4449999999488,
+            "readyMs": 38458.20999999996
+          }
+        },
+        "firstValidation": {
+          "uiMs": 38716.45499999996,
+          "workerMs": 114.67499999998836
+        },
+        "warmValidation": [
+          {
+            "uiMs": 108.63500000000931,
+            "workerMs": 107.55999999999767
+          },
+          {
+            "uiMs": 101.96500000002561,
+            "workerMs": 100.98999999999069
+          },
+          {
+            "uiMs": 102.20999999996275,
+            "workerMs": 101.17999999999302
+          },
+          {
+            "uiMs": 102.01999999996042,
+            "workerMs": 100.9199999999837
+          },
+          {
+            "uiMs": 103.89000000001397,
+            "workerMs": 102.80999999999767
+          }
+        ],
+        "firstGrade": {
+          "uiMs": 422.3300000000163,
+          "workerMs": 420.84499999997206
+        },
+        "warmGrade": [
+          {
+            "uiMs": 345.3300000000163,
+            "workerMs": 344.3150000000023
+          },
+          {
+            "uiMs": 335.7050000000163,
+            "workerMs": 334.60999999998603
+          },
+          {
+            "uiMs": 332.17499999998836,
+            "workerMs": 331.15499999996973
+          },
+          {
+            "uiMs": 406.4099999999744,
+            "workerMs": 405.4900000000489
+          },
+          {
+            "uiMs": 339.90499999996973,
+            "workerMs": 338.86999999999534
+          }
+        ]
+      },
+      "python": {
+        "validation": {
+          "uiMs": 2180.655000000028,
+          "workerMs": 1376.6849999999977
+        },
+        "firstGrade": {
+          "uiMs": 6237.974999999977,
+          "workerMs": 6217.130000000005
+        },
+        "warmGrade": [
+          {
+            "uiMs": 329.2150000000256,
+            "workerMs": 309.47000000003027
+          },
+          {
+            "uiMs": 341.445000000007,
+            "workerMs": 321.4099999999744
+          },
+          {
+            "uiMs": 402.90499999996973,
+            "workerMs": 382.99499999999534
+          },
+          {
+            "uiMs": 331.67499999998836,
+            "workerMs": 312.1149999999907
+          },
+          {
+            "uiMs": 330.17499999998836,
+            "workerMs": 310.9349999999977
+          }
+        ],
+        "initializationStages": {
+          "requestId": 15,
+          "calls": 0,
+          "timings": {
+            "readyMs": 5896.984999999986
+          }
+        }
+      },
+      "nativeOnlyEvidence": {
+        "through": "python-board-native-validation",
+        "requestCount": 103,
+        "workerCalls": 14,
+        "pythonAssetCount": 0,
+        "pythonLoaded": false
+      },
+      "checks": {
+        "firstActionRPCsBefore": 0,
+        "firstActionInitCount": 1,
+        "firstActionValidationCount": 1,
+        "workerCount": 1,
+        "workerCreatedAfterFirstClick": true,
+        "rpcCount": 20,
+        "initializationCount": 1,
+        "pythonCallbackCount": 6,
+        "pythonReadyEventCount": 1,
+        "pageErrorCount": 0,
+        "httpErrorCount": 0,
+        "allBrowserClosuresExpected": true
+      }
+    },
+    {
+      "repetition": 3,
+      "passed": true,
+      "finalBrowserDocument": {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/native.html",
+        "status": 200,
+        "fromServiceWorker": true,
+        "coop": "same-origin",
+        "coep": "require-corp",
+        "bytes": 16855012,
+        "sha256": "a483b6d59808a4e626a5eeb6303dea0528c6acbd9fcf1f10f896807859d7ddae"
+      },
+      "navigationCapture": {
+        "maxTotalBufferSize": 268435456,
+        "maxResourceBufferSize": 67108864
+      },
+      "browserLifecycle": [
+        {
+          "event": "disconnected",
+          "expectedClosure": true,
+          "phase": "complete",
+          "runnerMs": 63538.270707
+        }
+      ],
+      "native": {
+        "initializationMs": 40664.580000000016,
+        "initializationStages": {
+          "readyMs": 40585.47000000003,
+          "maximaStages": {
+            "preloadMs": 373.929999999993,
+            "preloadedFiles": 68,
+            "wasmReadyMs": 1006.9250000000466,
+            "readyMs": 40527.29500000004
+          }
+        },
+        "firstValidation": {
+          "uiMs": 40781.869999999995,
+          "workerMs": 114.92999999999302
+        },
+        "warmValidation": [
+          {
+            "uiMs": 108.88500000000931,
+            "workerMs": 107.71999999997206
+          },
+          {
+            "uiMs": 105.42500000004657,
+            "workerMs": 104.46500000002561
+          },
+          {
+            "uiMs": 110.47500000003492,
+            "workerMs": 109.39500000001863
+          },
+          {
+            "uiMs": 102.17999999999302,
+            "workerMs": 101.17499999998836
+          },
+          {
+            "uiMs": 107.00500000000466,
+            "workerMs": 105.875
+          }
+        ],
+        "firstGrade": {
+          "uiMs": 418.15500000002794,
+          "workerMs": 416.85999999998603
+        },
+        "warmGrade": [
+          {
+            "uiMs": 346.9899999999907,
+            "workerMs": 345.8650000000489
+          },
+          {
+            "uiMs": 333.60999999998603,
+            "workerMs": 332.53000000002794
+          },
+          {
+            "uiMs": 330.9099999999744,
+            "workerMs": 329.9649999999674
+          },
+          {
+            "uiMs": 331.625,
+            "workerMs": 330.6600000000326
+          },
+          {
+            "uiMs": 401.3649999999907,
+            "workerMs": 400.33500000002095
+          }
+        ]
+      },
+      "python": {
+        "validation": {
+          "uiMs": 1697.0349999999744,
+          "workerMs": 1081.5050000000047
+        },
+        "firstGrade": {
+          "uiMs": 6040.725000000035,
+          "workerMs": 6020.244999999995
+        },
+        "warmGrade": [
+          {
+            "uiMs": 327.16499999997905,
+            "workerMs": 307.84500000003027
+          },
+          {
+            "uiMs": 339.25,
+            "workerMs": 320.0200000000186
+          },
+          {
+            "uiMs": 327.83499999996275,
+            "workerMs": 307.9349999999977
+          },
+          {
+            "uiMs": 395.5900000000256,
+            "workerMs": 376.8400000000256
+          },
+          {
+            "uiMs": 332.7149999999674,
+            "workerMs": 312.6600000000326
+          }
+        ],
+        "initializationStages": {
+          "requestId": 15,
+          "calls": 0,
+          "timings": {
+            "readyMs": 5704.514999999956
+          }
+        }
+      },
+      "nativeOnlyEvidence": {
+        "through": "python-board-native-validation",
+        "requestCount": 107,
+        "workerCalls": 14,
+        "pythonAssetCount": 0,
+        "pythonLoaded": false
+      },
+      "checks": {
+        "firstActionRPCsBefore": 0,
+        "firstActionInitCount": 1,
+        "firstActionValidationCount": 1,
+        "workerCount": 1,
+        "workerCreatedAfterFirstClick": true,
+        "rpcCount": 20,
+        "initializationCount": 1,
+        "pythonCallbackCount": 6,
+        "pythonReadyEventCount": 1,
+        "pageErrorCount": 0,
+        "httpErrorCount": 0,
+        "allBrowserClosuresExpected": true
+      }
+    }
+  ]
+}

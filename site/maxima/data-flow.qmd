@@ -83,10 +83,21 @@ JavaScript code to execute. In the native worker, `NativeInput.admit` parses
 mathematical input into the supported syntax tree and checks the permitted
 constructs before the controller generates a Maxima program.
 
+The backend worker runs our JavaScript controller. A separate child worker
+hosts ECL/Maxima Wasm and the STACK CAS libraries. `MaximaSession` exchanges
+evaluation input and output with that child through `SharedArrayBuffer` and
+`Atomics`; the page communicates asynchronously with the backend worker using
+ordinary worker messages. The shared-memory transport requires cross-origin
+isolation, which the page bootstrap and service worker prepare before assessment.
+
 `NativeStackEngine.validate` restores the prepared environment and calls
 `stack_validate` or `stack_validate_typeless`, according to the input settings.
 Maxima interprets the mathematical expression and produces its TeX display.
 The worker returns structured results; the page renders them.
+
+Admission retains the written mathematical form for tests such as `EqualComAss`
+and `LowestTerms`. Displaying a parsed answer does not replace the submitted
+string with its simplified display.
 
 `NativeStackEngine.grade` calls the validation path again, then executes each
 potential response tree. Our controller supplies the traversal, branch scoring
@@ -142,6 +153,7 @@ arbitrary answer schemas or turn a native question into a SymPy-compatible one.
 
 Relevant implementation: `prototype/jsxgraph/{frame,host}.js`,
 `prototype/native/{backend-worker,engine,input}.js`, and
+`prototype/runtime/{maxima-session,maxima-child}.js`; board rendering is in
 `scripts/milestone-three/build-site.mjs`. The native controller is distinct
 from the hybrid `prototype/backend/worker.js` used by the comparison page's Maxima copies.
 
