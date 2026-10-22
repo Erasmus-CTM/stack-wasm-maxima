@@ -19,7 +19,7 @@ def main():
             revision = subprocess.check_output(['git','rev-parse','HEAD'], cwd=source, text=True).strip()
             if revision != sources[patch['source']]['commit']:
                 raise ValueError('Build patch source is not its exact pinned revision')
-            subprocess.run(['git','diff','--exit-code'], cwd=source, check=True)
+            subprocess.run(['git','diff','--exit-code','HEAD','--'], cwd=source, check=True)
             path = (ROOT / patch['path']).resolve()
             if not path.is_relative_to((ROOT / 'runtime/build/patches').resolve()):
                 raise ValueError('Patch path escapes the separate build-patches directory')
@@ -28,7 +28,7 @@ def main():
                 raise ValueError('Build patch hash differs')
             subprocess.run(['git','apply','--check',str(path)], cwd=source, check=True)
             subprocess.run(['git','apply',str(path)], cwd=source, check=True)
-            changed = subprocess.check_output(['git','diff','--name-only'], cwd=source, text=True).splitlines()
+            changed = subprocess.check_output(['git','diff','--name-only','HEAD','--'], cwd=source, text=True).splitlines()
             if changed != ['wasm/Makefile']:
                 raise ValueError('This patch may change only the port build Makefile')
             record = {**patch, 'sourceCommit':revision, 'applied':True, 'changedFiles':[]}
