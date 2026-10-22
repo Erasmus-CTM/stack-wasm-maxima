@@ -2,6 +2,7 @@ node_modules/
 .cache/
 .ctm-checkers-source/
 .stack-upstream/
+.m2-sources/
 test-results/
 __pycache__/
 measurements/local-*.json
