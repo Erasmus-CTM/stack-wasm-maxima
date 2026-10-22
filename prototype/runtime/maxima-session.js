@@ -129,12 +129,15 @@
       // Scope the ordinary Maxima assumption flags to this call. CTM performs
       // structural validation and supplies the question's assumption policy.
       const expression = 'block([simp:' + (spec[1] ? 'true' : 'false') +
-        ',assume_pos:' + (positive ? 'true' : 'false') + ',_ctm_real:' + (real ? 'true' : 'false') +
+        ',assume_pos:' + (positive ? 'true' : 'false') + ',assume_real:' + (real ? 'true' : 'false') +
+        ',%ERR:["stack_map"],%NOTES:["stack_map"],%FEEDBACK:["stack_map"],%stmt:"ctm-at"' +
         ',_ctm_r,_ctm_v],_ctm_r:errcatch(AT' + request.test + '(' + args.join(',') + ')),' +
         'if _ctm_r=[] then m2_emit(sconcat("CTMMAXIMA|' + id + '|",stackjson_stringify([false,"CAS evaluation failed"]))) ' +
         'else (_ctm_v:first(_ctm_r),if not listp(_ctm_v) or length(_ctm_v)<4 then ' +
         'm2_emit(sconcat("CTMMAXIMA|' + id + '|",stackjson_stringify([false,"Malformed native answer-test result"]))) ' +
-        'else m2_emit(sconcat("CTMMAXIMA|' + id + '|",stackjson_stringify([true,[_ctm_v[1],_ctm_v[2],_ctm_v[3]]])))))$\n';
+        'else if length(%ERR)>1 then ' +
+        'm2_emit(sconcat("CTMMAXIMA|' + id + '|",stackjson_stringify([false,"Native STACK reported a CAS error"]))) ' +
+        'else m2_emit(sconcat("CTMMAXIMA|' + id + '|",stackjson_stringify([true,[_ctm_v[1],_ctm_v[2],_ctm_v[3],_ctm_v[4]]])))))$\n';
       const timeout = this.options.callTimeoutMs || 60000;
       const started = performance.now();
       Atomics.store(this.control, C.RESULT, 0);
@@ -157,11 +160,20 @@
           throw new Error(Array.isArray(result) ? String(result[1]) : 'Malformed Maxima result');
         }
         const value = result[1];
-        if (typeof value[0] !== 'boolean' || typeof value[1] !== 'boolean' ||
-            !(typeof value[2] === 'string' || Array.isArray(value[2]))) throw new Error('Invalid native answer-test fields');
+        if (value.length !== 4 || typeof value[0] !== 'boolean' || typeof value[1] !== 'boolean' ||
+            !(typeof value[2] === 'string' || Array.isArray(value[2])) || typeof value[3] !== 'string') {
+          throw new Error('Invalid native answer-test fields');
+        }
+        const notes = Array.isArray(value[2]) ? value[2] : [value[2]];
+        if (!value[0] && !value[1] && notes.some(note => typeof note === 'string' &&
+            /(?:AT[A-Za-z0-9]+_STACKERROR_(?:SAns|TAns|Opt|Raw|tol)|ATNumDecPlaces_OptNotInt|STACKERROR_OPTION)\./.test(note))) {
+          throw new Error('Native STACK answer-test error: ' + notes.join(' '));
+        }
         this.counters.nativeCalls++;
         this.counters.byTest[request.test] = (this.counters.byTest[request.test] || 0) + 1;
-        return { cas_valid: value[0], correct: value[1], answer_note: value[2], feedback: '',
+        // Native feedback is a stack_trans protocol string, not displayable
+        // HTML. Preserve it as evidence; CTM still renders authored feedback.
+        return { cas_valid: value[0], correct: value[1], answer_note: value[2], feedback: '', native_feedback: value[3],
           elapsedMs: performance.now() - started };
       } catch (error) {
         this.poisoned = true;

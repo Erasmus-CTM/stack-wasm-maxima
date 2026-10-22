@@ -27,6 +27,10 @@ _HELPERS = AUTHOR_COLLECTION_FUNCTIONS | AUTHOR_BASIS_FUNCTIONS | {
     "diff", "expand", "factor", "ratsimp", "cancel", "ev", "float", "lcm",
     "num", "denom", "decimalplaces", "dispdp", "displaydp", "significantfigures", "dispsf",
 }
+_CONTROLLED_AT_ERROR = re.compile(
+    r"(?:AT[A-Za-z0-9]+_STACKERROR_(?:SAns|TAns|Opt|Raw|tol)"
+    r"|ATNumDecPlaces_OptNotInt|STACKERROR_OPTION)\."
+)
 _installed = False
 
 
@@ -158,6 +162,12 @@ def install(assess_json, on_event=None):
                 or not isinstance(result.get("answer_note", ""), (str, list))):
             raise RuntimeError("Malformed native Maxima answer-test result")
         note = result.get("answer_note", "")
+        notes = note if isinstance(note, list) else [note]
+        if any(not isinstance(item, str) for item in notes):
+            raise RuntimeError("Malformed native Maxima answer notes")
+        if (not result["cas_valid"] and not result["correct"]
+                and any(_CONTROLLED_AT_ERROR.search(item) for item in notes)):
+            raise RuntimeError("Native STACK answer-test error: " + " ".join(notes))
         feedback = result.get("feedback", "")
         if not isinstance(feedback, str):
             raise RuntimeError("Malformed native Maxima feedback")

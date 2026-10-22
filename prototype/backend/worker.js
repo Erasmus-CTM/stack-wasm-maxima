@@ -52,7 +52,8 @@ function init(message) {
         const result = session.assess(request);
         counters.nativeATCount++;
         counters.perTest[request.test] = (counters.perTest[request.test] || 0) + 1;
-        event({ event: 'maxima-at', test: request.test, cas_valid: result.cas_valid, correct: result.correct });
+        event({ event: 'maxima-at', test: request.test, cas_valid: result.cas_valid, correct: result.correct,
+          answerNote: result.answer_note, nativeFeedback: result.native_feedback, elapsedMs: result.elapsedMs });
         return JSON.stringify(result);
       });
       py.globals.set('_ctm_maxima_event', text => event(JSON.parse(text)));
