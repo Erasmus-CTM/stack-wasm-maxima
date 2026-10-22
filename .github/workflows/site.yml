@@ -32,8 +32,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: stack-maxima-reviewer-${{ github.ref }}
-  cancel-in-progress: false
+  group: stack-maxima-reviewer-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   site:
@@ -91,6 +91,7 @@ jobs:
           python scripts/milestone-two/prepare-runtime.py --output site \
             --stack-source .site-sources/stack \
             --ctm-checkers-source .site-sources/ctm-checkers
+          node scripts/milestone-two/test-frontend-pools.mjs site/_extensions/stack-sympy/stack-sympy.js
       - name: Render the committed Quarto page
         env:
           CTM_COMPONENT_DEV: '1'
@@ -99,7 +100,7 @@ jobs:
           export CTM_LIBS_EXTENSION="$PWD/site/_extensions/ctm-libs"
           export CTM_CHECKERS_EXTENSION="$PWD/site/_extensions/ctm-checkers"
           quarto render site
-      - name: Exercise validation and Maxima grading in the rendered page
+      - name: Exercise both backends in the rendered comparison page
         run: node scripts/site/smoke.mjs site/_site test-results/reviewer-site
       - name: Upload the tested Quarto site
         uses: actions/upload-artifact@v4
@@ -119,22 +120,33 @@ jobs:
     needs: site
     if: github.event_name == 'push' && needs.site.result == 'success'
     runs-on: ubuntu-24.04
+    timeout-minutes: 25
     permissions:
       contents: write
+      pages: write
     concurrency:
       group: stack-maxima-pages
       cancel-in-progress: false
     steps:
-      - name: Check branch head under publication lock
+      - name: Check branch source under publication lock
         id: head
         uses: actions/github-script@v7
         with:
           script: |
             const branch = context.ref.replace(/^refs\/heads\//, '');
             const {data} = await github.rest.git.getRef({
-              owner: context.repo.owner, repo: context.repo.repo, ref: `heads/${branch}`
+              ...context.repo, ref: `heads/${branch}`
             });
-            core.setOutput('current', String(data.object.sha === context.sha));
+            let current = data.object.sha === context.sha;
+            if (!current) {
+              const {data: comparison} = await github.rest.repos.compareCommitsWithBasehead({
+                ...context.repo, basehead: `${context.sha}...${data.object.sha}`
+              });
+              // The milestone suite may archive reports during this build.
+              current = comparison.status === 'ahead' && comparison.files.length > 0 &&
+                comparison.files.length < 300 && comparison.files.every(file => file.filename.startsWith('reports/'));
+            }
+            core.setOutput('current', String(current));
       - uses: actions/download-artifact@v4
         if: steps.head.outputs.current == 'true'
         with:
@@ -149,3 +161,68 @@ jobs:
           publish_branch: gh-pages
           destination_dir: ${{ github.ref == 'refs/heads/main' && '.' || format('previews/{0}', github.ref_name) }}
           keep_files: true
+      - name: Request deployment of the published Pages branch
+        id: pages
+        if: steps.head.outputs.current == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const {data: pages} = await github.rest.repos.getPages({owner, repo});
+            if (pages.build_type !== 'legacy' || pages.source?.branch !== 'gh-pages') {
+              throw new Error('Expected the activated gh-pages branch publishing source.');
+            }
+            const {data: published} = await github.rest.git.getRef({owner, repo, ref: 'heads/gh-pages'});
+            await github.rest.repos.requestPagesBuild({owner, repo});
+            let built = false;
+            for (let attempt = 0; attempt < 60; attempt++) {
+              const {data: build} = await github.rest.repos.getLatestPagesBuild({owner, repo});
+              if (build.commit === published.object.sha && build.status === 'built') { built = true; break; }
+              if (build.commit === published.object.sha && build.status === 'errored') throw new Error(build.error?.message || 'Pages build failed');
+              await new Promise(resolve => setTimeout(resolve, 5000));
+            }
+            if (!built) throw new Error('Pages deployment did not finish in five minutes.');
+            const suffix = context.ref === 'refs/heads/main' ? '' : `previews/${context.ref.replace(/^refs\/heads\//, '')}/`;
+            const base = `${pages.html_url.replace(/\/$/, '')}/${suffix}`;
+            core.setOutput('base', base);
+            core.summary.addLink('Backend comparison page', `${base}maxima/examples.html`);
+            await core.summary.write();
+      - uses: actions/checkout@v4
+        if: steps.head.outputs.current == 'true'
+        with:
+          persist-credentials: false
+          path: verifier-source
+      - uses: actions/setup-node@v4
+        if: steps.head.outputs.current == 'true'
+        with:
+          node-version: '22'
+      - name: Verify the deployed page with the same browser checks
+        if: steps.head.outputs.current == 'true'
+        env:
+          REVIEWER_URL: ${{ steps.pages.outputs.base }}
+        working-directory: verifier-source
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+          node --input-type=module <<'JS'
+          import {readFile} from 'node:fs/promises';
+          import {createHash} from 'node:crypto';
+          const hash = bytes => createHash('sha256').update(bytes).digest('hex');
+          const expected = hash(await readFile('../reviewer-site/maxima/examples.html'));
+          const url = new URL('maxima/examples.html', process.env.REVIEWER_URL);
+          let current = false;
+          for (let attempt = 0; attempt < 36; attempt++) {
+            const response = await fetch(url);
+            if (response.ok && hash(new Uint8Array(await response.arrayBuffer())) === expected) { current = true; break; }
+            await new Promise(resolve => setTimeout(resolve, 5000));
+          }
+          if (!current) throw new Error('The public page does not match the tested artifact.');
+          JS
+          node scripts/site/smoke.mjs ../reviewer-site ../test-results/public-reviewer-site
+      - name: Upload public browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-reviewer-evidence-${{ github.sha }}
+          path: test-results/public-reviewer-site/
+          if-no-files-found: warn

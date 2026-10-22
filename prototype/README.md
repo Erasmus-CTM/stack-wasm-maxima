@@ -6,7 +6,7 @@ This is a hybrid prototype: both editions still load Pyodide and SymPy. It tests
 
 CTM also formats native decimal/list/set/matrix diagnostics. List positions come from native answer notes; the existing CTM collection formatter supplies the wording and bounded set descriptions, with consistency checks against native verdicts and diagnostic keys. No extra CAS calls or SymPy answer-test fallback are used. Raw upstream feedback is retained for inspection; this is not a general translation of STACK's feedback protocol.
 
-Selection is per page in this prototype: each generated page uses one persistent backend worker. Keep a page's question blocks on one backend; general course settings and per-question backend registration are later integration work.
+Selection is per question card. An ordinary `stack-question` block uses SymPy; a `stack-maxima` block selects the named Maxima worker through its enclosing wrapper. Each backend has its own persistent worker, queue, request IDs and reset handling. Missing Maxima configuration fails closed. General course settings and production backend registration remain later integration work.
 
 ## Sources
 
@@ -20,6 +20,10 @@ Selection is per page in this prototype: each generated page uses one persistent
 The source inventory is [demos/manifest.json](../demos/manifest.json): 19 question cards and 27 variants, including the six PythonChecker cards. Generated pages preserve authored seeds, variant counts, XML and checker source hashes. The post-render collector requires equal frozen payloads in the two editions.
 
 ## Build and try
+
+The reviewer page is committed directly as [site/maxima/examples.qmd](../site/maxima/examples.qmd). It contains the 18 worked questions as consecutive SymPy and Maxima subsections, with 24 variants and 112 authored test rows per backend. Each copy has its own identifier and controls. Select the same variant number to compare a pair. The introductory question remains covered separately by the original 19-card milestone suite.
+
+[site.yml](../.github/workflows/site.yml) stages the pinned dependencies without rewriting that QMD, renders it with Quarto 1.8.27, verifies both real grading workers, and publishes only passing output to the activated `gh-pages` source. Research previews use `previews/<branch>/maxima/examples.html`; main uses `maxima/examples.html`. A small service worker establishes the isolation required by Maxima on GitHub Pages; the first visit may reload once.
 
 The complete dependency checkout and build commands are in [milestone-two.yml](../.github/workflows/milestone-two.yml). It uses Python 3.12, Quarto 1.8.27 and Node 22. Source checkouts live under `.m2-sources/`; generated work lives under `.cache/milestone-two/`.
 

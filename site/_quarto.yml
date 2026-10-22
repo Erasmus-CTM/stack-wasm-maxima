@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: _site
+  post-render:
+    - python ../scripts/site/post-render.py
   render:
     - maxima/examples.qmd
   resources:

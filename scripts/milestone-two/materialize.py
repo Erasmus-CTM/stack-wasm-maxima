@@ -2,8 +2,8 @@
 """Materialize a matched Quarto project from pinned CTM source checkouts.
 
 Implementation sources and UI assets keep their existing homes. This script
-copies their pinned versions into an ignored build directory and applies three
-guarded frontend descriptor substitutions. It never fetches runtime binaries.
+copies their pinned versions into an ignored build directory and applies a
+guarded per-card backend seam. It never fetches runtime binaries.
 """
 from __future__ import annotations
 
@@ -79,37 +79,8 @@ def options(text: str) -> dict:
 
 
 def patch_frontend(extension: Path) -> list[dict]:
-    path = extension / "stack-sympy.js"
-    original = path.read_bytes()
-    text = original.decode("utf-8")
-    replacements = [
-        (
-            "  var workerURL = new URL('worker.js', current.src);",
-            "  var backendDescriptor = window.CTMStackBackend || {};\n"
-            "  var workerURL = backendDescriptor.workerURL ?\n"
-            "    new URL(backendDescriptor.workerURL, document.baseURI) : new URL('worker.js', current.src);",
-        ),
-        (
-            "loadTimeout: runtime.loadTimeout };",
-            "loadTimeout: backendDescriptor.loadTimeout || runtime.loadTimeout };",
-        ),
-        (
-            "type === 'grade' ? 'Checking with SymPy…' :",
-            "type === 'grade' ? 'Checking with ' + (backendDescriptor.label || 'SymPy') + '…' :",
-        ),
-    ]
-    for before, after in replacements:
-        count = text.count(before)
-        if count != 1:
-            raise ValueError(f"Frontend descriptor seam changed: expected one {before!r}, found {count}")
-        text = text.replace(before, after)
-    result = text.encode("utf-8")
-    path.write_bytes(result)
-    return [{
-        "path": "_extensions/stack-sympy/stack-sympy.js",
-        "sourceSha256": digest(original), "materializedSha256": digest(result),
-        "substitutions": [before for before, _ in replacements],
-    }]
+    from frontend import patch_frontend as apply_backend_routing
+    return apply_backend_routing(extension)
 
 
 def documentation_links(text: str) -> str:
@@ -237,13 +208,27 @@ def prepare_existing(args, manifest: dict) -> None:
     pinned_checkout(checkers, manifest["questionSourceRevision"])
     pinned_checkout(libs, manifest["ctmDependencies"]["ctm-libs"]["commit"])
 
-    blocks = [options(body) for _, body in MAXIMA_DIV.findall(source.read_text(encoding="utf-8"))]
+    text = source.read_text(encoding="utf-8")
+    maxima = MAXIMA_DIV.findall(text)
+    sympy_blocks = [(attributes, body) for attributes, body in QUESTION_BLOCK.findall(text)
+                    if ".stack-question" in attributes.split()]
     demos = [demo for demo in manifest["demos"] if demo["sourcePage"] == "examples.qmd"]
-    if len(blocks) != len(demos):
-        raise ValueError(f"Expected {len(demos)} tracked stack-maxima blocks; found {len(blocks)}")
-    for block, demo in zip(blocks, demos):
-        if block != demo["options"]:
-            raise ValueError("Tracked options differ from the accepted manifest for " + demo["id"])
+    pair_ids = re.findall(r'^:::::\s*\{\.backend-pair\s+data-demo-id="([^"]+)"\}', text, re.M)
+    if pair_ids != [demo["id"] for demo in demos]:
+        raise ValueError("Tracked question pairs must match the accepted manifest order")
+    pairs = []
+    for backend, blocks in (("sympy", sympy_blocks), ("maxima", maxima)):
+        if len(blocks) != len(demos):
+            raise ValueError(f"Expected {len(demos)} tracked {backend} blocks; found {len(blocks)}")
+        for (attributes, body), demo in zip(blocks, demos):
+            if options(body) != demo["options"]:
+                raise ValueError("Tracked options differ from the accepted manifest for " + demo["id"])
+            if "#" + backend + "-" + demo["id"] not in attributes.split():
+                raise ValueError("Missing unique backend card identifier for " + demo["id"])
+    for index, demo in enumerate(demos):
+        pairs.append({"demoId": demo["id"], "sympyId": "sympy-" + demo["id"],
+                      "maximaId": "maxima-" + demo["id"],
+                      "acceptedPayloadId": demo.get("authoredIdentifier") or "stack-sympy-" + str(index + 1)})
 
     copy_tree(sympy / "_extensions/stack-sympy", output / "_extensions/stack-sympy")
     copy_tree(checkers / "_extensions/ctm-checkers", output / "_extensions/ctm-checkers")
@@ -267,12 +252,15 @@ def prepare_existing(args, manifest: dict) -> None:
         "frontendPatches": patches,
         "trackedPage": str(source.relative_to(ROOT)),
         "trackedPageSha256": digest(source.read_bytes()),
-        "cards": len(demos),
-        "variants": sum(int(demo["options"].get("variants", 1)) for demo in demos),
-        "pythonCheckerCards": sum("pythonCheckerSource" in demo for demo in demos),
+        "backends": ["sympy", "maxima"],
+        "pairs": pairs,
+        "cards": 2 * len(demos),
+        "variants": 2 * sum(int(demo["options"].get("variants", 1)) for demo in demos),
+        "pythonCheckerCards": 2 * sum("pythonCheckerSource" in demo for demo in demos),
     })
     print(json.dumps({"project": str(output), "trackedPage": str(source),
-                      "cards": len(demos), "variants": sum(int(demo["options"].get("variants", 1)) for demo in demos)}))
+                      "pairs": len(demos), "cards": 2 * len(demos),
+                      "variants": 2 * sum(int(demo["options"].get("variants", 1)) for demo in demos)}))
 
 
 class Cards(HTMLParser):
