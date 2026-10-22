@@ -45,6 +45,9 @@ def main():
     toolchain = json.loads((work / 'logs/toolchain-archives.json').read_text())
     if len(toolchain['archives']) != len(pins['toolchainArchives']) or not all(row['verified'] for row in toolchain['archives']):
         raise ValueError('Executed toolchain archives were not all verified')
+    patches = json.loads((work / 'logs/build-patches.json').read_text())
+    if len(patches['patches']) != len(pins.get('buildPatches', [])) or not all(row['applied'] for row in patches['patches']):
+        raise ValueError('Pinned build patches did not all apply')
     for pin in pins['sources']:
         suffix = '.tar' if pin['archive']['format'] == 'git-archive-tar' else '.tar.gz'
         archive = work / 'source-archives' / (pin['name'] + suffix)
@@ -87,7 +90,7 @@ def main():
         target.parent.mkdir(parents=True,exist_ok=True)
         target.write_bytes(body)
         recipe['files'].append({'path':relative,'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()})
-    (args.output / 'source-manifest.json').write_text(json.dumps({'schema':1,'sourcePins':pins,'recipe':recipe,'toolchain':toolchain},indent=2)+'\n')
+    (args.output / 'source-manifest.json').write_text(json.dumps({'schema':1,'sourcePins':pins,'recipe':recipe,'toolchain':toolchain,'buildPatches':patches},indent=2)+'\n')
     notices = ["# Notices for this owned-build artifact", "",
                "These runtime files were rebuilt by CTM from the exact upstream sources and recipe recorded in source-manifest.json.",
                "The licence text files under LICENSES are copied unchanged from the pinned third-party-notices PR; upstream original notices and full source archives are retained too.",
@@ -96,7 +99,7 @@ def main():
                "SITE-NOTICES-context.md is the legacy site's notice for its deployed dependencies; it is retained only as site context and does not describe the provenance of these rebuilt files.",
                "Build inputs, exact archive hashes, SDK binary identities, recipe revision and recipe files are in source-manifest.json and recipe/.", ""]
     (args.output / 'BUILD-NOTICES.md').write_text('\n'.join(notices))
-    manifest = {'schema':1, 'runtimeAssets':table, 'sourcePins':pins, 'recipe':recipe, 'toolchain':toolchain,
+    manifest = {'schema':1, 'runtimeAssets':table, 'sourcePins':pins, 'recipe':recipe, 'toolchain':toolchain, 'buildPatches':patches,
                 'scope':'Uncompressed owned-build substitution candidate; parity not implied by successful compilation'}
     (args.output / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     lines = ['# Owned build versus deployed files', '', '| Path | Built bytes | Deployed bytes | Difference |', '|---|---:|---:|---:|']

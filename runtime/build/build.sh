@@ -12,6 +12,7 @@ export ECL_TO_RUN="$MAXIMA/wasm/ecl-host/bin/ecl"
 mkdir -p "$WORK/logs"
 exec > >(tee "$WORK/logs/build.log") 2>&1
 printf 'Build started: '; date -u +%FT%TZ
+python "$ROOT/runtime/build/apply-build-patches.py"
 python "$ROOT/runtime/build/prepare-toolchain.py"
 if [[ -n "${GITHUB_OUTPUT:-}" ]]; then printf 'sdk_cache_ready=true\n' >> "$GITHUB_OUTPUT"; fi
 export EMSDK_KEEP_DOWNLOADS=1

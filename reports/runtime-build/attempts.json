@@ -33,6 +33,17 @@
       "verifiedBeforeFailure": "All five exact source archives and both actual Linux SDK/Node binary archives passed hash verification. emcc reported Emscripten 4.0.10.",
       "fix": "Generate missing libtool support with libtoolize --copy before ./prepare. Restore the port's EMSDK_PATH after emsdk_env.sh clears it and log the actual bundled clang/SDK Node paths.",
       "rawEvidence": "Actions job log and always-uploaded owned-runtime artifact retain source progress, source archives and preparation/build logs."
+    },
+    {
+      "run": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39865663672",
+      "revision": "fc9ba24b799ec69411ff66fe86ba6033e093679e",
+      "stage": "gnuplot Emscripten configure, concurrent with native Maxima compilation",
+      "outcome": "failed",
+      "hostEvidence": "Native ECL ELF32/i386, version 26.3.27, positive fixnum width 29; native Maxima compiled with expected version.",
+      "failure": "Autoconf exited 77: cannot run C compiled programs; If you meant to cross compile, use --host. The upstream gnuplot command omitted --host.",
+      "fix": "Separate SHA-pinned build-only Makefile patch declares --host=wasm32-unknown-emscripten --build=x86_64-pc-linux-gnu, matching the adjacent ECL recipe.",
+      "diagnosticGap": "The old artifact did not include gnuplot/config.log, so only the full Actions job log is available; all subbuild config.log files are now retained.",
+      "upstreamOffer": "Prepared public patch in PR 7; not posted to GitLab because no authenticated session or credential was available."
     }
   ]
 }

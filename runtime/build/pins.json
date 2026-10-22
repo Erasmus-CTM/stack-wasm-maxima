@@ -134,5 +134,13 @@
       "bytes": 30425588,
       "sha256": "f4cb75bb036f0d0eddf6b79d9596df1aaab9ddccd6a20bf489be5abe9467e84e"
     }
+  ],
+  "buildPatches": [
+    {
+      "source": "maxima",
+      "path": "runtime/build/patches/maxima-gnuplot-cross-host.patch",
+      "sha256": "af20a540c61a81fc3d9c7b2c4b62f08449ea53e7fe296b198ccd643e97e3a564",
+      "reason": "Declare gnuplot as an Emscripten cross build; otherwise Autoconf tries to execute a Wasm conftest as a native Linux executable and exits 77. No mathematical source changes."
+    }
   ]
 }

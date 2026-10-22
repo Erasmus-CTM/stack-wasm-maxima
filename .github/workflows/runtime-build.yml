@@ -213,6 +213,7 @@ jobs:
             .cache/runtime-build/source-progress.json
             .cache/runtime-build/source-archives/
             .cache/runtime-build/sources/ecl/build/config.log
+            .cache/runtime-build/sources/**/config.log
             .cache/runtime-build/validation/
             test-results/milestone-three/
             test-results/milestone-one/

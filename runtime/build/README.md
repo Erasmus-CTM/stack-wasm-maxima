@@ -119,3 +119,16 @@ inputs are `maxima.wasm` (23,611,995 bytes) and `libecl.so` (7,966,927 bytes).
 Compiler size optimization is a separate experiment: this reproduction keeps
 the port's flags, including ECL's O0 and Binaryen spill-pointers behavior.
 No module, source or runtime file is trimmed or compressed by this build.
+
+The first native compiler attempt (39865663672) built ECL32 and native Maxima,
+then gnuplot configure exited 77 because the port recipe did not declare a
+cross host. `patches/maxima-gnuplot-cross-host.patch` is a separate SHA-pinned
+build-only patch adding the same wasm32/Linux host/build tuples used by ECL.
+The applicator checks the exact source commit, clean tree and patch hash,
+permits only `wasm/Makefile` changes, and records the resulting file hash.
+Original source archives remain unchanged and the full patch accompanies the
+artifact. An isolated checkout application check passed. No mathematical
+source changes. See patches/README.md for the failed run and upstream offer:
+the patch is publicly ready in PR 7 but has NOT been posted to GitLab because
+no authenticated session or credential is available. All subbuild config logs
+are now preserved to close the diagnostic gap in the failed attempt.
