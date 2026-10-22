@@ -33,6 +33,8 @@ jobs:
           node runtime/build/test-runtime-source.mjs
           python runtime/build/test-substitution.py
           python runtime/build/test-toolchain.py
+      - name: Record read-only upstream drift
+        run: python runtime/build/check-upstream.py
       - name: Fetch exact source commits and verify their archive hashes
         run: |
           set -o pipefail
@@ -43,16 +45,29 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends build-essential gcc-multilib g++-multilib \
             libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config
-      - uses: actions/cache@v4
+      - uses: actions/cache/restore@v4
+        id: sdk-cache
         with:
           path: .cache/runtime-build/sources/emsdk/downloads
           key: owned-emsdk-${{ runner.os }}-${{ hashFiles('runtime/build/pins.json') }}
-      - uses: actions/cache@v4
+      - uses: actions/cache/restore@v4
+        id: host-cache
         with:
           path: .cache/runtime-build/sources/maxima/wasm/ecl-host
           key: owned-host-ecl32-${{ runner.os }}-${{ hashFiles('runtime/build/pins.json', 'runtime/build/build.sh') }}
       - name: Build with upstream recipes
+        id: build
         run: bash runtime/build/build.sh
+      - uses: actions/cache/save@v4
+        if: ${{ always() && steps.build.outputs.sdk_cache_ready == 'true' && steps.sdk-cache.outputs.cache-hit != 'true' }}
+        with:
+          path: .cache/runtime-build/sources/emsdk/downloads
+          key: owned-emsdk-${{ runner.os }}-${{ hashFiles('runtime/build/pins.json') }}
+      - uses: actions/cache/save@v4
+        if: ${{ always() && steps.build.outputs.host_cache_ready == 'true' && steps.host-cache.outputs.cache-hit != 'true' }}
+        with:
+          path: .cache/runtime-build/sources/maxima/wasm/ecl-host
+          key: owned-host-ecl32-${{ runner.os }}-${{ hashFiles('runtime/build/pins.json', 'runtime/build/build.sh') }}
       - name: Package runtime, hashes, source archives, size table and licences
         run: python runtime/build/package.py --notices .cache/runtime-build/notices
       - uses: quarto-dev/quarto-actions/setup@v2
@@ -200,6 +215,8 @@ jobs:
             .cache/runtime-build/sources/ecl/build/config.log
             .cache/runtime-build/validation/
             test-results/milestone-three/
+            test-results/milestone-one/
+            test-results/runtime-upstream/
             .cache/native-build/
             site/native/build-manifest.json
           if-no-files-found: warn

@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,readFile,writeFile,rm} from 'node:fs/promises';
-import {tmpdir} from 'node:os';
-import {join,resolve} from 'node:path';
+import {join,resolve,dirname} from 'node:path';
 import {createHash} from 'node:crypto';
 import {loadOwnedRuntime} from './runtime-source.mjs';
-const repository=resolve('.'),root=await mkdtemp(join(tmpdir(),'owned-runtime-'));
+const repository=resolve('.'),work=join(repository,'.cache/runtime-build/tests');
+await mkdir(work,{recursive:true});
+const root=await mkdtemp(join(work,'owned-runtime-'));
 const sourcePins=JSON.parse(await readFile(join(repository,'runtime/build/pins.json')));
 const body=Buffer.from('fixed asset'),sha256=createHash('sha256').update(body).digest('hex');
 await mkdir(join(root,'runtime'));await writeFile(join(root,'runtime','module.wasm'),body);
@@ -24,4 +25,4 @@ try {
  await check(valid);await writeFile(join(root,'runtime','module.wasm'),'changed');
  await assert.rejects(()=>loadOwnedRuntime(root,repository));
  console.log('Owned manifest integrity: valid/default, traversal, digest, size, duplicate, pins and tampering checks passed');
-}finally{await rm(root,{recursive:true,force:true});}
+}finally{assert.equal(dirname(resolve(root)),work);await rm(root,{recursive:true,force:true});}

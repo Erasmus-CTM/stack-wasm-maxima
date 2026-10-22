@@ -13,6 +13,7 @@ mkdir -p "$WORK/logs"
 exec > >(tee "$WORK/logs/build.log") 2>&1
 printf 'Build started: '; date -u +%FT%TZ
 python "$ROOT/runtime/build/prepare-toolchain.py"
+if [[ -n "${GITHUB_OUTPUT:-}" ]]; then printf 'sdk_cache_ready=true\n' >> "$GITHUB_OUTPUT"; fi
 export EMSDK_KEEP_DOWNLOADS=1
 cd "$EMSDK_PATH"
 ./emsdk install 4.0.10
@@ -39,6 +40,7 @@ make -j2 "$ECL_TO_RUN"
 file "$ECL_TO_RUN" | tee "$WORK/logs/host-format.txt"
 grep -Eq 'ELF 32-bit.*Intel 80386' "$WORK/logs/host-format.txt"
 "$ECL_TO_RUN" --norc --eval '(unless (= (integer-length most-positive-fixnum) 29) (ext:quit 65))' --eval '(format t "CTM-HOST-ECL|~a|~a~%" (lisp-implementation-version) (integer-length most-positive-fixnum))' --eval '(ext:quit)'
+if [[ -n "${GITHUB_OUTPUT:-}" ]]; then printf 'host_cache_ready=true\n' >> "$GITHUB_OUTPUT"; fi
 # Select runtime files only: no MathJax/browser UI copies or publication.
 targets=(maxima-ecl-combined/maxima.wasm maxima-ecl-combined/libecl.so maxima-ecl-combined/maxima_thread.js maxima-ecl-combined/share_files.js)
 for module in slatec quadpack plot solve poisson-series matrix-algebra number-theory limits integration; do

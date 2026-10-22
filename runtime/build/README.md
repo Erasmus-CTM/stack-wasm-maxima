@@ -90,3 +90,32 @@ creates an upgrade PR, merges, tags or publishes. A changed branch is evidence
 for an exact candidate decision and the full build/substitution workflow;
 release discovery and automatic tested upgrade proposals remain later tracking
 work as described after the runtime steps in audit section 6.
+
+Verified SDK archives and validated host ECL are saved to their caches before
+later job failure can discard them. The upstream host-ECL Makefile target has
+no prerequisites: an existing cached executable skips compilation, then the
+ELF/fixnum assertions still execute. Cache readiness is emitted only after
+archive verification or successful host assertions, respectively.
+Acceptance binds the browser's asset inventory and staged manifest to the
+actual owned artifact digest, each native replay to the exact browser JSON
+hash, the same-source oracle to the observed/pinned Maxima version, and the
+probe/timing provenance to the same artifact. Raw failed probe evidence is
+always uploaded even when its comparator exits before the usual copy step.
+
+## Later size experiments (not applied in step 1)
+
+The deployed comparison inventory is 57,083,412 bytes across 81 files. Its
+`maxima-plot.fas` (1,135,430 bytes) and `libgnuplot.so` (3,937,451 bytes) total
+5,072,881 bytes; omitting them is a later capability/coverage decision, not a
+claim that the current test suite exercises plotting. Slatec (6,182,186 bytes)
+and quadpack (3,714,554 bytes) also merit dependency measurements before any
+removal. The owned artifact's generated `sizes.md` supplies the corresponding
+rebuilt sizes once compilation succeeds.
+
+A separate authorized compression experiment can compare Brotli/gzip for
+Wasm, side modules and JavaScript, preserving each decoded SHA-256, MIME type,
+range/lazy-loader behavior and all substitution checks. The largest deployed
+inputs are `maxima.wasm` (23,611,995 bytes) and `libecl.so` (7,966,927 bytes).
+Compiler size optimization is a separate experiment: this reproduction keeps
+the port's flags, including ECL's O0 and Binaryen spill-pointers behavior.
+No module, source or runtime file is trimmed or compressed by this build.
