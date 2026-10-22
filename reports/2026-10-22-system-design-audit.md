@@ -570,6 +570,45 @@ entry (F-2). Each step is gated by the replay and timed on the public page.
 Effort is unknown: Emscripten builds of large Lisp systems tend to need CI
 tuning; step 1 shows quickly whether it is days or weeks.
 
+**Effort** (estimates, untested):
+
+| Step | Content | Estimate |
+|---|---|---|
+| 1 | Reproduce today's binary from source: native 32-bit host ECL, ECL cross-compiled to `wasm32-emscripten` with a pinned emsdk, Maxima compiled with it, share files packaged, using the port's scripts | a few days if the scripts run as is in CI; 1–3 weeks if they need tuning |
+| 2 | Trims and compression (§3.4) | days |
+| 3 | Precompiled STACK, replay-gated | about a week, uncertain |
+| 4 | Memory snapshot | 1–3 weeks of research; may fail |
+| 5 | Call entry through ECL's embedding C API | days |
+
+Afterwards the tracking job rebuilds on upstream changes and a person reviews
+the parity run. Step 1 is the cheap test of the whole route. ECL's tracker
+shows active Wasm work and a documented wasm32 cross-build
+([#726](https://gitlab.com/embeddable-common-lisp/ecl/-/issues/726),
+[#740](https://gitlab.com/embeddable-common-lisp/ecl/-/issues/740),
+[#741](https://gitlab.com/embeddable-common-lisp/ecl/-/issues/741)).
+
+**Where it is built.** GitHub Actions on standard Ubuntu runners is the
+authoritative build (emsdk and host ECL cached; a full build is expected to
+take tens of minutes). AC's computing servers can host quick iterations in the
+same container image; courses only ever use CI-built files. Authors never
+compile anything.
+
+**Where it is published.** Workflow artifacts expire after 90 days, so each
+runtime release is a GitHub Release of this repository with the files, their
+SHA-256 and the licence/source-offer files. Releases need tags, which only AC
+creates: one per runtime upgrade, proposed by the tracking job.
+
+**Where it is loaded from.** By default from the course site itself: the
+package copies the runtime into `_site` at build time (step 5's local asset
+mode). No CDN for firewalls to block (the earlier Pyodide exam problem), the
+worker scripts are same-origin as required, same-origin files need no extra
+CORP headers under COEP, and hashed file names allow long-lived caching. Cost:
+~42 MB uncompressed per site, about 8–10 MB compressed after the trims
+(estimate). Exams and offline use carry the same files in the bundle, served
+with step 5's headers. A CDN stays optional; jsDelivr is believed to limit
+single files to about 20 MB, below `maxima.wasm` (23.6 MB uncompressed), to be
+checked before relying on it.
+
 **Packaging.** The Maxima backend is an optional asset set in ctm-assessment's
 asset lock (step 5): runtime, snapshot, STACK sources, share-file closure,
 licence texts, source offer; precompressed like the Pyodide assets. Pages
@@ -646,7 +685,16 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
   out of browser startup, a build diagnostic pointing to JSXGraph, and
   build-time SVG for variant-only plots only if the compatibility census shows
   imported questions need it. Upstream, ask STACK to set plot options on first
-  use instead of at load, and the Wasm port not to hard-link gnuplot.
+  use instead of at load (until then the own build carries a lightweight
+  `set_plot_option`). Leaving the plot module and gnuplot out is our build
+  configuration and needs no change in the Wasm port.
+- **Own build, not a fork.** CTM compiles pinned upstream sources (Maxima,
+  ECL, the port's build scripts, STACK) in its own CI and controls the build
+  configuration; anything that would otherwise be a carried patch is offered
+  upstream.
+- **Build and delivery** as in §6: GitHub Actions builds, GitHub Releases of
+  this repository publish (tags set by AC), courses load the runtime from their
+  own site by default.
 
 ## 9. Sources
 
