@@ -310,7 +310,8 @@ try {
       if (!screenshotKinds.has(kind)) {
         await page.evaluate(async () => { if (window.MathJax?.startup?.promise) await window.MathJax.startup.promise; if (document.fonts?.ready) await document.fonts.ready; });
         const path = 'backend-pair-' + kind + '.png';
-        await pair.screenshot({ path: output + '/' + path, animations: 'disabled' });
+        await pair.screenshot({ path: output + '/' + path, animations: 'disabled',
+          style: '#quarto-header { visibility: hidden !important; }' });
         report.screenshots.push({ path, kind, demoId: demo.id, variant }); screenshotKinds.add(kind);
       }
       const checkedMaxima = await state(cards.maxima);

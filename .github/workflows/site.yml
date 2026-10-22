@@ -144,7 +144,9 @@ jobs:
               });
               // The milestone suite may archive reports during this build.
               current = comparison.status === 'ahead' && comparison.files.length > 0 &&
-                comparison.files.length < 300 && comparison.files.every(file => file.filename.startsWith('reports/'));
+                comparison.files.length < 300 && comparison.files.every(file =>
+                  file.filename.startsWith('reports/milestone-two/') &&
+                  (!file.previous_filename || file.previous_filename.startsWith('reports/milestone-two/')));
             }
             core.setOutput('current', String(current));
       - uses: actions/download-artifact@v4
