@@ -782,6 +782,11 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
   students still get syntax feedback, and Check waits for the runtime. A
   setting (proposed `stack: validation: instant | button`, default `instant`)
   switches back to an explicit Validate button if the trial disappoints.
+- **math-exercise is unaffected.** It keeps its own input language
+  (`parse_expr` with its transformations), its own `#| variables:` language
+  and grading modes, and has no validation step (Check only); H3 stands. The
+  components share the H1 checker contract, the variants model, ctm-libs and
+  ctm-checkers.
 - **Build and delivery** as in §6: GitHub Actions builds, GitHub Releases of
   this repository publish (tags set by AC), courses load the runtime from their
   own site by default.
