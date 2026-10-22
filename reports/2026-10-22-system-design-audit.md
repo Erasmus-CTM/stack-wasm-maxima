@@ -476,6 +476,14 @@ never Python or Lisp objects; Python builds the SymPy values itself:
   (invalid attempt, no score, as the prototype's invalid branch already does,
   `engine.js:535-540`) and `assessment` keyed by input name.
 
+**Score and weight (D4).** The checker's score (0 to 1) says how well this
+attempt did on what it checks; `#| checker-value:` says how much the checker
+part counts against the XML's trees, like `<value>`. Question score =
+Σ value × score / Σ value. Example: `prt1` (value 1) scores 1, `prt2`
+(value 1) scores 0, the checker (`checker-value: 2`) returns 0.5:
+(1·1 + 1·0 + 2·0.5) / 4 = 0.5. With no XML trees, or equal weights, the
+author never writes `checker-value`.
+
 **Inside a PRT node (D4).** `<answertest>PythonChecker</answertest>` with
 `<testoptions>{"checker": "check"}</testoptions>` calls the block's checker as
 a predicate: true when the status is `correct` (score 1), otherwise false;
@@ -617,14 +625,28 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
 - **D7 Exam.** The December 2026 exam is Pyodide-only: no STACK, no
   math-exercise.
 
-Still open:
-
-- **D2 names**: `cas:` versus `backend:`, and the `stack:` section name.
-- **D4** H1 node semantics: predicate = score 1; full response plus
-  `response["node"]` (§5.3).
-- **D5** Reference semantics: STACK itself (desktop replay) for the native
-  controller, the Maxima backend as oracle for SymPy's subset, and whether to
-  evaluate STACK's compiled PRT/CASText code as the native controller (F-6).
+- **D2 names.** `stack: cas: sympy | maxima` as the course setting (a `stack:`
+  section, independent of the repository name) and `#| cas:` on a block.
+- **D4 Checker scoring.** A checker returns a score from 0 to 1 exactly as in
+  math-exercise (bool, number or dict; one normalizer; a score outside [0, 1]
+  is an author error at build time), plus `valid: False` for an invalid
+  attempt. The checker part is an implicit response tree named `checker` with
+  one node whose score is the checker's, weighted by `#| checker-value:`
+  (default 1) like `<value>` of an XML tree; aggregation, penalties, rounding,
+  feedback placement (`[[feedback:checker]]`) and question tests treat it as
+  any tree. A PythonChecker node inside an XML tree is a predicate (true branch
+  at score 1) and adds `response["node"]`. Partial credit inside an XML tree
+  is not offered until a real question needs it.
+- **D5 Reference semantics.** STACK itself, through the desktop Maxima replay,
+  is the reference for the native backend; the Maxima backend is the oracle for
+  the SymPy backend's subset (differences listed, fixed in SymPy only if
+  small). STACK's compiled PRT and CASText code is evaluated as the native
+  controller after the first runtime milestone (M4c step 1).
+- **Plotting.** STACK's `plot()` is treated as legacy, low priority: stubbed
+  out of browser startup, a build diagnostic pointing to JSXGraph, and
+  build-time SVG for variant-only plots only if the compatibility census shows
+  imported questions need it. Upstream, ask STACK to set plot options on first
+  use instead of at load, and the Wasm port not to hard-link gnuplot.
 
 ## 9. Sources
 
