@@ -18,7 +18,10 @@ local function convert(div)
   for _, class in ipairs(div.classes) do
     if class ~= 'stack-maxima' then classes:insert(class) end
   end
-  return pandoc.CodeBlock(text, pandoc.Attr(div.identifier, classes, div.attributes))
+  local block = pandoc.CodeBlock(text, pandoc.Attr(div.identifier, classes, div.attributes))
+  -- The original CTM filter renders the nested card. Only this wrapper opts
+  -- it into Maxima; ordinary cards on the same page keep their SymPy pool.
+  return pandoc.Div({block}, pandoc.Attr('', {'stack-maxima-backend'}, {['data-stack-backend']='maxima'}))
 end
 
 return {{Pandoc = function(doc)
@@ -29,8 +32,9 @@ return {{Pandoc = function(doc)
   end})
   if maxima then
     -- The generated demo's pages live one directory below its common assets.
-    -- This descriptor is read by the materialized generic frontend seam.
-    local config = '<script>window.CTMStackBackend={workerURL:"../backend/worker.js",label:"Maxima",loadTimeout:240000};</script>'
+    -- Register a named backend, never a page-wide default. Missing descriptors
+    -- fail closed in the materialized generic frontend seam.
+    local config = '<script>window.CTMStackBackends=window.CTMStackBackends||{};window.CTMStackBackends.maxima={workerURL:"../backend/worker.js",label:"Maxima",loadTimeout:240000};</script>'
     doc.blocks:insert(1, pandoc.RawBlock('html', config))
   end
   return doc
