@@ -9,10 +9,11 @@ import os from 'node:os';
 import { chromium } from 'playwright';
 import { observeWorkers } from './milestone-two/browser.mjs';
 
-const pageURL = new URL(process.env.TIMING_PAGE_URL || 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/maxima/examples.html');
+const pageURL = new URL(process.env.TIMING_PAGE_URL || 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html');
 assert.equal(pageURL.origin, 'https://erasmus-ctm.github.io');
 assert.ok(pageURL.pathname.startsWith('/stack-wasm-maxima/'));
-const expectedHTML = process.env.EXPECTED_HTML_SHA256 || '3e1c86157bfb545423370bcabb75a40ace1249afd30930d6b73f198e5f78a8eb';
+const expectedHTML = process.env.EXPECTED_HTML_SHA256;
+assert.match(expectedHTML || '', /^[a-f0-9]{64}$/, 'EXPECTED_HTML_SHA256 must identify the exact published build');
 const output = resolve(process.env.TIMING_OUTPUT || 'test-results/page-timings');
 const starts = 3, repeats = 5;
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -23,12 +24,13 @@ const answers = selected.gradeCalls[0].answers;
 const report = { schema: 1, createdAt: new Date().toISOString(), pageURL: pageURL.href,
   benchmarkSource: process.env.GITHUB_SHA || null,
   runURL: process.env.GITHUB_RUN_ID ? `https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}` : null,
-  expectedHTML, measuredExerciseSource: baseline.sourceRevision,
+  expectedHTML, answersBaselineSource: baseline.sourceRevision,
   method: { startsPerBackend: starts, warmCallsPerStart: repeats,
     workload: 'examples-01, variant 1, the same accepted full-credit rational expression',
     firstAction: 'Validate answers; no authored tests or grading before it',
     uiClock: 'Browser performance.now: captured button click to verdict DOM mutation; excludes later MathJax paint',
-    workerClock: 'Browser performance.now: actual worker postMessage to response',
+    workerClock: 'Browser performance.now: actual worker postMessage to response; first validation RPC excludes separately recorded init',
+    deferredNativeStartup: 'Hybrid init starts Python; native startup is included in the first native grade, not the first validation.',
     cache: 'A fresh Chromium process/profile and worker for every sample. OS and CDN caches are not cleared.',
     scope: 'Public GitHub Pages from one GitHub-hosted Linux runner; not a user-device or general workload benchmark.' },
   runner: { platform: os.platform(), architecture: os.arch(), cpus: os.cpus().length, cpu: os.cpus()[0]?.model },
@@ -77,12 +79,14 @@ async function action(page, card, type) {
 }
 
 async function sample(backend, repetition) {
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext();
-  const page = await context.newPage();
+  let browser, page;
   const result = { backend, repetition, errors: [], consoleErrors: [], httpErrors: [], failedRequests: [], navigation: [] };
+  report.samples.push(result); // Preserve partial evidence even when launch or an assertion fails.
   const headers = [];
   try {
+    browser = await chromium.launch({ headless: true, executablePath: process.env.CHROMIUM_EXECUTABLE || undefined });
+    const context = await browser.newContext();
+    page = await context.newPage();
     report.browserVersion = browser.version();
     page.on('pageerror', error => result.errors.push(String(error)));
     page.on('console', message => { if (message.type() === 'error') result.consoleErrors.push(message.text()); });
@@ -92,7 +96,12 @@ async function sample(backend, repetition) {
       if (response.request().isNavigationRequest() && response.request().frame() === page.mainFrame()) {
         const record = { url: response.url(), status: response.status(), fromServiceWorker: response.fromServiceWorker() };
         result.navigation.push(record);
-        headers.push(response.allHeaders().then(value => { record.coop = value['cross-origin-opener-policy']; record.coep = value['cross-origin-embedder-policy']; }));
+        headers.push((async () => {
+          const value = await response.allHeaders();
+          record.coop = value['cross-origin-opener-policy']; record.coep = value['cross-origin-embedder-policy'];
+          try { const body = await response.body(); record.bytes = body.length; record.sha256 = hash(body); }
+          catch (error) { record.bodyError = String(error); } // An interrupted bootstrap may have no readable body.
+        })());
       }
     });
     await page.addInitScript(observeWorkers);
@@ -110,6 +119,7 @@ async function sample(backend, repetition) {
     await Promise.all(headers);
     assert.equal(result.navigation.at(-1).coop, 'same-origin');
     assert.equal(result.navigation.at(-1).coep, 'require-corp');
+    assert.equal(result.navigation.at(-1).sha256, expectedHTML, 'The actual final browser navigation must use the requested HTML');
     const card = page.locator(`.backend-pair[data-demo-id="examples-01"] .backend-copy[data-backend="${backend}"] section.stack-sympy`);
     const payloadText = await card.locator('script.stack-sympy-data').textContent();
     const payload = JSON.parse(payloadText);
@@ -124,9 +134,23 @@ async function sample(backend, repetition) {
     assert.ok(init?.response?.ok);
     result.initializationMs = init.elapsedMs;
     result.initializationStages = init.response.backend?.timings || null;
+    if (backend === 'maxima') {
+      assert.equal(init.response.backend.maximaState, 'not-started');
+      assert.equal(init.response.backend.nativeATCount, 0);
+    }
     result.warmValidation = [];
     for (let at = 0; at < repeats; at++) result.warmValidation.push(await action(page, card, 'validate'));
+    if (backend === 'maxima') for (const operation of [result.firstValidation, ...result.warmValidation]) {
+      const reply = operation.calls.find(call => call.type === 'validate').response;
+      assert.equal(reply.backend.maximaState, 'not-started', 'Validation must leave native loading deferred');
+      assert.equal(reply.backend.nativeATCount, 0);
+    }
     result.firstGrade = await action(page, card, 'grade');
+    if (backend === 'maxima') {
+      const reply = result.firstGrade.calls.find(call => call.type === 'grade').response;
+      assert.equal(reply.backend.maximaState, 'ready');
+      result.nativeInitialization = reply.backend.timings;
+    }
     result.warmGrade = [];
     for (let at = 0; at < repeats; at++) result.warmGrade.push(await action(page, card, 'grade'));
     result.observation = await page.evaluate(() => window.__ctmHarness);
@@ -141,8 +165,14 @@ async function sample(backend, repetition) {
     assert.deepEqual(result.httpErrors, []);
     assert.deepEqual(result.consoleErrors.filter(text => !/^warning: unsupported syscall: __syscall_(?:prlimit64|getrusage)\s*$/.test(text)), []);
     assert.deepEqual(result.failedRequests.filter(row => !/ERR_ABORTED/.test(row.error || '')), []);
+    result.passed = true;
     return result;
-  } finally { await browser.close(); }
+  } catch (error) {
+    result.failure = {message: String(error), stack: error.stack};
+    if (page) try { result.observation = await page.evaluate(() => window.__ctmHarness); } catch {}
+    await writeFile(resolve(output, 'timings.json'), JSON.stringify(report, null, 2) + '\n');
+    throw error;
+  } finally { await Promise.allSettled(headers); if (browser) await browser.close(); }
 }
 
 export function statistics(values) {
@@ -156,20 +186,28 @@ try {
   report.htmlBefore = await fingerprint(pageURL);
   assert.equal(report.htmlBefore.sha256, expectedHTML, 'Measure the exact requested deployed build');
   const base = new URL('../', pageURL);
-  for (const path of ['MATERIALIZATION.json', 'stack-sources.json', 'runtime-assets.json', 'backend/worker.js', 'backend/native_adapter.py', 'runtime/maxima-session.js', 'runtime/maxima-child.js']) {
+  for (const path of ['MATERIALIZATION.json', 'stack-sources.json', 'runtime-assets.json', 'native/build-manifest.json', 'backend/worker.js', 'backend/native_adapter.py', 'runtime/maxima-session.js', 'runtime/maxima-child.js']) {
     report.fingerprints.push(await fingerprint(new URL(path, base)));
   }
   const materialization = await (await fetch(new URL('MATERIALIZATION.json', base))).json();
+  report.measuredDeploymentSource = (await (await fetch(new URL('native/build-manifest.json', base))).json()).sourceRevision;
   report.sourcePins = materialization.sourcePins;
   report.trackedPageSha256 = materialization.trackedPageSha256;
   report.frontendPatches = materialization.frontendPatches;
-  for (const url of [baseline.expectedWorkers.sympy, new URL('stack-sympy.js', baseline.expectedWorkers.sympy)]) {
+  const html = await (await fetch(pageURL, {cache:'no-store'})).text();
+  assert.equal(hash(html), report.htmlBefore.sha256);
+  const script = /<script\b[^>]*\bsrc=["']([^"']*\/stack-sympy\.js)["']/i.exec(html);
+  assert.ok(script, 'The current HTML must identify its real frontend');
+  const frontendURL = new URL(script[1], pageURL);
+  assert.equal(frontendURL.origin, pageURL.origin);
+  assert.ok(frontendURL.pathname.startsWith(base.pathname));
+  for (const url of [new URL('worker.js', frontendURL), frontendURL]) {
     report.fingerprints.push(await fingerprint(url));
   }
   assert.equal(report.fingerprints.at(-1).sha256, materialization.frontendPatches[0].materializedSha256);
   for (let at = 0; at < starts; at++) {
     for (const backend of at % 2 ? ['maxima', 'sympy'] : ['sympy', 'maxima']) {
-      const result = await sample(backend, at + 1); report.samples.push(result);
+      const result = await sample(backend, at + 1);
       await writeFile(resolve(output, 'timings.json'), JSON.stringify(report, null, 2) + '\n');
       console.log(JSON.stringify({ backend, repetition: at + 1, firstValidateMs: result.firstValidation.uiMs,
         initializationMs: result.initializationMs, stages: result.initializationStages }));
@@ -177,6 +215,11 @@ try {
   }
   report.htmlAfter = await fingerprint(pageURL);
   assert.equal(report.htmlAfter.sha256, report.htmlBefore.sha256, 'The deployed build must not change during measurement');
+  report.fingerprintsAfter = [];
+  for (const before of report.fingerprints) {
+    const after = await fingerprint(before.url); report.fingerprintsAfter.push(after);
+    assert.equal(after.sha256, before.sha256, 'A measured deployment asset changed: ' + before.url);
+  }
   report.statistics = Object.fromEntries(['sympy', 'maxima'].map(backend => {
     const rows = report.samples.filter(row => row.backend === backend);
     assert.equal(rows.length, starts);
@@ -186,6 +229,8 @@ try {
       warmValidationUI: statistics(rows.flatMap(row => row.warmValidation.map(call => call.uiMs))),
       warmValidationWorker: statistics(rows.flatMap(row => row.warmValidation.map(call => call.workerMs))),
       firstGradeUI: statistics(rows.map(row => row.firstGrade.uiMs)),
+      firstGradeWorker: statistics(rows.map(row => row.firstGrade.workerMs)),
+      ...(backend === 'maxima' ? {deferredNativeInitialization: statistics(rows.map(row => row.nativeInitialization.maximaReadyMs))} : {}),
       warmGradeUI: statistics(rows.flatMap(row => row.warmGrade.map(call => call.uiMs))),
       warmGradeWorker: statistics(rows.flatMap(row => row.warmGrade.map(call => call.workerMs))) }];
   }));

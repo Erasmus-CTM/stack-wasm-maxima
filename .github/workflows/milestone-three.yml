@@ -1,0 +1,107 @@
+name: Native backend milestone 3
+
+on:
+  push:
+    branches: ['research/**']
+    paths:
+      - '.github/workflows/milestone-three.yml'
+      - 'prototype/**'
+      - 'scripts/milestone-three/**'
+      - 'scripts/milestone-two/prepare-runtime.py'
+      - 'scripts/milestone-two/serve.mjs'
+  pull_request:
+    paths:
+      - '.github/workflows/milestone-three.yml'
+      - 'prototype/**'
+      - 'scripts/milestone-three/**'
+      - 'scripts/milestone-two/prepare-runtime.py'
+      - 'scripts/milestone-two/serve.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-milestone-three-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native-and-loading:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: c366f175aba6b62caa628bc60f57bb1167fc087b
+          path: .m2-sources/ctm-checkers
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: .m2-sources/stack
+          sparse-checkout: |
+            stack/maxima
+            stack/cas
+            stack/maximaparser
+            corsscripts
+            lang/en
+            samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs
+          persist-credentials: false
+      - name: Install build and browser dependencies
+        run: |
+          python -m pip install sympy==1.13.3
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Check transport, adapter and deferred loading
+        env:
+          PYTHONPATH: .m2-sources/ctm-checkers/src
+        run: |
+          node prototype/runtime/test-maxima-session.mjs
+          node prototype/backend/test-worker-loading.mjs
+          node prototype/native/test-python-bridge.mjs
+          node prototype/native/test-engine.mjs
+          node prototype/native/test-backend-worker.mjs
+          node prototype/jsxgraph/test-adapter.mjs
+          python prototype/backend/test_native_adapter.py
+          python prototype/native/test_python_bridge.py
+          python scripts/milestone-three/test-reference.py
+      - name: Prepare the exact runtime with a verified preload package
+        run: |
+          python scripts/milestone-two/prepare-runtime.py --output .cache/loader-demo \
+            --stack-source .m2-sources/stack --ctm-checkers-source .m2-sources/ctm-checkers
+          python scripts/milestone-three/stage-parser.py --stack-source .m2-sources/stack --output .cache/loader-demo/native
+          python scripts/milestone-three/stage-feedback.py --stack-source .m2-sources/stack --output .cache/loader-demo/native
+          node prototype/native/test-input.mjs .cache/loader-demo/native
+          node prototype/native/test-feedback.mjs .cache/loader-demo/native
+          python scripts/milestone-three/compile.py --stack-source .m2-sources/stack \
+            --ctm-checkers-source .m2-sources/ctm-checkers --output .cache/loader-demo/native/questions.json \
+            --resources .cache/loader-demo/native-questions
+      - name: Exercise actual native question preparation, validation and PRTs
+        run: node scripts/milestone-three/probe-engine.mjs
+      - name: Compare original and bundled loading
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          LOADER_OUTPUT: test-results/loader-local
+        run: node scripts/milestone-three/measure-loader.mjs
+      - name: Compare loading with simulated 80 ms HTTP latency
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          LOADER_OUTPUT: test-results/loader-latency-80ms
+          LOADER_LATENCY_MS: '80'
+        run: node scripts/milestone-three/measure-loader.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: milestone-three-${{ github.sha }}
+          path: test-results/
+          if-no-files-found: warn

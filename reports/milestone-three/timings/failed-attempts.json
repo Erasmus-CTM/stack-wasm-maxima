@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "purpose": "Retained failed benchmark admission attempts; excluded from final timing tables. Paired comparison samples passed in each attempt, but no complete native timing batch was accepted.",
+  "measuredDeploymentSource": "15fa33299d68d64e122a2661a2868feb30130edb",
+  "attempts": [
+    {
+      "run": 39828347754,
+      "runAttempt": 1,
+      "comparisonPassed": true,
+      "nativeSamplesAccepted": 0,
+      "failure": "Before any assessment RPC: final native navigation body evicted from Chromium inspector cache. Exact hash gate rejected admission.",
+      "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39828347754",
+      "benchmarkSource": "1487c96c7a2fe388c97da2a33814f725a317d66d",
+      "artifact": {
+        "id": 12448076670,
+        "url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39828347754/artifacts/12448076670",
+        "digest": "sha256:670016b283a0e402be259ec65ce865a775316a42d5c882157a621153b9fb569a",
+        "expiresAt": "2027-01-20T18:05:36Z",
+        "sizeBytes": 42283
+      }
+    },
+    {
+      "run": 39830375487,
+      "runAttempt": 1,
+      "comparisonPassed": true,
+      "nativeSamplesAccepted": 0,
+      "failure": "Before any assessment RPC: Chromium target closed during first native navigation with experimental durable inspector messages enabled. Removed the experimental setting; retained enlarged same-session response buffers and exact hash gate.",
+      "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39830375487",
+      "benchmarkSource": "125fd3cab0202cfbf7312c214df5af3e34e37208",
+      "artifact": {
+        "id": 12447304794,
+        "url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39830375487/artifacts/12447304794",
+        "digest": "sha256:c87b246236c6f321fae59f40773320373892adc25b6958ca0096d78df262734f",
+        "expiresAt": "2027-01-20T18:19:56Z",
+        "sizeBytes": 41645
+      }
+    },
+    {
+      "run": 39831459804,
+      "runAttempt": 1,
+      "artifactAvailabilityAfterRunAttempt2": "Retained alongside the successful attempt 2 artifact; select by artifact ID rather than the shared name.",
+      "comparisonPassed": true,
+      "nativeSamplesAccepted": 0,
+      "failure": "Before browser launch: initial native HTML provenance request returned HTTP 503. No native profile or assessment RPC started.",
+      "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39831459804",
+      "benchmarkSource": "1886d5dd3ef30edb5096601cea841684c0290860",
+      "artifact": {
+        "id": 12448353619,
+        "url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39831459804/artifacts/12448353619",
+        "digest": "sha256:81d467fa59e4910ee1374379126a33bc172f9d505f4489af1f763f255d1b7616",
+        "expiresAt": "2027-01-20T18:27:01Z",
+        "sizeBytes": 22465
+      }
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+---
+title: Data flow
+subtitle: From typed and graphical answers to validation and grading
+engine: markdown
+---
+
+## From an answer to feedback
+
+Both typed and graphical answers become **named strings**, for example
+`{ans1: "2*x"}`. The selected backend processes those values in the candidate's
+browser. There is no grading-server round trip.
+
+### Type an answer, Validate, then Check
+
+Typing `2*x` stores that literal text in the answer field. Typing alone does
+not grade it. **Validate answers** sends the current values to the selected
+worker and displays its interpretation and input feedback. **Check answer**
+sends the current values again and runs the question's grading rules; changing
+an answer after validation therefore cannot bypass validation during grading.
+
+There are two different Maxima paths in this demonstration:
+
+| Path | Validate | Check |
+|---|---|---|
+| SymPy copies on the [comparison page](examples.qmd) | CTM's Python input validation in Pyodide | CTM's Python response-tree controller and SymPy answer tests |
+| Hybrid Maxima copies on the comparison page | CTM's Python input validation in Pyodide | CTM's Python response-tree controller delegates ordinary answer-test nodes to Maxima/STACK |
+| [Native STACK examples](native.qmd) | Our input admission layer, then native STACK CAS validation in Maxima | Revalidation, then our native response-tree controller with STACK CAS answer tests |
+
+**Validate checks whether an answer can be accepted and interpreted under the
+input settings; it does not award a score.** Correctness is determined by Check.
+The first action can include runtime startup. The hybrid path starts Python for
+validation and defers Maxima until a native answer test is needed. The native
+path starts Maxima for its first validation and reuses that session afterward.
+
+PythonChecker is an explicit CTM extension in either path. It always runs the
+supplied Python function, regardless of the column label. Native-only questions
+do not need a Python interpreter.
+
+### Enter an answer through a JSXGraph board
+
+The board's question code converts its state into the expected answer string.
+A function-entry board could produce `"2*x"`; a draggable point usually produces
+something like `"[2,3]"`. A more complex board may produce a string containing
+JSON, such as `[{"x":1,"y":2,"color":"red"}]`.
+
+The existing **jsxgraph-quarto** extension renders the board. Our adapter
+connects its iframe to the question's named inputs. Before Validate or Check,
+the host collects the latest board response through the extension's assessment
+bridge and waits for pending board updates. It then submits those values through
+the same backend path as an ordinary typed answer.
+
+Converted STACK `[[jsxgraph]]` blocks use this same renderer and bridge, with
+STACK's binding library and our compatibility adapter. The extension transports
+the response; the question defines its answer format. Neither JSXGraph nor the
+Quarto extension decides mathematical correctness. Try the
+[native graphical examples](native.qmd) to inspect both point and JSON inputs.
+
+:::: {.callout-note}
+## Developer details: messages, expressions and execution
+
+### Native validation and grading
+
+At build time, GitHub Actions imports the question, prepares its seeded
+variants and teacher expressions, and renders the Quarto page. These prepared
+values travel with the question; they are not recomputed from learner input.
+The native worker verifies that the selected variant belongs to the question
+and pinned runtime build.
+
+```{mermaid}
+flowchart TD
+  A["Page: answer field contains 2*x"] -->|"Validate: question, variant, answers"| B["Native backend Web Worker"]
+  B --> C["JavaScript admission: parse syntax and permitted names"]
+  C --> D["Maxima Wasm: STACK CAS input validation"]
+  D -->|"Validity, LaTeX interpretation, input feedback"| A
+  A -->|"Check: current answers again"| E["Worker revalidates; executes response tree"]
+  E --> F["Maxima: native STACK answer tests"]
+  F -->|"Score, branches and feedback"| A
+```
+
+The page sends an object containing string values, such as
+`answers: {ans1: "2*x"}`, using worker messages. This is transport data, not
+JavaScript code to execute. In the native worker, `NativeInput.admit` parses
+mathematical input into the supported syntax tree and checks the permitted
+constructs before the controller generates a Maxima program.
+
+The backend worker runs our JavaScript controller. A separate child worker
+hosts ECL/Maxima Wasm and the STACK CAS libraries. `MaximaSession` exchanges
+evaluation input and output with that child through `SharedArrayBuffer` and
+`Atomics`; the page communicates asynchronously with the backend worker using
+ordinary worker messages. The shared-memory transport requires cross-origin
+isolation, which the page bootstrap and service worker prepare before assessment.
+
+`NativeStackEngine.validate` restores the prepared environment and calls
+`stack_validate` or `stack_validate_typeless`, according to the input settings.
+Maxima interprets the mathematical expression and produces its TeX display.
+The worker returns structured results; the page renders them.
+
+Admission retains the written mathematical form for tests such as `EqualComAss`
+and `LowestTerms`. Displaying a parsed answer does not replace the submitted
+string with its simplified display.
+
+`NativeStackEngine.grade` calls the validation path again, then executes each
+potential response tree. Our controller supplies the traversal, branch scoring
+and continuation logic; the pinned STACK CAS library supplies ordinary native
+answer tests. This is the supported browser implementation, not Moodle's PHP
+input controller or a complete reproduction of Moodle/STACK.
+
+If a tree reaches a PythonChecker node, the native computation pauses. The
+worker lazily starts Pyodide, invokes the supplied checker with the student and
+teacher values and checker options, then resumes the native tree with the
+result. A mixed tree can therefore execute native → Python → native without
+restarting Maxima. Validation alone does not invoke the custom checker.
+
+### How graphical input joins that pipeline
+
+```{mermaid}
+flowchart TD
+  A["Board code: geometry or controls"] -->|"Serialize expected answer"| B["Iframe input mirror: ans1 string"]
+  B -->|"STACK binding and CTM adapter synchronize"| C["Parent page: named assessment input"]
+  D["Candidate presses Validate or Check"] --> E["Host collects through jsxgraph-quarto assessment bridge"]
+  B -->|"Latest values; wait for pending writes"| E
+  E --> C
+  C -->|"Same question, variant and answers messages"| F["Selected backend worker"]
+  F -->|"Interpretation or grade"| G["Page feedback; board validation listeners"]
+```
+
+The extension's response envelope and the mathematical answer are different
+layers. Our registered response callback returns, for example:
+
+```json
+{"inputs":{"ans1":"2*x"}}
+```
+
+For a JSON-based question, the value of `ans1` is still a string:
+
+```json
+{"inputs":{"ans1":"[{\"x\":1,\"y\":2,\"color\":\"red\"}]"}}
+```
+
+Our frame adapter provides the STACK-JS input interface to converted blocks;
+the unchanged STACK binding library can read and write mirrored inputs there.
+The host checks the iframe identity, question instance, generation and input
+revision before applying updates. Reset and variant changes invalidate stale
+messages. Collection before assessment waits for outstanding writes, so the
+submitted value includes the most recent completed board interaction.
+
+Board code may canonicalize a value before submission. For example, point
+binding can turn a coordinate representation into the board's actual point
+coordinates. The backend receives the resulting input string, not the mouse
+event or an earlier typed representation. Mathematical parsing and grading
+then belong to the chosen backend. The adapter does not translate between
+arbitrary answer schemas or turn a native question into a SymPy-compatible one.
+
+Relevant implementation: `prototype/jsxgraph/{frame,host}.js`,
+`prototype/native/{backend-worker,engine,input}.js`, and
+`prototype/runtime/{maxima-session,maxima-child}.js`; board rendering is in
+`scripts/milestone-three/build-site.mjs`. The native controller is distinct
+from the hybrid `prototype/backend/worker.js` used by the comparison page's Maxima copies.
+
+::::
+

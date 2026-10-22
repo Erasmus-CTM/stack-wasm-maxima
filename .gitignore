@@ -4,6 +4,7 @@ node_modules/
 .stack-upstream/
 .m2-sources/
 .site-sources/
+.m3-sources/
 test-results/
 __pycache__/
 measurements/local-*.json
@@ -16,6 +17,10 @@ site/feedback/
 site/maxima-runtime/
 site/maxima/questions/
 site/runtime/
+site/native/
+site/jsxgraph/
+site/.native-prepared/
+site/maxima/native-questions/
 site/MATERIALIZATION.json
 site/runtime-assets.json
 site/stack-sources.json

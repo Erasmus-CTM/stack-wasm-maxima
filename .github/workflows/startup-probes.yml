@@ -1,0 +1,71 @@
+name: Investigate native startup phases
+
+on:
+  push:
+    branches: ['research/**']
+    paths:
+      - '.github/workflows/startup-probes.yml'
+      - 'scripts/milestone-three/startup-probes.mjs'
+  workflow_dispatch:
+    inputs:
+      modes:
+        description: 'Comma-separated modes; rejected exact-directories and cache-off experiments remain opt-in'
+        type: string
+        required: true
+        default: 'full,core-no-statistics'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-startup-probes-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  profile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: c366f175aba6b62caa628bc60f57bb1167fc087b
+          path: .m2-sources/ctm-checkers
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: .m2-sources/stack
+          sparse-checkout: stack/maxima
+          persist-credentials: false
+      - name: Install browser dependencies
+        timeout-minutes: 8
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          # ubuntu-24.04 already supplies the shared libraries for its Chrome.
+          # Install the pinned Playwright browser without an unrelated apt
+          # transaction delaying this isolated diagnostic experiment.
+          npx playwright install chromium
+      - name: Prepare the pinned runtime
+        run: |
+          python scripts/milestone-two/prepare-runtime.py --output .cache/loader-demo \
+            --stack-source .m2-sources/stack --ctm-checkers-source .m2-sources/ctm-checkers
+      - name: Profile loading, search paths and optional startup libraries
+        env:
+          STARTUP_PROBE_MODES: ${{ inputs.modes || 'full,core-no-statistics' }}
+        run: node scripts/milestone-three/startup-probes.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-startup-probes-${{ github.sha }}
+          path: test-results/startup-probes/
+          if-no-files-found: warn

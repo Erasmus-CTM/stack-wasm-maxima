@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "scope": "Aggregate startup diagnostics and provenance only; no raw payload or source text.",
+  "repository": {
+    "url": "https://github.com/Erasmus-CTM/stack-wasm-maxima",
+    "id": 1428812079,
+    "visibility": "public",
+    "verifiedAt": "2026-10-22"
+  },
+  "rawEvidence": {
+    "location": "Original GitHub Actions artifacts linked per run; not included in this summary.",
+    "mayExpire": true,
+    "scheduledExpiry": "2027-01-20"
+  },
+  "method": {
+    "samplesPerModePerRun": 1,
+    "freshChromiumProcessProfileAndWorker": true,
+    "osAndCdnCachesCleared": false,
+    "instrumented": true,
+    "productionLatency": false,
+    "nestedLoadDurations": "Inclusive; do not sum parent and child phases.",
+    "reducedMode": "Omits statistics and optional setup; not full STACK and never the production default."
+  },
+  "pins": {
+    "wasmSha256": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+    "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+    "stackLibraryVersion": "2026101500"
+  },
+  "runs": [
+    {
+      "runId": 39811650324,
+      "sourceRevision": "aa3983996f311d28100b20faa5f11e380f7c21a5",
+      "artifactId": 12440118099,
+      "artifactZIPsha256": "cbdf4e04c40132e23a13d011f43c3b02b7a87fa3b5fce49912d91dd2e564d4b4",
+      "rawReportSha256": "f72d57cef72134920914214ce6fe29f49cb22b02fd9d97beaa4bb1cc3a76551f",
+      "passed": false,
+      "modes": [
+        {
+          "mode": "full",
+          "readinessSeconds": 77.1
+        },
+        {
+          "mode": "exact-directories",
+          "readinessSeconds": 71.88,
+          "accepted": false,
+          "reason": "Filesystem trace capped; equivalence not established."
+        },
+        {
+          "mode": "cache-off",
+          "timeoutSeconds": 240,
+          "accepted": false
+        }
+      ],
+      "runUrl": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39811650324",
+      "artifactUrl": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39811650324/artifacts/12440118099",
+      "artifactMetadataUrl": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12440118099"
+    },
+    {
+      "runId": 39813361860,
+      "sourceRevision": "399c66ccade6acc7ba0fdf86de157e3e563269e7",
+      "artifactId": 12441735803,
+      "artifactZIPsha256": "1293489056b6967f892c41adb471a103810f6dcb124329bc102ead472bbfcc9b",
+      "rawReportSha256": "45c1a5b8a9572b9cf07ae2c651d7a6cc957d15826e4d77f3e1a1d5a323be056b",
+      "passed": false,
+      "modes": [
+        {
+          "mode": "full",
+          "readinessSeconds": 78.21,
+          "coreReadySeconds": 3.54
+        },
+        {
+          "mode": "reduced",
+          "readinessSeconds": 49.86,
+          "coreReadySeconds": 3.07
+        },
+        {
+          "mode": "exact-directories",
+          "readinessSeconds": 63.34,
+          "accepted": false,
+          "failedLibrary": "draw.lisp",
+          "missingSourceCount": 17,
+          "loadEvents": 62,
+          "baselineLoadEvents": 80
+        }
+      ],
+      "runUrl": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39813361860",
+      "artifactUrl": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39813361860/artifacts/12441735803",
+      "artifactMetadataUrl": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12441735803"
+    },
+    {
+      "runId": 39815640449,
+      "sourceRevision": "b2b02ded87f27dc4a469239e83002c79969b4276",
+      "artifactId": 12442177398,
+      "artifactZIPsha256": "3e185383e0722d8b60bfb6b179d67d5cb3dbcf088cc5d0688732a912afb45d7f",
+      "rawReportSha256": "bd518e350d3d7b9469777006ca09f7c0283031758b0dfb5f4c044d89bea9189c",
+      "passed": true,
+      "modes": [
+        {
+          "mode": "full",
+          "readinessSeconds": 62.49,
+          "coreReadySeconds": 2.91,
+          "stockLoaderInclusiveSeconds": 59.5,
+          "linearAlgebraInclusiveSeconds": 17.29,
+          "defsystemNestedInclusiveSeconds": 12.9,
+          "statisticsInclusiveSeconds": 16.29,
+          "loadEvents": 80,
+          "answerTestsPassed": 4,
+          "answerTestsTotal": 4,
+          "startupErrors": 0
+        },
+        {
+          "mode": "reduced",
+          "readinessSeconds": 37.81,
+          "coreReadySeconds": 2.32,
+          "loadEvents": 57,
+          "answerTestsPassed": 4,
+          "answerTestsTotal": 4,
+          "startupErrors": 0
+        }
+      ],
+      "runUrl": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39815640449",
+      "artifactUrl": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39815640449/artifacts/12442177398",
+      "artifactMetadataUrl": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12442177398"
+    }
+  ]
+}

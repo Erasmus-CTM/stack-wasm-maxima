@@ -14,6 +14,8 @@ Each question appears twice: **SymPy** first, then **Maxima**. Both copies use t
 
 Press **Validate answers** to inspect each interpreted response, then **Check answer** to grade it. After an edit, validate again. The first assessment loads that backend; Maxima can take longer to initialize.
 
+The [native questions and graphical answers](native.qmd) page also demonstrates native question preparation, input validation and response trees, with optional PythonChecker nodes.
+
 ## Which questions need CTM?
 
 **11 questions use standard STACK features; 7 require CTM extensions.** There are **3 unchanged upstream questions** and **15 questions authored or adapted for CTM**.
@@ -809,38 +811,84 @@ See the [author API](https://erasmus-ctm.github.io/stack-sympy/docs/python-check
 ::::
 
 :::::
+## Where does an answer go? {#answer-pipeline}
+
+Read [Data flow](data-flow.qmd) for the typed-input and JSXGraph walkthroughs,
+with expanded developer details and diagrams of validation and grading.
+
 ## Startup and response times {#startup-and-response-times}
 
-**The long first Maxima validation is mostly worker setup.** In this run, the first **Validate answers** click took a median **43.28 s**, including **43.10 s** of worker initialization. Later validations took about **12.4 ms**. SymPy's first validation took **5.95 s**.
+### Frozen public measurements: milestone 3
 
-The first action creates that backend's persistent worker and loads its runtimes. The hybrid Maxima worker currently waits for **both Python and Wasm Maxima/STACK**, even though input validation uses Python. Its internal checkpoints put Python/checkers ready at **6.41 s** and Maxima/STACK ready at **42.90 s**. These start in parallel: the checkpoint times must not be added together. This setup also happens when the first action is on a PythonChecker question, even though that question's answer-test nodes stay in Python.
+**The hybrid Maxima worker now defers native startup until its first ordinary Check.**
+On the measured build, first Validate took **5.99 s**, while first Check took **38.45 s**
+including **38.40 s** of deferred Maxima/STACK initialization. Later Checks took **42 ms**.
+Validation still uses Python in both columns. A PythonChecker-only question does not
+start Maxima.
 
-### Measured on the deployed exercise build
+These frozen measurements describe deployed source **`15fa33299d68d64e122a2661a2868feb30130edb`**,
+measured on **22 October 2026** by [benchmark attempt 2](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39831459804/attempts/2). Subsequent page edits
+do not rerun or relabel this batch. The workload is the first rational-expression
+question, variant 1, with the same accepted answer in both columns.
 
-Values are **median (minimum–maximum)**. These are measurements from **22 October 2026**, using the **first rational-expression question, variant 1**, with the same correct answer in both copies. That question uses standard STACK answer tests; this is not a benchmark of the custom PythonChecker matrix questions.
+Values are **median / minimum / maximum**. First-call rows have **3 samples per backend**;
+warm rows have **15 samples per backend**, five calls in each of three fresh processes.
 
-| Measured interval | Samples per backend | SymPy | Maxima |
-|---|---:|---:|---:|
-| First Validate: click → feedback (s) | 3 | 5.95 (5.93–6.13) | 43.28 (40.85–43.76) |
-| Worker initialization, included above (s) | 3 | 5.77 (5.75–5.93) | 43.10 (40.67–43.58) |
-| First validation RPC after initialization (ms) | 3 | 179.0 (178.6–198.3) | 180.1 (178.5–180.5) |
-| Later Validate: click → feedback (ms) | 15 | 12.3 (8.0–12.7) | 12.4 (11.6–13.3) |
-| Later validation RPC (ms) | 15 | 11.4 (7.0–11.9) | 11.5 (10.6–12.4) |
-| First Check after validation: click → feedback (ms) | 3 | 11.6 (10.4–12.3) | 47.7 (47.0–48.4) |
-| Later Check: click → feedback (ms) | 15 | 12.4 (9.0–14.0) | 39.0 (37.2–41.9) |
-| Later grading RPC (ms) | 15 | 11.6 (8.0–13.1) | 38.1 (36.3–40.9) |
+| Interval | SymPy | Hybrid Maxima |
+| --- | ---: | ---: |
+| First Validate: UI (s) | 5.901 / 5.899 / 5.944 | 5.992 / 5.931 / 6.315 |
+| Worker initialization (s) | 5.715 / 5.710 / 5.755 | 5.805 / 5.742 / 6.131 |
+| First Validate: worker RPC (ms) | 186.53 / 183.96 / 187.32 | 184.38 / 182.02 / 187.16 |
+| Warm Validate: UI (ms) | 11.79 / 9.77 / 12.33 | 12.15 / 11.25 / 12.45 |
+| First Check after validation: UI (s) | 0.011 / 0.011 / 0.012 | 38.446 / 38.178 / 38.964 |
+| First Check: worker RPC (s) | 0.009 / 0.009 / 0.010 | 38.444 / 38.175 / 38.962 |
+| Warm Check: UI (ms) | 11.71 / 10.02 / 12.98 | 42.26 / 40.49 / 46.85 |
+| Warm Check: worker RPC (ms) | 10.80 / 9.06 / 12.17 | 41.41 / 39.71 / 45.85 |
 
-“Click → feedback” ends at the browser's verdict DOM update; it excludes any later MathJax painting. RPC time is the actual message/response interval and excludes UI work. Worker initialization is part of the first Validate interval, so these rows must not be summed. The first Check is already after validation and is not a cold-start measurement.
+For hybrid Maxima, deferred native initialization alone was **38.401 / 38.129 / 38.919 s**
+(3 samples). It is included in first Check and its worker RPC; these intervals must not
+be added together. First Check follows six validations, so it is the first native grade,
+not a cold page or a cold Python worker.
+
+**UI time** runs from the actual button click to the verdict DOM update. **Worker RPC**
+time runs from the real worker message to its response. Initialization is recorded
+separately and is included in the relevant first UI operation. Page navigation, HTML
+loading, isolation bootstrap, answer entry and later MathJax painting are outside these
+button intervals.
+
+The [native assessment page](native.qmd#public-startup-and-response-times) measures the
+different path where native STACK also prepares questions, validates inputs and runs
+response trees. Its warm grading is more expensive than this page's hybrid answer-test
+delegation; the two controllers should not be treated as identical workloads.
 
 ### Method and limits
 
-The [public-page timing run](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39759255662) used Chromium 141.0.7390.37 on one GitHub-hosted Ubuntu runner (4 virtual CPUs). Each backend had **three fresh Chromium processes/profiles and workers**. Each process began with Validate, with **no prior worker calls, authored tests or grading**; then it ran five further validations, its first grade and five further grades. The later-call rows therefore contain 15 operations per backend across three workers. Backend order alternated between trials.
+The runner used Chromium **141.0.7390.37** on GitHub-hosted Ubuntu,
+**4 virtual CPUs**. Each backend had three fresh Chromium processes,
+profiles and workers. Each started with Validate and zero prior assessment RPCs, then
+five warm validations, its first grade and five warm grades. Backend order alternated.
+OS and CDN caches were not cleared; provenance fetches can warm CDN caches.
 
-The benchmark checked the deployed HTML SHA-256 before and after all trials, and recorded the frontend, worker, adapter and runtime-manifest fingerprints. It measured the exercise build already published here; this chapter and the compatibility labels add documentation while preserving those question blocks and grading sources. See the [summary and complete raw timing report](https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/research/2026-10-runtime-feasibility/reports/reviewer-site/timings/39759255662) for exact values, hashes and provenance.
+The benchmark verified the exact final browser navigation HTML and public asset
+fingerprints, then checked HTML/assets again after the samples. See the
+[frozen summaries, sample times, hashes and provenance](https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/research/2026-10-native-stack/reports/milestone-three/timings/39831459804-attempt-2/) and the
+[timing evidence guide](https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/research/2026-10-native-stack/reports/milestone-three/timings/README.md).
+This is one accepted answer on one runner, not a device/network benchmark, a confidence
+interval or evidence of a general performance advantage. Ordinary functional builds
+leave these statistics frozen.
 
-Fresh browser profiles give empty browser caches. OS and CDN caches were not cleared. These small-sample timings describe this question on that runner and connection; they do not predict every device, network or question. They also do not establish a performance advantage for Maxima.
+### Historical milestone 2 baseline
 
-**Later questions, variant changes and Reset answers reuse the loaded worker.** Reloading the page creates new workers; cached files can reduce the download part, while runtime initialization still has to run.
+The original eager-start build waited for Python and Maxima together: first Maxima
+Validate was **43.28 s**, including **43.10 s** of worker initialization; warm Validate
+was about **12.4 ms**. SymPy first Validate was **5.95 s**. Those are historical values
+from [run 39759255662](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39759255662),
+with [its original report](https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/research/2026-10-runtime-feasibility/reports/reviewer-site/timings/39759255662).
+They used an earlier build and run, so the change between batches is not a controlled
+speedup estimate.
+
+Later questions, variant changes and Reset reuse the loaded worker. Reloading creates
+new workers; cached files can reduce download work while runtime initialization remains.
 
 ## For developers
 

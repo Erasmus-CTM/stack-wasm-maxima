@@ -9,6 +9,8 @@ Milestone 2 passes in [browser CI](https://github.com/Erasmus-CTM/stack-wasm-max
 The [interactive backend comparison](https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/maxima/examples.html) places a SymPy copy and a Maxima copy of each of the 18 worked questions on one page. Enter answers, validate, grade, change variants, reset, or run the authored tests in either copy. Its ordinary [QMD source](site/maxima/examples.qmd) is rendered, tested and published by [GitHub Actions](.github/workflows/site.yml).
 
 - [Prototype plan and milestones](plans/2026-10-prototype.md)
+- [Milestone 3 acceptance plan](plans/2026-10-milestone-three.md)
+- [Native and graphical question page source](site/maxima/native.qmd)
 - [Matched demo source inventory](demos/manifest.json)
 - [Runtime sizes, integration, and tradeoffs](reports/2026-10-21-runtime-size-and-integration.md)
 - [Selectable backend API proposal](reports/2026-10-21-selectable-backends.md)
@@ -21,6 +23,6 @@ Run the asset measurement with Node.js 20 or later:
 node scripts/measure-runtime-assets.mjs measurements/local-runtime-assets.json
 ```
 
-The course configuration uses Pyodide 0.28.3, SymPy 1.13.3 and mpmath 1.3.0. The Maxima prototype currently retains those Python resources. Original four-file Maxima estimates omit dynamically loaded libraries and modules; use the dependency supplement and execution reports for the measured closure.
+The course configuration uses Pyodide 0.28.3, SymPy 1.13.3 and mpmath 1.3.0. The hybrid comparison retains those Python resources. The native question path loads Python only for a visited PythonChecker node. Original four-file Maxima estimates omit dynamically loaded libraries and modules; use the dependency supplement and execution reports for the measured closure.
 
 New code in this repository is licensed under AGPL-3.0-or-later; see [LICENSE](LICENSE). No upstream runtime binaries or third-party source code are committed here.

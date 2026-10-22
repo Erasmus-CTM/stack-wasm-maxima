@@ -1,0 +1,797 @@
+{
+  "schema": 1,
+  "evidenceScope": "Explicit summary whitelist; original artifact retains full raw diagnostic evidence. No worker programs, question payloads, answer bodies, console bodies or network bodies are copied here.",
+  "run": 39831459804,
+  "runAttempt": 2,
+  "artifact": {
+    "id": 12450225673,
+    "url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39831459804/artifacts/12450225673",
+    "digest": "sha256:1fcc1ae388e5c22ac8023e8a08f3d28d7d9589a1ab0e907076f183d1612fe2d3",
+    "sizeBytes": 93050,
+    "expiresAt": "2027-01-20T18:32:26Z"
+  },
+  "createdAt": "2026-10-22T18:32:44.030Z",
+  "pageURL": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html",
+  "expectedHTML": "ab1be8fe366093b3134c60010160bdb7839d62bbdb598d6c0a5735d36c314942",
+  "benchmarkSource": "1886d5dd3ef30edb5096601cea841684c0290860",
+  "measuredDeploymentSource": "15fa33299d68d64e122a2661a2868feb30130edb",
+  "answersBaselineSource": "3ec984fdf6e52955c3c6ed9f8e1e3a332750d8c6",
+  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39831459804",
+  "method": {
+    "startsPerBackend": 3,
+    "warmCallsPerStart": 5,
+    "workload": "examples-01, variant 1, the same accepted full-credit rational expression",
+    "firstAction": "Validate answers; no authored tests or grading before it",
+    "uiClock": "Browser performance.now: captured button click to verdict DOM mutation; excludes later MathJax paint",
+    "workerClock": "Browser performance.now: actual worker postMessage to response; first validation RPC excludes separately recorded init",
+    "deferredNativeStartup": "Hybrid init starts Python; native startup is included in the first native grade, not the first validation.",
+    "cache": "A fresh Chromium process/profile and worker for every sample. OS and CDN caches are not cleared.",
+    "scope": "Public GitHub Pages from one GitHub-hosted Linux runner; not a user-device or general workload benchmark."
+  },
+  "runner": {
+    "platform": "linux",
+    "architecture": "x64",
+    "cpus": 4,
+    "cpu": "AMD EPYC 7763 64-Core Processor"
+  },
+  "browserVersion": "141.0.7390.37",
+  "htmlBefore": {
+    "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html",
+    "bytes": 733681,
+    "sha256": "ab1be8fe366093b3134c60010160bdb7839d62bbdb598d6c0a5735d36c314942"
+  },
+  "htmlAfter": {
+    "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html",
+    "bytes": 733681,
+    "sha256": "ab1be8fe366093b3134c60010160bdb7839d62bbdb598d6c0a5735d36c314942"
+  },
+  "statistics": {
+    "sympy": {
+      "firstValidationUI": {
+        "n": 3,
+        "median": 5900.744999999995,
+        "min": 5898.82,
+        "max": 5943.809999999998
+      },
+      "initialization": {
+        "n": 3,
+        "median": 5714.739999999991,
+        "min": 5710.044999999998,
+        "max": 5754.584999999992
+      },
+      "firstValidationWorker": {
+        "n": 3,
+        "median": 186.5300000000061,
+        "min": 183.95999999999185,
+        "max": 187.32499999998254
+      },
+      "warmValidationUI": {
+        "n": 15,
+        "median": 11.789999999979045,
+        "min": 9.770000000004075,
+        "max": 12.330000000016298
+      },
+      "warmValidationWorker": {
+        "n": 15,
+        "median": 11.080000000016298,
+        "min": 8.845000000001164,
+        "max": 11.550000000017462
+      },
+      "firstGradeUI": {
+        "n": 3,
+        "median": 11.264999999984866,
+        "min": 11.194999999999709,
+        "max": 12.264999999984866
+      },
+      "firstGradeWorker": {
+        "n": 3,
+        "median": 9.39000000001397,
+        "min": 9.029999999998836,
+        "max": 10.239999999990687
+      },
+      "warmGradeUI": {
+        "n": 15,
+        "median": 11.709999999999127,
+        "min": 10.02499999999418,
+        "max": 12.98499999998603
+      },
+      "warmGradeWorker": {
+        "n": 15,
+        "median": 10.799999999995634,
+        "min": 9.055000000022119,
+        "max": 12.174999999988358
+      }
+    },
+    "maxima": {
+      "firstValidationUI": {
+        "n": 3,
+        "median": 5991.669999999984,
+        "min": 5931.139999999999,
+        "max": 6314.994999999995
+      },
+      "initialization": {
+        "n": 3,
+        "median": 5805.329999999987,
+        "min": 5741.994999999995,
+        "max": 6131.040000000001
+      },
+      "firstValidationWorker": {
+        "n": 3,
+        "median": 184.38000000000466,
+        "min": 182.0199999999968,
+        "max": 187.1600000000035
+      },
+      "warmValidationUI": {
+        "n": 15,
+        "median": 12.154999999998836,
+        "min": 11.245000000009895,
+        "max": 12.450000000011642
+      },
+      "warmValidationWorker": {
+        "n": 15,
+        "median": 11.35000000000582,
+        "min": 10.354999999995925,
+        "max": 11.84000000001106
+      },
+      "firstGradeUI": {
+        "n": 3,
+        "median": 38446.395,
+        "min": 38177.95999999999,
+        "max": 38964.395000000004
+      },
+      "firstGradeWorker": {
+        "n": 3,
+        "median": 38444.13,
+        "min": 38175.485000000015,
+        "max": 38962.11
+      },
+      "deferredNativeInitialization": {
+        "n": 3,
+        "median": 38400.850000000006,
+        "min": 38128.685,
+        "max": 38918.595
+      },
+      "warmGradeUI": {
+        "n": 15,
+        "median": 42.25999999999476,
+        "min": 40.49499999999534,
+        "max": 46.85000000000582
+      },
+      "warmGradeWorker": {
+        "n": 15,
+        "median": 41.41000000000349,
+        "min": 39.70999999999185,
+        "max": 45.85000000000582
+      }
+    }
+  },
+  "passed": true,
+  "sourcePins": {
+    "stack-sympy": "1b1d50f69fc1e7eb39846b497657d72be325f597",
+    "ctm-checkers": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+    "ctm-libs": "94687f718fd651fc2857bc5242a64e45c8fd4697"
+  },
+  "trackedPageSha256": "74eee5dbba102f1f4c74889e58893dbefa65a2284556af17b322ae312279ce09",
+  "frontendPatches": [
+    {
+      "path": "_extensions/stack-sympy/stack-sympy.js",
+      "sourceSha256": "53832ffd115c64fa2e28fb96ebebf6e99ebcec2e43c971a075cf7283e0731633",
+      "materializedSha256": "125726c5de20ea9bf09456f5ea1b476bb02c429d486df1a9b0a26c8b3bf60882",
+      "substitutions": [
+        "worker prefix enclosed in createBackend(descriptor)",
+        "initialize(card) captures its nearest wrapper's backend",
+        "grade status uses the selected backend label"
+      ]
+    }
+  ],
+  "fingerprints": [
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/MATERIALIZATION.json",
+      "bytes": 21520,
+      "sha256": "23e2f623ab598206152cf7c46c77f0d8aa65803f51e867b05d684413ee696730"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/stack-sources.json",
+      "bytes": 979328,
+      "sha256": "c3ba37a638dbbe1d2739bf1f2106dc4ca6bcc1f84f84dbe658b15151b7147f0b"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/runtime-assets.json",
+      "bytes": 26149,
+      "sha256": "c9bc9519bc0d8228274c3d0210345b921bdaf0e0c44431f5ca812f692b261613"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/build-manifest.json",
+      "bytes": 18858990,
+      "sha256": "fc5ebb3a41e675373deed19d9a6e9754b1619b60df3deff0ee1a07797dc82e8b"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/backend/worker.js",
+      "bytes": 5092,
+      "sha256": "5e41fbabf989ca6cea37c1a6fa39b3306cced1de5d82f9933d7df8339d7f3bd4"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/backend/native_adapter.py",
+      "bytes": 14757,
+      "sha256": "a0f2d5a16c9501a321236d79df8fcb27ad48572770d243cf7d319f17b143e3e5"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/runtime/maxima-session.js",
+      "bytes": 14314,
+      "sha256": "b2ee08fd8d5e4cb47a54ddd8276ad837d5cf5bbd72fcebb87c5c88dd37c6a5e0"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/runtime/maxima-child.js",
+      "bytes": 8766,
+      "sha256": "83da6c056fc6c425d0aa8e9464617854c93575fed15205529fae12c9d10db4cb"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/stack-sympy-0.3.0/worker.js",
+      "bytes": 2432,
+      "sha256": "bea2527ed64cba71eb28e1f6ae1abad0c55b08e09527387341ce4ebe95484444"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/stack-sympy-0.3.0/stack-sympy.js",
+      "bytes": 25903,
+      "sha256": "125726c5de20ea9bf09456f5ea1b476bb02c429d486df1a9b0a26c8b3bf60882"
+    }
+  ],
+  "fingerprintsAfter": [
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/MATERIALIZATION.json",
+      "bytes": 21520,
+      "sha256": "23e2f623ab598206152cf7c46c77f0d8aa65803f51e867b05d684413ee696730"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/stack-sources.json",
+      "bytes": 979328,
+      "sha256": "c3ba37a638dbbe1d2739bf1f2106dc4ca6bcc1f84f84dbe658b15151b7147f0b"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/runtime-assets.json",
+      "bytes": 26149,
+      "sha256": "c9bc9519bc0d8228274c3d0210345b921bdaf0e0c44431f5ca812f692b261613"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/native/build-manifest.json",
+      "bytes": 18858990,
+      "sha256": "fc5ebb3a41e675373deed19d9a6e9754b1619b60df3deff0ee1a07797dc82e8b"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/backend/worker.js",
+      "bytes": 5092,
+      "sha256": "5e41fbabf989ca6cea37c1a6fa39b3306cced1de5d82f9933d7df8339d7f3bd4"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/backend/native_adapter.py",
+      "bytes": 14757,
+      "sha256": "a0f2d5a16c9501a321236d79df8fcb27ad48572770d243cf7d319f17b143e3e5"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/runtime/maxima-session.js",
+      "bytes": 14314,
+      "sha256": "b2ee08fd8d5e4cb47a54ddd8276ad837d5cf5bbd72fcebb87c5c88dd37c6a5e0"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/runtime/maxima-child.js",
+      "bytes": 8766,
+      "sha256": "83da6c056fc6c425d0aa8e9464617854c93575fed15205529fae12c9d10db4cb"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/stack-sympy-0.3.0/worker.js",
+      "bytes": 2432,
+      "sha256": "bea2527ed64cba71eb28e1f6ae1abad0c55b08e09527387341ce4ebe95484444"
+    },
+    {
+      "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/site_libs/quarto-contrib/stack-sympy-0.3.0/stack-sympy.js",
+      "bytes": 25903,
+      "sha256": "125726c5de20ea9bf09456f5ea1b476bb02c429d486df1a9b0a26c8b3bf60882"
+    }
+  ],
+  "samples": [
+    {
+      "backend": "sympy",
+      "repetition": 1,
+      "passed": true,
+      "payloadSha256": "ffa18e66218a8a086e35503057dbaf6e053a6b5434f0121731b8fc1ee07c6e8f",
+      "seed": 29,
+      "finalBrowserDocument": {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html",
+        "status": 200,
+        "fromServiceWorker": true,
+        "coop": "same-origin",
+        "coep": "require-corp",
+        "bytes": 733681,
+        "sha256": "ab1be8fe366093b3134c60010160bdb7839d62bbdb598d6c0a5735d36c314942"
+      },
+      "initializationMs": 5710.044999999998,
+      "initializationStages": null,
+      "firstValidation": {
+        "uiMs": 5898.82,
+        "workerMs": 186.5300000000061
+      },
+      "warmValidation": [
+        {
+          "uiMs": 10.184999999997672,
+          "workerMs": 9.194999999999709
+        },
+        {
+          "uiMs": 10.775000000001455,
+          "workerMs": 9.739999999997963
+        },
+        {
+          "uiMs": 9.770000000004075,
+          "workerMs": 8.845000000001164
+        },
+        {
+          "uiMs": 10.669999999998254,
+          "workerMs": 9.969999999993888
+        },
+        {
+          "uiMs": 11.74500000000262,
+          "workerMs": 10.930000000000291
+        }
+      ],
+      "firstGrade": {
+        "uiMs": 11.194999999999709,
+        "workerMs": 9.029999999998836
+      },
+      "warmGrade": [
+        {
+          "uiMs": 10.595000000001164,
+          "workerMs": 9.709999999999127
+        },
+        {
+          "uiMs": 12.119999999995343,
+          "workerMs": 11.284999999996217
+        },
+        {
+          "uiMs": 12.599999999998545,
+          "workerMs": 11.779999999998836
+        },
+        {
+          "uiMs": 11.709999999999127,
+          "workerMs": 10.799999999995634
+        },
+        {
+          "uiMs": 11.284999999996217,
+          "workerMs": 10.485000000000582
+        }
+      ],
+      "checks": {
+        "workerCount": 1,
+        "rpcCount": 13,
+        "initializationCount": 1,
+        "pageErrorCount": 0,
+        "httpErrorCount": 0
+      }
+    },
+    {
+      "backend": "maxima",
+      "repetition": 1,
+      "passed": true,
+      "payloadSha256": "c2b4c81dacefeff7d8d2c5ac1c268013151d67c55af1d2df454701ebbf3861cc",
+      "seed": 29,
+      "finalBrowserDocument": {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html",
+        "status": 200,
+        "fromServiceWorker": true,
+        "coop": "same-origin",
+        "coep": "require-corp",
+        "bytes": 733681,
+        "sha256": "ab1be8fe366093b3134c60010160bdb7839d62bbdb598d6c0a5735d36c314942"
+      },
+      "initializationMs": 6131.040000000001,
+      "initializationStages": {
+        "pythonReadyMs": 6059.240000000005,
+        "readyMs": 6099.0250000000015
+      },
+      "nativeInitialization": {
+        "pythonReadyMs": 6059.240000000005,
+        "readyMs": 6099.0250000000015,
+        "maximaReadyMs": 38400.850000000006,
+        "maximaStages": {
+          "preloadMs": 374.49000000000524,
+          "preloadedFiles": 68,
+          "wasmReadyMs": 1023.3700000000026,
+          "readyMs": 38360.435
+        }
+      },
+      "firstValidation": {
+        "uiMs": 6314.994999999995,
+        "workerMs": 182.0199999999968
+      },
+      "warmValidation": [
+        {
+          "uiMs": 12.099999999998545,
+          "workerMs": 11.07499999999709
+        },
+        {
+          "uiMs": 11.599999999998545,
+          "workerMs": 10.69999999999709
+        },
+        {
+          "uiMs": 12.194999999999709,
+          "workerMs": 11.400000000001455
+        },
+        {
+          "uiMs": 11.669999999998254,
+          "workerMs": 11.034999999996217
+        },
+        {
+          "uiMs": 12.040000000000873,
+          "workerMs": 11.269999999996799
+        }
+      ],
+      "firstGrade": {
+        "uiMs": 38446.395,
+        "workerMs": 38444.13
+      },
+      "warmGrade": [
+        {
+          "uiMs": 45.76000000000931,
+          "workerMs": 44.645000000004075
+        },
+        {
+          "uiMs": 41.52499999999418,
+          "workerMs": 40.32499999999709
+        },
+        {
+          "uiMs": 41.57499999999709,
+          "workerMs": 40.51499999999942
+        },
+        {
+          "uiMs": 42.25999999999476,
+          "workerMs": 41.41000000000349
+        },
+        {
+          "uiMs": 40.51000000000931,
+          "workerMs": 39.76499999999942
+        }
+      ],
+      "checks": {
+        "workerCount": 1,
+        "rpcCount": 13,
+        "initializationCount": 1,
+        "pageErrorCount": 0,
+        "httpErrorCount": 0
+      }
+    },
+    {
+      "backend": "maxima",
+      "repetition": 2,
+      "passed": true,
+      "payloadSha256": "c2b4c81dacefeff7d8d2c5ac1c268013151d67c55af1d2df454701ebbf3861cc",
+      "seed": 29,
+      "finalBrowserDocument": {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html",
+        "status": 200,
+        "fromServiceWorker": true,
+        "coop": "same-origin",
+        "coep": "require-corp",
+        "bytes": 733681,
+        "sha256": "ab1be8fe366093b3134c60010160bdb7839d62bbdb598d6c0a5735d36c314942"
+      },
+      "initializationMs": 5741.994999999995,
+      "initializationStages": {
+        "pythonReadyMs": 5684.210000000006,
+        "readyMs": 5716.069999999992
+      },
+      "nativeInitialization": {
+        "pythonReadyMs": 5684.210000000006,
+        "readyMs": 5716.069999999992,
+        "maximaReadyMs": 38918.595,
+        "maximaStages": {
+          "preloadMs": 379.75999999999476,
+          "preloadedFiles": 68,
+          "wasmReadyMs": 1068.3450000000012,
+          "readyMs": 38882.22499999999
+        }
+      },
+      "firstValidation": {
+        "uiMs": 5931.139999999999,
+        "workerMs": 187.1600000000035
+      },
+      "warmValidation": [
+        {
+          "uiMs": 11.245000000009895,
+          "workerMs": 10.354999999995925
+        },
+        {
+          "uiMs": 12.19999999999709,
+          "workerMs": 11.400000000008731
+        },
+        {
+          "uiMs": 12.365000000005239,
+          "workerMs": 11.610000000000582
+        },
+        {
+          "uiMs": 11.760000000009313,
+          "workerMs": 11.059999999997672
+        },
+        {
+          "uiMs": 12.450000000011642,
+          "workerMs": 11.84000000001106
+        }
+      ],
+      "firstGrade": {
+        "uiMs": 38964.395000000004,
+        "workerMs": 38962.11
+      },
+      "warmGrade": [
+        {
+          "uiMs": 43.929999999993015,
+          "workerMs": 42.52499999999418
+        },
+        {
+          "uiMs": 41.029999999998836,
+          "workerMs": 39.88000000000466
+        },
+        {
+          "uiMs": 42.46499999999651,
+          "workerMs": 41.514999999984866
+        },
+        {
+          "uiMs": 46.85000000000582,
+          "workerMs": 45.85000000000582
+        },
+        {
+          "uiMs": 40.49499999999534,
+          "workerMs": 39.70999999999185
+        }
+      ],
+      "checks": {
+        "workerCount": 1,
+        "rpcCount": 13,
+        "initializationCount": 1,
+        "pageErrorCount": 0,
+        "httpErrorCount": 0
+      }
+    },
+    {
+      "backend": "sympy",
+      "repetition": 2,
+      "passed": true,
+      "payloadSha256": "ffa18e66218a8a086e35503057dbaf6e053a6b5434f0121731b8fc1ee07c6e8f",
+      "seed": 29,
+      "finalBrowserDocument": {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html",
+        "status": 200,
+        "fromServiceWorker": true,
+        "coop": "same-origin",
+        "coep": "require-corp",
+        "bytes": 733681,
+        "sha256": "ab1be8fe366093b3134c60010160bdb7839d62bbdb598d6c0a5735d36c314942"
+      },
+      "initializationMs": 5714.739999999991,
+      "initializationStages": null,
+      "firstValidation": {
+        "uiMs": 5900.744999999995,
+        "workerMs": 183.95999999999185
+      },
+      "warmValidation": [
+        {
+          "uiMs": 12.330000000016298,
+          "workerMs": 11.27499999999418
+        },
+        {
+          "uiMs": 12.174999999988358,
+          "workerMs": 11.339999999996508
+        },
+        {
+          "uiMs": 11.789999999979045,
+          "workerMs": 11.080000000016298
+        },
+        {
+          "uiMs": 12.204999999987194,
+          "workerMs": 11.48499999998603
+        },
+        {
+          "uiMs": 12.269999999989523,
+          "workerMs": 11.550000000017462
+        }
+      ],
+      "firstGrade": {
+        "uiMs": 12.264999999984866,
+        "workerMs": 10.239999999990687
+      },
+      "warmGrade": [
+        {
+          "uiMs": 11.070000000006985,
+          "workerMs": 9.90500000002794
+        },
+        {
+          "uiMs": 10.02499999999418,
+          "workerMs": 9.055000000022119
+        },
+        {
+          "uiMs": 12.294999999983702,
+          "workerMs": 11.220000000001164
+        },
+        {
+          "uiMs": 12.98499999998603,
+          "workerMs": 12.174999999988358
+        },
+        {
+          "uiMs": 12.305000000022119,
+          "workerMs": 11.700000000011642
+        }
+      ],
+      "checks": {
+        "workerCount": 1,
+        "rpcCount": 13,
+        "initializationCount": 1,
+        "pageErrorCount": 0,
+        "httpErrorCount": 0
+      }
+    },
+    {
+      "backend": "sympy",
+      "repetition": 3,
+      "passed": true,
+      "payloadSha256": "ffa18e66218a8a086e35503057dbaf6e053a6b5434f0121731b8fc1ee07c6e8f",
+      "seed": 29,
+      "finalBrowserDocument": {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html",
+        "status": 200,
+        "fromServiceWorker": true,
+        "coop": "same-origin",
+        "coep": "require-corp",
+        "bytes": 733681,
+        "sha256": "ab1be8fe366093b3134c60010160bdb7839d62bbdb598d6c0a5735d36c314942"
+      },
+      "initializationMs": 5754.584999999992,
+      "initializationStages": null,
+      "firstValidation": {
+        "uiMs": 5943.809999999998,
+        "workerMs": 187.32499999998254
+      },
+      "warmValidation": [
+        {
+          "uiMs": 12.184999999997672,
+          "workerMs": 11.415000000008149
+        },
+        {
+          "uiMs": 11.585000000020955,
+          "workerMs": 10.834999999991851
+        },
+        {
+          "uiMs": 12.130000000004657,
+          "workerMs": 11.389999999984866
+        },
+        {
+          "uiMs": 11.454999999987194,
+          "workerMs": 10.830000000016298
+        },
+        {
+          "uiMs": 12.164999999979045,
+          "workerMs": 11.464999999996508
+        }
+      ],
+      "firstGrade": {
+        "uiMs": 11.264999999984866,
+        "workerMs": 9.39000000001397
+      },
+      "warmGrade": [
+        {
+          "uiMs": 10.339999999996508,
+          "workerMs": 9.5
+        },
+        {
+          "uiMs": 12.809999999997672,
+          "workerMs": 11.885000000009313
+        },
+        {
+          "uiMs": 11.10000000000582,
+          "workerMs": 10.125
+        },
+        {
+          "uiMs": 11.845000000001164,
+          "workerMs": 11.014999999984866
+        },
+        {
+          "uiMs": 11.434999999997672,
+          "workerMs": 10.709999999991851
+        }
+      ],
+      "checks": {
+        "workerCount": 1,
+        "rpcCount": 13,
+        "initializationCount": 1,
+        "pageErrorCount": 0,
+        "httpErrorCount": 0
+      }
+    },
+    {
+      "backend": "maxima",
+      "repetition": 3,
+      "passed": true,
+      "payloadSha256": "c2b4c81dacefeff7d8d2c5ac1c268013151d67c55af1d2df454701ebbf3861cc",
+      "seed": 29,
+      "finalBrowserDocument": {
+        "url": "https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html",
+        "status": 200,
+        "fromServiceWorker": true,
+        "coop": "same-origin",
+        "coep": "require-corp",
+        "bytes": 733681,
+        "sha256": "ab1be8fe366093b3134c60010160bdb7839d62bbdb598d6c0a5735d36c314942"
+      },
+      "initializationMs": 5805.329999999987,
+      "initializationStages": {
+        "pythonReadyMs": 5749.220000000001,
+        "readyMs": 5779.5199999999895
+      },
+      "nativeInitialization": {
+        "pythonReadyMs": 5749.220000000001,
+        "readyMs": 5779.5199999999895,
+        "maximaReadyMs": 38128.685,
+        "maximaStages": {
+          "preloadMs": 370.02999999999884,
+          "preloadedFiles": 68,
+          "wasmReadyMs": 962.2099999999919,
+          "readyMs": 38096.92999999999
+        }
+      },
+      "firstValidation": {
+        "uiMs": 5991.669999999984,
+        "workerMs": 184.38000000000466
+      },
+      "warmValidation": [
+        {
+          "uiMs": 12.154999999998836,
+          "workerMs": 11.35000000000582
+        },
+        {
+          "uiMs": 12.175000000017462,
+          "workerMs": 11.264999999984866
+        },
+        {
+          "uiMs": 12.119999999995343,
+          "workerMs": 11.464999999996508
+        },
+        {
+          "uiMs": 12.260000000009313,
+          "workerMs": 11.605000000010477
+        },
+        {
+          "uiMs": 12.364999999990687,
+          "workerMs": 11.630000000004657
+        }
+      ],
+      "firstGrade": {
+        "uiMs": 38177.95999999999,
+        "workerMs": 38175.485000000015
+      },
+      "warmGrade": [
+        {
+          "uiMs": 44.804999999993015,
+          "workerMs": 43.60000000000582
+        },
+        {
+          "uiMs": 41.75,
+          "workerMs": 40.79000000000815
+        },
+        {
+          "uiMs": 41.63000000000466,
+          "workerMs": 40.81500000000233
+        },
+        {
+          "uiMs": 43.71499999999651,
+          "workerMs": 42.820000000006985
+        },
+        {
+          "uiMs": 43.35999999998603,
+          "workerMs": 42.60999999998603
+        }
+      ],
+      "checks": {
+        "workerCount": 1,
+        "rpcCount": 13,
+        "initializationCount": 1,
+        "pageErrorCount": 0,
+        "httpErrorCount": 0
+      }
+    }
+  ]
+}

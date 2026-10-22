@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "scope": "Aggregate desktop browser replay and desktop Maxima oracle checks. No Moodle/PHP execution or public deployed-page acceptance is claimed.",
+  "sourceRevision": "15fa33299d68d64e122a2661a2868feb30130edb",
+  "run": {
+    "id": 39823225049,
+    "url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39823225049",
+    "event": "push",
+    "statusAtVerification": "in_progress",
+    "conclusionAtVerification": null,
+    "jobId": 119979644740,
+    "jobUrl": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39823225049/job/119979644740",
+    "jobConclusion": "success",
+    "publicationJobId": 119993878416,
+    "publicationStatusAtVerification": "in_progress",
+    "publicationIncludedInAcceptance": false
+  },
+  "verification": {
+    "date": "2026-10-22",
+    "source": "Decoded GitHub job logs and read-only artifact metadata",
+    "repositoryId": 1428812079,
+    "allArtifactSourcesMatch": true,
+    "payloadDownloaded": false,
+    "rawPayloadIncluded": false
+  },
+  "pairedReplay": {
+    "passed": true,
+    "cards": 36,
+    "pairs": 18,
+    "differences": 0,
+    "perBackend": [
+      {
+        "backend": "sympy",
+        "cards": 18,
+        "variants": 24,
+        "pythonCheckerCards": 6,
+        "authoredTestRows": 112
+      },
+      {
+        "backend": "maxima",
+        "cards": 18,
+        "variants": 24,
+        "pythonCheckerCards": 6,
+        "authoredTestRows": 112
+      }
+    ]
+  },
+  "nativeReplay": {
+    "passed": true,
+    "cards": 9,
+    "variants": 11,
+    "authoredRows": 24,
+    "pythonCards": 3,
+    "graphics": 4,
+    "programs": 316,
+    "boundaryRegressionFixtures": 10,
+    "invalidProbes": 4,
+    "nonFullCreditProbes": 19
+  },
+  "desktopOracle": {
+    "passed": true,
+    "operations": {
+      "prepare": 19,
+      "validate": 135,
+      "prt": 162
+    },
+    "programs": 316,
+    "passedPrograms": 316,
+    "exactPrograms": 307,
+    "presentationEquivalentPrograms": 9,
+    "unacceptedPrograms": 0,
+    "rawDifferenceFields": 12,
+    "acceptedPresentationFields": 12,
+    "unacceptedDifferenceFields": 0
+  },
+  "artifacts": [
+    {
+      "id": 12448060115,
+      "name": "reviewer-evidence-15fa33299d68d64e122a2661a2868feb30130edb",
+      "zipSha256": "f8a35bb037739c1a42554f9a7e9fb774dc0d0bed1999673f523852f5f06918ff",
+      "sizeBytes": 216445,
+      "artifactUrl": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39823225049/artifacts/12448060115",
+      "metadataUrl": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12448060115",
+      "expiresAt": "2027-01-20T17:29:59Z",
+      "expiredAtVerification": false,
+      "sourceRevision": "15fa33299d68d64e122a2661a2868feb30130edb",
+      "repositoryId": 1428812079,
+      "headRepositoryId": 1428812079
+    },
+    {
+      "id": 12448045201,
+      "name": "reviewer-site-15fa33299d68d64e122a2661a2868feb30130edb",
+      "zipSha256": "d32eb0462a485b9b29c279ffc1b300db23f5f5b10b3ff7becea7efdd51174ebc",
+      "sizeBytes": 28377450,
+      "artifactUrl": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39823225049/artifacts/12448045201",
+      "metadataUrl": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12448045201",
+      "expiresAt": "2027-01-20T17:29:59Z",
+      "expiredAtVerification": false,
+      "sourceRevision": "15fa33299d68d64e122a2661a2868feb30130edb",
+      "repositoryId": 1428812079,
+      "headRepositoryId": 1428812079
+    },
+    {
+      "id": 12448020213,
+      "name": "native-reviewer-evidence-15fa33299d68d64e122a2661a2868feb30130edb",
+      "zipSha256": "02e30538c15f6dbd1b97699acb541df572c4be0a7fea053eca32759275dcc869",
+      "sizeBytes": 23358906,
+      "artifactUrl": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39823225049/artifacts/12448020213",
+      "metadataUrl": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12448020213",
+      "expiresAt": "2027-01-20T17:29:59Z",
+      "expiredAtVerification": false,
+      "sourceRevision": "15fa33299d68d64e122a2661a2868feb30130edb",
+      "repositoryId": 1428812079,
+      "headRepositoryId": 1428812079
+    }
+  ],
+  "artifactAvailability": "Original evidence remains in GitHub Actions artifacts; access may require authentication and artifacts may expire. Digests are GitHub-reported ZIP digests; no payload was downloaded for this summary.",
+  "subsequentPublicVerification": {
+    "status": "passed",
+    "record": "public-verification.json",
+    "publicationJobId": 119993878416
+  }
+}

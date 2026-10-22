@@ -1,6 +1,6 @@
 ---
 title: "STACK in the browser"
-subtitle: "A matched comparison of SymPy and hybrid Maxima in CTM Quarto"
+subtitle: "SymPy, hybrid Maxima and native STACK in CTM Quarto"
 date: 2026-10-22
 format:
   html:
@@ -17,10 +17,10 @@ lang: en
 ---
 
 ::: {.lead}
-**Milestone 2 passed.** The same 19 question cards and 27 frozen variants run through CTM’s existing frontend with either backend. Both pass all **121 authored test rows**, with **zero structured-result differences**.
+**Accepted milestone 2 baseline.** The same 19 question cards and 27 frozen variants run through CTM’s existing frontend with either backend. Both pass all **121 authored test rows**, with **zero structured-result differences**.
 :::
 
-The hybrid Maxima backend establishes compatibility for this curated question set. It takes longer to start and downloads more data because it loads Maxima alongside the existing Python runtime. It does not demonstrate a performance advantage.
+The hybrid Maxima backend establishes compatibility for this curated question set: Python handles validation and response-tree control, while Maxima runs ordinary STACK answer tests. The separate native path prepares and validates questions in Maxima and loads Python only when a visited PythonChecker node needs it. These paths do not establish a general performance advantage.
 
 [View PR #1](https://github.com/Erasmus-CTM/stack-wasm-maxima/pull/1){.primary-link}
 [Inspect the accepted browser run](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39721228518){.secondary-link}
@@ -35,10 +35,30 @@ Open the same examples with either assessment backend. These are the actual CTM 
 | Hybrid Maxima | [Open Maxima question](maxima/index.html) | [Open Maxima examples](maxima/examples.html) |
 
 ::: {.exercise-note}
-On your first visit, the page reloads once to prepare the assessment environment. The first assessment then loads its browser runtime. Maxima took about 25 seconds to initialize in the accepted CI run; public-network loading can take longer. Keep the page open while it loads. The Maxima examples use native STACK answer tests alongside CTM’s Python validation, PRT orchestration and PythonChecker.
+On your first visit, the page reloads once to prepare the assessment environment. The first assessment then loads its browser runtime. In the milestone 2 baseline, Maxima took about 25 seconds to initialize on the CI runner; public-network loading can take longer. Keep the page open while it loads. The hybrid Maxima examples use native STACK answer tests alongside CTM’s Python validation, PRT orchestration and PythonChecker.
 :::
 
-## What was compared
+Read [Data flow](maxima/data-flow.html) to follow an answer through typed or graphical input, validation, native grading and optional PythonChecker callbacks. Developer diagrams show which component handles each step.
+
+## Native questions and graphical answers
+
+The [native exercise page](maxima/native.html) adds **9 playable cards, 11 variants
+and 24 authored test rows**. It uses native STACK preparation, input validation
+and response trees, the existing JSXGraph Quarto renderer, and optional PythonChecker
+callbacks. The page clearly distinguishes unchanged upstream examples,
+CTM-authored standard questions and CTM extensions.
+
+The [accepted milestone 3 run](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39823225049)
+passed the full browser checks and independent replay of **316 generated programs**:
+307 matched exactly and 9 had narrowly classified display-only differences;
+there were no unaccepted differences. Its published pages also passed the real
+browser checks against that exact build. This evidence describes source
+`15fa33299d68d64e122a2661a2868feb30130edb`; later documentation and timing reports
+are separate from that tested snapshot.
+
+[Review milestone 3 PR](https://github.com/Erasmus-CTM/stack-wasm-maxima/pull/2){.primary-link}
+
+## What was compared in milestone 2
 
 Both editions use the same pinned documentation questions, options, variants and rendered payloads. The question renderer, scalar and matrix editors, controls, feedback and PythonChecker remain in the CTM libraries. Backend selection is per page.
 
@@ -51,7 +71,7 @@ Both editions use the same pinned documentation questions, options, variants and
 
 Maxima verdicts remain authoritative. The hybrid adapter does not fall back to SymPy answer tests. Collection feedback combines native diagnostics with bounded CTM formatting, guarded against disagreement with the native verdict.
 
-## Correctness and coverage
+## Milestone 2 correctness and coverage
 
 | Browser check | SymPy | Hybrid Maxima |
 |---|---:|---:|
@@ -68,7 +88,7 @@ Every authored row runs through the existing **Run question tests** control. One
 
 The comparison retains scores, status, input interpretations, PRT paths, answer notes, feedback and PythonChecker assessment data. There were no operation, network, UI-state or routing failures in the accepted run. Instrumentation recorded 232 native Maxima answer-test events and 122 PythonChecker events, linked to the actual requests.
 
-## Performance in the accepted run
+## Historical milestone 2 performance
 
 | Measurement | SymPy | Hybrid Maxima |
 |---|---:|---:|
@@ -105,7 +125,11 @@ The accepted artifact is named `milestone-two-2493268c2bf3eb9941407f376d20a07fb5
 
 ## What remains
 
-This prototype covers the curated hybrid milestone. Native question preparation and input-controller parity, native PRT orchestration with Python callbacks, general feedback translation, namespace isolation, cancellation and restart, other browser engines, memory measurements and offline/exam packaging remain later work. Production CTM backend registration, course defaults and mixed backends on a single page are not implemented here.
+The native page documents a bounded input/controller and feedback subset; it does
+not claim full Moodle PHP controller or attempt-state compatibility. Broader
+compatibility, cancellation, additional browser engines, memory measurements,
+production CTM integration, course defaults and offline/exam packaging remain
+later work. The comparison page already supports both backends on one page.
 
 ::: {.page-footer}
 Erasmus CTM · Browser STACK feasibility study · Evidence recorded 22 October 2026

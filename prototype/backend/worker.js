@@ -8,6 +8,8 @@ let ready = null;
 let session = null;
 let queue = Promise.resolve();
 let currentRequest = null;
+let maximaReady = null;
+let maximaState = 'not-started';
 const counters = { nativeATCount: 0, pythonCheckerCount: 0, perTest: {} };
 const timings = {};
 const CALLS = { grade: 'stack.grade', validate: 'stack.validate', tests: 'stack.tests' };
@@ -15,7 +17,21 @@ const CALLS = { grade: 'stack.grade', validate: 'stack.validate', tests: 'stack.
 function metadata() {
   return { id: 'maxima', mode: 'hybrid', validation: 'ctm-sympy', controller: 'ctm',
     nativeATCount: counters.nativeATCount, pythonCheckerCount: counters.pythonCheckerCount,
-    perTest: { ...counters.perTest }, timings: { ...timings } };
+    perTest: { ...counters.perTest }, maximaState, timings: { ...timings } };
+}
+
+function ensureMaxima() {
+  if (!maximaReady) {
+    maximaState = 'loading';
+    const started = performance.now();
+    maximaReady = session.init().then(result => {
+      maximaState = 'ready';
+      timings.maximaReadyMs = performance.now() - started;
+      timings.maximaStages = result.stages;
+      return result;
+    }).catch(error => { maximaState = 'failed'; maximaReady = null; throw error; });
+  }
+  return maximaReady;
 }
 
 function event(data) {
@@ -35,15 +51,13 @@ function init(message) {
         stackSourceURL: new URL('../stack-sources.json', self.location.href).href,
         onEvent: data => event({ ...data, event: 'runtime-' + (data.event || data.type || 'event') }),
       });
-      const python = (async () => {
+      const py = await (async () => {
         const py = await runtime.ensurePyodide();
         await py.loadPackage('sympy');
         await runtime.ensureCheckers(py, self.CTMCheckersStack);
         timings.pythonReadyMs = performance.now() - started;
         return py;
       })();
-      const maxima = session.init().then(() => { timings.maximaReadyMs = performance.now() - started; });
-      const [py] = await Promise.all([python, maxima]);
       const response = await fetch(new URL('native_adapter.py', self.location.href));
       if (!response.ok) throw new Error('Could not load the native Maxima adapter: HTTP ' + response.status);
       const source = await response.text();
@@ -84,6 +98,10 @@ async function handle(message) {
     const name = CALLS[message.type];
     if (!name) throw new Error('Unknown worker request');
     const started = performance.now();
+    // Validation never invokes an answer test. PythonChecker-only questions
+    // use the existing Python implementation and need no native runtime.
+    if (message.type !== 'validate' && message.question?.prts?.some(prt =>
+      prt.nodes?.some(node => node.test !== 'PythonChecker'))) await ensureMaxima();
     const text = await self.MathExerciseRuntime.callCheckers(py, name,
       { question: message.question, variant: message.variant, answers: message.answers || {} }, self.CTMCheckersStack);
     self.postMessage({ id: message.id, ...JSON.parse(text), backend: { ...metadata(), requestMs: performance.now() - started } });

@@ -5,17 +5,26 @@ on:
     branches: ['research/**']
     paths:
       - 'scripts/measure-site-timings.mjs'
+      - 'scripts/measure-native-page-timings.mjs'
       - '.github/workflows/page-timings.yml'
   workflow_dispatch:
     inputs:
       page_url:
         description: Deployed comparison page to measure
         required: true
-        default: 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/maxima/examples.html'
+        default: 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html'
       expected_html_sha256:
         description: SHA-256 of that deployed HTML build
         required: true
-        default: '3e1c86157bfb545423370bcabb75a40ace1249afd30930d6b73f198e5f78a8eb'
+        default: 'ab1be8fe366093b3134c60010160bdb7839d62bbdb598d6c0a5735d36c314942'
+      native_page_url:
+        description: Deployed native question page to measure
+        required: true
+        default: 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/native.html'
+      expected_native_html_sha256:
+        description: SHA-256 of that deployed native HTML build
+        required: true
+        default: 'a483b6d59808a4e626a5eeb6303dea0528c6acbd9fcf1f10f896807859d7ddae'
 
 permissions:
   contents: read
@@ -37,15 +46,23 @@ jobs:
       - name: Install the pinned browser
         run: |
           npm ci --ignore-scripts --no-audit --no-fund
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
       - name: Measure first validation and repeated calls on the public page
         env:
-          TIMING_PAGE_URL: ${{ inputs.page_url || 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-runtime-feasibility/maxima/examples.html' }}
-          EXPECTED_HTML_SHA256: ${{ inputs.expected_html_sha256 || '3e1c86157bfb545423370bcabb75a40ace1249afd30930d6b73f198e5f78a8eb' }}
+          TIMING_PAGE_URL: ${{ inputs.page_url || 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html' }}
+          EXPECTED_HTML_SHA256: ${{ inputs.expected_html_sha256 || 'ab1be8fe366093b3134c60010160bdb7839d62bbdb598d6c0a5735d36c314942' }}
         run: node scripts/measure-site-timings.mjs
+      - name: Measure native startup and the first optional PythonChecker grade
+        env:
+          DEBUG: pw:browser
+          TIMING_PAGE_URL: ${{ inputs.native_page_url || 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/native.html' }}
+          EXPECTED_HTML_SHA256: ${{ inputs.expected_native_html_sha256 || 'a483b6d59808a4e626a5eeb6303dea0528c6acbd9fcf1f10f896807859d7ddae' }}
+        run: node scripts/measure-native-page-timings.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: page-timings-${{ github.sha }}
-          path: test-results/page-timings/
+          path: |
+            test-results/page-timings/
+            test-results/native-page-timings/
           if-no-files-found: error

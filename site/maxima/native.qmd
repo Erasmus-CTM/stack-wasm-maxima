@@ -1,0 +1,240 @@
+---
+title: "Native questions and graphical answers"
+subtitle: "Milestone 3 — native STACK execution with optional PythonChecker"
+header-includes:
+  - |
+    <script data-ctm-coi-bootstrap src="../ctm-isolation.js"></script>
+    <style>.stack-native-backend pre { max-width: 100%; overflow-x: auto; }</style>
+---
+
+These exercises use the same CTM question controls as the [backend comparison](examples.qmd).
+Question variables, supported input validation and native response-tree nodes run through
+STACK's Maxima libraries in WebAssembly. Native questions start without Python. A visited
+PythonChecker node loads the existing CTM checker implementation in Pyodide and then resumes
+the native response tree.
+
+The supported controller subset is explicit; this page does not establish full Moodle PHP
+input-controller or attempt-state compatibility. Use **Run question tests** where available,
+then try your own correct, incorrect and invalid answers. Source XML links identify the
+exact questions used by this build.
+
+## Rational equivalence
+
+**Standard STACK features; CTM-authored question.** This checks the same mathematical
+condition as the comparison page. The selected variants are prepared by native Maxima.
+[Source XML](native-questions/native-rational.xml).
+
+::: {.stack-native #native-rational}
+#| prepared: native-rational
+:::
+
+## Numerical precision
+
+**Standard STACK features; CTM-authored question.** Numerical tolerances and the written
+number of decimal places are separate conditions. In particular, compare `17.50` and `17.5`.
+[Source XML](native-questions/native-numerical.xml).
+
+::: {.stack-native #native-numerical}
+#| prepared: native-numerical
+:::
+
+## Lists and sets
+
+**Standard STACK features; CTM-authored question.** Ordered lists and unordered sets retain
+their distinct native meanings. [Source XML](native-questions/native-collections.xml).
+
+::: {.stack-native #native-collections}
+#| prepared: native-collections
+:::
+
+## A fixed matrix input
+
+**Standard STACK features; CTM-authored question.** The matrix has fixed dimensions and
+uses native `AlgEquiv` grading. [Source XML](native-questions/native-matrix.xml).
+
+::: {.stack-native #native-matrix}
+#| prepared: native-matrix
+:::
+
+## An unchanged upstream binding example
+
+**Unchanged upstream STACK question.** The board is rendered by the existing
+`jsxgraph-quarto` extension, with STACK's own point-binding library and a CTM input adapter.
+The upstream prose describes Moodle's reload behavior; this static page keeps the board
+mounted while checking. **This teaching example compares the input with itself, so any
+valid answer receives full credit. It demonstrates data exchange, not mathematical grading.**
+[Source XML](native-questions/native-binding.xml).
+
+::: {.stack-native #native-binding}
+#| prepared: native-binding
+:::
+
+## An unchanged upstream JSON example
+
+**Unchanged upstream STACK question.** Its original input is a **string** containing JSON.
+Native `stackjson_parse` reads that string and the feedback reports the number and colors
+of the points. Drag the black source point out of its circle to create a point in the
+answer, then move it through the colored circles. **Its grading also compares the input
+with itself.** [Source XML](native-questions/native-json.xml).
+
+::: {.stack-native #native-json}
+#| prepared: native-json
+:::
+
+## A graphical PythonChecker
+
+**CTM extension: PythonChecker. This question does not run on vanilla STACK.** The board
+exchanges the same coordinate-list response as an ordinary STACK binding. The existing
+PythonChecker API decides whether both coordinates are positive.
+Switch variants to see a different initial point; the accepted condition stays the same.
+Typing in the bound input moves the point; the board writes back its resulting coordinate pair.
+[Source XML](native-questions/native-python-board.xml) · [Checker source](native-questions/native-checkers.py).
+
+::: {.stack-native #native-python-board}
+#| prepared: native-python-board
+:::
+
+## A mixed response tree
+
+**CTM extension: PythonChecker inside a native response tree. This question does not run on
+vanilla STACK.** Three nodes run in the order **native → Python → native**. Try `[2,2]`
+for full credit, `[2,3]` for half credit and `[-1,3]` for zero. The native continuation
+retains the branch path and score when the Python node finishes.
+The feedback displays the same target before and after the Python node.
+[Source XML](native-questions/native-mixed-board.xml).
+
+::: {.stack-native #native-mixed-board}
+#| prepared: native-mixed-board
+:::
+
+## Structured matrix feedback from PythonChecker
+
+**CTM extension: PythonChecker matrix assessment. This question does not run on vanilla
+STACK.** The checker returns a verdict for each submitted column. Those verdicts explain
+the result; the response tree awards the score. Try the identity matrix and then change
+one entry in its second column. [Source XML](native-questions/native-matrix-python.xml).
+
+::: {.stack-native #native-matrix-python}
+#| prepared: native-matrix-python
+:::
+
+## Public startup and response times {#public-startup-and-response-times}
+
+**The native worker starts on the first Validate; Python stays unloaded until a visited
+PythonChecker node needs it.** First native Validate took a median **38.72 s**, including
+**38.60 s** of native initialization. Warm native Validate took **104 ms**, and warm
+native Check took **336 ms**. On an already initialized native worker, the first
+graphical PythonChecker Check added **6.13 s** of UI time, including **5.80 s** of Python
+startup; subsequent Checks took **332 ms**.
+
+These frozen measurements describe deployed source
+**`15fa33299d68d64e122a2661a2868feb30130edb`**, measured on **22 October 2026** by
+[benchmark attempt 2](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39831459804/attempts/2). Later documentation builds do not remeasure this batch.
+The native workload uses the first variant of the rational question and its prepared
+model answer. The graphical workload uses the first PythonChecker board and `[2,2]`.
+
+Values are **median / minimum / maximum**. First operations and board validation have
+**3 samples**; warm rows have **15 samples**, five calls in each of three fresh processes.
+The unit is shown per row.
+
+| Actual button operation | UI: click to verdict | Worker RPC |
+| --- | ---: | ---: |
+| Native first Validate (s) | 38.716 / 38.514 / 40.782 | 0.115 / 0.112 / 0.115 |
+| Native warm Validate (ms) | 103.89 / 100.07 / 111.05 | 102.81 / 99.07 / 109.93 |
+| Native first Check after validation (ms) | 418.16 / 413.02 / 422.33 | 416.86 / 411.71 / 420.84 |
+| Native warm Check (ms) | 335.71 / 328.75 / 408.71 | 334.61 / 327.83 / 407.71 |
+| Board Validate before Python (ms) | 2180.66 / 1697.03 / 2223.28 | 1376.68 / 1081.51 / 1420.63 |
+| First PythonChecker Check (s) | 6.128 / 6.041 / 6.238 | 6.109 / 6.020 / 6.217 |
+| Warm PythonChecker Check (ms) | 331.67 / 325.13 / 402.90 | 312.11 / 305.72 / 382.99 |
+
+Native initialization alone was **38.600 / 38.400 / 40.665 s** (3 samples).
+Optional Python initialization alone was **5.798 / 5.705 / 5.897 s** (3 samples).
+They are included in the relevant first UI operations; do not add the rows together.
+The first native Validate worker RPC excludes the separately measured initialization.
+First PythonChecker Check reuses warm Maxima, so it measures incremental Python startup,
+not a second cold page. Board Validate is native-only and includes the real graphical
+collection/replay gate; its UI interval includes that gate as well as the worker call.
+
+Each profile began with zero assessment RPCs, created one native worker and made
+**20 real RPCs**; six grades visited a **PythonChecker callback**. All three profiles recorded
+zero interpreter/stdlib/wheel requests and `pythonLoaded=false` through board validation;
+the first Python grade then loaded Python exactly once. The shared small
+`pyodide-runtime.js` configuration helper is not counted as an interpreter download.
+
+UI time starts at the original click, before graphical collection, and ends at the
+verdict DOM update. Worker RPC time is the actual message/response interval. Page
+navigation, HTML loading, isolation setup, answer entry and later MathJax painting are
+excluded. Chromium **141.0.7390.37** ran on one GitHub-hosted Ubuntu runner
+with **4 virtual CPUs**, using three fresh browser processes/profiles.
+OS and CDN caches were not cleared; provenance requests can warm CDN caches.
+
+The browser's final service-worker Document response was exactly **16,855,012 bytes**
+with the expected HTML hash in every profile. HTML and public runtime/frontend asset
+hashes also matched before and after the batch. The
+[summary evidence](https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/research/2026-10-native-stack/reports/milestone-three/timings/39831459804-attempt-2/) retains those actual navigation hashes, sample numbers,
+worker/callback counts, method and artifact provenance without copying question bodies.
+
+This full native validation/response-tree path has higher warm costs than
+[the hybrid comparison](examples.qmd#startup-and-response-times), which delegates only
+ordinary answer-test nodes to Maxima. These two accepted-answer workloads on one runner
+do not establish a general speed ranking or a controlled speedup over earlier builds.
+Functional builds leave the measurements frozen.
+
+## Build and execution evidence
+
+### Supported subset
+
+The native controller accepts algebraic, numerical and matrix inputs, plus string and
+JSON inputs transported as quoted strings. Mathematical input uses the pinned
+STACK-MP-lite recognizer and STACK security data, a bounded expression/function allowlist,
+`strictsyntax=1` and `insertstars=0` or `1`. It preserves written forms for native tests
+such as `LowestTerms` and decimal-place checks. Native STACK performs type and lowest-terms
+validation; admission also handles `forbidfloat` and explicit `forbidwords`.
+
+Learner assignments, indexing, statements and arbitrary function calls are unsupported.
+So are `allowwords`, forbidden-word shorthand lists and other corrective-input modes.
+The [input implementation](https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/research/2026-10-native-stack/prototype/native/input.js)
+defines the exact function list and size/depth limits.
+
+Question variables use top-level assignments, with prepared values and model answers
+frozen for each seed. Nested assignments, state-mutating author calls and random
+response-tree/feedback expressions are outside this subset. Feedback variables cannot
+reassign learner inputs. Authors remain trusted; these checks define supported state
+behavior, not an author-code sandbox. Boards belong to the prepared question and cannot
+be created by feedback.
+
+The feedback adapter displays 63 selected English messages from the pinned STACK source.
+Unknown or unsupported protocols remain visible as escaped, labelled raw feedback.
+This is bounded translation, not Moodle's complete feedback interpreter.
+
+The [native build manifest](../native/build-manifest.json) records the pinned source
+revisions, original XML hashes, actual native preparation programs and prepared variants.
+Browser CI exercises the controls, the JSON bridge, native and Python routing, partial
+credit, reset and question independence. Loading measurements are reported separately
+from ordinary functional builds.
+
+The reference report records desktop and Wasm Maxima versions separately. Scores,
+branch state, answer notes and canonical answer sources are compared strictly (finite
+floating-point values use a stated tolerance). Raw display output is retained. Two
+narrowly defined TeX differences between core versions are reported separately:
+equivalent text-box wrappers with identical content, and math-only line wrapping.
+Those presentation differences do not stand in for agreement on grading.
+
+### Historical controlled loader measurements
+
+The loader now fetches one verified package of the original runtime library files.
+A controlled comparison used three fresh Chromium processes per condition and loader,
+then ran a real native answer test in every sample:
+
+| Local server condition | Original native readiness, median | Bundled readiness, median | HTTP requests |
+| --- | ---: | ---: | ---: |
+| No added latency | 38.57 s | 36.71 s | 137 → 12 |
+| Simulated 80 ms per request | 48.32 s | 37.39 s | 137 → 12 |
+
+These are **local loader measurements**, including an explicitly simulated latency,
+from [run 39802432330](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39802432330).
+They measure native readiness, not button-to-verdict time on this public page.
+[Raw reports and exact source hashes](https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/research/2026-10-native-stack/reports/milestone-three/loading)
+keep the experiment reproducible. First validation on this native page still needs
+the native runtime; a PythonChecker adds its own lazy startup when its node is reached.
+Ordinary site builds run functional checks and leave these benchmark statistics frozen.
