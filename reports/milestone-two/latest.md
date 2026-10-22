@@ -2,9 +2,9 @@
 
 Status: **passed**.
 
-Source commit: `2493268c2bf3eb9941407f376d20a07fb5da4ec9`.
+Source commit: `41a580f4451d4a6ab47bcc5b159c3950a7b71c91`.
 
-Workflow evidence: https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39721228518
+Workflow evidence: https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39726102585
 
 Browser: chromium 141.0.7390.37.
 
@@ -21,22 +21,22 @@ Successful grade screenshots (paths relative to the raw browser report in the Ac
 
 | Backend | Completed variants | Authored test rows | Median warm validation ms | Median warm grade ms |
 |---|---:|---:|---:|---:|
-| sympy | 27 | 121 | 14.2 | 14.5 |
-| maxima | 27 | 121 | 14.2 | 35.1 |
+| sympy | 27 | 121 | 12.8 | 13.1 |
+| maxima | 27 | 121 | 13.4 | 60.3 |
 
 Initialization (fresh browser cache per page; prepared assets served locally with gzip):
 
-- sympy/index: 3577.6 ms.
-- sympy/examples: 3552.3 ms.
-- maxima/index: 26102.1 ms.
-- maxima/examples: 24743.8 ms.
+- sympy/index: 6193.1 ms.
+- sympy/examples: 6225.8 ms.
+- maxima/index: 40645.9 ms.
+- maxima/examples: 39797.5 ms.
 
 Transferred response-body bytes per page (browser-observed, including CDN dependencies):
 
-- sympy/index: 10502067 bytes.
-- sympy/examples: 10523088 bytes.
-- maxima/index: 21205544 bytes.
-- maxima/examples: 21280037 bytes.
+- sympy/index: 10502009 bytes.
+- sympy/examples: 10523032 bytes.
+- maxima/index: 21263151 bytes.
+- maxima/examples: 21286542 bytes.
 
 These measurements do not establish public WAN startup, production bundling, exam isolation or cancellation safety.
 
