@@ -7,6 +7,12 @@ on:
       - '.github/workflows/startup-probes.yml'
       - 'scripts/milestone-three/startup-probes.mjs'
   workflow_dispatch:
+    inputs:
+      modes:
+        description: 'Comma-separated modes; cache-off is an optional known-slow experiment'
+        type: string
+        required: true
+        default: 'full,exact-directories,core-no-statistics'
 
 permissions:
   contents: read
@@ -54,6 +60,8 @@ jobs:
           python scripts/milestone-two/prepare-runtime.py --output .cache/loader-demo \
             --stack-source .m2-sources/stack --ctm-checkers-source .m2-sources/ctm-checkers
       - name: Profile loading, search paths and optional startup libraries
+        env:
+          STARTUP_PROBE_MODES: ${{ inputs.modes || 'full,exact-directories,core-no-statistics' }}
         run: node scripts/milestone-three/startup-probes.mjs
       - uses: actions/upload-artifact@v4
         if: always()

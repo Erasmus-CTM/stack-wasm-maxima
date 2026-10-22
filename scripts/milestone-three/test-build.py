@@ -45,6 +45,16 @@ class NativeBuild(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "dangling next node"):
             compiler.compile_question(ET.tostring(root), importer, "broken", python=True)
 
+    def test_mixed_coordinate_nodes_guard_the_complete_list_shape(self):
+        body = compiler.authored_question("Mixed", compiler.POINT_PROMPT, "[2,2]", mixed=True, python="positive_x")
+        q = compiler.compile_question(body, importer, "mixed", python=True)
+        nodes = q["prts"][0]["nodes"]
+        for node, axis in ((nodes[0], 2), (nodes[2], 1)):
+            self.assertRegex(node["student"], r"^if listp\(ans\) then \(if length\(ans\)=2 then ans\[" + str(axis) + r"\] else 0\) else 0$")
+            self.assertEqual(node["teacher"], "2")
+        self.assertEqual(json.loads(nodes[1]["options"]), {"checker": "positive_x"})
+        self.assertEqual([test["expected"]["prt1"]["score"] for test in q["qtests"]], [1, .5, 0])
+
     def test_feedback_randomness_fails_at_build_but_literals_and_question_randomness_do_not(self):
         body = compiler.authored_question("Random", "[[input:ans]]", "value", variables="value:rand(3)+1;")
         root = ET.fromstring(body)

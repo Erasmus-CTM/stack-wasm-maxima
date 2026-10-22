@@ -9,9 +9,16 @@ import {serveDemo} from '../milestone-two/serve.mjs';
 
 const root = resolve(process.env.LOADER_SITE || '.cache/loader-demo');
 const output = resolve(process.env.STARTUP_PROBE_OUTPUT || 'test-results/startup-probes');
-const modes = (process.env.STARTUP_PROBE_MODES || 'full,exact-directories,cache-off,core-no-statistics').split(',');
+// cache-off is opt-in: the recorded experiment exceeded 240s and prevented
+// later useful samples from completing. Keep that negative result reproducible.
+const modes = (process.env.STARTUP_PROBE_MODES || 'full,exact-directories,core-no-statistics').split(',');
 const allowed = new Set(['full', 'exact-directories', 'cache-off', 'core-no-statistics']);
 if (!modes.length || modes.some(mode => !allowed.has(mode))) throw new Error('Unknown startup probe mode');
+if(modes.includes('core-no-statistics') && modes.includes('cache-off')) {
+  // Retain the reduced-core evidence before the known-slow optional mode.
+  modes.splice(modes.indexOf('cache-off'),1);
+  modes.push('cache-off');
+}
 await mkdir(output, {recursive:true});
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const manifestBytes = await readFile(resolve(root, 'stack-sources.json'));
@@ -96,7 +103,9 @@ function observeFS() {
       const key = operation + '|' + path;
       let record = filesystem.get(key);
       if (!record) {
-        if(filesystem.size >= 10000) return original.apply(this,args);
+        // Recursive search can fill the path budget before later sources are
+        // read. Reserve room for read evidence needed by source-parity checks.
+        if((filesystem.size >= 10000 && name!=='read') || filesystem.size >= 11000) return original.apply(this,args);
         record={operation,path,calls:0,errors:0,elapsedMs:0,readBytes:0}; filesystem.set(key,record);
       }
       const started=performance.now(); record.calls++;

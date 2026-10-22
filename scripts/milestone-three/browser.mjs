@@ -2,7 +2,7 @@
 // Exercise the real shared CTM UI and record the native programs it executes.
 import assert from 'node:assert/strict';
 import {mkdir, readFile, writeFile} from 'node:fs/promises';
-import {resolve, join, dirname} from 'node:path';
+import {resolve, join, dirname, relative, isAbsolute} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
@@ -16,6 +16,8 @@ const output = resolve(process.env.NATIVE_OUTPUT || process.argv[3] || 'test-res
 const liveURL = process.env.NATIVE_PAGE_URL ? new URL(process.env.NATIVE_PAGE_URL) : null;
 if (liveURL) assert.equal(liveURL.protocol, 'https:');
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
+const canonical = value => JSON.stringify(value,(_key,item)=>item && typeof item==='object' && !Array.isArray(item)
+  ? Object.fromEntries(Object.keys(item).sort().map(key=>[key,item[key]])) : item);
 await mkdir(output, {recursive:true});
 
 // Only turn on diagnostics in the actual native worker. All assessment
@@ -320,6 +322,42 @@ async function dragPoint(card, {input='ans1',pointName,target=[1,1]}={}) {
   return {position,raw,input};
 }
 
+// Real pointer input, ordinary Validate/Check, bidirectional binding and reset.
+async function exerciseGraphic(item) {
+  const {id,entry,card,payload}=item;
+  await card.locator('.stack-variant').selectOption('0');
+  await card.locator('.stack-reset').click();await awaitBoards(card);
+  const before=await state(card);
+  const graphic=entry.graphical || entry.graph || {kind:id==='native-json'?'json-colour-points':'point',input:'ans1'};
+  const moved=await dragPoint(card,{...graphic,pointName:graphic.pointName || graphic.name,
+    target:graphic.target || (id==='native-json'?[0,1]:[2,2])});
+  const validated=await action(card,'validate');assert.equal(validated.call.response.result.status,'valid');
+  const graded=await action(card,'grade');assert.equal(graded.call.response.result.status,'graded');
+  const stored=await card.locator(fieldSelector(moved.input)).inputValue();assert.equal(stored,moved.raw,'Grading must preserve the current board answer');
+  let twoWay=null;
+  if(['point','bound-point'].includes(graphic.kind) && (graphic.pointName || graphic.name)) {
+    await fillAnswers(card,{[moved.input]:'[1,-1]'});
+    const frame=await (await card.locator('iframe[data-stack-jsxgraph]').first().elementHandle()).contentFrame();
+    const pointName=graphic.pointName || graphic.name;
+    await frame.waitForFunction(name=>Object.values(JXG.boards).some(board=>board.objectsList.some(point=>
+      point.elType==='point' && point.name===name && Math.abs(point.X()-1)<0.01 && Math.abs(point.Y()+1)<0.01)),pointName,{timeout:10000});
+    assert.equal(await card.locator('.stack-check').isDisabled(),true,'Editing the text input must invalidate the old graph verdict');
+    twoWay={raw:await card.locator(fieldSelector(moved.input)).inputValue(),point:[1,-1],passed:true};
+  }
+  if(['json-colour-points','color-points'].includes(graphic.kind)) {
+    const data=JSON.parse(stored);assert.equal(data.length,1,'Dragging the source creates one stored point');
+    assert.equal(data[0].color,'black');assert.ok(Math.abs(data[0].x)<0.3 && Math.abs(data[0].y-1)<0.3);
+    const inline=card.locator('.stack-feedback[data-name="prt1"]');
+    const feedback=await inline.count() ? inline.first() : card.locator('.stack-result .stack-prt-feedback').first();
+    await feedback.waitFor({state:'visible'});
+    assert.match(await feedback.textContent(),/points|color/i,'Native JSON feedback must be displayed in its actual PRT feedback region');
+  }
+  const path=id+'.png';await card.screenshot({path:join(output,path),animations:'disabled'});report.screenshots.push({id,path});
+  await card.locator('.stack-reset').click();await awaitBoards(card);
+  assert.deepEqual((await state(card)).fields,before.fields,'Graph Reset must restore the associated input state');
+  report.graphics.push({id,kind:graphic.kind,moved,twoWay,validation:validated,grade:graded,reset:await state(card)});
+}
+
 async function openPage(url) {
   const interrupted=error=>Boolean(liveURL) && /Execution context was destroyed|Cannot find context|interrupted by another navigation|ERR_ABORTED/.test(String(error));
   try {const response=await page.goto(url,{waitUntil:'load',timeout:90000});assert.equal(response.status(),200);}
@@ -332,12 +370,63 @@ async function openPage(url) {
   assert.equal(await page.evaluate(()=>self.crossOriginIsolated),true);
 }
 
+async function verifyLivePage(expected) {
+  const response=await page.request.get(liveURL.href,{headers:{'Cache-Control':'no-cache'},timeout:90000});
+  assert.equal(response.status(),200,'The exact public native page must be available');
+  const bytes=await response.body(),actual={url:response.url(),bytes:bytes.length,sha256:hash(bytes),checkedAt:new Date().toISOString()};
+  assert.equal(actual.sha256,expected.sha256,'The public native HTML must exactly match the rendered artifact under review');
+  assert.equal(actual.bytes,expected.bytes);
+  return actual;
+}
+
+async function liveAssets() {
+  const root=new URL(baseURL);
+  const paths=new Set(['native/build-manifest.json','stack-sources.json','runtime-assets.json','ctm-isolation.js','ctm-isolation-worker.js',
+    'native/backend-worker.js','native/engine.js','native/input.js','native/stack-parser.js','native/input-rules.json','native/input-provenance.json',
+    'native/feedback.js','native/feedback-messages.json','native/feedback-provenance.json','native/python-bridge.js','native/python_bridge.py',
+    'runtime/maxima-session.js','runtime/maxima-child.js','jsxgraph/host.js','jsxgraph/frame.js','backend/worker.js','backend/native_adapter.py']);
+  const scripts=await page.locator('script[src]').evaluateAll(items=>items.map(item=>item.getAttribute('src')));
+  const external=[];
+  for(const source of scripts) {
+    const url=new URL(source,liveURL);
+    if(url.origin!==root.origin || !url.pathname.startsWith(root.pathname)) {external.push(url.href);continue;}
+    paths.add(decodeURIComponent(url.pathname.slice(root.pathname.length)));
+  }
+  const assets=[];
+  for(const path of [...paths].sort()) {
+    const absolute=resolve(site,path),within=relative(site,absolute);
+    assert.ok(within && !within.startsWith('..') && !isAbsolute(within),'Public script must resolve within the tested site artifact');
+    const bytes=await readFile(absolute);
+    assets.push({path,url:new URL(path,root).href,bytes:bytes.length,sha256:hash(bytes)});
+  }
+  return {assets,externalScripts:external,scope:'All emitted same-site HTML scripts, native build/runtime manifests, and mutable native/runtime/bridge/backend adapters; upstream hash-pinned Wasm libraries excluded'};
+}
+
+async function verifyLiveAssets(inventory) {
+  const checked=[];
+  // Independent read-only asset checks share no worker or assessment state.
+  for(let offset=0;offset<inventory.length;offset+=6) {
+    const results=await Promise.allSettled(inventory.slice(offset,offset+6).map(async expected=>{
+      const response=await page.request.get(expected.url,{headers:{'Cache-Control':'no-cache'},timeout:90000});
+      assert.equal(response.status(),200,'Missing exact-build public asset '+expected.path);
+      const bytes=await response.body(),sha256=hash(bytes);
+      assert.equal(sha256,expected.sha256,'Public asset does not match this exact build: '+expected.path);
+      assert.equal(bytes.length,expected.bytes);
+      return {path:expected.path,bytes:bytes.length,sha256};
+    }));
+    for(const result of results) {if(result.status==='rejected')throw result.reason;checked.push(result.value);}
+  }
+  return {checkedAt:new Date().toISOString(),assets:checked};
+}
+
 try {
   const manifestBytes=await readFile(join(site,'native/build-manifest.json'));
   const manifest=JSON.parse(manifestBytes);
   const inventory=manifest.questions || manifest.cards;
   assert.ok(Array.isArray(inventory) && inventory.length>=8,'Native build manifest must inventory every required question');
   report.manifest={sha256:hash(manifestBytes),bytes:manifestBytes.length,...manifest};
+  const htmlBytes=await readFile(join(site,'maxima/native.html'));
+  report.pageArtifact={path:'maxima/native.html',bytes:htmlBytes.length,sha256:hash(htmlBytes)};
   report.programs.push(...(manifest.programs||[]));
   const runtimeBytes=await readFile(join(site,'stack-sources.json'));
   const runtime=JSON.parse(runtimeBytes);
@@ -357,6 +446,7 @@ try {
     report.network.push({url:request.url(),method:request.method(),status:response.status(),resourceType:request.resourceType(),...await request.sizes()});
   })()));
   await page.addInitScript(observeNativeWorkers);
+  if(liveURL)report.livePage={before:await verifyLivePage(report.pageArtifact)};
   await openPage(liveURL?.href || new URL('maxima/native.html',baseURL).href);
   report.pageURL=page.url();
   assert.equal(await page.locator('section.stack-sympy').count(),inventory.length);
@@ -369,8 +459,25 @@ try {
     const source=await card.locator('script.stack-sympy-data').textContent();
     const payload=JSON.parse(source);assert.equal(payload.id,id);
     assert.ok(payload.variants.length>0);
+    assert.ok(entry.payload?.question && Array.isArray(entry.payload.variants),id+': the tested build must retain its exact question and prepared variants');
+    assert.deepEqual(payload.question,entry.payload.question,id+': the loaded question must exactly match this build artifact');
+    assert.deepEqual(payload.variants,entry.payload.variants,id+': every loaded prepared variant must exactly match this build artifact');
+    const payloadIdentity={questionSha256:hash(canonical(payload.question)),variantsSha256:hash(canonical(payload.variants))};
     const python=payload.question.prts.some(prt=>prt.nodes.some(node=>node.test==='PythonChecker'));
-    questions.push({entry,id,card,payload,python,payloadSha256:hash(source)});
+    questions.push({entry,id,card,payload,python,payloadSha256:hash(source),payloadIdentity});
+  }
+  report.pagePayloads=questions.map(({id,payloadSha256,payloadIdentity})=>({id,payloadSha256,...payloadIdentity,artifactMatched:true}));
+  if(liveURL) {
+    report.publicAssets=await liveAssets();
+    report.publicAssets.before=await verifyLiveAssets(report.publicAssets.assets);
+  }
+  const graphical=questions.filter(row=>row.entry.graphical || row.entry.graph || /native-(?:binding|json|python-board|mixed-board)$/.test(row.id));
+  // Exercise unmodified native boards before unrelated mathematical fixtures.
+  // Optional Python boards use the same helper after Python-dependent tests.
+  for(const item of graphical.filter(row=>!row.python)) {
+    await exerciseGraphic(item);
+    await assertNoPython('native graphical question '+item.id);
+    await writeFile(join(output,'browser.json'),JSON.stringify(report,null,2)+'\n');
   }
   // Establish the native-only promise before any Python-dependent question is used.
   const ordered=[...questions.filter(row=>!row.python),...questions.filter(row=>row.python)];
@@ -446,6 +553,7 @@ try {
           observed.grade=await action(card,'grade');
           const graded=observed.grade.call.response.result;
           assert.equal(graded.status,probe.status || 'graded');
+          assert.equal(observed.grade.call.response.backend.restarts,0,'A bounded wrong answer must grade without restarting the native worker');
           if(probe.score!==undefined)assert.equal(graded.score,probe.score,id+': '+probe.name);
           if(probe.assessment) {
             const assessments=('rows' in probe.assessment || 'columns' in probe.assessment)
@@ -457,7 +565,9 @@ try {
           if(id==='native-numerical' && probe.name==='missing written trailing zero') {
             observed.nativeFeedback=assertReadableNativeFeedback(graded,observed.grade.events,
               {key:'ATNumDecPlaces_Wrong_DPs',message:/wrong number of decimal places/i});
-            observed.nativeFeedback.visible=await card.locator('.stack-result').textContent();
+            const visible=card.locator('.stack-feedback[data-name="prt3"] .stack-native-feedback').first();
+            await visible.waitFor({state:'visible'});
+            observed.nativeFeedback.visible=await visible.textContent();
             assert.match(observed.nativeFeedback.visible,/wrong number of decimal places/i,'Readable native precision feedback must appear in the actual question UI');
             assert.doesNotMatch(observed.nativeFeedback.visible,/stack_trans\(|!NEWLINE!|!quot!/);
           }
@@ -482,39 +592,7 @@ try {
       await writeFile(join(output,'browser.json'),JSON.stringify(report,null,2)+'\n');
     }
   }
-  // Graphical input evidence uses real pointer events and the ordinary
-  // Validate/Check buttons; hidden input assignment is not a substitute.
-  for(const item of questions.filter(row=>row.entry.graphical || row.entry.graph || /native-(?:binding|json|python-board|mixed-board)$/.test(row.id))) {
-    const {id,entry,card,payload}=item;
-    await card.locator('.stack-variant').selectOption('0');
-    await card.locator('.stack-reset').click();await awaitBoards(card);
-    const before=await state(card);
-    const graphic=entry.graphical || entry.graph || {kind:id==='native-json'?'json-colour-points':'point',input:'ans1'};
-    const moved=await dragPoint(card,{...graphic,pointName:graphic.pointName || graphic.name,
-      target:graphic.target || (id==='native-json'?[0,1]:[2,2])});
-    const validated=await action(card,'validate');assert.equal(validated.call.response.result.status,'valid');
-    const graded=await action(card,'grade');assert.equal(graded.call.response.result.status,'graded');
-    const stored=await card.locator(fieldSelector(moved.input)).inputValue();assert.equal(stored,moved.raw,'Grading must preserve the current board answer');
-    let twoWay=null;
-    if(['point','bound-point'].includes(graphic.kind) && (graphic.pointName || graphic.name)) {
-      await fillAnswers(card,{[moved.input]:'[1,-1]'});
-      const frame=await (await card.locator('iframe[data-stack-jsxgraph]').first().elementHandle()).contentFrame();
-      const pointName=graphic.pointName || graphic.name;
-      await frame.waitForFunction(name=>Object.values(JXG.boards).some(board=>board.objectsList.some(point=>
-        point.elType==='point' && point.name===name && Math.abs(point.X()-1)<0.01 && Math.abs(point.Y()+1)<0.01)),pointName,{timeout:10000});
-      assert.equal(await card.locator('.stack-check').isDisabled(),true,'Editing the text input must invalidate the old graph verdict');
-      twoWay={raw:await card.locator(fieldSelector(moved.input)).inputValue(),point:[1,-1],passed:true};
-    }
-    if(['json-colour-points','color-points'].includes(graphic.kind)) {
-      const data=JSON.parse(stored);assert.equal(data.length,1,'Dragging the source creates one stored point');
-      assert.equal(data[0].color,'black');assert.ok(Math.abs(data[0].x)<0.3 && Math.abs(data[0].y-1)<0.3);
-      assert.match(await card.locator('.stack-result').textContent(),/points|color/i,'Native JSON feedback must be displayed');
-    }
-    const path=id+'.png';await card.screenshot({path:join(output,path),animations:'disabled'});report.screenshots.push({id,path});
-    await card.locator('.stack-reset').click();await awaitBoards(card);
-    assert.deepEqual((await state(card)).fields,before.fields,'Graph Reset must restore the associated input state');
-    report.graphics.push({id,kind:graphic.kind,moved,twoWay,validation:validated,grade:graded,reset:await state(card)});
-  }
+  for(const item of graphical.filter(row=>row.python))await exerciseGraphic(item);
   // Queue validation and reset in the same browser event-loop turn. Its real
   // later native reply must not resurrect the previous response generation.
   const stale=questions.find(row=>!row.python && positives.has(row.id));assert.ok(stale);
@@ -545,6 +623,10 @@ try {
   assert.deepEqual(report.consoleErrors.filter(text=>!safeConsole(text)),[]);
   assert.deepEqual(report.network.filter(row=>row.status>=400 || row.failed && !/ERR_ABORTED/.test(row.failed)),[]);
   if(app)assert.deepEqual(app.requests.filter(row=>row.status>=400),[]);
+  if(liveURL) {
+    report.livePage.after=await verifyLivePage(report.pageArtifact);
+    report.publicAssets.after=await verifyLiveAssets(report.publicAssets.assets);
+  }
   report.passed=true;
 } catch(error) {
   report.failure={message:String(error),stack:error.stack};
