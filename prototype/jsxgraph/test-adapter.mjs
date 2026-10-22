@@ -1,0 +1,193 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Protocol and DOM-boundary tests. Real JSXGraph dragging is tested in CI.
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import vm from 'node:vm';
+
+class FakeEvent {
+  constructor(type, options = {}) { this.type = type; this.bubbles = Boolean(options.bubbles); }
+  preventDefault() { this.defaultPrevented = true; }
+  stopImmediatePropagation() { this.stopped = true; }
+}
+class Element {
+  constructor(tag, document) {
+    this.tagName = tag.toUpperCase(); this.ownerDocument = document; this.children = [];
+    this.attributes = new Map(); this.dataset = {}; this.listeners = new Map(); this.value = '';
+    this.className = ''; this.style = {}; this.srcdocWrites = 0; this.innerHTML = '';
+  }
+  get isConnected() { return this.ownerDocument.contains(this); }
+  setAttribute(key, value) {
+    this.attributes.set(key, String(value));
+    if (key === 'id') this.id = String(value);
+    if (key === 'class') this.className = String(value);
+    if (key === 'srcdoc') this.srcdocWrites++;
+  }
+  getAttribute(key) { return key === 'id' ? this.id || null : this.attributes.get(key) ?? null; }
+  hasAttribute(key) { return this.attributes.has(key); }
+  removeAttribute(key) { this.attributes.delete(key); }
+  appendChild(child) { child.parentNode = this; this.children.push(child); return child; }
+  after(child) {
+    child.parentNode = this.parentNode;
+    this.parentNode.children.splice(this.parentNode.children.indexOf(this) + 1, 0, child);
+  }
+  remove() { if (this.parentNode) this.parentNode.children.splice(this.parentNode.children.indexOf(this), 1); this.parentNode = null; }
+  contains(child) { return child === this || this.children.some(item => item.contains(child)); }
+  matches(selector) {
+    if (selector.includes(',')) return selector.split(',').some(part => this.matches(part.trim()));
+    if (selector === '[id]') return Boolean(this.id);
+    if (selector === 'iframe[data-stack-jsxgraph]') return this.tagName === 'IFRAME' && this.hasAttribute('data-stack-jsxgraph');
+    const match = /^(\w+)?(?:\.([\w-]+))?(\[data-name\])?$/.exec(selector);
+    if (!match) return false;
+    return (!match[1] || this.tagName === match[1].toUpperCase()) &&
+      (!match[2] || this.className.split(/\s+/).includes(match[2])) && (!match[3] || typeof this.dataset.name === 'string');
+  }
+  closest(selector) { for (let item = this; item; item = item.parentNode) if (item.matches?.(selector)) return item; return null; }
+  querySelectorAll(selector) { return this.children.flatMap(item => [...(item.matches(selector) ? [item] : []), ...item.querySelectorAll(selector)]); }
+  querySelector(selector) { return this.querySelectorAll(selector)[0] || null; }
+  addEventListener(type, fn, capture = false) {
+    if (!this.listeners.has(type)) this.listeners.set(type, []);
+    this.listeners.get(type).push({fn, capture:Boolean(capture)});
+  }
+  removeEventListener(type, fn) { this.listeners.set(type, (this.listeners.get(type) || []).filter(row => row.fn !== fn)); }
+  dispatchEvent(event) {
+    event.target = this;
+    const ancestors = []; for (let item = this.parentNode; item; item = item.parentNode) ancestors.push(item);
+    const invoke = (target, capture) => {
+      for (const row of target.listeners.get(event.type) || []) {
+        if (event.stopped) return;
+        if (row.capture === capture) row.fn(event);
+      }
+    };
+    for (const target of [...ancestors].reverse()) invoke(target, true);
+    invoke(this, true); invoke(this, false);
+    if (event.bubbles) for (const target of ancestors) invoke(target, false);
+    return !event.defaultPrevented;
+  }
+  click() { this.dispatchEvent(new FakeEvent('click', {bubbles:true})); }
+}
+class Document extends Element {
+  constructor() {
+    super('document'); this.ownerDocument = this; this.documentElement = this;
+    this.body = this.appendChild(new Element('body', this));
+  }
+  createElement(tag) { return new Element(tag, this); }
+}
+class Window {
+  constructor(document) { this.document = document; this.listeners = new Map(); }
+  addEventListener(type, fn) { if (!this.listeners.has(type)) this.listeners.set(type, new Set()); this.listeners.get(type).add(fn); }
+  removeEventListener(type, fn) { this.listeners.get(type)?.delete(fn); }
+  emit(type, event) { for (const fn of this.listeners.get(type) || []) fn(event); }
+}
+class Observer { observe() {} disconnect() {} }
+const hostDocument = new Document(), hostWindow = new Window(hostDocument);
+hostWindow.MutationObserver = Observer; hostWindow.ResizeObserver = Observer;
+const frameDocument = new Document(), frameWindow = new Window(frameDocument);
+const sentToHost = [], sentToFrame = [];
+const hostProxy = {postMessage(data) { sentToHost.push(data); queueMicrotask(() => hostWindow.emit('message', {data, source:frameProxy})); }};
+const frameProxy = {postMessage(data) { sentToFrame.push(data); queueMicrotask(() => frameWindow.emit('message', {data, source:hostProxy})); }};
+frameWindow.parent = hostProxy;
+let responseProvider;
+frameWindow.JXG = {QuartoAssessment:{register(spec) { responseProvider = spec.response; }}};
+frameWindow.addEventListener('message', async event => {
+  const data = event.data;
+  if (event.source === hostProxy && data.protocol === 'jsxgraph-quarto-assessment' && data.type === 'request') {
+    try { hostProxy.postMessage({...data, type:'response', payload:await responseProvider()}); }
+    catch(error) { hostProxy.postMessage({...data, type:'response', error:error.message}); }
+  }
+});
+function run(source, window) {
+  return vm.runInContext(source, vm.createContext({window, self:window, Event:FakeEvent,
+    setTimeout, clearTimeout, setInterval, clearInterval, queueMicrotask, console}));
+}
+const root = new URL('.', import.meta.url);
+run(await readFile(new URL('host.js', root), 'utf8'), hostWindow);
+run(await readFile(new URL('frame.js', root), 'utf8'), frameWindow);
+function child(parent, tag, className, name) {
+  const element = parent.ownerDocument.createElement(tag); element.className = className;
+  if (name) element.dataset.name = name;
+  return parent.appendChild(element);
+}
+const card = child(hostDocument.body, 'section', 'stack-sympy'); card.dataset.stackId = 'native-test';
+const input = child(card, 'input', 'stack-answer', 'ans1'); input.value = '[0,0]';
+input.dataset.stackInputType = 'algebraic'; input.dataset.stackInputDecimalSeparator = '.';
+const other = child(card, 'input', 'stack-answer', 'private'); other.value = 'do not change';
+const validation = child(card, 'span', 'stack-validation', 'ans1');
+const result = child(card, 'div', 'stack-result');
+const validateButton = child(card, 'button', 'stack-validate');
+const resetButton = child(card, 'button', 'stack-reset');
+const feedback = child(card, 'span', ''); feedback.id = 'feedback-data'; feedback.innerHTML = '{"ok":true}';
+const otherCard = child(hostDocument.body, 'section', 'stack-sympy');
+const external = child(otherCard, 'span', ''); external.id = 'outside'; external.innerHTML = 'private';
+const frame = child(card, 'iframe', ''); frame.contentWindow = frameProxy;
+frame.setAttribute('srcdoc', '<html>original board</html>');
+const handle = hostWindow.CTMStackJSXGraph.attachIframe(frame, {assessmentId:'native-board', inputs:['ans1']});
+const api = frameWindow.CTMStackJSXGraphFrame.create({assessmentId:'native-board', inputNames:['ans1']});
+const settle = async () => { for (let index = 0; index < 4; index++) await new Promise(resolve => setImmediate(resolve)); };
+try {
+  const id = await api.request_access_to_input('ans1', true, true);
+  assert.equal(id, 'ans1');
+  const mirror = frameDocument.querySelectorAll('input')[0];
+  assert.equal(mirror.value, '[0,0]', 'Initial question values reach the mirror before registration resolves');
+  assert.equal(api.get_input_metadata('ans1').InputType, 'algebraic');
+  await assert.rejects(api.request_access_to_input('private'), /not bound/);
+
+  mirror.value = '[1,2]'; mirror.dispatchEvent(new FakeEvent('change'));
+  mirror.value = '[3,4]'; mirror.dispatchEvent(new FakeEvent('change'));
+  await settle();
+  assert.equal(input.value, '[3,4]', 'Rapid changes drain in order without dropping the latest position');
+  assert.equal((await responseProvider()).inputs.ans1, '[3,4]');
+  assert.equal(other.value, 'do not change');
+  const oldWrite = sentToHost.findLast(message => message.operation === 'set-input');
+
+  const before = sentToHost.filter(message => message.operation === 'set-input').length;
+  input.value = '[5,6]'; input.dispatchEvent(new FakeEvent('input', {bubbles:true}));
+  await settle();
+  assert.equal(mirror.value, '[5,6]', 'Parent edits update the existing board mirror');
+  assert.equal(sentToHost.filter(message => message.operation === 'set-input').length, before, 'Incoming state does not echo into another write');
+  assert.equal(await api.get_content('feedback-data'), '{"ok":true}');
+  assert.equal(await api.get_content('outside'), null, 'Feedback lookup never escapes the containing question');
+
+  const callbacks = [];
+  api.register_validation_state_listener('ans1', (...args) => callbacks.push(args), true);
+  await settle();
+  validation.dataset.state = 'valid'; result.dataset.state = 'valid'; handle.sync();
+  await settle();
+  assert.equal(JSON.stringify(callbacks.at(-1)), JSON.stringify([true, true, 'ans1']));
+
+  let validations = 0, observedAnswer;
+  validateButton.addEventListener('click', () => { validations++; observedAnswer = input.value; result.dataset.state = 'loading'; });
+  mirror.value = '[7,8]'; mirror.dispatchEvent(new FakeEvent('change'));
+  validateButton.click();
+  await settle();
+  assert.equal(validations, 1, 'The shared Validate handler runs once after collection');
+  assert.equal(observedAnswer, '[7,8]', 'Validate reads the final graphical state after pending writes drain');
+
+  const forged = {...oldWrite, requestId:'forged', value:'[999,999]'};
+  hostWindow.emit('message', {data:forged, source:{}});
+  await settle();
+  assert.equal(input.value, '[7,8]', 'A different source window cannot write an input');
+  hostProxy.postMessage({...oldWrite, requestId:'wrong-input', name:'private', value:'tampered'});
+  await settle();
+  assert.equal(other.value, 'do not change', 'The correct iframe cannot write an undeclared sibling input');
+
+  input.setAttribute('readonly', '');
+  mirror.value = '[9,10]'; mirror.dispatchEvent(new FakeEvent('change'));
+  await settle();
+  assert.equal(input.value, '[7,8]', 'Read-only host inputs cannot be edited by a board');
+  input.removeAttribute('readonly');
+  const writes = sentToHost.filter(message => message.operation === 'set-input').length;
+  mirror.value = 'x'.repeat(32769); mirror.dispatchEvent(new FakeEvent('change'));
+  await settle();
+  assert.equal(sentToHost.filter(message => message.operation === 'set-input').length, writes, 'Oversized data is rejected before transport');
+
+  resetButton.addEventListener('click', () => { input.value = ''; });
+  const reloads = frame.srcdocWrites;
+  resetButton.click();
+  await settle();
+  assert.equal(frame.srcdocWrites, reloads + 1, 'Reset recreates the author board from its original srcdoc');
+  hostProxy.postMessage({...oldWrite, requestId:'late-after-reset', value:'[99,99]'});
+  hostProxy.postMessage({protocol:'ctm-stack-jsxgraph', version:1, type:'hello', assessmentId:'native-board', instanceId:oldWrite.instanceId});
+  await settle();
+  assert.equal(input.value, '', 'Late writes and retired-frame handshakes cannot restore a pre-reset response');
+  console.log('JSXGraph adapter: initial state, two-way edits, click collection, namespace, readonly, size and reset boundaries passed');
+} finally { api.dispose(); handle.disconnect(); }

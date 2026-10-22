@@ -134,7 +134,7 @@ def main() -> None:
                 "preload": preload,
                 "scope": "Maxima answer tests with shared CTM validation/PRT/PythonChecker"}
     (args.output / "stack-sources.json").write_text(json.dumps(manifest, ensure_ascii=False) + "\n", encoding="utf-8")
-    for name in ("backend", "runtime"):
+    for name in ("backend", "runtime", "native", "jsxgraph"):
         source = ROOT / "prototype" / name
         if source.is_dir():
             shutil.copytree(source, args.output / name, dirs_exist_ok=True)

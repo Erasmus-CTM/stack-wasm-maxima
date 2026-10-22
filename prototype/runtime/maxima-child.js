@@ -123,7 +123,11 @@ self.onmessage = async ({ data }) => {
       const lazy = FS.createLazyFile;
       FS.createLazyFile = function (parent, name, url, canRead, canWrite) {
         const absolute = new URL(url, runtimeBase).href;
-        if (preloaded.has(absolute)) return FS.createDataFile(parent, name, preloaded.get(absolute), canRead, canWrite);
+        if (preloaded.has(absolute)) {
+          const file = FS.createDataFile(parent, name, preloaded.get(absolute), canRead, canWrite);
+          preloaded.delete(absolute); // MEMFS owns the mounted copy now.
+          return file;
+        }
         return lazy.call(this, parent, name, absolute, canRead, canWrite);
       };
       preInit();

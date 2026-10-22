@@ -104,6 +104,53 @@
       Atomics.store(this.control, C.INPUT, 1);
       Atomics.notify(this.control, C.INPUT);
     }
+    evaluate(expression) {
+      // Internal native-plan interface. The compiler/engine owns this code;
+      // learner strings are admitted separately and must be quoted as data.
+      if (!this.ready || this.poisoned) throw new Error('Maxima is not ready');
+      if (typeof expression !== 'string' || !expression.trim() || expression.length > 300000 || expression.includes('\0')) {
+        throw new Error('Invalid native question program');
+      }
+      const id = ++this.sequence;
+      const command = 'block([%ERR:["stack_map"],%NOTES:["stack_map"],%FEEDBACK:["stack_map"],%stmt:"ctm-native"' +
+        ',_ctm_program_result],_ctm_program_result:errcatch(' + expression + '),' +
+        'if _ctm_program_result=[] then m2_emit(sconcat("CTMMAXIMA|' + id + '|",' +
+        'stackjson_stringify([false,errormsgtostring()]))) else if length(%ERR)>1 then ' +
+        'm2_emit(sconcat("CTMMAXIMA|' + id + '|",stackjson_stringify([false,"Native question reported a CAS error"]))) ' +
+        'else m2_emit(sconcat("CTMMAXIMA|' + id + '|",stackjson_stringify([true,first(_ctm_program_result)]))))$\n';
+      const started = performance.now();
+      const timeout = this.options.callTimeoutMs || 60000;
+      Atomics.store(this.control, C.RESULT, 0);
+      Atomics.store(this.control, C.REQUEST, id);
+      try {
+        this.write(command, timeout);
+        const deadline = started + timeout;
+        while (Atomics.load(this.control, C.RESULT) === 0) {
+          const remaining = deadline - performance.now();
+          if (remaining <= 0 || Atomics.wait(this.control, C.RESULT, 0, remaining) === 'timed-out') {
+            throw new Error('The native question program timed out');
+          }
+        }
+        if (Atomics.load(this.control, C.RESPONSE) !== id) throw new Error('Maxima response identifier mismatch');
+        const length = Atomics.load(this.control, C.RESULT_LENGTH);
+        if (length < 1 || length > this.output.length) throw new Error('Invalid Maxima result size');
+        const response = JSON.parse(new TextDecoder().decode(this.output.slice(0, length)));
+        if (Atomics.load(this.control, C.RESULT) !== 1) throw new Error(response.error || 'Maxima runtime failed');
+        if (!Array.isArray(response) || response.length !== 2 || response[0] !== true) {
+          throw new Error(Array.isArray(response) ? String(response[1]) : 'Malformed native question result');
+        }
+        const result = response[1];
+        if (typeof this.options.onEvaluate === 'function') {
+          this.options.onEvaluate({expression, result, elapsedMs:performance.now() - started});
+        }
+        return result;
+      } catch (error) {
+        this.poisoned = true;
+        Atomics.store(this.control, C.ABORT, 1);
+        this.child.terminate();
+        throw error;
+      }
+    }
     assess(request) {
       if (!this.ready || this.poisoned) throw new Error('Maxima is not ready');
       const spec = this.manifest.tests[request.test];
