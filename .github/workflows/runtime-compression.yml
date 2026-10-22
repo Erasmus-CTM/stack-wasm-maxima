@@ -35,6 +35,7 @@ jobs:
           node --version
           node runtime/compression/test-codec-server.mjs
           node runtime/compression/test-owned-recipe.mjs
+          node runtime/compression/test-evidence.mjs
       - name: Select a successful owned source-build artifact
         id: source
         uses: actions/github-script@v7

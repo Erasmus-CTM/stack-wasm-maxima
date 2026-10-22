@@ -37,7 +37,7 @@ try{
   assert.ok(requests.some(row=>row.contentEncoding===mode));
   if(mode==='br')assert.ok(requests.some(row=>row.pathname==='/maxima-runtime/maxima.wasm'&&row.contentEncoding==='br'));
   report.policies.push({mode,browserVersion:browser.browserVersion,replay:reference.summary,
-   programOrigins:{sharedRawBuildPreparations,compressedSessionPrograms,combinedReplayPrograms:browser.programs.length},
+   programOrigins:{sharedRawBuildPreparations:sharedBuildPreparations,compressedSessionPrograms,combinedReplayPrograms:browser.programs.length},
    readinessObservations:browser.observation.events.filter(row=>row.data?.event==='runtime-maxima-ready').map(row=>({worker:row.worker,elapsedMs:row.data.elapsedMs,stages:row.data.stages})),
    requestRoundTrips:browser.observation.calls.filter(row=>['validate','grade'].includes(row.type)&&row.response).map(row=>({worker:row.worker,type:row.type,question:row.question,elapsedMs:row.elapsedMs})),
    observationScope:'Readiness events and UI request round trips from this one browser session include cache/deferred-work effects; they are observations, not isolated CAS timings or statistical speed evidence.',
