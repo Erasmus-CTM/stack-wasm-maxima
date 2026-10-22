@@ -63,15 +63,19 @@ try{
    worker.postMessage(mode==='baseline'?{fixtures,question}:{type:'start',baseURL:'/maxima-runtime/',manifest,route:mode});
   }),{mode,manifest,fixtures,question});
   Object.assign(row,result);await page.close();
+  assert.notEqual(row.timeout,true,mode+' worker timed out');
+  assert.deepEqual(row.errors,[],mode+' page errors');
+  assert.equal(row.messages.some(m=>m.type==='failure'),false,mode+' worker failure');
   const complete=row.messages.find(m=>m.type==='complete');
   if(!complete)throw new Error(mode+' failed: '+JSON.stringify(row.messages).slice(-3000));
   assert.equal(row.isolated,mode==='baseline');
-  if(mode!=='baseline'){assert.equal(row.sab,'undefined');assert.equal(complete.recovery.failed[0],false);assert.deepEqual(complete.recovery.recovered,[true,42]);}
+  if(mode!=='baseline'){assert.equal(row.messages.filter(m=>m.type==='evaluated'&&m.id==='cas-error').length,1);assert.equal(row.messages.filter(m=>m.type==='evaluated'&&m.id==='after-error').length,1);assert.equal(row.sab,'undefined');assert.equal(complete.recovery.failed[0],false);assert.deepEqual(complete.recovery.recovered,[true,42]);}
   row.passed=true;
   await writeFile(resolve(out,mode+'.json'),JSON.stringify(row,null,2)+'\n');
  }
  const normalized=suite=>({rows:suite.rows.map(({name,result})=>({name,result})),native:suite.native});
  const baseline=report.routes[0].messages.find(m=>m.type==='complete').suite;
+ assert.equal(baseline.rows.length,26,'Expected 22 answer tests and 4 native programs');
  for(const row of report.routes.slice(1))assert.deepEqual(normalized(row.messages.find(m=>m.type==='complete').suite),normalized(baseline),row.mode+' transport parity');
  const reference=JSON.parse(await readFile('reports/milestone-one/native-'+manifest.stackRevision.slice(0,7)+'.json','utf8'));
  for(const row of baseline.rows.slice(0,22)){const expected=reference.observations.find(o=>o.case_id===row.name);assert.deepEqual(row.result.slice(0,3),[expected.cas_valid,expected.correct,expected.answer_note]);}
