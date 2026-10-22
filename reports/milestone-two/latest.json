@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "createdAt": "2026-10-22T16:02:49.942Z",
-  "sourceRevision": "f3bc0b286a17400fbb9a41d4106880f9b521f546",
-  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39810288697",
+  "createdAt": "2026-10-22T16:11:46.209Z",
+  "sourceRevision": "aa3983996f311d28100b20faa5f11e380f7c21a5",
+  "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39811650412",
   "passed": true,
   "status": "passed",
   "browserName": "chromium",
@@ -916,31 +916,31 @@
       "workerInitializationMs": [
         {
           "page": "index",
-          "workerInitMs": 6045.235000000001,
+          "workerInitMs": 6084.404999999999,
           "workerInitOK": true,
           "backend": null,
-          "pageNavigationToFirstGradeMs": 7139.169999999998
+          "pageNavigationToFirstGradeMs": 7119.265000000014
         },
         {
           "page": "examples",
-          "workerInitMs": 6579.815000000002,
+          "workerInitMs": 6174.955000000016,
           "workerInitOK": true,
           "backend": null,
-          "pageNavigationToFirstGradeMs": 8025.590000000011
+          "pageNavigationToFirstGradeMs": 7372.875
         }
       ],
-      "validationMedianMs": 12.129999999990105,
-      "gradeMedianMs": 12.720000000001164,
+      "validationMedianMs": 12.690000000002328,
+      "gradeMedianMs": 12.920000000012806,
       "authoredTestRows": 121,
       "encodedResponseBodyBytesByPage": [
         {
           "page": "index",
-          "encodedResponseBodyBytes": 10450804,
+          "encodedResponseBodyBytes": 10508118,
           "responseHeaderBytes": 15281
         },
         {
           "page": "examples",
-          "encodedResponseBodyBytes": 10529243,
+          "encodedResponseBodyBytes": 10530144,
           "responseHeaderBytes": 15281
         }
       ]
@@ -952,7 +952,7 @@
       "workerInitializationMs": [
         {
           "page": "index",
-          "workerInitMs": 6173.5350000000035,
+          "workerInitMs": 6083.200000000012,
           "workerInitOK": true,
           "backend": {
             "id": "maxima",
@@ -964,15 +964,15 @@
             "perTest": {},
             "maximaState": "not-started",
             "timings": {
-              "pythonReadyMs": 6129.9250000000175,
-              "readyMs": 6157.665000000008
+              "pythonReadyMs": 6040.424999999988,
+              "readyMs": 6067.6600000000035
             }
           },
-          "pageNavigationToFirstGradeMs": 49873.369999999995
+          "pageNavigationToFirstGradeMs": 49156.27500000002
         },
         {
           "page": "examples",
-          "workerInitMs": 6084.174999999988,
+          "workerInitMs": 6185.025000000023,
           "workerInitOK": true,
           "backend": {
             "id": "maxima",
@@ -984,25 +984,25 @@
             "perTest": {},
             "maximaState": "not-started",
             "timings": {
-              "pythonReadyMs": 6035.234999999986,
-              "readyMs": 6060.734999999986
+              "pythonReadyMs": 6123.735000000044,
+              "readyMs": 6151.765000000014
             }
           },
-          "pageNavigationToFirstGradeMs": 45797.015000000014
+          "pageNavigationToFirstGradeMs": 46439.60500000004
         }
       ],
-      "validationMedianMs": 13.035000000003492,
-      "gradeMedianMs": 61.820000000006985,
+      "validationMedianMs": 13.054999999993015,
+      "gradeMedianMs": 61.410000000032596,
       "authoredTestRows": 121,
       "encodedResponseBodyBytesByPage": [
         {
           "page": "index",
-          "encodedResponseBodyBytes": 21587785,
+          "encodedResponseBodyBytes": 21588384,
           "responseHeaderBytes": 20455
         },
         {
           "page": "examples",
-          "encodedResponseBodyBytes": 21609808,
+          "encodedResponseBodyBytes": 21610673,
           "responseHeaderBytes": 20455
         }
       ]
