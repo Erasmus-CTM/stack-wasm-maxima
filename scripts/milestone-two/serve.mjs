@@ -5,13 +5,18 @@ import { resolve, relative, extname, sep, isAbsolute } from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
+import { loadSidecars } from '../../runtime/compression/server-source.mjs';
 
 const types = { '.html': 'text/html; charset=utf-8', '.js': 'application/javascript',
   '.css': 'text/css', '.json': 'application/json', '.wasm': 'application/wasm',
   '.svg': 'image/svg+xml', '.png': 'image/png', '.woff': 'font/woff', '.woff2': 'font/woff2' };
 
-export async function serveDemo({ root, port = 0, compression = 'gzip', latencyMs = 0 }) {
+export async function serveDemo({ root, port = 0, compression = 'gzip', latencyMs = 0,
+  sidecarSource = process.env.CTM_RUNTIME_COMPRESSION_SOURCE,
+  sidecarMode = process.env.CTM_RUNTIME_COMPRESSION_MODE || 'br' }) {
   root = await realpath(resolve(root));
+  if (process.env.CTM_RUNTIME_COMPRESSION_MODE && !sidecarSource) throw new Error('Compression mode requires an explicit sidecar source');
+  const sidecars = sidecarSource ? await loadSidecars(sidecarSource, sidecarMode) : null;
   const cache = new Map(), requests = [];
   const server = createServer(async (request, response) => {
     const headers = { 'Cross-Origin-Opener-Policy': 'same-origin',
@@ -31,11 +36,12 @@ export async function serveDemo({ root, port = 0, compression = 'gzip', latencyM
       let item = cache.get(target);
       if (!item) {
         const body = await readFile(target);
-        item = { body, gzip: body.length >= 256 ? gzipSync(body, { level: 6 }) : null,
+        item = { body, gzip: body.length >= 256 && (!sidecars || !pathname.startsWith('/maxima-runtime/')) ? gzipSync(body, { level: 6 }) : null,
           sha256: createHash('sha256').update(body).digest('hex') };
         cache.set(target, item);
       }
       let body = item.body, status = 200;
+      const sidecar = sidecars?.select(pathname, body, request.headers['accept-encoding']);
       headers['Content-Type'] = types[extname(target)] || 'application/octet-stream';
       headers.ETag = '"' + item.sha256 + '"';
       if (request.headers.range) {
@@ -49,6 +55,11 @@ export async function serveDemo({ root, port = 0, compression = 'gzip', latencyM
         headers['Accept-Ranges'] = 'bytes';
         body = body.subarray(first, last + 1);
         status = 206;
+      } else if (sidecar) {
+        body = sidecar.body;
+        headers['Content-Encoding'] = sidecar.encoding;
+        headers.ETag = '"' + sidecar.sha256 + '"';
+        headers['Accept-Ranges'] = 'none';
       } else if (compression === 'gzip' && item.gzip && /\bgzip\b/.test(request.headers['accept-encoding'] || '')) {
         body = item.gzip;
         headers['Content-Encoding'] = 'gzip';
@@ -59,7 +70,10 @@ export async function serveDemo({ root, port = 0, compression = 'gzip', latencyM
       headers['Content-Length'] = body.length;
       requests.push({ pathname, method: request.method, status, contentEncoding: headers['Content-Encoding'] || 'identity',
         encodedBodyBytes: request.method === 'HEAD' ? 0 : body.length, decodedFileBytes: item.body.length,
-        sha256: item.sha256 });
+        sha256: item.sha256,
+        ...(sidecars && pathname.startsWith('/maxima-runtime/') ? { sidecarManifestSha256:sidecars.manifestSha256,
+          encodedSha256: status === 200 && sidecar ? sidecar.sha256 : null,
+          range:request.headers.range || null, contentRange:headers['Content-Range'] || null } : {}) });
       response.writeHead(status, headers);
       response.end(request.method === 'HEAD' ? undefined : body);
     } catch (error) {
