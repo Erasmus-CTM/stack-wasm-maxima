@@ -112,14 +112,20 @@ async function navigateIsolated(page, url, purpose) {
     }
     await Promise.all(pending);
     assert.equal(record.browser.crossOriginIsolated, true, 'The real browser document must be isolated');
-    assert.equal(record.browser.url, url, 'The bootstrap must return to the requested public page');
+    // This static host canonicalizes /index.html to / and /name.html to
+    // /name. Accept only that same-page redirect, retaining its exact chain.
+    const canonical = new URL(url);
+    canonical.pathname = canonical.pathname.endsWith('/index.html') ?
+      canonical.pathname.slice(0, -'index.html'.length) : canonical.pathname.replace(/\.html$/, '');
+    assert.ok([url, canonical.href].includes(record.browser.url), 'The bootstrap must return to the same requested public page');
     const effective = record.navigations.at(-1);
     assert.ok(effective, 'Capture the effective browser navigation response');
     assert.equal(effective.status, 200);
     assert.equal(effective.coop, 'same-origin', 'Effective browser navigation must have COOP same-origin');
     assert.ok(['require-corp', 'credentialless'].includes(effective.coep), 'Effective browser navigation must have an isolation COEP');
     if (effective.fromServiceWorker) assert.ok(record.browser.controller, 'A service-worker navigation must have a real controller');
-    record.reloads = Math.max(0, record.navigations.length - 1);
+    record.redirects = record.navigations.filter(item => item.status >= 300 && item.status < 400).length;
+    record.reloads = Math.max(0, record.navigations.filter(item => item.status === 200).length - 1);
     record.elapsedMs = Date.now() - started;
     return record;
   } catch (error) {
