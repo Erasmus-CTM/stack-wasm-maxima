@@ -85,6 +85,7 @@ with itself.** [Source XML](native-questions/native-json.xml).
 **CTM extension: PythonChecker. This question does not run on vanilla STACK.** The board
 exchanges the same coordinate-list response as an ordinary STACK binding. The existing
 PythonChecker API decides whether both coordinates are positive.
+Switch variants to see a different initial point; the accepted condition stays the same.
 [Source XML](native-questions/native-python-board.xml) · [Checker source](native-questions/native-checkers.py).
 
 ::: {.stack-native #native-python-board}
@@ -97,6 +98,7 @@ PythonChecker API decides whether both coordinates are positive.
 vanilla STACK.** Three nodes run in the order **native → Python → native**. Try `[2,2]`
 for full credit, `[2,3]` for half credit and `[-1,3]` for zero. The native continuation
 retains the branch path and score when the Python node finishes.
+The feedback displays the same target before and after the Python node.
 [Source XML](native-questions/native-mixed-board.xml).
 
 ::: {.stack-native #native-mixed-board}
@@ -146,6 +148,13 @@ revisions, original XML hashes, actual native preparation programs and prepared 
 Browser CI exercises the controls, the JSON bridge, native and Python routing, partial
 credit, reset and question independence. Loading measurements are reported separately
 from ordinary functional builds.
+
+The reference report records desktop and Wasm Maxima versions separately. Scores,
+branch state, answer notes and canonical answer sources are compared strictly (finite
+floating-point values use a stated tolerance). Raw display output is retained. Two
+narrowly defined TeX differences between core versions are reported separately:
+equivalent text-box wrappers with identical content, and math-only line wrapping.
+Those presentation differences do not stand in for agreement on grading.
 
 ### Loading measurements
 

@@ -243,6 +243,8 @@ async function formRegressions(questions) {
     question.native={schema:1,id,locals:[],tokens:[],boards:[]};
     question.inputs[0].teacher='['+teacher+',2]';question.inputs[0].checkanswertype=false;
     question.prts[0].feedbackvariables='';question.prts[0].locals=[];
+    question.prts[0].nodes[0].teacher='2';question.prts[0].nodes[1].teacher='[2,2]';
+    for(const node of question.prts[0].nodes)for(const branch of ['true','false'])node[branch].feedback='';
     const last=question.prts[0].nodes[2];Object.assign(last,{test,student:name+'[1]',teacher,options:''});
     const {row,variant}=await prepare(question);row.probes=[];
     for(let index=0;index<answers.length;index++) {
@@ -322,11 +324,27 @@ async function dragPoint(card, {input='ans1',pointName,target=[1,1]}={}) {
   return {position,raw,input};
 }
 
+async function assertGraphicalVariant({entry,card,payload},variant) {
+  const expected=entry.graphical?.variantPoints?.find(point=>point.variant===variant);
+  if(!expected)return null;
+  assert.equal(expected.seed,payload.variants[variant].seed,'Graphical point metadata must identify the selected prepared seed');
+  const frame=await (await card.locator('iframe[data-stack-jsxgraph]').first().elementHandle()).contentFrame();
+  const coordinates=await frame.evaluate(pointName=>{
+    const point=Object.values(JXG.boards).flatMap(board=>board.objectsList).find(point=>point.elType==='point' && point.name===pointName);
+    if(!point)throw new Error('Selected graphical variant has no expected authored point');
+    return [point.X(),point.Y()];
+  },expected.pointName);
+  assert.equal(coordinates.length,2);
+  assert.ok(coordinates.every((value,axis)=>Math.abs(value-expected.coordinates[axis])<0.01),'The actual JSXGraph point must use this selected variant, including after switching back');
+  return {...expected,actualCoordinates:coordinates};
+}
+
 // Real pointer input, ordinary Validate/Check, bidirectional binding and reset.
 async function exerciseGraphic(item) {
   const {id,entry,card,payload}=item;
   await card.locator('.stack-variant').selectOption('0');
   await card.locator('.stack-reset').click();await awaitBoards(card);
+  const initialVariant=await assertGraphicalVariant(item,0);
   const before=await state(card);
   const graphic=entry.graphical || entry.graph || {kind:id==='native-json'?'json-colour-points':'point',input:'ans1'};
   const moved=await dragPoint(card,{...graphic,pointName:graphic.pointName || graphic.name,
@@ -355,7 +373,7 @@ async function exerciseGraphic(item) {
   const path=id+'.png';await card.screenshot({path:join(output,path),animations:'disabled'});report.screenshots.push({id,path});
   await card.locator('.stack-reset').click();await awaitBoards(card);
   assert.deepEqual((await state(card)).fields,before.fields,'Graph Reset must restore the associated input state');
-  report.graphics.push({id,kind:graphic.kind,moved,twoWay,validation:validated,grade:graded,reset:await state(card)});
+  report.graphics.push({id,kind:graphic.kind,initialVariant,moved,twoWay,validation:validated,grade:graded,reset:await state(card)});
 }
 
 async function openPage(url) {
@@ -462,6 +480,12 @@ try {
     assert.ok(entry.payload?.question && Array.isArray(entry.payload.variants),id+': the tested build must retain its exact question and prepared variants');
     assert.deepEqual(payload.question,entry.payload.question,id+': the loaded question must exactly match this build artifact');
     assert.deepEqual(payload.variants,entry.payload.variants,id+': every loaded prepared variant must exactly match this build artifact');
+    if(entry.graphical?.variantPoints) {
+      const points=entry.graphical.variantPoints;
+      assert.equal(points.length,payload.variants.length);
+      assert.ok(points.every(point=>point.coordinates.length===2 && point.coordinates.every(Number.isFinite)));
+      assert.ok(new Set(points.map(point=>JSON.stringify(point.coordinates))).size>1,'Seeded graphical examples must provide genuinely distinct prepared points');
+    }
     const payloadIdentity={questionSha256:hash(canonical(payload.question)),variantsSha256:hash(canonical(payload.variants))};
     const python=payload.question.prts.some(prt=>prt.nodes.some(node=>node.test==='PythonChecker'));
     questions.push({entry,id,card,payload,python,payloadSha256:hash(source),payloadIdentity});
@@ -489,6 +513,7 @@ try {
       console.log(JSON.stringify({question:id,variant,seed:payload.variants[variant].seed,python}));
       await card.locator('.stack-variant').selectOption(String(variant));
       await awaitBoards(card);
+      const graphicalVariant=await assertGraphicalVariant({entry,card,payload},variant);
       const initial=await state(card);
       if(python && !pythonValidatedWithoutLoad) {
         const answers=payload.variants[variant].qtests[0]?.answers;
@@ -507,7 +532,7 @@ try {
         assert.equal(result.results.length,payload.question.qtests.length,id+': every authored row must execute');
         for(const actual of result.results)assert.equal(actual.passed,true);
       }
-      const row={id,variant,seed:payload.variants[variant].seed,python,payloadSha256,authoredTests:tested,probes:[]};
+      const row={id,variant,seed:payload.variants[variant].seed,python,payloadSha256,graphicalVariant,authoredTests:tested,probes:[]};
       const positive=result.results.find(value=>value.actual?.status==='graded' && value.actual.score===1);
       if(positive) {
         positives.set(id,{answers:positive.inputs,variant});
@@ -562,6 +587,19 @@ try {
           }
           observed.routing=assertRouteOrder(payload.question,graded,observed.grade.events);
           if(probe.sequence)assert.deepEqual(observed.routing.actual,probe.sequence);
+          if(probe.feedbackContains) {
+            const inline=card.locator('.stack-feedback[data-name="prt1"]');
+            const feedback=await inline.count() ? inline.first() : card.locator('.stack-result .stack-prt-feedback').first();
+            await feedback.waitFor({state:'visible'});const visible=await feedback.textContent();
+            for(const fragment of probe.feedbackContains) {
+              assert.ok(graded.prts.prt1.feedback.includes(fragment),'Authored native feedback must retain its local value before and after Python');
+              assert.ok(visible.includes(fragment),'Each native/Python feedback branch must display its preserved local value');
+            }
+            const pause=observed.grade.events.find(row=>row.data.event==='native-evaluate' && row.data.operation==='prt' && row.data.result.kind==='python');
+            assert.ok(pause,'The actual native tree must pause for the Python continuation');
+            assert.equal(pause.data.result.environment.target,'2','The feedback local must be captured by the real native continuation');
+            observed.feedbackContinuation={target:pause.data.result.environment.target,expected:probe.feedbackContains,visible};
+          }
           if(id==='native-numerical' && probe.name==='missing written trailing zero') {
             observed.nativeFeedback=assertReadableNativeFeedback(graded,observed.grade.events,
               {key:'ATNumDecPlaces_Wrong_DPs',message:/wrong number of decimal places/i});
@@ -608,6 +646,8 @@ try {
   report.staleReply={id:stale.id,passed:true,state:await state(stale.card)};
   await formRegressions(questions);
   report.observation=await page.evaluate(()=>window.__nativeHarness);
+  report.runtime.maximaVersion=report.observation.events.find(row=>row.data?.event==='runtime-maxima-ready')?.data.maximaVersion;
+  assert.equal(typeof report.runtime.maximaVersion,'string','Record the actual Wasm Maxima version from its ready protocol');
   report.programs.push(...report.observation.events.filter(row=>row.data.event==='native-evaluate').map(row=>row.data));
   const operations=new Set(report.programs.map(row=>row.operation));
   for(const operation of ['prepare','validate','prt'])assert.ok(operations.has(operation),'Missing actual '+operation+' native program evidence');
@@ -633,6 +673,7 @@ try {
   console.error(report.failure.message);
   if(page && !page.isClosed()) {
     report.observation=await page.evaluate(()=>window.__nativeHarness).catch(()=>null);
+    if(report.runtime)report.runtime.maximaVersion=report.observation?.events?.find(row=>row.data?.event==='runtime-maxima-ready')?.data.maximaVersion;
     report.programs.push(...(report.observation?.events||[]).filter(row=>row.data?.event==='native-evaluate').map(row=>row.data));
     await page.screenshot({path:join(output,'failure.png'),fullPage:false}).catch(()=>{});
   }

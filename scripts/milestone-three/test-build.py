@@ -51,9 +51,35 @@ class NativeBuild(unittest.TestCase):
         nodes = q["prts"][0]["nodes"]
         for node, axis in ((nodes[0], 2), (nodes[2], 1)):
             self.assertRegex(node["student"], r"^if listp\(ans\) then \(if length\(ans\)=2 then ans\[" + str(axis) + r"\] else 0\) else 0$")
-            self.assertEqual(node["teacher"], "2")
+            self.assertEqual(node["teacher"], "target")
         self.assertEqual(json.loads(nodes[1]["options"]), {"checker": "positive_x"})
         self.assertEqual([test["expected"]["prt1"]["score"] for test in q["qtests"]], [1, .5, 0])
+
+    def test_mixed_feedback_local_is_used_before_and_after_python_and_in_feedback(self):
+        body = compiler.authored_question("Mixed", compiler.POINT_PROMPT, "[2,2]", mixed=True, python="positive_x")
+        q = compiler.compile_question(body, importer, "mixed", python=True)
+        prt = q["prts"][0]
+        self.assertEqual(prt["feedbackvariables"], "target:2;")
+        self.assertEqual(prt["locals"], ["target"])
+        self.assertEqual([prt["nodes"][at]["teacher"] for at in (0,2)], ["target", "target"])
+        labels = ("Native y target", "Python target", "Native x target")
+        for node, label in zip(prt["nodes"], labels):
+            for branch in ("true", "false"):
+                template = node[branch]["feedback"]
+                self.assertIn(label + ": @@CTM_NATIVE_", template)
+                identifier = re.search(r"@@CTM_NATIVE_([^@]+)@@", template)[1]
+                token = next(token for token in q["native"]["tokens"] if token["id"] == identifier)
+                self.assertEqual((token["source"], token["phase"], token["format"]), ("target", "feedback", "source"))
+
+    def test_graphical_initial_coordinate_is_a_prepared_native_token(self):
+        prompt = compiler.POINT_PROMPT.replace("[-1,-1]", "[{#startx#},-1]")
+        body = compiler.authored_question("Seeded board", prompt, "[2,2]", variables="startx:rand(3)-2;", python="positive_point")
+        q = compiler.compile_question(body, importer, "seeded-board", python=True)
+        self.assertEqual(q["variables"], "startx:rand(3)-2;")
+        self.assertEqual(q["inputs"][0]["teacher"], "[2,2]")
+        token = next(token for token in q["native"]["tokens"] if token["source"] == "startx")
+        self.assertEqual((token["phase"], token["context"]), ("prepare", "javascript"))
+        self.assertIn("[@@CTM_NATIVE_" + token["id"] + "@@,-1]", q["native"]["boards"][0]["code"])
 
     def test_feedback_randomness_fails_at_build_but_literals_and_question_randomness_do_not(self):
         body = compiler.authored_question("Random", "[[input:ans]]", "value", variables="value:rand(3)+1;")

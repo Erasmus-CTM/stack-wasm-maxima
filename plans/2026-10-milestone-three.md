@@ -35,15 +35,32 @@ Approved by AC on 22 October 2026, starting from merged PR #1 at
 
 The accepted public benchmark measured median first validation of 43.28 s for
 the hybrid Maxima backend, including initialization of both runtimes. Ordinary
-validation itself takes about 12 ms warm. The first changes under test defer
-Maxima until native grading is required and mount hash-verified library bytes
-from one async preload package, avoiding sequential synchronous lazy-file
-requests. The ordinary files remain available with identical pinned bytes.
+validation itself takes about 12 ms warm. The hybrid comparison now defers
+Maxima until native grading is required. The separate native page needs Maxima
+for validation as well as grading, and defers Python until a visited checker.
+Both native loading paths mount hash-verified library bytes from one async
+preload package, avoiding sequential synchronous lazy-file requests. The
+ordinary files remain available with identical pinned bytes.
 
 `scripts/milestone-three/measure-loader.mjs` measures native readiness and a real
 answer test with and without preloading. It records all server requests and
 supports an explicitly simulated per-request latency. These results do not
 replace the real deployed-page benchmark and must not be described as WAN data.
+
+The frozen [loader experiment](../reports/milestone-three/loading/README.md)
+passed twelve actual answer-test probes. The package reduced requests from
+137 to 12; median readiness was 38.57 → 36.71 s locally and 48.32 → 37.39 s
+with an explicitly simulated 80 ms per request. These results include three
+fresh browser processes per loader and condition. Functional milestone builds
+run the native probe; repeating the full loader experiment is an explicit
+workflow-dispatch action.
+
+Separate instrumented startup probes investigate exact search directories,
+library loads and an optional reduced library configuration. Disabling the
+file-search cache timed out and is retained as an opt-in negative experiment.
+Diagnostic hook timings must not be presented as production or public UI
+timings. Reusable ECL compilation caches require their own pinned-build and
+full-source parity evidence before becoming a production loading change.
 
 ## Completion evidence still required
 

@@ -23,6 +23,15 @@ import time
 STACK_SHA = "33383047af39c204bf4442802a058f8b918b2b1b"
 MARKER = re.compile(r"^\s*CTMNATIVE-REFERENCE\|([0-9]+)\|(.+?)\s*$")
 VERSION = re.compile(r"^\s*CTMNATIVE-VERSION\|([^|]+)\|([0-9]+)\s*$")
+PRESENTATION_POLICY = {
+    "schema": 1,
+    "scope": "Version-dependent TeX display comparison only; no grading, source, state or note normalization",
+    "exact": "No differences under strict field/string comparison and finite floating-point tolerance; not a claim of byte equality",
+    "rules": {
+        "latex-text-container": "Only a full .latex value: \\mbox{ X } versus \\text{X}, with exactly one container padding space removed per side and byte-identical X",
+        "native-feedback-math-line-wrap": "Only !quot!-delimited stack_trans mathematical TeX arguments; remove LF plus spaces/tabs immediately before } or backslash; no text/mbox blocks; all protocol text and other arguments stay exact",
+    },
+}
 
 
 def sha256(value: bytes) -> str:
@@ -70,7 +79,7 @@ def checked_stack_files(source: Path) -> list[dict]:
     return records
 
 
-def differences(expected, actual, path="$", *, limit=20):
+def differences(expected, actual, path="$", *, limit=None):
     """Compare all fields; tolerate only JSON floating-point roundoff."""
     if any(type(value) is float and not math.isfinite(value) for value in (expected, actual)):
         raise ValueError("Cannot compare non-finite JSON numbers at " + path)
@@ -98,19 +107,129 @@ def differences(expected, actual, path="$", *, limit=20):
         result = []
         for key in expected:
             result.extend(differences(expected[key], actual[key], f"{path}.{key}", limit=limit))
-            if len(result) >= limit:
+            if limit is not None and len(result) >= limit:
                 break
-        return result[:limit]
+        return result if limit is None else result[:limit]
     if isinstance(expected, list) and isinstance(actual, list):
         if len(expected) != len(actual):
             return [{"path": path, "expectedLength": len(expected), "actualLength": len(actual)}]
         result = []
         for index, (left, right) in enumerate(zip(expected, actual)):
             result.extend(differences(left, right, f"{path}[{index}]", limit=limit))
-            if len(result) >= limit:
+            if limit is not None and len(result) >= limit:
                 break
-        return result[:limit]
+        return result if limit is None else result[:limit]
     return [] if expected == actual else [{"path": path, "expected": expected, "actual": actual}]
+
+
+def feedback_parts(value: str):
+    """Recognize only StackAddFeedback's literal protocol; never execute it."""
+    parts = []
+    position = last = calls = 0
+
+    def space():
+        nonlocal position
+        while position < len(value) and value[position].isspace():
+            position += 1
+
+    def take(text):
+        nonlocal position
+        if not value.startswith(text, position):
+            raise ValueError("Unsupported feedback protocol")
+        position += len(text)
+
+    try:
+        if len(value) > 131072:
+            return None
+        space()
+        while position < len(value):
+            calls += 1
+            if calls > 128:
+                return None
+            key = re.match(r"stack_trans\('[A-Za-z][A-Za-z0-9_]{0,95}'", value[position:])
+            if not key:
+                return None
+            position += key.end()
+            space()
+            args = 0
+            while position < len(value) and value[position] == ",":
+                args += 1
+                if args > 8:
+                    return None
+                position += 1
+                space()
+                take("!quot!")
+                end = value.find("!quot!", position)
+                if end < 0:
+                    return None
+                parts.append(("literal", value[last:position]))
+                parts.append(("argument", value[position:end]))
+                position = end + len("!quot!")
+                last = end
+                space()
+            take(");")
+            space()
+            take("!NEWLINE!")
+            space()
+        if not calls:
+            return None
+        parts.append(("literal", value[last:]))
+        return parts
+    except ValueError:
+        return None
+
+
+def math_line_wraps(value: str):
+    if not ((value.startswith(r"\[") and value.endswith(r"\]"))
+            or (value.startswith(r"\(") and value.endswith(r"\)"))):
+        return None
+    if re.search(r"\\(?:text[A-Za-z]*|mbox|hbox)\b", value):
+        return None
+    # Do not delete ordinary spaces, CRs, repeated blank lines or line breaks
+    # before symbols. This single pass removes only the specified TeX wrap.
+    return re.sub(r"\n[ \t]*(?=[}\\])", "", value)
+
+
+def presentation_reason(difference):
+    path, expected, actual = (difference.get(key) for key in ("path", "expected", "actual"))
+    if not isinstance(path, str) or type(expected) is not str or type(actual) is not str:
+        return None
+    if path.endswith(".latex"):
+        for mbox, text in ((expected, actual), (actual, expected)):
+            if (mbox.startswith(r"\mbox{ ") and mbox.endswith(" }")
+                    and text.startswith(r"\text{") and text.endswith("}")
+                    and mbox[len(r"\mbox{ "):-2] == text[len(r"\text{"):-1]):
+                return "latex-text-container"
+    if path.endswith(".nativeFeedback"):
+        left, right = feedback_parts(expected), feedback_parts(actual)
+        if left is None or right is None or len(left) != len(right):
+            return None
+        for (left_kind, left_value), (right_kind, right_value) in zip(left, right):
+            if left_kind != right_kind:
+                return None
+            if left_value == right_value:
+                continue
+            if left_kind != "argument":
+                return None
+            left_math, right_math = math_line_wraps(left_value), math_line_wraps(right_value)
+            if left_math is None or right_math is None or left_math != right_math:
+                return None
+        return "native-feedback-math-line-wrap"
+    return None
+
+
+def compare_results(expected, actual):
+    raw = differences(expected, actual)
+    presentation, unaccepted = [], []
+    for difference in raw:
+        reason = presentation_reason(difference)
+        if reason:
+            presentation.append({**difference, "reason": reason})
+        else:
+            unaccepted.append(difference)
+    return {"differences": raw, "presentationDifferences": presentation, "unacceptedDifferences": unaccepted,
+            "comparison": "unaccepted" if unaccepted else "presentation-equivalent" if raw else "exact",
+            "passed": not unaccepted}
 
 
 def make_batch(source: Path, home: Path, programs: list[dict]) -> str:
@@ -153,7 +272,7 @@ def main() -> int:
     source = args.stack_source.resolve()
     report = {"schema": 1, "createdAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
               "scope": "Independent native runtime replay of generated CAS programs; not Moodle/PHP controller parity or proof of mathematical grading correctness",
-              "stackRevision": STACK_SHA, "passed": False, "observations": []}
+              "stackRevision": STACK_SHA, "comparisonPolicy": PRESENTATION_POLICY, "passed": False, "observations": []}
     try:
         captured_bytes = args.browser_report.read_bytes()
         captured = load_json(captured_bytes)
@@ -233,15 +352,24 @@ def main() -> int:
                 value = observed[index]
                 if not isinstance(value, list) or len(value) != 2 or type(value[0]) is not bool:
                     raise ValueError("Malformed native value envelope")
-                diff = differences(row["result"], value[1]) if value[0] else [{"nativeError": value[1]}]
+                comparison = compare_results(row["result"], value[1]) if value[0] else {
+                    "differences": [{"nativeError": value[1]}], "presentationDifferences": [],
+                    "unacceptedDifferences": [{"nativeError": value[1]}], "comparison": "unaccepted", "passed": False}
                 report["observations"].append({"index": index, "operation": row.get("operation"),
                     "question": row.get("question"), "expressionSha256": sha256(row["expression"].encode("utf-8")),
-                    "wasm": row["result"], "native": value[1], "differences": diff, "passed": not diff})
+                    "wasm": row["result"], "native": value[1], **comparison})
         report["passed"] = captured.get("passed") is True and all(row["passed"] for row in report["observations"])
         if captured.get("passed") is not True:
             report["failure"] = "The source browser run did not complete successfully; replayed partial evidence is diagnostic only"
-        report["summary"] = {"programs": len(programs), "passed": sum(row["passed"] for row in report["observations"]),
-                             "different": sum(not row["passed"] for row in report["observations"])}
+        observations = report["observations"]
+        report["summary"] = {"programs": len(programs), "passed": sum(row["passed"] for row in observations),
+                             "different": sum(not row["passed"] for row in observations),
+                             "exact": sum(row["comparison"] == "exact" for row in observations),
+                             "presentationEquivalent": sum(row["comparison"] == "presentation-equivalent" for row in observations),
+                             "unaccepted": sum(row["comparison"] == "unaccepted" for row in observations),
+                             "rawDifferenceFields": sum(len(row["differences"]) for row in observations),
+                             "acceptedPresentationFields": sum(len(row["presentationDifferences"]) for row in observations),
+                             "unacceptedDifferenceFields": sum(len(row["unacceptedDifferences"]) for row in observations)}
     except Exception as error:
         report["failure"] = str(error)
     (args.output / "native-reference.json").write_text(json.dumps(report, ensure_ascii=False, allow_nan=False, indent=2) + "\n", encoding="utf-8")

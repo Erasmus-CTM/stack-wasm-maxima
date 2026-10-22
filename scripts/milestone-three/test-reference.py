@@ -53,18 +53,109 @@ class ComparisonTests(unittest.TestCase):
                     reference.differences({"nested": expected}, {"nested": actual})
 
 
+class PresentationTests(unittest.TestCase):
+    @staticmethod
+    def feedback(argument, key="ATList_wrongentries"):
+        return "stack_trans('" + key + "' , !quot!" + argument + "!quot! ); !NEWLINE!"
+
+    def assert_presentation(self, expected, actual, reason):
+        result = reference.compare_results(expected, actual)
+        self.assertTrue(result["passed"])
+        self.assertEqual(result["comparison"], "presentation-equivalent")
+        self.assertTrue(result["differences"], "Raw differences must never be hidden")
+        self.assertEqual(result["unacceptedDifferences"], [])
+        for raw, accepted in zip(result["differences"], result["presentationDifferences"]):
+            self.assertEqual({key: accepted[key] for key in raw}, raw)
+            self.assertEqual(accepted["reason"], reason)
+        return result
+
+    def assert_unaccepted(self, expected, actual):
+        result = reference.compare_results(expected, actual)
+        self.assertFalse(result["passed"])
+        self.assertEqual(result["comparison"], "unaccepted")
+        self.assertTrue(result["unacceptedDifferences"])
+        return result
+
+    def test_exact_text_content_under_full_latex_containers_only(self):
+        # Exact JSON text from the two 399c validation differences.
+        content = '[{"x":1.7488583469009577e-7,"y":0.9999999999999993,"color":"black"}]'
+        left, right = r"\mbox{ " + content + " }", r"\text{" + content + "}"
+        for expected, actual in ((left, right), (right, left)):
+            self.assert_presentation({"ans1": {"latex": expected}}, {"ans1": {"latex": actual}}, "latex-text-container")
+        self.assert_presentation({"latex": r"\mbox{  a  }"}, {"latex": r"\text{ a }"}, "latex-text-container")
+        for expected, actual in ((r"\mbox{ X }", r"\text{Y}"), (r"\mbox{ X  }", r"\text{X}"),
+                                 (r"\mbox{X}", r"\text{X}"), (r"a+\mbox{ X }", r"a+\text{X}"),
+                                 (r"\mbox{ X }", r"\text{ X }")):
+            with self.subTest(expected=expected, actual=actual):
+                self.assert_unaccepted({"latex": expected}, {"latex": actual})
+        for field in ("source", "note", "feedback", "value"):
+            with self.subTest(field=field):
+                self.assert_unaccepted({field: left}, {field: right})
+
+    def test_actual_399c_list_and_matrix_math_wraps_keep_raw_values(self):
+        # Exact display fragments from 399c observations 93, 116 and 127.
+        list_tex = r"\[\left[ {\color{red}{\underline{2\,x}}} , {\color{red}{\underline{2}}} \right] \]"
+        wrapped_list = list_tex.replace(r"\underline{2}", "\\underline{2\n }")
+        matrix_tex = r"\[\left[\begin{array}{cc} 1 & {\color{red}{\underline{1}}} \\ 0 & 1 \end{array}\right]\]"
+        wrapped_matrix = matrix_tex.replace(r"\[\left", "\\[\n \\left")
+        for plain, wrapped, key in ((list_tex, wrapped_list, "ATList_wrongentries"),
+                                    (matrix_tex, wrapped_matrix, "ATMatrix_wrongentries")):
+            for expected, actual in ((plain, wrapped), (wrapped, plain)):
+                with self.subTest(key=key, reverse=expected is wrapped):
+                    self.assert_presentation({"events": [{"nativeFeedback": self.feedback(expected, key)}]},
+                                             {"events": [{"nativeFeedback": self.feedback(actual, key)}]},
+                                             "native-feedback-math-line-wrap")
+
+    def test_changed_math_protocol_notes_sources_and_meaningful_whitespace_fail(self):
+        base = self.feedback(r"\(x+{2}\)")
+        candidates = [self.feedback("\\(x+{3\n }\\)"), self.feedback(r"\(x+{2}\)", key="ATSet_wrongentries"),
+                      base.replace(" );", "\n );"), self.feedback(r"\(x +{2}\)"),
+                      self.feedback("\\(x\n +{2}\\)"), self.feedback("\\(\\text{a\n }\\)"),
+                      self.feedback("\\(\\mbox{a\n }\\)"), self.feedback("a\n }"),
+                      base + " extra", base.replace("!NEWLINE!", "!NEWLINE!\n")]
+        for candidate in candidates:
+            with self.subTest(candidate=candidate):
+                self.assert_unaccepted({"nativeFeedback": base}, {"nativeFeedback": candidate})
+        for command in ("text", "mbox", "textrm"):
+            left = self.feedback("\\(\\" + command + "{a}\\)")
+            right = self.feedback("\\(\\" + command + "{a\n }\\)")
+            with self.subTest(command=command):
+                self.assert_unaccepted({"nativeFeedback": left}, {"nativeFeedback": right})
+        for field in ("source", "note", "answerNote", "value"):
+            with self.subTest(field=field):
+                self.assert_unaccepted({field: base}, {field: base.replace("2}", "2\n }")})
+        self.assert_unaccepted({"notes": ["A B"]}, {"notes": ["AB"]})
+        self.assert_unaccepted({"score": 0.5}, {"score": 0.75})
+
+    def test_only_math_arguments_change_and_late_unaccepted_fields_are_not_truncated(self):
+        prefix = "stack_trans('Subst' , !quot!unchanged literal text!quot! ); !NEWLINE!"
+        self.assert_presentation({"nativeFeedback": prefix + self.feedback(r"\(x+{2}\)")},
+                                 {"nativeFeedback": prefix + self.feedback("\\(x+{2\n }\\)")},
+                                 "native-feedback-math-line-wrap")
+        self.assert_unaccepted({"nativeFeedback": prefix + self.feedback(r"\(x+{2}\)")},
+                               {"nativeFeedback": prefix.replace("literal text", "literal  text") + self.feedback("\\(x+{2\n }\\)")})
+        left = [{"latex": r"\mbox{ X }"} for _ in range(25)] + [{"source": "2/4"}]
+        right = [{"latex": r"\text{X}"} for _ in range(25)] + [{"source": "1/2"}]
+        result = self.assert_unaccepted(left, right)
+        self.assertEqual(len(result["differences"]), 26)
+        self.assertEqual(len(result["presentationDifferences"]), 25)
+        self.assertEqual(result["unacceptedDifferences"][0]["path"], "$[25].source")
+
+
 class ReplayEnvelopeTests(unittest.TestCase):
     def replay(self, *, passed=True, payload=None, alter_output=None, native_exit=0,
-               runtime=None, modified_source=False, extra_source=False):
-        programs = [{"operation": operation, "expression": '"17.50"', "result": "17.50"}
-                    for operation in ("prepare", "validate", "prt")]
+               runtime=None, modified_source=False, extra_source=False, results=None, native_results=None):
+        results = ["17.50"] * 3 if results is None else results
+        native_results = results if native_results is None else native_results
+        programs = [{"operation": operation, "expression": '"17.50"', "result": result}
+                    for operation, result in zip(("prepare", "validate", "prt"), results)]
         browser = {"passed": passed, "programs": programs, "runtime": runtime if runtime is not None else
                    {"stackRevision": reference.STACK_SHA, "stackLibraryVersion": "2026101500"}}
         if payload is None:
             payload = json.dumps(browser)
         lines = ["CTMNATIVE-VERSION|5.47.0|2026101500"]
-        lines += [f"CTMNATIVE-REFERENCE|{index}|" + json.dumps([True, row["result"]])
-                  for index, row in enumerate(programs)]
+        lines += [f"CTMNATIVE-REFERENCE|{index}|" + json.dumps([True, result])
+                  for index, result in enumerate(native_results)]
         lines += ["CTMNATIVE-END|3"]
         if alter_output:
             lines = alter_output(lines)
@@ -161,6 +252,28 @@ class ReplayEnvelopeTests(unittest.TestCase):
             self.assertIn(expression, batch)
             self.assertIn('%ERR:["stack_map"],%NOTES:["stack_map"],%FEEDBACK:["stack_map"]', batch)
             self.assertIn('else if length(%ERR)>1', batch)
+
+    def test_report_separates_exact_presentation_equivalent_and_unaccepted(self):
+        results = [{"source": "17.50"}, {"latex": r"\mbox{ X }"}, {"note": "original"}]
+        native = [{"source": "17.50"}, {"latex": r"\text{X}"}, {"note": "changed"}]
+        status, report = self.replay(results=results, native_results=native)
+        self.assertEqual(status, 1)
+        self.assertEqual([row["comparison"] for row in report["observations"]], ["exact", "presentation-equivalent", "unaccepted"])
+        self.assertEqual({key: report["summary"][key] for key in ("exact", "presentationEquivalent", "unaccepted")},
+                         {"exact": 1, "presentationEquivalent": 1, "unaccepted": 1})
+        self.assertEqual(report["summary"]["rawDifferenceFields"], 2)
+        self.assertEqual(report["summary"]["acceptedPresentationFields"], 1)
+        self.assertEqual(report["summary"]["unacceptedDifferenceFields"], 1)
+        display = report["observations"][1]
+        self.assertEqual(display["differences"][0]["expected"], results[1]["latex"])
+        self.assertEqual(display["presentationDifferences"][0]["actual"], native[1]["latex"])
+        self.assertIn("not a claim of byte equality", report["comparisonPolicy"]["exact"])
+        native[2] = results[2]
+        status, report = self.replay(results=results, native_results=native)
+        self.assertEqual(status, 0)
+        self.assertEqual(report["summary"]["exact"], 2)
+        self.assertEqual(report["summary"]["presentationEquivalent"], 1)
+        self.assertEqual(report["summary"]["unaccepted"], 0)
 
 
 if __name__ == "__main__":

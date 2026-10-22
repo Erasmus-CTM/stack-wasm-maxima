@@ -9,9 +9,10 @@ import {serveDemo} from '../milestone-two/serve.mjs';
 
 const root = resolve(process.env.LOADER_SITE || '.cache/loader-demo');
 const output = resolve(process.env.STARTUP_PROBE_OUTPUT || 'test-results/startup-probes');
-// cache-off is opt-in: the recorded experiment exceeded 240s and prevented
-// later useful samples from completing. Keep that negative result reproducible.
-const modes = (process.env.STARTUP_PROBE_MODES || 'full,exact-directories,core-no-statistics').split(',');
+// Rejected search-path experiments stay explicit opt-ins: exact-directories
+// failed source parity and cache-off exceeded 240s. Preserve their evidence.
+// Reduced-core is diagnostic only and never selects the production startup.
+const modes = (process.env.STARTUP_PROBE_MODES || 'full,core-no-statistics').split(',');
 const allowed = new Set(['full', 'exact-directories', 'cache-off', 'core-no-statistics']);
 if (!modes.length || modes.some(mode => !allowed.has(mode))) throw new Error('Unknown startup probe mode');
 if(modes.includes('core-no-statistics') && modes.includes('cache-off')) {
@@ -29,7 +30,7 @@ const reports = {schema:1, createdAt:new Date().toISOString(), sourceRevision:pr
   stackLibraryVersion:manifest.stackLibraryVersion,
   originalStartupSha256:hash(manifest.startup),
   runtimeAssets:manifest.runtimeAssets.map(({path,sha256,fileBytes})=>({path,sha256,fileBytes})),
-  scope:'Diagnostic timings with instrumentation, fresh browser/profile/worker per mode, local gzip server. Reduced core configuration deliberately omits stats/distrib/descriptive and does not establish full STACK equivalence.',
+  scope:'Diagnostic timings with instrumentation, fresh browser/profile/worker per mode, local gzip server. Reduced core configuration deliberately omits stats/distrib/descriptive and optional tail setup; it is not full STACK and is never a production default.',
   modes, samples:[], passed:false};
 
 // Common Lisp wrappers preserve the original functions and values. The probe

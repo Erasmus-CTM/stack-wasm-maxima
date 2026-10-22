@@ -88,6 +88,10 @@ assert.deepEqual(events.filter(event=>event.event==='native-at'||event.event==='
   ['native-at','0',undefined],['python-checker','1','pause'],['python-checker','1','resume'],['native-at','2',undefined]
 ]);
 assert.match(expressions[2],/_ctm_current:"1"/,'Continuation must resume at pending Python node');
+assert.match(expressions[1],/_ctm_paused:\["stack_map",\["kind","python"\]/,'Python pause must be stored outside Maxima loop-return semantics');
+assert.match(expressions[1],/if listp\(_ctm_paused\) then _ctm_paused else \["stack_map",\["kind","done"\]/,
+  'The outer native program must return the pause map before its ordinary done result');
+assert.doesNotMatch(expressions[1],/then return\(/,'Returning inside Maxima do/while discards the pause map');
 assert.match(expressions[2],/b:eval_string\("3"\)/,'Feedback variable state must survive continuation');
 assert.ok(expressions[2].indexOf('AUTHORED_FEEDBACK') < expressions[2].indexOf('A graph &lt;property&gt; holds'),
   'Resumed Python node must append authored feedback before callback feedback');

@@ -419,7 +419,7 @@
       if (names.some(name => question.inputs.some(input => input.name === name))) {
         throw new Error('Feedback variables cannot reassign learner inputs in this native continuation subset');
       }
-      const locals = context(question, ['_ctm_current','_ctm_score','_ctm_notes','_ctm_feedback','_ctm_path','_ctm_events','_ctm_steps','_ctm_r','_ctm_v'], prt);
+      const locals = context(question, ['_ctm_current','_ctm_score','_ctm_notes','_ctm_feedback','_ctm_path','_ctm_events','_ctm_steps','_ctm_r','_ctm_v','_ctm_paused'], prt);
       const expressions = restore(variant, admitted);
       if (continuation) {
         if (canonical(Object.keys(continuation.environment || {}).sort()) !== canonical([...names].sort())) {
@@ -438,7 +438,7 @@
         expressions.push('simp:' + bool(prt.autosimplify !== false), ...feedback,
           '_ctm_current:"0"','_ctm_score:0','_ctm_notes:[]','_ctm_feedback:[]','_ctm_path:[]');
       }
-      expressions.push('_ctm_events:[]','_ctm_steps:0');
+      expressions.push('_ctm_events:[]','_ctm_steps:0','_ctm_paused:false');
       const clauses = [];
       for (const node of prt.nodes) {
         if ([node.student,node.teacher,node.test === 'PythonChecker' ? '' : node.options].some(source =>
@@ -454,11 +454,13 @@
             action = pythonResult.feedback && !node.quiet ? '(' + branch + ',_ctm_feedback:endcons(' +
               map([['template',quote(escape(pythonResult.feedback))],['tokens',map([])],['literal','true']]) + ',_ctm_feedback))' : branch;
           } else {
-            action = 'return(' + map([
+            // Maxima return() inside do/while exits only that loop. Store the
+            // continuation explicitly, then select it after the loop ends.
+            action = '(_ctm_paused:' + map([
               ['kind','"python"'], ['node',quote(node.name)], ['score','_ctm_score'], ['notes','_ctm_notes'],
               ['feedback','_ctm_feedback'], ['path','_ctm_path'], ['events','_ctm_events'], ['environment',snapshot(names)],
               ['student',tagged(evaluate(node.student))], ['teacher',tagged(evaluate(node.teacher))]
-            ]) + ')';
+            ]) + ',_ctm_current:"-1")';
           }
         } else {
           const spec = this.session.manifest.tests[node.test];
@@ -494,8 +496,9 @@
       const dispatch = clauses.join(' else ') + ' else error("Unknown native response-tree node")';
       expressions.push('while _ctm_current#"-1" do (_ctm_steps:ev(_ctm_steps+1,simp),if _ctm_steps>' + (prt.nodes.length + 1) +
         ' then error("Native response-tree cycle"),' + dispatch + ')');
-      expressions.push(map([['kind','"done"'],['score','ev(max(0,min(1,_ctm_score)),simp)'],['notes','_ctm_notes'],
-        ['feedback','_ctm_feedback'],['path','_ctm_path'],['events','_ctm_events']]));
+      expressions.push('if listp(_ctm_paused) then _ctm_paused else ' +
+        map([['kind','"done"'],['score','ev(max(0,min(1,_ctm_score)),simp)'],['notes','_ctm_notes'],
+          ['feedback','_ctm_feedback'],['path','_ctm_path'],['events','_ctm_events']]));
       return block(locals, expressions);
     }
 

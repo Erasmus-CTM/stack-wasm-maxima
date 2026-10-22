@@ -37,7 +37,9 @@ const programs = [], messages = [];
 const report = {...data, sourceRevision:sourceSha, createdAt:new Date().toISOString(), programs,
   buildSourceFiles:[], preparation:{backend:'maxima-native',worker:'native/backend-worker.js',actualWasm:true},questions:[]};
 for(const path of ['scripts/milestone-three/compile.py','scripts/milestone-three/build-site.mjs','scripts/milestone-three/render-cards.py',
-  'prototype/native/engine.js','prototype/native/input.js','prototype/native/feedback.js','scripts/milestone-three/stage-feedback.py',
+  'prototype/native/engine.js','prototype/native/input.js','prototype/native/feedback.js',
+  'prototype/native/backend-worker.js','prototype/native/python-bridge.js','prototype/native/python_bridge.py',
+  'scripts/milestone-three/stage-feedback.py',
   'prototype/runtime/maxima-session.js','prototype/runtime/maxima-child.js',
   'prototype/jsxgraph/frame.js','prototype/jsxgraph/host.js']) {
   const bytes=await readFile(join(repository,path));report.buildSourceFiles.push({path,bytes:bytes.length,sha256:hash(bytes)});
@@ -90,9 +92,23 @@ try {
       assert.equal(result.ok,true,item.id+' seed '+seed);
       variants.push(result.result);
     }
-    report.questions.push({...item,variants,graphical:item.graph ? {
+    const graphical=item.graph ? {
       ...item.graph,kind:item.graph.kind==='color-points'?'json-colour-points':'point',pointName:item.graph.name
-    }:null});
+    }:null;
+    if(graphical?.initialXSource) {
+      const token=item.question.native.tokens.find(token=>token.source===graphical.initialXSource && token.context==='javascript' && token.phase==='prepare');
+      assert.ok(token,'Seeded graphical state must use an actual native-prepared board token');
+      graphical.variantPoints=variants.map((variant,index)=>{
+        const value=variant.tokenValues[token.id];
+        assert.equal(value.string,false,'A graphical coordinate must be a native numeric value');
+        const x=Number(value.value),y=Number(graphical.initialY);
+        assert.ok(Number.isFinite(x) && Number.isFinite(y),'Graphical coordinates must be finite native values');
+        return {variant:index,seed:variant.seed,pointName:graphical.pointName,coordinates:[x,y]};
+      });
+      assert.equal(new Set(graphical.variantPoints.map(point=>JSON.stringify(point.coordinates))).size,variants.length,
+        'The selected graphical variants must have distinct actual native-prepared coordinates');
+    }
+    report.questions.push({...item,variants,graphical});
     console.log(JSON.stringify({prepared:item.id,variants:variants.length,pythonLoaded:false}));
   }
   messages.push(...await page.evaluate(()=>window.__nativeBuildMessages));

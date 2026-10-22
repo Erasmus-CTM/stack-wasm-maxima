@@ -60,7 +60,7 @@ The small Quarto filter converts that block into the existing CTM question block
 
 ## Native questions and graphical answers
 
-[site/maxima/native.qmd](../site/maxima/native.qmd) contains nine questions and ten variants, including two unchanged upstream JSXGraph examples, a graphical PythonChecker question and a mixed native/Python/native response tree. The page explicitly documents the supported input and author subset. Its upstream self-comparison examples demonstrate bindings and JSON exchange; their full-credit result alone is not evidence of mathematical grading.
+[site/maxima/native.qmd](../site/maxima/native.qmd) contains nine questions and eleven variants, including two unchanged upstream JSXGraph examples, a graphical PythonChecker question and a mixed native/Python/native response tree. The page explicitly documents the supported input and author subset. Its upstream self-comparison examples demonstrate bindings and JSON exchange; their full-credit result alone is not evidence of mathematical grading.
 
 The site workflow compiles structural XML with the existing CTM importer, stages the pinned STACK parser/security/feedback sources, prepares variants in the actual Wasm worker and renders boards with pinned `jsxgraph/jsxgraph-quarto`. `stack-native.lua` inserts the existing CTM card shell. The worker executes native validation and PRT programs, pauses at a visited PythonChecker node and resumes with the same branch state. It never substitutes SymPy for a failed native operation. A poisoned CAS child reports an error and is recreated on the next request.
 

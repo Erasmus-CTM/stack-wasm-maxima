@@ -9,10 +9,10 @@ on:
   workflow_dispatch:
     inputs:
       modes:
-        description: 'Comma-separated modes; cache-off is an optional known-slow experiment'
+        description: 'Comma-separated modes; rejected exact-directories and cache-off experiments remain opt-in'
         type: string
         required: true
-        default: 'full,exact-directories,core-no-statistics'
+        default: 'full,core-no-statistics'
 
 permissions:
   contents: read
@@ -61,7 +61,7 @@ jobs:
             --stack-source .m2-sources/stack --ctm-checkers-source .m2-sources/ctm-checkers
       - name: Profile loading, search paths and optional startup libraries
         env:
-          STARTUP_PROBE_MODES: ${{ inputs.modes || 'full,exact-directories,core-no-statistics' }}
+          STARTUP_PROBE_MODES: ${{ inputs.modes || 'full,core-no-statistics' }}
         run: node scripts/milestone-three/startup-probes.mjs
       - uses: actions/upload-artifact@v4
         if: always()

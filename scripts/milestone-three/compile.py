@@ -118,6 +118,8 @@ def authored_question(name, prompt, teacher, *, input_type="algebraic", variable
     prt = ET.SubElement(q, "prt")
     for field, value in (("name", "prt1"), ("value", 1), ("autosimplify", 1)):
         subelement(prt, field, value)
+    if mixed:
+        subelement(subelement(prt, "feedbackvariables", ""), "text", "target:2;")
 
     def node(identifier, test, student, target, options, true, false):
         n = ET.SubElement(prt, "node")
@@ -126,16 +128,20 @@ def authored_question(name, prompt, teacher, *, input_type="algebraic", variable
         for branch, spec in (("true", true), ("false", false)):
             for field, value in zip(("scoremode", "score", "nextnode", "answernote"), spec):
                 subelement(n, branch + field, value)
-            subelement(subelement(n, branch + "feedback", ""), "text", "")
+            feedback = ""
+            if mixed:
+                label = {0:"Native y target", 1:"Python target", 2:"Native x target"}[identifier]
+                feedback = "<p>" + label + ": {#target#}.</p>"
+            subelement(subelement(n, branch + "feedback", ""), "text", feedback)
 
     if mixed:
         # List type validation also accepts empty/short/long lists. Guard the
         # authored indexing so those ordinary wrong answers reach every node
         # and receive zero instead of becoming a CAS author-program error.
         coordinate = lambda index: f"if listp(ans) then (if length(ans)=2 then ans[{index}] else 0) else 0"
-        node(0, "AlgEquiv", coordinate(2), "2", "", ("=", ".5", 1, "native-y-T"), ("=", "0", 1, "native-y-F"))
+        node(0, "AlgEquiv", coordinate(2), "target", "", ("=", ".5", 1, "native-y-T"), ("=", "0", 1, "native-y-F"))
         node(1, "PythonChecker", "ans", teacher, '{"checker":"positive_x"}', ("+", ".25", 2, "python-x-T"), ("+", "0", 2, "python-x-F"))
-        node(2, "AlgEquiv", coordinate(1), "2", "", ("+", ".25", -1, "native-x-T"), ("+", "0", -1, "native-x-F"))
+        node(2, "AlgEquiv", coordinate(1), "target", "", ("+", ".25", -1, "native-x-T"), ("+", "0", -1, "native-x-F"))
         cases = [('[2,2]', 1, "native-y-T | python-x-T | native-x-T"),
                  ('[2,3]', .5, "native-y-F | python-x-T | native-x-T"),
                  ('[-1,3]', 0, "native-y-F | python-x-F | native-x-F")]
@@ -341,14 +347,22 @@ def main():
     for identifier, title, mixed in [("native-python-board", "A graphical PythonChecker", False), ("native-mixed-board", "Native → Python → native", True)]:
         instruction = ("<p>Place P at (2,2). The y-coordinate earns one half, positive x earns one quarter through PythonChecker, and x=2 earns the final quarter.</p>" if mixed
                        else "<p>Place P anywhere in the open first quadrant. PythonChecker accepts any two positive coordinates.</p>")
-        body = authored_question(title, instruction + POINT_PROMPT, "[2,2]", mixed=mixed, python="positive_point")
+        prompt = POINT_PROMPT if mixed else POINT_PROMPT.replace("[-1,-1]", "[{#startx#},-1]")
+        body = authored_question(title, instruction + prompt, "[2,2]", mixed=mixed, python="positive_point",
+                                 variables="" if mixed else "startx:rand(3)-2;")
         probes = [{"answers":{"ans":"[2,2]"},"status":"graded","score":1}, {"answers":{"ans":"[2,3]"},"status":"graded","score":.5}, {"answers":{"ans":"[-1,3]"},"status":"graded","score":0}] if mixed else [{"answers":{"ans":"[1,1]"},"status":"graded","score":1},{"answers":{"ans":"[-1,1]"},"status":"graded","score":0}]
         for answer in ("[]", "[1]", "[2,2,2]"):
             probes.append({"name":"wrong-length coordinate list " + answer, "answers":{"ans":answer},
                            "status":"graded", "score":0,
                            "sequence":["AlgEquiv","PythonChecker","AlgEquiv"] if mixed else ["PythonChecker"]})
-        append(identifier, title, body, {"classification":"CTM extension: PythonChecker and native/Python continuation"}, python=True, probes=probes,
-               graph={"kind":"bound-point","name":"P","input":"ans"})
+        if mixed:
+            for probe in probes:
+                probe["feedbackContains"] = ["Native y target: 2.", "Python target: 2.", "Native x target: 2."]
+        graph = {"kind":"bound-point","name":"P","input":"ans"}
+        if not mixed:
+            graph.update(initialXSource="startx", initialY=-1)
+        append(identifier, title, body, {"classification":"CTM extension: PythonChecker and native/Python continuation"},
+               seeds=(1,) if mixed else (1,2), python=True, probes=probes, graph=graph)
     matrix_python = authored_question("Matrix column assessment from PythonChecker", "<p>Enter the identity matrix. The checker reports a verdict for each column. [[input:ans]] [[validation:ans]] [[feedback:prt1]]</p>", "matrix([1,0],[0,1])", input_type="matrix", python="identity_columns", matrix=True)
     append("native-matrix-python", "PythonChecker column evidence", matrix_python, {"classification":"CTM extension: PythonChecker structured matrix assessment"}, python=True,
            probes=[{"answers":{"ans":"matrix([1,0],[0,1])"},"status":"graded","score":1,"assessment":{"columns":["correct","correct"]}}, {"answers":{"ans":"matrix([1,1],[0,1])"},"status":"graded","score":0,"assessment":{"columns":["correct","incorrect"]}}])
