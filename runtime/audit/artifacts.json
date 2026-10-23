@@ -30,27 +30,6 @@
       "test-results/milestone-three/same-source-reference/native.log",
       "test-results/milestone-three/same-source-reference/reference.mac"
     ],
-    "ranges": [
-      {
-        "path": "test-results/milestone-three/browser.json",
-        "start": 0,
-        "end": 8388608
-      },
-      {
-        "path": "test-results/milestone-three/browser.json",
-        "start": 8388608,
-        "end": 16777216
-      },
-      {
-        "path": "test-results/milestone-three/browser.json",
-        "start": 16777216,
-        "end": 25165824
-      },
-      {
-        "path": "test-results/milestone-three/browser.json",
-        "start": 25165824,
-        "end": 29065267
-      }
-    ]
+    "ranges": []
   }
 ]
