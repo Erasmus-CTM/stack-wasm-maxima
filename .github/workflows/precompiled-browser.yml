@@ -2,16 +2,6 @@
 name: Diagnose frozen precompiled browser inputs
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - '.github/workflows/precompiled-browser.yml'
-      - 'runtime/precompiled/measure.mjs'
-      - 'runtime/precompiled/diagnose-reset.mjs'
-      - 'runtime/precompiled/frozen-inputs.py'
-      - 'runtime/precompiled/stage-frozen-probe.py'
-      - 'runtime/precompiled/test-measure-worker.mjs'
-      - 'prototype/runtime/maxima-child.js'
-      - 'prototype/runtime/maxima-session.js'
 permissions:
   contents: read
   actions: read
@@ -20,9 +10,8 @@ concurrency:
   cancel-in-progress: true
 jobs:
   browser-diagnostic:
-    # These immutable artifacts diagnose issue14/PR13. Future PRs must use the
-    # fresh full probe; expired frozen inputs must not become a general CI gate.
-    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.number == 13
+    # Manual evidence collection only: immutable inputs expire and cannot clear
+    # the fresh full probe or become an automatic pull-request gate.
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:

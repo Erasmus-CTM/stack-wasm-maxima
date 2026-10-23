@@ -20,8 +20,10 @@ permissions:
   contents: read
   actions: read
 concurrency:
-  group: scoped-ecl-compiler-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  # Preserve each complete profile comparison. Distinct heads may run in parallel,
+  # spending additional builds instead of cancelling earlier acceptance evidence.
+  group: scoped-ecl-compiler-${{ github.event.pull_request.number || github.ref }}-${{ github.event.pull_request.head.sha || github.sha }}
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-24.04

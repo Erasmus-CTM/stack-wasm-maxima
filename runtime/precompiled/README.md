@@ -17,8 +17,10 @@ and three new shared buffers. Each of eight cold/reload trials performs three
 sequential restarts: 32 CAS initializations and 24 separately reported restart
 costs. Inner restarts keep the page/profile and warm HTTP caches. The next page
 reload follows four initializations, so its cache history differs from earlier
-single-initialization reports. `lifecycleEncodedBodyBytes` covers the whole trial;
-it is not an initial-startup transfer measurement.
+single-initialization reports. `lifecycleEncodedBodyBytes` sums server-accounted
+response-body bytes over the whole trial. The server records queued bodies before
+response finish, so this total does not prove completed wire transfer and is not
+an initial-startup transfer measurement.
 A short frozen diagnostic can select one cold trial per loading mode (eight
 initializations) only with explicit diagnostic provenance. That abbreviated run
 cannot clear the fresh-build 8-trial/32-initialization matrix or timing claims.
@@ -61,7 +63,7 @@ speedup is established.
 
 ## Earlier raw reset diagnostics
 
-The frozen browser workflow currently collects reset-isolation evidence from
+The manually dispatched frozen browser workflow collects reset-isolation evidence from
 fresh source/compiled sessions. It compares the unchanged original reset before
 grading with a hash-bound marked diagnostic copy before/after grading. Markers
 identify whether `kill` returns and which later statement is reached. A successful
@@ -69,7 +71,10 @@ collector exit only means evidence collection finished; copied-body observations
 cannot satisfy the real reset or full parity gates.
 
 The separate `precompiled-browser.yml` diagnostic reuses two immutable, hash-verified
-artifacts to test the browser harness without another compiler rebuild. Its source
+artifacts to test the browser harness without another compiler rebuild. It is
+`workflow_dispatch` only and does not run automatically on pull requests. Fixed
+artifacts expire; missing or expired inputs intentionally fail provenance checks.
+Use the fresh full workflow for acceptance. The diagnostic's source
 and compiled trials share the accepted baseline runtime, with the entry FAS from
 an older experiment build. The report records both identities and marks these
 observations diagnostic-only. Actual compatibility and reset success still require
@@ -77,16 +82,16 @@ the browser run. These observations cannot satisfy the fresh current-head parity
 gate or establish a precompiled speedup.
 
 The first browser measurement (run 40005689823) failed during the source control's
-first reset, before any compiled trial. The repaired harness executes the trusted
-reset outside the dynamic question wrapper, then checks its return value and
+first reset, before any compiled trial. The later repaired raw-reset harness executed the trusted
+reset outside the dynamic question wrapper, then checked its return value and
 removal of a disposable variable through a fresh evaluation. That experiment required three raw resets,
 full collections, caught-error recovery and regrading; it failed as recorded below.
 
 Frozen diagnostic run 40017911368 reached source readiness and the first reset,
 but failed post-reset regrading with a generic CAS error before any compiled
-trial. Subsequent diagnostics retain each reset operation and the underlying CAS
-error, and attempt the remaining source/compiled samples after a failed sample.
-Any failed sample keeps the diagnostic red. The fresh full probe still stops at
+trial. Subsequent raw-reset diagnostics retained each reset operation and the underlying CAS
+error, and attempted the remaining source/compiled samples after a failed sample.
+Any failed sample kept that diagnostic red. The fresh full probe still stops at
 its first failed sample. Partial readiness observations cannot clear parity or
 establish a precompiled speedup.
 
@@ -97,7 +102,7 @@ Initial grading passed in all samples; all compiled samples opened the FAS once
 and the source entry zero times. Every sample failed its first reset acknowledgment.
 Independent Astra verified the complete report/provenance/runtime evidence; these
 failed, separately built inputs establish neither parity nor a speedup.
-The next diagnostic separates the raw reset return, sentinel state and error text
+The subsequent diagnostic separated the raw reset return, sentinel state and error text
 using a top-level error catch, without restoring variables or reloading libraries.
 
 This separate, opt-in experiment starts with the exact STACK source pin used

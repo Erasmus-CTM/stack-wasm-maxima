@@ -12,13 +12,15 @@ on:
       - 'scripts/milestone-two/materialize.py'
       - 'prototype/native/**'
       - 'prototype/runtime/maxima-child.js'
+      - 'prototype/runtime/maxima-session.js'
       - '.github/workflows/precompiled-stack.yml'
 permissions:
   contents: read
 concurrency:
-  group: precompiled-stack-${{ github.event.pull_request.number || github.ref }}
-  # The earlier failed measurement is retained; superseded harness builds can stop.
-  cancel-in-progress: true
+  # Preserve each revision's evidence. Distinct heads may run in parallel,
+  # spending additional builds instead of cancelling earlier parity results.
+  group: precompiled-stack-${{ github.event.pull_request.number || github.ref }}-${{ github.event.pull_request.head.sha || github.sha }}
+  cancel-in-progress: false
 jobs:
   bundle-probe:
     name: bundle-probe (${{ matrix.compiler-profile }})
