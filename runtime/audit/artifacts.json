@@ -1,52 +1,28 @@
 [
   {
-    "id": 12523375986,
-    "name": "owned-runtime-b95268be9743439e0f69e286af82ebfdd83e93e1",
-    "run": 39989733394,
+    "id": 12524033916,
+    "name": "runtime-compression-b95268be9743439e0f69e286af82ebfdd83e93e1",
+    "run": 39989732940,
     "head": "f112f5ce47744125b21c2453f0bca84092992ec4",
-    "workflow": 393419291,
-    "attempt": 1,
-    "status": "completed",
+    "workflow": 393488033,
+    "attempt": 2,
     "conclusion": "success",
-    "sha256": "789f03b3bae6141259352118c6b6854ec480aa25cb791f5afc7d1a476af65fe5",
+    "sha256": "4a21ff3aeccb20155af42d1ead138fc274a2ad605f72306f3b2cc90838fb6d17",
+    "verifySidecars": true,
     "files": [
-      ".cache/runtime-build/source-progress.json",
-      ".cache/runtime-build/validation/timings.json",
-      ".cache/runtime-build/validation/plot-diagnostic.json",
-      ".cache/runtime-build/validation/public-pages-encoding.json",
-      ".cache/runtime-build/validation/m1-owned/prepared.json",
-      ".cache/runtime-build/validation/m1-owned/comparison.json",
-      ".cache/runtime-build/validation/m1-owned/browser-10d3233.json",
-      ".cache/runtime-build/validation/m1-owned/browser-3338304.json",
-      ".cache/runtime-build/validation/m1-deployed/prepared.json",
-      ".cache/runtime-build/validation/m1-deployed/comparison.json",
-      ".cache/runtime-build/validation/m1-deployed/browser-10d3233.json",
-      ".cache/runtime-build/validation/m1-deployed/browser-3338304.json",
-      ".cache/runtime-build/plot-diagnostic/preparation/build-failure.json",
-      "test-results/milestone-three/browser.json",
-      "test-results/milestone-three/native-reference/native-reference.json",
-      "test-results/milestone-three/native-reference/native.log",
-      "test-results/milestone-three/native-reference/reference.mac",
-      "test-results/milestone-three/same-source-reference/native-reference.json",
-      "test-results/milestone-three/same-source-reference/native.log",
-      "test-results/milestone-three/same-source-reference/reference.mac"
-    ],
-    "ranges": []
-  },
-  {
-    "id": 12523673087,
-    "name": "compiler-comparison-b95268be9743439e0f69e286af82ebfdd83e93e1",
-    "run": 39989733394,
-    "head": "f112f5ce47744125b21c2453f0bca84092992ec4",
-    "workflow": 393419291,
-    "attempt": 1,
-    "status": "completed",
-    "conclusion": "success",
-    "sha256": "b9828bb3440afdc62e6a40d4b4ac101cf94598356de1c6332f7ad56b544c5fc4",
-    "files": [
-      "admission.json",
-      "timings.json"
-    ],
-    "ranges": []
+      ".cache/runtime-compression/source-run.json",
+      ".cache/runtime-compression/node-provenance.json",
+      ".cache/runtime-compression/artifact/manifest.json",
+      ".cache/runtime-compression/artifact/artifact-manifest.json",
+      ".cache/runtime-compression/artifact/compression-manifest.json",
+      ".cache/runtime-compression/artifact/compression-artifact-manifest.json",
+      ".cache/runtime-compression/artifact/compression-recipe.json",
+      "test-results/runtime-compression/acceptance.json",
+      "test-results/runtime-compression/http-probe.json",
+      "test-results/runtime-compression/gzip/browser.json",
+      "test-results/runtime-compression/gzip/reference/native-reference.json",
+      "test-results/runtime-compression/br/browser.json",
+      "test-results/runtime-compression/br/reference/native-reference.json"
+    ]
   }
 ]
