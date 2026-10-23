@@ -28,6 +28,12 @@ export async function serveDemo({ root, port = 0, compression = 'gzip', latencyM
         // no-cors request cannot opt into the parent's anonymous CORS mode.
         headers['Cross-Origin-Resource-Policy'] = 'cross-origin';
       }
+      // A sandboxed HTTP board has an opaque origin; Firefox also enforces
+      // CORP on its isolated-parent navigation. Only generated board documents
+      // are public here, not arbitrary HTML under the native subtree.
+      if (/^\/native\/boards\/[A-Za-z0-9_-]+\.html$/.test(pathname)) {
+        headers['Cross-Origin-Resource-Policy'] = 'cross-origin';
+      }
       if (pathname === '/favicon.ico') { response.writeHead(204, headers); response.end(); return; }
       let target = resolve(root, '.' + pathname);
       let rel = relative(root, target);

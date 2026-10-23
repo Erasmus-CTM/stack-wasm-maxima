@@ -34,6 +34,13 @@ credentials or runtime endpoints are made cross-origin. Offline copies must
 retain this complete directory structure and use an HTTP static server with
 those headers; a double-clicked `file:` page is not the execution contract.
 
+The generated HTTP template documents matching exactly
+`native/boards/[A-Za-z0-9_-]+.html` also require CORP `cross-origin`, because
+Firefox checks their navigation from the isolated parent into an opaque
+sandbox. Other native HTML and nested documents retain CORP `same-origin`.
+Static isolation service workers must apply the same narrow policy; the parent
+page remains isolated and the frame's sandbox remains `allow-scripts` only.
+
 MathJax staging and its transitive font, accessibility and speech dependencies
 are owned by the separate canonical asset producer. An unmapped external board
 script fails the build. The adapter never removes speech or braille support.

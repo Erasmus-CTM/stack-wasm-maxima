@@ -61,7 +61,12 @@ try {
   assert.equal(asset.headers.get('cross-origin-resource-policy'),'cross-origin');
   const template=await fetch(app.baseURL+packed.path);
   assert.equal(template.headers.get('access-control-allow-origin'),null);
-  assert.equal(template.headers.get('cross-origin-resource-policy'),'same-origin');
+  assert.equal(template.headers.get('cross-origin-resource-policy'),'cross-origin');
   assert.equal(template.headers.get('cross-origin-embedder-policy'),'require-corp');
+  for(const path of ['native/boards/readme.txt','native/private.html','native/boards/private/other.html']){
+    const response=await fetch(app.baseURL+path);
+    assert.equal(response.headers.get('cross-origin-resource-policy'),'same-origin','Non-template resources retain original CORP');
+    assert.equal(response.headers.get('access-control-allow-origin'),null);
+  }
   console.log('Board packaging: exact vendor bytes, shared files, numeric data boundary, CORS and isolation passed');
 } finally {if(app)await app.close();await rm(site,{recursive:true,force:true});}
