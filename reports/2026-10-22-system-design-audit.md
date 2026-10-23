@@ -131,6 +131,15 @@ in the frozen summary; it makes 103–107 requests before Python is needed.
   navigation creates a new worker; the HTTP cache saves the download, never the
   38 s of loading. A course page with quizzes in several tabs is fine; a quiz
   spread over pages is not.
+- **Returning visitors are unmeasured.** Every timing above uses a fresh
+  browser profile. A colleague (Alfred Wassermann) reports Maxima available
+  instantly after Shift+Reload once it had loaded (~45 s the first time);
+  which page and runtime that was is not yet known. Shift+Reload bypasses the
+  HTTP cache, but a browser may keep compiled Wasm in its profile. Add a
+  **warm-profile reload** measurement (same profile, Shift+Reload and a normal
+  revisit, native page, readiness and first Validate) next to the cold one; if
+  STACK loading also becomes fast there, the real student experience after the
+  first visit is far better than 38 s and L1 becomes less urgent.
 - **Slower devices.** The runner is a server CPU. Student laptops and
   Chromebooks are plausibly 1.5–3× slower (*hypothesis*: unmeasured), i.e.
   roughly a minute or more before the first Validate answers.
@@ -736,6 +745,18 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
   against SymPy comparison is an extra check; differences are listed, fixed in
   SymPy only if small. STACK's compiled PRT and CASText code is evaluated as the native
   controller after the first runtime milestone (M4c step 1).
+- **Minimal Maxima (low priority, AC, 22 Oct).** Raised by STACK colleagues
+  (size, and a smaller Maxima surface reachable from student input). Measured
+  as a by-product of the parity runs, not as its own project: log which files
+  and modules (level 1) and which Maxima functions (level 2) STACK's library
+  and a representative workload actually reach (STACK's answer-test fixtures,
+  sample questions with their tests, the ctm-checkers corpus, a real question
+  bank if one is shared). Little is expected to come off: the Maxima core in
+  `maxima.wasm` is one compiled block, the optional modules already load
+  lazily, the plot module and gnuplot are already out (§3.4), and startup
+  time is STACK's library loading, not Maxima's size. Level 2 is mainly
+  evidence for tightening STACK's security allowlist in the one input
+  admission.
 - **Plotting.** STACK's `plot()` is treated as legacy, low priority: stubbed
   out of browser startup, a build diagnostic pointing to JSXGraph, and
   build-time SVG for variant-only plots only if the compatibility census shows
