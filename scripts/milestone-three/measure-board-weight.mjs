@@ -20,7 +20,7 @@ const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const gitBlob=bytes=>createHash('sha1').update(Buffer.from('blob '+bytes.length+'\0')).update(bytes).digest('hex');
 const report={schema:1,engine,createdAt:new Date().toISOString(),scope:functionalOnly?'Functional board acceptance; byte counts are bounded observations, not transfer benchmarks':'No-routing cold and same-profile warm HTTP measurements with variant visits, real drag and reset',
   packagingEncoder:{node:process.version,zlib:process.versions.zlib},
-  byteSemantics:'request.sizes().responseBodySize is encoded HTTP body received; headers are separate. Static file/gzip sizes are packaging data, never inferred wire traffic. Cached/unavailable timing is retained explicitly.',
+  byteSemantics:'request.sizes().responseBodySize is encoded HTTP body received; headers are separate. Static file/gzip sizes are packaging data, never inferred wire traffic. Cached/unavailable timing is retained explicitly. Service-worker synthesized response sizes are browser-reported delivered bytes, not origin encoded traffic: they are excluded from known wire subtotals and make full wire totals unavailable; the raw reported sizes remain retained.',
   cases:[],passed:false};
 
 async function packaging(root){
@@ -191,17 +191,19 @@ async function measure(name,root,expectedSHA,live){
         else {phase.interactions=[];await interactions(page,phase.interactions,manifest);}
         await Promise.all([...pending]);
         phase.serverRequests=app?.requests.slice(phase.serverRequestStart)||[];
-        phase.browserKnownEncodedBodyBytes=phase.requests.reduce((sum,row)=>sum+(row.responseBodySize??0),0);
-        phase.browserKnownResponseHeaderBytes=phase.requests.reduce((sum,row)=>sum+(row.responseHeadersSize??0),0);
+        phase.browserKnownReportedBodyBytes=phase.requests.reduce((sum,row)=>sum+(row.responseBodySize??0),0);
+        phase.serviceWorkerResponseCount=phase.requests.filter(row=>row.fromServiceWorker).length;
+        phase.browserKnownEncodedBodyBytes=phase.requests.filter(row=>!row.fromServiceWorker).reduce((sum,row)=>sum+(row.responseBodySize??0),0);
+        phase.browserKnownResponseHeaderBytes=phase.requests.filter(row=>!row.fromServiceWorker).reduce((sum,row)=>sum+(row.responseHeadersSize??0),0);
         phase.unavailableSizeCount=phase.requests.filter(row=>row.sizesUnavailable).length;
-        phase.browserEncodedBodyBytes=phase.unavailableSizeCount?null:phase.browserKnownEncodedBodyBytes;
-        phase.browserResponseHeaderBytes=phase.unavailableSizeCount?null:phase.browserKnownResponseHeaderBytes;
+        phase.browserEncodedBodyBytes=phase.unavailableSizeCount||phase.serviceWorkerResponseCount?null:phase.browserKnownEncodedBodyBytes;
+        phase.browserResponseHeaderBytes=phase.unavailableSizeCount||phase.serviceWorkerResponseCount?null:phase.browserKnownResponseHeaderBytes;
         phase.serverEncodedBodyBytes=app?phase.serverRequests.reduce((sum,row)=>sum+(row.encodedBodyBytes??0),0):null;
         phase.coreServerRequests=manifest?.jsxgraphCore?phase.serverRequests.filter(row=>row.pathname?.endsWith('/'+manifest.jsxgraphCore.sha256+'.js')||row.url?.includes('/'+manifest.jsxgraphCore.sha256+'.js')):[];
         phase.coreBrowserRequests=manifest?.jsxgraphCore?phase.requests.filter(row=>row.url.includes('/'+manifest.jsxgraphCore.sha256+'.js')):[];
         phase.boardRequests=phase.requests.filter(row=>row.url.includes('/native/boards/'));
-        phase.boardBrowserKnownEncodedBodyBytes=phase.boardRequests.reduce((sum,row)=>sum+(row.responseBodySize??0),0);
-        phase.boardBrowserEncodedBodyBytes=phase.boardRequests.some(row=>row.sizesUnavailable)?null:phase.boardBrowserKnownEncodedBodyBytes;
+        phase.boardBrowserKnownEncodedBodyBytes=phase.boardRequests.filter(row=>!row.fromServiceWorker).reduce((sum,row)=>sum+(row.responseBodySize??0),0);
+        phase.boardBrowserEncodedBodyBytes=phase.boardRequests.some(row=>row.sizesUnavailable||row.fromServiceWorker)?null:phase.boardBrowserKnownEncodedBodyBytes;
       }
     }
     await mkdir(resolve(output,'..'),{recursive:true});
