@@ -43,7 +43,7 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: [cosmo, native/parent-assets.scss]
     toc: true
     html-math-method: mathjax
     code-copy: true

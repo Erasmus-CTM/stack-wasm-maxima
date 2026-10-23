@@ -165,7 +165,8 @@ try {
   if(boardSpecs.size){
     const mathjax=JSON.parse(execFileSync(python,[join(repository,'scripts/milestone-three/stage-board-mathjax.py'),
       '--assessment-source',assessmentSource,'--site',site,'--cache',join(work,'mathjax-cache'),
-      '--worker-preloader',join(boardLibsSource,'_extensions/ctm-libs/runtime/mathjax-opaque-adaptor.js')],
+      '--worker-preloader',join(boardLibsSource,'_extensions/ctm-libs/runtime/mathjax-opaque-adaptor.js'),
+      '--library',join(boardLibsSource,'_extensions/ctm-libs'),'--include-mathjax3'],
       {cwd:repository,encoding:'utf8',stdio:['ignore','pipe','inherit'],maxBuffer:16*1024*1024}));
     report.boardMathjax=mathjax;
     await writeFile(join(boardsDirectory,'boards.qmd'),qmd);

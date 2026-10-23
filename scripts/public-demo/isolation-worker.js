@@ -24,6 +24,9 @@ self.addEventListener('fetch', event => {
       headers.set('Cross-Origin-Resource-Policy', 'cross-origin');
       if (asset) headers.set('Access-Control-Allow-Origin', '*');
     }
-    return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+    // Fetch may expose a stream even for a null-body status. Response's
+    // constructor rejects that stream; preserve HTTP's empty-body contract.
+    const empty = request.method === 'HEAD' || [204, 205, 304].includes(response.status);
+    return new Response(empty ? null : response.body, { status: response.status, statusText: response.statusText, headers });
   }));
 });

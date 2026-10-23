@@ -43,14 +43,17 @@ def stage(assessment_source, site, cache, worker_preloader, library=None,
     if include_mathjax3:
         if library is None:
             raise ValueError("MathJax 3 requires the canonical ctm-libs source")
-        sources = assets.version_sources(Path(library))["assets"]
-        selected = {"mathjax3": sources["mathjax3"]}
-        archives, _ = assets.select_npm_archives(
-            metadata, selected, {"mathjax3": assets.NPM_SELECTION["mathjax3"]},
-            cache, allowed_extras={a["id"] for a in metadata["archives"]}
-        )
-        lock["archives"].extend(archives)
-        lock["versions"]["mathjax3"] = selected["mathjax3"]["version"]
+        # Reuse the complete canonical npm producer, including its generated
+        # Source Sans Pro CSS and licence verification. Publish only the two
+        # parent presentation packages; unrelated npm packages stay in cache.
+        npm_metadata = json.loads((assessment_source / "integration/assets-metadata.json").read_text())
+        npm = assets.produce_npm_lock(npm_metadata, Path(library), cache)
+        selected = {"mathjax3", "source-sans-pro"}
+        lock["archives"].extend(a for a in npm["archives"] if a["id"] in selected)
+        lock["versions"].update({name: npm["versions"][name] for name in selected})
+        lock.setdefault("generated", []).extend(npm["generated"])
+        lock["provenance"]["parentNpm"] = {**npm["provenance"],
+            "libraryRevision": revision(Path(library)), "selected": sorted(selected)}
         lock["scope"] = sorted(lock["versions"])
     lock["files"] = assets.derive_lock_files(lock, cache)
     destination = site / "native/boards/mathjax"
@@ -84,14 +87,20 @@ def stage(assessment_source, site, cache, worker_preloader, library=None,
     if include_mathjax3:
         version3 = lock["versions"]["mathjax3"]
         bases["mathjax3"] = prefix + "npm/mathjax@" + version3 + "/es5/"
-        for component in ("tex-mml-chtml.js", "tex-chtml-full.js", "tex-mml-svg.js"):
+        for component in ("tex-chtml.js", "tex-mml-chtml.js", "tex-chtml-full.js", "tex-mml-svg.js"):
             for v in ("3", version3):
                 url_map["https://cdn.jsdelivr.net/npm/mathjax@" + v + "/es5/" + component] = bases["mathjax3"] + component
+        # Quarto emits Bootstrap CSS two levels below the output root.
+        (site / "native/parent-assets.scss").write_text(
+            '/*-- scss:defaults --*/\n$web-font-path: "../../' + prefix +
+            'fonts/source-sans-pro.css";\n', encoding="utf-8")
     result = {
         "schema": 1, "bases": bases, "urlMap": url_map,
         "bundleRoot": prefix.rstrip("/"),
         "preloader": preloader_path,
         "preloaderLicence": "native/boards/assets/CTM-LICENSE.txt",
+        "parentMathjax": bases.get("mathjax3", "") + "tex-chtml.js" if include_mathjax3 else None,
+        "parentFontCss": prefix + "fonts/source-sans-pro.css" if include_mathjax3 else None,
         "config": {
             "loader": {"paths": {"mathjax": base4.rstrip("/"),
                                    "sre": base4 + "sre", "mathmaps": base4 + "sre/mathmaps"}},
@@ -108,6 +117,7 @@ def stage(assessment_source, site, cache, worker_preloader, library=None,
             "preloaderSha256": preloader_hash,
             "preloaderSource": str(worker_preloader),
             "bundleFiles": len(lock["files"]),
+            "parentNpm": lock["provenance"].get("parentNpm"),
         },
     }
     # Retain source/provenance alongside the canonical bundle, not inside each

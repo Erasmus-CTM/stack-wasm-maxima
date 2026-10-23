@@ -8,11 +8,12 @@ const source=await readFile(new URL('../../scripts/public-demo/isolation-worker.
 for(const prefix of ['/','/dept/course/']){
   const root='https://site.test'+prefix;
   const handlers={};let fetched=[];
+  let upstream=()=>new Response('original bytes',{
+    status:200,headers:{'Content-Type':'text/plain','X-Original':'retained'}});
   const self={location:new URL(root+'ctm-isolation-worker.js'),
     addEventListener:(name,callback)=>{handlers[name]=callback;}};
   vm.runInNewContext(source,{self,URL,Headers,Response,
-    fetch:async request=>{fetched.push(request.url);return new Response('original bytes',{
-      status:200,headers:{'Content-Type':'text/plain','X-Original':'retained'}});}});
+    fetch:async request=>{fetched.push(request.url);return upstream();}});
   const cases=[
     ['native/boards/assets/exact.js',true,true],
     ['native/boards/mathjax/npm/mathjax@4.1.3/sre/speech-worker.js',true,true],
@@ -40,8 +41,42 @@ for(const prefix of ['/','/dept/course/']){
   handlers.fetch({request:new Request('https://external.test/native/boards/assets/x.js'),
     respondWith:()=>assert.fail('external origins retain their own policy')});
   assert.equal(fetched.length,count);
+  for(const status of [204,205,304]){
+    upstream=()=>({type:'basic',status,statusText:'',headers:new Headers({'X-Original':'retained'}),
+      body:new ReadableStream({start(controller){controller.close();}})});
+    let response;
+    handlers.fetch({request:new Request(root+'empty'),respondWith:value=>{response=value;}});
+    const result=await response;
+    assert.equal(result.status,status);assert.equal(result.body,null);
+    assert.equal(result.headers.get('X-Original'),'retained');
+  }
+  upstream=()=>new Response('upstream bytes');
+  let head;
+  handlers.fetch({request:new Request(root+'head',{method:'HEAD'}),respondWith:value=>{head=value;}});
+  assert.equal((await head).body,null);
 }
 console.log('actual isolation worker: public board resources only, root and nested hosting pass');
+const bootstrap=await readFile(new URL('../../scripts/public-demo/isolation.js',import.meta.url),'utf8');
+for(const state of ['loading','complete']){
+  let loaded,mathDone,fontsDone,frameDone,reloads=0;
+  const math=new Promise(resolve=>{mathDone=resolve;});
+  const fonts=new Promise(resolve=>{fontsDone=resolve;});
+  const document={readyState:state,currentScript:{src:'https://site.test/course/ctm-isolation.js'},fonts:{ready:fonts}};
+  const window={MathJax:{startup:{promise:math}},requestAnimationFrame(callback){frameDone=callback;},addEventListener(name,callback){assert.equal(name,'load');loaded=callback;}};
+  const serviceWorker={controller:{},ready:Promise.resolve(),register:async()=>({})};
+  const errors=[];
+  vm.runInNewContext(bootstrap,{self:{crossOriginIsolated:false,isSecureContext:true},document,window,
+    navigator:{serviceWorker},URL,sessionStorage:{getItem:()=>null,setItem(){}},
+    location:{reload(){reloads++;}},console:{error:(...values)=>errors.push(values)}});
+  const turn=()=>new Promise(resolve=>setImmediate(resolve));
+  await turn();assert.equal(reloads,0);
+  if(state==='loading'){assert.equal(typeof loaded,'function');document.readyState='complete';loaded();await turn();}
+  mathDone();await turn();assert.equal(reloads,0,'font styles have not reached a layout frame');
+  assert.equal(typeof frameDone,'function');frameDone();await turn();assert.equal(reloads,0,'fonts still loading');
+  fontsDone();await turn();assert.equal(reloads,0,'loaded fonts have not reached their rendering frame');
+  frameDone();await turn();assert.equal(reloads,1);assert.deepEqual(errors,[]);
+}
+console.log('isolation bootstrap waits for document, MathJax and fonts before first-visit reload');
 
 // public-demo/package.py copies this canonical policy unchanged.
 const headers=await readFile(new URL('../../comparison/_headers',import.meta.url),'utf8');
