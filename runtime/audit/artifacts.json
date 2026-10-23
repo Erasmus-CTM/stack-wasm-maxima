@@ -1,28 +1,20 @@
 [
   {
-    "id": 12527328042,
-    "name": "precompiled-stack-probe-c752992cb6b9debd9feb4c99cd43f4ab107c4777",
-    "run": 40005689823,
-    "head": "4d9e4c1db35b04bc640b1a2ef1f064cc79aafc3e",
-    "workflow": 394101239,
+    "id": 12530190041,
+    "name": "frozen-precompiled-browser-66916445d9c32139238f49a5d7274c9c0411e54c",
+    "run": 40017911368,
+    "head": "b268a6bf6919781d69cd48be91f1806db1dc63af",
+    "workflow": 394515508,
     "attempt": 1,
     "conclusion": "failure",
-    "sha256": "4accefaf5e1b7efc2786a99cb3eef6aac533d2bada53e15321f4f6791009892e",
+    "sha256": "581fc9f4320b54b24f4ba7b74d942a875e56a6b48fe3352f1155037c32786c03",
     "files": [
-      "test-results/precompiled-stack/measure.json",
-      ".cache/precompiled-stack/site/stack-sources.json",
-      ".cache/precompiled-stack/site/stack-sources-timed-source.json",
-      ".cache/precompiled-stack/site/stack-sources-precompiled.json",
-      ".cache/precompiled-stack/stackmaxima.fas",
-      ".cache/precompiled-stack/logs/cross-compile.log",
-      ".cache/precompiled-stack/logs/translate-initialized.log",
-      ".cache/precompiled-stack/logs/bundle-format.txt",
-      ".cache/precompiled-stack/logs/stackmaxima-fas.sha256",
-      ".cache/precompiled-stack/logs/initialized-source.sha256",
-      ".cache/precompiled-stack/source-initialized/stackmaxima.LISP",
-      ".cache/precompiled-stack/source-initialized/display2d-bridge.lisp",
-      ".cache/precompiled-stack/source-initialized/parser-declarations.json",
-      ".cache/runtime-build/artifact/manifest.json"
+      "test-results/precompiled-browser/measure.json",
+      ".cache/precompiled-frozen-inputs/provenance.json",
+      ".cache/precompiled-frozen-inputs/pair.json",
+      ".cache/precompiled-browser/site/precompiled-measure-worker.js",
+      ".cache/precompiled-browser/site/runtime/maxima-session.js",
+      ".cache/precompiled-browser/site/runtime/maxima-child.js"
     ]
   }
 ]
