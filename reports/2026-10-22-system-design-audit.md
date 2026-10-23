@@ -11,7 +11,8 @@ ctm-checkers `e8ec8d7`, ctm-libs `a1626f6`, stack-sympy `1b1d50f`.
 call entry works without isolation (#5); F-9's licence notices are merged;
 `core/custom.py` exists; F-8 says what stays pure Python; the default CAS is
 left open (D2, merged with "D2 names"); the variants amendment is done (#49,
-on `handoff/2026-10`); instant validation is gated per backend (A-7, §8).
+on `handoff/2026-10`); instant validation is gated per backend (A-7, §8); one STACK pin, 4.14.0, and
+Moodle seeds from other STACK versions (A-8, D3a, D1).
 Everything else is as of 22 October.
 
 Goal set by AC: the Python (SymPy) and Maxima backends should be as
@@ -400,7 +401,10 @@ STACK's PHP to `stack_randseed`; confirm that Maxima's own Mersenne Twister give
 ECL as under the Lisp of a Moodle server (*hypothesis*); and for STACK sample
 questions with deployed seeds, require equal question notes from desktop STACK
 and from this backend, by extending the desktop replay with notes. The SymPy
-backend states that deployed seeds do not carry over. This D1 supersedes the
+backend states that deployed seeds do not carry over. Seeds deployed under
+another STACK version than the pin (D3a) can give other variants without any
+RNG difference; their notes are compared like the rest, and a mismatch is
+reported for review, not approved (§8, D1). This D1 supersedes the
 variants design's decision 6 (19 October: "no Maxima-compatible generator") for
 the Maxima backend; the variants design needs an amendment PR in
 ctm-assessment so the two binding documents agree.
@@ -738,6 +742,10 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
 - **D1 Variants.** Each backend generates its own variants. The Maxima backend
   reproduces Moodle's deployed seeds, imported as approved variants with their
   question notes (F-8); the SymPy backend states that they do not carry over.
+  *Other STACK versions (AC, 23 October):* the import records the Moodle
+  site's STACK version; a seed whose question note differs from Moodle's is
+  reported as "different STACK version" for the teacher to review and is not
+  approved automatically.
 - **D2 Selection.** A course setting with a per-question override:
   `stack: cas: sympy | maxima` as the course setting (a `stack:` section,
   independent of the repository name) and `#| cas:` on a block. The default
@@ -748,6 +756,15 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
   tracking job; first milestone: reproduction from source with replay parity;
   then trims and compression, precompiled STACK, call entry, snapshot (§3.4,
   §6; snapshot after the call entry per the independent review).
+- **D3a One STACK pin (AC, 23 October).** STACK 4.14.0 (`3338304`) for both
+  backends: the Maxima runtime, the input admission, the SymPy engine's
+  reference data and the desktop oracle. Already on it: the Maxima runtime's
+  default, `stackmplite.js` and its data, the variants aliases. To move from
+  4.13.1 (`10d3233`): ctm-checkers' `native-stack.yml` oracle, the compliance
+  fixtures, `student_input`'s data and its S-13 goldens, and the 35-question
+  corpus, each with its golden diff reviewed; then the runtime's second
+  build for `10d3233` (#13) is dropped. Upgrades go through the tracking job
+  (§6).
 - **D6 Hybrid path.** It was only ever meant as a test oracle and stays one.
 - **D7 Exam.** The December 2026 exam is Pyodide-only: no STACK, no
   math-exercise.

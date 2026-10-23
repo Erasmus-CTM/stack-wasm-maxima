@@ -195,6 +195,12 @@ which the plan already does, and report a mismatch as "different STACK
 version", not as an import failure. Choose the one pin before M4a and record
 it in §8.
 
+*Applied 23 October* (AC): the pin is STACK 4.14.0 (`3338304`), plan §8 D3a,
+which lists what moves from `10d3233`. A seed whose note differs is reported
+as "different STACK version" and not approved automatically (§8 D1, F-8).
+The move itself (ctm-checkers' oracle, fixtures, goldens and corpus) is
+still to do.
+
 ### A-9 Inconsistencies in the text
 
 - F-8 says "SymPy-graded questions keep a pure-Python build". §8 (one input
