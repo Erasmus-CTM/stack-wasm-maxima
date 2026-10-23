@@ -69,3 +69,13 @@ select their matrix profile and still test different/unknown-profile rejection.
 This changed no production admission gate or compiler configuration. Sidecar
 run 39936262129 selected historical step-1 artifact 12467529817 without a new
 successful compiler baseline; exact current pin admission correctly rejected it.
+
+Source review of 8a6c342 found incomplete compiler target/unit coverage and
+a missing timing-workload hash binding. The corrected gate associates each
+observed target C input/output with raw and actual clang commands, checks all
+relevant target units, requires the delivered ECL/main/eight-module links, and
+matches every observed link to its own actual spill-pass input/output. The
+corrected timing gate binds the timing report hash and rederives the three
+programs from the accepted browser report, including all twelve sample records.
+Missing-target/pass, wrong-other-unit, workload substitution and stale/missing
+report fixtures retain these cases. Run 39936823520 remains pre-fix evidence.

@@ -11,6 +11,11 @@ on:
       - 'scripts/milestone-one/run.mjs'
       - 'scripts/milestone-one/compare.py'
       - 'scripts/milestone-three/build-site.mjs'
+      - 'prototype/runtime/maxima-session.js'
+      - 'prototype/runtime/maxima-child.js'
+      - 'scripts/milestone-two/serve.mjs'
+      - 'package.json'
+      - 'package-lock.json'
 permissions:
   contents: read
   actions: read
@@ -48,6 +53,7 @@ jobs:
           python runtime/build/test-toolchain.py
           python runtime/build/test-cold-evidence.py
           python runtime/build/test-compiler-evidence.py
+          python runtime/build/test-timing-evidence.py
           python runtime/build/test-source-checkout.py
       - name: Record read-only upstream drift
         run: python runtime/build/check-upstream.py

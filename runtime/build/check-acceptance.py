@@ -130,6 +130,8 @@ def main():
                 assert reference['nativeRuntime']['maxima'] == pinned_version
             report['nativeReplays'].append({'kind': name, 'nativeExecutableVersion': reference['nativeExecutableVersion'], 'summary': reference['summary']})
         timings = read(OUT / 'timings.json')
+        from timing_evidence import validate_workload
+        validate_workload(timings,browser)
         assert timings['passed'] and len(timings['samples']) == 12
         assert {(r['candidate'], r['repetition'],r['mode']) for r in timings['samples']} == {(candidate,n,mode) for candidate in ('owned','deployed','baseline') for n in (1,2) for mode in ('cold','warm-profile-reload')}
         baseline_pin = read(ROOT / 'runtime/build/baseline.json')
@@ -162,6 +164,7 @@ def main():
         report['artifactManifestSha256'] = artifact_sha
         report['browserReportSha256'] = browser_sha
         report['timingSamples'] = [{k: row[k] for k in ('candidate','repetition','mode','readyMs','calls','nativeCalls','encodedBodyBytes')} for row in timings['samples']]
+        report['timingReportSha256'] = digest(OUT / 'timings.json')
         report['compilerProfile'] = profile
         report['compilerEvidenceSha256'] = digest(artifact_path.parent / 'logs/compiler-experiment.json')
         report['configuration'] = config

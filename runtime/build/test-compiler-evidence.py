@@ -6,26 +6,39 @@ from pathlib import Path
 import tempfile
 import unittest
 from compiler_profile import profiles
-from compiler_evidence import derive, digest, verify_packaged
+from compiler_evidence import derive, digest, verify_packaged, MODULES
 
 GC = '-sSTACK_SIZE=33554432 -sBINARYEN_EXTRA_PASSES=--spill-pointers'
-CONFIG = ("CFLAGS='-O0 -DECL_C_COMPATIBLE_VARIADIC_DISPATCH -O0'\n"+''.join(f"{key}='{GC}'\n" for key in ['LDFLAGS','SHARED_LDFLAGS','BUNDLE_LDFLAGS','PROGRAM_LDFLAGS'])).encode()
+CONFIG = ("CC='/repo/sources/emsdk/upstream/emscripten/emcc'\nCFLAGS='-O0 -DECL_C_COMPATIBLE_VARIADIC_DISPATCH -O0'\n"+''.join(f"{key}='{GC}'\n" for key in ['LDFLAGS','SHARED_LDFLAGS','BUNDLE_LDFLAGS','PROGRAM_LDFLAGS'])).encode()
 TARGET = b'(:cc "emcc" :cflags "-O0")'
 
 
 def traces(profile):
-    # Emscripten EMCC_VERBOSE prints subprocess argv after EMCC_CFLAGS parsing;
-    # raw make/emcc lines retain upstream flags and cannot prove optimization.
-    ecl = ('emcc -O0 -c main.o.c -o main.o.o\n'+
-           f' /sdk/upstream/bin/clang -O0 {profile["eclCoreOptimization"]} -c main.o.c -o main.o.o\n'+
-           f' /sdk/upstream/bin/clang -O0 -O2 {profile["eclGeneratedLispOptimization"]} -c eclinitABC.c -o init.o\n'+
-           f';;; emcc -o libecl.so {GC} c/all.o\n'+
-           ' /sdk/bin/wasm-opt libecl.so -o libecl.so --spill-pointers\n').encode()
-    maxima = (';;; emcc -O0 -O2 -c /repo/src/binary-ecl/wasm32-emscripten/maxima/residu.c -o residu.o\n'+
-              ' /sdk/upstream/bin/clang -O0 -O2 -c /repo/src/binary-ecl/wasm32-emscripten/maxima/residu.c -o residu.o\n'+
-              f';;; emcc -o solve.fasb {GC} solve.o\n'+
-              ' /sdk/bin/wasm-opt solve.fasb -o solve.fasb --spill-pointers\n').encode()
-    return ecl,maxima
+    cc='/repo/sources/emsdk/upstream/emscripten/emcc'
+    clang='/repo/sources/emsdk/upstream/bin/clang'
+    def compile(source,output,raw,actual,generated=False):
+        return ((';;; ' if generated else '')+f'{cc} {raw} -c {source} -o {output}\n'+
+                f' {clang} {actual} -c {source} -o {output}\n')
+    def link(output,wasm):
+        side='-sSIDE_MODULE' if output.endswith(('.so','.fas','.fasb')) else ''
+        return f';;; {cc} -o {output} {GC} {side} unit.o\n /sdk/bin/wasm-opt --spill-pointers {wasm} -o {wasm}\n'
+    ecl=compile('main.o.c','main.o.o','-O0',profile['eclCoreOptimization'])
+    ecl+=compile('other-core.o.c','other-core.o','-O0',profile['eclCoreOptimization'])
+    ecl+=compile('eclinitABC.c','init.o','-O0 -O2',profile['eclGeneratedLispOptimization'],True)
+    ecl+=compile('lsp/arraylib.c','lsp/arraylib.o','-O0 -O2',profile['eclGeneratedLispOptimization'],True)
+    ecl+=f' {clang} -O2 -c /repo/sources/emsdk/upstream/emscripten/system/lib/sdk.c -o sdk.o\n'
+    ecl+=f' {clang} -O2 -c conftest.c -o conftest.o\n'
+    ecl+=link('libecl.so','libecl.so')+link('bin/ecl.html','bin/ecl.wasm')
+    for auxiliary in ['ecl-cdb.fas','ecl-help.fas','serve-event.fas','package-locks.fas']:
+        ecl+=link(auxiliary,auxiliary)
+    prefix='/repo/sources/maxima/src/binary-ecl/wasm32-emscripten'
+    maxima=compile(prefix+'/maxima/residu.c','residu.o','-O0 -O2','-O2',True)
+    maxima+=compile('/tmp/eclinitMAX.c','init-max.o','-O0 -O2','-O2',True)
+    maxima+=link(prefix+'/maxima.html',prefix+'/maxima.wasm')
+    for module in MODULES:
+        maxima+=link(prefix+'/maxima/'+module+'.fasb',prefix+'/maxima/'+module+'.fasb')
+    maxima+=link(prefix+'/residu-tmpABC.fas',prefix+'/residu-tmpABC.fas')
+    return ecl.encode(),maxima.encode()
 
 
 def packaged(root, profile):
@@ -52,17 +65,36 @@ class CompilerEvidence(unittest.TestCase):
 
     def test_missing_wrong_and_leaked_effective_flags(self):
         profile = profiles()['profiles']['ecl-oz'];ecl,maxima = traces(profile)
-        cases = [(ecl.replace(b'/sdk/upstream/bin/clang',b'/sdk/emcc'),maxima),
+        cases = [(ecl.replace(b'/upstream/bin/clang',b'/upstream/bin/emcc'),maxima),
                  (ecl.replace(b'-Oz',b'-O0'),maxima),
                  (ecl,maxima.replace(b'-O2',b'-Oz')),
-                 (ecl.replace(b'eclinitABC.c',b'other.c'),maxima),
-                 (ecl,maxima.replace(b'/repo/src/binary-ecl/wasm32-emscripten/',b'/tmp/')),
+                 (ecl.replace(b'-Oz -c other-core.o.c',b'-O0 -c other-core.o.c'),maxima),
+                 (ecl.replace(b'-Oz -c lsp/arraylib.c',b'-O0 -c lsp/arraylib.c'),maxima),
+                 (ecl,maxima.replace(b'-O2 -c /tmp/eclinitMAX.c',b'-Oz -c /tmp/eclinitMAX.c')),
                  (ecl.replace(b'--spill-pointers',b'--strip-debug'),maxima),
                  (ecl,maxima.replace(b'--spill-pointers',b'--strip-debug'))]
         for left,right in cases:
             with self.assertRaises(AssertionError):derive(CONFIG,TARGET,left,right,profile)
         with self.assertRaises(AssertionError):derive(CONFIG.replace(b'PROGRAM_LDFLAGS=',b'OTHER='),TARGET,ecl,maxima,profile)
         with self.assertRaises(AssertionError):derive(CONFIG.replace(b'-O0',b'-Oz'),TARGET,ecl,maxima,profile)
+        with self.assertRaises(AssertionError):derive(CONFIG.replace(b"CC=",b"OTHER="),TARGET,ecl,maxima,profile)
+
+    def test_each_delivered_target_requires_its_own_spill_execution(self):
+        profile=profiles()['profiles']['baseline'];ecl,maxima=traces(profile)
+        for target in ['maxima.wasm']+['maxima/'+module+'.fasb' for module in MODULES]:
+            lines=maxima.decode().splitlines()
+            without_pass=('\n'.join(line for line in lines if not ('wasm-opt' in line and '/'+target+' ' in line))+'\n').encode()
+            with self.assertRaises(AssertionError):derive(CONFIG,TARGET,ecl,without_pass,profile)
+            target_output='maxima.html' if target=='maxima.wasm' else target
+            without_link=('\n'.join(line for line in lines if not ('/emcc -o ' in line and '/'+target_output+' ' in line))+'\n').encode()
+            with self.assertRaises(AssertionError):derive(CONFIG,TARGET,ecl,without_link,profile)
+        wrong_ecl=ecl.replace(b'--spill-pointers libecl.so -o libecl.so',b'--spill-pointers /unrelated/libecl.so -o /unrelated/libecl.so')
+        with self.assertRaises(AssertionError):derive(CONFIG,TARGET,wrong_ecl,maxima,profile)
+        wrong_output=ecl.replace(b'--spill-pointers libecl.so -o libecl.so',b'--spill-pointers libecl.so -o other.so')
+        with self.assertRaises(AssertionError):derive(CONFIG,TARGET,wrong_output,maxima,profile)
+        # Deleting actual execution while leaving a raw compile also fails.
+        missing_clang=('\n'.join(line for line in ecl.decode().splitlines() if not ('/clang ' in line and 'other-core.o.c' in line))+'\n').encode()
+        with self.assertRaises(AssertionError):derive(CONFIG,TARGET,missing_clang,maxima,profile)
 
     def test_artifact_byte_binding_and_rehashed_fabricated_claim(self):
         profile = profiles()['profiles']['baseline']
