@@ -1,3 +1,7 @@
+This draft compiler experiment is described in [COMPILER-EXPERIMENTS.md](COMPILER-EXPERIMENTS.md).
+Its scoped ECL flags are experimental; the preceding no-gnuplot report below
+describes the parent configuration. No optimized runtime has been accepted.
+
 # Owned Maxima/ECL runtime: first step-2 change
 
 AC's 23 October decision removes external gnuplot completely before compiler

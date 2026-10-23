@@ -2,6 +2,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 set -euo pipefail
 export LC_ALL=C
+# Experiments never inherit hidden compiler overrides from a shell/runner.
+unset EMCC_CFLAGS EMCC_DEBUG EMCC_DEBUG_SAVE EMCC_VERBOSE
+export VERBOSE=1
 ROOT=$(cd "$(dirname "$0")/../.." && pwd)
 WORK="$ROOT/.cache/runtime-build"
 MAXIMA="$WORK/sources/maxima"
@@ -46,15 +49,32 @@ grep -Eq 'ELF 32-bit.*Intel 80386' "$WORK/logs/host-format.txt"
 "$ECL_TO_RUN" --norc --eval '(unless (= (integer-length most-positive-fixnum) 29) (ext:quit 65))' --eval '(format t "CTM-HOST-ECL|~a|~a~%" (lisp-implementation-version) (integer-length most-positive-fixnum))' --eval '(ext:quit)'
 sha256sum --check "$WORK/logs/host-ecl.sha256"
 # Select runtime files only: no MathJax/browser UI copies or publication.
+# Isolate the unchanged upstream ECL target. EMCC_VERBOSE prints the actual
+# clang/wasm-opt subprocesses without EMCC_DEBUG's retained temporary trees.
+python "$ROOT/runtime/build/compiler_profile.py" > "$WORK/logs/compiler-profile.json"
+ECL_INJECTED_FLAGS=$(python "$ROOT/runtime/build/compiler_profile.py" --emcc-flags)
+(
+ export EMCC_VERBOSE=1
+ if [[ -n "$ECL_INJECTED_FLAGS" ]]; then export EMCC_CFLAGS="$ECL_INJECTED_FLAGS"; else unset EMCC_CFLAGS; fi
+ make -f "$MAKE_RECIPE" -j2 ecl-emscripten
+) 2>&1 | tee "$WORK/logs/ecl-cross-build.log"
+# Target-info carries raw upstream CFLAGS, not the injected experiment. Keep
+# it unchanged so Maxima still uses its original generated-Lisp optimization.
+unset EMCC_CFLAGS
+export EMCC_VERBOSE=1
+{
 targets=(maxima-ecl-combined/maxima.wasm maxima-ecl-combined/libecl.so maxima-ecl-combined/maxima_thread.js maxima-ecl-combined/share_files.js)
-make -f "$MAKE_RECIPE" -j2 "${targets[@]}"
+make -f "$MAKE_RECIPE" -j2 "${targets[@]}" || exit $?
 # Upstream Makefile optional targets unnecessarily depend on plot.fasb.
 # Their actual pinned ASDF systems depend only on maxima/core. Invoke the
 # unmodified upstream cross compiler directly: no fake prerequisite or patch.
 for module in slatec quadpack solve poisson-series matrix-algebra number-theory limits integration; do
- "$ECL_TO_RUN" --norc --load build.lisp --eval "(cross-compile-maxima-module \"maxima/$module\")" --eval '(ext:quit)'
- cp "../src/binary-ecl/wasm32-emscripten/maxima/$module.fasb" "maxima-ecl-combined/maxima-$module.fas"
+ "$ECL_TO_RUN" --norc --load build.lisp --eval "(cross-compile-maxima-module \"maxima/$module\")" --eval '(ext:quit)' || exit $?
+ cp "../src/binary-ecl/wasm32-emscripten/maxima/$module.fasb" "maxima-ecl-combined/maxima-$module.fas" || exit $?
 done
+} 2>&1 | tee "$WORK/logs/maxima-cross-build.log"
+unset EMCC_VERBOSE
+python "$ROOT/runtime/build/check-compiler-experiment.py"
 test ! -e ../src/binary-ecl/wasm32-emscripten/maxima/plot.fasb
 test ! -e maxima-ecl-combined/maxima-plot.fas
 test ! -e maxima-ecl-combined/libgnuplot.so

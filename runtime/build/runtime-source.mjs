@@ -11,6 +11,9 @@ export async function loadOwnedRuntime(source,repository) {
  const manifest=JSON.parse(bytes);
  const pins=JSON.parse(await readFile(resolve(repository,'runtime/build/pins.json')));
  assert.equal(manifest.schema,1);assert.deepEqual(manifest.sourcePins,pins,'Owned runtime must match the exact current source pins');
+ const profiles=JSON.parse(await readFile(resolve(repository,'runtime/build/compiler-profiles.json')));
+ const profile=profiles.profiles[process.env.CTM_ECL_COMPILER_PROFILE||'baseline'];
+ assert.ok(profile,'Unknown compiler experiment');assert.deepEqual(manifest.compilerProfile,profile,'Current compiler profile differs');
  const configuration=JSON.parse(await readFile(resolve(repository,'runtime/build/configuration.json')));
  assert.deepEqual(manifest.configuration,configuration,'Current candidates require the exact no-gnuplot configuration');
  const startup=(await readFile(resolve(repository,'runtime/build/no-plot.mac'),'utf8')).trim()+'\n';
@@ -30,5 +33,5 @@ export async function loadOwnedRuntime(source,repository) {
  }
  for(const path of manifest.configuration?.omittedRuntimePaths||[])assert.ok(!records.has('/'+path),'Omitted file present in candidate manifest');
  assert.deepEqual(new Set([...records.keys()].map(path=>path.slice(1))),await expectedRuntimePaths(repository),'Current candidate inventory must match the exact no-gnuplot closure');
- return {root:resolve(root,'runtime'),records,startup,omittedRuntimePaths:manifest.configuration?.omittedRuntimePaths||[],provenance:{kind:'ctm-owned-build',manifestSha256:hash(bytes),sourcePins:pins}};
+ return {root:resolve(root,'runtime'),records,startup,omittedRuntimePaths:manifest.configuration?.omittedRuntimePaths||[],provenance:{kind:'ctm-owned-build',manifestSha256:hash(bytes),sourcePins:pins,compilerProfile:profile}};
 }

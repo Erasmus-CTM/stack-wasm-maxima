@@ -26,7 +26,8 @@ try {
   }
   rows.push({path,bytes:body.length,sha256:hash(body),brotliSafe:brotliSafe(path),encodings});
  }
- const raw={schema:1,sourcePins,configuration,startupAdapter:{content:startup,sha256:configuration.startupSha256},runtimeAssets:rows.filter(r=>r.path!=='runtime-preload.json').map(({path,bytes,sha256})=>({path,bytes,sha256}))};
+ const compilerProfile=JSON.parse(await readFile(resolve('runtime/build/compiler-profiles.json'))).profiles.baseline;
+ const raw={schema:1,compilerProfile,sourcePins,configuration,startupAdapter:{content:startup,sha256:configuration.startupSha256},runtimeAssets:rows.filter(r=>r.path!=='runtime-preload.json').map(({path,bytes,sha256})=>({path,bytes,sha256}))};
  const rawBytes=Buffer.from(JSON.stringify(raw)),original=Buffer.from(JSON.stringify({schema:1,files:[]}));
  await writeFile(join(artifact,'manifest.json'),rawBytes);await writeFile(join(artifact,'artifact-manifest.json'),original);
  const manifest={schema:1,toolchain:{node:'v22.16.0'},source:{kind:'ctm-owned-build',manifestSha256:hash(rawBytes),artifactManifestSha256:hash(original)},files:rows};
