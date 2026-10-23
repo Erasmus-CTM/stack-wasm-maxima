@@ -1,0 +1,117 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Release the owned Maxima runtime
+
+# AC creates a tag `runtime-v<N>` on a commit of main. This workflow builds the
+# production compiler profile (runtime/build/compiler-profiles.json) from the
+# pinned sources with every acceptance gate of runtime-build.yml, and publishes
+# the accepted artifact as a GitHub Release of that tag: the runtime, its
+# manifest, the exact source archives and recipe (the source offer), and the
+# licence texts. Courses and the site load a release by its pinned SHA-256.
+on:
+  push:
+    tags: ['runtime-v*']
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: runtime-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    outputs:
+      profile: ${{ steps.profile.outputs.name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: The tag points at a commit of main
+        run: |
+          git fetch -q origin main
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main || {
+            echo "::error::$GITHUB_REF_NAME is not on main; release only reviewed, merged commits"; exit 1; }
+      - id: profile
+        name: The production compiler profile
+        run: echo "name=$(python3 runtime/build/compiler_profile.py --production)" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: check
+    uses: ./.github/workflows/runtime-build.yml
+    with:
+      profiles: '["${{ needs.check.outputs.profile }}"]'
+
+  release:
+    needs: [check, build]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    env:
+      PROFILE: ${{ needs.check.outputs.profile }}
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: owned-runtime-${{ needs.check.outputs.profile }}-${{ github.sha }}
+          path: accepted
+      - name: Require the accepted artifact of this profile and commit
+        run: |
+          python3 - <<'EOF'
+          import json, os
+          from pathlib import Path
+          root = Path('accepted/.cache/runtime-build')
+          acceptance = json.loads((root / 'validation/acceptance.json').read_text())
+          manifest = json.loads((root / 'artifact/manifest.json').read_text())
+          profiles = json.loads(Path('runtime/build/compiler-profiles.json').read_text())
+          expected = profiles['profiles'][os.environ['PROFILE']]
+          assert acceptance['passed'] is True, acceptance.get('failure')
+          assert acceptance['compilerProfile'] == expected == manifest['compilerProfile']
+          print('accepted', os.environ['PROFILE'], len(manifest['runtimeAssets']), 'runtime assets')
+          EOF
+      - name: Package the runtime and the source offer
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          base="maxima-$TAG"
+          # Runtime with its manifest, notices and licences (what a site serves).
+          tar -C accepted/.cache/runtime-build/artifact --sort=name --owner=0 --group=0 --numeric-owner \
+            --mtime='2000-01-01 00:00Z' -czf "release/$base.tar.gz" \
+            runtime manifest.json artifact-manifest.json BUILD-NOTICES.md SITE-NOTICES-context.md LICENSES sizes.md
+          # The exact source archives and build recipe (GPL source offer).
+          tar -C accepted/.cache/runtime-build/artifact --sort=name --owner=0 --group=0 --numeric-owner \
+            --mtime='2000-01-01 00:00Z' -czf "release/$base-sources.tar.gz" \
+            sources recipe build-recipes source-manifest.json
+          cp accepted/.cache/runtime-build/validation/acceptance.json "release/$base-acceptance.json"
+          python3 - <<'EOF'
+          import hashlib, json, os
+          from pathlib import Path
+          tag, profile = os.environ['TAG'], os.environ['PROFILE']
+          files = sorted(p for p in Path('release').iterdir() if p.is_file())
+          manifest = json.loads(Path('accepted/.cache/runtime-build/artifact/manifest.json').read_bytes())
+          record = {
+            'schema': 1, 'tag': tag, 'commit': os.environ['GITHUB_SHA'], 'compilerProfile': profile,
+            'runtimeManifestSha256': hashlib.sha256(Path('accepted/.cache/runtime-build/artifact/manifest.json').read_bytes()).hexdigest(),
+            'sourcePins': manifest['sourcePins'],
+            'files': {p.name: {'sha256': hashlib.sha256(p.read_bytes()).hexdigest(), 'bytes': p.stat().st_size} for p in files},
+            'buildRun': f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",
+          }
+          Path(f'release/maxima-{tag}.json').write_text(json.dumps(record, indent=2) + '\n')
+          Path('release/SHA256SUMS').write_text(''.join(f"{v['sha256']}  {k}\n" for k, v in record['files'].items()))
+          EOF
+          cat release/SHA256SUMS
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cat > notes.md <<EOF
+          Owned Maxima/ECL Wasm runtime, compiler profile \`$PROFILE\`, built in [this run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID) from the exact sources pinned at $GITHUB_SHA, with every acceptance gate of \`runtime-build.yml\`.
+
+          - \`maxima-$TAG.tar.gz\`: the runtime files, manifest, notices and licence texts.
+          - \`maxima-$TAG-sources.tar.gz\`: the exact source archives and build recipe (source offer).
+          - \`maxima-$TAG.json\` and \`SHA256SUMS\`: hashes; sites pin the JSON's SHA-256.
+          - \`maxima-$TAG-acceptance.json\`: the acceptance report.
+          EOF
+          gh release create "$TAG" release/* --verify-tag --title "Maxima runtime $TAG" --notes-file notes.md
