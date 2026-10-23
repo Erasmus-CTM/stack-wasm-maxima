@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "scope": "Retained preparation failures; these are not failed runtime-route or mathematical-parity results.",
+  "attempts": [
+    {
+      "run": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39863489271",
+      "revision": "0de1184b106b4ca56e07f6ed3cce5daf11b3de2c",
+      "stage": "source archive verification, before compiler execution",
+      "outcome": "failed",
+      "source": "ecl",
+      "expectedWindowsNativeEolSha256": "3de39a9c017298186ba3d29468070ca3703089a4565ff9df426b5b57cd59bc90",
+      "observedUbuntuLfSha256": "fafd6275264c33dd4d8562703752f709bf992b29c40fd766d1351782f4c507b0",
+      "nativeEolBytes": 36198400,
+      "lfBytes": 36106240,
+      "investigation": {
+        "samePinnedCommit": "e4bdb2e5b1e444e1773032a53650773848f4d6cd",
+        "tarEntries": 2890,
+        "identicalContents": 2452,
+        "changedContents": 438,
+        "allChangedEntriesUnder": "ecl/src/libffi/",
+        "onlyContentChange": "CRLF to LF, with identical tar member types",
+        "cause": "Bundled libffi text=auto attributes use native EOL unless core.eol is explicit; core.autocrlf=false alone is insufficient.",
+        "fix": "core.eol=lf on source checkout and canonical git archive; the resulting Windows hash exactly matches Ubuntu. Maxima and gnuplot archive hashes remain unchanged. No upstream source patch."
+      },
+      "rawEvidence": "The Actions job log is retained at the run URL. This first attempt preceded the preparation tee/progress artifact fix."
+    },
+    {
+      "run": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39865240495",
+      "revision": "df29a99",
+      "stage": "gnuplot bootstrap, before native ECL/Maxima compilation",
+      "outcome": "failed",
+      "failure": "configure.ac:28: required file './ltmain.sh' not found; upstream ./prepare exited nonzero",
+      "verifiedBeforeFailure": "All five exact source archives and both actual Linux SDK/Node binary archives passed hash verification. emcc reported Emscripten 4.0.10.",
+      "fix": "Generate missing libtool support with libtoolize --copy before ./prepare. Restore the port's EMSDK_PATH after emsdk_env.sh clears it and log the actual bundled clang/SDK Node paths.",
+      "rawEvidence": "Actions job log and always-uploaded owned-runtime artifact retain source progress, source archives and preparation/build logs."
+    },
+    {
+      "run": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39865663672",
+      "revision": "fc9ba24b799ec69411ff66fe86ba6033e093679e",
+      "stage": "gnuplot Emscripten configure, concurrent with native Maxima compilation",
+      "outcome": "failed",
+      "hostEvidence": "Native ECL ELF32/i386, version 26.3.27, positive fixnum width 29; native Maxima compiled with expected version.",
+      "failure": "Autoconf exited 77: cannot run C compiled programs; If you meant to cross compile, use --host. The upstream gnuplot command omitted --host.",
+      "fix": "Separate SHA-pinned build-only Makefile patch declares --host=wasm32-unknown-emscripten --build=x86_64-pc-linux-gnu, matching the adjacent ECL recipe.",
+      "diagnosticGap": "The old artifact did not include gnuplot/config.log, so only the full Actions job log is available; all subbuild config.log files are now retained.",
+      "upstreamOffer": "Prepared public patch in PR 7; not posted to GitLab because no authenticated session or credential was available."
+    },
+    {
+      "run": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39868037264",
+      "revision": "87f4d7d",
+      "outcome": "failed",
+      "stage": "gnuplot installation/side-module copy; native Maxima configure version",
+      "failure": "Explicit wasm32 configure succeeded, but libtool shared-library support was disabled; only libgnuplot.a was installed, so libgnuplot.so.0.0.0 copy failed. In-place build Makefile patch also made Maxima git-describe version end in _dirty.",
+      "fix": "Derive an external Makefile without modifying the source checkout, compile gnuplot with -fPIC, and link its complete static archive with emcc -sSIDE_MODULE=1 and --whole-archive. Build gnuplot before longer phases; preserve original/patch/effective hashes.",
+      "sourceEdits": "No mathematical source modifications; original source archive and clean source version are retained.",
+      "rawEvidence": "Actions job 120135104354 and always-uploaded subbuild config.log files."
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { chromium } from 'playwright';
+import { loadOwnedRuntime } from '../../runtime/build/runtime-source.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const out = join(root, 'test-results/milestone-one');
@@ -18,6 +19,12 @@ const supplement = JSON.parse(await readFile(join(root, 'measurements/2026-10-21
 const runtimeURLs = [...lock.groups.maximaCore, ...lock.groups.maximaOptionalModules, ...supplement.assets.map(asset => asset.url)];
 const allAssets = [...lock.assets, ...supplement.assets];
 const expected = new Map(runtimeURLs.map(url => [new URL(url).pathname, allAssets.find(asset => asset.url === url)]));
+const owned = await loadOwnedRuntime(process.env.CTM_MAXIMA_RUNTIME_SOURCE, root);
+if (owned) {
+  for (const pathname of expected.keys()) if (!owned.records.has(pathname)) throw new Error('Missing required owned runtime file: ' + pathname);
+  expected.clear();
+  for (const [pathname, record] of owned.records) expected.set(pathname, record);
+}
 const served = new Map();
 const declaredPaths = new Set();
 const requestedPaths = new Set();
@@ -25,13 +32,14 @@ const hash = data => createHash('sha256').update(data).digest('hex');
 const errors = [];
 async function resource(pathname) {
   const known = expected.get(pathname);
+  if (owned && !known) throw new Error("Owned runtime file lacks a manifest hash: " + pathname);
   if (!known && !declaredPaths.has(pathname)) throw new Error('Unapproved runtime path: ' + pathname);
   if (pathname.includes('..') || pathname.includes('\\')) throw new Error('Unsafe path');
-  const path = join(cache, pathname.slice(1));
+  const path = join(owned ? owned.root : cache, pathname.slice(1));
   let data;
   try { data = await readFile(path); }
   catch (error) {
-    if (error.code !== 'ENOENT') throw error;
+    if (owned || error.code !== 'ENOENT') throw error;
     const url = new URL(pathname, lock.deployment.maximaBaseURL).href;
     const response = await fetch(url, { signal: AbortSignal.timeout(30000) });
     if (!response.ok) throw new Error(url + ': HTTP ' + response.status);
@@ -41,7 +49,8 @@ async function resource(pathname) {
   }
   const digest = hash(data);
   if (known && known.sha256 !== digest) throw new Error('Pinned runtime hash mismatch: ' + pathname);
-  served.set(pathname, { path: pathname, url: new URL(pathname, lock.deployment.maximaBaseURL).href,
+  served.set(pathname, { path: pathname, url: owned ? null : new URL(pathname, lock.deployment.maximaBaseURL).href,
+    ...(owned ? {runtimeBuild:owned.provenance.kind} : {}),
     fileBytes: data.length, sha256: digest, pinVerified: Boolean(known) });
   return data;
 }
@@ -108,6 +117,7 @@ try {
       result = await page.evaluate(({ files, batch }) => window.runMilestoneOne({ files, batch }),
         { files: version.files, batch: version.batch });
     } catch (error) { result = { ok: false, error: String(error.stack || error), stdout: '' }; }
+    if (owned) result.runtimeBuild = owned.provenance;
     result.browser = browser.version();
     result.stackRevision = version.stackRevision;
     result.sourceRevision = process.env.GITHUB_SHA || execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();

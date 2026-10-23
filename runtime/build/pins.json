@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "sources": [
+    {
+      "name": "maxima",
+      "repository": "https://gitlab.com/mgerbershagen/maxima.git",
+      "commit": "813903d33f5ccca09cbe3086dbfe5e228521da52",
+      "version": "branch_5_49_base_90_g813903d33",
+      "licence": "Project COPYING contains GPL v2; mixed per-file notices apply (no blanket or-later assertion)",
+      "archive": {
+        "format": "git-archive-tar",
+        "prefix": "maxima/",
+        "sha256": "05192416af11303dc5974fe02d0e5a894df813593af8a57d37e51897707dab42"
+      },
+      "tag": {
+        "name": "branch-5_49-base",
+        "object": "00acb694f8128b8e8bfcc544e1540df3def04d3e",
+        "commit": "cce856a60952c971e6f3604706335455c9a46fca"
+      },
+      "evidence": "Deployed version suffix and exact upstream commit; existing tag plus ancestry gives 90 commits. Git core.abbrev=9 preserves deployed version spelling."
+    },
+    {
+      "name": "ecl",
+      "repository": "https://gitlab.com/mgerbershagen/ecl.git",
+      "commit": "e4bdb2e5b1e444e1773032a53650773848f4d6cd",
+      "version": "26.3.27",
+      "licence": "LGPL-2.1-or-later AND bundled notices",
+      "archive": {
+        "format": "git-archive-tar",
+        "prefix": "ecl/",
+        "sha256": "fafd6275264c33dd4d8562703752f709bf992b29c40fd766d1351782f4c507b0"
+      },
+      "evidence": "Exact full commit and version embedded in deployed libecl.so.",
+      "noticeExceptions": [
+        "src/lsp/loop.lsp",
+        "src/lsp/pprint.lsp",
+        "src/lsp/format.lsp",
+        "contrib/",
+        "examples/"
+      ]
+    },
+    {
+      "name": "gnuplot",
+      "repository": "https://gitlab.com/mgerbershagen/gnuplot.git",
+      "commit": "525fa7486bb0a92095d2467b7fec993deab7545d",
+      "version": "6.1.0",
+      "licence": "LicenseRef-gnuplot",
+      "archive": {
+        "format": "git-archive-tar",
+        "prefix": "gnuplot/",
+        "sha256": "e9ed7ba457fa9c751d5c8d62d4bb1fddae7cb75b1f1387422e7912c816f281f5"
+      },
+      "evidence": "Reconstructed candidate: upstream port README clones this default branch; last commit predates Maxima deployed commit and source/binary both say 6.1. Binary does not embed a gnuplot commit; exact deployed-source identity is not independently attested."
+    },
+    {
+      "name": "emsdk",
+      "repository": "https://github.com/emscripten-core/emsdk.git",
+      "commit": "62a853cd3b3134398ce85cde8bb5cbb2ef0194cb",
+      "version": "4.0.10",
+      "licence": "MIT AND bundled SDK notices",
+      "release": "8103ffedfb0c42d231c6af6859a5a1a832260b43",
+      "archive": {
+        "format": "tar.gz",
+        "url": "https://codeload.github.com/emscripten-core/emsdk/tar.gz/62a853cd3b3134398ce85cde8bb5cbb2ef0194cb",
+        "sha256": "7e97513705790405f9c385b6a73e380a69139c5d23913a1320bb009e6e1595dc"
+      },
+      "evidence": "Version4.0.10 occurs in deployed maxima.wasm and port README; SDK tag maps to the pinned release hash."
+    },
+    {
+      "name": "emscripten",
+      "repository": "https://github.com/emscripten-core/emscripten.git",
+      "commit": "b7dc6e5747465580df5984e723b9d1f10d8e804b",
+      "version": "4.0.10",
+      "licence": "MIT OR NCSA AND bundled notices",
+      "archive": {
+        "format": "tar.gz",
+        "url": "https://codeload.github.com/emscripten-core/emscripten/tar.gz/b7dc6e5747465580df5984e723b9d1f10d8e804b",
+        "sha256": "901c1881daf528523b848ea596588e7d21c41b4a279d20250d2d56168d24ef9f"
+      },
+      "evidence": "Official source tag for deployed Emscripten version; source archive retained beside SDK build."
+    }
+  ],
+  "bundled": [
+    {
+      "name": "gmp",
+      "version": "4.2.1",
+      "source": "ecl",
+      "path": "src/gmp",
+      "licence": "LGPL-2.1-or-later",
+      "wasmLinked": true
+    },
+    {
+      "name": "boehm-gc",
+      "version": "8.2.8",
+      "source": "ecl",
+      "path": "src/bdwgc",
+      "licence": "LicenseRef-Boehm-GC",
+      "wasmLinked": true
+    },
+    {
+      "name": "libffi",
+      "version": "3.5.2",
+      "source": "ecl",
+      "path": "src/libffi",
+      "licence": "MIT",
+      "wasmLinked": false,
+      "evidence": "ECL wasm32 configure branch forces enable_libffi=no; deployed module exports no ffi_* symbols."
+    }
+  ],
+  "notices": {
+    "repository": "Erasmus-CTM/stack-wasm-maxima",
+    "commit": "b34bfc8af10cd80b6130baabe88a47c9a32c0333",
+    "path": "site/LICENSES"
+  },
+  "stack": [
+    "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+    "33383047af39c204bf4442802a058f8b918b2b1b"
+  ],
+  "toolchainArchives": [
+    {
+      "name": "sdk-linux-x86_64",
+      "version": "4.0.10",
+      "release": "8103ffedfb0c42d231c6af6859a5a1a832260b43",
+      "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/linux/8103ffedfb0c42d231c6af6859a5a1a832260b43/wasm-binaries.tar.xz",
+      "file": "8103ffedfb0c42d231c6af6859a5a1a832260b43-wasm-binaries.tar.xz",
+      "bytes": 303902856,
+      "sha256": "0183f887b56c3f8d4b45826cb49856a3324afb66236ad3c13944c0fd2550cbbc"
+    },
+    {
+      "name": "sdk-node-linux-x86_64",
+      "version": "22.16.0",
+      "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/node-v22.16.0-linux-x64.tar.xz",
+      "file": "node-v22.16.0-linux-x64.tar.xz",
+      "bytes": 30425588,
+      "sha256": "f4cb75bb036f0d0eddf6b79d9596df1aaab9ddccd6a20bf489be5abe9467e84e"
+    }
+  ],
+  "buildPatches": [
+    {
+      "source": "maxima",
+      "path": "runtime/build/patches/maxima-gnuplot-cross-host.patch",
+      "sha256": "0e799e4fd35471aa48403d43c4cc361c39d2cd74db14b2df073f6722bb2c90b6",
+      "reason": "Use an explicit wasm32 host, compile the complete gnuplot archive with PIC, and link a genuine Emscripten SIDE_MODULE=1 because stock libtool does not emit shared libraries for this host. Applied to an external derived build recipe; original sources remain clean."
+    }
+  ]
+}
