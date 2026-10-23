@@ -14,6 +14,8 @@ const report={schema:1,passed:false,policies:[]};
 try{
  const bytes=await readFile(join(artifact,'compression-manifest.json')),manifest=JSON.parse(bytes);
  const raw=await read(join(artifact,'manifest.json'));
+ const compilerProfiles=await read(join(repository,'runtime/build/compiler-profiles.json'));
+ assert.deepEqual(raw.compilerProfile,compilerProfiles.profiles[process.env.CTM_ECL_COMPILER_PROFILE||'baseline']);
  assert.equal(manifest.toolchain.node,'v22.16.0');assert.equal(manifest.toolchain.platform,'linux');assert.equal(manifest.toolchain.arch,'x64');
  assert.equal(manifest.source.kind,'ctm-owned-build');assert.equal(manifest.source.github.run.conclusion,'success');
  assert.equal(manifest.source.github.artifact.name,'owned-runtime-'+raw.recipe.revision);
