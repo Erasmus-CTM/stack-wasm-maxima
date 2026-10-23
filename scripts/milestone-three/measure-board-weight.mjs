@@ -60,16 +60,16 @@ async function boardsReady(page){
 const trafficCaptures=new WeakMap();
 async function settle(page){
   await boardsReady(page);
-  if(functionalOnly){
-    // A retired Firefox child can keep page.networkidle pending even though
-    // the current board is ready. Functional acceptance waits actual current
-    // frame load and the MathJax startup/typeset contract instead.
-    for(const element of await page.locator('iframe[data-stack-jsxgraph]').elementHandles()){
-      const frame=await element.contentFrame();assert.ok(frame);
-      await frame.waitForLoadState('load',{timeout:60000});
-      await frame.waitForFunction(()=>!!window.MathJax?.startup?.promise,null,{polling:100,timeout:60000});
-      await frame.evaluate(()=>Promise.race([MathJax.startup.promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error('MathJax startup/typeset deadline')),60000))]));
-    }
+  // A board can report JSXGraph ready before MathJax starts its resource
+  // fetches. Complete the current frame's typeset before replacing that frame
+  // for the next variant; otherwise Firefox can cancel a real response and
+  // make the transfer total look artificially low. Retired Firefox children
+  // can also keep page.networkidle pending, so inspect current frames only.
+  for(const element of await page.locator('iframe[data-stack-jsxgraph]').elementHandles()){
+    const frame=await element.contentFrame();assert.ok(frame);
+    await frame.waitForLoadState('load',{timeout:60000});
+    await frame.waitForFunction(()=>!!window.MathJax?.startup?.promise,null,{polling:100,timeout:60000});
+    await frame.evaluate(()=>Promise.race([MathJax.startup.promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error('MathJax startup/typeset deadline')),60000))]));
   }
   // Browser networkidle can stay pending after a retired iframe. Instead wait
   // concrete observed request completion, response measurements, origin-server
