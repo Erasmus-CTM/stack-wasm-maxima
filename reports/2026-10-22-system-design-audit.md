@@ -12,7 +12,8 @@ call entry works without isolation (#5); F-9's licence notices are merged;
 `core/custom.py` exists; F-8 says what stays pure Python; the default CAS is
 left open (D2, merged with "D2 names"); the variants amendment is done (#49,
 on `handoff/2026-10`); instant validation is gated per backend (A-7, §8); one STACK pin, 4.14.0, and
-Moodle seeds from other STACK versions (A-8, D3a, D1).
+Moodle seeds from other STACK versions (A-8, D3a, D1); a startup target and
+what follows if it is missed (A-1 to A-3, D8).
 Everything else is as of 22 October.
 
 Goal set by AC: the Python (SymPy) and Maxima backends should be as
@@ -765,6 +766,15 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
   corpus, each with its golden diff reviewed; then the runtime's second
   build for `10d3233` (#13) is dropped. Upgrades go through the tracking job
   (§6).
+- **D8 Startup target (AC, 23 October).** Cold start (fresh browser profile,
+  first visit) ready for the first Validate within **20 s on a reference
+  student laptop** (which laptop is still open; until it is named, timings
+  stay on the CI runner and are reported as such). No warm target until the
+  warm-profile reload measurement (§3.2) exists. If the target is missed
+  after the remaining runtime steps, the Maxima backend is **opt-in per
+  question**: `cas: maxima` stays available for questions SymPy cannot run,
+  with early start (L3) and a loading notice on the card, and SymPy remains
+  the course default. Precompiled STACK (L2) continues without a time box.
 - **D6 Hybrid path.** It was only ever meant as a test oracle and stays one.
 - **D7 Exam.** The December 2026 exam is Pyodide-only: no STACK, no
   math-exercise.

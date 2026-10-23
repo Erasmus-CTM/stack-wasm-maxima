@@ -106,6 +106,12 @@ L3 preload, with a notice on the card. The warm-profile reload measurement
 the plan asks for (§3.2) is still not done (runtime review, "Not yet done").
 It may change the urgency of L1 more than anything else.
 
+*Applied 23 October* (AC, plan §8 D8): cold start within 20 s on a reference
+student laptop (the laptop is still to be named); no warm target until it is
+measured; if the target is missed, Maxima is opt-in per question with SymPy
+as the course default. AC chose no time box for L2 (A-2). Promoting `-Oz`
+(A-1) is still to do.
+
 ### A-4 M4a and M4d rest on undesigned steps
 
 - M4a "depends on: step 6 frontend/worker in stack-sympy". The handoff
