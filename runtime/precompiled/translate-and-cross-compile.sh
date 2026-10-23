@@ -18,8 +18,50 @@ test -x "$NATIVE"
 mkdir -p "$WORK/source" "$WORK/logs"
 cp "$STACK/stack/maxima/stackmaxima.mac" "$WORK/source/stackmaxima.mac"
 sha256sum "$WORK/source/stackmaxima.mac" > "$WORK/logs/stackmaxima-source.sha256"
-printf 'translate_file("%s")$\n' "$WORK/source/stackmaxima.mac" > "$WORK/translate.mac"
-"$NATIVE" --very-quiet --batch="$WORK/translate.mac" 2>&1 | tee "$WORK/logs/translate.log"
+cat > "$WORK/translate-driver.lisp" <<'EOF'
+(in-package :maxima)
+(handler-case
+    (let* ((source (namestring (merge-pathnames #P"source/stackmaxima.mac" *load-truename*)))
+           (result nil))
+      (unless (eq (catch 'macsyma-quit
+                    (setf result (translate-file source nil))
+                    :completed)
+                  :completed)
+        (error "Maxima aborted translation"))
+      (unless (and (listp result) (= (length result) 4)
+                   (equal (first result) '(mlist))
+                   (stringp (third result))
+                   (equal (third result)
+                          (namestring (make-pathname :defaults source :type "LISP"))))
+        (error "Translator returned no expected Lisp output path: ~S" result))
+      (with-standard-io-syntax
+        (let ((*package* (find-package :maxima)) (*read-eval* nil)
+              (eof (gensym)) (forms 0))
+          (with-open-file (stream (third result))
+            (loop for form = (read stream nil eof)
+                  until (eq form eof) do (incf forms)))
+          (unless (plusp forms) (error "Empty translated Lisp"))
+          (format t "~&CTM-TRANSLATION-OK|~D~%" forms)))
+      (finish-output)
+      (bye 0))
+  (error (condition)
+    (let ((*print-readably* nil))
+      (format *error-output* "~&CTM-TRANSLATION-FAILED|~A~%" condition)
+      (finish-output *error-output*))
+    (bye 1)))
+EOF
+printf 'ctm_assignment_probe():=block(display2d:false,true)$\n' > "$WORK/source/ctm-assignment-probe.mac"
+sed 's/stackmaxima\.mac/ctm-assignment-probe.mac/g' "$WORK/translate-driver.lisp" > "$WORK/assignment-probe-driver.lisp"
+if "$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/assignment-probe-driver.lisp" 2>&1 | tee "$WORK/logs/assignment-probe.log"; then
+  printf 'translation succeeded\n' > "$WORK/logs/assignment-probe-status.txt"
+else
+  printf 'translation failed\n' > "$WORK/logs/assignment-probe-status.txt"
+fi
+"$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/translate-driver.lisp" 2>&1 | tee "$WORK/logs/translate.log"
+grep -q '^CTM-TRANSLATION-OK|' "$WORK/logs/translate.log" || {
+  echo 'Maxima translation did not emit a complete source success marker' >&2
+  exit 1
+}
 # The pinned Maxima translator writes .LISP (and .UNLISP warnings) on Linux.
 # Keep its raw output, then copy to ASDF's conventional lowercase source name.
 if test -s "$WORK/source/stackmaxima.LISP"; then

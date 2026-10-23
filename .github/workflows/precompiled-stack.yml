@@ -95,8 +95,12 @@ jobs:
             .cache/precompiled-stack/source/stackmaxima.lisp
             .cache/precompiled-stack/source/stackmaxima.UNLISP
             .cache/precompiled-stack/source/stackmaxima.unlisp
+            .cache/precompiled-stack/source/ctm-assignment-probe.mac
+            .cache/precompiled-stack/source/ctm-assignment-probe.LISP
+            .cache/precompiled-stack/source/ctm-assignment-probe.UNLISP
             .cache/precompiled-stack/source/ctm-stackmaxima.asd
-            .cache/precompiled-stack/translate.mac
+            .cache/precompiled-stack/translate-driver.lisp
+            .cache/precompiled-stack/assignment-probe-driver.lisp
             .cache/precompiled-stack/stackmaxima.fas
             .cache/precompiled-stack/site/stack-sources.json
             .cache/precompiled-stack/site/stack-sources-timed-source.json
