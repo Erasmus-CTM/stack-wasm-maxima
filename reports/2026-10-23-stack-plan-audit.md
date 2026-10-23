@@ -261,6 +261,10 @@ encoding per file (runtime review F-7). Pages may apply its own gzip to some
 types; that is still unmeasured. Until it is measured, the public-site figure
 is unknown. It lies somewhere between 8.4 MB and about 42 MB.
 
+*Measured 23 October* (#18): Pages gzips every runtime file. The deployed
+runtime's startup files transfer about 11.4 MB (lazy modules 2.6 MB more),
+in line with #8's gzip-only result; plan §6 records the breakdown.
+
 ## What is on track
 
 - Steps 0 and 1 of the runtime are done and gated: call entry without

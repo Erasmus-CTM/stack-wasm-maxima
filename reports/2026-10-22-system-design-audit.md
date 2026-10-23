@@ -693,7 +693,14 @@ mode). No CDN for firewalls to block (the earlier Pyodide exam problem), the
 worker scripts are same-origin as required, same-origin files need no extra
 CORP headers under COEP, and hashed file names allow long-lived caching. Cost:
 ~42 MB uncompressed per site, about 8–10 MB compressed after the trims
-(estimate). Exams and offline use carry the same files in the bundle, served
+(estimate). *Measured 23 October* (#18, run 40025225097): GitHub Pages
+gzips every runtime file, `.wasm`, `.so` and `.fas` included, so courses on
+Pages get gzip without our sidecars. For the deployed (upstream, untrimmed)
+runtime the files a page loads at startup transfer about 11.4 MB
+(`maxima.wasm` 23.6 → 5.2 MB, `libecl.so` 8.0 → 2.4 MB, `libgnuplot.so` 3.9 →
+2.0 MB, preload pack 5.0 → 1.1 MB, loaders and STACK sources 0.7 MB); the lazy
+modules add 2.6 MB. That matches #8's gzip-only figure; Brotli sidecars
+(8.43 MB) apply only to servers we run. Exams and offline use carry the same files in the bundle, served
 with step 5's headers. A CDN stays optional; jsDelivr is believed to limit
 single files to about 20 MB, below `maxima.wasm` (23.6 MB uncompressed), to be
 checked before relying on it.
