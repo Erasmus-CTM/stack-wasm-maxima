@@ -395,9 +395,9 @@ They are not copied to this site, and their licences are not reproduced here.
 - Pyodide 0.28.3 and the Python packages it loads, from
   `https://cdn.jsdelivr.net/pyodide/v0.28.3/full/` (used by the CTM Python
   runtime). Project: <https://pyodide.org/>.
-- MathJax: version 3 from `cdn.jsdelivr.net/npm/mathjax@3/` for the Quarto pages
-  (3.2.2 in the stack-sympy script), and version 4 from `cdn.jsdelivr.net/npm/mathjax@4/` inside the JSXGraph board
-  pages. Project: <https://www.mathjax.org/>.
+- MathJax version 3 may be requested by existing Quarto/stack-sympy parent-page
+  components (`cdn.jsdelivr.net/npm/mathjax@3/`, 3.2.2 in stack-sympy).
+  Project: <https://www.mathjax.org/>.
 - KaTeX 0.16 from `cdn.jsdelivr.net/npm/katex@0.16/`, referenced by the
   ai-feedback script.
 - The "Source Sans Pro" font, requested from Google Fonts by the Bootstrap CSS.
