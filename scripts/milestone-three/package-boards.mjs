@@ -76,6 +76,13 @@ export async function packageBoard({iframe, id, site, assetMap, mathjax, jsxgrap
     document = document.split(row[0]).join('./assets/' + posix.basename(path));
     assets.push({path, bytes:bytes.length, sha256:digest});
   }
+  // These specifiers were introduced above when externalizing an embedded
+  // module, not authored relative imports. Explicit document.baseURI avoids
+  // WebKit resolving srcdoc inline dynamic imports against the parent URL.
+  document = document.replace(/\bimport\((["'])(\.\/assets\/[a-f0-9]{64}\.js)\1\)/g,(whole,quote,path)=>{
+    assert.ok(assets.some(asset=>'./assets/'+posix.basename(asset.path)===path),'Only extracted embedded module URLs may be rewritten');
+    return 'import(new URL('+JSON.stringify(path)+', document.baseURI).href)';
+  });
   // Use CORS for opaque sandbox subresources, retaining the sandbox and COEP.
   let coreMarkers=0;
   document = document.replace(/<script([^>]*\bsrc=")([^"]+)("[^>]*)>/g, (whole, before, url, after) => {

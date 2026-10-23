@@ -36,7 +36,8 @@ try {
   const document=await readFile(join(site,packed.path),'utf8');
   assert.match(document,/src="mathjax\/tex-mml-svg.js" crossorigin="anonymous"/);
   assert.match(document,/<link rel="stylesheet"[^>]*crossorigin="anonymous"/);
-  assert.match(document,/<script>window.authored="unchanged"; import\("\.\/assets\//);
+  assert.match(document,/<script>window.authored="unchanged"; import\(new URL\("\.\/assets\//);
+  assert.ok(document.includes(', document.baseURI).href)'));
   assert.ok(!document.includes('base64'));
   assert.ok(document.includes('data-ctm-jsxgraph-sha256="'+jsxgraphCore.sha256+'"'));
   assert.ok(document.includes('data-ctm-jsxgraph-bytes="'+vendor.length+'"'));
