@@ -315,9 +315,10 @@ dependencies itself.
    `stack: cas: sympy | maxima` (a `stack:` section independent of the
    repository name stack-sympy), with `#| cas:` on a block as an override for
    a few questions. Mixing on one page should work (separate workers; *not yet implemented or tested*, milestone 2) but loads both
-   runtimes; the build notes it. The default is open (D2). Note when choosing
-   it: ctm-demo has STACK pages and follows `ref: main`, so a `maxima`
-   default would change it.
+   runtimes; the build notes it. The default is open (D2). No course uses
+   `{.stack-question}` today: ctm-demo's STACK page is math-exercise with a
+   STACK-style figure filter, and CTM Assessment does not package
+   stack-sympy (checked 23 October), so the default changes no course.
 2. **Backend registry, not a patch.** stack-sympy's frontend (step 6, when it
    moves onto ctm-libs' runtime and worker) reads a backend descriptor from
    the card: `{id, version, workerURL, assets, capabilities, requires:
@@ -768,7 +769,7 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
   `stack: cas: sympy | maxima` as the course setting (a `stack:` section,
   independent of the repository name) and `#| cas:` on a block. The default
   is open: it matters little, since no course exists before the package is
-  settled (see F-5 item 1 for ctm-demo).
+  settled, and no course uses `{.stack-question}` yet (F-5 item 1).
 - **D3 Runtime.** CTM owns the Maxima/ECL Wasm build, via the upstream
   Emscripten port, with exact pins of emsdk, ECL, Maxima and STACK and a
   tracking job; first milestone: reproduction from source with replay parity;
