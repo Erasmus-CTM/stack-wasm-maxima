@@ -236,6 +236,23 @@ try {
 // Parent-fetch/template lifecycle: no opaque HTTP navigation and no stale
 // asynchronous mount into a reset, replaced or disposed board.
 hostDocument.baseURI='https://site.test/dept/course/maxima/native.html';
+// Minimal inert DOM facade for lifecycle tests. Actual parser/speculative
+// loading behavior is tested in all real browsers by the offline fixture.
+hostWindow.DOMParser=class {
+  parseFromString(html){
+    let base;
+    const replacements=[];
+    const nodes=Array.from(html.matchAll(/<script\b[^>]*>[\s\S]*?<\/script>|<link\b[^>]*>/gi)).flatMap(match=>{
+      const opening=match[0].slice(0,match[0].indexOf('>')+1);
+      const attribute=/\b(src|href)="([^"]*)"/.exec(opening);if(!attribute)return [];
+      const values={[attribute[1]]:attribute[2]};
+      return [{hasAttribute:name=>name in values,getAttribute:name=>values[name],setAttribute(name,value){replacements.push([opening,opening.replace(attribute[0],name+'="'+value+'"')]);}}];
+    });
+    return {querySelector:()=>/<base\b/i.test(html)?{}:null,
+      createElement:()=>({href:''}),head:{prepend:value=>{base=value.href;}},querySelectorAll:()=>nodes,
+      documentElement:{get outerHTML(){let output=html.replace(/<!doctype[^>]*>/i,'');for(const [before,after]of replacements)output=output.replace(before,after);return output.replace(/<head>/i,'<head><base href="'+base+'">');}}};
+  }
+};
 const pendingTemplates=new Map(),templateRequests=[];
 hostWindow.fetch=url=>{
   templateRequests.push(url);
@@ -251,8 +268,8 @@ function templateFrame(path,values={t0:-1}){
   const handle=hostWindow.CTMStackJSXGraph.attachIframe(frame,{assessmentId:'template',inputs:['ans1'],boardValues:values});
   return {card,reset,select,frame,handle};
 }
-const templateHTML='<!doctype html><html><head><meta charset="utf-8"></head><body>unchanged board code</body></html>';
-const completeTemplate=(name,ok=true)=>pendingTemplates.get('https://site.test/dept/course/native/boards/'+name)({ok,status:ok?200:503,text:async()=>templateHTML});
+const templateHTML='<!doctype html><html><head><meta charset="utf-8"><script src="./assets/vendor.js"></script><link href="./assets/vendor.css"><script>window.literal="./assets/do-not-rewrite.js";</script></head><body>unchanged board code</body></html>';
+const completeTemplate=(name,ok=true,html=templateHTML)=>pendingTemplates.get('https://site.test/dept/course/native/boards/'+name)({ok,status:ok?200:503,text:async()=>html});
 const mounts=[];
 try{
   const first=templateFrame('../native/boards/shared.html'),second=templateFrame('../native/boards/shared.html');mounts.push(first,second);
@@ -263,6 +280,9 @@ try{
     assert.equal(item.frame.srcdocWrites,1);
     assert.ok(item.frame.getAttribute('srcdoc').includes('<head><base href="https://site.test/dept/course/native/boards/shared.html">'));
     assert.ok(item.frame.getAttribute('srcdoc').includes('unchanged board code'));
+    assert.ok(item.frame.getAttribute('srcdoc').includes('src="https://site.test/dept/course/native/boards/assets/vendor.js"'));
+    assert.ok(item.frame.getAttribute('srcdoc').includes('href="https://site.test/dept/course/native/boards/assets/vendor.css"'));
+    assert.ok(item.frame.getAttribute('srcdoc').includes('window.literal="./assets/do-not-rewrite.js";'),'Script text is preserved');
   }
   const resetting=templateFrame('../native/boards/reset-pending.html');mounts.push(resetting);await settle();
   const oldGeneration=resetting.handle.generation();resetting.reset.click();await settle();
@@ -282,6 +302,9 @@ try{
   assert.equal(failed.frame.srcdocWrites,0);assert.match(failed.card.querySelectorAll('.ctm-stack-jsxgraph-error')[0].textContent,/503/);
   failed.reset.click();await settle();completeTemplate('retry.html');await settle();
   assert.equal(failed.frame.srcdocWrites,1);assert.equal(failed.card.querySelectorAll('.ctm-stack-jsxgraph-error').length,0,'A successful retry clears its obsolete fetch error');
+  const unsafe=templateFrame('../native/boards/unsafe-resource.html');mounts.push(unsafe);await settle();
+  completeTemplate('unsafe-resource.html',true,templateHTML.replace('./assets/vendor.js','https://external.test/vendor.js'));await settle();
+  assert.equal(unsafe.frame.srcdocWrites,0);assert.match(unsafe.card.querySelectorAll('.ctm-stack-jsxgraph-error')[0].textContent,/staged same-origin/);
   assert.throws(()=>templateFrame('https://external.test/private.html'),/Invalid native board template/);
   assert.throws(()=>templateFrame('../native/private.html'),/Invalid native board template/);
   console.log('Template mounts: shared fetch, explicit base, stale reset/variant/disposal rejection and failed-fetch retry passed');

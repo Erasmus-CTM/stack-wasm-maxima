@@ -120,9 +120,20 @@
             if (!response.ok) throw new Error('Native board template request failed: ' + response.status);
             return response.text();
           }).then(html => {
-            if (!/<head>/i.test(html) || /<base\b/i.test(html)) throw new Error('Invalid native board template document');
-            const base = url.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
-            return html.replace(/<head>/i,'<head><base href="'+base+'">');
+            const document = new scope.DOMParser().parseFromString(html,'text/html');
+            if (!/<head>/i.test(html) || document.querySelector('base')) throw new Error('Invalid native board template document');
+            const base = document.createElement('base'); base.href = url;
+            document.head.prepend(base);
+            // Firefox's srcdoc speculative scanner can fetch before honoring
+            // base. Resolve static attributes explicitly; inline author/vendor
+            // script text stays untouched. Keep base for imports and CSS URLs.
+            for (const node of document.querySelectorAll('script[src],link[href]')) {
+              const attribute = node.hasAttribute('src') ? 'src' : 'href';
+              const resource = new URL(node.getAttribute(attribute),url);
+              if (!/^https?:$/.test(resource.protocol) || resource.origin !== templateURL.origin) throw new Error('Native board template resources must be staged same-origin');
+              node.setAttribute(attribute,resource.href);
+            }
+            return '<!doctype html>\n'+document.documentElement.outerHTML;
           });
           templateLoads.set(url,loading);
           loading.catch(() => { if (templateLoads.get(url) === loading) templateLoads.delete(url); });
