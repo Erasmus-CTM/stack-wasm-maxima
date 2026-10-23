@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
+import {expectedRuntimePaths} from './inventory.mjs';
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 export async function loadOwnedRuntime(source,repository) {
  if(!source)return null;
@@ -10,6 +11,11 @@ export async function loadOwnedRuntime(source,repository) {
  const manifest=JSON.parse(bytes);
  const pins=JSON.parse(await readFile(resolve(repository,'runtime/build/pins.json')));
  assert.equal(manifest.schema,1);assert.deepEqual(manifest.sourcePins,pins,'Owned runtime must match the exact current source pins');
+ const configuration=JSON.parse(await readFile(resolve(repository,'runtime/build/configuration.json')));
+ assert.deepEqual(manifest.configuration,configuration,'Current candidates require the exact no-gnuplot configuration');
+ const startup=(await readFile(resolve(repository,'runtime/build/no-plot.mac'),'utf8')).trim()+'\n';
+ assert.deepEqual(manifest.startupAdapter,{content:startup,sha256:configuration.startupSha256});
+ assert.equal(hash(await readFile(resolve(repository,'runtime/build/no-plot.mac'))),configuration.startupSha256);
  assert.ok(Array.isArray(manifest.runtimeAssets)&&manifest.runtimeAssets.length>0);
  const records=new Map();
  for(const record of manifest.runtimeAssets) {
@@ -22,5 +28,7 @@ export async function loadOwnedRuntime(source,repository) {
   assert.equal(content.length,record.bytes,record.path);assert.equal(hash(content),record.sha256,record.path);
   records.set('/'+record.path,{...record,fileBytes:record.bytes});
  }
- return {root:resolve(root,'runtime'),records,provenance:{kind:'ctm-owned-build',manifestSha256:hash(bytes),sourcePins:pins}};
+ for(const path of manifest.configuration?.omittedRuntimePaths||[])assert.ok(!records.has('/'+path),'Omitted file present in candidate manifest');
+ assert.deepEqual(new Set([...records.keys()].map(path=>path.slice(1))),await expectedRuntimePaths(repository),'Current candidate inventory must match the exact no-gnuplot closure');
+ return {root:resolve(root,'runtime'),records,startup,omittedRuntimePaths:manifest.configuration?.omittedRuntimePaths||[],provenance:{kind:'ctm-owned-build',manifestSha256:hash(bytes),sourcePins:pins}};
 }

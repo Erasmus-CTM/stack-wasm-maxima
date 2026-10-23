@@ -8,7 +8,8 @@ import {hash} from './codec.mjs';
 const repository=resolve('.'),work=join(repository,'.cache/runtime-compression/tests');await mkdir(work,{recursive:true});
 const root=await mkdtemp(join(work,'recipe-'));
 try{
- const paths=execFileSync('git',['ls-files','-z','--','runtime/build','.github/workflows/runtime-build.yml','scripts/milestone-two/prepare-runtime.py','scripts/milestone-one/run.mjs','scripts/milestone-one/compare.py'],{encoding:'utf8'}).split('\0').filter(Boolean);
+ const scope=JSON.parse(await readFile(join(repository,'runtime/build/recipe-inputs.json'),'utf8'));
+ const paths=execFileSync('git',['ls-files','-z','--',...scope.directories,...scope.files],{encoding:'utf8'}).split('\0').filter(Boolean);
  const recipe={revision:'a'.repeat(40),files:[]};
  for(const path of paths){const body=await readFile(join(repository,path));await mkdir(resolve(root,'recipe',path,'..'),{recursive:true});await writeFile(join(root,'recipe',path),body);recipe.files.push({path,bytes:body.length,sha256:hash(body)});}
  const save=()=>writeFile(join(root,'manifest.json'),JSON.stringify({recipe}));

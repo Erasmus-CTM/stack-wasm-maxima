@@ -50,7 +50,10 @@ jobs:
               if (!/^[0-9]+$/.test(input)) throw new Error('Expected a numeric source run id');
               run = (await github.rest.actions.getWorkflowRun({owner,repo,run_id:Number(input)})).data;
             } else {
-              const runs = (await github.rest.actions.listWorkflowRuns({owner,repo,workflow_id:workflow.id,
+              const branch=context.payload.pull_request?.head.ref||context.ref.replace(/^refs\/heads\//,'');
+              let runs = (await github.rest.actions.listWorkflowRuns({owner,repo,workflow_id:workflow.id,
+                branch,event:'pull_request',status:'completed',per_page:30})).data.workflow_runs;
+              if(!runs.some(row=>row.conclusion==='success'))runs=(await github.rest.actions.listWorkflowRuns({owner,repo,workflow_id:workflow.id,
                 branch:'runtime/2026-10-owned-build',event:'pull_request',status:'completed',per_page:30})).data.workflow_runs;
               run = runs.find(row=>row.conclusion==='success');
             }
@@ -58,7 +61,7 @@ jobs:
               throw new Error('A successful owned-runtime source build is required; no deployment-byte fallback is permitted.');
             }
             const artifacts = (await github.rest.actions.listWorkflowRunArtifacts({owner,repo,run_id:run.id,per_page:100})).data.artifacts;
-            const matches = artifacts.filter(row=>row.name.startsWith('owned-runtime-')&&!row.expired);
+            const matches = artifacts.filter(row=>/^owned-runtime-[0-9a-f]{40}$/.test(row.name)&&!row.expired);
             if (matches.length!==1) throw new Error('Expected one unexpired owned runtime artifact');
             const artifact=matches[0];
             const provenance={run:{id:run.id,html_url:run.html_url,head_sha:run.head_sha,workflow_id:run.workflow_id,conclusion:run.conclusion},

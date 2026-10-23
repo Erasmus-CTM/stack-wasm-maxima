@@ -27,16 +27,32 @@ def checked_checkout(path: Path, expected: str) -> Path:
         raise ValueError(f"Expected {expected} at {path}, got {actual}")
     return path
 
-def owned_runtime_source(path: Path | None, wanted: set[str]):
+def owned_runtime_source(path: Path | None, wanted: set[str], baseline_comparator=False):
     if path is None:
         return None
     path = path.resolve()
     encoded = (path / "manifest.json").read_bytes()
     manifest = json.loads(encoded)
     pins = json.loads((ROOT / "runtime/build/pins.json").read_text())
+    if baseline_comparator:
+        baseline = json.loads((ROOT / 'runtime/build/baseline.json').read_text())
+        if hashlib.sha256(encoded).hexdigest() != baseline['manifestSha256'] or manifest.get('sourcePins') != baseline['sourcePins']:
+            raise ValueError('Comparator must be the exact frozen historical owned baseline')
+        pins = baseline['sourcePins']
     if manifest.get("schema") != 1 or manifest.get("sourcePins") != pins:
-        raise ValueError("Owned runtime manifest does not identify the exact current source pins")
+        raise ValueError("Owned runtime manifest does not identify the exact expected source pins")
     records = manifest.get("runtimeAssets")
+    profile = manifest.get('configuration')
+    if not baseline_comparator:
+        expected = json.loads((ROOT / 'runtime/build/configuration.json').read_text())
+        if profile != expected:
+            raise ValueError('Unknown or changed runtime build configuration')
+        shim = (ROOT / 'runtime/build/no-plot.mac').read_bytes()
+        if hashlib.sha256(shim).hexdigest() != expected['startupSha256']:
+            raise ValueError('Current startup adapter hash differs')
+        if manifest.get('startupAdapter') != {'content':shim.decode().strip()+'\n','sha256':expected['startupSha256']}:
+            raise ValueError('Current startup adapter differs from the exact configuration')
+        wanted = wanted - {BASE + p for p in profile['omittedRuntimePaths']}
     if not isinstance(records, list) or len(records) != len(wanted):
         raise ValueError("Owned runtime asset inventory is incomplete")
     selected = {}
@@ -55,7 +71,8 @@ def owned_runtime_source(path: Path | None, wanted: set[str]):
         raise ValueError("Owned runtime asset paths differ from the required inventory")
     return {"root": path / "runtime", "records": selected,
             "provenance": {"kind": "ctm-owned-build", "manifestSha256": hashlib.sha256(encoded).hexdigest(),
-                           "sourcePins": pins}}
+                           "sourcePins": pins}, 'configuration': profile,
+            'startup': manifest.get('startupAdapter', {}).get('content', '')}
 
 
 def main() -> None:
@@ -66,6 +83,7 @@ def main() -> None:
     parser.add_argument("--asset-cache", type=Path, default=ROOT / ".cache/maxima-runtime")
     parser.add_argument("--runtime-source", type=Path, default=os.environ.get("CTM_MAXIMA_RUNTIME_SOURCE"),
                         help="Opt-in owned-build artifact directory; default remains the deployed runtime")
+    parser.add_argument("--verified-baseline-comparator", action="store_true", help="Comparator only: exact frozen historical artifact; never permits another pin set")
     args = parser.parse_args()
     stack = checked_checkout(args.stack_source, STACK_SHA)
     checkers = checked_checkout(args.ctm_checkers_source, CHECKERS_SHA)
@@ -89,10 +107,16 @@ def main() -> None:
         records[asset["url"]] = asset
     if set(records) != wanted:
         raise ValueError("Missing hashes for selected runtime assets")
-    owned = owned_runtime_source(args.runtime_source, wanted)
+    owned = owned_runtime_source(args.runtime_source, wanted, args.verified_baseline_comparator)
+    if owned and owned['configuration']:
+        wanted -= {BASE + p for p in owned['configuration']['omittedRuntimePaths']}
     args.output.mkdir(parents=True, exist_ok=True)
     runtime = args.output / "maxima-runtime"
     runtime.mkdir(exist_ok=True)
+    if owned and owned['configuration']:
+        for omitted in owned['configuration']['omittedRuntimePaths']:
+            if (runtime / omitted).exists() or (owned['root'] / omitted).exists():
+                raise ValueError('Trimmed runtime contains a stale omitted file: ' + omitted)
 
     def copy_asset(url: str) -> dict:
         if not url.startswith(BASE) or urlsplit(url).netloc != urlsplit(BASE).netloc:
@@ -173,6 +197,13 @@ def main() -> None:
         'm2_emit(sconcat("CTMMAXIMA-READY|",stackmaximaversion,"|",MAXIMA_VERSION_STR))$',
         "",
     ])
+    if owned:
+        sys.path.insert(0, str(ROOT / 'runtime/build'))
+        from configuration import startup as profile_startup
+        expected_startup = profile_startup(owned['configuration']) if owned['configuration'] else ''
+        if expected_startup != owned['startup']:
+            raise ValueError('Owned runtime startup differs from its pinned profile')
+        startup = expected_startup + startup
     manifest = {"schema": 1, "stackRevision": STACK_SHA, "stackLibraryVersion": version,
                 "ctmCheckersRevision": CHECKERS_SHA, "nativeInputPreparation": oracle.INPUT_PREPARATION,
                 "tests": oracle.TESTS, "startup": startup, "files": files, "runtimeAssets": assets,

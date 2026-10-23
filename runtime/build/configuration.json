@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "name": "no-gnuplot",
+  "omittedRuntimePaths": [
+    "libgnuplot.so",
+    "maxima-plot.fas"
+  ],
+  "capabilities": {
+    "plotting": false
+  },
+  "startupSha256": "63fa06031126206bfb31e01fa81a0b39e1cb33eb1d0f72a55ac4e203f8ad6aad",
+  "upstreamRecipesUnmodified": true
+}

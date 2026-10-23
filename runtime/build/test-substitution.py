@@ -20,7 +20,8 @@ class Substitution(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=work) as directory:
             root = Path(directory)
             record = {'path': 'asset.wasm', 'bytes': 4, 'sha256': 'a' * 64}
-            manifest = {'schema': 1, 'sourcePins': json.loads((ROOT / 'runtime/build/pins.json').read_text()), 'runtimeAssets': [record]}
+            config = json.loads((ROOT / 'runtime/build/configuration.json').read_text())
+            manifest = {'schema': 1, 'sourcePins': json.loads((ROOT / 'runtime/build/pins.json').read_text()), 'runtimeAssets': [record], 'configuration':config, 'startupAdapter':{'content':(ROOT / 'runtime/build/no-plot.mac').read_text().strip()+'\n','sha256':config['startupSha256']}}
             def check(value):
                 (root / 'manifest.json').write_text(json.dumps(value))
                 return module.owned_runtime_source(root, {module.BASE + 'asset.wasm'})
@@ -33,6 +34,15 @@ class Substitution(unittest.TestCase):
                 check({**manifest, 'runtimeAssets': [record, record]})
             with self.assertRaises(ValueError):
                 check({**manifest, 'sourcePins': {}})
+            with self.assertRaises(ValueError):
+                check({**manifest, 'configuration': None})
+            with self.assertRaises(ValueError):
+                check({**manifest, 'startupAdapter': None})
+            (root / 'manifest.json').write_text(json.dumps(manifest))
+            with self.assertRaises(ValueError):
+                module.owned_runtime_source(root, {module.BASE + 'asset.wasm'}, baseline_comparator=True)
+            with self.assertRaises(ValueError):
+                check({**manifest, 'configuration': {'name':'no-gnuplot','omittedRuntimePaths':['asset.wasm']}})
 
 if __name__ == '__main__':
     unittest.main()

@@ -8,6 +8,8 @@ import os
 import subprocess
 from pathlib import Path
 import shutil
+from configuration import configuration, startup
+from recipe_inputs import recipe_files
 
 ROOT = Path(__file__).resolve().parents[2]
 BASE = 'https://maxima-on-wasm.pages.dev/'
@@ -37,6 +39,7 @@ def main():
     args = parser.parse_args()
     work = ROOT / '.cache/runtime-build'
     pins = json.loads((ROOT / 'runtime/build/pins.json').read_text())
+    config = configuration()
     if subprocess.check_output(['git','rev-parse','HEAD'],cwd=args.notices,text=True).strip() != pins['notices']['commit']:
         raise ValueError('Third-party notices checkout is not the pinned revision')
     progress = json.loads((work / 'source-progress.json').read_text())['sources']
@@ -45,15 +48,28 @@ def main():
     toolchain = json.loads((work / 'logs/toolchain-archives.json').read_text())
     if len(toolchain['archives']) != len(pins['toolchainArchives']) or not all(row['verified'] for row in toolchain['archives']):
         raise ValueError('Executed toolchain archives were not all verified')
-    patches = json.loads((work / 'logs/build-patches.json').read_text())
-    if len(patches['patches']) != len(pins.get('buildPatches', [])) or not all(row['applied'] for row in patches['patches']):
-        raise ValueError('Pinned build patches did not all apply')
-    for record in patches['patches']:
-        if record['sourceFilesUnmodified'] is not True:
-            raise ValueError('Build patch changed original sources')
-        effective = work / record['derivedRecipe']['path']
-        if hashlib.sha256(effective.read_bytes()).hexdigest() != record['derivedRecipe']['sha256']:
-            raise ValueError('Effective build recipe changed after derivation')
+    if pins.get('buildPatches') or any(pin['name']=='gnuplot' for pin in pins['sources']):
+        raise ValueError('Current build must have no gnuplot source or carried build patch')
+    expected_archives = {pin['name'] + ('.tar' if pin['archive']['format']=='git-archive-tar' else '.tar.gz') for pin in pins['sources']}
+    if {path.name for path in (work / 'source-archives').iterdir()} != expected_archives:
+        raise ValueError('Source archive directory contains stale or missing provenance')
+    if (work / 'sources/gnuplot').exists():
+        raise ValueError('Unexpected external gnuplot source tree')
+    upstream_recipe = work / 'sources/maxima/wasm/Makefile'
+    preserved_recipe = work / 'build-recipes/maxima/wasm/Makefile'
+    if upstream_recipe.read_bytes() != preserved_recipe.read_bytes():
+        raise ValueError('Upstream build recipe changed')
+    source_before = json.loads((work / 'logs/source-state-before.json').read_text())
+    source_after = json.loads((work / 'logs/source-state-after.json').read_text())
+    if not source_before['passed'] or not source_after['passed']:
+        raise ValueError('Missing verified upstream source-state evidence')
+    critical = [row for source in source_after['sources'] if source['name']=='maxima' for row in source['files'] if row['path'] in ['wasm/Makefile','wasm/build.lisp','src/maxima.asd']]
+    if len(critical) != 3 or any((work / 'build-recipes/maxima' / row['path']).read_bytes() != (work / 'sources/maxima' / row['path']).read_bytes() for row in critical):
+        raise ValueError('Pinned upstream build inputs differ from preserved bytes')
+    recipe_evidence = {'path':'wasm/Makefile','sha256':hashlib.sha256(upstream_recipe.read_bytes()).hexdigest(),
+                       'verifiedFilesUnmodified':True,'verifiedInputs':critical,'patches':[],
+                       'scope':source_after['scope'],'beforeSha256':hashlib.sha256((work / 'logs/source-state-before.json').read_bytes()).hexdigest(),
+                       'afterSha256':hashlib.sha256((work / 'logs/source-state-after.json').read_bytes()).hexdigest()}
     for pin in pins['sources']:
         suffix = '.tar' if pin['archive']['format'] == 'git-archive-tar' else '.tar.gz'
         archive = work / 'source-archives' / (pin['name'] + suffix)
@@ -62,8 +78,13 @@ def main():
     built = work / 'sources/maxima/wasm/maxima-ecl-combined'
     runtime = args.output / 'runtime'
     runtime.mkdir(parents=True, exist_ok=True)
+    for omitted in config['omittedRuntimePaths']:
+        if (runtime / omitted).exists() or (built / omitted).exists():
+            raise ValueError('Unexpected omitted browser artifact: ' + omitted)
     table = []
     for path, deployed in sorted(records().items()):
+        if path in config['omittedRuntimePaths']:
+            continue
         body = (built / path).read_bytes()
         target = runtime / path
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -72,10 +93,10 @@ def main():
                       'deployedBytes': deployed['fileBytes'], 'deployedSha256': deployed['sha256'],
                       'differenceBytes': len(body) - deployed['fileBytes']})
     licence_dir = args.output / 'LICENSES'
-    shutil.copytree(args.notices / pins['notices']['path'], licence_dir, dirs_exist_ok=True)
+    shutil.copytree(args.notices / pins['notices']['path'], licence_dir, dirs_exist_ok=True, ignore=shutil.ignore_patterns('gnuplot.txt'))
     shutil.copy2(args.notices / 'THIRD-PARTY-NOTICES.md', args.output / 'SITE-NOTICES-context.md')
     # Preserve the source repositories' own notice files too; do not rewrite them.
-    for name, paths in {'maxima':['COPYING'], 'ecl':['COPYING','LICENSE','src/gmp/COPYING','src/gmp/COPYING.LIB','src/libffi/LICENSE','src/bdwgc/README.md','src/bdwgc/README.QUICK'], 'gnuplot':['Copyright']}.items():
+    for name, paths in {'maxima':['COPYING'], 'ecl':['COPYING','LICENSE','src/gmp/COPYING','src/gmp/COPYING.LIB','src/libffi/LICENSE','src/bdwgc/README.md','src/bdwgc/README.QUICK']}.items():
         for path in paths:
             source = work / 'sources' / name / path
             if source.is_file():
@@ -88,8 +109,7 @@ def main():
     recipe = {'repository':'https://github.com/Erasmus-CTM/stack-wasm-maxima',
               'revision':os.environ.get('GITHUB_SHA') or subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
               'files':[]}
-    recipe_paths = [p for p in (ROOT / 'runtime/build').rglob('*') if p.is_file() and '__pycache__' not in p.parts]
-    recipe_paths += [ROOT / '.github/workflows/runtime-build.yml', ROOT / 'scripts/milestone-two/prepare-runtime.py', ROOT / 'scripts/milestone-one/run.mjs', ROOT / 'scripts/milestone-one/compare.py']
+    recipe_paths = [ROOT / path for path in recipe_files(ROOT)]
     for source in sorted(recipe_paths):
         relative = source.relative_to(ROOT).as_posix()
         body = source.read_bytes()
@@ -97,7 +117,7 @@ def main():
         target.parent.mkdir(parents=True,exist_ok=True)
         target.write_bytes(body)
         recipe['files'].append({'path':relative,'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()})
-    (args.output / 'source-manifest.json').write_text(json.dumps({'schema':1,'sourcePins':pins,'recipe':recipe,'toolchain':toolchain,'buildPatches':patches},indent=2)+'\n')
+    (args.output / 'source-manifest.json').write_text(json.dumps({'schema':1,'sourcePins':pins,'recipe':recipe,'toolchain':toolchain,'upstreamRecipe':recipe_evidence,'configuration':config,'startupAdapter':{'content':startup(config),'sha256':config['startupSha256']}},indent=2)+'\n')
     notices = ["# Notices for this owned-build artifact", "",
                "These runtime files were rebuilt by CTM from the exact upstream sources and recipe recorded in source-manifest.json.",
                "The licence text files under LICENSES are copied unchanged from the pinned third-party-notices PR; upstream original notices and full source archives are retained too.",
@@ -106,12 +126,12 @@ def main():
                "SITE-NOTICES-context.md is the legacy site's notice for its deployed dependencies; it is retained only as site context and does not describe the provenance of these rebuilt files.",
                "Build inputs, exact archive hashes, SDK binary identities, recipe revision and recipe files are in source-manifest.json and recipe/.", ""]
     (args.output / 'BUILD-NOTICES.md').write_text('\n'.join(notices))
-    manifest = {'schema':1, 'runtimeAssets':table, 'sourcePins':pins, 'recipe':recipe, 'toolchain':toolchain, 'buildPatches':patches,
+    manifest = {'schema':1, 'runtimeAssets':table, 'sourcePins':pins, 'recipe':recipe, 'toolchain':toolchain, 'upstreamRecipe':recipe_evidence,'configuration':config,'startupAdapter':{'content':startup(config),'sha256':config['startupSha256']},
                 'scope':'Uncompressed owned-build substitution candidate; parity not implied by successful compilation'}
     (args.output / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     lines = ['# Owned build versus deployed files', '', '| Path | Built bytes | Deployed bytes | Difference |', '|---|---:|---:|---:|']
     lines += [f"| `{r['path']}` | {r['bytes']} | {r['deployedBytes']} | {r['differenceBytes']:+} |" for r in table]
-    lines += ['', f"Total built bytes: {sum(r['bytes'] for r in table)}.", '', 'No trims or compression applied.']
+    lines += ['', f"Total built bytes: {sum(r['bytes'] for r in table)}.", '', 'Plotting omitted from sources, build and delivery. Compiler flags unchanged; no other trim or compression applied.']
     (args.output / 'sizes.md').write_text('\n'.join(lines) + '\n')
     all_files = []
     for path in sorted(args.output.rglob('*')):
