@@ -29,6 +29,13 @@ def main():
         artifact = read(artifact_path)
         assert artifact['sourcePins'] == pins
         artifact_sha = digest(artifact_path)
+        from profile import configuration, startup
+        profile = configuration()
+        assert artifact['configuration'] == profile
+        assert artifact['profileEvidence']['startup'] == startup(profile)
+        effective = read(ROOT / '.cache/runtime-build/logs/effective-flags.json')
+        assert effective['passed'] and effective['configuration'] == profile
+        assert effective['finalOptimization'] == profile['eclCFlag']
         owned_assets = assets(artifact['runtimeAssets'], 'bytes')
         pinned_version = next(row['version'] for row in pins['sources'] if row['name'] == 'maxima')
         prepared = read(OUT / 'm1-owned/prepared.json')
@@ -66,6 +73,12 @@ def main():
         staged_path = ROOT / 'site/_site/stack-sources.json'
         assert browser['runtime']['manifestSha256'] == digest(staged_path)
         staged = read(staged_path)
+        assert staged['startup'].startswith(startup(profile))
+        for omitted in profile['omittedRuntimePaths']:
+            assert omitted not in owned_assets
+            assert not (artifact_path.parent / 'runtime' / omitted).exists()
+            assert not (ROOT / 'site/maxima-runtime' / omitted).exists()
+            assert not (ROOT / 'site/_site/maxima-runtime' / omitted).exists()
         assert staged['runtimeBuild']['manifestSha256'] == artifact_sha
         assert staged['runtimeBuild']['sourcePins'] == pins
         browser_sha = digest(ROOT / 'test-results/milestone-three/browser.json')
@@ -81,8 +94,10 @@ def main():
                 assert reference['nativeRuntime']['maxima'] == pinned_version
             report['nativeReplays'].append({'kind': name, 'nativeExecutableVersion': reference['nativeExecutableVersion'], 'summary': reference['summary']})
         timings = read(OUT / 'timings.json')
-        assert timings['passed'] and len(timings['samples']) == 4
-        assert {(r['candidate'], r['repetition']) for r in timings['samples']} == {('owned',1),('owned',2),('deployed',1),('deployed',2)}
+        assert timings['passed'] and len(timings['samples']) == 6
+        assert {(r['candidate'], r['repetition']) for r in timings['samples']} == {(candidate,n) for candidate in ('owned','deployed','baseline') for n in (1,2)}
+        baseline_pin = read(ROOT / 'runtime/build/baseline.json')
+        assert timings['baseline']['runtimeBuild']['manifestSha256'] == baseline_pin['manifestSha256']
         assert assets(timings['owned']['runtimeAssets'], 'fileBytes') == owned_assets
         assert timings['owned']['runtimeBuild']['manifestSha256'] == artifact_sha
         assert timings['owned']['runtimeBuild']['sourcePins'] == pins
@@ -95,10 +110,19 @@ def main():
             assert len(sample['nativeCalls']) == 3
             assert {row['operation'] for row in sample['nativeCalls']} == {'prepare','validate','prt'}
             assert all(row['result'] == row['expected'] for row in sample['nativeCalls'])
+            smoke = sample['smoke']
+            assert smoke['retained'] == 1000 and len(smoke['gcCalls']) == 100 and all(smoke['gcCalls'])
+            assert 'CTM deliberate caught CAS error' in smoke['caughtError'] and smoke['afterError'] == 42
+            if sample['candidate'] == 'owned' and not profile['capabilities']['plotting']:
+                assert len(smoke['plotting']) == 4
+                assert all('CTM plotting unavailable; use JSXGraph' in row['diagnostic'] and row['afterError'] == 42 for row in smoke['plotting'])
+                assert not any(row['pathname'].endswith(tuple('/'+p for p in profile['omittedRuntimePaths'])) for row in sample['requests'])
         report['artifactManifestSha256'] = artifact_sha
         report['browserReportSha256'] = browser_sha
         report['timingSamples'] = [{k: row[k] for k in ('candidate','repetition','readyMs','calls','nativeCalls')} for row in timings['samples']]
         report['passed'] = True
+        report['configuration'] = profile
+        report['effectiveFlags'] = effective
     except Exception as error:
         report['failure'] = f'{type(error).__name__}: {error}'
     OUT.mkdir(parents=True, exist_ok=True)

@@ -11,10 +11,17 @@ on:
       - 'scripts/milestone-one/compare.py'
 permissions:
   contents: read
+  actions: read
 jobs:
   build:
     runs-on: ubuntu-24.04
     timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [baseline, ecl-oz, ecl-o2, trim-plot]
+    env:
+      CTM_RUNTIME_PROFILE: ${{ matrix.profile }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -35,6 +42,11 @@ jobs:
           python runtime/build/test-toolchain.py
       - name: Record read-only upstream drift
         run: python runtime/build/check-upstream.py
+      - uses: actions/cache@v4
+        with:
+          path: |
+            .cache/runtime-build/source-archives
+          key: owned-verified-sources-${{ runner.os }}-${{ hashFiles('runtime/build/pins.json') }}
       - name: Fetch exact source commits and verify their archive hashes
         run: |
           set -o pipefail
@@ -55,7 +67,7 @@ jobs:
         with:
           path: .cache/runtime-build/sources/maxima/wasm/ecl-host
           key: owned-host-ecl32-${{ runner.os }}-${{ hashFiles('runtime/build/pins.json', 'runtime/build/build.sh') }}
-      - name: Build with upstream recipes
+      - name: Build the explicit one-factor candidate
         id: build
         run: bash runtime/build/build.sh
       - uses: actions/cache/save@v4
@@ -197,6 +209,20 @@ jobs:
         run: |
           python scripts/milestone-two/prepare-runtime.py --output .cache/runtime-build/deployed-demo \
             --stack-source .site-sources/stack --ctm-checkers-source .site-sources/ctm-checkers
+      - name: Download the frozen fully validated owned baseline
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: '39870918765'
+          artifact-ids: '12467529817'
+          merge-multiple: true
+          path: .cache/runtime-build/baseline-run
+      - name: Verify and stage the owned baseline without rebuilding or rewriting its recipe
+        run: |
+          python runtime/build/verify-baseline.py
+          python scripts/milestone-two/prepare-runtime.py --output .cache/runtime-build/owned-baseline-demo \
+            --runtime-source .cache/runtime-build/baseline-run/.cache/runtime-build/artifact \
+            --stack-source .site-sources/stack --ctm-checkers-source .site-sources/ctm-checkers
           node runtime/build/measure.mjs
       - name: Assert complete acceptance evidence
         run: python runtime/build/check-acceptance.py
@@ -204,7 +230,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: owned-runtime-${{ github.sha }}
+          name: owned-runtime-${{ matrix.profile }}-${{ github.sha }}
           include-hidden-files: true
           path: |
             .cache/runtime-build/artifact/
@@ -215,6 +241,7 @@ jobs:
             .cache/runtime-build/build-recipes/
             .cache/runtime-build/sources/ecl/build/config.log
             .cache/runtime-build/sources/**/config.log
+            .cache/runtime-build/build-sources/**/config.log
             .cache/runtime-build/validation/
             test-results/milestone-three/
             test-results/milestone-one/

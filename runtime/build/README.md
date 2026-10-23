@@ -143,3 +143,43 @@ patch from provenance. gnuplot builds before the longer host/Maxima phases to
 fail early. All original/effective recipe hashes are retained. The notices
 checkout is refreshed to licence PR 4 commit
 b34bfc8af10cd80b6130baabe88a47c9a32c0333; its texts are copied unchanged.
+
+## Step 2 controlled trims and compiler candidates
+
+The build workflow retains four separate candidates: unchanged baseline; ECL
+-Oz; ECL -O2; baseline flags with plotting omitted from the delivered inventory.
+Each receives all 22 probes at both STACK pins, native browser 316 programs,
+independent and same-source native replays, and the existing hash-bound evidence
+gates. No candidate combines factors and no winner is selected automatically.
+
+Each job downloads the exact fully validated step-1 owned artifact
+39870918765/12467529817. baseline.json freezes its runtime manifest, complete
+artifact manifest and recipe revision. Every manifested byte and its successful
+acceptance record are verified before it is used as an owned timing comparator.
+The deployed comparator remains alongside it. Two alternating-order trials per
+configuration use the same runner and fresh Chromium processes, workers and
+profiles, served with gzip-6. Encoded HTTP body bytes are recorded with readiness
+and actual captured native-rational prepare/validate/PRT calls. These observations
+are not statistically established speed gains or internet latency predictions.
+
+The plotting trim omits only maxima-plot.fas and libgnuplot.so. The original
+compiler dependency still builds plot.fasb because every other optional module
+depends on it. Delivered versus built inventory is intentionally distinct.
+Before unchanged STACK startup, a recorded Lisp shim replaces ECL's plot
+autoload functions: the five option names used by both pinned STACK loaders
+are accepted as no-ops; remaining plotting entry points produce an explicit
+`CTM plotting unavailable; use JSXGraph.` error. Actual STACK plot() and direct
+plot calls must produce that diagnostic, followed by a successful same-worker
+call without requesting either omitted module. Artifact and site directories
+containing stale omitted files are rejected. No index or mathematical module
+is removed; those require an additional dependency/capability census.
+
+Compiler candidates preserve mandatory conservative-GC spill-pointers and stack
+settings. The final effective CFLAGS and linking settings are asserted; full
+commands, target-info and configure evidence are retained. Every timing worker
+also makes 100 separately acknowledged allocation/full-GC calls while retaining
+a symbolic object, then a caught CAS error followed by a successful call. This
+checks collection survival without changing the existing transport fatal-error
+policy. Linear-memory capacity is not live Lisp heap; no live-heap estimate is
+claimed. Failed candidates retain their logs and evidence and cannot be silently
+replaced by the baseline. Publishing, deployment, tags and merges remain AC's.

@@ -39,3 +39,24 @@ bypassed or account created. The public patch is ready in
 [PR 7](https://github.com/Erasmus-CTM/stack-wasm-maxima/pull/7), but upstream has
 not been notified. This remains an explicit limitation pending authenticated
 access, not a claim that upstream received it.
+
+## Step 2 compiler candidates
+
+`ecl-oz.patch` and `ecl-o2.patch` each change the same single build variable:
+the final wasm32 optimization flag in pinned ECL `src/aclocal.m4` and its
+generated `src/configure`. Maxima's Makefile supplies `-O0`, and ECL appends
+another `-O0`; changing only the first flag would not optimize the output.
+The upstream comment explicitly warns that nonzero optimization seemed slower
+with Binaryen spill-pointers. These are experiments, not presumed improvements.
+The required spill-pointers pass, 32 MiB stack, Lisp safety and host flags stay.
+
+The original verified ECL source is copied into a separate build-sources tree;
+only these two configure files change before compilation. Their effective bytes
+are retained in build-recipes, with original archive pin and patch SHA-256.
+Generated objects stay out of the preserved recipe. No mathematical or STACK
+source changes. The original source repository remains clean.
+
+Prepared upstream offer (not posted; no authenticated GitLab session): expose
+a configurable wasm32 optimization flag defaulting to the current -O0, while
+retaining spill-pointers. Candidate parity/GC and timing evidence will accompany
+the proposal; no unsupported speed or correctness claim is made here.
