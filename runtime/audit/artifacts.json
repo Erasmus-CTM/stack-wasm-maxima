@@ -1,13 +1,13 @@
 [
   {
-    "id": 12524712809,
-    "name": "precompiled-native-fixtures-c752992cb6b9debd9feb4c99cd43f4ab107c4777",
-    "run": 40005689720,
-    "head": "4d9e4c1db35b04bc640b1a2ef1f064cc79aafc3e",
+    "id": 12527137181,
+    "name": "precompiled-native-fixtures-035cec10049300274e0f529ff3912e9774e3a460",
+    "run": 40010290944,
+    "head": "b549f25bb380fdac5fb477129a6b350925ce5c43",
     "workflow": 394303393,
     "attempt": 1,
     "conclusion": "success",
-    "sha256": "7fb52a78167aa363e0d532b6047150e304b24eb247549f4f06b6bda54f54aa74",
+    "sha256": "205ac924f62f88efe0575a9324b0d3582666d1a35c9da74bdf5684d09a7ed31c",
     "files": [
       "precompiled-fixtures/report.json",
       "precompiled-fixtures/assignment-control/check-source.log",
@@ -27,7 +27,22 @@
       "precompiled-fixtures/parser-bootstrap/translate.log",
       "precompiled-fixtures/parser-bootstrap/fixture.LISP",
       "precompiled-fixtures/parser-bootstrap/check-source.log",
-      "precompiled-fixtures/parser-bootstrap/check-compiled.log"
+      "precompiled-fixtures/parser-bootstrap/check-compiled.log",
+      "precompiled-stack/logs/translate-initialized.log",
+      "precompiled-stack/logs/initialized-source.sha256",
+      "precompiled-stack/logs/native-entry-status.txt",
+      "precompiled-stack/logs/translate.log",
+      "precompiled-stack/logs/translate-adapted.log",
+      "precompiled-stack/logs/stackmaxima-source.sha256",
+      "precompiled-stack/source-initialized/stackmaxima.mac",
+      "precompiled-stack/source-initialized/stackmaxima.LISP",
+      "precompiled-stack/source-initialized/stackmaxima.lisp",
+      "precompiled-stack/source-initialized/display2d-bridge.lisp",
+      "precompiled-stack/source-initialized/parser-declarations.mac",
+      "precompiled-stack/source-initialized/parser-declarations.json",
+      "precompiled-stack/source-initialized/ctm-stackmaxima.asd",
+      "precompiled-stack/initialized-translate-driver.lisp",
+      "precompiled-stack/assignment-adapter.lisp"
     ]
   }
 ]
