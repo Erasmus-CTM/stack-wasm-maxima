@@ -1,0 +1,405 @@
+---
+title: "Licences and sources"
+subtitle: "Third-party software and content that this site redistributes"
+engine: markdown
+---
+
+This site serves files that were written by other people. This page lists them,
+the licence each one is distributed under, where that statement comes from, and
+where the matching source can be found. The licence texts are in the
+`LICENSES/` folder of this site (27 text files, linked below file by file) and in
+the repository's `site/LICENSES/` folder (the same files; the repository copy
+becomes visible on the `main` branch once this page is merged). The page describes
+what is provided. It is not legal advice and does not claim that every condition
+of every licence has been checked.
+
+Everything below was checked on 2026-10-22 and 2026-10-23 against the files
+deployed on this site. The site also serves preview copies of research branches
+under `previews/research/` (`2026-10-native-stack` and
+`2026-10-runtime-feasibility` at the time of checking). Their `maxima-runtime/`
+binaries and `maxima.js` have the same SHA-256 as those of the main site, and their
+`stack-sources.json` names the same STACK commit. This page covers those copies as
+well. "Evidence" means a notice inside a shipped file, a licence file in the
+upstream source tree at the stated version, or both. Where neither could be
+found the entry says so.
+
+## Maxima, ECL and gnuplot runtime
+
+The Maxima runtime in `maxima-runtime/` is the WebAssembly build made by Marius
+Gerbershagen: an Emscripten port of Maxima running on ECL, deployed at
+<https://maxima-on-wasm.pages.dev/>. Its source is published at
+<https://gitlab.com/mgerbershagen/maxima> (branch `emscripten-port-deployed`).
+
+- The files are copied byte for byte from that deployment. Each file's
+  SHA-256 is recorded in [`runtime-assets.json`](runtime-assets.json) and
+  checked when the site is built. This site has not modified, rebuilt or patched
+  them. [`runtime-preload.json`](maxima-runtime/runtime-preload.json) is assembled
+  by this project from the same unmodified files (their bytes, base64-encoded) so
+  that they load in one request.
+- The port's source is published at the repository above (branch
+  `emscripten-port-deployed`). This project could not confirm that this branch
+  contains the Maxima commit (`813903d33`) or the ECL source id (`e4bdb2e5...`)
+  named by the binaries, and has not compared the branch with the files: GitLab
+  could not be read from its build environment.
+- A runtime built by the CTM project from pinned sources, with its full build
+  recipe, sources and licence files published beside each release, is planned;
+  see [§6 of the system design audit](https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/main/reports/2026-10-22-system-design-audit.md#6-runtime-ownership-packaging-and-exams).
+  Until then the upstream deployment is the reference for these files.
+
+| Component | Files on this site | Version as reported by the files | Licence | Source |
+|---|---|---|---|---|
+| Maxima (Emscripten port) | `maxima.wasm`, `maxima-integration.fas`, `maxima-limits.fas`, `maxima-matrix-algebra.fas`, `maxima-number-theory.fas`, `maxima-plot.fas`, `maxima-poisson-series.fas`, `maxima-quadpack.fas`, `maxima-slatec.fas`, `maxima-solve.fas` | `branch_5_49_base_90_g813903d33` | GNU GPL version 2, as in Maxima's `COPYING` ([GPL-2.0 text](LICENSES/GPL-2.0-only.txt); [Maxima's COPYING](LICENSES/Maxima-COPYING.txt)). "Only" or "or later" is not stated in `COPYING`; GitLab labels the port "GNU General Public License v2.0 or later". Individual source files differ, see [notes](#maxima). | [port branch `emscripten-port-deployed`](https://gitlab.com/mgerbershagen/maxima/-/tree/emscripten-port-deployed) (a branch, not a fixed commit); upstream Maxima at <https://maxima.sourceforge.io/>, read at [tag `branch-5_49-base`](https://github.com/rtoy/maxima/tree/cce856a60952c971e6f3604706335455c9a46fca) in a GitHub mirror |
+| Maxima share packages | 66 files under `maxima-runtime/share/` | same | per file, see [table below](#maxima-share-packages) | same |
+| ECL (Embeddable Common Lisp) | `libecl.so` | 26.3.27, source id `e4bdb2e5b1e444e1773032a53650773848f4d6cd` | [LGPL-2.1-or-later](LICENSES/LGPL-2.1-or-later.txt) ([ECL's LICENSE](LICENSES/ECL-LICENSE.txt)), with exceptions that include parts present in the file (`loop.lsp`, `contrib/ecl-cdb`), see [notes](#ecl) | [tag 26.3.27](https://gitlab.com/embeddable-common-lisp/ecl/-/tree/26.3.27); checked in the [GitHub mirror](https://github.com/roswell/ecl/tree/26.3.27) |
+| GMP, bundled with ECL | inside `libecl.so` | 4.2.1 | [LGPL-2.1-or-later](LICENSES/LGPL-2.1-or-later.txt) | [`src/gmp` of ECL 26.3.27](https://github.com/roswell/ecl/tree/26.3.27/src/gmp) |
+| Boehm-Demers-Weiser GC, bundled with ECL | inside `libecl.so` | 8.2.8 | [Boehm-GC](LICENSES/Boehm-GC.txt) | [`src/bdwgc` of ECL 26.3.27](https://github.com/roswell/ecl/tree/26.3.27/src/bdwgc); [bdwgc v8.2.8](https://github.com/ivmai/bdwgc/tree/v8.2.8) |
+| gnuplot | `libgnuplot.so` | 6.1, patchlevel 0, dated 2025-02-15; probably a modified, library-style build, see [notes](#gnuplot) | gnuplot's own licence ([gnuplot](LICENSES/gnuplot.txt), its `Copyright` file; SPDX `gnuplot`), see [notes](#gnuplot) | <http://www.gnuplot.info/>; licence text read at [commit `fbeb88e`](https://github.com/gnuplot/gnuplot/tree/fbeb88eadedf927a4d778b41dd118e373f33eacb) of the GitHub mirror. Where the build's own sources and patches are published: not determined |
+| Emscripten JavaScript runtime | `maxima.js` | Emscripten version not stated in the file | MIT or NCSA, at the user's choice ([MIT](LICENSES/MIT.txt), [NCSA](LICENSES/NCSA.txt), [Emscripten's LICENSE](LICENSES/Emscripten-LICENSE.txt)) | [Emscripten at `45a6cffd`](https://github.com/emscripten-core/emscripten/tree/45a6cffdbdf003665c7f48072191ce5a860fd0f4) (`main` when read) |
+| Emscripten system libraries: musl libc (`libgnuplot.so` exports musl's `crypt` functions; `maxima.wasm` contains `__crypt_*` names); libc++ (`std::__2` symbols), libc++abi and compiler-rt (source paths) in `maxima.wasm` only | inside the files named | not stated in the files | musl: MIT ([musl COPYRIGHT](LICENSES/musl-COPYRIGHT.txt)); LLVM libraries: Apache-2.0 with LLVM exception ([Apache-2.0](LICENSES/Apache-2.0.txt), [LLVM-exception](LICENSES/LLVM-exception.txt), [LLVM LICENSE.TXT](LICENSES/LLVM-LICENSE.TXT.txt)) | [`system/lib` of Emscripten at `45a6cffd`](https://github.com/emscripten-core/emscripten/tree/45a6cffdbdf003665c7f48072191ce5a860fd0f4/system/lib) (the `main` branch when read; the toolchain version used for the build is not stated) |
+| Port glue scripts | `maxima_thread.js`, `share_files.js` | none | no notice in the files; licence not determined | [port branch](https://gitlab.com/mgerbershagen/maxima/-/tree/emscripten-port-deployed) |
+
+### Notes on the runtime {#runtime-notes}
+
+#### Maxima {#maxima}
+
+- Maxima's `COPYING` consists of a preface about the U.S. Department of Energy
+  and the text of the GNU GPL version 2; the whole file is in
+  [`LICENSES/Maxima-COPYING.txt`](LICENSES/Maxima-COPYING.txt). It was read at
+  Maxima's `branch-5_49-base` tag
+  (`cce856a60952c971e6f3604706335455c9a46fca`) in a GitHub mirror of Maxima's
+  repository, <https://github.com/rtoy/maxima>. The shipped commit
+  (`813903d33`, from the version string) is not in that mirror, so it is
+  presumably on the port branch; it could not be inspected here. The version
+  string means 90 commits after the 5.49 branch point of December 2025.
+- The `COPYING` file does not say "or later". Most Maxima core source files
+  carry only a copyright line and no licence text. Whether a given core file is
+  "GPL-2.0-only" or "GPL-2.0-or-later" is therefore not stated in the files
+  examined. GitLab's page for `COPYING` on the port branch (read on 2026-10-22) labels
+  the project "GNU General Public License v2.0 or later".
+- `maxima.wasm` contains the paths of 156 files of the port's `src/` and
+  `share/utils/` trees (for example `src/mlisp.lisp`). Comparing those with the
+  `branch-5_49-base` tag, these files carry notices other than the project
+  licence:
+  - `intl.lisp`: copyright 1999-2010 Paul Foley, an MIT-style permission notice.
+    The notice from the header of that file is reproduced verbatim in
+    [`LICENSES/Maxima-intl.lisp-notice.txt`](LICENSES/Maxima-intl.lisp-notice.txt)
+    (no SPDX identifier assigned here).
+  - `getopt.lisp`: copyright 2003 Kevin M. Rosenberg. The file's licence is
+    Maxima's `LICENSES/getopt-license.txt` (three-clause BSD terms), reproduced
+    unchanged in
+    [`LICENSES/Maxima-getopt-license.txt`](LICENSES/Maxima-getopt-license.txt).
+  - `maxmin.lisp`, `nummod.lisp`: Lisp Lesser GNU Public License (LLGPL: Franz's
+    preamble, [`LICENSES/LLGPL.txt`](LICENSES/LLGPL.txt), plus the GNU Library
+    General Public License version 2 or later,
+    [`LICENSES/LGPL-2.0-or-later.txt`](LICENSES/LGPL-2.0-or-later.txt)). The share
+    file `mring.lisp` has the same notice (see the share table).
+  - `rand-mt19937.lisp`: derived from public-domain CMUCL code and the
+    Mersenne Twister, noted as placed in the public domain.
+  - `numerical/f2cl-lib.lisp`: header "Copyright (c) University of Waikato,
+    Hamilton, New Zeland 1992-95 - all rights reserved"; no licence text.
+  - `pregexp.lisp` (Dorai Sitaram): no licence text in the file.
+  - `numerical/slatec.lisp`, and the contents of `maxima-slatec.fas` and
+    `maxima-quadpack.fas`: Lisp translated by f2cl from the Fortran of the SLATEC
+    library (which includes QUADPACK), obtained from netlib, according to
+    Maxima's `src/numerical/slatec/README`. The licence status of the Fortran
+    originals is not stated there and was not determined here.
+- The nine `maxima-*.fas` files are compiled Maxima modules. They contain
+  Maxima's symbol names and no licence text of their own.
+
+#### Maxima share packages {#maxima-share-packages}
+
+The 66 files below `maxima-runtime/share/` are the Maxima share packages that
+the runtime preloads. Their notices differ by package. The table gives what each
+file's own header says. "GPL-2.0-or-later" means the header says "version 2 of
+the License, or (at your option) any later version". The files are served from
+`maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/` on this site,
+so the full notice can be read in each file.
+
+| Folder (files) | Copyright holder named in the header | Licence statement in the files |
+|---|---|---|
+| `contrib/` (5) | `diag.mac`: none named. `Grobner/grobner.lisp`: Marek Rychlik. `opsubst.lisp`: Barton Willis. `simplifying.lisp`: Stavros Macrakis. `trigtools/trigtools.mac`: A. Domarkas | `diag.mac`: "the GPL, version 2+". `grobner.lisp`: GPL-2.0-or-later. `opsubst.lisp`, `trigtools.mac`: GNU GPL, version not stated. `simplifying.lisp`: [LGPL-3.0](LICENSES/LGPL-3.0-or-later.txt) as written in the file ("version 3 (LGPLv3)") |
+| `descriptive/` (2), `distrib/` (2), `draw/` (6), `stats/` (3) | Mario Rodriguez Riotorto | GPL-2.0-or-later in `descriptive.mac`, `distrib.mac`, `numdistrib.lisp`, `gnuplot.lisp`, `grcommon.lisp`, `picture.lisp`, `vtk.lisp`, and the three `stats/` files. `descriptive_util.lisp`, `draw.lisp`, `draw.system`: no notice |
+| `fourier_elim/` (1) | Barton Willis | GNU GPL, version not stated |
+| `lbfgs/` (9) | `maxima-lbfgs.lisp`: Robert Dodier | `maxima-lbfgs.lisp`: "Released under the terms of the GNU General Public License", version not stated. The other eight files (seven f2cl translations of Fortran code and the small loader `lbfgs.mac`) carry no copyright or licence notice; their licence is not determined here |
+| `linearalgebra/` (9) | Barton Willis | GNU GPL, version not stated, in all files with a notice except `mring.lisp` (LLGPL). `load-linearalgebra-lisp-files.lisp`: no notice |
+| `lisp-utils/` (1) | `defsystem.lisp`: Mark Kantrowitz and Marco Antoniotti | MK-DEFSYSTEM permission notice at the top of the file (conditions: keep the notice intact; mark modified versions as unofficial); no SPDX identifier assigned here |
+| `macro/` (2), `matrix/` (1), `trigonometry/` (5) | none named | no notice in the files |
+| `simplification/` (4) | `genut.mac`: Wolfgang Jenkner | `genut.mac`: GPL-2.0-or-later. `facexp.mac`, `functs.mac`, `lrats.mac`: no notice |
+| `stringproc/` (11) | Volker van Nek (`base64`, `cryptools`, `md5`, `sha1`, `sregex`, `printf`, `stringproc`); Robert Dodier (`eval_string`, `unicode-sniffer`) | GPL-2.0-or-later in `base64.lisp`, `cryptools.lisp`, `eval_string.lisp`, `md5.lisp`, `sha1.lisp`, `sregex.lisp`. "GPL2" in `printf.lisp` and `stringproc.lisp`. "GNU General Public License, version 2" in `unicode-sniffer.lisp`. `sregex.mac`, `stringproc.mac`: no notice |
+| `to_poly_solve/` (3) | Barton Willis | GPL-2.0-or-later in `to_poly.lisp` and `to_poly_solve_extra.lisp`; "GNU General Public License version two" in `to_poly_solve.mac` |
+| `info/` (2, below `share/info/`) | none named | `maxima-index.lisp` and `maxima-index-html.lisp` are generated documentation indexes with no notice |
+
+The GPL texts used above: [GPL-2.0 text](LICENSES/GPL-2.0-or-later.txt) (also
+available as [GPL-2.0-only](LICENSES/GPL-2.0-only.txt); it is the same text). The
+LLGPL files (`mring.lisp` here, `maxmin.lisp` and `nummod.lisp` above) are covered by
+[`LICENSES/LLGPL.txt`](LICENSES/LLGPL.txt) and
+[`LICENSES/LGPL-2.0-or-later.txt`](LICENSES/LGPL-2.0-or-later.txt).
+
+#### ECL, GMP and the garbage collector {#ecl}
+
+- `libecl.so` contains the strings `26.3.27` and the source id shown in the
+  table, and the banner "Copyright (C) 1984 Taiichi Yuasa and Masami Hagiya,
+  1993 Giuseppe Attardi, 2013 Juan J. Garcia-Ripoll, 2018 Daniel Kochmanski,
+  2024 Daniel Kochmanski and Marius Gerbershagen ... ECL is free software, and you
+  are welcome to redistribute it under certain conditions". The licence itself is
+  in the ECL source tree: `LICENSE` at tag 26.3.27 says LGPL version 2.1 or later
+  ([ECL's LICENSE](LICENSES/ECL-LICENSE.txt)). The source id in the binary
+  was not found in the GitHub mirror (it may be a commit of the port's author), so
+  the tag was used.
+- ECL's `LICENSE` excludes from the LGPL the files `src/lsp/loop.lsp`,
+  `src/lsp/pprint.lsp` and `src/lsp/format.lsp`, and the directories `contrib/`
+  and `examples/`. Parts of the following are present in `libecl.so`:
+  - LOOP (`src/lsp/loop.lsp`, "Symbolic's LOOP macro"): the file's strings and
+    internal names (for example `LOOP-ACROSS-LIST`, `LOOP-EMIT-FINAL-VALUE`,
+    `loop-minimax`) are in the binary. The file carries permission notices of the
+    Massachusetts Institute of Technology (1986) and Symbolics, Inc. (1989-1992)
+    that ask for the notice to appear in copies and in supporting documentation.
+    The notice is reproduced verbatim from ECL 26.3.27 in
+    [`LICENSES/ECL-loop.lsp-notice.txt`](LICENSES/ECL-loop.lsp-notice.txt).
+  - Pretty printer and FORMAT (`pprint.lsp`, `format.lsp`): names such as
+    `pretty-stream`, `pprint-logical-block` and `format-directive` are in the
+    binary. The files say they are from CMU Common Lisp and "placed in the public
+    domain".
+  - `contrib/ecl-cdb/` (copyright 2011 Juan Jose Garcia-Ripoll): `libecl.so`
+    contains its `ecl-cdb::*` functions and the file names `ECL-CDB.LISP` and
+    `ECL-HELP.LISP`. The files' header says "GNU Library General Public License
+    ... version 2 of the License, or (at your option) any later version"
+    ([`LICENSES/LGPL-2.0-or-later.txt`](LICENSES/LGPL-2.0-or-later.txt)).
+  - Other `contrib/` directories of ECL 26.3.27 (for example `asdf`, `sockets`
+    and `deflate`): no names from them were found in `libecl.so`.
+- GMP: `libecl.so` exports GMP's `__gmpz_*` and `__gmpn_*` functions, including
+  internals that only exist in the GMP 4 series (for example `__gmpn_kara_mul_n`),
+  and contains the string `4.2.1`. ECL 26.3.27 bundles GMP 4.2.1 in `src/gmp`
+  (`PACKAGE_STRING='GNU MP 4.2.1'`), whose files state the GNU LGPL "version 2.1
+  of the License, or (at your option) any later version". Copyright: Free
+  Software Foundation, Inc.
+- Garbage collector: `libecl.so` contains Boehm-GC banners ("Copyright 1988, 1989
+  Hans-J. Boehm and Alan J. Demers", "Copyright (c) 2008-2021 Ivan Maidanski",
+  and others) and exports `GC_*` functions. ECL 26.3.27 bundles version 8.2.8 in
+  `src/bdwgc`. The README and `include/gc.h` of bdwgc v8.2.8 give the "THIS MATERIAL IS PROVIDED AS IS ...
+  Permission is hereby granted to use or copy this program for any purpose,
+  provided the above notices are retained on all copies ..." terms, which are
+  the text of SPDX `Boehm-GC`. The copyright lines in `gc.h` are: Hans-J. Boehm
+  and Alan J. Demers (1988, 1989); Xerox Corporation (1991-1995); Silicon
+  Graphics (1996-1999); Hewlett-Packard (1999, 2000-2011); Free Software
+  Foundation (2007); Ivan Maidanski (2009-2020).
+- libffi is bundled in ECL's source tree, but no libffi symbols are exported or
+  imported by `libecl.so` or `maxima.wasm`, so it is not listed as shipped.
+- `libecl.so` also holds character tables generated from the Unicode Character
+  Database files `UnicodeData.txt` and `Jamo.txt` (per ECL's `contrib/unicode`
+  scripts). ECL's tree states no licence for these tables, and the terms of the
+  Unicode data files were not examined here: not determined.
+
+#### gnuplot {#gnuplot}
+
+- `libgnuplot.so` reports gnuplot version 6.1, patchlevel 0, date 2025-02-15, and
+  "Copyright (C) 1986-1993, 1998, 2004, 2007-2023". The licence text is gnuplot's
+  `Copyright` file, committed unchanged as [`LICENSES/gnuplot.txt`](LICENSES/gnuplot.txt)
+  from <https://github.com/gnuplot/gnuplot> (master as of 2023-09-08,
+  `fbeb88eadedf927a4d778b41dd118e373f33eacb`). That GitHub mirror stopped at
+  2023-09-08, which is older than the shipped build, so the file could not be
+  compared at the exact version; the SPDX `gnuplot` text matches it. The official
+  gnuplot repository on SourceForge could not be read from the build environment.
+- `libgnuplot.so` exports a function `libgnuplot_main`. That name does not occur in
+  gnuplot's source at the commit above (gnuplot's own entry points there are
+  `main` and `gnu_main`), and the binary is dated 2025-02-15, after that commit.
+  This suggests a modified, library-style build of gnuplot (or a newer upstream
+  that could not be read). Where the sources or patches of that build are
+  published was not determined.
+- gnuplot's licence allows distributing binaries built from modified sources only if
+  the source modifications are distributed as a patch file with the binaries,
+  the version is identified, and contact information is kept. Whether the
+  WebAssembly build of gnuplot is modified, and where any patches are
+  published, was therefore not determined (see the previous point).
+- `libgnuplot.so` also contains parts of Emscripten's musl libc (it exports
+  `crypt_r` and the `__crypt_*` functions) and the path
+  `/emsdk/emscripten/system/lib/pthread/thread_profiler.c`. It has no libc++,
+  libc++abi or compiler-rt paths. These are covered by the "Emscripten system
+  libraries" row.
+
+#### Emscripten {#emscripten}
+
+- `maxima.js` is Emscripten's generated JavaScript glue. It has no licence header.
+  Emscripten's `LICENSE` offers MIT or the University of Illinois/NCSA licence;
+  it was read at the `main` branch (`45a6cffdbdf003665c7f48072191ce5a860fd0f4`)
+  because the toolchain version is not recorded in the files. `maxima.wasm`
+  contains paths such as `/emsdk/emscripten/system/lib/libcxxabi/src/`,
+  `/emsdk/emscripten/system/lib/compiler-rt/lib/builtins/` and
+  `/emsdk/emscripten/system/lib/html5/`; `libgnuplot.so` contains only
+  `/emsdk/emscripten/system/lib/pthread/thread_profiler.c`.
+- `musl` is "licensed under the following standard MIT license"; its `COPYRIGHT`
+  file also lists parts under other terms (for example the DES `crypt` code, which is under a BSD licence). The Emscripten tree's LLVM libraries say "Apache License
+  v2.0 with LLVM Exceptions"; the libc++ file also describes a dual MIT and
+  University of Illinois licence for older parts. Which of these parts are
+  in the shipped binaries was not examined.
+
+## STACK
+
+STACK is developed at <https://github.com/maths/moodle-qtype_stack>. This site
+uses it at commit
+[`33383047af39c204bf4442802a058f8b918b2b1b`](https://github.com/maths/moodle-qtype_stack/tree/33383047af39c204bf4442802a058f8b918b2b1b)
+(16 October 2026). The earlier milestone-one material, the sample question exports
+described below, comes from commit
+[`10d323311b7f39fb7b092dd10ce75f7d8632f525`](https://github.com/maths/moodle-qtype_stack/tree/10d323311b7f39fb7b092dd10ce75f7d8632f525).
+
+STACK's own statement, at that commit: its
+[`doc/en/About/License.md`](https://github.com/maths/moodle-qtype_stack/blob/33383047af39c204bf4442802a058f8b918b2b1b/doc/en/About/License.md)
+says the source code is "Licensed under the GNU General Public, License Version 3"
+and links to `COPYING.txt`, which is only the text of the GNU GPL version 3 (the
+standard text, which has no "or later" grant of its own;
+[GPL-3.0 text](LICENSES/GPL-3.0-or-later.txt)). Neither file grants STACK
+under "or any later version" (the phrase occurs in the GPL text itself only in
+its section 14 and appendix). The grant appears only in the headers of
+individual files: for
+example the PHP language file `lang/en/qtype_stack.php`, `corsscripts/stackmplite.js`
+("either version 3 of the License, or (at your option) any later version") and
+`corsscripts/stackjsxgraph.js` ("GNU GPL v3 or later"). So the project licence is
+recorded here as GPL version 3, and "or later" only where a file's header says so. The
+sample questions are under Creative Commons Attribution-ShareAlike 4.0, except the
+HELM materials, which are under Creative Commons Attribution-NonCommercial 4.0.
+
+| Component | Files on this site | Version | Licence | Source |
+|---|---|---|---|---|
+| STACK Maxima libraries | the 77 files embedded in [`stack-sources.json`](stack-sources.json) (`stack/maxima/*.mac`, `*.lisp`, `contrib/`), which the runtime loads | `33383047af39c204bf4442802a058f8b918b2b1b` | GPL version 3 per STACK's `COPYING.txt` and `License.md` ([GPL-3.0 text](LICENSES/GPL-3.0-or-later.txt)); the file headers differ, see [notes](#stack-notes) | [`stack/maxima`](https://github.com/maths/moodle-qtype_stack/tree/33383047af39c204bf4442802a058f8b918b2b1b/stack/maxima) |
+| STACK-MP-lite parser | `native/stack-parser.js` (the file `corsscripts/stackmplite.js`, wrapped; see `native/input-provenance.json`) | same | GPL-3.0-or-later from its header ("either version 3 of the License, or (at your option) any later version"; copyright 2025 Matti Harjula, Aalto University; [GPL-3.0 text](LICENSES/GPL-3.0-or-later.txt)) | [`corsscripts/stackmplite.js`](https://github.com/maths/moodle-qtype_stack/blob/33383047af39c204bf4442802a058f8b918b2b1b/corsscripts/stackmplite.js) |
+| STACK JSXGraph bindings | `stackjsxgraph.js`, inlined into each board page of `maxima/native.html` (byte-identical to the upstream file) | same | GPL-3.0-or-later from its `@license` line ("GNU GPL v3 or later"; copyright 2023 Aalto University; [GPL-3.0 text](LICENSES/GPL-3.0-or-later.txt)) | [`corsscripts/stackjsxgraph.js`](https://github.com/maths/moodle-qtype_stack/blob/33383047af39c204bf4442802a058f8b918b2b1b/corsscripts/stackjsxgraph.js) |
+| STACK data extracted for input handling and feedback | `native/input-rules.json`, `native/feedback-messages.json` (sources and hashes in `native/input-provenance.json` and `native/feedback-provenance.json`) | same | derived from STACK files; GPL version 3 under STACK's `COPYING.txt` (the English language file `lang/en/qtype_stack.php`, the source of the messages, has a GPL "version 3 ... or (at your option) any later version" header) | [`lang/en/qtype_stack.php`](https://github.com/maths/moodle-qtype_stack/blob/33383047af39c204bf4442802a058f8b918b2b1b/lang/en/qtype_stack.php) |
+| STACK sample questions | `maxima/questions/corpus/` (35 unchanged exports, with [COPYING.txt](maxima/questions/corpus/COPYING.txt)), `maxima/questions/corrected/` (four corrected derivatives), `maxima/questions/upstream/algmap-6-1.xml` | `10d323311b7f39fb7b092dd10ce75f7d8632f525` | [CC-BY-SA-4.0](LICENSES/CC-BY-SA-4.0.txt); each export names its authors | [`samplequestions/stacklibrary`](https://github.com/maths/moodle-qtype_stack/tree/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary); per-file paths in `maxima/questions/corpus/manifest.json` |
+| STACK HELM questions | `maxima/questions/upstream/bodmas.xml`, `maxima/questions/upstream/rounding-three-dp.xml` (test data, unchanged) | `10d323311b7f39fb7b092dd10ce75f7d8632f525` | [CC-BY-NC-4.0](LICENSES/CC-BY-NC-4.0.txt) (NonCommercial) | `maxima/questions/upstream/sources.json` |
+| STACK documentation examples for JSXGraph | `maxima/native-questions/native-binding.xml`, `native-json.xml` and the question data in `native/questions.json` and `native/build-manifest.json` that comes from them | `33383047af39c204bf4442802a058f8b918b2b1b` | the files' own metadata says `cc-sa-4.0`; STACK's documentation says CC-BY-SA-4.0 for sample questions: [CC-BY-SA-4.0](LICENSES/CC-BY-SA-4.0.txt) | [`Specialist-Tools-Docs/JSXgraphs`](https://github.com/maths/moodle-qtype_stack/tree/33383047af39c204bf4442802a058f8b918b2b1b/samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs) |
+
+#### Notes on STACK {#stack-notes}
+
+- The 77 embedded Maxima files: 38 headers say "GNU General Public License
+  version two", 3 carry other notices, and 36 have no header. This differs from
+  STACK's `COPYING.txt` and `License.md`, which say version 3. This page
+  reproduces both texts ([GPL-2.0 text](LICENSES/GPL-2.0-only.txt),
+  [GPL-3.0 text](LICENSES/GPL-3.0-or-later.txt)) and does not decide between them.
+- The three files with other notices: `stack_logic.lisp` (copyright 2008-2009
+  Alexey Beshenov, [LGPL-2.1-or-later](LICENSES/LGPL-2.1-or-later.txt), as
+  written in the file), `to_poly_solve_extra_5.38.1.lisp` (copyright 2008
+  Barton Willis, GPL version 2 or later), `fboundp.mac` (copyright 2020 Robert
+  Dodier, "GNU General Public License", version not stated).
+- `stacktex.lisp` says it uses code by Richard J. Fateman, copyright 1987, from
+  Maxima's `mactex-utilities.lisp`, and gives no licence; `trigrat.lisp` has no
+  header. Their licence is not determined here.
+- STACK's `thirdpartylibs.xml` lists libraries bundled in STACK itself. None of
+  those directories is shipped on this site.
+
+## JSXGraph
+
+| Component | Where on this site | Version | Licence | Source |
+|---|---|---|---|---|
+| JSXGraph | inlined (as a data URI) into each board page in `maxima/native.html`; the same file is `jsxgraphcore.js` of jsxgraph-quarto | 1.14.1 | [LGPL-3.0-or-later](LICENSES/LGPL-3.0-or-later.txt) or [MIT](LICENSES/MIT.txt) ([JSXGraph's LICENSE.MIT](LICENSES/JSXGraph-LICENSE.MIT.txt)), at the user's choice | [jsxgraph v1.14.1](https://github.com/jsxgraph/jsxgraph/tree/v1.14.1) (`51c9777855dcce87a89a31587c8797fb60893ab0`) |
+| jsxgraph-quarto (the assessment-bridge and graph-editor scripts that its Quarto filter writes into the pages) | inlined into the same board pages | `ba2daa52fa6b1c65b37322bca3f02643e31a688e` | [MIT](LICENSES/MIT.txt), copyright 2026 JSXGraph group, Center for Mobile Learning with Digital Technology, University of Bayreuth ([its LICENSE](LICENSES/jsxgraph-quarto-LICENSE.txt)) | [jsxgraph-quarto](https://github.com/jsxgraph/jsxgraph-quarto/tree/ba2daa52fa6b1c65b37322bca3f02643e31a688e) |
+
+Each board page also inlines JSXGraph's stylesheet as a `data:text/css` URI
+(SHA-256 `58ff5704eb9bb8db66e8b002d01c44a6ddfe0ced7f887ab2ef602feff2f3c0f6`). It is
+identical to `distrib/jsxgraph.css` of JSXGraph v1.14.1 and starts with the same
+header as the script (JSXGraph 1.14.1, dual licence LGPL-3.0-or-later or MIT), so the
+JSXGraph row covers it too.
+
+The inlined JSXGraph file (SHA-256
+`b6ebd07421e560431b888efeb472cfb7f2cfc495a853200963f97d2c28e6e474`) starts with
+JSXGraph's own copyright and licence header, which offers the two licences above,
+and it includes a UTF-8 decoder by Bjoern Hoehrmann (MIT permission notice,
+reproduced in that header). Copyright 2008-2026 Matthias Ehmann, Michael
+Gerhaeuser, Carsten Miller, Bianca Valentin, Andreas Walter, Alfred Wassermann
+and Peter Wilfahrt.
+
+## Page libraries from Quarto
+
+The pages are rendered with Quarto 1.8.27, which copies these libraries into
+`site_libs/` of the site. Quarto itself is under the
+[MIT licence](https://github.com/quarto-dev/quarto-cli/blob/v1.8.27/COPYING.md)
+(copyright Posit Software, PBC). Its own scripts `quarto.js`, `quarto-nav.js`,
+`quarto-search.js`, `tabsets.js`, `axe-check.js` and `mermaid-init.js` are part of
+that repository. Versions come from the banners inside the files and from the
+dependency list in Quarto's `configuration` at tag
+[v1.8.27](https://github.com/quarto-dev/quarto-cli/tree/v1.8.27)
+(`3977c9d40b46fa7ab5fc4ba38315034c3c69b8e4`). Banners are kept in the shipped
+files. The MIT text is [here](LICENSES/MIT.txt).
+
+| Library | Version | Licence | Evidence | Source |
+|---|---|---|---|---|
+| Bootstrap (CSS and JavaScript) | 5.3.1 | MIT | banner in the files | [v5.3.1](https://github.com/twbs/bootstrap/tree/v5.3.1) |
+| Bootswatch "cosmo" theme (built into the Bootstrap CSS) | 5.3.1 | MIT | upstream LICENSE; no banner in the CSS | [v5.3.1](https://github.com/thomaspark/bootswatch/tree/v5.3.1) |
+| Bootstrap Icons (CSS and font) | 1.13.1 | MIT (banner in the CSS; font file has no banner) | banner | [v1.13.1](https://github.com/twbs/icons/tree/v1.13.1) |
+| clipboard.js | 2.0.11 | MIT | banner | [v2.0.11](https://github.com/zenorocha/clipboard.js/tree/v2.0.11) |
+| Popper | 2.11.7 | MIT | banner | [v2.11.7](https://github.com/popperjs/popper-core/tree/v2.11.7) |
+| tippy.js | 6.3.7 (from Quarto's dependency list) | MIT | upstream LICENSE; no banner in the file | [v6.3.7](https://github.com/atomiks/tippyjs/tree/v6.3.7) |
+| AnchorJS | 5.0.0 | MIT | banner | [5.0.0](https://github.com/bryanbraun/anchorjs/tree/5.0.0) |
+| headroom.js | 0.12.0 | MIT | banner | [v0.12.0](https://github.com/WickyNilliams/headroom.js/tree/v0.12.0) |
+| `@algolia/autocomplete-js` | 1.19.1 | MIT | banner | [v1.19.1](https://github.com/algolia/autocomplete/tree/v1.19.1) |
+| Fuse.js | 6.6.2 | Apache-2.0 | banner ([text](LICENSES/Apache-2.0.txt)) | [v6.6.2](https://github.com/krisk/Fuse/tree/v6.6.2) |
+| Mermaid (bundle with its dependencies, `mermaid.min.js`, used by the data-flow page) | 11.6.0 | MIT for Mermaid. The bundle also contains other libraries under their own licences: DOMPurify 3.2.4 (Apache-2.0 and MPL-2.0 per its banner; [MPL-2.0 text](LICENSES/MPL-2.0.txt), [Apache-2.0 text](LICENSES/Apache-2.0.txt)), KaTeX 0.16.11 (version string in the bundle), and, by the dependency list of Mermaid 11.6.0 and names found in the bundle, d3 modules, cytoscape (with cose-bilkent), dagre-d3-es, lodash-es, dayjs, marked, roughjs, stylis, uuid, khroma, ts-dedent, and the chevrotain and langium parsing libraries. Their licences are those the packages declare (to be expected: MIT for most, ISC for d3 modules, Apache-2.0 for chevrotain); they were not checked one by one and their texts are not reproduced here | upstream LICENSE, banners in the file, and `packages/mermaid/package.json` at the tag | [tag `mermaid@11.6.0`](https://github.com/mermaid-js/mermaid/tree/mermaid%4011.6.0) |
+
+## Code and content by the CTM project
+
+These are not third-party, but they are AGPL-3.0-or-later and are listed so the
+text is available: the adapter, engine and measurement code of this repository
+(`backend/`, `native/` except the STACK files above, `runtime/`, `jsxgraph/`, the
+isolation scripts), and the CTM Assessment components in `site_libs/quarto-contrib/`
+(ai-feedback 0.9.0, ctm-checkers 0.6.0, ctm-checkers-stack 0.6.0, ctm-runtime
+0.9.0, stack-sympy 0.3.0, and the STACK JSXGraph host `host.js`). Their headers say
+AGPL-3.0-or-later ([text](LICENSES/AGPL-3.0-or-later.txt)); some files have no
+header. Sources: <https://github.com/Erasmus-CTM/stack-wasm-maxima>,
+<https://github.com/Erasmus-CTM/stack-sympy> (`1b1d50f69fc1e7eb39846b497657d72be325f597`),
+<https://github.com/Erasmus-CTM/ctm-checkers> (`c366f175aba6b62caa628bc60f57bb1167fc087b`) and
+<https://github.com/Erasmus-CTM/ctm-libs> (`94687f718fd651fc2857bc5242a64e45c8fd4697`).
+The header of `ctm-checkers-stack.js` states that the Python wheel inside it also
+holds STACK data under GPL-3.0-or-later, so that wheel is AGPL-3.0-or-later and
+GPL-3.0-or-later together.
+
+The example questions served under `maxima/questions/` have a README
+(`maxima/questions/README.md` on this site) that gives a licence per path: the
+CTM team's example question XML files are CC-BY-SA-4.0, the example checker files
+and some converted files AGPL-3.0-or-later. That README covers `maxima/questions/`
+only. In `maxima/native-questions/` the files `native-checkers.py`,
+`native-collections.xml`, `native-numerical.xml` and `native-rational.xml` carry a
+"CC BY-SA 4.0" comment, and `native-binding.xml` and `native-json.xml` carry STACK
+metadata `cc-sa-4.0`. Four files carry no licence notice and are covered by no
+README: `native-matrix.xml`, `native-matrix-python.xml`, `native-mixed-board.xml`
+and `native-python-board.xml`. Their licence is not stated in the files.
+
+## Loaded from elsewhere, not redistributed here
+
+These are fetched by the visitor's browser from other servers when a page runs.
+They are not copied to this site, and their licences are not reproduced here.
+
+- Pyodide 0.28.3 and the Python packages it loads, from
+  `https://cdn.jsdelivr.net/pyodide/v0.28.3/full/` (used by the CTM Python
+  runtime). Project: <https://pyodide.org/>.
+- MathJax: version 3 from `cdn.jsdelivr.net/npm/mathjax@3/` for the Quarto pages
+  (3.2.2 in the stack-sympy script), and version 4 from `cdn.jsdelivr.net/npm/mathjax@4/` inside the JSXGraph board
+  pages. Project: <https://www.mathjax.org/>.
+- KaTeX 0.16 from `cdn.jsdelivr.net/npm/katex@0.16/`, referenced by the
+  ai-feedback script.
+- The "Source Sans Pro" font, requested from Google Fonts by the Bootstrap CSS.
+- axe-core, requested from `cdn.skypack.dev` only if Quarto's accessibility
+  check is switched on, and Algolia search-insights, referenced by the search
+  script.
+
+## What could not be determined
+
+- The exact Maxima commit `813903d33` and the ECL source id `e4bdb2e5...` in the
+  shipped binaries could not be opened (GitLab pages are not readable from the
+  build environment), so the Maxima licence evidence comes from the nearest
+  upstream tag and the ECL evidence from tag 26.3.27.
+- The Emscripten version used to build the runtime, and therefore which musl,
+  LLVM and Emscripten files are in the binaries.
+- The licence of the files without a notice (see the tables), of the
+  Unicode tables in ECL, of the SLATEC and QUADPACK originals, and of
+  `maxima_thread.js` and `share_files.js`.
+- Whether the WebAssembly build of gnuplot is modified (the exported
+  `libgnuplot_main` suggests it is) and where its sources and patches are
+  published.
+- Whether each Maxima core file is GPL version 2 only or "or later".
+- The difference between the GPL version in many STACK file headers (2) and in
+  STACK's `COPYING.txt` (3), and whether STACK as a whole is "version 3" or
+  "version 3 or later": only some file headers say "or later".
+- The licence of the four `maxima/native-questions/` files without a notice
+  (named above).
+
+Corrections are welcome as issues or pull requests at
+<https://github.com/Erasmus-CTM/stack-wasm-maxima>.
