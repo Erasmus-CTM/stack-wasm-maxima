@@ -9,43 +9,28 @@
     "status": "in_progress",
     "conclusion": null,
     "sha256": "6f54a6818317acf7f7995e51e5cc4538ecf88d0b2c84b2b9ae52362528b3e266",
-    "files": [],
-    "ranges": [
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 0,
-        "end": 8388608
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 8388608,
-        "end": 16777216
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 16777216,
-        "end": 25165824
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 25165824,
-        "end": 33554432
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 33554432,
-        "end": 41943040
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 41943040,
-        "end": 50331648
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 50331648,
-        "end": 53696002
-      }
-    ]
+    "files": [
+      ".cache/runtime-build/source-progress.json",
+      ".cache/runtime-build/validation/timings.json",
+      ".cache/runtime-build/validation/plot-diagnostic.json",
+      ".cache/runtime-build/validation/public-pages-encoding.json",
+      ".cache/runtime-build/validation/m1-owned/prepared.json",
+      ".cache/runtime-build/validation/m1-owned/comparison.json",
+      ".cache/runtime-build/validation/m1-owned/browser-10d3233.json",
+      ".cache/runtime-build/validation/m1-owned/browser-3338304.json",
+      ".cache/runtime-build/validation/m1-deployed/prepared.json",
+      ".cache/runtime-build/validation/m1-deployed/comparison.json",
+      ".cache/runtime-build/validation/m1-deployed/browser-10d3233.json",
+      ".cache/runtime-build/validation/m1-deployed/browser-3338304.json",
+      ".cache/runtime-build/plot-diagnostic/preparation/build-failure.json",
+      "test-results/milestone-three/browser.json",
+      "test-results/milestone-three/native-reference/native-reference.json",
+      "test-results/milestone-three/native-reference/native.log",
+      "test-results/milestone-three/native-reference/reference.mac",
+      "test-results/milestone-three/same-source-reference/native-reference.json",
+      "test-results/milestone-three/same-source-reference/native.log",
+      "test-results/milestone-three/same-source-reference/reference.mac"
+    ],
+    "ranges": []
   }
 ]
