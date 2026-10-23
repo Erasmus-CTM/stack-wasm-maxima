@@ -10,10 +10,6 @@ export async function loadOwnedRuntime(source,repository) {
  const manifest=JSON.parse(bytes);
  const pins=JSON.parse(await readFile(resolve(repository,'runtime/build/pins.json')));
  assert.equal(manifest.schema,1);assert.deepEqual(manifest.sourcePins,pins,'Owned runtime must match the exact current source pins');
- const profiles=JSON.parse(await readFile(resolve(repository,'runtime/build/profiles.json'))).profiles;
- if(manifest.configuration)assert.deepEqual(manifest.configuration,profiles[manifest.configuration.name]);
- const startup=manifest.configuration&&!manifest.configuration.capabilities.plotting?(await readFile(resolve(repository,'runtime/build/profiles/no-plot.lisp'),'utf8')).trim()+'\n':'';
- if(manifest.configuration)assert.equal(manifest.profileEvidence.startup,startup);
  assert.ok(Array.isArray(manifest.runtimeAssets)&&manifest.runtimeAssets.length>0);
  const records=new Map();
  for(const record of manifest.runtimeAssets) {
@@ -26,6 +22,5 @@ export async function loadOwnedRuntime(source,repository) {
   assert.equal(content.length,record.bytes,record.path);assert.equal(hash(content),record.sha256,record.path);
   records.set('/'+record.path,{...record,fileBytes:record.bytes});
  }
- for(const path of manifest.configuration?.omittedRuntimePaths||[])assert.ok(!records.has('/'+path),'Omitted file present in candidate manifest');
- return {root:resolve(root,'runtime'),records,startup,omittedRuntimePaths:manifest.configuration?.omittedRuntimePaths||[],provenance:{kind:'ctm-owned-build',manifestSha256:hash(bytes),sourcePins:pins}};
+ return {root:resolve(root,'runtime'),records,provenance:{kind:'ctm-owned-build',manifestSha256:hash(bytes),sourcePins:pins}};
 }

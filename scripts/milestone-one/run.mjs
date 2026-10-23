@@ -21,7 +21,7 @@ const allAssets = [...lock.assets, ...supplement.assets];
 const expected = new Map(runtimeURLs.map(url => [new URL(url).pathname, allAssets.find(asset => asset.url === url)]));
 const owned = await loadOwnedRuntime(process.env.CTM_MAXIMA_RUNTIME_SOURCE, root);
 if (owned) {
-  for (const pathname of expected.keys()) if (!owned.records.has(pathname)&&!owned.omittedRuntimePaths.includes(pathname.slice(1))) throw new Error('Missing required owned runtime file: ' + pathname);
+  for (const pathname of expected.keys()) if (!owned.records.has(pathname)) throw new Error('Missing required owned runtime file: ' + pathname);
   expected.clear();
   for (const [pathname, record] of owned.records) expected.set(pathname, record);
 }
@@ -115,7 +115,7 @@ try {
     try {
       await page.goto(address);
       result = await page.evaluate(({ files, batch }) => window.runMilestoneOne({ files, batch }),
-        { files: version.files, batch: (owned?.startup||'')+version.batch });
+        { files: version.files, batch: version.batch });
     } catch (error) { result = { ok: false, error: String(error.stack || error), stdout: '' }; }
     if (owned) result.runtimeBuild = owned.provenance;
     result.browser = browser.version();

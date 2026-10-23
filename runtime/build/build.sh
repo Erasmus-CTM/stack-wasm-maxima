@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 set -euo pipefail
 export LC_ALL=C
-export VERBOSE=1
 ROOT=$(cd "$(dirname "$0")/../.." && pwd)
 WORK="$ROOT/.cache/runtime-build"
 MAXIMA="$WORK/sources/maxima"
@@ -14,8 +13,6 @@ mkdir -p "$WORK/logs"
 exec > >(tee "$WORK/logs/build.log") 2>&1
 printf 'Build started: '; date -u +%FT%TZ
 python "$ROOT/runtime/build/apply-build-patches.py"
-python "$ROOT/runtime/build/profile.py"
-case "${CTM_RUNTIME_PROFILE:-baseline}" in ecl-oz|ecl-o2) export ECL_SRCDIR="$WORK/build-sources/ecl";; esac
 MAKE_RECIPE="$WORK/build-recipes/maxima/wasm/Makefile"
 python "$ROOT/runtime/build/prepare-toolchain.py"
 if [[ -n "${GITHUB_OUTPUT:-}" ]]; then printf 'sdk_cache_ready=true\n' >> "$GITHUB_OUTPUT"; fi
@@ -54,6 +51,5 @@ for module in slatec quadpack plot solve poisson-series matrix-algebra number-th
  targets+=("maxima-ecl-combined/maxima-$module.fas")
 done
 make -f "$MAKE_RECIPE" -j2 "${targets[@]}"
-python "$ROOT/runtime/build/check-profile.py"
 node "$ROOT/runtime/build/inspect-wasm.mjs" maxima-ecl-combined/maxima.wasm > "$WORK/logs/wasm-memory.json"
 printf 'Build completed: '; date -u +%FT%TZ

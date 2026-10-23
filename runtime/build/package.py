@@ -8,7 +8,6 @@ import os
 import subprocess
 from pathlib import Path
 import shutil
-from profile import configuration, startup
 
 ROOT = Path(__file__).resolve().parents[2]
 BASE = 'https://maxima-on-wasm.pages.dev/'
@@ -38,13 +37,6 @@ def main():
     args = parser.parse_args()
     work = ROOT / '.cache/runtime-build'
     pins = json.loads((ROOT / 'runtime/build/pins.json').read_text())
-    profile = configuration()
-    profile_log = json.loads((work / 'logs/profile.json').read_text())
-    if profile_log['configuration'] != profile or profile_log['startup'] != startup(profile):
-        raise ValueError('Build profile evidence differs from the exact configuration')
-    for entry in profile_log['derivedEclFiles']:
-        if hashlib.sha256((work / 'build-recipes/ecl' / entry['path']).read_bytes()).hexdigest() != entry['sha256']:
-            raise ValueError('Effective ECL configure recipe changed after derivation')
     if subprocess.check_output(['git','rev-parse','HEAD'],cwd=args.notices,text=True).strip() != pins['notices']['commit']:
         raise ValueError('Third-party notices checkout is not the pinned revision')
     progress = json.loads((work / 'source-progress.json').read_text())['sources']
@@ -60,8 +52,7 @@ def main():
         if record['sourceFilesUnmodified'] is not True:
             raise ValueError('Build patch changed original sources')
         effective = work / record['derivedRecipe']['path']
-        if (profile_log['inputRecipeSha256'] != record['derivedRecipe']['sha256'] or
-                hashlib.sha256(effective.read_bytes()).hexdigest() != profile_log['effectiveRecipeSha256']):
+        if hashlib.sha256(effective.read_bytes()).hexdigest() != record['derivedRecipe']['sha256']:
             raise ValueError('Effective build recipe changed after derivation')
     for pin in pins['sources']:
         suffix = '.tar' if pin['archive']['format'] == 'git-archive-tar' else '.tar.gz'
@@ -71,13 +62,8 @@ def main():
     built = work / 'sources/maxima/wasm/maxima-ecl-combined'
     runtime = args.output / 'runtime'
     runtime.mkdir(parents=True, exist_ok=True)
-    for omitted in profile['omittedRuntimePaths']:
-        if (runtime / omitted).exists():
-            raise ValueError('Packaging destination contains a stale omitted file: ' + omitted)
     table = []
     for path, deployed in sorted(records().items()):
-        if path in profile['omittedRuntimePaths']:
-            continue
         body = (built / path).read_bytes()
         target = runtime / path
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -121,12 +107,11 @@ def main():
                "Build inputs, exact archive hashes, SDK binary identities, recipe revision and recipe files are in source-manifest.json and recipe/.", ""]
     (args.output / 'BUILD-NOTICES.md').write_text('\n'.join(notices))
     manifest = {'schema':1, 'runtimeAssets':table, 'sourcePins':pins, 'recipe':recipe, 'toolchain':toolchain, 'buildPatches':patches,
-                'configuration':profile, 'profileEvidence':profile_log,
                 'scope':'Uncompressed owned-build substitution candidate; parity not implied by successful compilation'}
     (args.output / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     lines = ['# Owned build versus deployed files', '', '| Path | Built bytes | Deployed bytes | Difference |', '|---|---:|---:|---:|']
     lines += [f"| `{r['path']}` | {r['bytes']} | {r['deployedBytes']} | {r['differenceBytes']:+} |" for r in table]
-    lines += ['', f"Total delivered bytes: {sum(r['bytes'] for r in table)}.", '', 'Profile: ' + profile['name'], 'Omitted delivered paths: ' + repr(profile['omittedRuntimePaths'])]
+    lines += ['', f"Total built bytes: {sum(r['bytes'] for r in table)}.", '', 'No trims or compression applied.']
     (args.output / 'sizes.md').write_text('\n'.join(lines) + '\n')
     all_files = []
     for path in sorted(args.output.rglob('*')):
