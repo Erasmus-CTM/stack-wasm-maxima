@@ -18,9 +18,10 @@ const types=await import(process.env.CTM_PLAYWRIGHT_MODULE||'playwright');
 const output=resolve(option('output','test-results/board-weight-'+engine+'.json'));
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const gitBlob=bytes=>createHash('sha1').update(Buffer.from('blob '+bytes.length+'\0')).update(bytes).digest('hex');
-const report={schema:1,engine,createdAt:new Date().toISOString(),scope:functionalOnly?'Functional board acceptance; byte counts are bounded observations, not transfer benchmarks':'No-routing cold and same-profile warm HTTP measurements with variant visits, real drag and reset',
+const report={schema:1,engine,createdAt:new Date().toISOString(),capture:{quietMilliseconds:1000,deadlineMilliseconds:60000,source:'BrowserContext lifecycle plus concrete origin response finish/abort telemetry'},
+  scope:functionalOnly?'Functional board acceptance; byte counts are bounded observations, not transfer benchmarks':'No-routing cold and same-profile warm HTTP measurements with variant visits, real drag and reset',
   packagingEncoder:{node:process.version,zlib:process.versions.zlib},
-  byteSemantics:'request.sizes().responseBodySize is encoded HTTP body received; headers are separate. Static file/gzip sizes are packaging data, never inferred wire traffic. Cached/unavailable timing is retained explicitly. Service-worker synthesized response sizes are browser-reported delivered bytes, not origin encoded traffic: they are excluded from known wire subtotals and make full wire totals unavailable; the raw reported sizes remain retained.',
+  byteSemantics:'request.sizes().responseBodySize is browser-reported encoded body received; headers are separate. Browser events may omit worker-owned HTTP requests, so these values are known observed subtotals and never full wire totals. Static file/gzip sizes are packaging data, never inferred wire traffic. Cached/unavailable timing is retained explicitly. Service-worker synthesized response sizes are browser-reported delivered bytes, not origin encoded traffic: they are excluded from known wire subtotals and make full wire totals unavailable; the raw reported sizes remain retained.',
   cases:[],passed:false};
 
 async function packaging(root){
@@ -55,6 +56,7 @@ async function boardsReady(page){
   }
 }
 
+const trafficCaptures=new WeakMap();
 async function settle(page){
   await boardsReady(page);
   if(functionalOnly){
@@ -67,11 +69,11 @@ async function settle(page){
       await frame.waitForFunction(()=>!!window.MathJax?.startup?.promise,null,{timeout:60000});
       await frame.evaluate(()=>Promise.race([MathJax.startup.promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error('MathJax startup/typeset deadline')),60000))]));
     }
-  }else{
-    // Transfer evidence still waits completed requests without cache-disabling
-    // routing. Functional captures are observations, not full byte benchmarks.
-    await page.waitForLoadState('networkidle',{timeout:60000});
   }
+  // Browser networkidle can stay pending after a retired iframe. Instead wait
+  // concrete observed request completion, response measurements, origin-server
+  // response completion and one second without activity. No routing or filters.
+  await trafficCaptures.get(page).wait();
 }
 
 async function interactions(page,rows,manifest){
@@ -147,19 +149,22 @@ async function measure(name,root,expectedSHA,live){
     result.browserVersion=browser.version();
     const context=await browser.newContext({viewport:{width,height:900}});
     const page=await context.newPage();let phase;
-    const owners=new WeakMap(),pending=new Set();
+    const owners=new WeakMap(),pending=new Set(),active=new Map();let lastActivity=Date.now();
+    trafficCaptures.set(page,{wait:async()=>{const deadline=Date.now()+60000;while(active.size||pending.size||app?.activeResponses.length||Date.now()-Math.max(lastActivity,app?.lastResponseActivity||0)<1000){if(Date.now()>deadline)throw new Error("HTTP capture deadline: "+JSON.stringify({browser:[...active.values()],origin:app?.activeResponses,measurements:pending.size}));await new Promise(resolve=>setTimeout(resolve,50));}}});
+    result.pendingRequests=[];
     page.on('pageerror',error=>result.errors.push(error.message));
     page.on('console',message=>{if(message.type()==='error')result.consoleErrors.push(message.text());});
-    page.on('requestfailed',request=>result.failedRequests.push({url:request.url(),failure:request.failure()}));
-    page.on('request',request=>{if(/^https?:/.test(request.url()))owners.set(request,phase);});
-    page.on('requestfinished',request=>{
+    context.on('requestfailed',request=>{active.delete(request);lastActivity=Date.now();result.pendingRequests=[...active.values()];result.failedRequests.push({url:request.url(),failure:request.failure(),at:new Date().toISOString(),phase:phase?{pass:phase.pass,action:phase.action}:null});});
+    context.on('request',request=>{if(/^https?:/.test(request.url())){owners.set(request,phase);lastActivity=Date.now();active.set(request,{url:request.url(),resourceType:request.resourceType(),startedAt:new Date().toISOString(),phase:phase?{pass:phase.pass,action:phase.action}:null});result.pendingRequests=[...active.values()];}});
+    context.on('requestfinished',request=>{
+      active.delete(request);lastActivity=Date.now();result.pendingRequests=[...active.values()];
       if(!/^https?:/.test(request.url()))return;
       const owner=owners.get(request);if(!owner)return;
       const task=(async()=>{
         const response=await request.response();
         const row={url:request.url(),method:request.method(),resourceType:request.resourceType(),status:response?.status(),fromServiceWorker:response?.fromServiceWorker()};
         if(args.includes('--static-host')&&response&&!response.fromServiceWorker()&&new URL(request.url()).origin===new URL(pageURL).origin){row.rawHeaders=await response.allHeaders();for(const header of ['cross-origin-opener-policy','cross-origin-embedder-policy','cross-origin-resource-policy'])assert.equal(row.rawHeaders[header],undefined,'Raw static host must not supply isolation headers');}
-        try{const sizes=await request.sizes();assert.ok(Number.isFinite(sizes.responseBodySize)&&sizes.responseBodySize>=0);Object.assign(row,sizes);}catch(error){row.sizesUnavailable=String(error);}
+        try{const sizes=await Promise.race([request.sizes(),new Promise((_,reject)=>setTimeout(()=>reject(new Error("Browser size API deadline")),10000))]);assert.ok(Number.isFinite(sizes.responseBodySize)&&sizes.responseBodySize>=0);Object.assign(row,sizes);}catch(error){row.sizesUnavailable=String(error);}
         owner.requests.push(row);
         if(live&&response?.status()===200){
           let bytes;
@@ -196,14 +201,16 @@ async function measure(name,root,expectedSHA,live){
         phase.browserKnownEncodedBodyBytes=phase.requests.filter(row=>!row.fromServiceWorker).reduce((sum,row)=>sum+(row.responseBodySize??0),0);
         phase.browserKnownResponseHeaderBytes=phase.requests.filter(row=>!row.fromServiceWorker).reduce((sum,row)=>sum+(row.responseHeadersSize??0),0);
         phase.unavailableSizeCount=phase.requests.filter(row=>row.sizesUnavailable).length;
-        phase.browserEncodedBodyBytes=phase.unavailableSizeCount||phase.serviceWorkerResponseCount?null:phase.browserKnownEncodedBodyBytes;
-        phase.browserResponseHeaderBytes=phase.unavailableSizeCount||phase.serviceWorkerResponseCount?null:phase.browserKnownResponseHeaderBytes;
+        phase.browserEncodedBodyBytes=null;
+        phase.wireCoverage='Browser-observed subtotal only; worker-owned requests may be absent. The origin server counter covers served encoded bodies at this origin; external totals remain unknown.';
+        phase.captureBoundary={quietMilliseconds:1000,browserPending:active.size,measurementPending:pending.size,originPending:app?.activeResponses.length};
+        phase.browserResponseHeaderBytes=null;
         phase.serverEncodedBodyBytes=app?phase.serverRequests.reduce((sum,row)=>sum+(row.encodedBodyBytes??0),0):null;
         phase.coreServerRequests=manifest?.jsxgraphCore?phase.serverRequests.filter(row=>row.pathname?.endsWith('/'+manifest.jsxgraphCore.sha256+'.js')||row.url?.includes('/'+manifest.jsxgraphCore.sha256+'.js')):[];
         phase.coreBrowserRequests=manifest?.jsxgraphCore?phase.requests.filter(row=>row.url.includes('/'+manifest.jsxgraphCore.sha256+'.js')):[];
         phase.boardRequests=phase.requests.filter(row=>row.url.includes('/native/boards/'));
         phase.boardBrowserKnownEncodedBodyBytes=phase.boardRequests.filter(row=>!row.fromServiceWorker).reduce((sum,row)=>sum+(row.responseBodySize??0),0);
-        phase.boardBrowserEncodedBodyBytes=phase.boardRequests.some(row=>row.sizesUnavailable||row.fromServiceWorker)?null:phase.boardBrowserKnownEncodedBodyBytes;
+        phase.boardBrowserEncodedBodyBytes=null;
       }
     }
     await mkdir(resolve(output,'..'),{recursive:true});
@@ -212,11 +219,13 @@ async function measure(name,root,expectedSHA,live){
       result.after=await verifyLiveHTML();
       result.observedMathJax=await Promise.all(page.frames().filter(frame=>frame!==page.mainFrame()).map(async frame=>({url:frame.url().startsWith('data:')?'data:board':frame.url(),version:await frame.evaluate(()=>window.MathJax?.version||null)})));
     }
+    result.originAbortedResponses=app?.abortedResponses||[];
     await context.close();
     assert.ok(result.phases.every(phase=>!phase.measurementErrors?.length),'Body verification/measurement errors must not look like cache savings');
     if(name==='candidate'){
       assert.deepEqual(result.errors,[],'No raw browser errors are accepted in candidate transfer evidence');
       assert.deepEqual(result.failedRequests,[],'Failed transfers must not look like cache savings');
+      assert.deepEqual(result.originAbortedResponses,[],'Origin response aborts must not look like cache savings');
       assert.deepEqual(result.consoleErrors,[],'Raw console failures are not accepted');
     }
     result.passed=true;

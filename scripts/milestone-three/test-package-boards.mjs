@@ -25,7 +25,7 @@ const css=Buffer.from('/* stylesheet license */\n.jxgbox{border:0}');
 const uri=(type,bytes)=>'data:'+type+';base64,'+bytes.toString('base64');
 const original='<!doctype html><script id="MathJax-script" async src="https://cdn.example/mathjax.js"></script><script src="'+uri('text/javascript',vendor)+'"></script><style>@import url("'+uri('text/css',css)+'");</style><script>window.authored="unchanged"; import('+JSON.stringify(uri('text/javascript',vendor))+');</script>';
 const iframe='<iframe id="question-b0" sandbox="allow-scripts" style="height:400px" src="'+uri('text/html',Buffer.from(original))+'"></iframe>';
-let app,staticApp;
+let app,staticApp,telemetryApp;
 try {
   const jsxgraphCore={sha256:createHash('sha256').update(vendor).digest('hex'),bytes:vendor.length};
   const packed=await packageBoard({iframe,id:'question-b0',site,jsxgraphCore,assetMap:url=>{assert.equal(url,'https://cdn.example/mathjax.js');return 'native/boards/mathjax/tex-mml-svg.js';}});
@@ -81,5 +81,14 @@ try {
   assert.equal(staticAsset.headers.get('cross-origin-resource-policy'),null);
   assert.equal(staticAsset.headers.get('access-control-allow-origin'),'*');
   assert.match(staticAsset.headers.get('cache-control'),/max-age=3600/);
+  await Promise.all([asset.arrayBuffer(),template.arrayBuffer(),staticParent.arrayBuffer(),staticAsset.arrayBuffer()]);
+  assert.deepEqual(app.activeResponses,[]);assert.deepEqual(app.abortedResponses,[]);
+  telemetryApp=await serveDemo({root:site,latencyMs:500});
+  const controller=new AbortController();const aborted=fetch(telemetryApp.baseURL+packed.path,{signal:controller.signal});
+  const rejection=assert.rejects(aborted,/abort/i);
+  const deadline=Date.now()+5000;while(!telemetryApp.activeResponses.length){assert.ok(Date.now()<deadline);await new Promise(resolve=>setTimeout(resolve,10));}
+  controller.abort();await rejection;
+  while(telemetryApp.activeResponses.length){assert.ok(Date.now()<deadline);await new Promise(resolve=>setTimeout(resolve,10));}
+  assert.equal(telemetryApp.abortedResponses.length,1,'An aborted origin response cannot count as completed traffic');
   console.log('Board packaging: exact vendor bytes, shared files, numeric data boundary, CORS and isolation passed');
-} finally {if(staticApp)await staticApp.close();if(app)await app.close();await rm(site,{recursive:true,force:true});}
+} finally {if(telemetryApp)await telemetryApp.close();if(staticApp)await staticApp.close();if(app)await app.close();await rm(site,{recursive:true,force:true});}

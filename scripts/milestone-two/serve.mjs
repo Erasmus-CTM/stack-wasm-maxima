@@ -12,8 +12,12 @@ const types = { '.html': 'text/html; charset=utf-8', '.js': 'application/javascr
 
 export async function serveDemo({ root, port = 0, compression = 'gzip', latencyMs = 0, isolationHeaders = true }) {
   root = await realpath(resolve(root));
-  const cache = new Map(), requests = [];
+  const cache = new Map(), requests = [], activeResponses = new Map(), abortedResponses = [];
+  let lastResponseActivity=Date.now();
   const server = createServer(async (request, response) => {
+    const record={url:request.url,startedAt:new Date().toISOString()};activeResponses.set(response,record);lastResponseActivity=Date.now();
+    response.once('finish',()=>{activeResponses.delete(response);lastResponseActivity=Date.now();});
+    response.once('close',()=>{if(!response.writableFinished)abortedResponses.push({...record,closedAt:new Date().toISOString()});activeResponses.delete(response);lastResponseActivity=Date.now();});
     const headers = { 'Cache-Control': 'public, max-age=3600', Vary: 'Accept-Encoding' };
     // Test-only static-host simulation: the normal server contract remains the
     // default. The canonical service worker must supply missing page isolation.
@@ -90,7 +94,7 @@ export async function serveDemo({ root, port = 0, compression = 'gzip', latencyM
     server.listen(port, '127.0.0.1', resolveListen);
   });
   return { server, baseURL: 'http://127.0.0.1:' + server.address().port + '/', requests,
-    compression, close: () => new Promise(resolveClose => server.close(resolveClose)) };
+    compression, abortedResponses, get activeResponses(){return [...activeResponses.values()];}, get lastResponseActivity(){return lastResponseActivity;}, close: () => new Promise(resolveClose => server.close(resolveClose)) };
 }
 if (typeof process !== 'undefined' && process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const args = process.argv.slice(2);
