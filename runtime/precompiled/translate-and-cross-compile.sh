@@ -15,10 +15,11 @@ PIN=33383047af39c204bf4442802a058f8b918b2b1b
 test "$(git -C "$STACK" rev-parse HEAD)" = "$PIN"
 test -x "$ECL"
 test -x "$NATIVE"
-mkdir -p "$WORK/source" "$WORK/logs"
+mkdir -p "$WORK/source" "$WORK/source-adapted" "$WORK/logs"
 # Refuse retained generated outputs: a failed attempt must never reuse a bundle.
 for output in "$WORK/source/stackmaxima.LISP" "$WORK/source/stackmaxima.lisp" \
-  "$WORK/source/ctm-assignment-probe.LISP" "$WORK/source/ctm-reset-probe.LISP" "$WORK/stackmaxima.fas"; do
+  "$WORK/source/ctm-assignment-probe.LISP" "$WORK/source/ctm-reset-probe.LISP" \
+  "$WORK/source-adapted/stackmaxima.LISP" "$WORK/source-adapted/stackmaxima.lisp" "$WORK/stackmaxima.fas"; do
   if test -e "$output"; then
     echo "Refusing stale experiment output: $output" >&2
     exit 1
@@ -81,36 +82,37 @@ if "$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/reset-translate-dr
   reset_ok=true
 fi
 printf '%s\n' "$reset_ok" > "$WORK/logs/reset-probe-status.txt"
-"$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/translate-driver.lisp" 2>&1 | tee "$WORK/logs/translate.log"
-grep -q '^CTM-TRANSLATION-OK|' "$WORK/logs/translate.log" || {
-  echo 'Maxima translation did not emit a complete source success marker' >&2
-  exit 1
-}
-test "$reset_ok" = true || {
-  echo 'Translated function reset/GC validation failed; refusing cross-compilation' >&2
-  exit 1
-}
-# The pinned Maxima translator writes .LISP (and .UNLISP warnings) on Linux.
-# Keep its raw output, then copy to ASDF's conventional lowercase source name.
-if test -s "$WORK/source/stackmaxima.LISP"; then
-  cp "$WORK/source/stackmaxima.LISP" "$WORK/source/stackmaxima.lisp"
-elif ! test -s "$WORK/source/stackmaxima.lisp"; then
-  echo 'Maxima translation did not produce stackmaxima.LISP or stackmaxima.lisp' >&2
+# Preserve the unchanged full-entry negative control and demand its known
+# readable-function failure; an unrelated control error cannot authorize a bundle.
+if "$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/translate-driver.lisp" 2>&1 | tee "$WORK/logs/translate.log"; then
+  echo 'Unexpected unchanged-entry translation success; review the control' >&2
   exit 1
 fi
-test -s "$WORK/source/stackmaxima.lisp"
-if test -s "$WORK/source/stackmaxima.LISP"; then
-  sha256sum "$WORK/source/stackmaxima.LISP" > "$WORK/logs/stackmaxima-translator-output.sha256"
-fi
-sha256sum "$WORK/source/stackmaxima.lisp" > "$WORK/logs/stackmaxima-lisp.sha256"
-cat > "$WORK/source/ctm-stackmaxima.asd" <<'EOF'
+grep -q '^CTM-TRANSLATION-FAILED|Cannot print object.*readably' "$WORK/logs/translate.log"
+cp "$WORK/source/stackmaxima.mac" "$WORK/source-adapted/stackmaxima.mac"
+cp "$ROOT/runtime/precompiled/display2d-bridge.lisp" "$WORK/display2d-bridge.lisp"
+cp "$ROOT/runtime/precompiled/assignment-adapter.lisp" "$WORK/assignment-adapter.lisp"
+cp "$WORK/display2d-bridge.lisp" "$WORK/source-adapted/display2d-bridge.lisp"
+{
+  printf '(load (merge-pathnames #P"assignment-adapter.lisp" *load-truename*))\n'
+  sed -e 's@source/stackmaxima.mac@source-adapted/stackmaxima.mac@g' \
+      -e 's@(translate-file source nil)@(ctm-translate-stack-entry source)@g' "$WORK/translate-driver.lisp"
+} > "$WORK/adapted-translate-driver.lisp"
+"$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/adapted-translate-driver.lisp" 2>&1 | tee "$WORK/logs/translate-adapted.log"
+grep -q '^CTM-TRANSLATION-OK|' "$WORK/logs/translate-adapted.log"
+test -s "$WORK/source-adapted/stackmaxima.LISP"
+cp "$WORK/source-adapted/stackmaxima.LISP" "$WORK/source-adapted/stackmaxima.lisp"
+sha256sum "$WORK/source-adapted/stackmaxima.mac" "$WORK/source-adapted/stackmaxima.LISP" \
+  "$WORK/source-adapted/stackmaxima.lisp" "$WORK/source-adapted/display2d-bridge.lisp" > "$WORK/logs/adapted-source.sha256"
+cat > "$WORK/source-adapted/ctm-stackmaxima.asd" <<'EOF'
 (asdf:defsystem #:ctm-stackmaxima
   :depends-on (#:maxima/core)
-  :components ((:file "stackmaxima")))
+  :serial t
+  :components ((:file "display2d-bridge") (:file "stackmaxima")))
 EOF
 cd "$MAXIMA/wasm"
 "$ECL" --norc --load build.lisp \
-  --eval "(asdf:load-asd \"$WORK/source/ctm-stackmaxima.asd\")" \
+  --eval "(asdf:load-asd \"$WORK/source-adapted/ctm-stackmaxima.asd\")" \
   --eval '(cross-compile-maxima-module "ctm-stackmaxima")' \
   --eval '(ext:quit)' 2>&1 | tee "$WORK/logs/cross-compile.log"
 mapfile -t bundles < <(find "$WORK" "$MAXIMA/src/binary-ecl" -type f \( -name 'ctm-stackmaxima.fasb' -o -name 'ctm-stackmaxima.fas' \) -print)

@@ -8,17 +8,40 @@ WORK="$ROOT/.cache/precompiled-fixtures"
 MAXIMA="$ROOT/.cache/runtime-build/sources/maxima"
 export ECL_SRCDIR="$ROOT/.cache/runtime-build/sources/ecl"
 export ECL_TO_RUN="$MAXIMA/wasm/ecl-host/bin/ecl"
+MODE=${1:-standalone}
+[[ $# -le 1 && ( "$MODE" == standalone || "$MODE" == --reuse-built-native ) ]] || { echo "Invalid fixture mode" >&2; exit 64; }
 test ! -e "$WORK"
 mkdir -p "$WORK/logs"
 exec > >(tee "$WORK/logs/fixtures.log") 2>&1
-python "$ROOT/runtime/build/verify-source-state.py" before
-cd "$MAXIMA"
-./bootstrap
-cd wasm
-# Exact native prerequisites from the unmodified pinned upstream Makefile.
-make -f Makefile -j2 "$ECL_TO_RUN" maxima-ecl-combined/share
 export MAXIMA_PREFIX="$MAXIMA/wasm/maxima-ecl-combined"
 NATIVE="$MAXIMA_PREFIX/bin/maxima"
+if [[ "$MODE" == --reuse-built-native ]]; then
+  # Preserve the cold build's provenance; never bootstrap an already-built tree.
+  test -x "$ECL_TO_RUN" && test -x "$NATIVE"
+  sha256sum --check "$ROOT/.cache/runtime-build/logs/host-ecl.sha256"
+  mkdir "$WORK/provenance"
+  for phase in before after; do
+    report="$ROOT/.cache/runtime-build/logs/source-state-$phase.json"
+    python - "$report" "$phase" <<'VERIFY'
+import json,sys
+from pathlib import Path
+report=json.loads(Path(sys.argv[1]).read_text())
+assert report['schema']==1 and report['passed'] is True and report['phase']==sys.argv[2]
+assert {s['name'] for s in report['sources']}=={'maxima','ecl'}
+VERIFY
+    cp "$report" "$WORK/provenance/"
+    sha256sum "$report" >> "$WORK/provenance/original-reports.sha256"
+  done
+  python "$ROOT/runtime/build/verify-source-state.py" after
+  sha256sum --check "$WORK/provenance/original-reports.sha256"
+else
+  python "$ROOT/runtime/build/verify-source-state.py" before
+  cd "$MAXIMA"
+  ./bootstrap
+  cd wasm
+  # Exact native prerequisites from the unmodified pinned upstream Makefile.
+  make -f Makefile -j2 "$ECL_TO_RUN" maxima-ecl-combined/share
+fi
 "$ECL_TO_RUN" --norc --eval '(unless (= (integer-length most-positive-fixnum) 29) (ext:quit 65))' --eval '(ext:quit)'
 sha256sum "$ECL_TO_RUN" "$NATIVE" > "$WORK/logs/native-executables.sha256"
 export CTM_FIXTURE_BRIDGE_FILE="$ROOT/runtime/precompiled/display2d-bridge.lisp"
@@ -68,6 +91,11 @@ for arm in assignment-control assignment-bridge reset-control reset-package; do
 done
 cd "$ROOT"
 python runtime/build/verify-source-state.py after
+if [[ "$MODE" == --reuse-built-native ]]; then
+  sha256sum --check "$WORK/provenance/original-reports.sha256"
+  sha256sum --check "$ROOT/.cache/runtime-build/logs/host-ecl.sha256"
+fi
+sha256sum --check "$WORK/logs/native-executables.sha256"
 python - <<'PY'
 import hashlib,json
 from pathlib import Path

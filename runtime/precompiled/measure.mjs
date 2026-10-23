@@ -35,7 +35,8 @@ self.onmessage=async({data})=>{let session;try{
     const afterGrade=session.assess({test:'AlgEquiv',student:'(x+1)^2',teacher:'x^2+2*x+1'});
     resets.push({reset,gc,caught,afterError,grade:afterGrade,version:session.evaluate('stackmaximaversion')});
   }
-  self.postMessage({ok:true,readyMs,initialization,warmCalls,grade,version,resets});
+  self.postMessage({ok:true,readyMs,initialization,warmCalls,grade,version,resets,
+    expectedVersion:session.manifest.stackLibraryVersion});
 }catch(error){self.postMessage({ok:false,error:String(error),stack:error.stack});}finally{session?.terminate();}};`;
 await writeFile(join(site,'precompiled-measure.html'),'<!doctype html><title>Precompiled STACK timing</title>');
 await writeFile(join(site,'precompiled-measure-worker.js'),worker);
@@ -71,6 +72,7 @@ try{
           assert.equal(result.grade.cas_valid,true);
           assert.equal(result.grade.correct,true);
           assert.ok(result.version);
+          assert.equal(String(result.version),String(result.expectedVersion));
           assert.equal(result.resets.length,3);
           for(const row of result.resets){
             assert.equal(row.reset,true);
@@ -79,7 +81,6 @@ try{
             assert.equal(row.afterError,42);
             assert.equal(row.grade.cas_valid,true);
             assert.equal(row.grade.correct,true);
-            assert.equal(row.version,result.version);
           }
           assert.equal(requests.some(record=>record.status>=400||record.error),false);
           if(candidate==='precompiled'){
@@ -89,6 +90,16 @@ try{
         }
       }finally{await browser.close();}
     }
+  }
+  // STACK's reset can clear metadata variables. Require the compiled path to
+  // match the source control's observed reset state, rather than inventing a
+  // metadata-preservation contract that the source loader does not promise.
+  for(const repetition of [1,2])for(const mode of ['cold','warm-profile-reload']) {
+    const source=report.samples.find(row=>row.repetition===repetition&&row.mode===mode&&row.candidate==='source');
+    const compiled=report.samples.find(row=>row.repetition===repetition&&row.mode===mode&&row.candidate==='precompiled');
+    assert.ok(source&&compiled);
+    assert.deepEqual(compiled.resets.map(row=>row.version),source.resets.map(row=>row.version),
+      'Post-reset metadata must match the source control');
   }
   report.passed=true;
 }catch(error){report.failure=String(error.stack||error);console.error(report.failure);}

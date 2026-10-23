@@ -1,8 +1,14 @@
 ; SPDX-License-Identifier: AGPL-3.0-or-later
-; Fixture experiment only. Capture the hook belonging to this target process.
+; Dispatch to this process's original assignment hook, never a serialized host
+; function. The translation process dynamically binds originals while its
+; properties are temporarily symbolic; the target leaves properties unchanged.
 (in-package :maxima)
-(defparameter *ctm-display2d-hook* (get '$display2d 'assign))
-(unless (functionp *ctm-display2d-hook*)
-  (error "Expected the pinned compiled display2d assignment hook"))
-(defun ctm-display2d-bridge (variable value)
-  (funcall *ctm-display2d-hook* variable value))
+(defvar *ctm-original-assignment-hooks* nil)
+(defun ctm-stack-assignment-bridge (variable value)
+  (let ((hook (or (cdr (assoc variable *ctm-original-assignment-hooks*))
+                  (get variable 'assign))))
+    (unless (or (functionp hook)
+                (and (symbolp hook) (fboundp hook)
+                     (not (eq hook 'ctm-stack-assignment-bridge))))
+      (error "No original assignment hook for ~S" variable))
+    (funcall hook variable value)))

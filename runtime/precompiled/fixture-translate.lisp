@@ -1,15 +1,18 @@
 ; SPDX-License-Identifier: AGPL-3.0-or-later
 (in-package :maxima)
+(defvar *ctm-original-assignment-hooks* nil)
 (handler-case
     (let* ((source (ext:getenv "CTM_FIXTURE_SOURCE"))
            ($packagefile (equal (ext:getenv "CTM_FIXTURE_PACKAGE") "true"))
            (bridge (equal (ext:getenv "CTM_FIXTURE_BRIDGE") "true"))
            (original (get '$display2d 'assign))
+           (*ctm-original-assignment-hooks*
+             (when bridge (list (cons '$display2d original))))
            (result nil))
       (when bridge
         (unless (functionp original) (error "Expected a compiled assignment hook"))
         (load (ext:getenv "CTM_FIXTURE_BRIDGE_FILE"))
-        (setf (get '$display2d 'assign) 'ctm-display2d-bridge))
+        (setf (get '$display2d 'assign) 'ctm-stack-assignment-bridge))
       (unwind-protect
            (unless (eq (catch 'macsyma-quit
                          (setf result (translate-file source nil))

@@ -11,13 +11,14 @@
           (unless (eq (mfuncall '$ctm_fixture_assignment value) value)
             (error "Assignment hook returned the wrong local value"))
           (unless (eq $display2d before) (error "Local binding was not restored"))))
+      (format t "~&CTM-ASSIGNMENT-VALID-OK|4~%")
       (let ((before $display2d))
-        ; Maxima's merror throw payload is not portable; require an abort.
-        (let ((outcome (catch 'macsyma-quit
-                         (mfuncall '$ctm_fixture_assignment 123456)
-                         :unexpected-success)))
-          (when (eq outcome :unexpected-success)
-            (error "Invalid display2d value was accepted")))
+        ; Maxima's own errcatch suppresses --quit-on-error for this deliberate
+        ; rejection. A Lisp catch alone does not provide that Maxima context.
+        (let ((outcome (meval '(($errcatch) (($ctm_fixture_assignment) 123456)))))
+          (unless (and (consp outcome) (consp (car outcome))
+                       (eq (caar outcome) 'mlist) (null (cdr outcome)))
+            (error "Invalid display2d value was not caught and rejected")))
         (unless (eq $display2d before) (error "Error path changed display2d")))
       (unless (= (mfuncall '$eval_string "6*7") 42)
         (error "Assignment error recovery failed"))

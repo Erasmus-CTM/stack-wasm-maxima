@@ -11,7 +11,7 @@ permissions:
   contents: read
 concurrency:
   group: precompiled-stack-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   bundle-probe:
     runs-on: ubuntu-24.04
@@ -40,6 +40,8 @@ jobs:
             libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config
       - name: Build the pinned unoptimized Maxima/ECL control
         run: bash runtime/build/build.sh
+      - name: Require native assignment and reset fixture controls
+        run: bash runtime/precompiled/native-fixtures.sh --reuse-built-native
       - uses: actions/checkout@v4
         with:
           repository: maths/moodle-qtype_stack
@@ -73,7 +75,7 @@ jobs:
           python runtime/precompiled/stage-variant.py --site .cache/precompiled-stack/site \
             --stack-source .cache/precompiled-stack/upstream-stack \
             --bundle .cache/precompiled-stack/stackmaxima.fas \
-            --translated .cache/precompiled-stack/source/stackmaxima.lisp
+            --translated .cache/precompiled-stack/source-adapted/stackmaxima.lisp
       - name: Install pinned browser dependencies
         run: |
           npm ci --ignore-scripts --no-audit --no-fund
@@ -90,6 +92,11 @@ jobs:
           include-hidden-files: true
           path: |
             .cache/precompiled-stack/logs/
+            .cache/precompiled-stack/source-adapted/
+            .cache/precompiled-stack/adapted-translate-driver.lisp
+            .cache/precompiled-stack/assignment-adapter.lisp
+            .cache/precompiled-stack/display2d-bridge.lisp
+            .cache/precompiled-fixtures/
             .cache/precompiled-stack/source/stackmaxima.mac
             .cache/precompiled-stack/source/stackmaxima.LISP
             .cache/precompiled-stack/source/stackmaxima.lisp

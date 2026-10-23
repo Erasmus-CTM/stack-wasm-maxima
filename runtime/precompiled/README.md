@@ -31,5 +31,42 @@ cross-compilation. If a browser bundle becomes feasible, both source and compile
 trials must also survive three real STACK resets, forced collections, deliberate
 caught errors, subsequent arithmetic and grading, and unchanged STACK version.
 These are additional feasibility gates, not substitutes for the full parity
-matrix. No adapter or translation workaround is selected here. Generated outputs
+matrix. Generated outputs
 from a prior attempt are rejected rather than reused.
+
+The next opt-in candidate keeps the unchanged translation failure as a negative
+control, then uses a temporary symbolic bridge for non-symbol assignment hooks
+and Maxima's standard `packagefile` translation option. Translation restores every
+original hook. The browser-target FAS includes a small dispatcher which calls the
+target process's own original hooks; it does not serialize a host function or
+change target assignment properties. Its source hash is retained in the opt-in
+manifest. Generated entry Lisp must be complete and contain no translated-function
+registration in `$props`. Native assignment/reset controls must pass in the same
+build before cross-compilation is attempted. Pinned upstream files remain unchanged.
+
+Native fixture evidence from run 39990740727 showed the ordinary reset function
+being removed after a verified reset, while `packagefile` survived three resets
+and collections. The symbolic assignment bridge produced readable complete Lisp.
+The first behavior checker incorrectly used a Lisp catch for a deliberate Maxima
+error under `--quit-on-error`; it is corrected to use Maxima's own `errcatch` and
+still requires rejection, restoration and subsequent successful evaluation.
+These observations do not validate a whole STACK bundle. Initial library version
+must match the manifest; post-reset metadata is compared with the source control
+because STACK reset can clear ordinary metadata variables.
+
+The next opt-in candidate retains the unchanged translation failure as a negative
+control, then temporarily substitutes symbolic assignment hooks and uses Maxima's
+standard packagefile option. Translation restores every original property. A
+small dispatcher compiled into the FAS invokes the target process's original
+hook; target properties and pinned upstream files remain unchanged. Its source
+hash is recorded in the opt-in manifest. Complete generated Lisp must contain no
+translated-function registration in props. Native assignment/reset controls must
+pass in the same build before attempting cross-compilation.
+
+Run 39990740727 showed the ordinary reset function removed after a verified reset,
+while packagefile survived three resets and collections. The symbolic bridge
+produced complete readable Lisp. The first behavior checker used a Lisp catch
+for a deliberate Maxima error under --quit-on-error; it now uses Maxima errcatch
+and still requires rejection, restoration and recovery. A whole STACK bundle is
+not validated. Initial version must match the manifest, while post-reset metadata
+must match the source control because reset can clear ordinary metadata variables.

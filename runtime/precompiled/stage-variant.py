@@ -48,6 +48,11 @@ def stage(site, stack, bundle, translated):
         raise ValueError("Pinned loader does not contain one exact STACK entry load")
     binary = bundle.read_bytes()
     lisp = translated.read_bytes()
+    adapter = translated.parent / "display2d-bridge.lisp"
+    adapter_bytes = adapter.read_bytes()
+    reviewed_adapter = Path(__file__).with_name("display2d-bridge.lisp").read_bytes()
+    if not adapter_bytes or adapter_bytes != reviewed_adapter:
+        raise ValueError("Compiled assignment bridge differs from the reviewed source")
     if not binary or not lisp:
         raise ValueError("Compiled bundle and translation must be nonempty")
     target = site / "maxima-runtime" / ASSET
@@ -71,6 +76,8 @@ def stage(site, stack, bundle, translated):
         "schema": 1, "mode": "entry-fas", "stackRevision": PIN,
         "sourcePath": ENTRY, "sourceSha256": digest(source),
         "translatedLispSha256": digest(lisp),
+        "translationAdapter": {"mode": "symbolic-assignment-hooks+packagefile", "path": adapter.name,
+                               "fileBytes": len(adapter_bytes), "sha256": digest(adapter_bytes)},
         "originalLoaderSha256": digest(loader_source),
         "overlayLoaderSha256": changed["sha256"],
         "asset": {"path": ASSET, "fileBytes": len(binary), "sha256": digest(binary)},
