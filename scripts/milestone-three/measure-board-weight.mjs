@@ -220,12 +220,16 @@ async function measure(name,root,expectedSHA,live){
       result.observedMathJax=await Promise.all(page.frames().filter(frame=>frame!==page.mainFrame()).map(async frame=>({url:frame.url().startsWith('data:')?'data:board':frame.url(),version:await frame.evaluate(()=>window.MathJax?.version||null)})));
     }
     result.originAbortedResponses=app?.abortedResponses||[];
+    result.originFailedResponses=app?.requests.filter(row=>row.status>=400||row.error)||[];
+    result.browserFailedResponses=result.phases.flatMap(phase=>phase.requests).filter(row=>row.status>=400);
     await context.close();
     assert.ok(result.phases.every(phase=>!phase.measurementErrors?.length),'Body verification/measurement errors must not look like cache savings');
     if(name==='candidate'){
       assert.deepEqual(result.errors,[],'No raw browser errors are accepted in candidate transfer evidence');
       assert.deepEqual(result.failedRequests,[],'Failed transfers must not look like cache savings');
       assert.deepEqual(result.originAbortedResponses,[],'Origin response aborts must not look like cache savings');
+      assert.deepEqual(result.originFailedResponses,[],'Origin HTTP errors must not look like cache savings');
+      assert.deepEqual(result.browserFailedResponses,[],'HTTP errors must not look like cache savings');
       assert.deepEqual(result.consoleErrors,[],'Raw console failures are not accepted');
     }
     result.passed=true;
