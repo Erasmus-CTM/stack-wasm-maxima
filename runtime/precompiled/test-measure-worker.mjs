@@ -8,7 +8,7 @@ const start=source.indexOf('const worker=`'),end=source.indexOf('`;\nawait write
 assert.ok(start>=0&&end>start);
 const worker=vm.runInNewContext(source.slice(start,end)+';worker');
 new vm.Script(worker);
-async function execute({returnValue=true,failAcknowledgment=false,failRegrade=false,resetError=false,sentinelSurvives=false,diagnostic=false,probeError=false,fatalProbe=false}={}) {
+async function execute({returnValue=true,failAcknowledgment=false,failRegrade=false,resetError=false,sentinelSurvives=false,diagnostic=false,probeError=false,fatalProbe=false,registrationResult=[true,true]}={}) {
   const writes=[],messages=[],probes=[];let resets=0,sentinel=false,gc=false,grades=0;
   class Session {
     constructor(){this.manifest={stackLibraryVersion:'fixture-version'};}
@@ -17,7 +17,7 @@ async function execute({returnValue=true,failAcknowledgment=false,failRegrade=fa
       if(expression.includes('stack_reset('))throw new Error('Reset must be outside the dynamic evaluation wrapper');
       if(expression==='ctm_reserved_all_state()')return [true,false,[]];
       if(expression==='ctm_stack_helper_state()')return [['fixture',true,true,true,true,true,false]];
-      if(expression.includes('errcatch(ctm_register_stack_library_helpers('))return [true,'done'];
+      if(expression.includes('errcatch(ctm_register_stack_library_helpers('))return registrationResult;
       if(expression.startsWith('block([%ERR:["stack_map"],%NOTES:')){
         probes.push(expression);
         assert.equal(expression.includes('\\"'),false,'Maxima probe quotes must survive generated JavaScript');
@@ -94,3 +94,13 @@ assert.equal(fatalProbe.result.lifecycleBefore[1].result[0],true);
 assert.equal(fatalProbe.result.lifecycleBefore[2].result,null);
 assert.match(fatalProbe.result.error,/Fixture fatal probe/);
 console.log('Diagnostic probe transport: plain quotes, caught-error continuation and fatal-progress retention verified');
+
+for(const registrationResult of [[false,'Fixture registration error'],[true,'symbolic call']]){
+ const rejected=await execute({diagnostic:true,registrationResult});
+ assert.equal(rejected.result.ok,false);
+ assert.equal(rejected.result.phase,'helper-registration');
+ assert.equal(rejected.result.helpersAtRegistration.length,1);
+ assert.match(rejected.result.error,/Helper registration rejected/);
+ assert.equal(rejected.probes.length,0);
+}
+console.log('Registration acknowledgment: rejected and symbolic outcomes stop before lifecycle probes');

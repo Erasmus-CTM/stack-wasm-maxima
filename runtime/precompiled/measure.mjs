@@ -45,8 +45,8 @@ self.onmessage=async({data})=>{let session;const progress={phase:'initializing',
     progress.reservedAllBefore=session.evaluate('ctm_reserved_all_state()');
     progress.phase='helper-registration';
     progress.helpersAtRegistration=session.evaluate('ctm_stack_helper_state()');
-    progress.helperRegistration=session.evaluate('block([r:errcatch(ctm_register_stack_library_helpers('+(session.manifest.compiledStack?'true':'false')+'))],if r=[] then [false,errormsgtostring()] else [true,first(r)])');
-    if(progress.helperRegistration[0]!==true)throw new Error('Helper registration rejected: '+JSON.stringify(progress.helperRegistration));
+    progress.helperRegistration=session.evaluate('block([r:errcatch(ctm_register_stack_library_helpers('+(session.manifest.compiledStack?'true':'false')+'))],if r=[] then [false,errormsgtostring()] else [true,is(first(r)=done)])');
+    if(!Array.isArray(progress.helperRegistration)||progress.helperRegistration.length!==2||!progress.helperRegistration.every(value=>value===true))throw new Error('Helper registration rejected: '+JSON.stringify(progress.helperRegistration));
     progress.helpersBefore=session.evaluate('ctm_stack_helper_state()');
   }
   // Diagnostic observations stay individually caught so a missing display
