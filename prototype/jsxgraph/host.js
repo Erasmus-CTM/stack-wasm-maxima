@@ -7,12 +7,35 @@
   const MAX_VALUE = 32768, MAX_CONTENT = 262144, MAX_INPUTS = 32;
   const attached = new WeakMap(), cards = new WeakMap();
   const templateLoads = new Map();
+  const coreLoads = new Map();
   let epochSequence = 0;
   function nonce() {
     if (scope.crypto?.randomUUID) return scope.crypto.randomUUID();
     return Date.now().toString(36) + '-' + (++epochSequence) + '-' + Math.random().toString(36).slice(2);
   }
   function plain(value) { return value && typeof value === 'object' && !Array.isArray(value); }
+  function coreDataURL(url, digest, size) {
+    if (!/^[a-f0-9]{64}$/.test(digest) || !/^[1-9][0-9]*$/.test(size) || !Number.isSafeInteger(Number(size)) ||
+        url.search || url.hash || !url.pathname.endsWith('/native/boards/assets/'+digest+'.js')) throw new Error('Invalid content-addressed JSXGraph core marker');
+    const key=url.href+'|'+digest+'|'+size;
+    if (!coreLoads.has(key)) {
+      const loading=(async () => {
+        if (!scope.crypto?.subtle || typeof scope.btoa !== 'function') throw new Error('Native board core integrity requires a secure browser context');
+        const response=await scope.fetch(url.href);
+        if (!response.ok) throw new Error('JSXGraph core request failed: '+response.status);
+        const bytes=new Uint8Array(await response.arrayBuffer());
+        if (bytes.length!==Number(size)) throw new Error('JSXGraph core byte count mismatch');
+        const actual=Array.from(new Uint8Array(await scope.crypto.subtle.digest('SHA-256',bytes)),value=>value.toString(16).padStart(2,'0')).join('');
+        if (actual!==digest) throw new Error('JSXGraph core SHA-256 mismatch');
+        let binary='';
+        for(let at=0;at<bytes.length;at+=32768)binary+=String.fromCharCode.apply(null,bytes.subarray(at,at+32768));
+        return 'data:text/javascript;base64,'+scope.btoa(binary);
+      })();
+      coreLoads.set(key,loading);
+      loading.catch(()=>{if(coreLoads.get(key)===loading)coreLoads.delete(key);});
+    }
+    return coreLoads.get(key);
+  }
   function descriptor(value) {
     if (typeof value === 'string') value = JSON.parse(value);
     if (!plain(value) || typeof value.assessmentId !== 'string' || !value.assessmentId || value.assessmentId.length > 256 ||
@@ -119,7 +142,7 @@
           const loading = scope.fetch(url).then(response => {
             if (!response.ok) throw new Error('Native board template request failed: ' + response.status);
             return response.text();
-          }).then(html => {
+          }).then(async html => {
             const document = new scope.DOMParser().parseFromString(html,'text/html');
             if (!/<head>/i.test(html) || document.querySelector('base')) throw new Error('Invalid native board template document');
             const base = document.createElement('base'); base.href = url;
@@ -127,12 +150,19 @@
             // Firefox's srcdoc speculative scanner can fetch before honoring
             // base. Resolve static attributes explicitly; inline author/vendor
             // script text stays untouched. Keep base for imports and CSS URLs.
+            const coreMounts=[];
             for (const node of document.querySelectorAll('script[src],link[href]')) {
               const attribute = node.hasAttribute('src') ? 'src' : 'href';
               const resource = new URL(node.getAttribute(attribute),url);
               if (!/^https?:$/.test(resource.protocol) || resource.origin !== templateURL.origin) throw new Error('Native board template resources must be staged same-origin');
               node.setAttribute(attribute,resource.href);
+              if (node.hasAttribute('data-ctm-jsxgraph-sha256')) {
+                if (attribute!=='src') throw new Error('JSXGraph core marker requires a script');
+                coreMounts.push(coreDataURL(resource,node.getAttribute('data-ctm-jsxgraph-sha256'),node.getAttribute('data-ctm-jsxgraph-bytes'))
+                  .then(data=>node.setAttribute('src',data)));
+              }
             }
+            await Promise.all(coreMounts);
             return '<!doctype html>\n'+document.documentElement.outerHTML;
           });
           templateLoads.set(url,loading);

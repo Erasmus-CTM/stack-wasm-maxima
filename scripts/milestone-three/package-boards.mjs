@@ -41,7 +41,7 @@ export function boardValues(ids, variant) {
 
 // assetMap receives the renderer's exact original external URL and returns a
 // staged site-root-relative path. The staging producer owns pins and closure.
-export async function packageBoard({iframe, id, site, assetMap, mathjax}) {
+export async function packageBoard({iframe, id, site, assetMap, mathjax, jsxgraphCore}) {
   safeId(id);
   const match = /\bsrc="data:text\/html;base64,([A-Za-z0-9+/=]+)"/.exec(iframe);
   assert.ok(match, 'Expected the pinned Quarto data-URL iframe');
@@ -77,15 +77,23 @@ export async function packageBoard({iframe, id, site, assetMap, mathjax}) {
     assets.push({path, bytes:bytes.length, sha256:digest});
   }
   // Use CORS for opaque sandbox subresources, retaining the sandbox and COEP.
+  let coreMarkers=0;
   document = document.replace(/<script([^>]*\bsrc=")([^"]+)("[^>]*)>/g, (whole, before, url, after) => {
+    let coreAttributes='';
+    if(jsxgraphCore && url==='./assets/'+jsxgraphCore.sha256+'.js'){
+      assert.ok(assets.some(asset=>asset.sha256===jsxgraphCore.sha256 && asset.bytes===jsxgraphCore.bytes),'Core marker must match exact extracted vendor bytes');
+      coreAttributes=' data-ctm-jsxgraph-sha256="'+jsxgraphCore.sha256+'" data-ctm-jsxgraph-bytes="'+jsxgraphCore.bytes+'"';
+      coreMarkers++;
+    }
     if (/^https?:/.test(url)) {
       const path = assetMap(url);
       assert.ok(typeof path === 'string' && /^[A-Za-z0-9_@./-]+$/.test(path) && !path.split('/').includes('..') && !path.startsWith('/'), 'Unmapped or unsafe board asset: ' + url);
       url = posix.relative('native/boards', path);
       assets.push({originalURL:whole.match(/src="([^"]+)/)[1], path});
     }
-    return '<script' + before + url + after + (/\bcrossorigin=/.test(after) ? '' : ' crossorigin="anonymous"') + '>';
+    return '<script' + before + url + after + coreAttributes + (/\bcrossorigin=/.test(after) ? '' : ' crossorigin="anonymous"') + '>';
   });
+  if(jsxgraphCore)assert.equal(coreMarkers,1,'Expected one exact JSXGraph core script per canonical template');
   // Stylesheet @import has no crossorigin flag; use an equivalent CORS link.
   document = document.replace(/<style>@import url\("(\.\/assets\/[^"\n]+\.css)"\);<\/style>/g,
     '<link rel="stylesheet" href="$1" crossorigin="anonymous">');

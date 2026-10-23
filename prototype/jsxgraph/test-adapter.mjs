@@ -3,6 +3,7 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
+import {createHash,webcrypto} from 'node:crypto';
 
 class FakeEvent {
   constructor(type, options = {}) { this.type = type; this.bubbles = Boolean(options.bubbles); }
@@ -245,18 +246,19 @@ hostWindow.DOMParser=class {
     const nodes=Array.from(html.matchAll(/<script\b[^>]*>[\s\S]*?<\/script>|<link\b[^>]*>/gi)).flatMap(match=>{
       const opening=match[0].slice(0,match[0].indexOf('>')+1);
       const attribute=/\b(src|href)="([^"]*)"/.exec(opening);if(!attribute)return [];
-      const values={[attribute[1]]:attribute[2]};
-      return [{hasAttribute:name=>name in values,getAttribute:name=>values[name],setAttribute(name,value){replacements.push([opening,opening.replace(attribute[0],name+'="'+value+'"')]);}}];
+      const values=Object.fromEntries(Array.from(opening.matchAll(/\b([A-Za-z0-9:-]+)="([^"]*)"/g),row=>[row[1],row[2]]));
+      let rendered=opening;replacements.push({before:opening,get after(){return rendered;}});
+      return [{hasAttribute:name=>name in values,getAttribute:name=>values[name]??null,setAttribute(name,value){values[name]=value;rendered=rendered.replace(new RegExp('\\b'+name+'="[^"]*"'),name+'="'+value+'"');}}];
     });
     return {querySelector:()=>/<base\b/i.test(html)?{}:null,
       createElement:()=>({href:''}),head:{prepend:value=>{base=value.href;}},querySelectorAll:()=>nodes,
-      documentElement:{get outerHTML(){let output=html.replace(/<!doctype[^>]*>/i,'');for(const [before,after]of replacements)output=output.replace(before,after);return output.replace(/<head>/i,'<head><base href="'+base+'">');}}};
+      documentElement:{get outerHTML(){let output=html.replace(/<!doctype[^>]*>/i,'');for(const {before,after}of replacements)output=output.replace(before,after);return output.replace(/<head>/i,'<head><base href="'+base+'">');}}};
   }
 };
 const pendingTemplates=new Map(),templateRequests=[];
 hostWindow.fetch=url=>{
   templateRequests.push(url);
-  return new Promise(resolve=>pendingTemplates.set(url,resolve));
+  return new Promise((resolve,reject)=>pendingTemplates.set(url,{resolve,reject}));
 };
 function templateFrame(path,values={t0:-1}){
   const card=child(hostDocument.body,'section','stack-sympy');
@@ -269,7 +271,7 @@ function templateFrame(path,values={t0:-1}){
   return {card,reset,select,frame,handle};
 }
 const templateHTML='<!doctype html><html><head><meta charset="utf-8"><script src="./assets/vendor.js"></script><link href="./assets/vendor.css"><script>window.literal="./assets/do-not-rewrite.js";</script></head><body>unchanged board code</body></html>';
-const completeTemplate=(name,ok=true,html=templateHTML)=>pendingTemplates.get('https://site.test/dept/course/native/boards/'+name)({ok,status:ok?200:503,text:async()=>html});
+const completeTemplate=(name,ok=true,html=templateHTML)=>pendingTemplates.get('https://site.test/dept/course/native/boards/'+name).resolve({ok,status:ok?200:503,text:async()=>html});
 const mounts=[];
 try{
   const first=templateFrame('../native/boards/shared.html'),second=templateFrame('../native/boards/shared.html');mounts.push(first,second);
@@ -307,5 +309,40 @@ try{
   assert.equal(unsafe.frame.srcdocWrites,0);assert.match(unsafe.card.querySelectorAll('.ctm-stack-jsxgraph-error')[0].textContent,/staged same-origin/);
   assert.throws(()=>templateFrame('https://external.test/private.html'),/Invalid native board template/);
   assert.throws(()=>templateFrame('../native/private.html'),/Invalid native board template/);
+  hostWindow.crypto=webcrypto;hostWindow.btoa=value=>Buffer.from(value,'binary').toString('base64');
+  const awaitResult=async predicate=>{const deadline=Date.now()+5000;while(!predicate()){if(Date.now()>deadline)assert.fail('Timed out awaiting actual integrity completion');await new Promise(resolve=>setImmediate(resolve));}};
+  const core=Buffer.from('/* exact vendor bytes: © λ */\nwindow.vendor=true;');
+  const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
+  const coreHTML=bytes=>templateHTML.replace('<script src="./assets/vendor.js">','<script src="./assets/'+digest(bytes)+'.js" data-ctm-jsxgraph-sha256="'+digest(bytes)+'" data-ctm-jsxgraph-bytes="'+bytes.length+'">');
+  const coreURL=bytes=>'https://site.test/dept/course/native/boards/assets/'+digest(bytes)+'.js';
+  const completeCore=(expected,actual=expected,ok=true)=>pendingTemplates.get(coreURL(expected)).resolve({ok,status:ok?200:503,arrayBuffer:async()=>Uint8Array.from(actual).buffer});
+  const coreA=templateFrame('../native/boards/core-a.html'),coreB=templateFrame('../native/boards/core-b.html');mounts.push(coreA,coreB);await settle();
+  completeTemplate('core-a.html',true,coreHTML(core));completeTemplate('core-b.html',true,coreHTML(core));await settle();
+  assert.equal(templateRequests.filter(url=>url===coreURL(core)).length,1,'Different question templates share one parent core fetch');
+  completeCore(core);await awaitResult(()=>coreA.frame.srcdocWrites===1&&coreB.frame.srcdocWrites===1);
+  for(const item of [coreA,coreB]){
+    assert.equal(item.frame.srcdocWrites,1);
+    const encoded=item.frame.getAttribute('srcdoc').match(/src="data:text\/javascript;base64,([^"]+)"/)[1];
+    assert.deepEqual(Buffer.from(encoded,'base64'),core,'Mounted core bytes remain exact after integrity verification');
+  }
+  const resettingCore=Buffer.from('/* reset-race exact vendor */'),race=templateFrame('../native/boards/core-race.html');mounts.push(race);await settle();
+  completeTemplate('core-race.html',true,coreHTML(resettingCore));await settle();race.reset.click();await settle();completeCore(resettingCore);await awaitResult(()=>race.frame.srcdocWrites===1);
+  assert.equal(race.frame.srcdocWrites,1,'A pending shared core cannot mount the previous reset ticket');
+  const disposedCore=Buffer.from('/* disposed exact vendor */'),disposedAsset=templateFrame('../native/boards/core-disposed.html');mounts.push(disposedAsset);await settle();
+  completeTemplate('core-disposed.html',true,coreHTML(disposedCore));await settle();disposedAsset.handle.disconnect();
+  const liveAsset=templateFrame('../native/boards/core-live.html');mounts.push(liveAsset);await settle();completeTemplate('core-live.html',true,coreHTML(disposedCore));await settle();completeCore(disposedCore);await awaitResult(()=>liveAsset.frame.srcdocWrites===1);assert.equal(disposedAsset.frame.srcdocWrites,0);
+  const variantCore=Buffer.from('/* variant-race exact vendor */'),oldVariant=templateFrame('../native/boards/core-old-variant.html');mounts.push(oldVariant);await settle();completeTemplate('core-old-variant.html',true,coreHTML(variantCore));await settle();oldVariant.select.dispatchEvent(new FakeEvent('change',{bubbles:true}));oldVariant.frame.remove();
+  const newVariant=templateFrame('../native/boards/core-new-variant.html',{t0:-2});mounts.push(newVariant);await settle();completeTemplate('core-new-variant.html',true,coreHTML(variantCore));await settle();completeCore(variantCore);await awaitResult(()=>newVariant.frame.srcdocWrites===1);assert.equal(oldVariant.frame.srcdocWrites,0);
+  const countCore=Buffer.from('/* count mismatch */'),countAsset=templateFrame('../native/boards/core-count.html');mounts.push(countAsset);await settle();completeTemplate('core-count.html',true,coreHTML(countCore));await settle();completeCore(countCore,Buffer.from('short'));await awaitResult(()=>countAsset.card.querySelectorAll('.ctm-stack-jsxgraph-error').length===1);assert.equal(countAsset.frame.srcdocWrites,0);
+  const networkCore=Buffer.from('/* network retry */'),networkAsset=templateFrame('../native/boards/core-network.html');mounts.push(networkAsset);await settle();completeTemplate('core-network.html',true,coreHTML(networkCore));await settle();pendingTemplates.get(coreURL(networkCore)).reject(new Error('network unavailable'));await awaitResult(()=>networkAsset.card.querySelectorAll('.ctm-stack-jsxgraph-error').length===1);
+  networkAsset.reset.click();await settle();completeTemplate('core-network.html',true,coreHTML(networkCore));await settle();completeCore(networkCore);await awaitResult(()=>networkAsset.frame.srcdocWrites===1);assert.equal(templateRequests.filter(url=>url===coreURL(networkCore)).length,2);
+  const retryCore=Buffer.from('/* retry exact vendor */'),badCore=templateFrame('../native/boards/core-retry.html');mounts.push(badCore);await settle();
+  completeTemplate('core-retry.html',true,coreHTML(retryCore));await settle();const corrupt=Buffer.from(retryCore);corrupt[0]^=1;completeCore(retryCore,corrupt);await awaitResult(()=>badCore.card.querySelectorAll('.ctm-stack-jsxgraph-error').length===1);
+  assert.equal(badCore.frame.srcdocWrites,0);assert.match(badCore.card.querySelectorAll('.ctm-stack-jsxgraph-error')[0].textContent,/SHA-256 mismatch/);
+  badCore.reset.click();await settle();completeTemplate('core-retry.html',true,coreHTML(retryCore));await settle();completeCore(retryCore);await awaitResult(()=>badCore.frame.srcdocWrites===1);
+  assert.equal(badCore.frame.srcdocWrites,1);assert.equal(badCore.card.querySelectorAll('.ctm-stack-jsxgraph-error').length,0);assert.equal(templateRequests.filter(url=>url===coreURL(retryCore)).length,2,'Failed integrity does not poison the retry cache');
+  const invalidCore=templateFrame('../native/boards/core-invalid.html');mounts.push(invalidCore);await settle();completeTemplate('core-invalid.html',true,coreHTML(core).replace('./assets/'+digest(core)+'.js','./assets/unverified.js'));await settle();
+  assert.equal(invalidCore.frame.srcdocWrites,0);assert.match(invalidCore.card.querySelectorAll('.ctm-stack-jsxgraph-error')[0].textContent,/content-addressed/);
   console.log('Template mounts: shared fetch, explicit base, stale reset/variant/disposal rejection and failed-fetch retry passed');
+  console.log('Shared JSXGraph core: exact hashed bytes, one parent fetch, failed-integrity retry and lifecycle races passed');
 }finally{for(const item of mounts)item.handle.disconnect();}

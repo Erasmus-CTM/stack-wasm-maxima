@@ -58,3 +58,7 @@ dynamic-import resolution, numeric data boundaries and narrow CORS/isolation.
 two-way input, validation, collection and reset behavior. The actual rendered
 site's native browser checks cover real authored boards and prepared seed
 changes; packaging unit tests alone do not establish browser feature parity.
+
+The producer marks only the exact pinned JSXGraph core with its SHA-256 and decoded byte length. The host shares a parent fetch promise for that immutable content-addressed URL, verifies both values with Web Crypto, and mounts those unchanged bytes as a runtime data script in the original script order. Persisted question HTML contains no core copy. Failed network, byte-count or digest checks surface an error and permit reset retry; retired reset/variant/disposal tickets cannot mount. This avoids repeated core transfers between opaque iframe cache partitions. Remaining MathJax assets may still transfer repeatedly. Existing data-script execution policy is retained; no vendor code or global fetch behavior is changed.
+
+Hosts honoring generated _headers retain global isolation and permit CORS only on /native/boards/assets/* and /native/boards/mathjax/*. The public-demo packager copies this canonical policy unchanged. Pages compatibility is checked separately against an ACAO-only raw server and the canonical isolation service worker.

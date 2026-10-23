@@ -42,3 +42,12 @@ for(const prefix of ['/','/dept/course/']){
   assert.equal(fetched.length,count);
 }
 console.log('actual isolation worker: public board resources only, root and nested hosting pass');
+
+// public-demo/package.py copies this canonical policy unchanged.
+const headers=await readFile(new URL('../../comparison/_headers',import.meta.url),'utf8');
+const rules=new Map();let rule;
+for(const line of headers.split(/\r?\n/)){if(!line.trim())continue;if(!/^\s/.test(line)){rule={};rules.set(line,rule);}else{const split=line.indexOf(':');assert.ok(split>0);rule[line.slice(0,split).trim().toLowerCase()]=line.slice(split+1).trim();}}
+assert.deepEqual([...rules.keys()],['/*','/native/boards/assets/*','/native/boards/mathjax/*']);
+assert.deepEqual(rules.get('/*'),{'cross-origin-opener-policy':'same-origin','cross-origin-embedder-policy':'require-corp','cross-origin-resource-policy':'same-origin'});
+for(const key of ['/native/boards/assets/*','/native/boards/mathjax/*'])assert.deepEqual(rules.get(key),{'access-control-allow-origin':'*','cross-origin-resource-policy':'cross-origin'});
+console.log('canonical generated-host headers: only public board asset roots permit opaque CORS access');

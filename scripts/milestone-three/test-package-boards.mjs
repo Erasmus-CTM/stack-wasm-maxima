@@ -27,7 +27,8 @@ const original='<!doctype html><script id="MathJax-script" async src="https://cd
 const iframe='<iframe id="question-b0" sandbox="allow-scripts" style="height:400px" src="'+uri('text/html',Buffer.from(original))+'"></iframe>';
 let app,staticApp;
 try {
-  const packed=await packageBoard({iframe,id:'question-b0',site,assetMap:url=>{assert.equal(url,'https://cdn.example/mathjax.js');return 'native/boards/mathjax/tex-mml-svg.js';}});
+  const jsxgraphCore={sha256:createHash('sha256').update(vendor).digest('hex'),bytes:vendor.length};
+  const packed=await packageBoard({iframe,id:'question-b0',site,jsxgraphCore,assetMap:url=>{assert.equal(url,'https://cdn.example/mathjax.js');return 'native/boards/mathjax/tex-mml-svg.js';}});
   const packed2=await packageBoard({iframe,id:'question-b1',site,assetMap:()=> 'native/boards/mathjax/tex-mml-svg.js'});
   assert.deepEqual(packed.assets,packed2.assets,'All board templates share content-addressed vendor assets');
   assert.match(packed.html,/sandbox="allow-scripts"/);assert.ok(packed.html.includes('src="about:blank" data-stack-jsxgraph-template="../native/boards/question-b0.html"'));
@@ -37,6 +38,9 @@ try {
   assert.match(document,/<link rel="stylesheet"[^>]*crossorigin="anonymous"/);
   assert.match(document,/<script>window.authored="unchanged"; import\("\.\/assets\//);
   assert.ok(!document.includes('base64'));
+  assert.ok(document.includes('data-ctm-jsxgraph-sha256="'+jsxgraphCore.sha256+'"'));
+  assert.ok(document.includes('data-ctm-jsxgraph-bytes="'+vendor.length+'"'));
+  await assert.rejects(packageBoard({iframe,id:'wrong-core',site,assetMap:()=> 'native/boards/mathjax/tex-mml-svg.js',jsxgraphCore:{...jsxgraphCore,sha256:'0'.repeat(64)}}),/one exact JSXGraph/);
   const mathjax={preloader:'native/boards/assets/preloader.js',config:{loader:{paths:{mathjax:'native/boards/mathjax/npm/mathjax@4.1.3',sre:'native/boards/mathjax/npm/mathjax@4.1.3/sre'}},svg:{fontPath:'native/boards/mathjax/npm/@mathjax/font'},chtml:{fontPath:'native/boards/mathjax/npm/@mathjax/font',fontURL:'native/boards/mathjax/npm/@mathjax/font/chtml/woff2'}}};
   const configured=await packageBoard({iframe,id:'configured',site,assetMap:()=> 'native/boards/mathjax/tex-mml-svg.js',mathjax});
   const configuredHTML=await readFile(join(site,configured.path),'utf8');
