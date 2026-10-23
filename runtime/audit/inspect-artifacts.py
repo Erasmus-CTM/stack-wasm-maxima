@@ -83,6 +83,17 @@ def inspect_zip(data, spec):
     inventory = []
     payloads = []
     total = 0
+    ranges = spec.get('ranges', [])
+    assert len(ranges) <= 128
+    range_keys = set()
+    for item in ranges:
+        assert isinstance(item['path'], str) and item['path'] not in spec['files']
+        assert type(item['start']) is int and type(item['end']) is int
+        assert 0 <= item['start'] < item['end'] and item['end'] - item['start'] <= 8 * 1024**2
+        key = (item['path'], item['start'], item['end'])
+        assert key not in range_keys
+        range_keys.add(key)
+    range_payloads = []
     with zipfile.ZipFile(io.BytesIO(data)) as archive:
         entries = archive.infolist()
         assert len(entries) <= 25000
@@ -102,21 +113,39 @@ def inspect_zip(data, spec):
                 continue
             hasher = hashlib.sha256()
             body = bytearray() if entry.filename in spec['files'] else None
+            selected_ranges = [(item, bytearray()) for item in ranges if item['path'] == entry.filename]
+            assert all(item['end'] <= entry.file_size for item, _ in selected_ranges)
+            position = 0
             with archive.open(entry) as source:
                 while chunk := source.read(1024**2):
                     hasher.update(chunk)
+                    for item, fragment in selected_ranges:
+                        lo = max(position, item['start'])
+                        hi = min(position + len(chunk), item['end'])
+                        if lo < hi:
+                            fragment.extend(chunk[lo-position:hi-position])
+                    position += len(chunk)
                     if body is not None:
                         assert len(body) + len(chunk) <= 16 * 1024**2, 'Evidence entry too large'
                         body.extend(chunk)
             row = {'path': entry.filename, 'bytes': entry.file_size, 'sha256': hasher.hexdigest()}
             inventory.append(row)
+            for item, fragment in selected_ranges:
+                assert len(fragment) == item['end'] - item['start']
+                range_payloads.append({'kind': 'file-range', 'artifact': spec['id'], 'path': entry.filename,
+                                       'start': item['start'], 'end': item['end'],
+                                       'fileBytes': row['bytes'], 'fileSha256': row['sha256'],
+                                       'bytes': len(fragment), 'sha256': sha(fragment),
+                                       'gzipBase64': base64.b64encode(gzip.compress(bytes(fragment), mtime=0)).decode()})
             if body is not None:
                 if entry.filename.endswith('.json'):
                     json.loads(body)
                 payloads.append({**row, 'gzipBase64': base64.b64encode(gzip.compress(bytes(body), mtime=0)).decode()})
     assert set(spec['files']) <= {row['path'] for row in inventory}, 'Required evidence missing: ' + json.dumps(sorted(set(spec['files']) - {row['path'] for row in inventory}))
+    assert {item['path'] for item in ranges} <= {row['path'] for row in inventory}
     records = [{'kind': 'inventory', 'artifact': spec['id'], 'files': inventory}]
     records += [{'kind': 'file', 'artifact': spec['id'], **row} for row in payloads]
+    records += range_payloads
     return records
 
 
