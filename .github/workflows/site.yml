@@ -167,6 +167,11 @@ jobs:
                 --output "test-results/milestone-three/board-functional-$browser-$width.json"
             done
           done
+      - name: Measure current board transfers across cold and same-profile warm loads
+        run: |
+          node scripts/milestone-three/measure-board-weight.mjs --site site/_site --browser chromium \
+            --static-host --width 1280 \
+            --output test-results/milestone-three/board-transfer-chromium.json
       - name: Exercise native questions, graphical inputs and Python continuations
         run: node scripts/milestone-three/browser.mjs site/_site test-results/milestone-three
       - name: Install the independent native Maxima reference
