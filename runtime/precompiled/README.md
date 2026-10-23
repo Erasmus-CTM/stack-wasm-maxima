@@ -1,5 +1,21 @@
 # Precompiled STACK experiment
 
+The full fresh-build workflow now tests both `baseline` and `ecl-oz`. The latter
+selects the existing scoped `EMCC_CFLAGS=-Oz` ECL experiment; Maxima compilation
+flags remain unchanged. Each profile independently builds its runtime and both
+entry bundles, then runs the same strict source/compiled timing and full parity
+gates. Artifacts include the profile in their names. Source and compiled timings
+within a profile share one runtime build and runner; different matrix runners
+must not be treated as a controlled baseline-versus-Oz timing comparison. This
+does not change the shipped runtime or establish an optimized precompiled speedup.
+
+The frozen browser workflow currently collects reset-isolation evidence from
+fresh source/compiled sessions. It compares the unchanged original reset before
+grading with a hash-bound marked diagnostic copy before/after grading. Markers
+identify whether `kill` returns and which later statement is reached. A successful
+collector exit only means evidence collection finished; copied-body observations
+cannot satisfy the real reset or full parity gates.
+
 The separate `precompiled-browser.yml` diagnostic reuses two immutable, hash-verified
 artifacts to test the browser harness without another compiler rebuild. Its source
 and compiled trials share the accepted baseline runtime, with the entry FAS from
