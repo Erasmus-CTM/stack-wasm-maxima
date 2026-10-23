@@ -9,6 +9,58 @@ within a profile share one runtime build and runner; different matrix runners
 must not be treated as a controlled baseline-versus-Oz timing comparison. This
 does not change the shipped runtime or establish an optimized precompiled speedup.
 
+## Full session restart contract
+
+The browser benchmark validates the product's supported **full session restart**:
+terminate the old `MaximaSession` and create a new session with a fresh CAS worker
+and three new shared buffers. Each of eight cold/reload trials performs three
+sequential restarts: 32 CAS initializations and 24 separately reported restart
+costs. Inner restarts keep the page/profile and warm HTTP caches. The next page
+reload follows four initializations, so its cache history differs from earlier
+single-initialization reports. `lifecycleEncodedBodyBytes` covers the whole trial;
+it is not an initial-startup transfer measurement.
+A short frozen diagnostic can select one cold trial per loading mode (eight
+initializations) only with explicit diagnostic provenance. That abbreviated run
+cannot clear the fresh-build 8-trial/32-initialization matrix or timing claims.
+
+Every generation verifies its complete manifest hash, pinned Maxima/STACK versions,
+and the actual compiled-entry hash/mount/read with zero source-entry reads. Restart
+checks prove old variable, private-function, property and assumption state is gone,
+that the terminated session rejects calls, and that the worker/buffers are distinct.
+Pinned library defaults and nine positive/negative noun, parser, ±, direct-call and
+display checks must succeed. Three full GC/error/arithmetic/regrading checks remain
+mandatory. A bounded lifecycle watchdog retains partial progress. No library
+functions/defaults are restored, no builtin tables are resnapshotted, and no source
+fallback repairs a compiled session.
+
+This explicitly corrects the earlier assistant-added whole-STACK same-worker raw
+`stack_reset` acceptance gate. At the exact upstream pin,
+[`cassession2.class.php`](https://github.com/maths/moodle-qtype_stack/blob/33383047af39c204bf4442802a058f8b918b2b1b/stack/cas/cassession2.class.php)
+assumes the CAS process is not reused, and
+[`connector.linux.class.php`](https://github.com/maths/moodle-qtype_stack/blob/33383047af39c204bf4442802a058f8b918b2b1b/stack/cas/connector.linux.class.php)
+starts a process and quits after the call. The browser backend reuses healthy
+sessions and replaces poisoned sessions; it has no raw reset API. Restart testing
+does not mean every question gets a new process and does not resolve general
+healthy-session per-question isolation (the existing F11 follow-up).
+
+**Raw same-worker reset remains unresolved.** Failed run 40022723472 and frozen
+artifacts 12532734569/12535530715 retain the original recursion/helper-removal
+failures. Artifact 12536206985 adds the seven-helper experiment: all eight
+first raw resets/GC/error checks complete, but `FORBIDDEN_SYMBOLS_SET` is lost,
+noun equivalence changes, ± replacement/unary rewriting fail, and regrading fails.
+Parser shape and TeX display still pass in those observations; matching failures
+are not parity. Every pre-reset semantic check succeeds in both loading modes.
+Temporary diagnostic PR #19 tests narrow registration experiments;
+these are not production changes and must never merge. The raw collector below
+remains diagnostic evidence, not a replacement for restart or full parity gates.
+Native translated-function fixtures still require three genuine same-worker raw
+resets/full collections to demonstrate packagefile survival. Every both-pin22,
+newer-pin316/controller/graphical, independent-native and same-source replay gate
+remains required, followed by independent Astra artifact reviews. No precompiled
+speedup is established.
+
+## Earlier raw reset diagnostics
+
 The frozen browser workflow currently collects reset-isolation evidence from
 fresh source/compiled sessions. It compares the unchanged original reset before
 grading with a hash-bound marked diagnostic copy before/after grading. Markers
@@ -27,8 +79,8 @@ gate or establish a precompiled speedup.
 The first browser measurement (run 40005689823) failed during the source control's
 first reset, before any compiled trial. The repaired harness executes the trusted
 reset outside the dynamic question wrapper, then checks its return value and
-removal of a disposable variable through a fresh evaluation. All three resets,
-full collections, caught-error recovery and regrading remain required.
+removal of a disposable variable through a fresh evaluation. That experiment required three raw resets,
+full collections, caught-error recovery and regrading; it failed as recorded below.
 
 Frozen diagnostic run 40017911368 reached source readiness and the first reset,
 but failed post-reset regrading with a generic CAS error before any compiled
@@ -102,8 +154,8 @@ readably. It did not produce a validated bundle or timing comparison.
 Validation retains a minimal translated-function control and compares ordinary
 registration with Maxima's packagefile option. Three sentinel-verified resets and
 full collections must demonstrate the ordinary removal hazard and package-mode
-survival. Browser trials require three real STACK resets, acknowledged full GC,
-caught error recovery, arithmetic and regrading. These feasibility checks do not
+survival. Browser trials now require three full session restarts, acknowledged
+full GC, caught error recovery, arithmetic and regrading, as defined above. These feasibility checks do not
 replace the full parity matrix. Retained generated outputs are rejected.
 
 The next opt-in candidate keeps the unchanged translation failure as a negative
@@ -122,9 +174,8 @@ and collections. The symbolic assignment bridge produced readable complete Lisp.
 The first behavior checker incorrectly used a Lisp catch for a deliberate Maxima
 error under `--quit-on-error`; it is corrected to use Maxima's own `errcatch` and
 still requires rejection, restoration and subsequent successful evaluation.
-These observations do not validate a whole STACK bundle. Initial library version
-must match the manifest; post-reset metadata is compared with the source control
-because STACK reset can clear ordinary metadata variables.
+These observations do not validate a whole STACK bundle. Library version must match the manifest after every full session initialization.
+Historical raw-reset metadata comparison did not establish preserved library state.
 
 
 Full candidate run 39996509145 passed the same-build native fixtures but stopped

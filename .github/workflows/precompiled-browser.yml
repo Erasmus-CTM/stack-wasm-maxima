@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/precompiled-browser.yml'
       - 'runtime/precompiled/measure.mjs'
+      - 'runtime/precompiled/restart-checks.json'
       - 'runtime/precompiled/diagnose-reset.mjs'
       - 'runtime/precompiled/frozen-inputs.py'
       - 'runtime/precompiled/stage-frozen-probe.py'
@@ -24,7 +25,7 @@ jobs:
     # fresh full probe; expired frozen inputs must not become a general CI gate.
     if: github.event_name == 'workflow_dispatch' || github.event.pull_request.number == 13 || github.head_ref == 'diagnostic/2026-10-kill-reset'
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -66,12 +67,12 @@ jobs:
             --stack-source .cache/precompiled-browser/upstream-stack \
             --ctm-checkers-source .cache/precompiled-browser/ctm-checkers
           python runtime/precompiled/stage-frozen-probe.py
-      - name: Require the real reset, GC, recovery and grading gates with the candidate adapter
+      - name: Validate full session restart with frozen diagnostic inputs
         env:
           PRECOMPILED_SITE: .cache/precompiled-browser/site
           PRECOMPILED_REPORT: test-results/precompiled-browser/measure.json
           PRECOMPILED_DIAGNOSTIC_PROVENANCE: .cache/precompiled-frozen-inputs/pair.json
-          PRECOMPILED_RESET_COMPATIBILITY: runtime/precompiled/reserved-all.lisp
+          PRECOMPILED_DIAGNOSTIC_SHORT: '1'
         run: node runtime/precompiled/measure.mjs
       - name: Preserve diagnostic reports and frozen identities even on failure
         if: always()

@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "kind": "full-session-restart",
+  "scope": "Fresh CAS worker and heap in the same page/profile. Raw same-worker stack_reset remains unsupported and unresolved; this does not prove general per-question isolation.",
+  "officialFixture": {
+    "repository": "maths/moodle-qtype_stack",
+    "pins": [
+      "33383047af39c204bf4442802a058f8b918b2b1b",
+      "10d323311b7f39fb7b092dd10ce75f7d8632f525"
+    ],
+    "path": "tests/fixtures/answertestfixtures.class.php",
+    "blob": "95b01a768c5cd227edee417949e8ea99fab684be"
+  },
+  "checks": [
+    {
+      "name": "noun-isolation",
+      "expression": "block([a,b,c],a:ATAlgEquiv(noundiff(y,x),0),b:ATAlgEquivNouns(noundiff(y,x),0),c:ATAlgEquiv(noundiff(y,x),0),[a[1],a[2],b[1],b[2],c[1],c[2],algebraic_equivalence_nounsp])",
+      "expected": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "direct-noun-equivalence",
+      "expression": "algebraic_equivalence(noundiff(y,x),0)",
+      "expected": true
+    },
+    {
+      "name": "pm-structure",
+      "expression": "block([p:parse_string(\"x#pm#y\"),q:parse_string(\"#pm#y\")],[is(op(p)=\"#pm#\"),is(args(p)=[x,y]),is(op(q)=\"#pm#\"),is(args(q)=[y])])",
+      "expected": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "pm-replacement",
+      "expression": "block([p:parse_string(\"x#pm#y\")],[is(count_op(p,STACKpmOPT)=1),is(pm_replace(p)=parse_string(\"(x+y) nounor (x-y)\"))])",
+      "expected": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "pm-display",
+      "expression": "[tex1(parse_string(\"x#pm#y\")),tex1(parse_string(\"#pm#y\"))]",
+      "expected": [
+        "{x \\pm y}",
+        " \\pm y"
+      ]
+    },
+    {
+      "name": "pm-unary-rewrite",
+      "expression": "is(ev(parse_string(\"-(x#pm#y)\"),simp)=ev(parse_string(\"-x#pm#y\"),simp))",
+      "expected": true
+    },
+    {
+      "name": "pm-positive",
+      "expression": "block([r:ATAlgEquiv(parse_string(\"sin(x#pm#y)\"),parse_string(\"sin(x)*cos(y)#pm#cos(x)*sin(y)\"))],[r[1],r[2]])",
+      "expected": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "pm-negative",
+      "expression": "block([r:ATAlgEquiv(parse_string(\"sin(x#pm#y)\"),parse_string(\"cos(x)*sin(y)#pm#sin(x)*cos(y)\"))],[r[1],r[2]])",
+      "expected": [
+        true,
+        false
+      ]
+    },
+    {
+      "name": "number-display",
+      "expression": "tex1(42)",
+      "expected": "42"
+    }
+  ],
+  "basis": "Official fixtures provide the noun and plus/minus equivalence cases. Parser, policy and display controls are source-derived and cross-checked against fresh frozen observations; they are not additional official cases."
+}
