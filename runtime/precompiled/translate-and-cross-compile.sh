@@ -9,12 +9,17 @@ MODE=browser
 if [[ ${1:-} == --native-only ]]; then MODE=native-only; shift; fi
 [[ $# == 1 ]] || { echo 'Pass [--native-only] and the exact STACK checkout' >&2; exit 64; }
 STACK=$1
-WORK="$ROOT/.cache/precompiled-stack"
+PIN=${CTM_PRECOMPILED_STACK_PIN:-33383047af39c204bf4442802a058f8b918b2b1b}
+case "$PIN" in
+  33383047af39c204bf4442802a058f8b918b2b1b) WORK="$ROOT/.cache/precompiled-stack" ;;
+  10d323311b7f39fb7b092dd10ce75f7d8632f525) WORK="$ROOT/.cache/precompiled-stack-10d3233" ;;
+  *) echo 'Unsupported exact STACK pin' >&2; exit 64 ;;
+esac
+SYSTEM=ctm-stackmaxima-${PIN:0:7}
 MAXIMA="$ROOT/.cache/runtime-build/sources/maxima"
 ECL="$MAXIMA/wasm/ecl-host/bin/ecl"
 NATIVE="$MAXIMA/wasm/maxima-ecl-combined/bin/maxima"
 export MAXIMA_PREFIX="$MAXIMA/wasm/maxima-ecl-combined"
-PIN=33383047af39c204bf4442802a058f8b918b2b1b
 test "$(git -C "$STACK" rev-parse HEAD)" = "$PIN"
 test -x "$ECL"
 test -x "$NATIVE"
@@ -24,13 +29,14 @@ for output in "$WORK/source/stackmaxima.LISP" "$WORK/source/stackmaxima.lisp" \
   "$WORK/source/ctm-assignment-probe.LISP" "$WORK/source/ctm-reset-probe.LISP" \
   "$WORK/source-adapted/stackmaxima.LISP" "$WORK/source-adapted/stackmaxima.lisp" \
   "$WORK/source-initialized/stackmaxima.LISP" "$WORK/source-initialized/stackmaxima.lisp" \
-  "$WORK/source-initialized/parser-declarations.mac" "$WORK/source-initialized/parser-declarations.json" "$WORK/stackmaxima.fas"; do
+  "$WORK/source-initialized/parser-declarations.mac" "$WORK/source-initialized/parser-declarations.json" \
+  "$WORK/stackmaxima.fas" "$WORK/stackmaxima.fas.json"; do
   if test -e "$output"; then
     echo "Refusing stale experiment output: $output" >&2
     exit 1
   fi
 done
-if find "$WORK" "$MAXIMA/src/binary-ecl" -type f \( -name 'ctm-stackmaxima.fasb' -o -name 'ctm-stackmaxima.fas' \) -print -quit | grep -q .; then
+if find "$WORK" "$MAXIMA/src/binary-ecl" -type f \( -name "$SYSTEM.fasb" -o -name "$SYSTEM.fas" \) -print -quit | grep -q .; then
   echo 'Refusing retained cross-compiler output' >&2
   exit 1
 fi
@@ -109,7 +115,7 @@ if "$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/adapted-translate-
   exit 1
 fi
 grep -q 'nounor is not an infix operator' "$WORK/logs/translate-adapted.log"
-python "$ROOT/runtime/precompiled/parser_bootstrap.py" --stack-source "$STACK" --output "$WORK/source-initialized"
+python "$ROOT/runtime/precompiled/parser_bootstrap.py" --stack-source "$STACK" --output "$WORK/source-initialized" --pin "$PIN"
 cp "$WORK/source/stackmaxima.mac" "$WORK/source-initialized/stackmaxima.mac"
 cp "$WORK/display2d-bridge.lisp" "$WORK/source-initialized/display2d-bridge.lisp"
 {
@@ -126,8 +132,8 @@ cp "$WORK/source-initialized/stackmaxima.LISP" "$WORK/source-initialized/stackma
 sha256sum "$WORK/source-initialized/stackmaxima.mac" "$WORK/source-initialized/stackmaxima.LISP" \
   "$WORK/source-initialized/stackmaxima.lisp" "$WORK/source-initialized/display2d-bridge.lisp" \
   "$WORK/source-initialized/parser-declarations.mac" "$WORK/source-initialized/parser-declarations.json" > "$WORK/logs/initialized-source.sha256"
-cat > "$WORK/source-initialized/ctm-stackmaxima.asd" <<'EOF'
-(asdf:defsystem #:ctm-stackmaxima
+cat > "$WORK/source-initialized/$SYSTEM.asd" <<EOF
+(asdf:defsystem #:$SYSTEM
   :depends-on (#:maxima/core)
   :serial t
   :components ((:file "display2d-bridge") (:file "stackmaxima")))
@@ -141,12 +147,13 @@ if [[ "$MODE" == native-only ]]; then
   exit 0
 fi
 "$ECL" --norc --load build.lisp \
-  --eval "(asdf:load-asd \"$WORK/source-initialized/ctm-stackmaxima.asd\")" \
-  --eval '(cross-compile-maxima-module "ctm-stackmaxima")' \
+  --eval "(asdf:load-asd \"$WORK/source-initialized/$SYSTEM.asd\")" \
+  --eval "(cross-compile-maxima-module \"$SYSTEM\")" \
   --eval '(ext:quit)' 2>&1 | tee "$WORK/logs/cross-compile.log"
-mapfile -t bundles < <(find "$WORK" "$MAXIMA/src/binary-ecl" -type f \( -name 'ctm-stackmaxima.fasb' -o -name 'ctm-stackmaxima.fas' \) -print)
+mapfile -t bundles < <(find "$WORK" "$MAXIMA/src/binary-ecl" -type f \( -name "$SYSTEM.fasb" -o -name "$SYSTEM.fas" \) -print)
 test "${#bundles[@]}" = 1
 cp "${bundles[0]}" "$WORK/stackmaxima.fas"
 file "$WORK/stackmaxima.fas" | tee "$WORK/logs/bundle-format.txt"
 sha256sum "$WORK/stackmaxima.fas" > "$WORK/logs/stackmaxima-fas.sha256"
+python "$ROOT/runtime/precompiled/bundle_provenance.py" --stack-source "$STACK" --work "$WORK" --pin "$PIN"
 python "$ROOT/runtime/build/verify-source-state.py" after

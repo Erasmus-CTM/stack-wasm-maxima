@@ -19,6 +19,33 @@ graphical checks, and independent artifact review remain required before any
 runtime selection. The shipped runtime and default source-loaded startup are
 unchanged.
 
+The full probe requires 22 official answer-test cases against source/native
+controls at each of the two pinned STACK revisions. Each pin has its own
+translation, ASDF system, bundle and build descriptor. The newer pin additionally
+runs the existing 316-program rendered controller/graphical suite, with replay
+against independent native Maxima and the same-source ECL build. The older pin
+has 22-probe coverage, not 316-program controller coverage. The compiled manifest
+is selected before native-page preparation; a source-only preparation cannot
+satisfy that gate. The narrow eight-sample timing experiment runs before these
+broader gates and cannot establish parity or a performance improvement itself.
+
+`translate-and-cross-compile.sh --native-only STACK_CHECKOUT` runs the same
+complete-entry translation controls and source-integrity checks without the
+browser cross-build. The native workflow runs it at both pins. Default browser
+mode selects the newer pin; `CTM_PRECOMPILED_STACK_PIN` admits only the two exact
+pins and assigns separate fixed work directories. The parser bootstrap preserves
+each pin's original declarations: 198 bytes at the newer pin, 265 at the older
+pin, including its right-associativity declarations.
+
+Staging requires `stackmaxima.fas.json`, produced beside the fresh bundle and
+binding its bytes/hash to the exact pin, entry source, translated Lisp, bridge
+and parser inputs. Source and compiled official-probe reports are separate.
+Filesystem instrumentation records successful read-capable opens after mounting;
+mounting writes and failed opens cannot prove selection. Normalized source-entry
+opens are rejected. The controller gate binds every captured program and native
+replay observation to the selected manifest and actual worker readiness. Raw
+runtime files, descriptors and failure reports are retained for independent review.
+
 The exact-head diagnostic run 39978116076 failed closed in both the isolated
 `display2d:false` assignment fixture and the full entry translation. Its explicit
 failure marker reports that an ECL compiled assignment hook cannot be printed

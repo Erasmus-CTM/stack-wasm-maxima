@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'runtime/precompiled/**'
+      - 'runtime/build/**'
       - '.github/workflows/precompiled-fixtures.yml'
 permissions:
   contents: read
@@ -19,6 +20,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Check bundle provenance and controller report bindings
+        run: |
+          python runtime/precompiled/test-bundle-provenance.py
+          python runtime/precompiled/test-controller-parity.py
       - name: Fetch exact source commits and verify archive hashes
         run: python runtime/build/prepare-sources.py
       - name: Install native and 32-bit build prerequisites
@@ -36,6 +41,17 @@ jobs:
         run: bash runtime/precompiled/native-fixtures.sh
       - name: Require complete native entry translation with the same controls as the browser probe
         run: bash runtime/precompiled/translate-and-cross-compile.sh --native-only "$PWD/.cache/precompiled-stack/upstream-stack"
+      - uses: actions/checkout@v4
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 10d323311b7f39fb7b092dd10ce75f7d8632f525
+          path: .cache/precompiled-stack-10d3233/upstream-stack
+          sparse-checkout: stack/maxima
+          persist-credentials: false
+      - name: Require complete native entry translation at the older pin
+        env:
+          CTM_PRECOMPILED_STACK_PIN: 10d323311b7f39fb7b092dd10ce75f7d8632f525
+        run: bash runtime/precompiled/translate-and-cross-compile.sh --native-only "$PWD/.cache/precompiled-stack-10d3233/upstream-stack"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -48,6 +64,11 @@ jobs:
             .cache/precompiled-stack/source-adapted/
             .cache/precompiled-stack/source-initialized/
             .cache/precompiled-stack/*.lisp
+            .cache/precompiled-stack-10d3233/logs/
+            .cache/precompiled-stack-10d3233/source/
+            .cache/precompiled-stack-10d3233/source-adapted/
+            .cache/precompiled-stack-10d3233/source-initialized/
+            .cache/precompiled-stack-10d3233/*.lisp
             .cache/runtime-build/source-progress.json
             .cache/runtime-build/logs/source-state-*.json
           if-no-files-found: warn

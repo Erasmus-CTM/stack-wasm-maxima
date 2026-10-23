@@ -85,6 +85,11 @@ try{
           assert.equal(requests.some(record=>record.status>=400||record.error),false);
           if(candidate==='precompiled'){
             assert.ok(result.initialization.stages.compiledStackBytes>0,'Compiled asset must reach the Wasm filesystem');
+            assert.equal(result.initialization.stages.compiledStackMounted,true);
+            assert.ok(result.initialization.stages.compiledStackOpens>0,'STACK must open the compiled entry');
+            assert.equal(result.initialization.stages.compiledSourceEntryOpens,0,'Compiled startup must not open the source entry');
+            assert.equal(result.initialization.stages.compiledStackSha256,
+              report.files.find(row=>row.path==='maxima-runtime/stackmaxima.fas').sha256);
             if(mode==='cold')assert.ok(requests.some(record=>record.pathname?.endsWith('/stackmaxima.fas')),'Compiled asset must transfer from origin');
           }else assert.equal(result.initialization.stages.compiledStackBytes,undefined);
         }

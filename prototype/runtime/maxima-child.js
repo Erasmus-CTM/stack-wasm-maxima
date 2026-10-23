@@ -9,6 +9,18 @@ let pendingInput = new Uint32Array(0), inputIndex = 0;
 let outputLine = '', stdoutTail = '', initialized = false;
 let stages = {}, started;
 const hex = bytes => Array.from(new Uint8Array(bytes), n => n.toString(16).padStart(2, '0')).join('');
+function traceCompiledEntryReads(filesystem, stages, entry) {
+  const open=filesystem.open;
+  filesystem.open=function(path,...args) {
+    const stream=open.call(this,path,...args);
+    const resolved=typeof stream.path==='string'?stream.path:filesystem.getPath(stream.node);
+    if((stream.flags&3)!==1) {
+      if(resolved===entry+'.fas')stages.compiledStackOpens++;
+      if(resolved===entry+'.mac')stages.compiledSourceEntryOpens++;
+    }
+    return stream;
+  };
+}
 async function preloadFiles(base, spec) {
   const mounted = new Map();
   if (!spec) return mounted; // Older manifests retain the original loader.
@@ -193,7 +205,13 @@ self.onmessage = async ({ data }) => {
         FS.mkdirTree(path.slice(0, path.lastIndexOf('/')));
         FS.writeFile(path, new TextEncoder().encode(file.content));
       }
-      if (compiledStack) FS.writeFile('/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.fas', compiledStack);
+      if (compiledStack) {
+        const entry='/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima';
+        FS.writeFile(entry+'.fas', compiledStack);
+        Object.assign(stages,{compiledStackMounted:true,compiledStackOpens:0,compiledSourceEntryOpens:0,
+          compiledStackSha256:manifest.compiledStack.asset.sha256,compiledStackRevision:manifest.stackRevision});
+        traceCompiledEntryReads(FS,stages,entry);
+      }
     });
     self.importScripts = function (...urls) {
       const mapped = urls.map(url => {

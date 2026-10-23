@@ -56,18 +56,24 @@ self.onmessage = event => {
       return originalIoctl.call(this, stream, operation, argument);
     };
     self.postMessage({ type: 'm1-adapter', name: 'regular-file FIONREAD', operation: 21531 });
-    const originalOpen = FS.open;
-    FS.open = function (path, ...args) {
-      if (typeof path === 'string' && path.startsWith('/ctm/')) self.postMessage({ type: 'm1-fs-open', path });
-      return originalOpen.call(this, path, ...args);
-    };
     for (const directory of ['/ctm', '/ctm/tmp', '/ctm/plots', '/ctm/obj',
       '/ctm/moodle-qtype_stack-master/tmp']) FS.mkdirTree(directory);
     for (const file of files) {
       const path = '/ctm/moodle-qtype_stack-master/' + file.path;
       FS.mkdirTree(path.slice(0, path.lastIndexOf('/')));
-      FS.writeFile(path, new TextEncoder().encode(file.content));
+      if (file.encoding && file.encoding !== 'base64') throw new Error('Unknown trusted fixture file encoding');
+      FS.writeFile(path, file.encoding === 'base64'
+        ? Uint8Array.from(atob(file.content), character => character.charCodeAt(0))
+        : new TextEncoder().encode(file.content));
     }
+    // Mounting writes are not evidence that Maxima read a library entry.
+    const originalOpen = FS.open;
+    FS.open = function (path, ...args) {
+      const stream=originalOpen.call(this,path,...args);
+      const resolved=typeof stream.path==='string'?stream.path:FS.getPath(stream.node);
+      if(resolved.startsWith('/ctm/'))self.postMessage({type:'m1-fs-open',path:resolved,read:(stream.flags&3)!==1});
+      return stream;
+    };
   });
   try { upstreamStart({ data: buffers }); }
   catch (error) { self.postMessage({ type: 'm1-error', error: String(error.stack || error) }); }

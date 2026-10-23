@@ -7,9 +7,9 @@ import hashlib
 import json
 import subprocess
 from pathlib import Path
-from parser_bootstrap import extract as parser_declarations, SOURCE as PARSER_SOURCE
+from parser_bootstrap import extract as parser_declarations, SOURCE as PARSER_SOURCE, PINNED_SOURCES
+from bundle_provenance import describe as describe_bundle
 
-PIN = "33383047af39c204bf4442802a058f8b918b2b1b"
 ENTRY = "stack/maxima/stackmaxima.mac"
 LOADER = "stack/maxima/stacklocallinux.mac"
 OLD = 'load("stackmaxima.mac")$'
@@ -35,11 +35,14 @@ def exact_file(manifest, stack, path):
 
 
 def stage(site, stack, bundle, translated):
-    if subprocess.check_output(["git", "-C", str(stack), "rev-parse", "HEAD"], text=True).strip() != PIN:
+    if translated.parent.name != 'source-initialized' or translated.parent.parent.resolve() != bundle.parent.resolve():
+        raise ValueError('Bundle and translated inputs must belong to the same build directory')
+    pin = subprocess.check_output(["git", "-C", str(stack), "rev-parse", "HEAD"], text=True).strip()
+    if pin not in PINNED_SOURCES:
         raise ValueError("STACK checkout differs from the exact compiled source pin")
     original_path = site / "stack-sources.json"
     original = json.loads(original_path.read_text(encoding="utf-8"))
-    if original.get("schema") != 1 or original.get("stackRevision") != PIN or "compiledStack" in original:
+    if original.get("schema") != 1 or original.get("stackRevision") != pin or "compiledStack" in original:
         raise ValueError("Expected the original source-loaded STACK manifest")
     if original["startup"].count(START_LOAD) != 1:
         raise ValueError("Expected one exact STACK startup command")
@@ -55,13 +58,13 @@ def stage(site, stack, bundle, translated):
     if not adapter_bytes or adapter_bytes != reviewed_adapter:
         raise ValueError("Compiled assignment bridge differs from the reviewed source")
     parser_source = (stack / PARSER_SOURCE).read_bytes()
-    expected_declarations, declaration_start = parser_declarations(parser_source)
+    expected_declarations, declaration_start = parser_declarations(parser_source, pin)
     parser_file = translated.parent / 'parser-declarations.mac'
     parser_metadata_file = translated.parent / 'parser-declarations.json'
     parser_bytes = parser_file.read_bytes()
     parser_metadata = json.loads(parser_metadata_file.read_text())
     if (parser_bytes != expected_declarations or parser_metadata.get('schema') != 1
-            or parser_metadata.get('stackRevision') != PIN
+            or parser_metadata.get('stackRevision') != pin
             or parser_metadata.get('source') != {'path': PARSER_SOURCE, 'bytes': len(parser_source),
                 'sha256': digest(parser_source), 'start': declaration_start,
                 'end': declaration_start + len(expected_declarations)}
@@ -70,6 +73,11 @@ def stage(site, stack, bundle, translated):
         raise ValueError('Translation parser bootstrap differs from pinned declarations')
     if not binary or not lisp:
         raise ValueError("Compiled bundle and translation must be nonempty")
+    descriptor_path = bundle.with_name('stackmaxima.fas.json')
+    descriptor_bytes = descriptor_path.read_bytes()
+    if json.loads(descriptor_bytes) != describe_bundle(
+            pin, source, lisp, adapter_bytes, parser_bytes, parser_metadata_file.read_bytes(), binary):
+        raise ValueError('Bundle provenance differs from its exact pin and translation inputs')
     target = site / "maxima-runtime" / ASSET
     if target.exists():
         raise ValueError("Refusing to replace an existing runtime file")
@@ -88,9 +96,10 @@ def stage(site, stack, bundle, translated):
     changed.update({"content": replacement, "bytes": len(replacement.encode("utf-8")),
                     "sha256": digest(replacement.encode("utf-8"))})
     variant["compiledStack"] = {
-        "schema": 1, "mode": "entry-fas", "stackRevision": PIN,
+        "schema": 1, "mode": "entry-fas", "stackRevision": pin,
         "sourcePath": ENTRY, "sourceSha256": digest(source),
         "translatedLispSha256": digest(lisp),
+        "bundleProvenanceSha256": digest(descriptor_bytes),
         "translationAdapter": {"mode": "symbolic-assignment-hooks+packagefile+pinned-parser-declarations", "path": adapter.name,
                                "fileBytes": len(adapter_bytes), "sha256": digest(adapter_bytes),
                                "parserBootstrap": parser_metadata,
