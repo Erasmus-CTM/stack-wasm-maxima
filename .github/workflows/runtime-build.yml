@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-name: Build pinned Maxima ECL runtime
+name: Compare scoped ECL compiler experiments
 on:
   workflow_dispatch:
   pull_request:
@@ -11,11 +11,16 @@ on:
       - 'scripts/milestone-one/run.mjs'
       - 'scripts/milestone-one/compare.py'
       - 'scripts/milestone-three/build-site.mjs'
+      - 'prototype/runtime/maxima-session.js'
+      - 'prototype/runtime/maxima-child.js'
+      - 'scripts/milestone-two/serve.mjs'
+      - 'package.json'
+      - 'package-lock.json'
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: no-gnuplot-runtime-${{ github.event.pull_request.number || github.ref }}
+  group: scoped-ecl-compiler-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 jobs:
   build:
@@ -24,9 +29,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        cold: [cold1, cold2]
+        profile: [baseline, ecl-oz, ecl-o2]
     env:
-      CTM_COLD_BUILD: ${{ matrix.cold }}
+      CTM_COLD_BUILD: cold1
+      CTM_ECL_COMPILER_PROFILE: ${{ matrix.profile }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -46,6 +52,8 @@ jobs:
           python runtime/build/test-substitution.py
           python runtime/build/test-toolchain.py
           python runtime/build/test-cold-evidence.py
+          python runtime/build/test-compiler-evidence.py
+          python runtime/build/test-timing-evidence.py
           python runtime/build/test-source-checkout.py
       - name: Record read-only upstream drift
         run: python runtime/build/check-upstream.py
@@ -58,7 +66,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends build-essential gcc-multilib g++-multilib \
-            libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config
+            libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config strace
       - name: Build without external gnuplot or restored compiler caches
         id: build
         run: bash runtime/build/build.sh
@@ -105,6 +113,18 @@ jobs:
           repository: jsxgraph/jsxgraph-quarto
           ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e
           path: .site-sources/jsxgraph-quarto
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-assessment
+          ref: 68fe838ca76ce7dfc4297f8ed4db1ccf1dc29a8b
+          path: .site-sources/ctm-assessment
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-libs
+          ref: 2cdd3b47bb4722f65f168a0baf4dbd6a18bff384
+          path: .site-sources/board-ctm-libs
           persist-credentials: false
       - name: Install the pinned browser dependencies
         run: |
@@ -220,7 +240,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.cold == 'cold1' && format('owned-runtime-{0}', github.sha) || format('owned-runtime-cold2-{0}', github.sha) }}
+          name: ${{ matrix.profile == 'baseline' && format('owned-runtime-{0}', github.sha) || format('owned-runtime-{0}-{1}', matrix.profile, github.sha) }}
           include-hidden-files: true
           path: |
             .cache/runtime-build/artifact/
@@ -240,27 +260,60 @@ jobs:
             site/native/build-manifest.json
           if-no-files-found: warn
 
-  compare-cold-builds:
-    needs: build
+  compare-compiler-trials:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 45
+    needs: build
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - uses: actions/download-artifact@v4
         with:
           name: owned-runtime-${{ github.sha }}
-          path: .cache/runtime-repro/cold1
+          path: .cache/compiler-trials/baseline
       - uses: actions/download-artifact@v4
         with:
-          name: owned-runtime-cold2-${{ github.sha }}
-          path: .cache/runtime-repro/cold2
-      - run: python runtime/build/compare-cold-builds.py
-      - uses: actions/upload-artifact@v4
-        if: always()
+          name: owned-runtime-ecl-oz-${{ github.sha }}
+          path: .cache/compiler-trials/ecl-oz
+      - uses: actions/download-artifact@v4
         with:
-          name: no-gnuplot-reproducibility-${{ github.sha }}
-          path: test-results/runtime-reproducibility/
-          if-no-files-found: error
+          name: owned-runtime-ecl-o2-${{ github.sha }}
+          path: .cache/compiler-trials/ecl-o2
+      - name: Verify every accepted trial before common-runner timing
+        run: python runtime/build/verify-compiler-trials.py
+      - uses: actions/checkout@v4
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: .site-sources/stack
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: c366f175aba6b62caa628bc60f57bb1167fc087b
+          path: .site-sources/ctm-checkers
+          persist-credentials: false
+      - name: Install the same browser harness
+        run: |
+          python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Stage accepted trials without changing their runtime bytes
+        run: |
+          for profile in baseline ecl-oz ecl-o2; do
+            python scripts/milestone-two/prepare-runtime.py --stack-source .site-sources/stack --ctm-checkers-source .site-sources/ctm-checkers --runtime-source ".cache/compiler-trials/$profile/.cache/runtime-build/artifact" --compiler-profile "$profile" --output ".cache/compiler-trials/demos/$profile"
+          done
+      - name: Compare baseline and candidates on this same runner
+        run: node runtime/build/measure-compiler-trials.mjs
+      - name: Preserve comparison and failed-trial evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiler-comparison-${{ github.sha }}
+          path: .cache/compiler-trials/comparison/
+          include-hidden-files: true

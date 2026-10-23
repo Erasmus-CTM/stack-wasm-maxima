@@ -33,6 +33,10 @@ def validate_build(root, label, expected):
     body = (artifact / 'manifest.json').read_bytes()
     manifest = json.loads(body)
     assert manifest['sourcePins'] == expected['pins'], 'Stale source pins'
+    if 'compilerProfile' in expected:
+        from compiler_evidence import verify_packaged
+        assert manifest['compilerProfile']==expected['compilerProfile']
+        verify_packaged(artifact,expected['compilerProfile'])
     assert manifest['configuration'] == expected['configuration'], 'Stale build configuration'
     assert manifest['startupAdapter'] == expected['startupAdapter'], 'Changed startup adapter'
     assert manifest['recipe'] == expected['recipe'], 'Stale or incomplete current recipe'
@@ -44,6 +48,8 @@ def validate_build(root, label, expected):
     source = read_json(artifact / 'source-manifest.json')
     for key in ['sourcePins','recipe','configuration','startupAdapter','upstreamRecipe','toolchain']:
         assert source[key] == manifest[key], 'Source-manifest identity differs: ' + key
+    if 'compilerProfile' in expected:
+        assert source['compilerProfile']==manifest['compilerProfile']
     rows = manifest['runtimeAssets']
     paths = [row['path'] for row in rows]
     assert len(set(paths)) == len(paths), 'Duplicate runtime files'
@@ -56,6 +62,8 @@ def validate_build(root, label, expected):
         assert len(runtime) == row['bytes'] and digest(runtime) == row['sha256']
         assets[row['path']] = {'bytes':len(runtime),'sha256':digest(runtime)}
     environment = read_json(artifact / 'logs/environment.json')
+    if 'compilerProfile' in expected:
+        assert environment['compilerProfile']==expected['compilerProfile']
     identity = {**expected['identity'],'coldBuild':label}
     assert label in ['cold1','cold2'] and environment['buildIdentity'] == identity, 'Duplicated/stale cold-build identity'
     assert re.fullmatch(r'[0-9a-f]{40}', identity['sourceRevision'])
@@ -68,15 +76,16 @@ def validate_build(root, label, expected):
     assert acceptance['passed'] is True and acceptance['artifactManifestSha256'] == digest(body)
     assert acceptance['configuration'] == expected['configuration'] and acceptance['environment'] == environment
     return {'name':label,'recipe':manifest['recipe'],'pins':manifest['sourcePins'],
-            'configuration':manifest['configuration'],'assets':assets,'environment':environment,'manifestSha256':digest(body)}
+            'configuration':manifest['configuration'],'assets':assets,'environment':environment,'manifestSha256':digest(body),'compilerProfile':manifest.get('compilerProfile')}
 
 
 def current_expectations(repository, identity):
     from configuration import configuration, startup
     from package import records
     from recipe_inputs import recipe_records
+    from compiler_profile import compiler_profile
     config = configuration()
-    return {'pins':read_json(repository / 'runtime/build/pins.json'),'configuration':config,
+    return {'compilerProfile':compiler_profile(),'pins':read_json(repository / 'runtime/build/pins.json'),'configuration':config,
             'startupAdapter':{'content':startup(config),'sha256':config['startupSha256']},
             'runtimePaths':set(records()) - set(config['omittedRuntimePaths']),
             'recipe':{'repository':'https://github.com/Erasmus-CTM/stack-wasm-maxima','revision':identity['sourceRevision'],'files':recipe_records(repository)},

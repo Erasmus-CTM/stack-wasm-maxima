@@ -11,7 +11,9 @@ permissions:
   contents: read
 concurrency:
   group: precompiled-stack-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  # Preserve the active feasibility result while a newer native diagnostic runs.
+  # Only the latest pending full probe is retained by GitHub concurrency.
+  cancel-in-progress: false
 jobs:
   bundle-probe:
     runs-on: ubuntu-24.04

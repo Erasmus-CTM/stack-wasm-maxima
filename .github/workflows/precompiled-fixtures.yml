@@ -34,6 +34,8 @@ jobs:
           persist-credentials: false
       - name: Build native-only prerequisites and compare unchanged controls with fixture adapters
         run: bash runtime/precompiled/native-fixtures.sh
+      - name: Require complete native entry translation with the same controls as the browser probe
+        run: bash runtime/precompiled/translate-and-cross-compile.sh --native-only "$PWD/.cache/precompiled-stack/upstream-stack"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -41,6 +43,11 @@ jobs:
           include-hidden-files: true
           path: |
             .cache/precompiled-fixtures/
+            .cache/precompiled-stack/logs/
+            .cache/precompiled-stack/source/
+            .cache/precompiled-stack/source-adapted/
+            .cache/precompiled-stack/source-initialized/
+            .cache/precompiled-stack/*.lisp
             .cache/runtime-build/source-progress.json
             .cache/runtime-build/logs/source-state-*.json
           if-no-files-found: warn

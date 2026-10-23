@@ -3,6 +3,7 @@
 """Exercise opt-in selection and rejection before any asset can be staged."""
 import importlib.util
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -21,11 +22,18 @@ class Substitution(unittest.TestCase):
             root = Path(directory)
             record = {'path': 'asset.wasm', 'bytes': 4, 'sha256': 'a' * 64}
             config = json.loads((ROOT / 'runtime/build/configuration.json').read_text())
-            manifest = {'schema': 1, 'sourcePins': json.loads((ROOT / 'runtime/build/pins.json').read_text()), 'runtimeAssets': [record], 'configuration':config, 'startupAdapter':{'content':(ROOT / 'runtime/build/no-plot.mac').read_text().strip()+'\n','sha256':config['startupSha256']}}
+            profiles=json.loads((ROOT / 'runtime/build/compiler-profiles.json').read_text())['profiles']
+            compiler = profiles[os.environ.get('CTM_ECL_COMPILER_PROFILE','baseline')]
+            manifest = {'schema': 1,'compilerProfile':compiler, 'sourcePins': json.loads((ROOT / 'runtime/build/pins.json').read_text()), 'runtimeAssets': [record], 'configuration':config, 'startupAdapter':{'content':(ROOT / 'runtime/build/no-plot.mac').read_text().strip()+'\n','sha256':config['startupSha256']}}
             def check(value):
                 (root / 'manifest.json').write_text(json.dumps(value))
                 return module.owned_runtime_source(root, {module.BASE + 'asset.wasm'})
             self.assertEqual(check(manifest)['records']['asset.wasm'], record)
+            alternate=next(profile for profile in profiles.values() if profile['name']!=compiler['name'])
+            optimized={**manifest,'compilerProfile':alternate}
+            with self.assertRaises(ValueError):check(optimized)
+            (root/'manifest.json').write_text(json.dumps(optimized))
+            self.assertEqual(module.owned_runtime_source(root,{module.BASE+'asset.wasm'},compiler_profile_name=alternate['name'])['records']['asset.wasm'],record)
             for invalid in (None, {'bytes': True}, {'path': '../asset.wasm'}, {'sha256': 'bad'}, {'bytes': -1}):
                 rows = [invalid if invalid is None else {**record, **invalid}]
                 with self.assertRaises(ValueError):
@@ -34,6 +42,10 @@ class Substitution(unittest.TestCase):
                 check({**manifest, 'runtimeAssets': [record, record]})
             with self.assertRaises(ValueError):
                 check({**manifest, 'sourcePins': {}})
+            with self.assertRaises(ValueError):
+                check({**manifest, 'compilerProfile': None})
+            with self.assertRaises(ValueError):
+                module.owned_runtime_source(root,{module.BASE+'asset.wasm'},compiler_profile_name='unknown')
             with self.assertRaises(ValueError):
                 check({**manifest, 'configuration': None})
             with self.assertRaises(ValueError):

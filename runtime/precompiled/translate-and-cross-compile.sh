@@ -5,7 +5,10 @@
 set -euo pipefail
 export LC_ALL=C
 ROOT=$(cd "$(dirname "$0")/../.." && pwd)
-STACK=${1:?pass the exact STACK checkout}
+MODE=browser
+if [[ ${1:-} == --native-only ]]; then MODE=native-only; shift; fi
+[[ $# == 1 ]] || { echo 'Pass [--native-only] and the exact STACK checkout' >&2; exit 64; }
+STACK=$1
 WORK="$ROOT/.cache/precompiled-stack"
 MAXIMA="$ROOT/.cache/runtime-build/sources/maxima"
 ECL="$MAXIMA/wasm/ecl-host/bin/ecl"
@@ -130,6 +133,13 @@ cat > "$WORK/source-initialized/ctm-stackmaxima.asd" <<'EOF'
   :components ((:file "display2d-bridge") (:file "stackmaxima")))
 EOF
 cd "$MAXIMA/wasm"
+if [[ "$MODE" == native-only ]]; then
+  # Run the identical translation controls and complete-reader validation on
+  # the faster native fixture job, without requiring a browser cross-build.
+  python "$ROOT/runtime/build/verify-source-state.py" after
+  printf 'CTM-NATIVE-ENTRY-TRANSLATION-OK\n' | tee "$WORK/logs/native-entry-status.txt"
+  exit 0
+fi
 "$ECL" --norc --load build.lisp \
   --eval "(asdf:load-asd \"$WORK/source-initialized/ctm-stackmaxima.asd\")" \
   --eval '(cross-compile-maxima-module "ctm-stackmaxima")' \

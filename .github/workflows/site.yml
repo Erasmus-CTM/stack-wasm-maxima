@@ -40,7 +40,7 @@ concurrency:
 jobs:
   site:
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -92,10 +92,22 @@ jobs:
           ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e
           path: .site-sources/jsxgraph-quarto
           persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-assessment
+          ref: 68fe838ca76ce7dfc4297f8ed4db1ccf1dc29a8b
+          path: .site-sources/ctm-assessment
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-libs
+          ref: 2cdd3b47bb4722f65f168a0baf4dbd6a18bff384
+          path: .site-sources/board-ctm-libs
+          persist-credentials: false
       - name: Install the pinned browser dependencies
         run: |
           npm ci --ignore-scripts --no-audit --no-fund
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium firefox webkit
       - name: Stage pinned dependencies around the tracked QMD
         run: |
           python scripts/milestone-two/materialize.py --prepare-existing site \
@@ -122,6 +134,9 @@ jobs:
         run: |
           python scripts/milestone-three/test-build.py
           python scripts/milestone-three/test-reference.py
+          node prototype/jsxgraph/test-adapter.mjs
+          node scripts/milestone-three/test-package-boards.mjs
+          node prototype/jsxgraph/test-board-isolation.mjs
           node scripts/milestone-three/build-site.mjs --site site --stack-source .site-sources/stack \
             --ctm-checkers-source .site-sources/ctm-checkers --jsxgraph-source .site-sources/jsxgraph-quarto
       - name: Render the committed Quarto page
@@ -135,6 +150,28 @@ jobs:
           test -s site/_site/licenses.html && test "$(ls site/_site/LICENSES | wc -l)" -eq "$(ls site/LICENSES | wc -l)"
       - name: Exercise both backends in the rendered comparison page
         run: node scripts/site/smoke.mjs site/_site test-results/reviewer-site
+      - name: Prove opaque board MathJax font and accessibility closure offline
+        run: |
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser chromium
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser firefox
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser webkit
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser chromium --static-host --cors-transport --output test-results/board-mathjax-static-chromium.json
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser firefox --static-host --cors-transport --output test-results/board-mathjax-static-firefox.json
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser webkit --static-host --cors-transport --output test-results/board-mathjax-static-webkit.json
+      - name: Exercise every graphical variant on desktop and mobile static hosting
+        run: |
+          for browser in chromium firefox webkit; do
+            for width in 1280 390; do
+              node scripts/milestone-three/measure-board-weight.mjs --site site/_site --browser "$browser" \
+                --functional-only --static-host --width "$width" \
+                --output "test-results/milestone-three/board-functional-$browser-$width.json"
+            done
+          done
+      - name: Measure current board transfers across cold and same-profile warm loads
+        run: |
+          node scripts/milestone-three/measure-board-weight.mjs --site site/_site --browser chromium \
+            --static-host --width 1280 \
+            --output test-results/milestone-three/board-transfer-chromium.json
       - name: Exercise native questions, graphical inputs and Python continuations
         run: node scripts/milestone-three/browser.mjs site/_site test-results/milestone-three
       - name: Install the independent native Maxima reference
@@ -169,6 +206,7 @@ jobs:
           path: |
             .cache/native-build/
             site/native/build-manifest.json
+            test-results/board-mathjax*.json
             test-results/milestone-three/
           if-no-files-found: warn
 

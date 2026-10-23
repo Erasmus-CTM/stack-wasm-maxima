@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { chromium } from 'playwright';
 import { serveDemo } from '../milestone-two/serve.mjs';
+import {boardProgram, boardValues, packageBoard} from './package-boards.mjs';
 
 const repository = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const args = process.argv.slice(2);
@@ -17,6 +18,8 @@ const site = resolve(option('site','site'));
 const jsxgraphSource = resolve(option('jsxgraph-source','.m3-sources/jsxgraph-quarto'));
 const stackSource = resolve(option('stack-source','.m3-sources/stack'));
 const checkersSource = resolve(option('ctm-checkers-source',process.env.CTM_CHECKERS_SOURCE || '.m3-sources/ctm-checkers'));
+const assessmentSource = resolve(option('assessment-source','.site-sources/ctm-assessment'));
+const boardLibsSource = resolve(option('board-libs-source','.site-sources/board-ctm-libs'));
 const quarto = option('quarto',process.env.QUARTO || 'quarto');
 const python = process.env.STACK_SYMPY_PYTHON || 'python';
 const work = resolve(option('work','.cache/native-build'));
@@ -37,6 +40,9 @@ const programs = [], messages = [];
 const report = {...data, sourceRevision:sourceSha, createdAt:new Date().toISOString(), programs,
   buildSourceFiles:[], preparation:{backend:'maxima-native',worker:'native/backend-worker.js',actualWasm:true},questions:[]};
 for(const path of ['scripts/milestone-three/compile.py','scripts/milestone-three/build-site.mjs','scripts/milestone-three/render-cards.py',
+  'scripts/milestone-three/package-boards.mjs',
+  'scripts/milestone-three/stage-board-mathjax.py',
+  'scripts/public-demo/isolation-worker.js',
   'prototype/native/engine.js','prototype/native/input.js','prototype/native/feedback.js',
   'prototype/native/backend-worker.js','prototype/native/python-bridge.js','prototype/native/python_bridge.py',
   'scripts/milestone-three/stage-feedback.py',
@@ -122,25 +128,32 @@ try {
   const preparedPath=join(work,'prepared.json');
   await writeFile(preparedPath,JSON.stringify(report,null,2)+'\n');
 
-  // Render every board with the pinned existing extension. Native input
+  // Render each question's board once with the pinned existing extension. Native input
   // bindings are an adapter around its renderer and unchanged STACK bindings.
   const boardsDirectory=join(work,'boards');
   await mkdir(join(boardsDirectory,'_extensions'),{recursive:true});
   await cp(join(jsxgraphSource,'_extensions/jsxgraph'),join(boardsDirectory,'_extensions/jsxgraph'),{recursive:true});
+  const coreBytes=await readFile(join(boardsDirectory,'_extensions/jsxgraph/resources/js/jsxgraphcore.js'));
+  const jsxgraphCore={sha256:hash(coreBytes),bytes:coreBytes.length};
+  report.jsxgraphCore={...jsxgraphCore,resource:"_extensions/jsxgraph/resources/js/jsxgraphcore.js"};
+  const styleBytes=await readFile(join(boardsDirectory,'_extensions/jsxgraph/resources/css/jsxgraph.css'));
+  const jsxgraphStyle={sha256:hash(styleBytes),bytes:styleBytes.length};
+  report.jsxgraphStyle={...jsxgraphStyle,resource:"_extensions/jsxgraph/resources/css/jsxgraph.css"};
   const attribute = value => JSON.stringify(String(value));
   const boardSpecs = new Map();
   let qmd='---\ntitle: "Prepared native JSXGraph boards"\nfilters: [jsxgraph]\nformat:\n  html:\n    embed-resources: true\n---\n\n';
-  for(const item of report.questions)for(let at=0;at<item.variants.length;at++){
-    const variant=item.variants[at];
+  for(const item of report.questions){
     for(const board of item.question.native.boards){
-      const key=`${item.id}-v${at+1}-${board.id}`;
+      const key=`${item.id}-${board.id}`;
       const id=key;
       const inputNames=Object.keys(board.inputs);
-      let code=board.code.replace(/@@CTM_NATIVE_([A-Za-z0-9_]+)@@/g,(_match,id)=>String(variant.tokenValues[id].value));
+      const program=boardProgram(board,item.question.native.tokens);
+      const values=item.variants.map(variant=>boardValues(program.ids,variant));
+      let code=program.code;
       const refs=Object.values(board.inputs);
-      const registration=JSON.stringify({assessmentId:id,inputNames});
+      const registration=JSON.stringify({assessmentId:id,inputNames,tokenNames:program.ids});
       code=frameSource+'\n(async function(){\nconst stack_js=CTMStackJSXGraphFrame.create('+registration+');\n'+
-        'try {\nawait stack_js.ready;\nconst stack_jxg=(await import('+JSON.stringify(bindingURL)+')).default;\n'+
+        'try {\nawait stack_js.ready;\nconst ctm_board_values=stack_js.board_values();\nconst stack_jxg=(await import('+JSON.stringify(bindingURL)+')).default;\n'+
         (refs.length?'const ['+refs.join(',')+']=await Promise.all('+JSON.stringify(inputNames)+'.map(name=>stack_js.request_access_to_input(name,true,true)));\n':'')+
         'var divid=document.querySelector(".jxgbox").id;var BOARDID=divid;\n'+code+'\nwindow.__ctmStackJSXGraphReady=true;document.documentElement.dataset.ctmStackJsxgraphReady="true";await stack_js.mark_ready();\n} catch(error) { stack_js.display_error(error.message); }\n})();\n';
       const dimensions={width:'500',height:'400'};
@@ -150,24 +163,39 @@ try {
       }
       const attrs={assessment_id:id,...dimensions,unit:'px',src_jxg:'_extensions/jsxgraph/resources/js/jsxgraphcore.js',src_css:'_extensions/jsxgraph/resources/css/jsxgraph.css'};
       qmd+='```{.jsxgraph '+Object.entries(attrs).map(([key,value])=>key+'='+attribute(value)).join(' ')+'}\n'+code+'\n```\n\n';
-      boardSpecs.set(id,{assessmentId:id,inputs:inputNames,key});
+      boardSpecs.set(id,{assessmentId:id,inputs:inputNames,key,item,board,values});
     }
   }
   const boardHtml={};
   if(boardSpecs.size){
+    const mathjax=JSON.parse(execFileSync(python,[join(repository,'scripts/milestone-three/stage-board-mathjax.py'),
+      '--assessment-source',assessmentSource,'--site',site,'--cache',join(work,'mathjax-cache'),
+      '--worker-preloader',join(boardLibsSource,'_extensions/ctm-libs/runtime/mathjax-opaque-adaptor.js'),
+      '--library',join(boardLibsSource,'_extensions/ctm-libs'),'--include-mathjax3'],
+      {cwd:repository,encoding:'utf8',stdio:['ignore','pipe','inherit'],maxBuffer:16*1024*1024}));
+    report.boardMathjax=mathjax;
     await writeFile(join(boardsDirectory,'boards.qmd'),qmd);
     execFileSync(quarto,['render','boards.qmd','--to','html'],{cwd:boardsDirectory,stdio:'inherit'});
     const html=await readFile(join(boardsDirectory,'boards.html'),'utf8');
     const frames=await page.evaluate(html=>Array.from(new DOMParser().parseFromString(html,'text/html').querySelectorAll('iframe')).map(frame=>({id:frame.id,html:frame.outerHTML})),html);
-    assert.equal(frames.length,boardSpecs.size,'Every native board needs its own stock renderer iframe');
+    assert.equal(frames.length,boardSpecs.size,'Every board template needs its own stock renderer iframe');
     for(const frame of frames){
       const spec=boardSpecs.get(frame.id);assert.ok(spec,'Unexpected rendered board '+frame.id);
-      const descriptor=JSON.stringify({assessmentId:spec.assessmentId,inputs:spec.inputs}).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
-      boardHtml[spec.key]=frame.html.replace('<iframe','<iframe data-stack-jsxgraph="'+descriptor+'"');
+      const packaged=await packageBoard({iframe:frame.html,id:spec.key,site,
+        assetMap:url=>mathjax.urlMap[url],mathjax,jsxgraphCore,jsxgraphStyle});
+      const {html:packagedHTML,...provenance}=packaged;
+      (report.boardTemplates ||= []).push(provenance);
+      for(let at=0;at<spec.values.length;at++){
+        const descriptor=JSON.stringify({assessmentId:spec.assessmentId,inputs:spec.inputs,boardValues:spec.values[at]}).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+        boardHtml[`${spec.item.id}-v${at+1}-${spec.board.id}`]=packagedHTML.replace('<iframe','<iframe data-stack-jsxgraph="'+descriptor+'"');
+      }
     }
   }
   const boardsPath=join(work,'boards.json');
   await writeFile(boardsPath,JSON.stringify(boardHtml)+'\n');
+  // The card producer reloads this file. Include the completed template and
+  // canonical dependency provenance, rather than its pre-render snapshot.
+  await writeFile(preparedPath,JSON.stringify(report,null,2)+'\n');
   const env={...process.env};
   env.PYTHONPATH=join(checkersSource,'src')+(env.PYTHONPATH?':'+env.PYTHONPATH:'');
   execFileSync(python,[join(repository,'scripts/milestone-three/render-cards.py'),'--prepared',preparedPath,'--boards',boardsPath,
