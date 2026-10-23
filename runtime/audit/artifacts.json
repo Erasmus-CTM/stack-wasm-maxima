@@ -1,31 +1,19 @@
 [
   {
-    "id": 12518234385,
-    "name": "owned-runtime-7003d99c68a59aaad97faf51f4e76d52ab184687",
+    "id": 12520164747,
+    "name": "owned-runtime-ecl-oz-7003d99c68a59aaad97faf51f4e76d52ab184687",
     "run": 39986450307,
     "head": "bedca2ac4e1443d6b4a0f531799992666b7e02f7",
     "workflow": 393419291,
     "attempt": 1,
     "status": "in_progress",
     "conclusion": null,
-    "sha256": "f53da842c3de5d427fb78a3588d430bd57948dcbe4d65b5c21eeabd1fceaccac",
-    "files": [],
-    "ranges": [
-      {
-        "path": "test-results/milestone-three/browser.json",
-        "start": 8388608,
-        "end": 16777216
-      },
-      {
-        "path": "test-results/milestone-three/browser.json",
-        "start": 16777216,
-        "end": 25165824
-      },
-      {
-        "path": "test-results/milestone-three/browser.json",
-        "start": 25165824,
-        "end": 29065267
-      }
+    "sha256": "f89cdaf6dd1e06c82477f6ed1cb29ce379a528d328ce8896d5899e5e267c91b4",
+    "files": [
+      ".cache/runtime-build/artifact/manifest.json",
+      ".cache/runtime-build/artifact/artifact-manifest.json",
+      ".cache/runtime-build/source-manifest.json",
+      ".cache/runtime-build/validation/acceptance.json"
     ]
   }
 ]
