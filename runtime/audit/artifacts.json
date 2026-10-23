@@ -1,19 +1,33 @@
 [
   {
-    "id": 12524033916,
-    "name": "runtime-compression-b95268be9743439e0f69e286af82ebfdd83e93e1",
-    "run": 39989732940,
-    "head": "f112f5ce47744125b21c2453f0bca84092992ec4",
-    "workflow": 393488033,
-    "attempt": 2,
+    "id": 12524712809,
+    "name": "precompiled-native-fixtures-c752992cb6b9debd9feb4c99cd43f4ab107c4777",
+    "run": 40005689720,
+    "head": "4d9e4c1db35b04bc640b1a2ef1f064cc79aafc3e",
+    "workflow": 394303393,
+    "attempt": 1,
     "conclusion": "success",
-    "sha256": "4a21ff3aeccb20155af42d1ead138fc274a2ad605f72306f3b2cc90838fb6d17",
-    "verifySidecars": false,
+    "sha256": "7fb52a78167aa363e0d532b6047150e304b24eb247549f4f06b6bda54f54aa74",
     "files": [
-      "test-results/runtime-compression/gzip/reference/native.log",
-      "test-results/runtime-compression/gzip/reference/reference.mac",
-      "test-results/runtime-compression/br/reference/native.log",
-      "test-results/runtime-compression/br/reference/reference.mac"
+      "precompiled-fixtures/report.json",
+      "precompiled-fixtures/assignment-control/check-source.log",
+      "precompiled-fixtures/assignment-control/check-compiled.log",
+      "precompiled-fixtures/assignment-control/translate.log",
+      "precompiled-fixtures/assignment-bridge/check-source.log",
+      "precompiled-fixtures/assignment-bridge/check-compiled.log",
+      "precompiled-fixtures/assignment-bridge/translate.log",
+      "precompiled-fixtures/assignment-bridge/fixture.LISP",
+      "precompiled-fixtures/reset-control/reset.log",
+      "precompiled-fixtures/reset-control/fixture.LISP",
+      "precompiled-fixtures/reset-package/reset.log",
+      "precompiled-fixtures/reset-package/fixture.LISP",
+      "precompiled-fixtures/parser-input/parser-declarations.mac",
+      "precompiled-fixtures/parser-input/parser-declarations.json",
+      "precompiled-fixtures/parser-control/translate.log",
+      "precompiled-fixtures/parser-bootstrap/translate.log",
+      "precompiled-fixtures/parser-bootstrap/fixture.LISP",
+      "precompiled-fixtures/parser-bootstrap/check-source.log",
+      "precompiled-fixtures/parser-bootstrap/check-compiled.log"
     ]
   }
 ]
