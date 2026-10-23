@@ -158,6 +158,15 @@ jobs:
           node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser chromium --static-host --cors-transport --output test-results/board-mathjax-static-chromium.json
           node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser firefox --static-host --cors-transport --output test-results/board-mathjax-static-firefox.json
           node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser webkit --static-host --cors-transport --output test-results/board-mathjax-static-webkit.json
+      - name: Exercise every graphical variant on desktop and mobile static hosting
+        run: |
+          for browser in chromium firefox webkit; do
+            for width in 1280 390; do
+              node scripts/milestone-three/measure-board-weight.mjs --site site/_site --browser "$browser" \
+                --functional-only --static-host --width "$width" \
+                --output "test-results/milestone-three/board-functional-$browser-$width.json"
+            done
+          done
       - name: Exercise native questions, graphical inputs and Python continuations
         run: node scripts/milestone-three/browser.mjs site/_site test-results/milestone-three
       - name: Install the independent native Maxima reference
