@@ -1,0 +1,62 @@
+name: Measure what GitHub Pages sends
+
+# Which Content-Encoding GitHub Pages serves for the published runtime and the
+# native page, and how many bytes cross the network (runtime review F-7, plan
+# audit A-11). Read-only: it requests public files and writes a report.
+on:
+  pull_request:
+    paths:
+      - 'scripts/measure-pages-encoding.mjs'
+      - '.github/workflows/pages-encoding.yml'
+  workflow_dispatch:
+    inputs:
+      paths:
+        description: Published paths to measure (directories end with /)
+        required: true
+        default: 'maxima-runtime/ maxima/native.html'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-encoding-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  measure:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PAGES_PATHS: ${{ inputs.paths || 'maxima-runtime/ maxima/native.html' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sparse patterns, one per line, anchored at the site root
+        id: patterns
+        run: |
+          {
+            echo 'list<<EOF'
+            for path in $PAGES_PATHS; do echo "/${path#/}"; done
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+      - name: The published files, to compare each decoded body with
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: .pages
+          sparse-checkout: ${{ steps.patterns.outputs.list }}
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Request every file with a browser's Accept-Encoding
+        run: node scripts/measure-pages-encoding.mjs
+      - name: Report
+        if: always()
+        run: cat test-results/pages-encoding/pages-encoding.md >> "$GITHUB_STEP_SUMMARY" || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pages-encoding-${{ github.sha }}
+          path: test-results/pages-encoding/
+          if-no-files-found: error
