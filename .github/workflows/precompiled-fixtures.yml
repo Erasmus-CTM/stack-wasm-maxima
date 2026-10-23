@@ -25,6 +25,13 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends build-essential gcc-multilib g++-multilib libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config
+      - uses: actions/checkout@v4
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: .cache/precompiled-stack/upstream-stack
+          sparse-checkout: stack/maxima
+          persist-credentials: false
       - name: Build native-only prerequisites and compare unchanged controls with fixture adapters
         run: bash runtime/precompiled/native-fixtures.sh
       - uses: actions/upload-artifact@v4

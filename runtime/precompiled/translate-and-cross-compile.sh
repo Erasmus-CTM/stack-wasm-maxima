@@ -15,11 +15,13 @@ PIN=33383047af39c204bf4442802a058f8b918b2b1b
 test "$(git -C "$STACK" rev-parse HEAD)" = "$PIN"
 test -x "$ECL"
 test -x "$NATIVE"
-mkdir -p "$WORK/source" "$WORK/source-adapted" "$WORK/logs"
+mkdir -p "$WORK/source" "$WORK/source-adapted" "$WORK/source-initialized" "$WORK/logs"
 # Refuse retained generated outputs: a failed attempt must never reuse a bundle.
 for output in "$WORK/source/stackmaxima.LISP" "$WORK/source/stackmaxima.lisp" \
   "$WORK/source/ctm-assignment-probe.LISP" "$WORK/source/ctm-reset-probe.LISP" \
-  "$WORK/source-adapted/stackmaxima.LISP" "$WORK/source-adapted/stackmaxima.lisp" "$WORK/stackmaxima.fas"; do
+  "$WORK/source-adapted/stackmaxima.LISP" "$WORK/source-adapted/stackmaxima.lisp" \
+  "$WORK/source-initialized/stackmaxima.LISP" "$WORK/source-initialized/stackmaxima.lisp" \
+  "$WORK/source-initialized/parser-declarations.mac" "$WORK/source-initialized/parser-declarations.json" "$WORK/stackmaxima.fas"; do
   if test -e "$output"; then
     echo "Refusing stale experiment output: $output" >&2
     exit 1
@@ -98,13 +100,30 @@ cp "$WORK/display2d-bridge.lisp" "$WORK/source-adapted/display2d-bridge.lisp"
   sed -e 's@source/stackmaxima.mac@source-adapted/stackmaxima.mac@g' \
       -e 's@(translate-file source nil)@(ctm-translate-stack-entry source)@g' "$WORK/translate-driver.lisp"
 } > "$WORK/adapted-translate-driver.lisp"
-"$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/adapted-translate-driver.lisp" 2>&1 | tee "$WORK/logs/translate-adapted.log"
-grep -q '^CTM-TRANSLATION-OK|' "$WORK/logs/translate-adapted.log"
-test -s "$WORK/source-adapted/stackmaxima.LISP"
-cp "$WORK/source-adapted/stackmaxima.LISP" "$WORK/source-adapted/stackmaxima.lisp"
-sha256sum "$WORK/source-adapted/stackmaxima.mac" "$WORK/source-adapted/stackmaxima.LISP" \
-  "$WORK/source-adapted/stackmaxima.lisp" "$WORK/source-adapted/display2d-bridge.lisp" > "$WORK/logs/adapted-source.sha256"
-cat > "$WORK/source-adapted/ctm-stackmaxima.asd" <<'EOF'
+# Retain the hook-adapted/no-parser negative control as a separate raw output.
+if "$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/adapted-translate-driver.lisp" 2>&1 | tee "$WORK/logs/translate-adapted.log"; then
+  echo 'Unexpected parser-control success; review translation prerequisites' >&2
+  exit 1
+fi
+grep -q 'nounor is not an infix operator' "$WORK/logs/translate-adapted.log"
+python "$ROOT/runtime/precompiled/parser_bootstrap.py" --stack-source "$STACK" --output "$WORK/source-initialized"
+cp "$WORK/source/stackmaxima.mac" "$WORK/source-initialized/stackmaxima.mac"
+cp "$WORK/display2d-bridge.lisp" "$WORK/source-initialized/display2d-bridge.lisp"
+{
+  printf '(load (merge-pathnames #P"assignment-adapter.lisp" *load-truename*))\n'
+  printf '(in-package :maxima)\n'
+  printf '(mfuncall (quote $batchload) (namestring (merge-pathnames #P"source-initialized/parser-declarations.mac" *load-truename*)))\n'
+  sed -e 's@source/stackmaxima.mac@source-initialized/stackmaxima.mac@g' \
+      -e 's@(translate-file source nil)@(ctm-translate-stack-entry source)@g' "$WORK/translate-driver.lisp"
+} > "$WORK/initialized-translate-driver.lisp"
+"$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/initialized-translate-driver.lisp" 2>&1 | tee "$WORK/logs/translate-initialized.log"
+grep -q '^CTM-TRANSLATION-OK|' "$WORK/logs/translate-initialized.log"
+test -s "$WORK/source-initialized/stackmaxima.LISP"
+cp "$WORK/source-initialized/stackmaxima.LISP" "$WORK/source-initialized/stackmaxima.lisp"
+sha256sum "$WORK/source-initialized/stackmaxima.mac" "$WORK/source-initialized/stackmaxima.LISP" \
+  "$WORK/source-initialized/stackmaxima.lisp" "$WORK/source-initialized/display2d-bridge.lisp" \
+  "$WORK/source-initialized/parser-declarations.mac" "$WORK/source-initialized/parser-declarations.json" > "$WORK/logs/initialized-source.sha256"
+cat > "$WORK/source-initialized/ctm-stackmaxima.asd" <<'EOF'
 (asdf:defsystem #:ctm-stackmaxima
   :depends-on (#:maxima/core)
   :serial t
@@ -112,7 +131,7 @@ cat > "$WORK/source-adapted/ctm-stackmaxima.asd" <<'EOF'
 EOF
 cd "$MAXIMA/wasm"
 "$ECL" --norc --load build.lisp \
-  --eval "(asdf:load-asd \"$WORK/source-adapted/ctm-stackmaxima.asd\")" \
+  --eval "(asdf:load-asd \"$WORK/source-initialized/ctm-stackmaxima.asd\")" \
   --eval '(cross-compile-maxima-module "ctm-stackmaxima")' \
   --eval '(ext:quit)' 2>&1 | tee "$WORK/logs/cross-compile.log"
 mapfile -t bundles < <(find "$WORK" "$MAXIMA/src/binary-ecl" -type f \( -name 'ctm-stackmaxima.fasb' -o -name 'ctm-stackmaxima.fas' \) -print)

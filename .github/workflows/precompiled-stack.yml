@@ -40,8 +40,6 @@ jobs:
             libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config
       - name: Build the pinned unoptimized Maxima/ECL control
         run: bash runtime/build/build.sh
-      - name: Require native assignment and reset fixture controls
-        run: bash runtime/precompiled/native-fixtures.sh --reuse-built-native
       - uses: actions/checkout@v4
         with:
           repository: maths/moodle-qtype_stack
@@ -49,6 +47,8 @@ jobs:
           path: .cache/precompiled-stack/upstream-stack
           sparse-checkout: stack/maxima
           persist-credentials: false
+      - name: Require native assignment, reset and parser fixture controls
+        run: bash runtime/precompiled/native-fixtures.sh --reuse-built-native
       - name: Translate pinned STACK and cross-compile for the browser target
         run: bash runtime/precompiled/translate-and-cross-compile.sh "$PWD/.cache/precompiled-stack/upstream-stack"
       - uses: actions/checkout@v4
@@ -75,7 +75,7 @@ jobs:
           python runtime/precompiled/stage-variant.py --site .cache/precompiled-stack/site \
             --stack-source .cache/precompiled-stack/upstream-stack \
             --bundle .cache/precompiled-stack/stackmaxima.fas \
-            --translated .cache/precompiled-stack/source-adapted/stackmaxima.lisp
+            --translated .cache/precompiled-stack/source-initialized/stackmaxima.lisp
       - name: Install pinned browser dependencies
         run: |
           npm ci --ignore-scripts --no-audit --no-fund
@@ -92,6 +92,8 @@ jobs:
           include-hidden-files: true
           path: |
             .cache/precompiled-stack/logs/
+            .cache/precompiled-stack/source-initialized/
+            .cache/precompiled-stack/initialized-translate-driver.lisp
             .cache/precompiled-stack/source-adapted/
             .cache/precompiled-stack/adapted-translate-driver.lisp
             .cache/precompiled-stack/assignment-adapter.lisp

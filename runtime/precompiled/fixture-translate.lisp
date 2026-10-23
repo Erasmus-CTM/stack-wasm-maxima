@@ -9,6 +9,8 @@
            (*ctm-original-assignment-hooks*
              (when bridge (list (cons '$display2d original))))
            (result nil))
+      (when (equal (ext:getenv "CTM_FIXTURE_PARSER") "true")
+        (mfuncall '$batchload (ext:getenv "CTM_PARSER_BOOTSTRAP")))
       (when bridge
         (unless (functionp original) (error "Expected a compiled assignment hook"))
         (load (ext:getenv "CTM_FIXTURE_BRIDGE_FILE"))

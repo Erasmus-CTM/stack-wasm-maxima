@@ -7,6 +7,7 @@ import hashlib
 import json
 import subprocess
 from pathlib import Path
+from parser_bootstrap import extract as parser_declarations, SOURCE as PARSER_SOURCE
 
 PIN = "33383047af39c204bf4442802a058f8b918b2b1b"
 ENTRY = "stack/maxima/stackmaxima.mac"
@@ -53,6 +54,20 @@ def stage(site, stack, bundle, translated):
     reviewed_adapter = Path(__file__).with_name("display2d-bridge.lisp").read_bytes()
     if not adapter_bytes or adapter_bytes != reviewed_adapter:
         raise ValueError("Compiled assignment bridge differs from the reviewed source")
+    parser_source = (stack / PARSER_SOURCE).read_bytes()
+    expected_declarations, declaration_start = parser_declarations(parser_source)
+    parser_file = translated.parent / 'parser-declarations.mac'
+    parser_metadata_file = translated.parent / 'parser-declarations.json'
+    parser_bytes = parser_file.read_bytes()
+    parser_metadata = json.loads(parser_metadata_file.read_text())
+    if (parser_bytes != expected_declarations or parser_metadata.get('schema') != 1
+            or parser_metadata.get('stackRevision') != PIN
+            or parser_metadata.get('source') != {'path': PARSER_SOURCE, 'bytes': len(parser_source),
+                'sha256': digest(parser_source), 'start': declaration_start,
+                'end': declaration_start + len(expected_declarations)}
+            or parser_metadata.get('file') != {'path': parser_file.name, 'bytes': len(parser_bytes),
+                'sha256': digest(parser_bytes)}):
+        raise ValueError('Translation parser bootstrap differs from pinned declarations')
     if not binary or not lisp:
         raise ValueError("Compiled bundle and translation must be nonempty")
     target = site / "maxima-runtime" / ASSET
@@ -76,8 +91,10 @@ def stage(site, stack, bundle, translated):
         "schema": 1, "mode": "entry-fas", "stackRevision": PIN,
         "sourcePath": ENTRY, "sourceSha256": digest(source),
         "translatedLispSha256": digest(lisp),
-        "translationAdapter": {"mode": "symbolic-assignment-hooks+packagefile", "path": adapter.name,
-                               "fileBytes": len(adapter_bytes), "sha256": digest(adapter_bytes)},
+        "translationAdapter": {"mode": "symbolic-assignment-hooks+packagefile+pinned-parser-declarations", "path": adapter.name,
+                               "fileBytes": len(adapter_bytes), "sha256": digest(adapter_bytes),
+                               "parserBootstrap": parser_metadata,
+                               "parserBootstrapMetadataSha256": digest(parser_metadata_file.read_bytes())},
         "originalLoaderSha256": digest(loader_source),
         "overlayLoaderSha256": changed["sha256"],
         "asset": {"path": ASSET, "fileBytes": len(binary), "sha256": digest(binary)},

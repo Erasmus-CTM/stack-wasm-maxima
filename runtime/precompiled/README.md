@@ -24,15 +24,12 @@ The exact-head diagnostic run 39978116076 failed closed in both the isolated
 failure marker reports that an ECL compiled assignment hook cannot be printed
 readably. It did not produce a validated bundle or timing comparison.
 
-The next validation retains a separate minimal translated-function fixture,
-loads its generated Lisp in a fresh native process, and checks it after three
-`kill(allbut[functions])` resets and full ECL collections. Failure blocks
-cross-compilation. If a browser bundle becomes feasible, both source and compiled
-trials must also survive three real STACK resets, forced collections, deliberate
-caught errors, subsequent arithmetic and grading, and unchanged STACK version.
-These are additional feasibility gates, not substitutes for the full parity
-matrix. Generated outputs
-from a prior attempt are rejected rather than reused.
+Validation retains a minimal translated-function control and compares ordinary
+registration with Maxima's packagefile option. Three sentinel-verified resets and
+full collections must demonstrate the ordinary removal hazard and package-mode
+survival. Browser trials require three real STACK resets, acknowledged full GC,
+caught error recovery, arithmetic and regrading. These feasibility checks do not
+replace the full parity matrix. Retained generated outputs are rejected.
 
 The next opt-in candidate keeps the unchanged translation failure as a negative
 control, then uses a temporary symbolic bridge for non-symbol assignment hooks
@@ -54,19 +51,18 @@ These observations do not validate a whole STACK bundle. Initial library version
 must match the manifest; post-reset metadata is compared with the source control
 because STACK reset can clear ordinary metadata variables.
 
-The next opt-in candidate retains the unchanged translation failure as a negative
-control, then temporarily substitutes symbolic assignment hooks and uses Maxima's
-standard packagefile option. Translation restores every original property. A
-small dispatcher compiled into the FAS invokes the target process's original
-hook; target properties and pinned upstream files remain unchanged. Its source
-hash is recorded in the opt-in manifest. Complete generated Lisp must contain no
-translated-function registration in props. Native assignment/reset controls must
-pass in the same build before attempting cross-compilation.
 
-Run 39990740727 showed the ordinary reset function removed after a verified reset,
-while packagefile survived three resets and collections. The symbolic bridge
-produced complete readable Lisp. The first behavior checker used a Lisp catch
-for a deliberate Maxima error under --quit-on-error; it now uses Maxima errcatch
-and still requires rejection, restoration and recovery. A whole STACK bundle is
-not validated. Initial version must match the manifest, while post-reset metadata
-must match the source control because reset can clear ordinary metadata variables.
+Full candidate run 39996509145 passed the same-build native fixtures but stopped
+before cross-compilation: the adapter passed the compiled-hook print error,
+then the reader reached `nounor` without its infix declaration. The retained
+partial Lisp and logs show the original dependency loads being emitted rather
+than executed by translation. No bundle or measurement was produced.
+
+The next candidate retains that no-parser failure and bootstraps only the exact
+198-byte noun-logic declaration block from pinned `assessment.mac` in the
+translation process. The entire source hash, Git bytes, block bytes and offsets
+are checked; upstream files and translator evaluation policy remain unchanged.
+Native source/translated fixtures must verify precedence and explicit grouping.
+Complete generated entry Lisp must retain the original assessment/logic runtime
+loads. The manifest binds both the bridge and parser-bootstrap metadata. These
+are further feasibility controls; full runtime parity and speedup remain unproved.

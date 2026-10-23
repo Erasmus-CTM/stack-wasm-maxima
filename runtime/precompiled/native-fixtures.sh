@@ -44,6 +44,7 @@ else
 fi
 "$ECL_TO_RUN" --norc --eval '(unless (= (integer-length most-positive-fixnum) 29) (ext:quit 65))' --eval '(ext:quit)'
 sha256sum "$ECL_TO_RUN" "$NATIVE" > "$WORK/logs/native-executables.sha256"
+export CTM_FIXTURE_PARSER=false
 export CTM_FIXTURE_BRIDGE_FILE="$ROOT/runtime/precompiled/display2d-bridge.lisp"
 for arm in assignment-control assignment-bridge reset-control reset-package; do
   mkdir "$WORK/$arm"
@@ -90,6 +91,38 @@ for arm in assignment-control assignment-bridge reset-control reset-package; do
   fi
 done
 cd "$ROOT"
+python runtime/precompiled/parser_bootstrap.py \
+  --stack-source "$ROOT/.cache/precompiled-stack/upstream-stack" --output "$WORK/parser-input"
+export CTM_PARSER_BOOTSTRAP="$WORK/parser-input/parser-declarations.mac"
+for arm in parser-control parser-bootstrap; do
+  mkdir "$WORK/$arm"
+  export CTM_FIXTURE_BRIDGE=false CTM_FIXTURE_PACKAGE=true CTM_FIXTURE_PARSER=false
+  export CTM_FIXTURE_SOURCE="$WORK/$arm/fixture.mac"
+  export CTM_FIXTURE_LISP="$WORK/$arm/fixture.LISP"
+  cat > "$CTM_FIXTURE_SOURCE" <<'PARSER'
+ctm_parser_probe(p,q,r):=p nounor q nounand r$
+ctm_parser_negated(p,q,r):=nounnot p nounor q nounand r$
+ctm_parser_grouped(p,q,r):=(p nounor q) nounand r$
+PARSER
+  [[ "$arm" != parser-bootstrap ]] || export CTM_FIXTURE_PARSER=true
+  if "$NATIVE" --very-quiet --quit-on-error --batch-lisp="$ROOT/runtime/precompiled/fixture-translate.lisp" > "$WORK/$arm/translate.log" 2>&1; then
+    grep -q '^CTM-FIXTURE-TRANSLATION-OK|' "$WORK/$arm/translate.log"
+    echo translated > "$WORK/$arm/translation-status.txt"
+  else
+    echo failed > "$WORK/$arm/translation-status.txt"
+  fi
+  if [[ "$arm" == parser-bootstrap ]]; then
+    for mode in source compiled; do
+      export CTM_FIXTURE_MODE="$mode"
+      if "$NATIVE" --very-quiet --quit-on-error --batch-lisp="$ROOT/runtime/precompiled/fixture-parser-check.lisp" > "$WORK/$arm/check-$mode.log" 2>&1 &&
+        grep -q '^CTM-PARSER-BEHAVIOR-OK|' "$WORK/$arm/check-$mode.log"; then
+        echo passed > "$WORK/$arm/check-$mode-status.txt"
+      else
+        echo failed > "$WORK/$arm/check-$mode-status.txt"
+      fi
+    done
+  fi
+done
 python runtime/build/verify-source-state.py after
 if [[ "$MODE" == --reuse-built-native ]]; then
   sha256sum --check "$WORK/provenance/original-reports.sha256"
@@ -101,7 +134,7 @@ import hashlib,json
 from pathlib import Path
 root=Path('.cache/precompiled-fixtures')
 report={'schema':1,'scope':'Native fixture experiments only; no browser bundle, parity or speedup established','arms':{}}
-for arm in ('assignment-control','assignment-bridge','reset-control','reset-package'):
+for arm in ('assignment-control','assignment-bridge','reset-control','reset-package','parser-control','parser-bootstrap'):
     directory=root/arm
     report['arms'][arm]={p.name:p.read_text().strip() for p in directory.glob('*status.txt')}
 report['files']=[{'path':str(p.relative_to(root)),'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(root.rglob('*')) if p.is_file() and p != root/'logs/fixtures.log']
@@ -119,4 +152,8 @@ reset_control=(root/'reset-control/reset.log').read_text()
 assert 'CTM-RESET-PRECHECK-OK|42' in reset_control and 'CTM-RESET-CLEARED|0' in reset_control
 assert a['reset-package']['translation-status.txt']=='translated'
 assert a['reset-package']['reset-status.txt']=='passed'
+assert a['parser-control']['translation-status.txt']=='failed'
+assert 'nounor is not an infix operator' in (root/'parser-control/translate.log').read_text()
+assert a['parser-bootstrap']['translation-status.txt']=='translated'
+assert all(a['parser-bootstrap']['check-'+mode+'-status.txt']=='passed' for mode in ('source','compiled'))
 PY
