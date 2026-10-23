@@ -4,6 +4,7 @@ import {mkdtemp,readFile,rm,mkdir,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
+import vm from 'node:vm';
 import {boardProgram,boardValues,packageBoard} from './package-boards.mjs';
 import {serveDemo} from '../milestone-two/serve.mjs';
 
@@ -22,7 +23,7 @@ const site=await mkdtemp(join(tmpdir(),'ctm-board-package-'));
 const vendor=Buffer.from('/* unchanged vendor license */\nwindow.vendor=true;');
 const css=Buffer.from('/* stylesheet license */\n.jxgbox{border:0}');
 const uri=(type,bytes)=>'data:'+type+';base64,'+bytes.toString('base64');
-const original='<!doctype html><script async src="https://cdn.example/mathjax.js"></script><script src="'+uri('text/javascript',vendor)+'"></script><style>@import url("'+uri('text/css',css)+'");</style><script>window.authored="unchanged"; import('+JSON.stringify(uri('text/javascript',vendor))+');</script>';
+const original='<!doctype html><script id="MathJax-script" async src="https://cdn.example/mathjax.js"></script><script src="'+uri('text/javascript',vendor)+'"></script><style>@import url("'+uri('text/css',css)+'");</style><script>window.authored="unchanged"; import('+JSON.stringify(uri('text/javascript',vendor))+');</script>';
 const iframe='<iframe id="question-b0" sandbox="allow-scripts" style="height:400px" src="'+uri('text/html',Buffer.from(original))+'"></iframe>';
 let app;
 try {
@@ -36,6 +37,16 @@ try {
   assert.match(document,/<link rel="stylesheet"[^>]*crossorigin="anonymous"/);
   assert.match(document,/<script>window.authored="unchanged"; import\("\.\/assets\//);
   assert.ok(!document.includes('base64'));
+  const mathjax={preloader:'native/boards/assets/preloader.js',config:{loader:{paths:{mathjax:'native/boards/mathjax/npm/mathjax@4.1.3',sre:'native/boards/mathjax/npm/mathjax@4.1.3/sre'}},svg:{fontPath:'native/boards/mathjax/npm/@mathjax/font'},chtml:{fontPath:'native/boards/mathjax/npm/@mathjax/font',fontURL:'native/boards/mathjax/npm/@mathjax/font/chtml/woff2'}}};
+  const configured=await packageBoard({iframe,id:'configured',site,assetMap:()=> 'native/boards/mathjax/tex-mml-svg.js',mathjax});
+  const configuredHTML=await readFile(join(site,configured.path),'utf8');
+  assert.ok(configuredHTML.indexOf('window.MathJax=c')<configuredHTML.indexOf('src="assets/preloader.js"'));
+  assert.ok(configuredHTML.indexOf('src="assets/preloader.js"')<configuredHTML.indexOf('id="MathJax-script"'));
+  const scope={window:{},document:{baseURI:'https://offline.test/course/native/boards/configured.html'},URL};
+  vm.runInNewContext(configuredHTML.match(/<script>([\s\S]*?)<\/script>/)[1],scope);
+  assert.equal(scope.window.MathJax.loader.paths.sre,'https://offline.test/course/native/boards/mathjax/npm/mathjax@4.1.3/sre');
+  assert.equal(scope.window.MathJax.chtml.fontURL,'https://offline.test/course/native/boards/mathjax/npm/@mathjax/font/chtml/woff2');
+  assert.ok(!configuredHTML.includes('crossorigin="anonymous" crossorigin='));
   for(const asset of packed.assets.filter(row=>row.sha256)) {
     const bytes=await readFile(join(site,asset.path));
     assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256);
