@@ -8,7 +8,7 @@ const start=source.indexOf('const worker=`'),end=source.indexOf('`;\nawait write
 assert.ok(start>=0&&end>start);
 const worker=vm.runInNewContext(source.slice(start,end)+';worker');
 new vm.Script(worker);
-async function execute({returnValue=true,failAcknowledgment=false,failRegrade=false}={}) {
+async function execute({returnValue=true,failAcknowledgment=false,failRegrade=false,resetError=false,sentinelSurvives=false}={}) {
   const writes=[],messages=[];let resets=0,sentinel=false,gc=false,grades=0;
   class Session {
     constructor(){this.manifest={stackLibraryVersion:'fixture-version'};}
@@ -17,10 +17,11 @@ async function execute({returnValue=true,failAcknowledgment=false,failRegrade=fa
       if(expression.includes('stack_reset('))throw new Error('Reset must be outside the dynamic evaluation wrapper');
       if(expression==='6*7')return 42;
       if(expression==='stackmaximaversion')return 'fixture-version';
+      if(expression.startsWith('string([STACKpmOPT'))return 'fixture globals';
       if(expression==='ctm_reset_sentinel:123456'){sentinel=true;return 123456;}
-      if(expression.startsWith('is(ctm_reset_completed')){
+      if(expression.startsWith('[ctm_reset_result')){
         if(failAcknowledgment)throw new Error('Reset acknowledgment failed');
-        return returnValue===true&&!sentinel;
+        return [resetError?[]:[returnValue],!sentinel,resetError?'Actual reset error':false];
       }
       if(expression.includes('ctm_force_gc')){assert.equal(gc,true);return true;}
       if(expression.includes('errcatch(error('))return 'CTM deliberate caught CAS error';
@@ -30,7 +31,7 @@ async function execute({returnValue=true,failAcknowledgment=false,failRegrade=fa
       assert.equal(command.endsWith('\n'),true,'Native commands need a real newline');
       assert.equal(command.includes('\\n'),false,'Literal backslash-n is not a command terminator');
       writes.push(command);
-      if(command.includes('ctm_reset_completed:stack_reset(true)')){assert.equal(sentinel,true);sentinel=false;resets++;gc=false;}
+      if(command.includes('ctm_reset_result:errcatch(stack_reset(true))')){assert.equal(sentinel,true);sentinel=sentinelSurvives;resets++;gc=false;}
       else if(command.startsWith(':lisp (defun maxima::$ctm_force_gc'))gc=true;
       else throw new Error('Unexpected trusted command');
     }
@@ -51,6 +52,12 @@ const falseReturn=await execute({returnValue:false});
 assert.equal(falseReturn.result.ok,false);
 assert.equal(falseReturn.resets,1,'Failed reset must stop before collection and further resets');
 assert.equal(falseReturn.result.resets[0].reset,false,'A failed reset result cannot be converted into success');
+const survived=await execute({sentinelSurvives:true});
+assert.equal(survived.result.ok,false);assert.equal(survived.result.resets[0].returned[0],true);
+assert.equal(survived.result.resets[0].sentinelCleared,false);
+const resetFailure=await execute({resetError:true});
+assert.equal(resetFailure.result.ok,false);assert.equal(resetFailure.result.resets[0].returned.length,0);
+assert.equal(resetFailure.result.resets[0].error,'Actual reset error');
 const regrade=await execute({failRegrade:true});
 assert.equal(regrade.result.ok,false);assert.equal(regrade.result.phase,'regrade-1');
 assert.equal(regrade.result.resets.length,1);

@@ -38,13 +38,17 @@ self.onmessage=async({data})=>{let session;const progress={phase:'initializing',
     progress.phase='reset-'+(i+1);
     const sentinel=session.evaluate('ctm_reset_sentinel:123456');
     if(sentinel!==123456)throw new Error('Reset sentinel assignment failed');
+    const round={before:session.evaluate('string([STACKpmOPT,algebraic_equivalence_factorp,algebraic_equivalence_trigexpandp,algebraic_equivalence_nounsp])')};
+    resets.push(round);
     // STACK resets the complete variable environment. Run that trusted command
     // outside evaluate()'s dynamically bound question/error result wrapper.
     // A fresh wrapped call verifies the actual return and cleared sentinel.
-    session.write('ctm_reset_completed:false$\\nctm_reset_completed:stack_reset(true)$\\n',60000);
-    const reset=session.evaluate("is(ctm_reset_completed=true) and is(ctm_reset_sentinel='ctm_reset_sentinel)");
-    const round={reset};resets.push(round);
-    if(reset!==true)throw new Error('Reset completion/sentinel verification failed');
+    session.write('ctm_reset_result:false$\\nctm_reset_result:errcatch(stack_reset(true))$\\n',60000);
+    const acknowledgment=session.evaluate("[ctm_reset_result,is(ctm_reset_sentinel='ctm_reset_sentinel),if ctm_reset_result=[] then errormsgtostring() else false]");
+    round.returned=acknowledgment[0];round.sentinelCleared=acknowledgment[1];round.error=acknowledgment[2];
+    round.after=session.evaluate('string([STACKpmOPT,algebraic_equivalence_factorp,algebraic_equivalence_trigexpandp,algebraic_equivalence_nounsp])');
+    round.reset=Array.isArray(round.returned)&&round.returned.length===1&&round.returned[0]===true&&round.sentinelCleared===true;
+    if(!round.reset)throw new Error('Reset completion/sentinel verification failed: '+JSON.stringify(acknowledgment));
     progress.phase='gc-'+(i+1);
     session.write(':lisp (defun maxima::$ctm_force_gc () (si:gc t) (quote maxima::$done))\\n',60000);
     round.gc=session.evaluate('block([temporary:makelist(j^3,j,1,2000)],is(ctm_force_gc()=done) and is(temporary[2000]=8000000000))');

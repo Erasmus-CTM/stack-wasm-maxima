@@ -22,6 +22,16 @@ Any failed sample keeps the diagnostic red. The fresh full probe still stops at
 its first failed sample. Partial readiness observations cannot clear parity or
 establish a precompiled speedup.
 
+Frozen run 40018888353 produced eight diagnostic startup observations. Cold
+source readiness was 36.15/37.81 seconds and entry-FAS readiness 39.25/39.26;
+same-profile reloads were 36.56/36.59 and 38.06/38.29 seconds respectively.
+Initial grading passed in all samples; all compiled samples opened the FAS once
+and the source entry zero times. Every sample failed its first reset acknowledgment.
+Independent Astra verified the complete report/provenance/runtime evidence; these
+failed, separately built inputs establish neither parity nor a speedup.
+The next diagnostic separates the raw reset return, sentinel state and error text
+using a top-level error catch, without restoring variables or reloading libraries.
+
 This separate, opt-in experiment starts with the exact STACK source pin used
 by the browser site and the accepted unoptimized Maxima/ECL build recipe. It
 translates `stackmaxima.mac` using that build's native Maxima, then asks the
