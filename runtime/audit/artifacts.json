@@ -10,27 +10,19 @@
     "conclusion": null,
     "sha256": "6f54a6818317acf7f7995e51e5cc4538ecf88d0b2c84b2b9ae52362528b3e266",
     "files": [
-      ".cache/runtime-build/artifact/manifest.json",
-      ".cache/runtime-build/artifact/artifact-manifest.json",
-      ".cache/runtime-build/source-manifest.json",
-      ".cache/runtime-build/validation/acceptance.json"
-    ]
-  },
-  {
-    "id": 12520592291,
-    "name": "owned-runtime-ecl-o2-b95268be9743439e0f69e286af82ebfdd83e93e1",
-    "run": 39989733394,
-    "head": "f112f5ce47744125b21c2453f0bca84092992ec4",
-    "workflow": 393419291,
-    "attempt": 1,
-    "status": "in_progress",
-    "conclusion": null,
-    "sha256": "b0bfff4537e92a49692b2f8914a41545a3bc6d8f3e6e1715644b26fc41419369",
-    "files": [
-      ".cache/runtime-build/artifact/manifest.json",
-      ".cache/runtime-build/artifact/artifact-manifest.json",
-      ".cache/runtime-build/source-manifest.json",
-      ".cache/runtime-build/validation/acceptance.json"
-    ]
+      ".cache/runtime-build/artifact/source-manifest.json",
+      ".cache/runtime-build/artifact/logs/environment.json",
+      ".cache/runtime-build/artifact/logs/compiler-experiment.json",
+      ".cache/runtime-build/artifact/logs/ecl-config.log",
+      ".cache/runtime-build/artifact/logs/target-info.lsp",
+      ".cache/runtime-build/artifact/logs/ecl-cross-build.log",
+      ".cache/runtime-build/artifact/logs/source-state-before.json",
+      ".cache/runtime-build/artifact/logs/source-state-after.json",
+      ".cache/runtime-build/artifact/logs/host-ecl.sha256",
+      ".cache/runtime-build/artifact/build-recipes/maxima/wasm/Makefile",
+      ".cache/runtime-build/artifact/build-recipes/maxima/wasm/build.lisp",
+      ".cache/runtime-build/artifact/build-recipes/maxima/src/maxima.asd"
+    ],
+    "ranges": []
   }
 ]
