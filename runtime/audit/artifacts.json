@@ -8,10 +8,6 @@
     "attempt": 1,
     "conclusion": "failure",
     "sha256": "8e23fba56d97a63e8867fc63ca0e84f4b518da1ad2f878f4a0a54014002a2df2",
-    "files": [
-      ".cache/precompiled-fixtures/reserved-all/negative.log",
-      ".cache/precompiled-fixtures/reserved-all/negative-driver.lisp",
-      ".cache/precompiled-fixtures/reserved-all/positive-driver.lisp"
-    ]
+    "files": []
   }
 ]
