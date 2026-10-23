@@ -9,20 +9,43 @@
     "status": "in_progress",
     "conclusion": null,
     "sha256": "b0bfff4537e92a49692b2f8914a41545a3bc6d8f3e6e1715644b26fc41419369",
-    "files": [
-      ".cache/runtime-build/artifact/source-manifest.json",
-      ".cache/runtime-build/artifact/logs/environment.json",
-      ".cache/runtime-build/artifact/logs/compiler-experiment.json",
-      ".cache/runtime-build/artifact/logs/ecl-config.log",
-      ".cache/runtime-build/artifact/logs/target-info.lsp",
-      ".cache/runtime-build/artifact/logs/ecl-cross-build.log",
-      ".cache/runtime-build/artifact/logs/source-state-before.json",
-      ".cache/runtime-build/artifact/logs/source-state-after.json",
-      ".cache/runtime-build/artifact/logs/host-ecl.sha256",
-      ".cache/runtime-build/artifact/build-recipes/maxima/wasm/Makefile",
-      ".cache/runtime-build/artifact/build-recipes/maxima/wasm/build.lisp",
-      ".cache/runtime-build/artifact/build-recipes/maxima/src/maxima.asd"
-    ],
-    "ranges": []
+    "files": [],
+    "ranges": [
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 0,
+        "end": 8388608
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 8388608,
+        "end": 16777216
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 16777216,
+        "end": 25165824
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 25165824,
+        "end": 33554432
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 33554432,
+        "end": 41943040
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 41943040,
+        "end": 50331648
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 50331648,
+        "end": 53687646
+      }
+    ]
   }
 ]
