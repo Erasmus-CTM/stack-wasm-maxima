@@ -110,8 +110,14 @@ async function interactions(page,rows,manifest){
     });
     let box=await element.boundingBox();assert.ok(box);
     // Keep the real authored point and target reachable on a narrow viewport.
-    const shift=Math.max(0,Math.max(box.x+point.from[0],box.x+point.to[0])-width+24);
-    if(shift){await page.evaluate(shift=>window.scrollBy(shift,0),shift);box=await element.boundingBox();}
+    const scroll=await page.evaluate(()=>({x:scrollX,y:scrollY}));
+    const minimum=scroll.x+box.x+Math.min(point.from[0],point.to[0]);
+    const maximum=scroll.x+box.x+Math.max(point.from[0],point.to[0]);
+    const left=Math.max(0,Math.min(minimum-16,maximum-width+16));
+    await page.evaluate(({left,top})=>window.scrollTo({left,top,behavior:'instant'}),{left,top:scroll.y});
+    await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(resolve)));
+    box=await element.boundingBox();
+    assert.ok(box.x+point.from[0]>=0&&box.x+point.from[0]<width,'Real pointer drag must start inside the viewport');
     evidence.point=point;evidence.frameBox=box;evidence.viewport=await page.evaluate(()=>({x:scrollX,y:scrollY,width:innerWidth,height:innerHeight}));
     const from=[box.x+point.from[0],box.y+point.from[1]],to=[box.x+point.to[0],box.y+point.to[1]];
     await page.mouse.move(...from);await new Promise(resolve=>setTimeout(resolve,50));await page.mouse.down();
