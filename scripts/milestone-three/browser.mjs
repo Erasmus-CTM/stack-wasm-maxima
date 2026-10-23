@@ -443,6 +443,7 @@ async function verifyLiveAssets(inventory) {
 }
 
 try {
+  assert.deepEqual(await readFile(join(site,'_headers')),await readFile(join(repository,'comparison/_headers')),'Rendered host policy must equal its canonical producer source');
   const manifestBytes=await readFile(join(site,'native/build-manifest.json'));
   const manifest=JSON.parse(manifestBytes);
   const inventory=manifest.questions || manifest.cards;

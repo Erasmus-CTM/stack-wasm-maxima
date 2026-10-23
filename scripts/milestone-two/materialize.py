@@ -242,6 +242,7 @@ def prepare_existing(args, manifest: dict) -> None:
     patches = patch_frontend(output / "_extensions/stack-sympy")
     shutil.copy2(ROOT / "scripts/public-demo/isolation.js", output / "ctm-isolation.js")
     shutil.copy2(ROOT / "scripts/public-demo/isolation-worker.js", output / "ctm-isolation-worker.js")
+    shutil.copy2(ROOT / "comparison/_headers", output / "_headers")
     write_json(output / "MATERIALIZATION.json", {
         "schema": 1,
         "sourcePins": {

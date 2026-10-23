@@ -9,6 +9,7 @@ project:
     - maxima/data-flow.qmd
     - licenses.qmd
   resources:
+    - _headers
     - backend/**
     - runtime/**
     - native/**
