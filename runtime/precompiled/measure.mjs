@@ -30,7 +30,7 @@ if(process.env.PRECOMPILED_RESET_COMPATIBILITY){
   // source separately; parse its flattened program explicitly in MAXIMA.
   const program='(progn '+text.split('\n').filter(line=>!line.trim().startsWith(';')).join(' ')+')';
   const quoted='"'+program.replaceAll('\\','\\\\').replaceAll('"','\\"')+'"';
-  resetCompatibility='(let ((*package* (find-package :maxima))) (eval (read-from-string '+quoted+')))';
+  resetCompatibility='(let ((*package* (find-package :maxima))) (eval (read-from-string '+quoted+')) (ctm-register-stack-tex-helper))';
   report.resetCompatibility={text,sha256:digest(text),command:resetCompatibility,commandSha256:digest(resetCompatibility)};
 }
 for(const path of files){const body=await readFile(join(site,path));report.files.push({path,bytes:body.length,sha256:digest(body)});}
@@ -43,6 +43,7 @@ self.onmessage=async({data})=>{let session;const progress={phase:'initializing',
   if(data.resetCompatibility){
     session.write(':lisp '+data.resetCompatibility.replaceAll('\\n',' ')+'\\n',60000);
     progress.reservedAllBefore=session.evaluate('ctm_reserved_all_state()');
+    progress.texHelperBefore=session.evaluate('ctm_stack_tex_helper_state()');
   }
   const warmCalls=[];for(let i=0;i<10;i++){const t=performance.now();warmCalls.push({value:session.evaluate('6*7'),elapsedMs:performance.now()-t});}
   const grade=session.assess({test:'AlgEquiv',student:'(x+1)^2',teacher:'x^2+2*x+1'});
@@ -74,6 +75,7 @@ self.onmessage=async({data})=>{let session;const progress={phase:'initializing',
     progress.phase='arithmetic-'+(i+1);
     round.afterError=session.evaluate('6*7');
     if(round.afterError!==42)throw new Error('Error recovery arithmetic failed');
+    if(data.resetCompatibility)round.texHelper=session.evaluate('ctm_stack_tex_helper_state()');
     progress.phase='regrade-'+(i+1);
     round.grade=session.assess({test:'AlgEquiv',student:'(x+1)^2',teacher:'x^2+2*x+1'});
     progress.phase='metadata-'+(i+1);

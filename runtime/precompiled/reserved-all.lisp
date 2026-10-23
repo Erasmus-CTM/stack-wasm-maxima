@@ -32,3 +32,23 @@
                     collect (if (symbolp key) (symbol-name key) "non-symbol")))))
 
 (ctm-install-reserved-all-fix)
+
+;;; The library explicitly compiles this helper because stacktex.lisp calls its
+;;; Lisp binding directly. Keep its interpreted function registration as the
+;;; owner of removal; an extra $PROPS entry otherwise kills it even when reset
+;;; explicitly preserves $FUNCTIONS. This is an experimental one-symbol policy.
+(defun ctm-register-stack-tex-helper ()
+  (let ((name '$%_ce_rem))
+    (unless (and (fboundp name) (get name 'translated)
+                 (mget name 'mexpr)
+                 (assoc (list name) (cdr $functions) :test #'equal))
+      (error "STACK tex helper lacks compiled/interpreted function ownership"))
+    (setq $props (remove name $props :test #'eq))
+    '$done))
+
+(defun $ctm_stack_tex_helper_state ()
+  (let ((name '$%_ce_rem))
+    (list '(mlist) (if (fboundp name) t nil)
+          (if (mget name 'mexpr) t nil)
+          (if (assoc (list name) (cdr $functions) :test #'equal) t nil)
+          (if (member name (cdr $props) :test #'eq) t nil))))
