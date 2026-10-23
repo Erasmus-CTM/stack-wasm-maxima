@@ -61,8 +61,11 @@ def validate_metadata(spec):
     run = api('/actions/runs/' + str(spec['run']))
     assert run['repository']['full_name'] == REPO
     assert run['head_repository']['full_name'] == REPO
+    expected_status = spec.get('status', 'completed')
+    assert expected_status in ('completed', 'in_progress')
+    assert (expected_status == 'completed' and spec['conclusion'] in ('success', 'failure', 'cancelled')) or (expected_status == 'in_progress' and spec['conclusion'] is None)
     for key, expected in [('head_sha', spec['head']), ('workflow_id', spec['workflow']),
-                          ('run_attempt', spec['attempt']), ('status', 'completed'),
+                          ('run_attempt', spec['attempt']), ('status', expected_status),
                           ('conclusion', spec['conclusion'])]:
         assert run[key] == expected, (key, run[key], expected)
     artifact = api('/actions/artifacts/' + str(spec['id']))
@@ -184,7 +187,8 @@ def main():
             assert after_run['run_attempt'] == run['run_attempt']
             assert after_artifact == artifact
             provenance = {'kind': 'provenance', **spec, 'zipBytes': len(data),
-                          'runStartedAt': run['run_started_at'], 'artifactCreatedAt': artifact['created_at']}
+                          'runStartedAt': run['run_started_at'], 'artifactCreatedAt': artifact['created_at'],
+                          'provisional': run['status'] != 'completed'}
             for record in [provenance, *records]:
                 line = json.dumps(record, separators=(',', ':'))
                 output_bytes += len(line.encode())
