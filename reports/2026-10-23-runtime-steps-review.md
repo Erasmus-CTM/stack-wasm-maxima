@@ -23,7 +23,8 @@ quoted below is as reported by CI and the PR evidence.
 These are careful pieces of work. None has a blocking finding. Recommended merge
 order: #5 (after merging `main` into it), then #7, then #8; all three are
 currently mergeable without conflicts. Four findings need a decision by AC
-(F-4, F-6, F-7, F-8); the others are small follow-ups.
+(F-4, F-6, F-7, F-8); the others are small follow-ups. F-4 is decided:
+gnuplot goes, early.
 
 ## What was achieved
 
@@ -103,7 +104,8 @@ only checked for ELF format and fixnum width before it runs and compiles the
 cross ECL. Proposal: record its SHA-256 at first build and verify it on
 restore, or rebuild it without the cache for release builds.
 
-**F-4. gnuplot is the weak spot, and it is optional (decision for AC).**
+**F-4. gnuplot is the weak spot, and it is optional. Decided (AC, 23 Oct):
+gnuplot goes, early.**
 
 - It is the only component that needs a CTM build patch: host tuple, PIC and a
   side-module link.
@@ -118,9 +120,22 @@ in step 2, with a lightweight `set_plot_option` for STACK's load-time call.
 That removes the only patch, the unattested pin, the gnuplot licence question
 and the pending upstream offer (F-5) at once, and saves about 5 MB.
 
+**Decision (AC, 23 October): gnuplot goes, early.** It is the first step-2
+change, as its own PR stacked on #8, before any other trim. It does three
+things:
+
+- removes gnuplot from the sources, pins, build and the derived build patch;
+- omits `maxima-plot.fas` and `libgnuplot.so` from the runtime inventory;
+- supplies a lightweight `set_plot_option` so STACK's load-time call still
+  succeeds.
+
+`plot()` in a question becomes a build diagnostic pointing to JSXGraph. The
+acceptance gates are unchanged: probes at both STACK pins, the native browser
+checks, both 316-program replays and the timings, plus a check that a
+`plot()` call fails cleanly with that diagnostic.
+
 **F-5. The upstream patch offer is not posted.** Codex has no GitLab account.
-If gnuplot stays, posting the patch to `gitlab.com/mgerbershagen/maxima` needs
-AC; if it is dropped (F-4), the offer is unnecessary.
+With gnuplot dropped (F-4), the offer is unnecessary; close it.
 
 **F-6. The owned runtime expires with its artifact (decision for AC).**
 
@@ -183,7 +198,7 @@ the outcome for anything that is not a CAS result.
 
 - **Warm-profile reload measurement** (audit §3.2, added in #6). Every timing
   so far uses fresh browser profiles.
-- **Step 2:** trims, using F-4 for plot and gnuplot. The next steps are
+- **Step 2:** trims, starting with removing plot and gnuplot (F-4, decided). The next steps are
   precompiled STACK, the call entry in the production worker and the memory
   snapshot, which now has its precondition (control returns to JavaScript
   after startup).
