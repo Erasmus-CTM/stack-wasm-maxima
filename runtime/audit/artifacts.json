@@ -10,76 +10,47 @@
     "conclusion": null,
     "sha256": "f53da842c3de5d427fb78a3588d430bd57948dcbe4d65b5c21eeabd1fceaccac",
     "files": [
-      ".cache/runtime-build/artifact/artifact-manifest.json",
-      ".cache/runtime-build/artifact/build-recipes/maxima/src/maxima.asd",
-      ".cache/runtime-build/artifact/build-recipes/maxima/wasm/Makefile",
-      ".cache/runtime-build/artifact/build-recipes/maxima/wasm/build.lisp",
-      ".cache/runtime-build/artifact/logs/compiler-experiment.json",
-      ".cache/runtime-build/artifact/logs/ecl-config.log",
-      ".cache/runtime-build/artifact/logs/ecl-cross-build.log",
-      ".cache/runtime-build/artifact/logs/environment.json",
-      ".cache/runtime-build/artifact/logs/host-ecl.sha256",
-      ".cache/runtime-build/artifact/logs/source-state-after.json",
-      ".cache/runtime-build/artifact/logs/source-state-before.json",
-      ".cache/runtime-build/artifact/logs/target-info.lsp",
-      ".cache/runtime-build/artifact/manifest.json",
-      ".cache/runtime-build/artifact/source-manifest.json"
+      ".cache/runtime-build/source-progress.json",
+      ".cache/runtime-build/validation/timings.json",
+      ".cache/runtime-build/validation/plot-diagnostic.json",
+      ".cache/runtime-build/validation/public-pages-encoding.json",
+      ".cache/runtime-build/validation/m1-owned/prepared.json",
+      ".cache/runtime-build/validation/m1-owned/comparison.json",
+      ".cache/runtime-build/validation/m1-owned/browser-10d3233.json",
+      ".cache/runtime-build/validation/m1-owned/browser-3338304.json",
+      ".cache/runtime-build/validation/m1-deployed/prepared.json",
+      ".cache/runtime-build/validation/m1-deployed/comparison.json",
+      ".cache/runtime-build/validation/m1-deployed/browser-10d3233.json",
+      ".cache/runtime-build/validation/m1-deployed/browser-3338304.json",
+      ".cache/runtime-build/plot-diagnostic/preparation/build-failure.json",
+      "test-results/milestone-three/native-reference/native-reference.json",
+      "test-results/milestone-three/native-reference/native.log",
+      "test-results/milestone-three/native-reference/reference.mac",
+      "test-results/milestone-three/same-source-reference/native-reference.json",
+      "test-results/milestone-three/same-source-reference/native.log",
+      "test-results/milestone-three/same-source-reference/reference.mac"
     ],
     "ranges": [
       {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "path": "test-results/milestone-three/browser.json",
         "start": 0,
         "end": 8388608
       },
       {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "path": "test-results/milestone-three/browser.json",
         "start": 8388608,
         "end": 16777216
       },
       {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "path": "test-results/milestone-three/browser.json",
         "start": 16777216,
         "end": 25165824
       },
       {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "path": "test-results/milestone-three/browser.json",
         "start": 25165824,
-        "end": 33554432
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 33554432,
-        "end": 41943040
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 41943040,
-        "end": 49384882
+        "end": 29065267
       }
-    ]
-  },
-  {
-    "id": 12520322641,
-    "name": "precompiled-native-fixtures-a2e08c0cfa4551ad46af7d494a10c9caad58ed2b",
-    "run": 39996508964,
-    "head": "3213d7ce87cc877ecbe4fc6aed2a2e62c9fd71f8",
-    "workflow": 394303393,
-    "attempt": 1,
-    "conclusion": "success",
-    "sha256": "184d69911c98699847c99736f2eee5f25bd33aeb00ec1a1d268abc200b8ee3af",
-    "files": [
-      "precompiled-fixtures/report.json",
-      "precompiled-fixtures/assignment-control/check-source.log",
-      "precompiled-fixtures/assignment-control/check-compiled.log",
-      "precompiled-fixtures/assignment-control/translate.log",
-      "precompiled-fixtures/assignment-bridge/check-source.log",
-      "precompiled-fixtures/assignment-bridge/check-compiled.log",
-      "precompiled-fixtures/assignment-bridge/translate.log",
-      "precompiled-fixtures/assignment-bridge/fixture.LISP",
-      "precompiled-fixtures/reset-control/reset.log",
-      "precompiled-fixtures/reset-control/fixture.LISP",
-      "precompiled-fixtures/reset-package/reset.log",
-      "precompiled-fixtures/reset-package/fixture.LISP"
     ]
   }
 ]
