@@ -5,6 +5,7 @@ import json
 from pathlib import PurePosixPath
 import re
 import shlex
+import ast
 
 LINK_FIELDS = {'LDFLAGS','SHARED_LDFLAGS','BUNDLE_LDFLAGS','PROGRAM_LDFLAGS'}
 
@@ -19,10 +20,60 @@ def optimization(tokens):
     return flags[-1]
 
 
+def config_assignments(text, names):
+    """Decode complete Autoconf shell assignments, including escaped apostrophes.
+
+    config.log shell-quotes values for replay. Removing only the outer quotes
+    corrupts values such as -DECLDIR='' encoded with shell quote transitions.
+    Never execute the assignments; shlex only decodes their quoting layer.
+    """
+    values = {}
+    for line in text.splitlines():
+        name, separator, _ = line.partition('=')
+        if not separator or name not in names:
+            continue
+        assert name not in values, 'Duplicate configure assignment: '+name
+        try:
+            tokens = shlex.split(line)
+        except ValueError as error:
+            raise AssertionError('Malformed configure assignment: '+name) from error
+        assert len(tokens)==1 and tokens[0].startswith(name+'='), 'Ambiguous configure assignment: '+name
+        values[name]=tokens[0][len(name)+1:]
+    assert set(values)==set(names), 'Missing configure assignments: '+str(sorted(set(names)-set(values)))
+    return values
+
+
 def commands(body):
     result = []
+    pending = {}
     for line in body.decode(errors='replace').splitlines():
         stripped = line.lstrip()
+        # strace writes outside ECL's captured child stderr. Parse only
+        # successful execve argv; no environment values are recorded by the
+        # configured trace. Parallel unfinished/resumed syscalls retain PID.
+        traced=re.match(r'^(\d+)\s+(.*)$',stripped)
+        if traced:
+            pid,stripped=traced.groups()
+            if stripped.endswith(' <unfinished ...>') and stripped.startswith('execve('):
+                assert pid not in pending, 'Overlapping unfinished execve'
+                pending[pid]=stripped.removesuffix(' <unfinished ...>')
+                continue
+            if stripped.startswith('<... execve resumed>'):
+                assert pid in pending, 'Unmatched resumed execve'
+                stripped=pending.pop(pid)+stripped.removeprefix('<... execve resumed>')
+        if stripped.startswith('execve('):
+            match=re.fullmatch(r'execve\(("(?:[^"\\]|\\.)*"), (\[.*\]), .*\)\s+= 0',stripped)
+            if not match:
+                assert not stripped.rstrip().endswith('= 0'), 'Malformed successful execve'
+                continue
+            executable_path=ast.literal_eval(match[1])
+            if PurePosixPath(executable_path).name not in ['clang','clang++','wasm-opt']:
+                continue
+            tokens=ast.literal_eval(match[2])
+            assert tokens and all(isinstance(token,str) for token in tokens), 'Truncated execution argv'
+            assert PurePosixPath(tokens[0]).name==PurePosixPath(executable_path).name, 'Execution argv identity mismatch'
+            tokens[0]=executable_path
+            stripped=shlex.join(tokens)
         generated = stripped.startswith(';;;')
         stripped = stripped.removeprefix(';;;').lstrip()
         for prefix in ['libtool: compile:','libtool: link:']:
@@ -36,13 +87,20 @@ def commands(body):
         executable = PurePosixPath(tokens[0]).name
         if executable in ['clang','clang++','emcc','em++','wasm-opt']:
             result.append({'command':stripped,'tokens':tokens,'executable':executable,'generatedLisp':generated})
+    assert not pending, 'Incomplete execution trace'
     return result
 
 
 def output_of(row):
-    positions = [i for i,token in enumerate(row['tokens']) if token=='-o']
-    assert len(positions)==1 and positions[0]+1<len(row['tokens']), 'Missing/ambiguous output: '+row['command']
-    return row['tokens'][positions[0]+1]
+    outputs=[]
+    for i,token in enumerate(row['tokens']):
+        if token=='-o':
+            assert i+1<len(row['tokens']), 'Missing output argument: '+row['command']
+            outputs.append(row['tokens'][i+1])
+        elif token.startswith('-o'):
+            outputs.append(token[2:])
+    assert len(outputs)==1 and outputs[0], 'Missing/ambiguous output: '+row['command']
+    return outputs[0]
 
 
 def c_compiles(rows, executables):
@@ -51,7 +109,10 @@ def c_compiles(rows, executables):
             continue
         inputs = [token for token in row['tokens'][1:] if not token.startswith('-') and token.endswith('.c')]
         if len(inputs)==1:
-            yield {**row,'input':inputs[0],'output':output_of(row),'optimization':optimization(row['tokens']) if any(re.fullmatch(r'-O(?:[0-3sz]|fast)',t) for t in row['tokens']) else None}
+            # Compile-only C invocations without -o use basename.o in the
+            # current directory; links still require an explicit output.
+            output=output_of(row) if any(t.startswith('-o') for t in row['tokens']) else str(PurePosixPath(inputs[0]).with_suffix('.o').name)
+            yield {**row,'input':inputs[0],'output':output,'optimization':optimization(row['tokens']) if any(re.fullmatch(r'-O(?:[0-3sz]|fast)',t) for t in row['tokens']) else None}
 
 
 def same_source(left,right):
@@ -130,15 +191,15 @@ def link_evidence(rows,cwd,required):
 
 def derive(config, target, ecl_trace, maxima_trace, profile):
     text = config.decode(errors='replace')
-    flags = re.findall(r"^CFLAGS='(.*)'$",text,re.M)
-    assert len(flags)==1 and optimization(shlex.split(flags[0]))=='-O0', 'Upstream raw configure CFLAGS changed'
-    links = dict(re.findall(r"^(LDFLAGS|SHARED_LDFLAGS|BUNDLE_LDFLAGS|PROGRAM_LDFLAGS)='(.*)'$",text,re.M))
-    assert set(links)==LINK_FIELDS, 'Missing named GC link configuration'
+    assignments=config_assignments(text,LINK_FIELDS|{'CC','CFLAGS'})
+    flags=assignments['CFLAGS']
+    assert optimization(shlex.split(flags))=='-O0', 'Upstream raw configure CFLAGS changed'
+    links = {name:assignments[name] for name in LINK_FIELDS}
     assert all('--spill-pointers' in value and '-sSTACK_SIZE=33554432' in value for value in links.values())
-    cc=re.findall(r"^CC='(.*)'$",text,re.M)
-    assert len(cc)==1 and cc[0].endswith('/sources/emsdk/upstream/emscripten/emcc'), 'Missing pinned compiler location'
-    work=cc[0].removesuffix('/sources/emsdk/upstream/emscripten/emcc')
-    sdk_source=cc[0].removesuffix('/emcc')
+    cc=assignments['CC']
+    assert cc.endswith('/sources/emsdk/upstream/emscripten/emcc'), 'Missing pinned compiler location'
+    work=cc.removesuffix('/sources/emsdk/upstream/emscripten/emcc')
+    sdk_source=cc.removesuffix('/emcc')
     ecl_cwd=work+'/sources/ecl/build'
     maxima_cwd=work+'/sources/maxima/wasm'
     maxima_output=work+'/sources/maxima/src/binary-ecl/wasm32-emscripten'
@@ -152,7 +213,7 @@ def derive(config, target, ecl_trace, maxima_trace, profile):
     assert any('/src/binary-ecl/wasm32-emscripten/' in row['input'] for row in maxima), 'Missing actual generated Maxima unit compile'
     for name, rows, expected in [('ECL core',core,profile['eclCoreOptimization']),('ECL generated Lisp',generated,profile['eclGeneratedLispOptimization']),('Maxima generated C',maxima,profile['maximaGeneratedOptimization'])]:
         assert rows and all(row['optimization']==expected for row in rows), 'Missing/wrong actual clang compilation: '+name
-    return {'rawConfigureCFlags':flags[0],'rawConfigureOptimization':'-O0','namedLinkFlags':links,
+    return {'rawConfigureCFlags':flags,'rawConfigureOptimization':'-O0','namedLinkFlags':links,
             'configSha256':digest(config),'installedTargetInfoSha256':digest(target),
             'eclTraceSha256':digest(ecl_trace),'maximaTraceSha256':digest(maxima_trace),
             'eclCore':core,'eclGeneratedLisp':generated,'maximaGeneratedUnits':maxima,

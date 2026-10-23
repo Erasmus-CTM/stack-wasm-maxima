@@ -14,6 +14,8 @@ export ECL_TO_RUN="$MAXIMA/wasm/ecl-host/bin/ecl"
 mkdir -p "$WORK/logs"
 exec > >(tee "$WORK/logs/build.log") 2>&1
 printf 'Build started: '; date -u +%FT%TZ
+# Fail immediately if hosted-runner tracing or its parser is unavailable.
+python "$ROOT/runtime/build/test-compiler-evidence.py" --require-strace
 # Use the unchanged upstream recipe for core/share/ECL targets only.
 MAKE_RECIPE="$MAXIMA/wasm/Makefile"
 mkdir -p "$WORK/build-recipes/maxima/wasm"
@@ -49,20 +51,21 @@ grep -Eq 'ELF 32-bit.*Intel 80386' "$WORK/logs/host-format.txt"
 "$ECL_TO_RUN" --norc --eval '(unless (= (integer-length most-positive-fixnum) 29) (ext:quit 65))' --eval '(format t "CTM-HOST-ECL|~a|~a~%" (lisp-implementation-version) (integer-length most-positive-fixnum))' --eval '(ext:quit)'
 sha256sum --check "$WORK/logs/host-ecl.sha256"
 # Select runtime files only: no MathJax/browser UI copies or publication.
-# Isolate the unchanged upstream ECL target. EMCC_VERBOSE prints the actual
-# clang/wasm-opt subprocesses without EMCC_DEBUG's retained temporary trees.
+# ECL discards successful subprocess stderr. OS exec tracing captures actual
+# compiler/Binaryen argv regardless of that redirection; never dump environment.
 python "$ROOT/runtime/build/compiler_profile.py" > "$WORK/logs/compiler-profile.json"
 ECL_INJECTED_FLAGS=$(python "$ROOT/runtime/build/compiler_profile.py" --emcc-flags)
 (
  export EMCC_VERBOSE=1
  if [[ -n "$ECL_INJECTED_FLAGS" ]]; then export EMCC_CFLAGS="$ECL_INJECTED_FLAGS"; else unset EMCC_CFLAGS; fi
- make -f "$MAKE_RECIPE" -j2 ecl-emscripten
+ strace -f -qq -e trace=execve -e signal=none -s 1048576 -o "$WORK/logs/ecl-exec.log" make -f "$MAKE_RECIPE" -j2 ecl-emscripten
 ) 2>&1 | tee "$WORK/logs/ecl-cross-build.log"
+cat "$WORK/logs/ecl-exec.log" >> "$WORK/logs/ecl-cross-build.log"
 # Target-info carries raw upstream CFLAGS, not the injected experiment. Keep
 # it unchanged so Maxima still uses its original generated-Lisp optimization.
 unset EMCC_CFLAGS
 export EMCC_VERBOSE=1
-{
+build_maxima_phase() {
 targets=(maxima-ecl-combined/maxima.wasm maxima-ecl-combined/libecl.so maxima-ecl-combined/maxima_thread.js maxima-ecl-combined/share_files.js)
 make -f "$MAKE_RECIPE" -j2 "${targets[@]}" || exit $?
 # Upstream Makefile optional targets unnecessarily depend on plot.fasb.
@@ -72,7 +75,12 @@ for module in slatec quadpack solve poisson-series matrix-algebra number-theory 
  "$ECL_TO_RUN" --norc --load build.lisp --eval "(cross-compile-maxima-module \"maxima/$module\")" --eval '(ext:quit)' || exit $?
  cp "../src/binary-ecl/wasm32-emscripten/maxima/$module.fasb" "maxima-ecl-combined/maxima-$module.fas" || exit $?
 done
-} 2>&1 | tee "$WORK/logs/maxima-cross-build.log"
+}
+export MAKE_RECIPE ECL_TO_RUN
+export -f build_maxima_phase
+strace -f -qq -e trace=execve -e signal=none -s 1048576 -o "$WORK/logs/maxima-exec.log" bash -euo pipefail -c build_maxima_phase 2>&1 | tee "$WORK/logs/maxima-cross-build.log"
+cat "$WORK/logs/maxima-exec.log" >> "$WORK/logs/maxima-cross-build.log"
+unset -f build_maxima_phase
 unset EMCC_VERBOSE
 python "$ROOT/runtime/build/check-compiler-experiment.py"
 test ! -e ../src/binary-ecl/wasm32-emscripten/maxima/plot.fasb

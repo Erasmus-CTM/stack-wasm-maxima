@@ -5,8 +5,17 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+import shlex
+import shutil
+import subprocess
+import sys
 from compiler_profile import profiles
-from compiler_evidence import derive, digest, verify_packaged, MODULES
+from compiler_evidence import derive, digest, verify_packaged, MODULES, commands, config_assignments
+
+REQUIRE_STRACE='--require-strace' in sys.argv
+if REQUIRE_STRACE:
+    sys.argv.remove('--require-strace')
+    assert shutil.which('strace'), 'The build requires OS execution tracing'
 
 GC = '-sSTACK_SIZE=33554432 -sBINARYEN_EXTRA_PASSES=--spill-pointers'
 CONFIG = ("CC='/repo/sources/emsdk/upstream/emscripten/emcc'\nCFLAGS='-O0 -DECL_C_COMPATIBLE_VARIADIC_DISPATCH -O0'\n"+''.join(f"{key}='{GC}'\n" for key in ['LDFLAGS','SHARED_LDFLAGS','BUNDLE_LDFLAGS','PROGRAM_LDFLAGS'])).encode()
@@ -55,6 +64,56 @@ def packaged(root, profile):
 
 
 class CompilerEvidence(unittest.TestCase):
+    def test_autoconf_shell_quote_transitions(self):
+        value="-O0 -DECLDIR='' -Wno-macro-redefined -DECL_C_COMPATIBLE_VARIADIC_DISPATCH -O0 -fPIC "
+        assignment="CFLAGS='"+value.replace("'","'\\''")+"'"
+        self.assertEqual(config_assignments(assignment,{'CFLAGS'})['CFLAGS'],value)
+        config=CONFIG.replace("CFLAGS='-O0 -DECL_C_COMPATIBLE_VARIADIC_DISPATCH -O0'".encode(),assignment.encode())
+        for profile in profiles()['profiles'].values():
+            ecl,maxima=traces(profile)
+            self.assertEqual(derive(config,TARGET,ecl,maxima,profile)['rawConfigureCFlags'],value)
+            for bad in [config.replace(b"-fPIC '",b"-fPIC -Oz '"),config+b"CFLAGS='-O0'\n",config.replace(b"-fPIC '",b'-fPIC '),config.replace(b"-fPIC '",b"-fPIC ' extra")]:
+                with self.assertRaises(AssertionError):derive(bad,TARGET,ecl,maxima,profile)
+
+    def test_joined_and_implicit_compile_outputs(self):
+        for profile in profiles()['profiles'].values():
+            ecl,maxima=traces(profile)
+            ecl=ecl.replace(b' -o main.o.o',b'').replace(b' -o other-core.o',b' -oother-core.o')
+            derive(CONFIG,TARGET,ecl,maxima,profile)
+            with self.assertRaises(AssertionError):
+                derive(CONFIG,TARGET,ecl.replace(b'-oother-core.o',b'-owrong.o',1),maxima,profile)
+
+    def test_os_execution_trace_and_corruptions(self):
+        def os_trace(body):
+            lines=[]
+            for line in body.decode().splitlines():
+                if '/clang ' in line or '/wasm-opt ' in line:
+                    argv=shlex.split(line)
+                    lines.append('123 execve('+json.dumps(argv[0])+', '+json.dumps(argv)+', 0x123 /* 50 vars */) = 0')
+                else:lines.append(line)
+            return ('\n'.join(lines)+'\n').encode()
+        for profile in profiles()['profiles'].values():
+            ecl,maxima=map(os_trace,traces(profile))
+            derive(CONFIG,TARGET,ecl,maxima,profile)
+            with self.assertRaises(AssertionError):derive(CONFIG,TARGET,ecl,maxima.replace(b') = 0',b') = -1 ENOENT'),profile)
+        complete=b'123 execve("/sdk/clang", ["clang", "-O0"], 0x123 /* 50 vars */) = 0\n'
+        resumed=complete.replace(b'], 0x123',b'] <unfinished ...>\n123 <... execve resumed>, 0x123')
+        self.assertEqual(commands(complete),commands(resumed))
+        for bad in [complete.replace(b'["clang", "-O0"]',b'["clang", ...]'),resumed.splitlines()[0]+b'\n']:
+            with self.assertRaises((AssertionError,ValueError,SyntaxError)):commands(bad)
+
+    @unittest.skipUnless(shutil.which('strace'),'OS tracing integration runs on the Ubuntu builder')
+    def test_actual_strace_output(self):
+        fixture_root=Path(__file__).resolve().parents[2]/'.cache/compiler-fixtures'
+        fixture_root.mkdir(parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=fixture_root) as tmp:
+            root=Path(tmp).resolve();launcher=root/'clang';launcher.symlink_to(sys.executable)
+            trace=root/'exec.log'
+            subprocess.run(['strace','-f','-qq','-e','trace=execve','-e','signal=none','-s','1048576','-o',str(trace),sys.executable,'-c',f'import subprocess; subprocess.run([{str(launcher)!r}, "-c", "pass"], check=True)'],check=True)
+            rows=commands(trace.read_bytes())
+            self.assertEqual(len(rows),1)
+            self.assertEqual(rows[0]['tokens'],[str(launcher),'-c','pass'])
+
     def test_all_profiles_and_real_effective_flags(self):
         for profile in profiles()['profiles'].values():
             ecl,maxima = traces(profile)

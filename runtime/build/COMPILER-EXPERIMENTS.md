@@ -79,3 +79,20 @@ corrected timing gate binds the timing report hash and rederives the three
 programs from the accepted browser report, including all twelve sample records.
 Missing-target/pass, wrong-other-unit, workload substitution and stale/missing
 report fixtures retain these cases. Run 39936823520 remains pre-fix evidence.
+
+Run 39940086296 completed compilation in all three profiles but failed before
+packaging at evidence admission. Autoconf's shell-escaped apostrophes in
+`CFLAGS` exposed a parser error; complete assignments are now decoded without
+execution. Retained traces also exposed joined/implicit compile outputs and
+showed that ECL discards successful subprocess output, hiding generated C and
+module-link subprocesses from `EMCC_VERBOSE`. The evidence gate continues to
+reject those incomplete traces. Failed artifacts 12498026608 (baseline),
+12497945460 (O2), and 12497243950 (Oz) remain diagnostic evidence only.
+
+Both build phases now use `strace` to observe successful compiler/Binaryen
+execution argv outside ECL's redirected output. The trace policy records argv
+and environment counts, never environment values. Original traces are retained
+in logs and appended to the hash-bound phase snapshots for admission. This
+observer changes no compiler flags or source files. An actual subprocess test
+must pass on Ubuntu before compilation; local Windows checks exercise quoting,
+output forms, successful/failed execution, and incomplete/corrupted traces.
