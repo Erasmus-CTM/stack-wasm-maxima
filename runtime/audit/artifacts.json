@@ -1,17 +1,22 @@
 [
   {
-    "id": 12536206985,
-    "name": "frozen-precompiled-browser-875e38e981bcd9e6b5db68784abeeea8f21b19ef",
-    "run": 40032125432,
-    "head": "6cbc375010f9ddfee455436f47788fa524c1483f",
+    "id": 12536573031,
+    "name": "frozen-precompiled-browser-ce801415973553265d8058201d469ea8ac94f8ef",
+    "run": 40034864125,
+    "head": "5e040f97f49800f2f0e348c23818c59ae65e1e90",
     "workflow": 394515508,
     "attempt": 1,
-    "conclusion": "failure",
-    "sha256": "02e0389253592b18653d5b01ca8fc322f728a56e36d0337c6e95337cc6df5832",
+    "conclusion": "success",
+    "sha256": "193bfd5523894616e8a6b47b241be76344b79dde03b527335a156beb6c7f3687",
     "files": [
       "test-results/precompiled-browser/measure.json",
       ".cache/precompiled-frozen-inputs/pair.json",
-      ".cache/precompiled-browser/site/precompiled-measure-worker.js"
+      ".cache/precompiled-browser/site/precompiled-measure-worker.js",
+      ".cache/precompiled-browser/site/stack-sources.json",
+      ".cache/precompiled-browser/site/stack-sources-timed-source.json",
+      ".cache/precompiled-browser/site/stack-sources-precompiled.json",
+      ".cache/precompiled-browser/site/runtime/maxima-session.js",
+      ".cache/precompiled-browser/site/runtime/maxima-child.js"
     ]
   }
 ]
