@@ -311,15 +311,30 @@ async function dragPoint(card, {input='ans1',pointName,target=[1,1]}={}) {
     if (!board) throw new Error('No interactive JSXGraph board');
     const point=board.objectsList.find(object=>object.elType==='point' && object.visProp.visible && !object.visProp.fixed && (!pointName || object.name===pointName));
     if (!point) throw new Error('No draggable authored point');
-    return {name:point.name, before:[point.X(),point.Y()], from:point.coords.scrCoords.slice(1),
+    return {name:point.name, boardId:board.id, pointId:point.id, before:[point.X(),point.Y()], from:point.coords.scrCoords.slice(1),
       to:[board.origin.scrCoords[1]+target[0]*board.unitX,board.origin.scrCoords[2]-target[1]*board.unitY]};
   },{pointName,target});
   const box=await frameElement.boundingBox();assert.ok(box);
   const field=card.locator(fieldSelector(input));
   const old=await field.inputValue();
-  await page.mouse.move(box.x+position.from[0],box.y+position.from[1]);
+  const from=[box.x+position.from[0],box.y+position.from[1]];
+  const to=[box.x+position.to[0],box.y+position.to[1]];
+  await page.mouse.move(...from);
+  await new Promise(resolve=>setTimeout(resolve,50));
   await page.mouse.down();
-  await page.mouse.move(box.x+position.to[0],box.y+position.to[1],{steps:12});
+  await new Promise(resolve=>setTimeout(resolve,50));
+  // JSXGraph throttles pointer updates. Keep the real gesture paced, then
+  // acknowledge its final authored-point coordinates before releasing it.
+  for(let step=1;step<=12;step++) {
+    await page.mouse.move(from[0]+(to[0]-from[0])*step/12,from[1]+(to[1]-from[1])*step/12);
+    await new Promise(resolve=>setTimeout(resolve,25));
+  }
+  await new Promise(resolve=>setTimeout(resolve,50));
+  await page.mouse.move(...to);
+  await frame.waitForFunction(({boardId,pointId,target})=>{
+    const point=JXG.boards[boardId]?.objects[pointId];
+    return point && Math.abs(point.X()-target[0])<0.01 && Math.abs(point.Y()-target[1])<0.01;
+  },{boardId:position.boardId,pointId:position.pointId,target},{timeout:10000});
   await page.mouse.up();
   await page.waitForFunction(({id,input,old})=>document.querySelector('section.stack-sympy[data-stack-id='+JSON.stringify(id)+'] .stack-answer[data-name='+JSON.stringify(input)+']').value!==old,
     {id:await card.getAttribute('data-stack-id'),input,old},{timeout:10000});
@@ -354,6 +369,7 @@ async function exerciseGraphic(item) {
   const graphic=entry.graphical || entry.graph || {kind:id==='native-json'?'json-colour-points':'point',input:'ans1'};
   const moved=await dragPoint(card,{...graphic,pointName:graphic.pointName || graphic.name,
     target:graphic.target || (id==='native-json'?[0,1]:[2,2])});
+  (report.graphicalAttempts||=[]).push({id,moved});
   const validated=await action(card,'validate');assert.equal(validated.call.response.result.status,'valid');
   const graded=await action(card,'grade');assert.equal(graded.call.response.result.status,'graded');
   const stored=await card.locator(fieldSelector(moved.input)).inputValue();assert.equal(stored,moved.raw,'Grading must preserve the current board answer');
