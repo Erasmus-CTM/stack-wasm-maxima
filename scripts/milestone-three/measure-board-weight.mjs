@@ -18,7 +18,7 @@ const types=await import(process.env.CTM_PLAYWRIGHT_MODULE||'playwright');
 const output=resolve(option('output','test-results/board-weight-'+engine+'.json'));
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const gitBlob=bytes=>createHash('sha1').update(Buffer.from('blob '+bytes.length+'\0')).update(bytes).digest('hex');
-const report={schema:1,engine,createdAt:new Date().toISOString(),scope:'No-routing cold and same-profile warm HTTP measurements with variant visits, real drag and reset',
+const report={schema:1,engine,createdAt:new Date().toISOString(),scope:functionalOnly?'Functional board acceptance; byte counts are bounded observations, not transfer benchmarks':'No-routing cold and same-profile warm HTTP measurements with variant visits, real drag and reset',
   packagingEncoder:{node:process.version,zlib:process.versions.zlib},
   byteSemantics:'request.sizes().responseBodySize is encoded HTTP body received; headers are separate. Static file/gzip sizes are packaging data, never inferred wire traffic. Cached/unavailable timing is retained explicitly.',
   cases:[],passed:false};
@@ -57,8 +57,21 @@ async function boardsReady(page){
 
 async function settle(page){
   await boardsReady(page);
-  // Wait for completed transfers without adding routing (which disables cache).
-  await page.waitForLoadState('networkidle',{timeout:60000});
+  if(functionalOnly){
+    // A retired Firefox child can keep page.networkidle pending even though
+    // the current board is ready. Functional acceptance waits actual current
+    // frame load and the MathJax startup/typeset contract instead.
+    for(const element of await page.locator('iframe[data-stack-jsxgraph]').elementHandles()){
+      const frame=await element.contentFrame();assert.ok(frame);
+      await frame.waitForLoadState('load',{timeout:60000});
+      await frame.waitForFunction(()=>!!window.MathJax?.startup?.promise,null,{timeout:60000});
+      await frame.evaluate(()=>Promise.race([MathJax.startup.promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error('MathJax startup/typeset deadline')),60000))]));
+    }
+  }else{
+    // Transfer evidence still waits completed requests without cache-disabling
+    // routing. Functional captures are observations, not full byte benchmarks.
+    await page.waitForLoadState('networkidle',{timeout:60000});
+  }
 }
 
 async function interactions(page,rows,manifest){
