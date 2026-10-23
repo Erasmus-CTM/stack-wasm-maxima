@@ -10,32 +10,19 @@
     "conclusion": null,
     "sha256": "789f03b3bae6141259352118c6b6854ec480aa25cb791f5afc7d1a476af65fe5",
     "files": [
-      ".cache/runtime-build/artifact/manifest.json",
-      ".cache/runtime-build/artifact/artifact-manifest.json",
-      ".cache/runtime-build/source-manifest.json",
-      ".cache/runtime-build/validation/acceptance.json"
-    ]
-  },
-  {
-    "id": 12522652868,
-    "name": "precompiled-stack-probe-a2e08c0cfa4551ad46af7d494a10c9caad58ed2b",
-    "run": 39996509145,
-    "head": "3213d7ce87cc877ecbe4fc6aed2a2e62c9fd71f8",
-    "workflow": 394101239,
-    "attempt": 1,
-    "conclusion": "failure",
-    "sha256": "2761b86170a00baab352079407ad58066f68f7193c1b3d16a946370e058b9d31",
-    "files": [
-      ".cache/precompiled-stack/logs/translate.log",
-      ".cache/precompiled-stack/logs/translate-adapted.log",
-      ".cache/precompiled-stack/source-adapted/stackmaxima.LISP",
-      ".cache/precompiled-stack/source-adapted/stackmaxima.mac",
-      ".cache/precompiled-stack/adapted-translate-driver.lisp",
-      ".cache/precompiled-stack/assignment-adapter.lisp",
-      ".cache/precompiled-stack/display2d-bridge.lisp",
-      ".cache/precompiled-fixtures/report.json",
-      ".cache/precompiled-fixtures/assignment-bridge/check-compiled.log",
-      ".cache/precompiled-fixtures/reset-package/reset.log"
-    ]
+      ".cache/runtime-build/artifact/source-manifest.json",
+      ".cache/runtime-build/artifact/logs/environment.json",
+      ".cache/runtime-build/artifact/logs/compiler-experiment.json",
+      ".cache/runtime-build/artifact/logs/ecl-config.log",
+      ".cache/runtime-build/artifact/logs/target-info.lsp",
+      ".cache/runtime-build/artifact/logs/ecl-cross-build.log",
+      ".cache/runtime-build/artifact/logs/source-state-before.json",
+      ".cache/runtime-build/artifact/logs/source-state-after.json",
+      ".cache/runtime-build/artifact/logs/host-ecl.sha256",
+      ".cache/runtime-build/artifact/build-recipes/maxima/wasm/Makefile",
+      ".cache/runtime-build/artifact/build-recipes/maxima/wasm/build.lisp",
+      ".cache/runtime-build/artifact/build-recipes/maxima/src/maxima.asd"
+    ],
+    "ranges": []
   }
 ]
