@@ -1,5 +1,19 @@
 # Precompiled STACK experiment
 
+The separate `precompiled-browser.yml` diagnostic reuses two immutable, hash-verified
+artifacts to test the browser harness without another compiler rebuild. Its source
+and compiled trials share the accepted baseline runtime, with the entry FAS from
+an older experiment build. The report records both identities and marks these
+observations diagnostic-only. Actual compatibility and reset success still require
+the browser run. These observations cannot satisfy the fresh current-head parity
+gate or establish a precompiled speedup.
+
+The first browser measurement (run 40005689823) failed during the source control's
+first reset, before any compiled trial. The repaired harness executes the trusted
+reset outside the dynamic question wrapper, then checks its return value and
+removal of a disposable variable through a fresh evaluation. All three resets,
+full collections, caught-error recovery and regrading remain required.
+
 This separate, opt-in experiment starts with the exact STACK source pin used
 by the browser site and the accepted unoptimized Maxima/ECL build recipe. It
 translates `stackmaxima.mac` using that build's native Maxima, then asks the

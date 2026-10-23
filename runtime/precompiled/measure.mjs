@@ -16,18 +16,34 @@ const files=['stack-sources.json','stack-sources-timed-source.json','stack-sourc
 const report={schema:1,createdAt:new Date().toISOString(),sourceRevision:process.env.GITHUB_SHA||null,
   scope:'Opt-in local HTTP measurement with fresh Chromium process/profile per trial and one same-profile reload. Alternating order limits runner warming bias but does not remove it. Readiness includes Maxima and STACK; calls reuse the worker. Encoded bytes count only completed origin responses at this host, not internet traffic.',
   files:[],samples:[],passed:false};
+if(process.env.PRECOMPILED_DIAGNOSTIC_PROVENANCE){
+  report.diagnosticInputs=JSON.parse(await readFile(process.env.PRECOMPILED_DIAGNOSTIC_PROVENANCE,'utf8'));
+  assert.equal(report.diagnosticInputs.diagnosticOnly,true);
+  report.diagnosticOnly=true;
+  report.scope+=' Frozen separately built runtime and older entry bundle; no fresh-build/current-head parity clearance.';
+}
 for(const path of files){const body=await readFile(join(site,path));report.files.push({path,bytes:body.length,sha256:digest(body)});}
 const worker=`importScripts('runtime/maxima-session.js');
-self.onmessage=async({data})=>{let session;try{
+self.onmessage=async({data})=>{let session;const progress={phase:'initializing',resets:[]};try{
   session=new MaximaSession({baseURL:'./maxima-runtime/',stackSourceURL:'./'+data.manifest});
   const started=performance.now(),initialization=await session.init();
   const readyMs=performance.now()-started;
+  Object.assign(progress,{readyMs,initialization,phase:'warm-calls'});
   const warmCalls=[];for(let i=0;i<10;i++){const t=performance.now();warmCalls.push({value:session.evaluate('6*7'),elapsedMs:performance.now()-t});}
   const grade=session.assess({test:'AlgEquiv',student:'(x+1)^2',teacher:'x^2+2*x+1'});
   const version=session.evaluate('stackmaximaversion');
-  const resets=[];
+  Object.assign(progress,{warmCalls,grade,version});
+  const resets=progress.resets;
   for(let i=0;i<3;i++){
-    const reset=session.evaluate('stack_reset(true)');
+    progress.phase='reset-'+(i+1);
+    const sentinel=session.evaluate('ctm_reset_sentinel:123456');
+    if(sentinel!==123456)throw new Error('Reset sentinel assignment failed');
+    // STACK resets the complete variable environment. Run that trusted command
+    // outside evaluate()'s dynamically bound question/error result wrapper.
+    // A fresh wrapped call verifies the actual return and cleared sentinel.
+    session.write('ctm_reset_completed:false$\\nctm_reset_completed:stack_reset(true)$\\n',60000);
+    const reset=session.evaluate("is(ctm_reset_completed=true) and is(ctm_reset_sentinel='ctm_reset_sentinel)");
+    progress.phase='gc-'+(i+1);
     session.write(':lisp (defun maxima::$ctm_force_gc () (si:gc t) (quote maxima::$done))\\n',60000);
     const gc=session.evaluate('block([temporary:makelist(j^3,j,1,2000)],is(ctm_force_gc()=done) and is(temporary[2000]=8000000000))');
     const caught=session.evaluate('block([r:errcatch(error("CTM deliberate caught CAS error"))],if r=[] then errormsgtostring() else "unexpected")');
@@ -35,9 +51,10 @@ self.onmessage=async({data})=>{let session;try{
     const afterGrade=session.assess({test:'AlgEquiv',student:'(x+1)^2',teacher:'x^2+2*x+1'});
     resets.push({reset,gc,caught,afterError,grade:afterGrade,version:session.evaluate('stackmaximaversion')});
   }
-  self.postMessage({ok:true,readyMs,initialization,warmCalls,grade,version,resets,
+  progress.phase='complete';
+  self.postMessage({ok:true,...progress,
     expectedVersion:session.manifest.stackLibraryVersion});
-}catch(error){self.postMessage({ok:false,error:String(error),stack:error.stack});}finally{session?.terminate();}};`;
+}catch(error){self.postMessage({ok:false,...progress,error:String(error),stack:error.stack});}finally{session?.terminate();}};`;
 await writeFile(join(site,'precompiled-measure.html'),'<!doctype html><title>Precompiled STACK timing</title>');
 await writeFile(join(site,'precompiled-measure-worker.js'),worker);
 const app=await serveDemo({root:site,compression:'gzip'});

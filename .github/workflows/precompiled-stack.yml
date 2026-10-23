@@ -17,9 +17,8 @@ permissions:
   contents: read
 concurrency:
   group: precompiled-stack-${{ github.event.pull_request.number || github.ref }}
-  # Preserve the active feasibility result while a newer native diagnostic runs.
-  # Only the latest pending full probe is retained by GitHub concurrency.
-  cancel-in-progress: false
+  # The earlier failed measurement is retained; superseded harness builds can stop.
+  cancel-in-progress: true
 jobs:
   bundle-probe:
     runs-on: ubuntu-24.04
@@ -38,6 +37,7 @@ jobs:
           python runtime/precompiled/test-controller-parity.py
           node runtime/precompiled/test-probe-inputs.mjs
           node runtime/precompiled/test-entry-reads.mjs
+          node runtime/precompiled/test-measure-worker.mjs
       - name: Check exact owned-runtime inputs
         run: |
           node runtime/build/test-runtime-source.mjs
