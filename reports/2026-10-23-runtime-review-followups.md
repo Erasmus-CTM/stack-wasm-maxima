@@ -27,3 +27,8 @@ The published site/default runtime remains unchanged. Local public-encoding
 observations are provisional; CI repeats them and preserves the raw headers,
 encoded counts and decoded hashes. GitHub Pages can apply its own automatic
 gzip independently of our precompressed sidecar server policy.
+
+PWA delivery is deferred to the production delivery pipeline. A service worker
+with a versioned asset cache can remove repeat network transfers for semester
+reuse. A newly created Maxima worker still has startup work; the warm-profile
+reload measurements report that cost separately. This PR adds no service worker.

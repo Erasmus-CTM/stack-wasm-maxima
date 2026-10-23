@@ -86,3 +86,8 @@ libtool bootstrap file), 39865663672 (gnuplot cross host), and 39868037264
 (gnuplot shared-library emission) remain diagnostic history. The final historical
 owned build was 39870918765. The removed patch solved those old gnuplot failures;
 this configuration avoids that external dependency entirely.
+
+PWA delivery is a later production task: a service worker with versioned asset
+caching can avoid repeat transfers during semester reuse. A new Maxima worker
+still performs startup, measured separately by the warm-profile reload samples.
+This build change does not implement PWA caching.
