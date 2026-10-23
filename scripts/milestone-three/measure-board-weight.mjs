@@ -174,7 +174,7 @@ async function measure(name,root,expectedSHA,live){
     for(const pass of (functionalOnly?['functional']:['cold','warm-same-profile'])){
       for(const action of ['load','variants-drag-reset']){
         phase={pass,action,requests:[],serverRequestStart:app?.requests.length};result.phases.push(phase);
-        if(action==='load'){await page.goto(pageURL,{waitUntil:'load'});await settle(page);if(args.includes('--static-host'))assert.equal(await page.evaluate(()=>crossOriginIsolated),true,'Canonical service worker must isolate the actual native page');}
+        if(action==='load'){await page.goto(pageURL,{waitUntil:'load'});if(args.includes('--static-host'))await page.waitForFunction(()=>crossOriginIsolated&&navigator.serviceWorker.controller!==null,null,{timeout:60000});await settle(page);if(args.includes('--static-host'))assert.equal(await page.evaluate(()=>crossOriginIsolated),true,'Canonical service worker must isolate the actual native page');}
         else {phase.interactions=[];await interactions(page,phase.interactions,manifest);}
         await Promise.all([...pending]);
         phase.serverRequests=app?.requests.slice(phase.serverRequestStart)||[];
