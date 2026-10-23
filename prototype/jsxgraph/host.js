@@ -6,6 +6,7 @@
   const NAME = /^[A-Za-z][A-Za-z0-9_]{0,63}$/;
   const MAX_VALUE = 32768, MAX_CONTENT = 262144, MAX_INPUTS = 32;
   const attached = new WeakMap(), cards = new WeakMap();
+  const templateLoads = new Map();
   let epochSequence = 0;
   function nonce() {
     if (scope.crypto?.randomUUID) return scope.crypto.randomUUID();
@@ -35,6 +36,13 @@
     let previousState = '', scheduled = false, lastAction = '', errorOutput = null, boardReady = false;
     const originalSrcdoc = frame.getAttribute('srcdoc');
     const originalSrc = frame.getAttribute('src');
+    const templatePath = frame.getAttribute('data-stack-jsxgraph-template');
+    let templateURL = null, mountSequence = 0, templatePending = false;
+    if (templatePath !== null) {
+      if (!/^\.\.\/native\/boards\/[A-Za-z0-9_-]+\.html$/.test(templatePath)) throw new Error('Invalid native board template URL');
+      templateURL = new URL(templatePath, frame.ownerDocument.baseURI);
+      if (!/^https?:$/.test(templateURL.protocol) || templateURL.origin !== new URL(frame.ownerDocument.baseURI).origin) throw new Error('Native board templates must be same-origin');
+    }
     frame.setAttribute('data-stack-jsxgraph-ready', 'false');
     function input(name) {
       if (!allowed.has(name)) throw new Error('STACK input is not bound to this board: ' + String(name));
@@ -103,6 +111,34 @@
     }
     function reloadFrame() {
       if (!current()) return;
+      if (templateURL) {
+        const ticket = ++mountSequence;
+        templatePending = true; acceptingHello = false;
+        const url = templateURL.href;
+        if (!templateLoads.has(url)) {
+          const loading = scope.fetch(url).then(response => {
+            if (!response.ok) throw new Error('Native board template request failed: ' + response.status);
+            return response.text();
+          }).then(html => {
+            if (!/<head>/i.test(html) || /<base\b/i.test(html)) throw new Error('Invalid native board template document');
+            const base = url.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+            return html.replace(/<head>/i,'<head><base href="'+base+'">');
+          });
+          templateLoads.set(url,loading);
+          loading.catch(() => { if (templateLoads.get(url) === loading) templateLoads.delete(url); });
+        }
+        templateLoads.get(url).then(html => {
+          if (!current() || ticket !== mountSequence) return;
+          templatePending = false;
+          if (errorOutput) { errorOutput.remove(); errorOutput = null; }
+          frame.setAttribute('srcdoc', html);
+        }).catch(error => {
+          if (!current() || ticket !== mountSequence) return;
+          templatePending = false;
+          showError(error.message);
+        });
+        return;
+      }
       // Native packaging links one shared Quarto-rendered template. Legacy
       // data: and srcdoc documents retain the same navigation/reset behavior.
       if (originalSrcdoc !== null) frame.setAttribute('srcdoc', originalSrcdoc);
@@ -110,6 +146,7 @@
       else showError('The graphical board has no original document to restore');
     }
     function invalidate(reload) {
+      mountSequence++; templatePending = false;
       if (instanceId) retiredInstances.add(instanceId);
       instanceId = null; generation = nonce(); epoch = ++epochSequence; previousState = '';
       boardReady = false; frame.setAttribute('data-stack-jsxgraph-ready', 'false');
@@ -162,7 +199,7 @@
       else hostInput(event);
     }
     function reset() { acceptingHello = false; invalidate(false); queueMicrotask(reloadFrame); }
-    function loaded() { acceptingHello = true; layout(); }
+    function loaded() { if (!templatePending) acceptingHello = true; layout(); }
     function receive(event) {
       const data = event.data;
       if (current() && event.source === frame.contentWindow && plain(data) && data.protocol === 'jsxgraph-quarto-assessment' &&
@@ -290,6 +327,7 @@
     }};
     cardState.handles.add(handle);
     attached.set(frame, handle);
+    if (templateURL) queueMicrotask(reloadFrame);
     return handle;
   }
   function install(root) {

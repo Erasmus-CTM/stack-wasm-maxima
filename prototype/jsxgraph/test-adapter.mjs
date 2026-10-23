@@ -98,7 +98,7 @@ frameWindow.addEventListener('message', async event => {
 });
 function run(source, window) {
   return vm.runInContext(source, vm.createContext({window, self:window, Event:FakeEvent,
-    setTimeout, clearTimeout, setInterval, clearInterval, queueMicrotask, console}));
+    setTimeout, clearTimeout, setInterval, clearInterval, queueMicrotask, console, URL}));
 }
 const root = new URL('.', import.meta.url);
 run(await readFile(new URL('host.js', root), 'utf8'), hostWindow);
@@ -232,3 +232,57 @@ try {
   assert.equal(input.value, '[11,12]', 'The retired document stays blocked after a replacement document connects');
   console.log('JSXGraph adapter: initial state, two-way edits, click collection, namespace, readonly, size and reset boundaries passed');
 } finally { api.dispose(); handle.disconnect(); }
+
+// Parent-fetch/template lifecycle: no opaque HTTP navigation and no stale
+// asynchronous mount into a reset, replaced or disposed board.
+hostDocument.baseURI='https://site.test/dept/course/maxima/native.html';
+const pendingTemplates=new Map(),templateRequests=[];
+hostWindow.fetch=url=>{
+  templateRequests.push(url);
+  return new Promise(resolve=>pendingTemplates.set(url,resolve));
+};
+function templateFrame(path,values={t0:-1}){
+  const card=child(hostDocument.body,'section','stack-sympy');
+  child(card,'input','stack-answer','ans1');
+  const reset=child(card,'button','stack-reset');
+  const select=child(card,'select','stack-variant');
+  const frame=child(card,'iframe','');frame.contentWindow={postMessage(){}};
+  frame.setAttribute('src','about:blank');frame.setAttribute('data-stack-jsxgraph-template',path);
+  const handle=hostWindow.CTMStackJSXGraph.attachIframe(frame,{assessmentId:'template',inputs:['ans1'],boardValues:values});
+  return {card,reset,select,frame,handle};
+}
+const templateHTML='<!doctype html><html><head><meta charset="utf-8"></head><body>unchanged board code</body></html>';
+const completeTemplate=(name,ok=true)=>pendingTemplates.get('https://site.test/dept/course/native/boards/'+name)({ok,status:ok?200:503,text:async()=>templateHTML});
+const mounts=[];
+try{
+  const first=templateFrame('../native/boards/shared.html'),second=templateFrame('../native/boards/shared.html');mounts.push(first,second);
+  await settle();assert.equal(templateRequests.length,1,'Concurrent instances share one parent template fetch');
+  completeTemplate('shared.html');await settle();
+  for(const item of [first,second]){
+    assert.equal(item.frame.getAttribute('src'),'about:blank','An opaque HTTP navigation is never started');
+    assert.equal(item.frame.srcdocWrites,1);
+    assert.ok(item.frame.getAttribute('srcdoc').includes('<head><base href="https://site.test/dept/course/native/boards/shared.html">'));
+    assert.ok(item.frame.getAttribute('srcdoc').includes('unchanged board code'));
+  }
+  const resetting=templateFrame('../native/boards/reset-pending.html');mounts.push(resetting);await settle();
+  const oldGeneration=resetting.handle.generation();resetting.reset.click();await settle();
+  assert.notEqual(resetting.handle.generation(),oldGeneration);
+  completeTemplate('reset-pending.html');await settle();
+  assert.equal(resetting.frame.srcdocWrites,1,'Only the current reset mount ticket consumes the shared result');
+  const replaced=templateFrame('../native/boards/variant-pending.html');mounts.push(replaced);await settle();
+  replaced.select.dispatchEvent(new FakeEvent('change',{bubbles:true}));replaced.frame.remove();
+  const replacement=templateFrame('../native/boards/variant-pending.html',{t0:-2});mounts.push(replacement);await settle();
+  completeTemplate('variant-pending.html');await settle();
+  assert.equal(replaced.frame.srcdocWrites,0,'A detached prior variant cannot consume pending fetch completion');
+  assert.equal(replacement.frame.srcdocWrites,1);
+  const disposed=templateFrame('../native/boards/disposed.html');mounts.push(disposed);await settle();
+  disposed.handle.disconnect();completeTemplate('disposed.html');await settle();assert.equal(disposed.frame.srcdocWrites,0);
+  const failed=templateFrame('../native/boards/retry.html');mounts.push(failed);await settle();
+  completeTemplate('retry.html',false);await settle();
+  assert.equal(failed.frame.srcdocWrites,0);assert.match(failed.card.querySelectorAll('.ctm-stack-jsxgraph-error')[0].textContent,/503/);
+  failed.reset.click();await settle();completeTemplate('retry.html');await settle();
+  assert.equal(failed.frame.srcdocWrites,1);assert.equal(failed.card.querySelectorAll('.ctm-stack-jsxgraph-error').length,0,'A successful retry clears its obsolete fetch error');
+  assert.throws(()=>templateFrame('https://external.test/private.html'),/Invalid native board template/);
+  assert.throws(()=>templateFrame('../native/private.html'),/Invalid native board template/);
+  console.log('Template mounts: shared fetch, explicit base, stale reset/variant/disposal rejection and failed-fetch retry passed');
+}finally{for(const item of mounts)item.handle.disconnect();}

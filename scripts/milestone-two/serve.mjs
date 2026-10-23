@@ -10,13 +10,15 @@ const types = { '.html': 'text/html; charset=utf-8', '.js': 'application/javascr
   '.css': 'text/css', '.json': 'application/json', '.wasm': 'application/wasm',
   '.svg': 'image/svg+xml', '.png': 'image/png', '.woff': 'font/woff', '.woff2': 'font/woff2' };
 
-export async function serveDemo({ root, port = 0, compression = 'gzip', latencyMs = 0 }) {
+export async function serveDemo({ root, port = 0, compression = 'gzip', latencyMs = 0, isolationHeaders = true }) {
   root = await realpath(resolve(root));
   const cache = new Map(), requests = [];
   const server = createServer(async (request, response) => {
-    const headers = { 'Cross-Origin-Opener-Policy': 'same-origin',
-      'Cross-Origin-Embedder-Policy': 'require-corp', 'Cross-Origin-Resource-Policy': 'same-origin',
-      'Cache-Control': 'public, max-age=3600', Vary: 'Accept-Encoding' };
+    const headers = { 'Cache-Control': 'public, max-age=3600', Vary: 'Accept-Encoding' };
+    // Test-only static-host simulation: the normal server contract remains the
+    // default. The canonical service worker must supply missing page isolation.
+    if (isolationHeaders) Object.assign(headers, {'Cross-Origin-Opener-Policy':'same-origin',
+      'Cross-Origin-Embedder-Policy':'require-corp','Cross-Origin-Resource-Policy':'same-origin'});
     try {
       if (latencyMs) await new Promise(resolveDelay => setTimeout(resolveDelay, latencyMs));
       const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
@@ -26,12 +28,12 @@ export async function serveDemo({ root, port = 0, compression = 'gzip', latencyM
         headers['Access-Control-Allow-Origin'] = '*';
         // MathJax's unchanged classic speech worker uses importScripts, whose
         // no-cors request cannot opt into the parent's anonymous CORS mode.
-        headers['Cross-Origin-Resource-Policy'] = 'cross-origin';
+        if (isolationHeaders) headers['Cross-Origin-Resource-Policy'] = 'cross-origin';
       }
       // A sandboxed HTTP board has an opaque origin; Firefox also enforces
       // CORP on its isolated-parent navigation. Only generated board documents
       // are public here, not arbitrary HTML under the native subtree.
-      if (/^\/native\/boards\/[A-Za-z0-9_-]+\.html$/.test(pathname)) {
+      if (isolationHeaders && /^\/native\/boards\/[A-Za-z0-9_-]+\.html$/.test(pathname)) {
         headers['Cross-Origin-Resource-Policy'] = 'cross-origin';
       }
       if (pathname === '/favicon.ico') { response.writeHead(204, headers); response.end(); return; }

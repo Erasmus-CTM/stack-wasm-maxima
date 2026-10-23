@@ -25,12 +25,12 @@ const css=Buffer.from('/* stylesheet license */\n.jxgbox{border:0}');
 const uri=(type,bytes)=>'data:'+type+';base64,'+bytes.toString('base64');
 const original='<!doctype html><script id="MathJax-script" async src="https://cdn.example/mathjax.js"></script><script src="'+uri('text/javascript',vendor)+'"></script><style>@import url("'+uri('text/css',css)+'");</style><script>window.authored="unchanged"; import('+JSON.stringify(uri('text/javascript',vendor))+');</script>';
 const iframe='<iframe id="question-b0" sandbox="allow-scripts" style="height:400px" src="'+uri('text/html',Buffer.from(original))+'"></iframe>';
-let app;
+let app,staticApp;
 try {
   const packed=await packageBoard({iframe,id:'question-b0',site,assetMap:url=>{assert.equal(url,'https://cdn.example/mathjax.js');return 'native/boards/mathjax/tex-mml-svg.js';}});
   const packed2=await packageBoard({iframe,id:'question-b1',site,assetMap:()=> 'native/boards/mathjax/tex-mml-svg.js'});
   assert.deepEqual(packed.assets,packed2.assets,'All board templates share content-addressed vendor assets');
-  assert.match(packed.html,/sandbox="allow-scripts"/);assert.match(packed.html,/src="\.\.\/native\/boards\/question-b0.html"/);
+  assert.match(packed.html,/sandbox="allow-scripts"/);assert.ok(packed.html.includes('src="about:blank" data-stack-jsxgraph-template="../native/boards/question-b0.html"'));
   assert.ok(!packed.html.includes('base64'));
   const document=await readFile(join(site,packed.path),'utf8');
   assert.match(document,/src="mathjax\/tex-mml-svg.js" crossorigin="anonymous"/);
@@ -68,5 +68,12 @@ try {
     assert.equal(response.headers.get('cross-origin-resource-policy'),'same-origin','Non-template resources retain original CORP');
     assert.equal(response.headers.get('access-control-allow-origin'),null);
   }
+  staticApp=await serveDemo({root:site,isolationHeaders:false});
+  const staticParent=await fetch(staticApp.baseURL+'native/private.html');
+  for(const name of ['cross-origin-opener-policy','cross-origin-embedder-policy','cross-origin-resource-policy'])assert.equal(staticParent.headers.get(name),null);
+  const staticAsset=await fetch(staticApp.baseURL+packed.assets[0].path);
+  assert.equal(staticAsset.headers.get('cross-origin-resource-policy'),null);
+  assert.equal(staticAsset.headers.get('access-control-allow-origin'),'*');
+  assert.match(staticAsset.headers.get('cache-control'),/max-age=3600/);
   console.log('Board packaging: exact vendor bytes, shared files, numeric data boundary, CORS and isolation passed');
-} finally {if(app)await app.close();await rm(site,{recursive:true,force:true});}
+} finally {if(staticApp)await staticApp.close();if(app)await app.close();await rm(site,{recursive:true,force:true});}

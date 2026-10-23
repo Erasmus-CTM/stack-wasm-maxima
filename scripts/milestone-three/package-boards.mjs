@@ -92,7 +92,8 @@ export async function packageBoard({iframe, id, site, assetMap, mathjax}) {
   assert.ok(!/<(?:script|link)[^>]*(?:src|href)="https?:/.test(document), 'Board has an unstaged external resource');
   const path = 'native/boards/' + id + '.html';
   await writeFile(join(site, path), document);
-  // The parent page lives at maxima/native.html, including all variant copies.
-  const html = iframe.replace(match[0], 'src="../' + path + '"');
+  // The parent fetches this same-origin URL once and mounts explicit-base
+  // srcdoc, preserving the existing opaque sandbox on headerless static hosts.
+  const html = iframe.replace(match[0], 'src="about:blank" data-stack-jsxgraph-template="../' + path + '"');
   return {html, path, bytes:Buffer.byteLength(document), sha256:sha256(Buffer.from(document)), originalSha256, assets};
 }
