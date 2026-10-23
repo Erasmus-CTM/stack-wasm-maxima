@@ -447,6 +447,24 @@ try {
   const manifest=JSON.parse(manifestBytes);
   const inventory=manifest.questions || manifest.cards;
   assert.ok(Array.isArray(inventory) && inventory.length>=8,'Native build manifest must inventory every required question');
+  const expectedTemplates=inventory.reduce((count,entry)=>count+entry.question.native.boards.length,0);
+  assert.equal(manifest.boardTemplates?.length,expectedTemplates,'Final card manifest must retain completed board template provenance');
+  assert.equal(new Set(manifest.boardTemplates.map(row=>row.path)).size,expectedTemplates,'One reusable template per question/board');
+  const sharedAssets=new Map();
+  for(const template of manifest.boardTemplates){
+    const bytes=await readFile(join(site,template.path));
+    assert.equal(bytes.length,template.bytes);assert.equal(hash(bytes),template.sha256);
+    assert.match(template.originalSha256,/^[a-f0-9]{64}$/);
+    for(const asset of template.assets.filter(asset=>asset.sha256))sharedAssets.set(asset.path,asset);
+  }
+  for(const asset of sharedAssets.values()){
+    const bytes=await readFile(join(site,asset.path));
+    assert.equal(bytes.length,asset.bytes);assert.equal(hash(bytes),asset.sha256);
+  }
+  assert.ok(sharedAssets.size>0,'Reusable templates retain exact shared vendor resource evidence');
+  assert.match(manifest.boardMathjax?.provenance.assessmentRevision,/^[a-f0-9]{40}$/,'Final card manifest retains canonical asset producer provenance');
+  const preloader=await readFile(join(site,manifest.boardMathjax.preloader));
+  assert.equal(hash(preloader),manifest.boardMathjax.provenance.preloaderSha256);
   report.manifest={sha256:hash(manifestBytes),bytes:manifestBytes.length,...manifest};
   const htmlBytes=await readFile(join(site,'maxima/native.html'));
   report.pageArtifact={path:'maxima/native.html',bytes:htmlBytes.length,sha256:hash(htmlBytes)};

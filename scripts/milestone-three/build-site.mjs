@@ -183,6 +183,9 @@ try {
   }
   const boardsPath=join(work,'boards.json');
   await writeFile(boardsPath,JSON.stringify(boardHtml)+'\n');
+  // The card producer reloads this file. Include the completed template and
+  // canonical dependency provenance, rather than its pre-render snapshot.
+  await writeFile(preparedPath,JSON.stringify(report,null,2)+'\n');
   const env={...process.env};
   env.PYTHONPATH=join(checkersSource,'src')+(env.PYTHONPATH?':'+env.PYTHONPATH:'');
   execFileSync(python,[join(repository,'scripts/milestone-three/render-cards.py'),'--prepared',preparedPath,'--boards',boardsPath,
