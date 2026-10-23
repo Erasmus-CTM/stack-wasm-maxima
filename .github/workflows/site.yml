@@ -132,6 +132,7 @@ jobs:
           export CTM_LIBS_EXTENSION="$PWD/site/_extensions/ctm-libs"
           export CTM_CHECKERS_EXTENSION="$PWD/site/_extensions/ctm-checkers"
           quarto render site
+          test -s site/_site/licenses.html && test "$(ls site/_site/LICENSES | wc -l)" -eq "$(ls site/LICENSES | wc -l)"
       - name: Exercise both backends in the rendered comparison page
         run: node scripts/site/smoke.mjs site/_site test-results/reviewer-site
       - name: Exercise native questions, graphical inputs and Python continuations
