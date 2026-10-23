@@ -7,34 +7,36 @@
   const MAX_VALUE = 32768, MAX_CONTENT = 262144, MAX_INPUTS = 32;
   const attached = new WeakMap(), cards = new WeakMap();
   const templateLoads = new Map();
-  const coreLoads = new Map();
+  const assetLoads = new Map();
   let epochSequence = 0;
   function nonce() {
     if (scope.crypto?.randomUUID) return scope.crypto.randomUUID();
     return Date.now().toString(36) + '-' + (++epochSequence) + '-' + Math.random().toString(36).slice(2);
   }
   function plain(value) { return value && typeof value === 'object' && !Array.isArray(value); }
-  function coreDataURL(url, digest, size) {
+  function sharedDataURL(url, digest, size, kind) {
+    const extension = kind === 'core' ? '.js' : '.css';
+    const mime = kind === 'core' ? 'text/javascript' : 'text/css';
     if (!/^[a-f0-9]{64}$/.test(digest) || !/^[1-9][0-9]*$/.test(size) || !Number.isSafeInteger(Number(size)) ||
-        url.search || url.hash || !url.pathname.endsWith('/native/boards/assets/'+digest+'.js')) throw new Error('Invalid content-addressed JSXGraph core marker');
-    const key=url.href+'|'+digest+'|'+size;
-    if (!coreLoads.has(key)) {
+        url.search || url.hash || !url.pathname.endsWith('/native/boards/assets/'+digest+extension)) throw new Error('Invalid content-addressed board asset marker');
+    const key=url.href+'|'+digest+'|'+size+'|'+kind;
+    if (!assetLoads.has(key)) {
       const loading=(async () => {
-        if (!scope.crypto?.subtle || typeof scope.btoa !== 'function') throw new Error('Native board core integrity requires a secure browser context');
+        if (!scope.crypto?.subtle || typeof scope.btoa !== 'function') throw new Error('Native board asset integrity requires a secure browser context');
         const response=await scope.fetch(url.href);
-        if (!response.ok) throw new Error('JSXGraph core request failed: '+response.status);
+        if (!response.ok) throw new Error('Board asset request failed: '+response.status);
         const bytes=new Uint8Array(await response.arrayBuffer());
-        if (bytes.length!==Number(size)) throw new Error('JSXGraph core byte count mismatch');
+        if (bytes.length!==Number(size)) throw new Error('Board asset byte count mismatch');
         const actual=Array.from(new Uint8Array(await scope.crypto.subtle.digest('SHA-256',bytes)),value=>value.toString(16).padStart(2,'0')).join('');
-        if (actual!==digest) throw new Error('JSXGraph core SHA-256 mismatch');
+        if (actual!==digest) throw new Error('Board asset SHA-256 mismatch');
         let binary='';
         for(let at=0;at<bytes.length;at+=32768)binary+=String.fromCharCode.apply(null,bytes.subarray(at,at+32768));
-        return 'data:text/javascript;base64,'+scope.btoa(binary);
+        return 'data:'+mime+';base64,'+scope.btoa(binary);
       })();
-      coreLoads.set(key,loading);
-      loading.catch(()=>{if(coreLoads.get(key)===loading)coreLoads.delete(key);});
+      assetLoads.set(key,loading);
+      loading.catch(()=>{if(assetLoads.get(key)===loading)assetLoads.delete(key);});
     }
-    return coreLoads.get(key);
+    return assetLoads.get(key);
   }
   function descriptor(value) {
     if (typeof value === 'string') value = JSON.parse(value);
@@ -151,7 +153,7 @@
             // Firefox's srcdoc speculative scanner can fetch before honoring
             // base. Resolve static attributes explicitly; inline author/vendor
             // script text stays untouched. Keep base for imports and CSS URLs.
-            const coreMounts=[];
+            const assetMounts=[];
             for (const node of document.querySelectorAll('script[src],link[href]')) {
               const attribute = node.hasAttribute('src') ? 'src' : 'href';
               const resource = new URL(node.getAttribute(attribute),url);
@@ -159,11 +161,16 @@
               node.setAttribute(attribute,resource.href);
               if (node.hasAttribute('data-ctm-jsxgraph-sha256')) {
                 if (attribute!=='src') throw new Error('JSXGraph core marker requires a script');
-                coreMounts.push(coreDataURL(resource,node.getAttribute('data-ctm-jsxgraph-sha256'),node.getAttribute('data-ctm-jsxgraph-bytes'))
+                assetMounts.push(sharedDataURL(resource,node.getAttribute('data-ctm-jsxgraph-sha256'),node.getAttribute('data-ctm-jsxgraph-bytes'),'core')
                   .then(data=>node.setAttribute('src',data)));
               }
+              if (node.hasAttribute('data-ctm-board-style-sha256')) {
+                if (attribute!=='href') throw new Error('Board style marker requires a stylesheet');
+                assetMounts.push(sharedDataURL(resource,node.getAttribute('data-ctm-board-style-sha256'),node.getAttribute('data-ctm-board-style-bytes'),'style')
+                  .then(data=>node.setAttribute('href',data)));
+              }
             }
-            await Promise.all(coreMounts);
+            await Promise.all(assetMounts);
             return '<!doctype html>\n'+document.documentElement.outerHTML;
           });
           templateLoads.set(url,loading);

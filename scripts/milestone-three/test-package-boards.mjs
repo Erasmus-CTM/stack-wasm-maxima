@@ -28,7 +28,8 @@ const iframe='<iframe id="question-b0" sandbox="allow-scripts" style="height:400
 let app,staticApp,telemetryApp;
 try {
   const jsxgraphCore={sha256:createHash('sha256').update(vendor).digest('hex'),bytes:vendor.length};
-  const packed=await packageBoard({iframe,id:'question-b0',site,jsxgraphCore,assetMap:url=>{assert.equal(url,'https://cdn.example/mathjax.js');return 'native/boards/mathjax/tex-mml-svg.js';}});
+  const jsxgraphStyle={sha256:createHash('sha256').update(css).digest('hex'),bytes:css.length};
+  const packed=await packageBoard({iframe,id:'question-b0',site,jsxgraphCore,jsxgraphStyle,assetMap:url=>{assert.equal(url,'https://cdn.example/mathjax.js');return 'native/boards/mathjax/tex-mml-svg.js';}});
   const packed2=await packageBoard({iframe,id:'question-b1',site,assetMap:()=> 'native/boards/mathjax/tex-mml-svg.js'});
   assert.deepEqual(packed.assets,packed2.assets,'All board templates share content-addressed vendor assets');
   assert.match(packed.html,/sandbox="allow-scripts"/);assert.ok(packed.html.includes('src="about:blank" data-stack-jsxgraph-template="../native/boards/question-b0.html"'));
@@ -36,6 +37,16 @@ try {
   const document=await readFile(join(site,packed.path),'utf8');
   assert.match(document,/src="mathjax\/tex-mml-svg.js" crossorigin="anonymous"/);
   assert.match(document,/<link rel="stylesheet"[^>]*crossorigin="anonymous"/);
+  assert.ok(document.includes('data-ctm-board-style-sha256="'+createHash('sha256').update(css).digest('hex')+'"'));
+  assert.ok(document.includes('data-ctm-board-style-bytes="'+css.length+'"'));
+  for(const escaped of ['.jxgbox{background:u\\72l("./other.png")}', '@\\69mport "./other.css";']){
+    const encoded=uri('text/css',Buffer.from(escaped));
+    const badOriginal=original.replace(uri('text/css',css),encoded);
+    const badFrame=iframe.replace(uri('text/html',Buffer.from(original)),uri('text/html',Buffer.from(badOriginal)));
+    const badStyle={sha256:createHash('sha256').update(escaped).digest('hex'),bytes:Buffer.byteLength(escaped)};
+    await assert.rejects(packageBoard({iframe:badFrame,id:'bad-style',site,jsxgraphStyle:badStyle,
+      assetMap:()=> 'native/boards/mathjax/tex-mml-svg.js'}),/relative CSS references/);
+  }
   assert.match(document,/<script>window.authored="unchanged"; import\(new URL\("\.\/assets\//);
   assert.ok(document.includes(', document.baseURI).href)'));
   assert.ok(!document.includes('base64'));

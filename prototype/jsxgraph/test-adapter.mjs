@@ -336,6 +336,19 @@ try{
     const encoded=item.frame.getAttribute('srcdoc').match(/src="data:text\/javascript;base64,([^"]+)"/)[1];
     assert.deepEqual(Buffer.from(encoded,'base64'),core,'Mounted core bytes remain exact after integrity verification');
   }
+  const style=Buffer.from('/* exact shared JSXGraph style */ .jxgbox { border: 0; }');
+  const styleHTML=templateHTML.replace('<link href="./assets/vendor.css">',
+    '<link href="./assets/'+digest(style)+'.css" data-ctm-board-style-sha256="'+digest(style)+'" data-ctm-board-style-bytes="'+style.length+'">');
+  const styleURL='https://site.test/dept/course/native/boards/assets/'+digest(style)+'.css';
+  const styleA=templateFrame('../native/boards/style-a.html'),styleB=templateFrame('../native/boards/style-b.html');mounts.push(styleA,styleB);await settle();
+  completeTemplate('style-a.html',true,styleHTML);completeTemplate('style-b.html',true,styleHTML);await settle();
+  assert.equal(templateRequests.filter(url=>url===styleURL).length,1,'Opaque board styles share one parent response');
+  pendingTemplates.get(styleURL).resolve({ok:true,status:200,arrayBuffer:async()=>Uint8Array.from(style).buffer});
+  await awaitResult(()=>styleA.frame.srcdocWrites===1&&styleB.frame.srcdocWrites===1);
+  for(const item of [styleA,styleB]){
+    const encoded=item.frame.getAttribute('srcdoc').match(/href="data:text\/css;base64,([^"]+)"/)[1];
+    assert.deepEqual(Buffer.from(encoded,'base64'),style,'Mounted style bytes remain exact');
+  }
   const resettingCore=Buffer.from('/* reset-race exact vendor */'),race=templateFrame('../native/boards/core-race.html');mounts.push(race);await settle();
   completeTemplate('core-race.html',true,coreHTML(resettingCore));await settle();race.reset.click();await settle();completeCore(resettingCore);await awaitResult(()=>race.frame.srcdocWrites===1);
   assert.equal(race.frame.srcdocWrites,1,'A pending shared core cannot mount the previous reset ticket');

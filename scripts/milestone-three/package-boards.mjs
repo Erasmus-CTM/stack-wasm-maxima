@@ -41,13 +41,14 @@ export function boardValues(ids, variant) {
 
 // assetMap receives the renderer's exact original external URL and returns a
 // staged site-root-relative path. The staging producer owns pins and closure.
-export async function packageBoard({iframe, id, site, assetMap, mathjax, jsxgraphCore}) {
+export async function packageBoard({iframe, id, site, assetMap, mathjax, jsxgraphCore, jsxgraphStyle}) {
   safeId(id);
   const match = /\bsrc="data:text\/html;base64,([A-Za-z0-9+/=]+)"/.exec(iframe);
   assert.ok(match, 'Expected the pinned Quarto data-URL iframe');
   let document = Buffer.from(match[1], 'base64').toString('utf8');
   const originalSha256 = sha256(Buffer.from(document));
   const assets = [];
+  const portableStyles = new Set();
   if (mathjax) {
     const relativePath = path => {
       assert.ok(typeof path === 'string' && /^[A-Za-z0-9_@./-]+$/.test(path) && !path.split('/').includes('..') && !path.startsWith('/'), 'Unsafe local MathJax path');
@@ -72,6 +73,13 @@ export async function packageBoard({iframe, id, site, assetMap, mathjax, jsxgrap
   for (const row of [...document.matchAll(/data:(text\/javascript|text\/css);base64,([A-Za-z0-9+/=]+)/g)]) {
     const bytes = Buffer.from(row[2], 'base64'), digest = sha256(bytes);
     const path = 'native/boards/assets/' + digest + (row[1] === 'text/css' ? '.css' : '.js');
+    if (row[1] === 'text/css' && jsxgraphStyle?.sha256 === digest && jsxgraphStyle?.bytes === bytes.length) {
+      // A data: stylesheet has a different URL base. Accept only this exact
+      // producer-verified CSS with no imports, URL references or CSS escapes.
+      assert.ok(!/(?:\\|url\s*\(|@import\b)/i.test(bytes.toString('utf8')),
+        'Pinned JSXGraph style cannot be parent-mounted with relative CSS references');
+      portableStyles.add(path);
+    }
     await writeFile(join(site, path), bytes);
     document = document.split(row[0]).join('./assets/' + posix.basename(path));
     assets.push({path, bytes:bytes.length, sha256:digest});
@@ -102,8 +110,19 @@ export async function packageBoard({iframe, id, site, assetMap, mathjax, jsxgrap
   });
   if(jsxgraphCore)assert.equal(coreMarkers,1,'Expected one exact JSXGraph core script per canonical template');
   // Stylesheet @import has no crossorigin flag; use an equivalent CORS link.
-  document = document.replace(/<style>@import url\("(\.\/assets\/[^"\n]+\.css)"\);<\/style>/g,
-    '<link rel="stylesheet" href="$1" crossorigin="anonymous">');
+  let styleMarkers=0;
+  document = document.replace(/<style>@import url\("(\.\/assets\/[^"\n]+\.css)"\);<\/style>/g, (whole,href) => {
+    const asset=assets.find(row=>'./assets/'+posix.basename(row.path)===href && row.path.endsWith('.css'));
+    assert.ok(asset,'Extracted board stylesheet must have a staged asset');
+    // CSS with relative imports needs its own URL base. The pinned JSXGraph
+    // stylesheet has none, so parent-fetch it once before any opaque frame
+    // mounts. This also avoids aborted duplicate CSS responses on reset.
+    const shared=portableStyles.has(asset.path)
+      ? ' data-ctm-board-style-sha256="'+asset.sha256+'" data-ctm-board-style-bytes="'+asset.bytes+'"' : '';
+    if(shared)styleMarkers++;
+    return '<link rel="stylesheet" href="'+href+'" crossorigin="anonymous"'+shared+'>';
+  });
+  if(jsxgraphStyle)assert.equal(styleMarkers,1,'Expected one exact JSXGraph stylesheet per canonical template');
   assert.ok(!/<(?:script|link)[^>]*(?:src|href)="https?:/.test(document), 'Board has an unstaged external resource');
   const path = 'native/boards/' + id + '.html';
   await writeFile(join(site, path), document);

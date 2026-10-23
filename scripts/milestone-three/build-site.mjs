@@ -136,6 +136,9 @@ try {
   const coreBytes=await readFile(join(boardsDirectory,'_extensions/jsxgraph/resources/js/jsxgraphcore.js'));
   const jsxgraphCore={sha256:hash(coreBytes),bytes:coreBytes.length};
   report.jsxgraphCore={...jsxgraphCore,resource:"_extensions/jsxgraph/resources/js/jsxgraphcore.js"};
+  const styleBytes=await readFile(join(boardsDirectory,'_extensions/jsxgraph/resources/css/jsxgraph.css'));
+  const jsxgraphStyle={sha256:hash(styleBytes),bytes:styleBytes.length};
+  report.jsxgraphStyle={...jsxgraphStyle,resource:"_extensions/jsxgraph/resources/css/jsxgraph.css"};
   const attribute = value => JSON.stringify(String(value));
   const boardSpecs = new Map();
   let qmd='---\ntitle: "Prepared native JSXGraph boards"\nfilters: [jsxgraph]\nformat:\n  html:\n    embed-resources: true\n---\n\n';
@@ -179,7 +182,7 @@ try {
     for(const frame of frames){
       const spec=boardSpecs.get(frame.id);assert.ok(spec,'Unexpected rendered board '+frame.id);
       const packaged=await packageBoard({iframe:frame.html,id:spec.key,site,
-        assetMap:url=>mathjax.urlMap[url],mathjax,jsxgraphCore});
+        assetMap:url=>mathjax.urlMap[url],mathjax,jsxgraphCore,jsxgraphStyle});
       const {html:packagedHTML,...provenance}=packaged;
       (report.boardTemplates ||= []).push(provenance);
       for(let at=0;at<spec.values.length;at++){
