@@ -62,3 +62,10 @@ Local validation covers accepted profiles and rejection of wrong/missing
 effective flags, leaked Maxima flags, missing generated units, missing named
 GC settings/spill execution, altered snapshots and rehashed fabricated claims.
 It does not replace Ubuntu compilation, runtime parity or independent review.
+
+Initial run 39936262034 retained a fixture-selection failure: the Oz/O2 jobs
+correctly rejected synthetic manifests hard-coded as baseline. Fixtures now
+select their matrix profile and still test different/unknown-profile rejection.
+This changed no production admission gate or compiler configuration. Sidecar
+run 39936262129 selected historical step-1 artifact 12467529817 without a new
+successful compiler baseline; exact current pin admission correctly rejected it.

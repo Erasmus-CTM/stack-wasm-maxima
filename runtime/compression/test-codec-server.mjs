@@ -26,7 +26,7 @@ try {
   }
   rows.push({path,bytes:body.length,sha256:hash(body),brotliSafe:brotliSafe(path),encodings});
  }
- const compilerProfile=JSON.parse(await readFile(resolve('runtime/build/compiler-profiles.json'))).profiles.baseline;
+ const compilerProfile=JSON.parse(await readFile(resolve('runtime/build/compiler-profiles.json'))).profiles[process.env.CTM_ECL_COMPILER_PROFILE||'baseline'];
  const raw={schema:1,compilerProfile,sourcePins,configuration,startupAdapter:{content:startup,sha256:configuration.startupSha256},runtimeAssets:rows.filter(r=>r.path!=='runtime-preload.json').map(({path,bytes,sha256})=>({path,bytes,sha256}))};
  const rawBytes=Buffer.from(JSON.stringify(raw)),original=Buffer.from(JSON.stringify({schema:1,files:[]}));
  await writeFile(join(artifact,'manifest.json'),rawBytes);await writeFile(join(artifact,'artifact-manifest.json'),original);
