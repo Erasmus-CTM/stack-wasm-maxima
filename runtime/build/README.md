@@ -91,3 +91,11 @@ PWA delivery is a later production task: a service worker with versioned asset
 caching can avoid repeat transfers during semester reuse. A new Maxima worker
 still performs startup, measured separately by the warm-profile reload samples.
 This build change does not implement PWA caching.
+
+Focused run 39920599300 stopped before compilation when the strict Git-blob
+source check caught upstream libffi `eol=crlf` checkout conversion. Source
+preparation now disables text conversion only in repository-local Git metadata
+for Maxima/ECL compilation checkouts. Canonical archive generation temporarily
+omits that override, preserving the original archive policy and pinned hashes.
+The fixture reproduces forced CRLF checkout and verifies both exact working
+blob bytes and unchanged canonical archives. The failed run is retained.

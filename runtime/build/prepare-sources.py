@@ -14,6 +14,27 @@ PINS = json.loads((ROOT / 'runtime/build/pins.json').read_text())
 def run(*args, cwd=None):
     return subprocess.check_output(args, cwd=cwd, text=True).strip()
 
+def preserve_source_blob_bytes(target):
+    # Upstream eol=crlf attributes can rewrite LF blobs even on Linux. Keep
+    # compiled Maxima/ECL inputs byte-identical to Git, without editing sources.
+    attributes = target / '.git/info/attributes'
+    attributes.parent.mkdir(parents=True, exist_ok=True)
+    attributes.write_text('* -text\n', encoding='utf-8', newline='\n')
+
+def canonical_git_archive(target, archive, prefix, commit):
+    # git archive applies EOL attributes too. Preserve the original pinned
+    # archive policy separately from the exact-blob compilation checkout.
+    attributes = target / '.git/info/attributes'
+    override = attributes.read_bytes() if attributes.exists() else None
+    if override is not None:
+        assert override == b'* -text\n'
+        attributes.unlink()
+    try:
+        run('git', '-c', 'core.autocrlf=false', '-c', 'core.eol=lf', 'archive', '--format=tar', '--prefix=' + prefix, '--output=' + str(archive), commit, cwd=target)
+    finally:
+        if override is not None:
+            attributes.write_bytes(override)
+
 def main():
     archives = WORK / 'source-archives'
     archives.mkdir(parents=True, exist_ok=True)
@@ -29,8 +50,12 @@ def main():
             run('git', 'remote', 'add', 'origin', pin['repository'], cwd=target)
         run('git', 'config', 'core.autocrlf', 'false', cwd=target)
         run('git', 'config', 'core.eol', 'lf', cwd=target)
+        if name in ['maxima', 'ecl']:
+            preserve_source_blob_bytes(target)
         run('git', 'fetch', '--depth=256' if name == 'maxima' else '--depth=1', 'origin', pin['commit'], cwd=target)
         run('git', 'checkout', '--detach', pin['commit'], cwd=target)
+        if name in ['maxima', 'ecl']:
+            run('git', 'checkout-index', '-f', '-a', cwd=target)
         assert run('git', 'rev-parse', 'HEAD', cwd=target) == pin['commit']
         if name == 'maxima':
             tag = pin['tag']
@@ -41,7 +66,7 @@ def main():
         spec = pin['archive']
         archive = archives / (name + ('.tar' if spec['format'] == 'git-archive-tar' else '.tar.gz'))
         if spec['format'] == 'git-archive-tar':
-            run('git', '-c', 'core.autocrlf=false', '-c', 'core.eol=lf', 'archive', '--format=tar', '--prefix=' + spec['prefix'], '--output=' + str(archive), pin['commit'], cwd=target)
+            canonical_git_archive(target, archive, spec['prefix'], pin['commit'])
         elif not archive.is_file():
             with urllib.request.urlopen(spec['url'], timeout=180) as response:
                 archive.write_bytes(response.read(256 * 1024 * 1024 + 1))
