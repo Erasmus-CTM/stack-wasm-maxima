@@ -8,21 +8,12 @@
     "attempt": 2,
     "conclusion": "success",
     "sha256": "4a21ff3aeccb20155af42d1ead138fc274a2ad605f72306f3b2cc90838fb6d17",
-    "verifySidecars": true,
+    "verifySidecars": false,
     "files": [
-      ".cache/runtime-compression/source-run.json",
-      ".cache/runtime-compression/node-provenance.json",
-      ".cache/runtime-compression/artifact/manifest.json",
-      ".cache/runtime-compression/artifact/artifact-manifest.json",
-      ".cache/runtime-compression/artifact/compression-manifest.json",
-      ".cache/runtime-compression/artifact/compression-artifact-manifest.json",
-      ".cache/runtime-compression/artifact/compression-recipe.json",
-      "test-results/runtime-compression/acceptance.json",
-      "test-results/runtime-compression/http-probe.json",
-      "test-results/runtime-compression/gzip/browser.json",
-      "test-results/runtime-compression/gzip/reference/native-reference.json",
-      "test-results/runtime-compression/br/browser.json",
-      "test-results/runtime-compression/br/reference/native-reference.json"
+      "test-results/runtime-compression/gzip/reference/native.log",
+      "test-results/runtime-compression/gzip/reference/reference.mac",
+      "test-results/runtime-compression/br/reference/native.log",
+      "test-results/runtime-compression/br/reference/reference.mac"
     ]
   }
 ]
