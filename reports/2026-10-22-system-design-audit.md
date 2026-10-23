@@ -860,6 +860,9 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
   STACK messages). Build-time question tests run the module through the Deno
   that Quarto ships (a subprocess from Python builds), so SymPy-graded STACK
   questions need Deno at build, not only Python. Lands with M4a, before H1.
+  *Order changed (AC, 23 October):* H1 comes first, in step 6 (ctm-assessment
+  `docs/consolidation/2026-10-step6.md` §16.10); until this admission exists
+  the SymPy backend fills `canonical` (§5.3) from the engine's written form.
 - **No Validate button (trial).** As the student types, the admission gives
   instant syntax feedback and a preview from the parse tree; CAS validation
   (`stack_validate` in Maxima, the engine's validation in SymPy) runs
