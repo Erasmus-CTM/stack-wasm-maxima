@@ -12,19 +12,40 @@ const types = { '.html': 'text/html; charset=utf-8', '.js': 'application/javascr
   '.svg': 'image/svg+xml', '.png': 'image/png', '.woff': 'font/woff', '.woff2': 'font/woff2' };
 
 export async function serveDemo({ root, port = 0, compression = 'gzip', latencyMs = 0,
+  isolationHeaders = true,
   sidecarSource = process.env.CTM_RUNTIME_COMPRESSION_SOURCE,
   sidecarMode = process.env.CTM_RUNTIME_COMPRESSION_MODE || 'br' }) {
   root = await realpath(resolve(root));
   if (process.env.CTM_RUNTIME_COMPRESSION_MODE && !sidecarSource) throw new Error('Compression mode requires an explicit sidecar source');
   const sidecars = sidecarSource ? await loadSidecars(sidecarSource, sidecarMode) : null;
-  const cache = new Map(), requests = [];
+  const cache = new Map(), requests = [], activeResponses = new Map(), abortedResponses = [];
+  let lastResponseActivity=Date.now();
   const server = createServer(async (request, response) => {
-    const headers = { 'Cross-Origin-Opener-Policy': 'same-origin',
-      'Cross-Origin-Embedder-Policy': 'require-corp', 'Cross-Origin-Resource-Policy': 'same-origin',
-      'Cache-Control': 'public, max-age=3600', Vary: 'Accept-Encoding' };
+    const record={url:request.url,startedAt:new Date().toISOString()};activeResponses.set(response,record);lastResponseActivity=Date.now();
+    response.once('finish',()=>{activeResponses.delete(response);lastResponseActivity=Date.now();});
+    response.once('close',()=>{if(!response.writableFinished)abortedResponses.push({...record,closedAt:new Date().toISOString()});activeResponses.delete(response);lastResponseActivity=Date.now();});
+    const headers = { 'Cache-Control': 'public, max-age=3600', Vary: 'Accept-Encoding' };
+    // Test-only static-host simulation: the normal server contract remains the
+    // default. The canonical service worker must supply missing page isolation.
+    if (isolationHeaders) Object.assign(headers, {'Cross-Origin-Opener-Policy':'same-origin',
+      'Cross-Origin-Embedder-Policy':'require-corp','Cross-Origin-Resource-Policy':'same-origin'});
     try {
       if (latencyMs) await new Promise(resolveDelay => setTimeout(resolveDelay, latencyMs));
       const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
+      // Public, immutable board dependencies are fetched with CORS by an opaque
+      // allow-scripts iframe. Keep CORP/COEP unchanged for all other resources.
+      if (/^\/native\/boards\/(?:assets|mathjax)\//.test(pathname) && !pathname.split('/').includes('..')) {
+        headers['Access-Control-Allow-Origin'] = '*';
+        // MathJax's unchanged classic speech worker uses importScripts, whose
+        // no-cors request cannot opt into the parent's anonymous CORS mode.
+        if (isolationHeaders) headers['Cross-Origin-Resource-Policy'] = 'cross-origin';
+      }
+      // A sandboxed HTTP board has an opaque origin; Firefox also enforces
+      // CORP on its isolated-parent navigation. Only generated board documents
+      // are public here, not arbitrary HTML under the native subtree.
+      if (isolationHeaders && /^\/native\/boards\/[A-Za-z0-9_-]+\.html$/.test(pathname)) {
+        headers['Cross-Origin-Resource-Policy'] = 'cross-origin';
+      }
       if (pathname === '/favicon.ico') { response.writeHead(204, headers); response.end(); return; }
       let target = resolve(root, '.' + pathname);
       let rel = relative(root, target);
@@ -88,7 +109,7 @@ export async function serveDemo({ root, port = 0, compression = 'gzip', latencyM
     server.listen(port, '127.0.0.1', resolveListen);
   });
   return { server, baseURL: 'http://127.0.0.1:' + server.address().port + '/', requests,
-    compression, close: () => new Promise(resolveClose => server.close(resolveClose)) };
+    compression, abortedResponses, get activeResponses(){return [...activeResponses.values()];}, get lastResponseActivity(){return lastResponseActivity;}, close: () => new Promise(resolveClose => server.close(resolveClose)) };
 }
 if (typeof process !== 'undefined' && process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const args = process.argv.slice(2);

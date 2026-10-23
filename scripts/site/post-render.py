@@ -6,6 +6,7 @@ import argparse
 import html
 from html.parser import HTMLParser
 import json
+import posixpath
 from pathlib import Path
 import re
 import sys
@@ -14,6 +15,69 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts/milestone-two"))
 # Remove only the same optional template shim admitted by the accepted renderer.
 from materialize import MAXIMA_DIV, OBSOLETE_POLYFILL, QUESTION_BLOCK, SOURCE_PANEL, digest, options
+
+
+def isolated_mathjax_loader(attributes: dict) -> str:
+    """Start presentation math only in the document retained for assessment."""
+    data = json.dumps(attributes).replace("<", "\\u003c")
+    # The existing frontend discovers this same local URL while bootstrap is
+    # pending. Its normal readiness wait must not start a second CDN loader.
+    placeholder = ('<script type="application/ctm-parent-mathjax" src="'
+                   + html.escape(attributes["src"], quote=True) + '"></script>')
+    return (placeholder + '<script>(function(){if(!window.crossOriginIsolated)return;'
+            'const placeholder=document.currentScript.previousElementSibling;'
+            'const attributes=' + data + ';const loader=document.createElement("script");'
+            'loader.async=Object.prototype.hasOwnProperty.call(attributes,"async");'
+            'for(const [name,value] of Object.entries(attributes))loader.setAttribute(name,value);'
+            'placeholder.replaceWith(loader);})();</script>\n')
+
+
+def parent_presentation(project: Path, output: Path) -> list:
+    """Supply the existing frontend's MathJax dependency from the shared lock."""
+    metadata = json.loads((project / "native/board-mathjax.json").read_text(encoding="utf-8"))
+    script = metadata.get("parentMathjax")
+    if not script or not (output / script).is_file():
+        raise ValueError("The canonical local parent MathJax runtime is required")
+    records = []
+    for relative in ("maxima/examples.html", "maxima/native.html", "maxima/data-flow.html", "licenses.html"):
+        page = output / relative
+        original = page.read_bytes()
+        text = original.decode("utf-8")
+        head, marker, body = text.partition("</head>")
+        if not marker:
+            raise ValueError("A rendered parent page needs a head: " + relative)
+        # An absent icon starts a browser-owned /favicon.ico request around
+        # load; the required first-visit isolation reload can abort it.
+        if not re.search(r'<link\b[^>]*\brel=["\'](?:shortcut\s+)?icon["\']', head, re.I):
+            head += '<link rel="icon" href="data:,">\n'
+        local = posixpath.relpath(script, posixpath.dirname(relative) or ".")
+        found = []
+        def replace(match):
+            source = html.unescape(match[2])
+            if "mathjax" not in source.lower():
+                return match[0]
+            if source not in metadata["urlMap"] or metadata["urlMap"][source].split("/es5/")[0] != script.split("/es5/")[0]:
+                raise ValueError("Unknown authored parent MathJax loader: " + source)
+            found.append(source)
+            target = posixpath.relpath(metadata["urlMap"][source], posixpath.dirname(relative) or ".")
+            class Attributes(HTMLParser):
+                def handle_starttag(self, tag, attrs):
+                    self.attributes = dict((name, value or "") for name, value in attrs)
+            parsed = Attributes()
+            parsed.feed(match[0])
+            parsed.attributes["src"] = target
+            return isolated_mathjax_loader(parsed.attributes)
+        head = re.sub(r'(<script\b[^>]*\bsrc=")([^"]+)("[^>]*>)\s*</script>', replace, head)
+        if len(found) > 1:
+            raise ValueError("Duplicate parent MathJax entry points: " + relative)
+        if not found:
+            head += isolated_mathjax_loader({"id": "ctm-parent-mathjax", "async": "", "src": local})
+        materialized = (head + marker + body).encode("utf-8")
+        page.write_bytes(materialized)
+        records.append({"path": relative, "sourceSha256": digest(original),
+                        "materializedSha256": digest(materialized), "runtime": script,
+                        "existingLoader": found})
+    return records
 
 
 class ScopedCards(HTMLParser):
@@ -72,6 +136,7 @@ def main() -> None:
     target = output / "maxima/examples.html"
     provenance_path = project / "MATERIALIZATION.json"
     provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
+    provenance["parentPresentation"] = parent_presentation(project, output)
     source_bytes = source.read_bytes()
     source_hash = digest(source_bytes)
     if source_hash != provenance["trackedPageSha256"]:

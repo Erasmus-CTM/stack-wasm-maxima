@@ -13,6 +13,11 @@ becomes visible on the `main` branch once this page is merged). The page describ
 what is provided. It is not legal advice and does not claim that every condition
 of every licence has been checked.
 
+The native board bundle additionally carries its own
+[licence inventory](native/boards/mathjax/THIRD-PARTY-NOTICES.md), original
+licence files and [source provenance](native/board-mathjax.json). Those files
+are additional to the 27 texts above.
+
 Everything below was checked on 2026-10-22 and 2026-10-23 against the files
 deployed on this site. The site also serves preview copies of research branches
 under `previews/research/` (`2026-10-native-stack` and
@@ -262,7 +267,7 @@ HELM materials, which are under Creative Commons Attribution-NonCommercial 4.0.
 |---|---|---|---|---|
 | STACK Maxima libraries | the 77 files embedded in [`stack-sources.json`](stack-sources.json) (`stack/maxima/*.mac`, `*.lisp`, `contrib/`), which the runtime loads | `33383047af39c204bf4442802a058f8b918b2b1b` | GPL version 3 per STACK's `COPYING.txt` and `License.md` ([GPL-3.0 text](LICENSES/GPL-3.0-or-later.txt)); the file headers differ, see [notes](#stack-notes) | [`stack/maxima`](https://github.com/maths/moodle-qtype_stack/tree/33383047af39c204bf4442802a058f8b918b2b1b/stack/maxima) |
 | STACK-MP-lite parser | `native/stack-parser.js` (the file `corsscripts/stackmplite.js`, wrapped; see `native/input-provenance.json`) | same | GPL-3.0-or-later from its header ("either version 3 of the License, or (at your option) any later version"; copyright 2025 Matti Harjula, Aalto University; [GPL-3.0 text](LICENSES/GPL-3.0-or-later.txt)) | [`corsscripts/stackmplite.js`](https://github.com/maths/moodle-qtype_stack/blob/33383047af39c204bf4442802a058f8b918b2b1b/corsscripts/stackmplite.js) |
-| STACK JSXGraph bindings | `stackjsxgraph.js`, inlined into each board page of `maxima/native.html` (byte-identical to the upstream file) | same | GPL-3.0-or-later from its `@license` line ("GNU GPL v3 or later"; copyright 2023 Aalto University; [GPL-3.0 text](LICENSES/GPL-3.0-or-later.txt)) | [`corsscripts/stackjsxgraph.js`](https://github.com/maths/moodle-qtype_stack/blob/33383047af39c204bf4442802a058f8b918b2b1b/corsscripts/stackjsxgraph.js) |
+| STACK JSXGraph bindings | shared content-addressed module under `native/boards/assets/`, byte-identical to the upstream file (inlined in legacy previews) | same | GPL-3.0-or-later from its `@license` line ("GNU GPL v3 or later"; copyright 2023 Aalto University; [GPL-3.0 text](LICENSES/GPL-3.0-or-later.txt)) | [`corsscripts/stackjsxgraph.js`](https://github.com/maths/moodle-qtype_stack/blob/33383047af39c204bf4442802a058f8b918b2b1b/corsscripts/stackjsxgraph.js) |
 | STACK data extracted for input handling and feedback | `native/input-rules.json`, `native/feedback-messages.json` (sources and hashes in `native/input-provenance.json` and `native/feedback-provenance.json`) | same | derived from STACK files; GPL version 3 under STACK's `COPYING.txt` (the English language file `lang/en/qtype_stack.php`, the source of the messages, has a GPL "version 3 ... or (at your option) any later version" header) | [`lang/en/qtype_stack.php`](https://github.com/maths/moodle-qtype_stack/blob/33383047af39c204bf4442802a058f8b918b2b1b/lang/en/qtype_stack.php) |
 | STACK sample questions | `maxima/questions/corpus/` (35 unchanged exports, with [COPYING.txt](maxima/questions/corpus/COPYING.txt)), `maxima/questions/corrected/` (four corrected derivatives), `maxima/questions/upstream/algmap-6-1.xml` | `10d323311b7f39fb7b092dd10ce75f7d8632f525` | [CC-BY-SA-4.0](LICENSES/CC-BY-SA-4.0.txt); each export names its authors | [`samplequestions/stacklibrary`](https://github.com/maths/moodle-qtype_stack/tree/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary); per-file paths in `maxima/questions/corpus/manifest.json` |
 | STACK HELM questions | `maxima/questions/upstream/bodmas.xml`, `maxima/questions/upstream/rounding-three-dp.xml` (test data, unchanged) | `10d323311b7f39fb7b092dd10ce75f7d8632f525` | [CC-BY-NC-4.0](LICENSES/CC-BY-NC-4.0.txt) (NonCommercial) | `maxima/questions/upstream/sources.json` |
@@ -290,22 +295,44 @@ HELM materials, which are under Creative Commons Attribution-NonCommercial 4.0.
 
 | Component | Where on this site | Version | Licence | Source |
 |---|---|---|---|---|
-| JSXGraph | inlined (as a data URI) into each board page in `maxima/native.html`; the same file is `jsxgraphcore.js` of jsxgraph-quarto | 1.14.1 | [LGPL-3.0-or-later](LICENSES/LGPL-3.0-or-later.txt) or [MIT](LICENSES/MIT.txt) ([JSXGraph's LICENSE.MIT](LICENSES/JSXGraph-LICENSE.MIT.txt)), at the user's choice | [jsxgraph v1.14.1](https://github.com/jsxgraph/jsxgraph/tree/v1.14.1) (`51c9777855dcce87a89a31587c8797fb60893ab0`) |
-| jsxgraph-quarto (the assessment-bridge and graph-editor scripts that its Quarto filter writes into the pages) | inlined into the same board pages | `ba2daa52fa6b1c65b37322bca3f02643e31a688e` | [MIT](LICENSES/MIT.txt), copyright 2026 JSXGraph group, Center for Mobile Learning with Digital Technology, University of Bayreuth ([its LICENSE](LICENSES/jsxgraph-quarto-LICENSE.txt)) | [jsxgraph-quarto](https://github.com/jsxgraph/jsxgraph-quarto/tree/ba2daa52fa6b1c65b37322bca3f02643e31a688e) |
+| JSXGraph | shared content-addressed script under `native/boards/assets/`, extracted from the pinned renderer (inlined in legacy previews) | 1.14.1 | [LGPL-3.0-or-later](LICENSES/LGPL-3.0-or-later.txt) or [MIT](LICENSES/MIT.txt) ([JSXGraph's LICENSE.MIT](LICENSES/JSXGraph-LICENSE.MIT.txt)), at the user's choice | [jsxgraph v1.14.1](https://github.com/jsxgraph/jsxgraph/tree/v1.14.1) (`51c9777855dcce87a89a31587c8797fb60893ab0`) |
+| jsxgraph-quarto (the assessment-bridge and graph-editor scripts that its Quarto filter writes into the pages) | inlined into the reusable board templates (and legacy preview pages) | `ba2daa52fa6b1c65b37322bca3f02643e31a688e` | [MIT](LICENSES/MIT.txt), copyright 2026 JSXGraph group, Center for Mobile Learning with Digital Technology, University of Bayreuth ([its LICENSE](LICENSES/jsxgraph-quarto-LICENSE.txt)) | [jsxgraph-quarto](https://github.com/jsxgraph/jsxgraph-quarto/tree/ba2daa52fa6b1c65b37322bca3f02643e31a688e) |
 
-Each board page also inlines JSXGraph's stylesheet as a `data:text/css` URI
+Each board template links the same shared stylesheet under `native/boards/assets/`
 (SHA-256 `58ff5704eb9bb8db66e8b002d01c44a6ddfe0ced7f887ab2ef602feff2f3c0f6`). It is
 identical to `distrib/jsxgraph.css` of JSXGraph v1.14.1 and starts with the same
 header as the script (JSXGraph 1.14.1, dual licence LGPL-3.0-or-later or MIT), so the
 JSXGraph row covers it too.
 
-The inlined JSXGraph file (SHA-256
+The shared JSXGraph file (SHA-256
 `b6ebd07421e560431b888efeb472cfb7f2cfc495a853200963f97d2c28e6e474`) starts with
 JSXGraph's own copyright and licence header, which offers the two licences above,
 and it includes a UTF-8 decoder by Bjoern Hoehrmann (MIT permission notice,
 reproduced in that header). Copyright 2008-2026 Matthias Ehmann, Michael
 Gerhaeuser, Carsten Miller, Bianca Valentin, Andreas Walter, Alfred Wassermann
 and Peter Wilfahrt.
+
+## MathJax and native board fonts
+
+The reusable native board documents link shared JSXGraph JavaScript/CSS and
+STACK binding modules under `native/boards/assets/`. These resources are
+extracted byte for byte from the pinned renderer; original licence headers
+remain intact. The table above also describes legacy preview copies, where
+those same files remain inlined.
+
+Native board MathJax and its original speech worker, mathmaps and dynamic font
+ranges are served locally. The build reuses canonical CTM archive integrity and
+font-member/licence checks. It does not patch vendor code or disable speech or
+braille. The [bundle manifest](native/boards/mathjax/manifest.json) and
+[notices](native/boards/mathjax/THIRD-PARTY-NOTICES.md) list the shipped files.
+
+| Component | Local files | Version | Licence and source |
+|---|---|---|---|
+| Parent-page MathJax | `native/boards/mathjax/npm/mathjax@3.2.2/` | 3.2.2 | Apache-2.0; original notices in the [canonical inventory](native/boards/mathjax/THIRD-PARTY-NOTICES.md); [official package](https://www.npmjs.com/package/mathjax/v/3.2.2) |
+| Source Sans Pro, weights 300/400/700 | `native/boards/mathjax/npm/@fontsource/source-sans-pro@5.3.0/` | 5.3.0 | OFL-1.1; original notices in the [canonical inventory](native/boards/mathjax/THIRD-PARTY-NOTICES.md); [official package](https://www.npmjs.com/package/@fontsource/source-sans-pro/v/5.3.0) |
+| MathJax, including its shipped accessibility/SRE runtime | `native/boards/mathjax/npm/mathjax@4.1.3/` | 4.1.3 | Apache-2.0; original [LICENSE](native/boards/mathjax/npm/mathjax@4.1.3/LICENSE), [official package](https://www.npmjs.com/package/mathjax/v/4.1.3) |
+| New Computer Modern MathJax fonts | `native/boards/mathjax/npm/@mathjax/mathjax-newcm-font@4.1.3/` | 4.1.3 | Apache-2.0 AND GUST-Font-License per the canonical lock; bundled [Apache](native/boards/mathjax/LICENSES/boards/mathjax-newcm-font/apache.txt), [GUST](native/boards/mathjax/LICENSES/boards/mathjax-newcm-font/gust.txt), [LPPL context](native/boards/mathjax/LICENSES/boards/mathjax-newcm-font/lppl.txt) and [copyright/member notice](native/boards/mathjax/LICENSES/boards/mathjax-newcm-font/COPYRIGHT.txt); [official package](https://www.npmjs.com/package/@mathjax/mathjax-newcm-font/v/4.1.3) |
+| CTM opaque-worker pre-loader | content-addressed script under `native/boards/assets/` | ctm-libs `2cdd3b47bb4722f65f168a0baf4dbd6a18bff384` | AGPL-3.0-or-later; [copied licence](native/boards/assets/CTM-LICENSE.txt), [canonical source](https://github.com/Erasmus-CTM/ctm-libs/blob/2cdd3b47bb4722f65f168a0baf4dbd6a18bff384/_extensions/ctm-libs/runtime/mathjax-opaque-adaptor.js) |
 
 ## Page libraries from Quarto
 
@@ -370,12 +397,8 @@ They are not copied to this site, and their licences are not reproduced here.
 - Pyodide 0.28.3 and the Python packages it loads, from
   `https://cdn.jsdelivr.net/pyodide/v0.28.3/full/` (used by the CTM Python
   runtime). Project: <https://pyodide.org/>.
-- MathJax: version 3 from `cdn.jsdelivr.net/npm/mathjax@3/` for the Quarto pages
-  (3.2.2 in the stack-sympy script), and version 4 from `cdn.jsdelivr.net/npm/mathjax@4/` inside the JSXGraph board
-  pages. Project: <https://www.mathjax.org/>.
 - KaTeX 0.16 from `cdn.jsdelivr.net/npm/katex@0.16/`, referenced by the
   ai-feedback script.
-- The "Source Sans Pro" font, requested from Google Fonts by the Bootstrap CSS.
 - axe-core, requested from `cdn.skypack.dev` only if Quarto's accessibility
   check is switched on, and Algolia search-insights, referenced by the search
   script.

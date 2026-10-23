@@ -42,7 +42,8 @@ def display_tokens(template, values, tokens):
 def render_html(template, question, variant, board_html, question_id, variant_at):
     # Private placeholders are inserted only after sanitizing authored markup.
     # Native scalar display output is escaped, and board markup comes from the
-    # pinned Quarto extension's actual HTML renderer.
+    # pinned Quarto extension's actual HTML renderer. Board entries contain a
+    # reusable template URL and variant-specific data-only init descriptors.
     saved = {}
     def keep(value):
         key = f"CTMNATIVEREPLACEMENT{len(saved)}END"

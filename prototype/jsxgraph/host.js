@@ -6,18 +6,47 @@
   const NAME = /^[A-Za-z][A-Za-z0-9_]{0,63}$/;
   const MAX_VALUE = 32768, MAX_CONTENT = 262144, MAX_INPUTS = 32;
   const attached = new WeakMap(), cards = new WeakMap();
+  const templateLoads = new Map();
+  const assetLoads = new Map();
   let epochSequence = 0;
   function nonce() {
     if (scope.crypto?.randomUUID) return scope.crypto.randomUUID();
     return Date.now().toString(36) + '-' + (++epochSequence) + '-' + Math.random().toString(36).slice(2);
   }
   function plain(value) { return value && typeof value === 'object' && !Array.isArray(value); }
+  function sharedDataURL(url, digest, size, kind) {
+    const extension = kind === 'core' ? '.js' : '.css';
+    const mime = kind === 'core' ? 'text/javascript' : 'text/css';
+    if (!/^[a-f0-9]{64}$/.test(digest) || !/^[1-9][0-9]*$/.test(size) || !Number.isSafeInteger(Number(size)) ||
+        url.search || url.hash || !url.pathname.endsWith('/native/boards/assets/'+digest+extension)) throw new Error('Invalid content-addressed board asset marker');
+    const key=url.href+'|'+digest+'|'+size+'|'+kind;
+    if (!assetLoads.has(key)) {
+      const loading=(async () => {
+        if (!scope.crypto?.subtle || typeof scope.btoa !== 'function') throw new Error('Native board asset integrity requires a secure browser context');
+        const response=await scope.fetch(url.href);
+        if (!response.ok) throw new Error('Board asset request failed: '+response.status);
+        const bytes=new Uint8Array(await response.arrayBuffer());
+        if (bytes.length!==Number(size)) throw new Error('Board asset byte count mismatch');
+        const actual=Array.from(new Uint8Array(await scope.crypto.subtle.digest('SHA-256',bytes)),value=>value.toString(16).padStart(2,'0')).join('');
+        if (actual!==digest) throw new Error('Board asset SHA-256 mismatch');
+        let binary='';
+        for(let at=0;at<bytes.length;at+=32768)binary+=String.fromCharCode.apply(null,bytes.subarray(at,at+32768));
+        return 'data:'+mime+';base64,'+scope.btoa(binary);
+      })();
+      assetLoads.set(key,loading);
+      loading.catch(()=>{if(assetLoads.get(key)===loading)assetLoads.delete(key);});
+    }
+    return assetLoads.get(key);
+  }
   function descriptor(value) {
     if (typeof value === 'string') value = JSON.parse(value);
     if (!plain(value) || typeof value.assessmentId !== 'string' || !value.assessmentId || value.assessmentId.length > 256 ||
         !Array.isArray(value.inputs) || value.inputs.length > MAX_INPUTS || new Set(value.inputs).size !== value.inputs.length ||
         !value.inputs.every(name => typeof name === 'string' && NAME.test(name))) throw new Error('Invalid STACK JSXGraph descriptor');
-    return {assessmentId:value.assessmentId, inputs:[...value.inputs]};
+    const boardValues = value.boardValues === undefined ? {} : value.boardValues;
+    if (!plain(boardValues) || Object.keys(boardValues).length > 128 || !Object.entries(boardValues).every(([key, entry]) =>
+        /^[A-Za-z0-9_]{1,64}$/.test(key) && typeof entry === 'number' && Number.isFinite(entry))) throw new Error('Invalid STACK JSXGraph board values');
+    return {assessmentId:value.assessmentId, inputs:[...value.inputs], boardValues:{...boardValues}};
   }
   function attachIframe(frame, supplied) {
     if (attached.has(frame)) return attached.get(frame);
@@ -32,6 +61,14 @@
     let previousState = '', scheduled = false, lastAction = '', errorOutput = null, boardReady = false;
     const originalSrcdoc = frame.getAttribute('srcdoc');
     const originalSrc = frame.getAttribute('src');
+    const templatePath = frame.getAttribute('data-stack-jsxgraph-template');
+    let templateURL = null, mountSequence = 0, templatePending = false;
+    let blankNavigation = false, pendingBlankMount = null;
+    if (templatePath !== null) {
+      if (!/^\.\.\/native\/boards\/[A-Za-z0-9_-]+\.html$/.test(templatePath)) throw new Error('Invalid native board template URL');
+      templateURL = new URL(templatePath, frame.ownerDocument.baseURI);
+      if (!/^https?:$/.test(templateURL.protocol) || templateURL.origin !== new URL(frame.ownerDocument.baseURI).origin) throw new Error('Native board templates must be same-origin');
+    }
     frame.setAttribute('data-stack-jsxgraph-ready', 'false');
     function input(name) {
       if (!allowed.has(name)) throw new Error('STACK input is not bound to this board: ' + String(name));
@@ -77,7 +114,7 @@
     }
     function initialize() {
       const state = snapshot(); previousState = JSON.stringify(state);
-      post({type:'init', epoch, state});
+      post({type:'init', epoch, state, boardValues:spec.boardValues});
       layout();
     }
     function sync() {
@@ -100,13 +137,76 @@
     }
     function reloadFrame() {
       if (!current()) return;
-      // The stock extension uses a self-contained data: URL. Also accept
-      // srcdoc when a host embeds the same Quarto-rendered document that way.
+      if (templateURL) {
+        const ticket = ++mountSequence;
+        templatePending = true; acceptingHello = false;
+        const url = templateURL.href;
+        if (!templateLoads.has(url)) {
+          const loading = scope.fetch(url).then(response => {
+            if (!response.ok) throw new Error('Native board template request failed: ' + response.status);
+            return response.text();
+          }).then(async html => {
+            const document = new scope.DOMParser().parseFromString(html,'text/html');
+            if (!/<head>/i.test(html) || document.querySelector('base')) throw new Error('Invalid native board template document');
+            const base = document.createElement('base'); base.href = url;
+            document.head.prepend(base);
+            // Firefox's srcdoc speculative scanner can fetch before honoring
+            // base. Resolve static attributes explicitly; inline author/vendor
+            // script text stays untouched. Keep base for imports and CSS URLs.
+            const assetMounts=[];
+            for (const node of document.querySelectorAll('script[src],link[href]')) {
+              const attribute = node.hasAttribute('src') ? 'src' : 'href';
+              const resource = new URL(node.getAttribute(attribute),url);
+              if (!/^https?:$/.test(resource.protocol) || resource.origin !== templateURL.origin) throw new Error('Native board template resources must be staged same-origin');
+              node.setAttribute(attribute,resource.href);
+              if (node.hasAttribute('data-ctm-jsxgraph-sha256')) {
+                if (attribute!=='src') throw new Error('JSXGraph core marker requires a script');
+                assetMounts.push(sharedDataURL(resource,node.getAttribute('data-ctm-jsxgraph-sha256'),node.getAttribute('data-ctm-jsxgraph-bytes'),'core')
+                  .then(data=>node.setAttribute('src',data)));
+              }
+              if (node.hasAttribute('data-ctm-board-style-sha256')) {
+                if (attribute!=='href') throw new Error('Board style marker requires a stylesheet');
+                assetMounts.push(sharedDataURL(resource,node.getAttribute('data-ctm-board-style-sha256'),node.getAttribute('data-ctm-board-style-bytes'),'style')
+                  .then(data=>node.setAttribute('href',data)));
+              }
+            }
+            await Promise.all(assetMounts);
+            return '<!doctype html>\n'+document.documentElement.outerHTML;
+          });
+          templateLoads.set(url,loading);
+          loading.catch(() => { if (templateLoads.get(url) === loading) templateLoads.delete(url); });
+        }
+        templateLoads.get(url).then(html => {
+          if (!current() || ticket !== mountSequence) return;
+          const apply = () => {
+            if (!current() || ticket !== mountSequence) return;
+            templatePending = false;
+            if (errorOutput) { errorOutput.remove(); errorOutput = null; }
+            frame.setAttribute('srcdoc', html);
+          };
+          // Complete a real document retirement before reusing srcdoc. Firefox
+          // can otherwise retain an inaccessible execution context on reset.
+          if (blankNavigation) pendingBlankMount = apply;
+          else if (frame.hasAttribute('srcdoc')) {
+            blankNavigation = true; pendingBlankMount = apply;
+            frame.removeAttribute('srcdoc');
+            frame.setAttribute('src', 'about:blank');
+          } else apply();
+        }).catch(error => {
+          if (!current() || ticket !== mountSequence) return;
+          templatePending = false;
+          showError(error.message);
+        });
+        return;
+      }
+      // Native packaging links one shared Quarto-rendered template. Legacy
+      // data: and srcdoc documents retain the same navigation/reset behavior.
       if (originalSrcdoc !== null) frame.setAttribute('srcdoc', originalSrcdoc);
       else if (originalSrc !== null) frame.setAttribute('src', originalSrc);
       else showError('The graphical board has no original document to restore');
     }
     function invalidate(reload) {
+      mountSequence++; templatePending = false; pendingBlankMount = null;
       if (instanceId) retiredInstances.add(instanceId);
       instanceId = null; generation = nonce(); epoch = ++epochSequence; previousState = '';
       boardReady = false; frame.setAttribute('data-stack-jsxgraph-ready', 'false');
@@ -159,7 +259,16 @@
       else hostInput(event);
     }
     function reset() { acceptingHello = false; invalidate(false); queueMicrotask(reloadFrame); }
-    function loaded() { acceptingHello = true; layout(); }
+    function loaded() {
+      if (blankNavigation) {
+        blankNavigation = false;
+        const mount = pendingBlankMount; pendingBlankMount = null;
+        if (mount) mount();
+        return;
+      }
+      if (!templatePending) acceptingHello = true;
+      layout();
+    }
     function receive(event) {
       const data = event.data;
       if (current() && event.source === frame.contentWindow && plain(data) && data.protocol === 'jsxgraph-quarto-assessment' &&
@@ -287,6 +396,7 @@
     }};
     cardState.handles.add(handle);
     attached.set(frame, handle);
+    if (templateURL) queueMicrotask(reloadFrame);
     return handle;
   }
   function install(root) {

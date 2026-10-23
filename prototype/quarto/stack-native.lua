@@ -55,7 +55,7 @@ return {{Pandoc=function(doc)
     return pandoc.RawBlock('html', fragment)
   end})
   if native then
-    doc.blocks:insert(1,pandoc.RawBlock('html','<script>window.CTMStackBackends=window.CTMStackBackends||{};window.CTMStackBackends["maxima-native"]={workerURL:"../native/backend-worker.js",label:"Native Maxima",loadTimeout:240000};document.addEventListener("DOMContentLoaded",function(){window.CTMStackJSXGraph.install(document);},{once:true});</script>'))
+    doc.blocks:insert(1,pandoc.RawBlock('html','<script>window.CTMStackBackends=window.CTMStackBackends||{};window.CTMStackBackends["maxima-native"]={workerURL:"../native/backend-worker.js",label:"Native Maxima",loadTimeout:240000};document.addEventListener("DOMContentLoaded",function(){if(self.crossOriginIsolated)window.CTMStackJSXGraph.install(document);},{once:true});</script>'))
   end
   return doc
 end}}
