@@ -26,6 +26,24 @@
         await new Promise(resolve => navigator.serviceWorker.addEventListener('controllerchange', resolve, { once: true }));
       }
       if (self.crossOriginIsolated) return;
+      // Finish the initial document's existing work before navigating. A
+      // first-visit isolation reload must not abort styles/fonts or MathJax
+      // that the ordinary document has already started loading.
+      if (document.readyState !== 'complete') {
+        await new Promise(resolve => window.addEventListener('load', resolve, { once: true }));
+      }
+      if (window.MathJax?.startup?.promise) await window.MathJax.startup.promise;
+      if (document.fonts?.ready) {
+        // MathJax can append font-using nodes at the end of startup. Let their
+        // styles participate in layout before observing the font-set promise.
+        await new Promise(resolve => window.requestAnimationFrame(() => {
+          document.body?.getBoundingClientRect();
+          resolve();
+        }));
+        await document.fonts.ready;
+        // Commit a frame using the loaded faces before discarding this document.
+        await new Promise(resolve => window.requestAnimationFrame(resolve));
+      }
       if (sessionStorage.getItem(key) === workerURL.href) throw new Error('Isolation did not activate after the first reload');
       sessionStorage.setItem(key, workerURL.href);
       location.reload();

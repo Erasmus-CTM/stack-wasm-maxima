@@ -136,11 +136,43 @@
   "cards": 36,
   "variants": 48,
   "pythonCheckerCards": 12,
+  "parentPresentation": [
+    {
+      "path": "maxima/examples.html",
+      "sourceSha256": "251c8721700153dec17b2af6f67fc238923961d4ac865d5998929bb1f193c62c",
+      "materializedSha256": "75a494556f1197b2d6abe3ef63f020209b36435fb9d1325691ed7b91a0c07d23",
+      "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
+      "existingLoader": [
+        "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+      ]
+    },
+    {
+      "path": "maxima/native.html",
+      "sourceSha256": "e753e8769a92cba925f11bead6970540f9380bfc1665d4ada9c4df3551169f28",
+      "materializedSha256": "244b3aec577649845e82b54b6a00f92db36902472f61ce14d1d1a584c94eeca5",
+      "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
+      "existingLoader": []
+    },
+    {
+      "path": "maxima/data-flow.html",
+      "sourceSha256": "801038a996b206f1d1cac8c1847f45e590959c10ed8f9e6365e4439fd89679f0",
+      "materializedSha256": "b245b1d0202218ea6271ea6a7253f8c08815757a67ac74736913145d75fd6f54",
+      "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
+      "existingLoader": []
+    },
+    {
+      "path": "licenses.html",
+      "sourceSha256": "d14523a29ac37bf6a39f7f2c0816d3962727c9fb7ee7ca72b27551057c99f213",
+      "materializedSha256": "a64054fddaf9a8fcee528cba5869b16d562e375da22529c561f9208db5bb5fdb",
+      "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
+      "existingLoader": []
+    }
+  ],
   "renderedPagePatches": [
     {
       "path": "maxima/examples.html",
-      "sourceSha256": "5e8e0b4e0d62ad027f43b375969437aa865f9b4cf20f54171035124b9a91252f",
-      "materializedSha256": "58927bd851ae2afa902dee54c506ffcdcb5701bbdd70d08d70a53f7401eeecc2",
+      "sourceSha256": "75a494556f1197b2d6abe3ef63f020209b36435fb9d1325691ed7b91a0c07d23",
+      "materializedSha256": "b43b62aef382ae0f42d3c746150d483ec1f6926c245f3988688a04193a0c9687",
       "obsoleteEs6PolyfillRemoved": 1,
       "sourcePanelCount": 36,
       "authoredBlocks": [
@@ -583,7 +615,7 @@
   ],
   "postRender": {
     "script": "scripts/site/post-render.py",
-    "scriptSha256": "e10cf770e4f7a260999a73775e259cccff1c8d668a0865f443832811931d9fd9",
+    "scriptSha256": "f5b49c77f6f4f31b64d463c210faabc3742bd5d61e1d0285541ed891b9de49c0",
     "trackedPageSha256": "eeb1bfb47797e384d3fe4468f8149e9851bbabc1b6373de240589f0c94d6afe6",
     "renderedCards": 36,
     "renderedPairs": 18,

@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){const c={"loader":{"paths":{"mathjax":"mathjax/npm/mathjax@4.1.3","sre":"mathjax/npm/mathjax@4.1.3/sre","mathmaps":"mathjax/npm/mathjax@4.1.3/sre/mathmaps"}},"svg":{"fontPath":"mathjax/npm/@mathjax/mathjax-newcm-font@4.1.3"},"chtml":{"fontPath":"mathjax/npm/@mathjax/mathjax-newcm-font@4.1.3","fontURL":"mathjax/npm/@mathjax/mathjax-newcm-font@4.1.3/chtml/woff2"}};for(const key of Object.keys(c.loader.paths))c.loader.paths[key]=new URL(c.loader.paths[key],document.baseURI).href;for(const part of [c.svg,c.chtml])for(const key of Object.keys(part))part[key]=new URL(part[key],document.baseURI).href;window.MathJax=c;})();</script>
+<script src="assets/2375c1c0d25cd1399526bb3e6ec24c8d2fd0749a298981a7c17e2c37b041f016.js" data-ctm-mathjax-transport="cors" crossorigin="anonymous"></script>
+<script id="MathJax-script" async src="mathjax/npm/mathjax@4.1.3/tex-mml-svg.js" crossorigin="anonymous"></script>
+<script src="./assets/b6ebd07421e560431b888efeb472cfb7f2cfc495a853200963f97d2c28e6e474.js" data-ctm-jsxgraph-sha256="b6ebd07421e560431b888efeb472cfb7f2cfc495a853200963f97d2c28e6e474" data-ctm-jsxgraph-bytes="995055" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="./assets/58ff5704eb9bb8db66e8b002d01c44a6ddfe0ced7f887ab2ef602feff2f3c0f6.css" crossorigin="anonymous" data-ctm-board-style-sha256="58ff5704eb9bb8db66e8b002d01c44a6ddfe0ced7f887ab2ef602feff2f3c0f6" data-ctm-board-style-bytes="4822">
+<style>html,body{margin:0;padding:0;width:100%;height:100%;}.jxgbox{border:none;border-radius:0px;}</style>
+</head>
+<body>
+<div id="JXG01af5117_14ce_2acd_ac16_ec417fc9" class="jxgbox" style="width:100%;height:100%;display:block;object-fit:fill;box-sizing:border-box;"></div>
+<script>(function () {
+  'use strict';
+  const protocol = 'jsxgraph-quarto-assessment';
+  const version = 1;
+  const assessmentId = "native-json-b0";
+  let registration = null;
+
+  async function svgToPng(dataUri, board) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(board.canvasWidth || image.width || 800));
+        canvas.height = Math.max(1, Math.round(board.canvasHeight || image.height || 600));
+        const context = canvas.getContext('2d');
+        context.fillStyle = '#ffffff';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL('image/png'));
+      };
+      image.onerror = () => reject(new Error('Could not render the JSXGraph board'));
+      image.src = dataUri;
+    });
+  }
+
+  function resolveBoard(spec) {
+    if (spec && typeof spec.board === 'function') return spec.board();
+    if (spec && spec.board) return spec.board;
+    const boards = Object.values(JXG.boards || {});
+    return boards.length ? boards[0] : null;
+  }
+
+  function refreshBoards() {
+    Object.values(JXG.boards || {}).forEach((board) => {
+      const container = board.containerObj;
+      if (!container) return;
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      if (!(width > 0 && height > 0)) return;
+      if (typeof board.resizeContainer === 'function' &&
+          (Math.abs((board.canvasWidth || 0) - width) > 1 ||
+           Math.abs((board.canvasHeight || 0) - height) > 1)) {
+        board.resizeContainer(width, height);
+      }
+      if (typeof board.fullUpdate === 'function') board.fullUpdate();
+      else if (typeof board.update === 'function') board.update();
+    });
+  }
+
+  function scheduleBoardRefresh() {
+    refreshBoards();
+    if (typeof requestAnimationFrame === 'function') {
+      requestAnimationFrame(() => {
+        refreshBoards();
+        requestAnimationFrame(refreshBoards);
+      });
+    }
+  }
+
+  JXG.QuartoAssessment = {
+    register(spec) {
+      registration = typeof spec === 'function' ? { response: spec } : spec;
+      if (!registration || typeof registration.response !== 'function') {
+        throw new TypeError('Assessment registration requires a response function');
+      }
+    }
+  };
+
+  window.addEventListener('message', async (event) => {
+    const message = event.data;
+    if (event.source !== window.parent || !message || message.protocol !== protocol ||
+        message.version !== version || message.assessmentId !== assessmentId) return;
+    if (message.type === 'layout') {
+      scheduleBoardRefresh();
+      return;
+    }
+    if (message.type !== 'request') return;
+
+    const reply = {
+      protocol,
+      version,
+      type: 'response',
+      assessmentId,
+      requestId: message.requestId
+    };
+    try {
+      if (!registration) throw new Error('No JSXGraph assessment response is registered');
+      const raw = await registration.response();
+      reply.payload = JSON.parse(JSON.stringify(raw));
+      if (message.includeAI && registration.ai) {
+        const aiSpec = registration.ai;
+        const summary = typeof aiSpec.summary === 'function'
+          ? await aiSpec.summary(reply.payload)
+          : aiSpec.summary;
+        reply.ai = {};
+        if (summary !== undefined) reply.ai.summary = summary;
+        if (aiSpec.render) {
+          const board = resolveBoard(registration);
+          if (!board || !board.renderer || typeof board.renderer.dumpToDataURI !== 'function') {
+            throw new Error('No renderable JSXGraph board is available');
+          }
+          reply.ai.image = await svgToPng(board.renderer.dumpToDataURI(false), board);
+        }
+      }
+    } catch (error) {
+      reply.error = error && error.message ? error.message : String(error);
+    }
+    window.parent.postMessage(reply, '*');
+  });
+  window.addEventListener('resize', scheduleBoardRefresh);
+})();
+</script>
+<script>(function () {
+  'use strict';
+
+  function merge(base, extra) {
+    return Object.assign({}, base, extra || {});
+  }
+
+  function summarizeGraph(data, options) {
+    data = data || {};
+    options = options || {};
+    var nodes = Array.isArray(data.nodes) ? data.nodes : [];
+    var rawEdges = Array.isArray(data.edges) ? data.edges : [];
+    var vertexIds = nodes.map(function (node) { return node.id; }).sort(function (a, b) { return a - b; });
+    var adjacency = {};
+    vertexIds.forEach(function (id) { adjacency[id] = []; });
+    var edges = rawEdges.map(function (edge) {
+      var source = edge[0];
+      var target = edge[1];
+      if (adjacency[source]) adjacency[source].push(target);
+      if (adjacency[target]) adjacency[target].push(source);
+      return source < target ? [source, target] : [target, source];
+    }).sort(function (a, b) { return a[0] - b[0] || a[1] - b[1]; });
+    vertexIds.forEach(function (id) { adjacency[id].sort(function (a, b) { return a - b; }); });
+
+    var visited = {};
+    var components = [];
+    vertexIds.forEach(function (start) {
+      if (visited[start]) return;
+      var component = [];
+      var queue = [start];
+      visited[start] = true;
+      while (queue.length) {
+        var id = queue.shift();
+        component.push(id);
+        adjacency[id].forEach(function (neighbor) {
+          if (!visited[neighbor]) {
+            visited[neighbor] = true;
+            queue.push(neighbor);
+          }
+        });
+      }
+      component.sort(function (a, b) { return a - b; });
+      components.push(component);
+    });
+
+    var summary = {
+      representation: data.representation || 'undirected-graph',
+      vertexCount: vertexIds.length,
+      edgeCount: edges.length,
+      vertexIds: vertexIds,
+      edges: edges,
+      degrees: vertexIds.map(function (id) { return { vertex: id, degree: adjacency[id].length }; }),
+      connected: components.length === 1,
+      componentCount: components.length,
+      components: components,
+      isolatedVertices: vertexIds.filter(function (id) { return adjacency[id].length === 0; }),
+      cycleRank: edges.length - vertexIds.length + components.length
+    };
+    if (options.feedbackPolicy !== undefined) {
+      summary.feedbackPolicy = String(options.feedbackPolicy);
+    }
+    if (options.extra && typeof options.extra === 'object') {
+      summary.extra = options.extra;
+    }
+    return summary;
+  }
+
+  function createGraphEditor(options) {
+    options = options || {};
+    var board = options.board;
+    if (!board || typeof board.create !== 'function') {
+      throw new TypeError('Graph editor requires a JSXGraph board');
+    }
+
+    var labels = merge({
+      deleteSelected: 'Delete selected',
+      clearGraph: 'Clear graph',
+      showControls: 'Show controls',
+      hideControls: 'Hide controls'
+    }, options.labels);
+    var instructions = options.instructions || [
+      'Click empty space to add a vertex.',
+      'Click two vertices to add or remove their edge.',
+      'Drag a vertex to move it.',
+      'Select a vertex, then choose Delete selected to remove it.'
+    ];
+    var pointAttributes = merge({
+      size: 6,
+      fixed: false,
+      showInfobox: false,
+      highlight: false
+    }, options.pointAttributes);
+    var edgeAttributes = merge({
+      strokeColor: '#475569',
+      strokeWidth: 3,
+      fixed: true,
+      highlight: false
+    }, options.edgeAttributes);
+    var normalStyle = merge({ fillColor: '#2563eb', strokeColor: '#1d4ed8' }, options.normalStyle);
+    var selectedStyle = merge({ fillColor: '#f59e0b', strokeColor: '#92400e' }, options.selectedStyle);
+    var bounds = board.getBoundingBox();
+    var editableBottom = options.editableBottom === undefined ? bounds[3] + 0.9 : Number(options.editableBottom);
+    var vertices = [];
+    var edges = [];
+    var selectedVertex = null;
+    var pointerStart = null;
+    var nextVertexId = 1;
+    var controlsVisible = false;
+    var clickToleranceSquared = 36;
+
+    function setSelected(vertex) {
+      if (selectedVertex) selectedVertex.point.setAttribute(normalStyle);
+      selectedVertex = vertex;
+      if (selectedVertex) selectedVertex.point.setAttribute(selectedStyle);
+      board.update();
+    }
+
+    function addVertex(x, y) {
+      x = Number(x);
+      y = Number(y);
+      if (!Number.isFinite(x) || !Number.isFinite(y)) {
+        throw new TypeError('Vertex coordinates must be finite numbers');
+      }
+      var vertex = { id: nextVertexId++ };
+      vertex.point = board.create('point', [x, y], merge(pointAttributes, merge(normalStyle, {
+        name: String(vertex.id)
+      })));
+      vertices.push(vertex);
+      setSelected(null);
+      return vertex.id;
+    }
+
+    function findVertex(id) {
+      return vertices.find(function (vertex) { return vertex.id === id; }) || null;
+    }
+
+    function edgeKey(a, b) {
+      return a.id < b.id ? a.id + ':' + b.id : b.id + ':' + a.id;
+    }
+
+    function toggleEdgeVertices(a, b) {
+      if (!a || !b || a === b) return false;
+      var key = edgeKey(a, b);
+      var index = edges.findIndex(function (edge) { return edge.key === key; });
+      if (index >= 0) {
+        board.removeObject(edges[index].segment);
+        edges.splice(index, 1);
+        setSelected(null);
+        return false;
+      }
+      edges.push({
+        key: key,
+        source: a,
+        target: b,
+        segment: board.create('segment', [a.point, b.point], edgeAttributes)
+      });
+      setSelected(null);
+      return true;
+    }
+
+    function toggleEdge(sourceId, targetId) {
+      var source = findVertex(sourceId);
+      var target = findVertex(targetId);
+      if (!source || !target) throw new Error('Cannot connect an unknown vertex');
+      return toggleEdgeVertices(source, target);
+    }
+
+    function handleVertexClick(vertex) {
+      if (!selectedVertex) setSelected(vertex);
+      else if (selectedVertex === vertex) setSelected(null);
+      else toggleEdgeVertices(selectedVertex, vertex);
+    }
+
+    function deleteSelected() {
+      if (!selectedVertex) return false;
+      var doomed = selectedVertex;
+      edges.slice().forEach(function (edge) {
+        if (edge.source === doomed || edge.target === doomed) {
+          board.removeObject(edge.segment);
+          edges.splice(edges.indexOf(edge), 1);
+        }
+      });
+      board.removeObject(doomed.point);
+      vertices.splice(vertices.indexOf(doomed), 1);
+      selectedVertex = null;
+      board.update();
+      return true;
+    }
+
+    function clear() {
+      setSelected(null);
+      edges.forEach(function (edge) { board.removeObject(edge.segment); });
+      vertices.forEach(function (vertex) { board.removeObject(vertex.point); });
+      edges = [];
+      vertices = [];
+      nextVertexId = 1;
+      board.update();
+    }
+
+    function response() {
+      return {
+        representation: 'undirected-graph',
+        nodes: vertices.map(function (vertex) {
+          return {
+            id: vertex.id,
+            x: Number(vertex.point.X().toFixed(4)),
+            y: Number(vertex.point.Y().toFixed(4))
+          };
+        }),
+        edges: edges.map(function (edge) { return [edge.source.id, edge.target.id]; })
+      };
+    }
+
+    var panel = document.createElement('div');
+    panel.setAttribute('role', 'note');
+    panel.setAttribute('aria-label', 'Graph editor controls');
+    panel.setAttribute('data-graph-editor-control', 'true');
+    panel.style.cssText = [
+      'position:absolute', 'top:48px', 'right:12px', 'z-index:20',
+      'display:none', 'width:min(270px,calc(100% - 24px))',
+      'box-sizing:border-box', 'padding:10px 12px', 'border:1px solid #94a3b8',
+      'border-radius:7px', 'background:rgba(255,255,255,0.96)',
+      'color:#1e293b', 'font:14px/1.35 sans-serif', 'box-shadow:0 3px 12px rgba(15,23,42,0.18)'
+    ].join(';');
+    var list = document.createElement('ol');
+    list.style.cssText = 'margin:0;padding-left:1.35rem';
+    instructions.forEach(function (instruction) {
+      var item = document.createElement('li');
+      item.textContent = instruction;
+      list.appendChild(item);
+    });
+    panel.appendChild(list);
+    board.containerObj.style.position = board.containerObj.style.position || 'relative';
+    board.containerObj.appendChild(panel);
+
+    var controlBar = document.createElement('div');
+    controlBar.setAttribute('data-graph-editor-control', 'true');
+    controlBar.style.cssText = [
+      'position:absolute', 'left:12px', 'bottom:10px', 'z-index:20',
+      'display:flex', 'gap:8px', 'flex-wrap:wrap', 'font:14px/1.2 sans-serif'
+    ].join(';');
+    board.containerObj.appendChild(controlBar);
+
+    function createControl(label, handler) {
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = label;
+      button.style.cssText = [
+        'padding:6px 10px', 'border:1px solid #94a3b8', 'border-radius:5px',
+        'background:#fff', 'color:#1e293b', 'cursor:pointer'
+      ].join(';');
+      button.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        handler();
+      });
+      controlBar.appendChild(button);
+      return button;
+    }
+
+    var toggleButton;
+    function showControls(show) {
+      controlsVisible = show === undefined ? !controlsVisible : !!show;
+      panel.style.display = controlsVisible ? 'block' : 'none';
+      if (toggleButton) toggleButton.textContent = controlsVisible ? labels.hideControls : labels.showControls;
+      board.update();
+      return controlsVisible;
+    }
+
+    createControl(labels.deleteSelected, deleteSelected);
+    createControl(labels.clearGraph, clear);
+    toggleButton = createControl(labels.showControls, function () { showControls(); });
+
+    function isControlEvent(event) {
+      return !!(event.target && event.target.closest &&
+        event.target.closest('button, input, [data-graph-editor-control]'));
+    }
+
+    function vertexAt(screen) {
+      for (var i = vertices.length - 1; i >= 0; i--) {
+        if (vertices[i].point.hasPoint(screen[0], screen[1])) return vertices[i];
+      }
+      return null;
+    }
+
+    function userPosition(screen) {
+      var width = board.containerObj.clientWidth || board.canvasWidth;
+      var height = board.containerObj.clientHeight || board.canvasHeight;
+      if (Number.isFinite(width) && width > 0 && Number.isFinite(height) && height > 0) {
+        return [
+          bounds[0] + screen[0] / width * (bounds[2] - bounds[0]),
+          bounds[1] - screen[1] / height * (bounds[1] - bounds[3])
+        ];
+      }
+      var coords = new JXG.Coords(JXG.COORDS_BY_SCREEN, screen, board);
+      return [coords.usrCoords[1], coords.usrCoords[2]];
+    }
+
+    board.on('down', function (event) {
+      pointerStart = null;
+      if (isControlEvent(event)) return;
+      var screen = board.getMousePosition(event);
+      pointerStart = {
+        screen: screen,
+        vertex: vertexAt(screen)
+      };
+    });
+
+    board.on('up', function (event) {
+      if (!pointerStart || isControlEvent(event)) {
+        pointerStart = null;
+        return;
+      }
+      var screen = board.getMousePosition(event);
+      var dx = screen[0] - pointerStart.screen[0];
+      var dy = screen[1] - pointerStart.screen[1];
+      if (dx * dx + dy * dy <= clickToleranceSquared) {
+        if (pointerStart.vertex) {
+          handleVertexClick(pointerStart.vertex);
+        } else if (!vertexAt(screen)) {
+        var position = userPosition(screen);
+        if (position[1] > editableBottom) addVertex(position[0], position[1]);
+        }
+      }
+      pointerStart = null;
+    });
+
+    board.containerObj.setAttribute('data-graph-editor-ready', 'true');
+
+    if (options.controlsInitiallyVisible) showControls(true);
+
+    var api = {
+      board: board,
+      addVertex: addVertex,
+      toggleEdge: toggleEdge,
+      deleteSelected: deleteSelected,
+      clear: clear,
+      response: response,
+      summarize: function (summaryOptions) { return summarizeGraph(response(), summaryOptions); },
+      showControls: showControls,
+      register: function (spec) {
+        if (!JXG.QuartoAssessment || typeof JXG.QuartoAssessment.register !== 'function') {
+          throw new Error('Graph editor registration requires the Quarto assessment bridge');
+        }
+        JXG.QuartoAssessment.register(merge(spec, { board: board, response: response }));
+        return api;
+      }
+    };
+    return api;
+  }
+
+  function createBoard(options) {
+    options = options || {};
+    var container = options.container || document.querySelector('.jxgbox');
+    if (!container) throw new Error('Graph editor could not find its JSXGraph container');
+    var board = JXG.JSXGraph.initBoard(container.id, merge({
+      boundingbox: [-5, 4, 5, -4],
+      axis: false,
+      pan: { enabled: false },
+      zoom: { enabled: false },
+      showNavigation: false,
+      showCopyright: false
+    }, options.boardAttributes));
+    var editor = createGraphEditor(merge(options, { board: board }));
+
+    function resizeToVisibleContainer() {
+      var width = container.clientWidth;
+      var height = container.clientHeight;
+      if (!(width > 0 && height > 0) || typeof board.resizeContainer !== 'function') return false;
+      if (Math.abs((board.canvasWidth || 0) - width) > 1 ||
+          Math.abs((board.canvasHeight || 0) - height) > 1) {
+        board.resizeContainer(width, height);
+        if (typeof board.fullUpdate === 'function') board.fullUpdate();
+      }
+      return true;
+    }
+
+    editor.resize = resizeToVisibleContainer;
+    if (typeof ResizeObserver !== 'undefined') {
+      var observer = new ResizeObserver(resizeToVisibleContainer);
+      observer.observe(container);
+      editor.resizeObserver = observer;
+    }
+    if (typeof requestAnimationFrame === 'function') {
+      requestAnimationFrame(function () {
+        resizeToVisibleContainer();
+        requestAnimationFrame(resizeToVisibleContainer);
+      });
+    }
+    resizeToVisibleContainer();
+    return editor;
+  }
+
+  JXG.QuartoGraphEditor = {
+    create: createGraphEditor,
+    createBoard: createBoard,
+    summarize: summarizeGraph
+  };
+})();
+
+</script>
+<script>// SPDX-License-Identifier: AGPL-3.0-or-later
+// STACK-JS compatibility inside jsxgraph-quarto's sandboxed iframe.
+(function (scope) {
+  'use strict';
+  const PROTOCOL = 'ctm-stack-jsxgraph', VERSION = 1;
+  const NAME = /^[A-Za-z][A-Za-z0-9_]{0,63}$/;
+  const MAX_VALUE = 32768, MAX_CONTENT = 262144, MAX_INPUTS = 32;
+  let instanceSequence = 0;
+  function nonce() {
+    if (scope.crypto?.randomUUID) return scope.crypto.randomUUID();
+    return Date.now().toString(36) + '-' + (++instanceSequence) + '-' + Math.random().toString(36).slice(2);
+  }
+  function validName(value) { return typeof value === 'string' && NAME.test(value); }
+  function plain(value) { return value && typeof value === 'object' && !Array.isArray(value); }
+
+  function create(options) {
+    options = options || {};
+    const assessmentId = options.assessmentId;
+    const names = options.inputNames || [];
+    const tokenNames = options.tokenNames || [];
+    if (typeof assessmentId !== 'string' || !assessmentId || assessmentId.length > 256 ||
+        !Array.isArray(names) || names.length > MAX_INPUTS || new Set(names).size !== names.length ||
+        !names.every(validName) || !Array.isArray(tokenNames) || tokenNames.length > 128 || new Set(tokenNames).size !== tokenNames.length ||
+        !tokenNames.every(name => typeof name === 'string' && /^[A-Za-z0-9_]{1,64}$/.test(name))) throw new Error('Invalid STACK JSXGraph binding descriptor');
+    const allowed = new Set(names), instanceId = nonce();
+    if (!scope.JXG?.QuartoAssessment?.register) throw new Error('The jsxgraph-quarto assessment bridge is missing');
+    const timeoutMs = Math.min(30000, Math.max(1000, options.timeoutMs || 10000));
+    const document = scope.document;
+    const mirrors = new Map(), metadata = new Map(), pending = new Map();
+    const validationListeners = new Map(), buttonListeners = new Map();
+    const desired = new Map(), writing = new Set(), pumps = new Map(), writeErrors = new Map();
+    let generation = null, epoch = -1, sequence = 0, applying = false, disposed = false;
+    let latestState = null, boardValues = null, helloTimer, loadTimer;
+    let resolveReady, rejectReady;
+    const ready = new Promise((resolve, reject) => { resolveReady = resolve; rejectReady = reject; });
+    // Keep failures observable through ready/request promises without an
+    // unhandled rejection before the author's asynchronous wrapper awaits it.
+    ready.catch(() => {});
+
+    function displayError(message) {
+      let target = document.querySelector('.ctm-stack-jsxgraph-error');
+      if (!target) {
+        target = document.createElement('pre');
+        target.className = 'ctm-stack-jsxgraph-error';
+        target.setAttribute('role', 'alert');
+        document.body.appendChild(target);
+      }
+      target.textContent = String(message).slice(0, 4096);
+    }
+    function post(data) {
+      if (!disposed) scope.parent.postMessage({protocol: PROTOCOL, version: VERSION,
+        assessmentId, instanceId, generation, ...data}, '*');
+    }
+    function inputName(name) {
+      if (disposed) throw new Error('The graphical input is no longer connected');
+      if (!validName(name) || !allowed.has(name)) throw new Error('STACK input is not bound to this board: ' + String(name));
+      return name;
+    }
+    function rejectRequests(message) {
+      for (const row of pending.values()) { clearTimeout(row.timer); row.reject(new Error(message)); }
+      pending.clear();
+    }
+    function mirror(name) {
+      inputName(name);
+      if (mirrors.has(name)) return mirrors.get(name);
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.id = name;
+      input.value = latestState?.inputs?.[name]?.value || '';
+      for (const [key, value] of Object.entries(metadata.get(name) || {})) input.dataset[key] = value;
+      if (latestState?.inputs?.[name]?.readonly) input.setAttribute('readonly', '');
+      document.body.appendChild(input);
+      mirrors.set(name, input);
+      input.addEventListener('change', () => {
+        if (applying || disposed) return;
+        if (typeof input.value !== 'string' || input.value.length > MAX_VALUE) {
+          const error = new Error('The graphical response exceeds the input limit.');
+          writeErrors.set(name, {error, revision:latestState.inputs[name].revision});
+          displayError(error.message);
+          applyState(latestState); return;
+        }
+        desired.set(name, input.value);
+        startWrite(name);
+      });
+      return input;
+    }
+    function validState(state) {
+      return plain(state) && plain(state.inputs) && names.every(name => {
+        const row = state.inputs[name];
+        return plain(row) && typeof row.value === 'string' && row.value.length <= MAX_VALUE &&
+          Number.isSafeInteger(row.revision) && row.revision >= 0 &&
+          (!row.metadata || plain(row.metadata) && Object.entries(row.metadata).every(([key, value]) =>
+            key.startsWith('stack') && key.length <= 80 && typeof value === 'string' && value.length <= 256));
+      });
+    }
+    function notifyValidation(name, state) {
+      const value = state.inputs[name].validation || {complete:false, valid:null};
+      if (typeof value.complete !== 'boolean' || value.valid !== null && typeof value.valid !== 'boolean') return;
+      for (const row of validationListeners.get(name) || []) {
+        const signature = JSON.stringify(value);
+        if (row.previous === signature) continue;
+        row.previous = signature;
+        try { row.callback(value.complete, value.valid, name); }
+        catch (error) { displayError(error?.message || error); }
+      }
+    }
+    function applyState(state) {
+      if (!state || !validState(state)) return;
+      latestState = state;
+      applying = true;
+      try {
+        for (const name of names) {
+          const row = state.inputs[name];
+          metadata.set(name, row.metadata || {});
+          if (!writing.has(name) && !desired.has(name) && row.revision > (writeErrors.get(name)?.revision ?? Infinity)) {
+            writeErrors.delete(name);
+          }
+          const input = mirrors.get(name);
+          // Keep a more recent drag while its preceding write is in flight.
+          if (input && !desired.has(name) && !writing.has(name) && input.value !== row.value) {
+            input.value = row.value;
+            input.dispatchEvent(new Event('change'));
+          }
+          notifyValidation(name, state);
+        }
+      } finally { applying = false; }
+    }
+    async function request(operation, details) {
+      await ready;
+      if (disposed) throw new Error('The graphical input is no longer connected');
+      const requestId = instanceId + ':' + (++sequence);
+      return new Promise((resolve, reject) => {
+        const timer = setTimeout(() => { pending.delete(requestId); reject(new Error('STACK JSXGraph request timed out: ' + operation)); }, timeoutMs);
+        pending.set(requestId, {resolve, reject, timer});
+        post({type:'request', requestId, operation, ...(details || {})});
+      });
+    }
+    async function pump(name) {
+      if (writing.has(name)) return;
+      writing.add(name);
+      try {
+        while (desired.has(name) && !disposed) {
+          const value = desired.get(name);
+          desired.delete(name);
+          const state = await request('set-input', {name, value, inputRevision: latestState.inputs[name].revision});
+          writeErrors.delete(name);
+          applyState(state);
+        }
+      } catch (error) {
+        desired.delete(name);
+        writeErrors.set(name, {error, revision:latestState.inputs[name].revision});
+        if (!disposed) displayError(error?.message || error);
+      } finally { writing.delete(name); applyState(latestState); }
+    }
+    function startWrite(name) {
+      if (pumps.has(name)) return pumps.get(name);
+      const task = pump(name);
+      pumps.set(name, task);
+      task.finally(() => {
+        if (pumps.get(name) === task) pumps.delete(name);
+        if (!disposed && desired.has(name)) startWrite(name);
+      });
+      return task;
+    }
+    function receive(event) {
+      const data = event.data;
+      if (event.source !== scope.parent || !plain(data) || data.protocol !== PROTOCOL || data.version !== VERSION ||
+          data.assessmentId !== assessmentId || data.instanceId !== instanceId || disposed) return;
+      if (data.type === 'init') {
+        if (!Number.isSafeInteger(data.epoch) || data.epoch < epoch || typeof data.generation !== 'string' ||
+            data.generation.length > 128 || !validState(data.state)) return;
+        const values = data.boardValues === undefined ? {} : data.boardValues;
+        if (!plain(values) || Object.keys(values).length !== tokenNames.length || !tokenNames.every(name =>
+            Object.prototype.hasOwnProperty.call(values, name) && typeof values[name] === 'number' && Number.isFinite(values[name]))) return;
+        // Initialization is immutable for a document. Host variant/reset changes
+        // navigate a fresh document, so late/repeated init cannot alter geometry.
+        if (boardValues && JSON.stringify(boardValues) !== JSON.stringify(values)) return;
+        boardValues = Object.freeze({...values});
+        if (generation && generation !== data.generation) {
+          rejectRequests('The question was reset or its variant changed');
+          desired.clear();
+        }
+        epoch = data.epoch; generation = data.generation;
+        applyState(data.state);
+        clearInterval(helloTimer); clearTimeout(loadTimer);
+        resolveReady();
+        return;
+      }
+      if (!generation || data.generation !== generation) return;
+      if (data.type === 'state') { applyState(data.state); return; }
+      if (data.type === 'button' && typeof data.elementId === 'string') {
+        for (const callback of buttonListeners.get(data.elementId) || []) callback(data.elementId);
+        return;
+      }
+      if (data.type !== 'response' || typeof data.requestId !== 'string') return;
+      const row = pending.get(data.requestId);
+      if (!row) return;
+      pending.delete(data.requestId); clearTimeout(row.timer);
+      if (data.state) applyState(data.state);
+      if (typeof data.error === 'string') row.reject(new Error(data.error.slice(0, 4096)));
+      else row.resolve(data.value);
+    }
+    scope.addEventListener('message', receive);
+    function hello() { post({type:'hello'}); }
+    helloTimer = setInterval(hello, 250);
+    loadTimer = setTimeout(() => {
+      clearInterval(helloTimer);
+      const error = new Error('The STACK graphical input did not connect to its question');
+      rejectReady(error); displayError(error.message);
+    }, timeoutMs);
+    hello();
+
+    const api = {
+      ready,
+      board_values: function () {
+        if (!boardValues || disposed) throw new Error('The graphical board values are not initialized');
+        return boardValues;
+      },
+      mark_ready: async function () {
+        await ready;
+        if (disposed) throw new Error('The graphical input is no longer connected');
+        post({type:'board-ready'});
+      },
+      request_access_to_input: async function (name) {
+        inputName(name); await ready; inputName(name); return mirror(name).id;
+      },
+      get_input_metadata: function (name) {
+        const input = mirrors.get(inputName(name));
+        if (!input) throw new Error('Register the STACK input before requesting its metadata');
+        return Object.fromEntries(Object.entries(input.dataset).filter(([key]) => key.startsWith('stack'))
+          .map(([key, value]) => [key.slice(5), value]));
+      },
+      clear_input: async function (name) {
+        inputName(name); await ready;
+        desired.set(name, '');
+        await startWrite(name);
+        if (writeErrors.has(name)) throw writeErrors.get(name).error;
+      },
+      get_content: function (elementId) {
+        if (typeof elementId !== 'string' || elementId.length > 256) return Promise.reject(new Error('Invalid STACK content identifier'));
+        return request('get-content', {elementId}).then(value => {
+          if (value !== null && (typeof value !== 'string' || value.length > MAX_CONTENT)) throw new Error('Invalid STACK content response');
+          return value;
+        });
+      },
+      register_validation_state_listener: function (name, callback) {
+        inputName(name);
+        if (typeof callback !== 'function') throw new TypeError('Validation listener must be a function');
+        if (!validationListeners.has(name)) validationListeners.set(name, []);
+        validationListeners.get(name).push({callback, previous:null});
+        ready.then(() => notifyValidation(name, latestState)).catch(error => displayError(error.message));
+      },
+      register_external_button_listener: function (elementId, callback) {
+        if (typeof elementId !== 'string' || !elementId || elementId.length > 256 || typeof callback !== 'function') {
+          throw new Error('Invalid STACK external button listener');
+        }
+        if (!buttonListeners.has(elementId)) buttonListeners.set(elementId, []);
+        buttonListeners.get(elementId).push(callback);
+        return request('listen-button', {elementId});
+      },
+      display_error: displayError,
+      dispose: function () {
+        disposed = true; clearInterval(helloTimer); clearTimeout(loadTimer);
+        scope.removeEventListener('message', receive);
+        rejectReady(new Error('The graphical input was disconnected'));
+        rejectRequests('The graphical input was disconnected');
+        for (const input of mirrors.values()) input.remove();
+      },
+    };
+    scope.JXG.QuartoAssessment.register({response: async () => {
+      await ready;
+      // A parent collecting the response before Validate must wait until the
+      // most recent drag has reached the question's ordinary input controls.
+      while (pumps.size) await Promise.all(pumps.values());
+      if (writeErrors.size) throw writeErrors.values().next().value.error;
+      return {inputs:Object.fromEntries(names.map(name => [name, mirrors.get(name)?.value ?? latestState.inputs[name].value]))};
+    }});
+    return api;
+  }
+  scope.CTMStackJSXGraphFrame = Object.freeze({create});
+})(typeof window === 'undefined' ? self : window);
+
+(async function(){
+const stack_js=CTMStackJSXGraphFrame.create({"assessmentId":"native-json-b0","inputNames":["ans1"],"tokenNames":[]});
+try {
+await stack_js.ready;
+const ctm_board_values=stack_js.board_values();
+const stack_jxg=(await import(new URL("./assets/38ab0158bcc15995a49f5270efec090161fb2e116a4d9dd8d49755e95649edf7.js", document.baseURI).href)).default;
+const [ans1Ref]=await Promise.all(["ans1"].map(name=>stack_js.request_access_to_input(name,true,true)));
+var divid=document.querySelector(".jxgbox").id;var BOARDID=divid;
+
+/* In this example ans1 is a String type input, which is important as the value we store 
+   there is most definitely not a valid Maxima expression. */
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});
+
+/* We will store our points here. */
+var points = new Array();
+var i = 0;
+
+/* If we have stored state of points we will resurrect them now. */
+var theInput = document.getElementById(ans1Ref);
+if (theInput.value && theInput.value != '') {
+ var pointList = JSON.parse(theInput.value);
+ for (i=0; i<pointList.length; i++) {
+  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});
+  points[i] = p;
+ } 
+}
+
+/* Lets create some magic, in this example dragging points through specific areas changes 
+   the color of the points. And there is an area that both creates and deletes points. */
+
+var source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {  strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {    strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], { strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+
+/* A function the we can tie to points so that their color changes. */
+var colorDragListener = function() {
+ /* this in this context should be the point. */
+ if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {
+  this.setAttribute({color:'black'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) < red.Radius()) {
+  this.setAttribute({color:'red'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) < green.Radius()) {
+  this.setAttribute({color:'green'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) < blue.Radius()) {
+  this.setAttribute({color:'blue'});
+ }
+}
+
+/* Another function to handle the release of dragged points and the storage of the state. */
+var dropHandler = function() {
+ /* this in this context should be the point. */
+ var newOne = points.indexOf(this);
+ if (newOne == -1) {
+  /* This is a new one depending on where it was dropped we do things. */
+  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {
+   /* When dropped into the source, reset the point. */
+   this.moveTo([source.center.X(),source.center.Y()],100);
+   this.setAttribute({color:'black'});
+  } else {
+   /* it is now in play add it to the list. */
+   points[points.length] = this;
+   /* also initialise a new point in the source. */
+   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});
+   p.on('drag',colorDragListener);
+   p.on('up',dropHandler);
+  }
+ } else {
+  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {
+   /* When dropped into the source delete this point as this is an existing point. */
+   points.splice(newOne, 1);
+   this.board.removeObject(this);
+  }
+  /* Otherwise all fine. */
+ }
+
+ /* Then construct the state. Basically, map the points to a specific form, in this example the form is 
+    a bit too complex as it includes an object/dictionary when a list would have worked but maybe this
+    will come in handy elsewhere. */
+ var newState = new Array();
+ for (i=0; i<points.length; i++) {
+  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};
+  newState[i] = P;
+ }
+ theInput.value = JSON.stringify(newState);
+
+ /* NOTE! You will need to do certain things to make the VLE around you know that things happen, 
+    for this reason we need to generate a "change" event. In the case of Moodle and this question the event
+    marks the form modified and causes a warning if the page is left through non saving routes. */
+ var e = new Event('change');
+ theInput.dispatchEvent(e);
+}
+
+
+/* This is the intial point. */
+var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});
+p.on('drag',colorDragListener);
+p.on('up',dropHandler);
+
+/* Remember that the points from stored state must also be tied to the listeners if present. */
+for (i=0; i<points.length; i++) {
+ points[i].on('drag',colorDragListener);
+ points[i].on('up',dropHandler);
+}
+
+/* Always call board.update() at the end if you have bindings. */
+board.update();
+
+/* In this example we hide the input as it will get absurd very soon. */
+document.getElementById(ans1Ref).style.display = 'none';
+
+window.__ctmStackJSXGraphReady=true;document.documentElement.dataset.ctmStackJsxgraphReady="true";await stack_js.mark_ready();
+} catch(error) { stack_js.display_error(error.message); }
+})();
+</script>
+</body>
+</html>

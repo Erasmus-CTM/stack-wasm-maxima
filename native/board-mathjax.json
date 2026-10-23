@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "bases": {
+    "mathjax4": "native/boards/mathjax/npm/mathjax@4.1.3/",
+    "font": "native/boards/mathjax/npm/@mathjax/mathjax-newcm-font@4.1.3/",
+    "mathjax3": "native/boards/mathjax/npm/mathjax@3.2.2/es5/"
+  },
+  "urlMap": {
+    "https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-svg.js": "native/boards/mathjax/npm/mathjax@4.1.3/tex-mml-svg.js",
+    "https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-mml-svg.js": "native/boards/mathjax/npm/mathjax@4.1.3/tex-mml-svg.js",
+    "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
+    "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
+    "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-mml-chtml.js",
+    "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-mml-chtml.js",
+    "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml-full.js",
+    "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml-full.js": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml-full.js",
+    "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-mml-svg.js",
+    "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-svg.js": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-mml-svg.js"
+  },
+  "bundleRoot": "native/boards/mathjax",
+  "preloader": "native/boards/assets/2375c1c0d25cd1399526bb3e6ec24c8d2fd0749a298981a7c17e2c37b041f016.js",
+  "preloaderLicence": "native/boards/assets/CTM-LICENSE.txt",
+  "parentMathjax": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
+  "parentFontCss": "native/boards/mathjax/fonts/source-sans-pro.css",
+  "config": {
+    "loader": {
+      "paths": {
+        "mathjax": "native/boards/mathjax/npm/mathjax@4.1.3",
+        "sre": "native/boards/mathjax/npm/mathjax@4.1.3/sre",
+        "mathmaps": "native/boards/mathjax/npm/mathjax@4.1.3/sre/mathmaps"
+      }
+    },
+    "svg": {
+      "fontPath": "native/boards/mathjax/npm/@mathjax/mathjax-newcm-font@4.1.3"
+    },
+    "chtml": {
+      "fontPath": "native/boards/mathjax/npm/@mathjax/mathjax-newcm-font@4.1.3",
+      "fontURL": "native/boards/mathjax/npm/@mathjax/mathjax-newcm-font@4.1.3/chtml/woff2"
+    }
+  },
+  "provenance": {
+    "assessmentRevision": "68fe838ca76ce7dfc4297f8ed4db1ccf1dc29a8b",
+    "metadataSha256": "6c4206dc76c87d74f8551c556b993ccf567aca4331adab0fc55a278ffbfee152",
+    "pinsSha256": "68b51902932f8c4146de7478e4c6355196c45c940133abfab2d3c0968883f156",
+    "versions": {
+      "mathjax-newcm-font": "4.1.3",
+      "mathjax4": "4.1.3",
+      "mathjax3": "3.2.2",
+      "source-sans-pro": "5.3.0"
+    },
+    "archives": [
+      {
+        "id": "mathjax-newcm-font",
+        "url": "https://registry.npmjs.org/@mathjax/mathjax-newcm-font/-/mathjax-newcm-font-4.1.3.tgz",
+        "integrity": "sha512-gzAB3dFHilHX1l5x2xUqRL+1jDQt3Fyza1DkEMVXWC4E8SvsGdlgEza47HYi2WhVcgfkvf4zgUGzuhbq3Pjlew==",
+        "licence": "Apache-2.0 AND GUST-Font-License"
+      },
+      {
+        "id": "mathjax4",
+        "url": "https://registry.npmjs.org/mathjax/-/mathjax-4.1.3.tgz",
+        "integrity": "sha512-BN/8Pkgn7G1pIDYJqd9md+JHsE/jydSYbyOZnSdSA0WziuVO8mRxdYiWFumkVVly/8U+hm9DpIIoWuvySverzw==",
+        "licence": "Apache-2.0"
+      },
+      {
+        "id": "mathjax3",
+        "url": "https://registry.npmjs.org/mathjax/-/mathjax-3.2.2.tgz",
+        "integrity": "sha512-Bt+SSVU8eBG27zChVewOicYs7Xsdt40qm4+UpHyX7k0/O9NliPc+x77k1/FEsPsjKPZGJvtRZM1vO+geW0OhGw==",
+        "licence": "Apache-2.0"
+      },
+      {
+        "id": "source-sans-pro",
+        "url": "https://registry.npmjs.org/@fontsource/source-sans-pro/-/source-sans-pro-5.3.0.tgz",
+        "integrity": "sha512-nd96qXI4stbyRPNEygS2cNhMkAc1kkW9+ORmIOK0oelPTyiitRPk/+9+HUuUYuEjwRRkK/+Gat2J9/NMJest/A==",
+        "licence": "OFL-1.1"
+      }
+    ],
+    "preloaderSha256": "2375c1c0d25cd1399526bb3e6ec24c8d2fd0749a298981a7c17e2c37b041f016",
+    "preloaderSource": "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.site-sources/board-ctm-libs/_extensions/ctm-libs/runtime/mathjax-opaque-adaptor.js",
+    "bundleFiles": 2319,
+    "parentNpm": {
+      "metadata_sha256": "f39be1729ee5e75469450ed62e262a88bd9426ece23487200ae21a9136fd0294",
+      "table_sha256": "002d989e94490e4ef5e6d47186b82ff40fbab2ff0ea743653141c0459ad65b51",
+      "source_refs": {
+        "ctm-libs": "2ed1a3381bb6b606e3a913905095eadd8aee0988"
+      },
+      "libraryRevision": "2cdd3b47bb4722f65f168a0baf4dbd6a18bff384",
+      "selected": [
+        "mathjax3",
+        "source-sans-pro"
+      ]
+    }
+  }
+}

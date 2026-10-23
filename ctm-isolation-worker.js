@@ -13,6 +13,20 @@ self.addEventListener('fetch', event => {
     headers.set('Cross-Origin-Opener-Policy', 'same-origin');
     headers.set('Cross-Origin-Embedder-Policy', 'require-corp');
     headers.set('Cross-Origin-Resource-Policy', 'same-origin');
-    return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+    // These generated, public documents/assets are consumed by intentionally
+    // opaque board frames. Keep the parent and all other resources restricted.
+    // Match the static-server contract, including project/subdirectory hosting.
+    const path = new URL(request.url).pathname;
+    const boards = new URL('./native/boards/', self.location.href).pathname;
+    const leaf = path.startsWith(boards) ? path.slice(boards.length) : '';
+    const asset = leaf.startsWith('assets/') || leaf.startsWith('mathjax/');
+    if (asset || /^[A-Za-z0-9_-]+\.html$/.test(leaf)) {
+      headers.set('Cross-Origin-Resource-Policy', 'cross-origin');
+      if (asset) headers.set('Access-Control-Allow-Origin', '*');
+    }
+    // Fetch may expose a stream even for a null-body status. Response's
+    // constructor rejects that stream; preserve HTTP's empty-body contract.
+    const empty = request.method === 'HEAD' || [204, 205, 304].includes(response.status);
+    return new Response(empty ? null : response.body, { status: response.status, statusText: response.statusText, headers });
   }));
 });
