@@ -1,0 +1,22 @@
+name: Inspect pinned CI artifacts for independent review
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/artifact-audit.yml'
+      - 'runtime/audit/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Inspect exact artifact archives without executing their contents
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python runtime/audit/inspect.py runtime/audit/artifacts.json
