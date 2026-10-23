@@ -13,8 +13,8 @@
     "ranges": [
       {
         "path": "test-results/milestone-three/browser.json",
-        "start": 8388608,
-        "end": 16777216
+        "start": 16777216,
+        "end": 25165824
       }
     ]
   }
