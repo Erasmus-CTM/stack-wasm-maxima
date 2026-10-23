@@ -286,6 +286,17 @@ try{
     assert.ok(item.frame.getAttribute('srcdoc').includes('href="https://site.test/dept/course/native/boards/assets/vendor.css"'));
     assert.ok(item.frame.getAttribute('srcdoc').includes('window.literal="./assets/do-not-rewrite.js";'),'Script text is preserved');
   }
+  first.reset.click();await settle();
+  assert.equal(first.frame.hasAttribute('srcdoc'),false,'Reset retires the old document before remount');
+  assert.equal(first.frame.srcdocWrites,1,'No new document mounts before the blank load');
+  first.reset.click();await settle();
+  first.frame.dispatchEvent(new FakeEvent('load'));await settle();
+  assert.equal(first.frame.srcdocWrites,2,'Only the latest reset mounts after shared blank navigation');
+  first.frame.dispatchEvent(new FakeEvent('load'));await settle();
+  assert.equal(first.frame.srcdocWrites,2,'The new document load cannot repeat its mount');
+  second.reset.click();await settle();second.handle.disconnect();
+  second.frame.dispatchEvent(new FakeEvent('load'));await settle();
+  assert.equal(second.frame.srcdocWrites,1,'Disconnect while blank cannot remount a retired document');
   const resetting=templateFrame('../native/boards/reset-pending.html');mounts.push(resetting);await settle();
   const oldGeneration=resetting.handle.generation();resetting.reset.click();await settle();
   assert.notEqual(resetting.handle.generation(),oldGeneration);

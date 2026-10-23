@@ -61,6 +61,7 @@
     const originalSrc = frame.getAttribute('src');
     const templatePath = frame.getAttribute('data-stack-jsxgraph-template');
     let templateURL = null, mountSequence = 0, templatePending = false;
+    let blankNavigation = false, pendingBlankMount = null;
     if (templatePath !== null) {
       if (!/^\.\.\/native\/boards\/[A-Za-z0-9_-]+\.html$/.test(templatePath)) throw new Error('Invalid native board template URL');
       templateURL = new URL(templatePath, frame.ownerDocument.baseURI);
@@ -170,9 +171,20 @@
         }
         templateLoads.get(url).then(html => {
           if (!current() || ticket !== mountSequence) return;
-          templatePending = false;
-          if (errorOutput) { errorOutput.remove(); errorOutput = null; }
-          frame.setAttribute('srcdoc', html);
+          const apply = () => {
+            if (!current() || ticket !== mountSequence) return;
+            templatePending = false;
+            if (errorOutput) { errorOutput.remove(); errorOutput = null; }
+            frame.setAttribute('srcdoc', html);
+          };
+          // Complete a real document retirement before reusing srcdoc. Firefox
+          // can otherwise retain an inaccessible execution context on reset.
+          if (blankNavigation) pendingBlankMount = apply;
+          else if (frame.hasAttribute('srcdoc')) {
+            blankNavigation = true; pendingBlankMount = apply;
+            frame.removeAttribute('srcdoc');
+            frame.setAttribute('src', 'about:blank');
+          } else apply();
         }).catch(error => {
           if (!current() || ticket !== mountSequence) return;
           templatePending = false;
@@ -187,7 +199,7 @@
       else showError('The graphical board has no original document to restore');
     }
     function invalidate(reload) {
-      mountSequence++; templatePending = false;
+      mountSequence++; templatePending = false; pendingBlankMount = null;
       if (instanceId) retiredInstances.add(instanceId);
       instanceId = null; generation = nonce(); epoch = ++epochSequence; previousState = '';
       boardReady = false; frame.setAttribute('data-stack-jsxgraph-ready', 'false');
@@ -240,7 +252,16 @@
       else hostInput(event);
     }
     function reset() { acceptingHello = false; invalidate(false); queueMicrotask(reloadFrame); }
-    function loaded() { if (!templatePending) acceptingHello = true; layout(); }
+    function loaded() {
+      if (blankNavigation) {
+        blankNavigation = false;
+        const mount = pendingBlankMount; pendingBlankMount = null;
+        if (mount) mount();
+        return;
+      }
+      if (!templatePending) acceptingHello = true;
+      layout();
+    }
     function receive(event) {
       const data = event.data;
       if (current() && event.source === frame.contentWindow && plain(data) && data.protocol === 'jsxgraph-quarto-assessment' &&
