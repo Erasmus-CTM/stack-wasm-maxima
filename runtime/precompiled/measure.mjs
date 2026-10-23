@@ -25,7 +25,17 @@ self.onmessage=async({data})=>{let session;try{
   const warmCalls=[];for(let i=0;i<10;i++){const t=performance.now();warmCalls.push({value:session.evaluate('6*7'),elapsedMs:performance.now()-t});}
   const grade=session.assess({test:'AlgEquiv',student:'(x+1)^2',teacher:'x^2+2*x+1'});
   const version=session.evaluate('stackmaximaversion');
-  self.postMessage({ok:true,readyMs,initialization,warmCalls,grade,version});
+  const resets=[];
+  for(let i=0;i<3;i++){
+    const reset=session.evaluate('stack_reset(true)');
+    session.write(':lisp (defun maxima::$ctm_force_gc () (si:gc t) (quote maxima::$done))\\n',60000);
+    const gc=session.evaluate('block([temporary:makelist(j^3,j,1,2000)],is(ctm_force_gc()=done) and is(temporary[2000]=8000000000))');
+    const caught=session.evaluate('block([r:errcatch(error("CTM deliberate caught CAS error"))],if r=[] then errormsgtostring() else "unexpected")');
+    const afterError=session.evaluate('6*7');
+    const afterGrade=session.assess({test:'AlgEquiv',student:'(x+1)^2',teacher:'x^2+2*x+1'});
+    resets.push({reset,gc,caught,afterError,grade:afterGrade,version:session.evaluate('stackmaximaversion')});
+  }
+  self.postMessage({ok:true,readyMs,initialization,warmCalls,grade,version,resets});
 }catch(error){self.postMessage({ok:false,error:String(error),stack:error.stack});}finally{session?.terminate();}};`;
 await writeFile(join(site,'precompiled-measure.html'),'<!doctype html><title>Precompiled STACK timing</title>');
 await writeFile(join(site,'precompiled-measure-worker.js'),worker);
@@ -61,6 +71,16 @@ try{
           assert.equal(result.grade.cas_valid,true);
           assert.equal(result.grade.correct,true);
           assert.ok(result.version);
+          assert.equal(result.resets.length,3);
+          for(const row of result.resets){
+            assert.equal(row.reset,true);
+            assert.equal(row.gc,true);
+            assert.match(row.caught,/CTM deliberate caught CAS error/);
+            assert.equal(row.afterError,42);
+            assert.equal(row.grade.cas_valid,true);
+            assert.equal(row.grade.correct,true);
+            assert.equal(row.version,result.version);
+          }
           assert.equal(requests.some(record=>record.status>=400||record.error),false);
           if(candidate==='precompiled'){
             assert.ok(result.initialization.stages.compiledStackBytes>0,'Compiled asset must reach the Wasm filesystem');

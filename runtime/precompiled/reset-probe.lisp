@@ -1,0 +1,26 @@
+; SPDX-License-Identifier: AGPL-3.0-or-later
+; Load only the translated fixture: no source reload can hide reset removal.
+(in-package :maxima)
+(handler-case
+    (progn
+      (load (merge-pathnames #P"source/ctm-reset-probe.LISP" *load-truename*))
+      (unless (= (mfuncall '$ctm_reset_probe 41) 42)
+        (error "Translated fixture returned the wrong value before reset"))
+      (dotimes (iteration 3)
+        (unless (eql (mfuncall '$eval_string "ctm_reset_sentinel:123456") 123456)
+          (error "Reset sentinel assignment did not execute"))
+        (unless (eq (mfuncall '$eval_string "kill(allbut[functions])") '$done)
+          (error "Reset did not return done"))
+        (unless (eq (meval '$ctm_reset_sentinel) '$ctm_reset_sentinel)
+          (error "Reset did not clear the sentinel variable"))
+        (si:gc t)
+        (unless (= (mfuncall '$ctm_reset_probe 41) 42)
+          (error "Translated fixture did not survive reset ~D" iteration)))
+      (format t "~&CTM-RESET-OK|3~%")
+      (finish-output)
+      (bye 0))
+  (error (condition)
+    (let ((*print-readably* nil))
+      (format *error-output* "~&CTM-RESET-FAILED|~A~%" condition)
+      (finish-output *error-output*))
+    (bye 1)))

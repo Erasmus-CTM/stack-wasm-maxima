@@ -16,6 +16,18 @@ test "$(git -C "$STACK" rev-parse HEAD)" = "$PIN"
 test -x "$ECL"
 test -x "$NATIVE"
 mkdir -p "$WORK/source" "$WORK/logs"
+# Refuse retained generated outputs: a failed attempt must never reuse a bundle.
+for output in "$WORK/source/stackmaxima.LISP" "$WORK/source/stackmaxima.lisp" \
+  "$WORK/source/ctm-assignment-probe.LISP" "$WORK/source/ctm-reset-probe.LISP" "$WORK/stackmaxima.fas"; do
+  if test -e "$output"; then
+    echo "Refusing stale experiment output: $output" >&2
+    exit 1
+  fi
+done
+if find "$WORK" "$MAXIMA/src/binary-ecl" -type f \( -name 'ctm-stackmaxima.fasb' -o -name 'ctm-stackmaxima.fas' \) -print -quit | grep -q .; then
+  echo 'Refusing retained cross-compiler output' >&2
+  exit 1
+fi
 cp "$STACK/stack/maxima/stackmaxima.mac" "$WORK/source/stackmaxima.mac"
 sha256sum "$WORK/source/stackmaxima.mac" > "$WORK/logs/stackmaxima-source.sha256"
 cat > "$WORK/translate-driver.lisp" <<'EOF'
@@ -57,9 +69,25 @@ if "$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/assignment-probe-d
 else
   printf 'translation failed\n' > "$WORK/logs/assignment-probe-status.txt"
 fi
+# A separate minimal translated function tests Maxima's $props/reset hazard.
+printf 'ctm_reset_probe(x):=x+1$\n' > "$WORK/source/ctm-reset-probe.mac"
+sed 's/stackmaxima\.mac/ctm-reset-probe.mac/g' "$WORK/translate-driver.lisp" > "$WORK/reset-translate-driver.lisp"
+cp "$ROOT/runtime/precompiled/reset-probe.lisp" "$WORK/reset-probe.lisp"
+reset_ok=false
+if "$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/reset-translate-driver.lisp" 2>&1 | tee "$WORK/logs/reset-translate.log" &&
+  grep -q '^CTM-TRANSLATION-OK|' "$WORK/logs/reset-translate.log" &&
+  "$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/reset-probe.lisp" 2>&1 | tee "$WORK/logs/reset-probe.log" &&
+  grep -q '^CTM-RESET-OK|3$' "$WORK/logs/reset-probe.log"; then
+  reset_ok=true
+fi
+printf '%s\n' "$reset_ok" > "$WORK/logs/reset-probe-status.txt"
 "$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/translate-driver.lisp" 2>&1 | tee "$WORK/logs/translate.log"
 grep -q '^CTM-TRANSLATION-OK|' "$WORK/logs/translate.log" || {
   echo 'Maxima translation did not emit a complete source success marker' >&2
+  exit 1
+}
+test "$reset_ok" = true || {
+  echo 'Translated function reset/GC validation failed; refusing cross-compilation' >&2
   exit 1
 }
 # The pinned Maxima translator writes .LISP (and .UNLISP warnings) on Linux.

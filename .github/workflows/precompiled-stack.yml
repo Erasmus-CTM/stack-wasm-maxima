@@ -98,6 +98,9 @@ jobs:
             .cache/precompiled-stack/source/ctm-assignment-probe.mac
             .cache/precompiled-stack/source/ctm-assignment-probe.LISP
             .cache/precompiled-stack/source/ctm-assignment-probe.UNLISP
+            .cache/precompiled-stack/source/ctm-reset-probe.*
+            .cache/precompiled-stack/reset-translate-driver.lisp
+            .cache/precompiled-stack/reset-probe.lisp
             .cache/precompiled-stack/source/ctm-stackmaxima.asd
             .cache/precompiled-stack/translate-driver.lisp
             .cache/precompiled-stack/assignment-probe-driver.lisp
