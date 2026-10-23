@@ -36,11 +36,8 @@ def main():
         effective = read(ROOT / '.cache/runtime-build/logs/effective-flags.json')
         assert effective['passed'] and effective['configuration'] == profile
         assert effective['finalOptimization'] == profile['eclCFlag']
-        assert read(artifact_path.parent / 'logs/effective-flags.json') == effective
-        delivered_files = {row['path']: row for row in read(artifact_path.parent / 'artifact-manifest.json')['files']}
-        for filename, field in [('ecl-config.log','configLogSha256'),('target-info.lsp','targetInfoSha256'),('compiler-commands.log','compilerCommandsSha256')]:
-            path = artifact_path.parent / 'logs' / filename
-            assert digest(path) == effective[field] == delivered_files['logs/'+filename]['sha256']
+        from flag_evidence import verify_artifact_flags
+        assert verify_artifact_flags(artifact_path.parent, profile) == effective
         owned_assets = assets(artifact['runtimeAssets'], 'bytes')
         pinned_version = next(row['version'] for row in pins['sources'] if row['name'] == 'maxima')
         prepared = read(OUT / 'm1-owned/prepared.json')

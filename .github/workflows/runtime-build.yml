@@ -12,6 +12,9 @@ on:
 permissions:
   contents: read
   actions: read
+concurrency:
+  group: owned-runtime-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -40,6 +43,7 @@ jobs:
           node runtime/build/test-runtime-source.mjs
           python runtime/build/test-substitution.py
           python runtime/build/test-toolchain.py
+          python runtime/build/test-flag-evidence.py
       - name: Record read-only upstream drift
         run: python runtime/build/check-upstream.py
       - uses: actions/cache@v4
