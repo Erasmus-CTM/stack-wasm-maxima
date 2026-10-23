@@ -1,0 +1,442 @@
+{
+  "schema": 1,
+  "harnessWorkingTreeDirty": true,
+  "sourceRevision": "15ff0c79fd9821f935941de81c730990ad4c3c33",
+  "createdAt": "2026-10-22T21:53:11.459Z",
+  "passed": false,
+  "routes": [
+    {
+      "mode": "baseline",
+      "messages": [
+        {
+          "type": "failure",
+          "error": "ReferenceError: runSuite is not defined\n    at self.onmessage (http://127.0.0.1:62296/baseline.js:5:61)"
+        }
+      ],
+      "console": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "warning: unsupported syscall: __syscall_prlimit64\n",
+        "warning: unsupported syscall: __syscall_getrusage\n",
+        "warning: unsupported syscall: __syscall_getrusage\n",
+        "warning: unsupported syscall: __syscall_getrusage\n",
+        "warning: unsupported syscall: __syscall_getrusage\n",
+        "warning: unsupported syscall: __syscall_getrusage\n",
+        "warning: unsupported syscall: __syscall_getrusage\n",
+        "warning: unsupported syscall: __syscall_getrusage\n",
+        "warning: unsupported syscall: __syscall_getrusage\n",
+        "warning: unsupported syscall: __syscall_getrusage\n",
+        "warning: unsupported syscall: __syscall_getrusage\n",
+        "warning: unsupported syscall: __syscall_getrusage\n",
+        "warning: unsupported syscall: __syscall_getrusage\n",
+        "warning: unsupported syscall: __syscall_getrusage\n",
+        "warning: unsupported syscall: __syscall_getrusage\n",
+        "warning: unsupported syscall: __syscall_getrusage\n"
+      ],
+      "errors": [],
+      "passed": false,
+      "isolated": true,
+      "sab": "function"
+    }
+  ],
+  "errors": [
+    "AssertionError [ERR_ASSERTION]: baseline worker failure\n\ntrue !== false\n\n    at file:///C:/Users/andreyac/Documents/Codex/2026-10-22/files-pasted-by-the-user-codex/work/stack-wasm-maxima/prototype/runtime-callentry/run.mjs:74:10"
+  ],
+  "servedScripts": [
+    {
+      "isolated": true,
+      "path": "/baseline.js",
+      "sha256": "7e5b102fdb001bcaecd6e3aa98c5b4f73081f28e7597ae90701c2fc6644dc054"
+    },
+    {
+      "isolated": true,
+      "path": "/runtime/maxima-session.js",
+      "sha256": "b2ee08fd8d5e4cb47a54ddd8276ad837d5cf5bbd72fcebb87c5c88dd37c6a5e0"
+    },
+    {
+      "isolated": true,
+      "path": "/native/stack-parser.js",
+      "sha256": "be66f716145baece0fb3ca280c4318aa23c0b20a73428ceecaab2d645b4e981f"
+    },
+    {
+      "isolated": true,
+      "path": "/native/input.js",
+      "sha256": "0fbea684c259dbd132ca4e1dda1d91399cdeb2d807d616fc7af32406f7122333"
+    },
+    {
+      "isolated": true,
+      "path": "/native/engine.js",
+      "sha256": "642e1cdd481b57f74f3b4733796812c131f37068feecbf3d4f6717f794bd99b1"
+    },
+    {
+      "isolated": true,
+      "path": "/suite.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "isolated": true,
+      "path": "/runtime/maxima-child.js",
+      "sha256": "83da6c056fc6c425d0aa8e9464617854c93575fed15205529fae12c9d10db4cb"
+    },
+    {
+      "isolated": true,
+      "path": "/maxima-runtime/maxima_thread.js",
+      "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db"
+    },
+    {
+      "isolated": true,
+      "path": "/maxima-runtime/maxima.js",
+      "sha256": "4b0b3ecc4eb229b35595e3e5f4063565502df023559d355a23306696af2fdf87"
+    },
+    {
+      "isolated": true,
+      "path": "/maxima-runtime/share_files.js",
+      "sha256": "0a325df1e0e85c65ebaf3102fd75cb2db2d989735a0976e97c1a2108a8f5bca0"
+    }
+  ],
+  "harnessScripts": [
+    {
+      "path": "prototype/runtime-callentry/run.mjs",
+      "sha256": "fca88a127301a46cd5fbab6083d1c63cc3708460943394cdbccd60b23ee5d852"
+    },
+    {
+      "path": "prototype/runtime-callentry/worker.js",
+      "sha256": "17c7d45415e3222d0c381c639bfd11ee67ce7cee8b61efcffa63f36e1601a053"
+    },
+    {
+      "path": "prototype/runtime-callentry/suite.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "prototype/runtime-callentry/baseline.js",
+      "sha256": "7e5b102fdb001bcaecd6e3aa98c5b4f73081f28e7597ae90701c2fc6644dc054"
+    }
+  ],
+  "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+  "assets": [
+    {
+      "path": "libecl.so",
+      "sha256": "477e2d4092cc8a6a601e39ddc746440854984115347b62e7faf3b65cc8fa3564"
+    },
+    {
+      "path": "libgnuplot.so",
+      "sha256": "c90cc6c149e0e4df484db9f422fb9c535ae34b359da24d61c974578d6bce0772"
+    },
+    {
+      "path": "maxima-integration.fas",
+      "sha256": "f9cfeaaf6dcf3063428a19b08bd1b27cfd7618db3f7e3443a69ad26fcbe95db4"
+    },
+    {
+      "path": "maxima-limits.fas",
+      "sha256": "df76a340b53864025e4a8030789a40a91a5d8b6cc0724c11c0e271af9814a5c0"
+    },
+    {
+      "path": "maxima-matrix-algebra.fas",
+      "sha256": "25a1496b2170cb0ee1d66adc44e89d934e96ea9af1f93c879db02be56e1b3c07"
+    },
+    {
+      "path": "maxima-number-theory.fas",
+      "sha256": "833ac50171d72c4bff7278ae1c989117b15c49a67516790683380d0f5aa0d887"
+    },
+    {
+      "path": "maxima-plot.fas",
+      "sha256": "1d7bf17af3a92c744984ddc0c37430ca3dd6139f69bb387d0ef43832abff0b67"
+    },
+    {
+      "path": "maxima-poisson-series.fas",
+      "sha256": "439ab53ff86b76052105dbcc8770c04109c7ea95efb89b2440a9a2a533eff9fd"
+    },
+    {
+      "path": "maxima-quadpack.fas",
+      "sha256": "26ca2a9811792cb023730014f9e9179af0e5e47c47fdf64528558d1dbc0c0def"
+    },
+    {
+      "path": "maxima-slatec.fas",
+      "sha256": "3123d401b7ab973a66b7e585ea0e746a5c899937e1b0ebdf399589eb9d2a003e"
+    },
+    {
+      "path": "maxima-solve.fas",
+      "sha256": "7c2b44e14bc16f3b51b2185b5877c0667d8ae27c8fd5f34546d494e118febaf7"
+    },
+    {
+      "path": "maxima.js",
+      "sha256": "4b0b3ecc4eb229b35595e3e5f4063565502df023559d355a23306696af2fdf87"
+    },
+    {
+      "path": "maxima.wasm",
+      "sha256": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1"
+    },
+    {
+      "path": "maxima_thread.js",
+      "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db"
+    },
+    {
+      "path": "share/info/maxima-index-html.lisp",
+      "sha256": "1447fa3ae889b6e2466bee0b1825e24d2c5c06049a2aea46ae841f3736238ce9"
+    },
+    {
+      "path": "share/info/maxima-index.lisp",
+      "sha256": "c4f25a08a93e2d730bec935a031537f6d01a069ad61f220f473a14f7aabd2160"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp",
+      "sha256": "027ea2adca8ee282261ef2c860a09506ade398ec8bee53d10f45b4edf3066aa0"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/diag.mac",
+      "sha256": "058e2c46b050371cb10f45146c80daaabc38699fe057e31826a9c8566c26ea1e"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp",
+      "sha256": "ff90059ce466a6f111838b6a31876f77c9b7d4947528b16d1642eea97b9fdbd3"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/simplifying.lisp",
+      "sha256": "fa7c62ce99c4aac44587ef4eeb301d15b902f8349945e4163f3148fa5f1da12f"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/trigtools/trigtools.mac",
+      "sha256": "cae0f3c2f902ddfa05099d7bd59e9f0b85a8b616f72085d1fc69ac6eab14fbbc"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac",
+      "sha256": "c9b7d891f0a59d62a4acc0171d46d9234cb9613364c7760206fb34ebf4c2d15a"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp",
+      "sha256": "a55a311e59742454623026388173bf8bc53933741bf1eec54dc9754d908d3b89"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac",
+      "sha256": "bca2baca2a951be94c48d903e9f742dc6c48af56c0ee8d71852d21e8b2c4e674"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp",
+      "sha256": "785a5040c4ddccbf86cbfe545ecd6df9c9c91b3fd0943d175c63ea6842c6361b"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+      "sha256": "45def400e51ed424494d988f0c37e8e880247bda9ae249d54e8f2e33b856dbd9"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.system",
+      "sha256": "b3540ed3cc0623c7269f74418fd316551f4302fd11235d05366158251eb0ece4"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/gnuplot.lisp",
+      "sha256": "6a3207114a838113174240e0d1873b19ee3914eaa2a6f7ece59d537e242a490f"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/grcommon.lisp",
+      "sha256": "db6d1ffd9a740856ca1a31541ff727ab868b98a7815c20ddf0f0eb65ba79f023"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/picture.lisp",
+      "sha256": "cf2fe24284c017ad30c476af6269f04555d572aea851ee8f0ed580df364123a2"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/vtk.lisp",
+      "sha256": "a28dc5a4333b10e568a216a69f658c93a4000cd4f354fc6f8c8454d348e4f5fe"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp",
+      "sha256": "b48ebeea74f5bf175e3d42adaceebe7e6d806e9697723309e03b94c509848bf0"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb1.lisp",
+      "sha256": "3a68fba9fbb1c8e436eaa28841a9c2a43194f976fac12765c536f9f0a631d3a5"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb2.lisp",
+      "sha256": "1673fc162449c44506e0681fc156cae1d48064cf675bcdfa9958e472d21cfb15"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-daxpy.lisp",
+      "sha256": "8b9d6701475ae051929eed656a6e61c6077e569e8c41a3fa5b30f42972d317f6"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-ddot.lisp",
+      "sha256": "2ff8618463103d462dd94fc802c89536edc2ba78ff3701cbc5feb2a2e5e3ae7d"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.lisp",
+      "sha256": "daf18d1bbf8a3e870d9bea27ffc5365b261a227226f5a3077906dfaa6774f366"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.mac",
+      "sha256": "f1136424d74dcd47337b9c96536f90d1b47a580dd5c1c552d2931c3620493816"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/maxima-lbfgs.lisp",
+      "sha256": "caee6aac20da81e78303b075cd8d855ff5a846a010116ba7f3b44e492397f611"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcsrch.lisp",
+      "sha256": "3e90e87f806cb09b48885c04473e8caf36646212c21926eb6112b783633f1b04"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcstep.lisp",
+      "sha256": "e95233ea91210438ef1ff783bae0ffd6e57cfd42a6a143904ac835923e4e24b2"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/eigens-by-jacobi.lisp",
+      "sha256": "7ad415c80a119bf62a0b1786fe12417c15ffbcc7ac6eb224684eac840b90c856"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-extra.lisp",
+      "sha256": "511f4576fd99db0dfc99bea2ee4fa7b4ea9e8bad619c0ee0c4515bce629a15bf"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-utilities.lisp",
+      "sha256": "da67e38dc83182b95b89476df4b436c95a90b797c0d02197c7dadbf6ba2202b0"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalgcholesky.lisp",
+      "sha256": "fadfe281f1ae18d9ef9d658c7b38507e56285d3bec53ce5dc0e67427988ce71b"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linearalgebra.mac",
+      "sha256": "6f509719c842128e9c8fb34a91e2b0efeec38e45f9a1dbe11fd2cfe3a76e45cf"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/load-linearalgebra-lisp-files.lisp",
+      "sha256": "ff456f078307f59c845d2ba6712e4bf2d4dd90908979cda01abcfb37b4daa778"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/lu.lisp",
+      "sha256": "493fc8dd91b5283f365b90d5babc0a4c0884ba68a43d0e08a5025e2e6fd6cdb0"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/matrixexp.lisp",
+      "sha256": "06810384023da28279abc1a1c0ac296c192cdaacab8fb0dc2e80f5a9b8ef5d87"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/mring.lisp",
+      "sha256": "c4af22f8e472e182cef693328d3000e36749397202d5d48ca5db2178a320b0c8"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+      "sha256": "5752e3cb3b1653009ea11d92c54ccda008275225f76c5e869f7f08d173133d8d"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/macro/basic.mac",
+      "sha256": "ec99cf76b3653dcfe661d58b5868d51d2718b0f6e73a75696ff11fc2596536b7"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/macro/packg.mac",
+      "sha256": "be614af9f8583290f54879a5978156f768798ee3e5ce4d67ed7ee44265dfeb8a"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac",
+      "sha256": "cc63e4b33108bfc8cb3657c7dd84861bb40be5202e1fa5eff5dcb4ff842efe0c"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/facexp.mac",
+      "sha256": "a749264a1679b7a7eee0d1f01e5459b81bd589ae1bf908232dd3d6588c0fdbfd"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac",
+      "sha256": "59319fd8623025ce5444ac508f4d6defce594829b26e8ec950c7b5e2cc6f2181"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac",
+      "sha256": "9c60b72c98b369a7a98e5d7076c9f7db03c05189cbc5c0623d0c1ec6ba56a960"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/lrats.mac",
+      "sha256": "8ba7506bf7a30695f3d513d2a89b62852689f9a44b13822e656cb45ebce23ba2"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stats/inference_result.lisp",
+      "sha256": "c56c33c6bc6e0cc1e735f3d0025c2e615f40b481093fa48e6197a24728485faf"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stats/numstats.lisp",
+      "sha256": "c961431de9c647558c3f2f993a64abd6af69fde6a849e24d089255b8c9497811"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stats/stats.mac",
+      "sha256": "d6dd9065e460e92512c3050508e7c0918e6da258fc4c02d1587e2c6f3a60050c"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp",
+      "sha256": "acc82d7fb13251e2a67ce4f9162ca7184d5a9ce8e35e848d063d0f410f530ff1"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp",
+      "sha256": "75c9b17bd4f33a896f4207e6652d5ab63c63edd200858ddab6fec0d40adb8273"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp",
+      "sha256": "39ef5cc589851f013f5846c89f8d2dd3cc847dfea040e55dc662f5f74ff7ae6b"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp",
+      "sha256": "c8fb5a9241e800c0173c76ac87344a02cd35c972c4595868c9ca2b037ca729db"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp",
+      "sha256": "35ec2642b830737b1c5543692c9c2385fd5970ce70028189966d36e3bdd434ac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp",
+      "sha256": "c19ee8b7532cce05bfaa382c1877110d61113caad7a09af52cc29648d6b6cfeb"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.lisp",
+      "sha256": "e8f6d2fb9a8d4a3184b644b49175d2a2ad4b9b6c0759e34ad7ce9e01588ce50c"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.mac",
+      "sha256": "ca75d7da5c533701f736efd8b9ae8ea160b650d1b7f6066c2479e2363d13c248"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp",
+      "sha256": "5b5678e3fbd9efab7e9870bf8cfb34652907a196ec7aee4f20ccee21e94d6211"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.mac",
+      "sha256": "fe11a711f0af6214a976aca4ac0a1e52720186790bb4b9c61d1e606ee40e3118"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp",
+      "sha256": "e4179ffab65b8e2c98162634d2c408e8e04c6577e943a8dacd99faa7f90bd1fb"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp",
+      "sha256": "bfcae0e610d039bb43d71e6bfa2723820df3cfe0fca012a05530f73c1a8d0e3d"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve.mac",
+      "sha256": "2441e553d1604a55dad602cdb2e997c6f48eff668932d7cc7b7a12ec0ca1fb5e"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve_extra.lisp",
+      "sha256": "0a364d75e9e6700c0cb170dc6bf08fbc3a700739e87218a8b029ffd0ee340b30"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/atrig1.mac",
+      "sha256": "11843e2e013d1e9888251c1acb0109c3b6f7d9c7d57cb9db9e1a285744b02dd8"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/ntrig.mac",
+      "sha256": "3a2422f3c749c9fd8673c9dbda0e1f125f4b06c6ac7e8ec408c4fbcc8279df58"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/spangl.mac",
+      "sha256": "999b974b59ce420302ac818e49b6876b42615788b4a18c887d4f961e39e84a65"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trgsmp.mac",
+      "sha256": "0f5db0cb2e22d4ce8536e84a3767830e76ac1751f4555ca253b86c70aa3c56a1"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trigrat.lisp",
+      "sha256": "5da6c242383b117fc4d75b241193ab6976b63fe58542ef17b3332ead900973ec"
+    },
+    {
+      "path": "share_files.js",
+      "sha256": "0a325df1e0e85c65ebaf3102fd75cb2db2d989735a0976e97c1a2108a8f5bca0"
+    }
+  ],
+  "browserVersion": "155.0.8059.86"
+}

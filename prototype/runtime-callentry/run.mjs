@@ -1,0 +1,97 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+import assert from 'node:assert/strict';
+import {exerciseWorker} from './exercise-browser.mjs';
+import {execFileSync} from 'node:child_process';
+import {createServer} from 'node:http';
+import {readFile,mkdir,writeFile} from 'node:fs/promises';
+import {resolve,extname,relative,isAbsolute} from 'node:path';
+import {createHash} from 'node:crypto';
+import {createRequire} from 'node:module';
+const require=createRequire(process.env.CALLENTRY_MODULE_ROOT ? resolve(process.env.CALLENTRY_MODULE_ROOT,'placeholder.js') : import.meta.url);
+const {chromium}=require('playwright');
+const site=resolve(process.argv[2]||'.cache/callentry'), out=resolve(process.argv[3]||'test-results/runtime-callentry');
+const here=resolve('prototype/runtime-callentry');
+await mkdir(out,{recursive:true});
+const report={schema:1,harnessWorkingTreeDirty:execFileSync('git',['status','--porcelain','--','prototype/runtime-callentry','.github/workflows/runtime-callentry.yml'],{encoding:'utf8'}).trim().length>0,sourceRevision:process.env.GITHUB_SHA||execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),createdAt:new Date().toISOString(),passed:false,routes:[],errors:[]};
+const digest=b=>createHash('sha256').update(b).digest('hex');
+let browser;const servers=[];report.servedScripts=[];
+report.harnessScripts=[];
+for(const name of ['run.mjs','worker.js','suite.js','baseline.js','exercise-browser.mjs'])report.harnessScripts.push({path:'prototype/runtime-callentry/'+name,sha256:digest(await readFile(resolve(here,name)))});
+async function serve(isolated){
+ const server=createServer(async(q,r)=>{try {
+  if(isolated){r.setHeader('Cross-Origin-Opener-Policy','same-origin');r.setHeader('Cross-Origin-Embedder-Policy','require-corp');}
+  const path=new URL(q.url,'http://local').pathname;
+  if(path==='/'){r.setHeader('Content-Type','text/html');r.end('<!doctype html><title>Call entry research</title>');return;}
+  const local=['worker.js','suite.js','baseline.js'].includes(path.slice(1));
+  const root=local?here:site,target=resolve(root,'.'+path), rel=relative(root,target);
+  assert.ok(!isAbsolute(rel)&&!rel.startsWith('..'));
+  let bytes=await readFile(target);if(extname(target)==='.js')report.servedScripts.push({isolated,path,sha256:digest(bytes)});r.setHeader('Content-Type',extname(target)==='.js'?'application/javascript':extname(target)==='.wasm'?'application/wasm':'application/octet-stream');
+  if(q.headers.range){const m=/^bytes=(\d+)-(\d*)$/.exec(q.headers.range);assert.ok(m);let a=+m[1],z=m[2]?+m[2]:bytes.length-1;assert.ok(a<=z&&z<bytes.length);r.statusCode=206;r.setHeader('Content-Range',`bytes ${a}-${z}/${bytes.length}`);bytes=bytes.subarray(a,z+1);}
+  r.setHeader('Content-Length',bytes.length);r.end(q.method==='HEAD'?undefined:bytes);
+ }catch(e){r.statusCode=404;r.end(String(e));}});
+ await new Promise(y=>server.listen(0,'127.0.0.1',y));servers.push(server);return `http://127.0.0.1:${server.address().port}/`;
+}
+try{
+ const manifest=JSON.parse(await readFile(resolve(site,'stack-sources.json'),'utf8'));
+ report.stackRevision=manifest.stackRevision;
+ report.assets=[];
+ for(const asset of manifest.runtimeAssets){const bytes=await readFile(resolve(site,'maxima-runtime',asset.path));assert.equal(bytes.length,asset.fileBytes,asset.path);assert.equal(digest(bytes),asset.sha256,asset.path);report.assets.push({path:asset.path,sha256:asset.sha256});}
+ for(const file of manifest.files)assert.equal(digest(Buffer.from(file.content)),file.sha256,file.path);
+ const fixtures=JSON.parse(await readFile('reports/milestone-one/latest.json','utf8')).cases;assert.equal(fixtures.length,22);
+ const questions=JSON.parse(await readFile(resolve(site,'native/questions.json'),'utf8')).questions;
+ const question=questions.find(q=>q.id==='native-rational').question;
+ browser=await chromium.launch({headless:true,...(process.env.CALLENTRY_CHROME?{executablePath:process.env.CALLENTRY_CHROME}:{})});report.browserVersion=browser.version();
+ for(const mode of ['baseline','eof','to-lisp']){
+  const page=await browser.newPage();const url=await serve(mode==='baseline');
+  const row={mode,messages:[],console:[],errors:[],passed:false};report.routes.push(row);
+  page.on('console',m=>row.console.push(m.text()));page.on('pageerror',e=>row.errors.push(String(e)));
+  await page.goto(url);
+  const result=await page.evaluate(exerciseWorker,{mode,manifest,fixtures,question});
+  Object.assign(row,result);await page.close();
+  assert.equal(row.harnessError,undefined,mode+' harness failure');
+  assert.deepEqual(row.errors,[],mode+' page errors');
+  assert.equal(row.messages.some(m=>['failure','worker-error'].includes(m.type)&&!['malformed','deep-recursion','after-recursion'].includes(m.phase)),false,mode+' unexpected worker failure');
+  const complete=row.messages.find(m=>m.type==='complete');
+  if(!complete)throw new Error(mode+' failed: '+JSON.stringify(row.messages).slice(-3000));
+  assert.equal(row.isolated,mode==='baseline');
+  if(mode!=='baseline') {
+   assert.equal(row.sab,'undefined');
+   const controlIds=['cas-error','after-error','lisp-error','lisp-recovered','lisp-unicode','malformed','after-malformed',...Array.from({length:300},(_,i)=>'sequential-'+i)];
+   assert.deepEqual(row.messages.filter(m=>m.id&&!['deep-recursion','after-recursion'].includes(m.id)).map(m=>m.id),controlIds,'Every nonterminal request must reply exactly once in order');
+   const recovery=row.recovery;
+   assert.deepEqual(complete.internalRecovery.failed,[false,'intentional step-zero CAS error']);
+   assert.deepEqual(complete.internalRecovery.recovered,[true,42]);
+   assert.deepEqual(recovery.casError.value,[false,'intentional step-zero CAS error']);
+   assert.deepEqual(recovery.afterCas.value,[true,42]);
+   assert.equal(recovery.lispError.value,1,'safe-eval must return the requested NIL fallback');
+   assert.ok(recovery.afterLisp.output.includes('LISPRECOVER|42'));
+   assert.ok(recovery.lispUnicode.output.includes('LISPUNICODE|\u00e6\u00f8\u00e5\u2212\u03c0'));
+   assert.equal(recovery.malformed.type,'failure','Malformed program must exercise the pre-errcatch reader failure');
+   assert.match(recovery.malformed.output,/incorrect syntax/i);
+   assert.equal(recovery.malformed.lispValue,1,'Malformed Maxima source must reach the safe-eval NIL fallback');
+   assert.deepEqual(recovery.afterMalformed.value,[true,42]);
+   assert.equal(row.longSession.calls.length,300);
+   assert.deepEqual(row.longSession.heapSamples.map(s=>s.completedCalls),[1,50,100,150,200,250,300]);
+   for(const sample of row.longSession.heapSamples){assert.ok(Number.isSafeInteger(sample.heapBytes)&&sample.heapBytes>=134217728);assert.ok(Number.isSafeInteger(sample.wasmStackPointer)&&sample.wasmStackPointer>0);}
+   assert.equal(new Set(row.longSession.heapSamples.map(s=>s.wasmStackPointer)).size,1,'Temporary Wasm stack must be restored between calls');
+   assert.equal(row.recursion.sameWorker,true);
+   assert.equal(row.recursion.replacementRequired,!row.recursion.recovered);
+   assert.ok(['evaluated','failure','worker-error','watchdog-timeout'].includes(row.recursion.recursive.type));
+   if(row.recursion.recursive.type==='evaluated')assert.equal(row.recursion.recursive.value[0],false,'Unbounded recursion cannot be a successful CAS value');
+   assert.ok(['evaluated','failure','worker-error','watchdog-timeout'].includes(row.recursion.after.type));
+  }
+  row.executed=true;
+  await writeFile(resolve(out,mode+'.json'),JSON.stringify(row,null,2)+'\n');
+ }
+ const normalized=suite=>({rows:suite.rows.map(({name,expression,result})=>({name,expression,result})),native:suite.native});
+ const baseline=report.routes[0].messages.find(m=>m.type==='complete').suite;
+ assert.equal(baseline.rows.length,28,'Expected 22 answer tests, 4 native programs and 2 Unicode probes');
+ for(const row of report.routes.slice(1))assert.deepEqual(normalized(row.messages.find(m=>m.type==='complete').suite),normalized(baseline),row.mode+' transport parity');
+ const reference=JSON.parse(await readFile('reports/milestone-one/native-'+manifest.stackRevision.slice(0,7)+'.json','utf8'));
+ for(const row of baseline.rows.slice(0,22)){const expected=reference.observations.find(o=>o.case_id===row.name);assert.deepEqual(row.result.slice(0,3),[expected.cas_valid,expected.correct,expected.answer_note]);}
+ for(const row of report.routes){row.passed=true;await writeFile(resolve(out,row.mode+'.json'),JSON.stringify(row,null,2)+'\n');}
+ report.passed=true;
+}catch(e){report.errors.push(String(e.stack||e));}
+finally{await browser?.close();await Promise.all(servers.map(s=>new Promise(y=>s.close(y))));await writeFile(resolve(out,'report.json'),JSON.stringify(report,null,2)+'\n');}
+console.log(JSON.stringify({passed:report.passed,routes:report.routes.map(r=>({mode:r.mode,passed:r.passed})),errors:report.errors}));
+if(!report.passed)process.exitCode=1;
