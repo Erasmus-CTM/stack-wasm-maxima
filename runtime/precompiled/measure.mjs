@@ -22,6 +22,17 @@ if(process.env.PRECOMPILED_DIAGNOSTIC_PROVENANCE){
   report.diagnosticOnly=true;
   report.scope+=' Frozen separately built runtime and older entry bundle; no fresh-build/current-head parity clearance.';
 }
+let resetCompatibility=null;
+if(process.env.PRECOMPILED_RESET_COMPATIBILITY){
+  assert.equal(report.diagnosticOnly,true,'Unvalidated reset adapter is diagnostic-only');
+  const text=await readFile(process.env.PRECOMPILED_RESET_COMPATIBILITY,'utf8');
+  // This trusted adapter has whole-line comments only. Preserve the exact
+  // source separately; parse its flattened program explicitly in MAXIMA.
+  const program='(progn '+text.split('\n').filter(line=>!line.trim().startsWith(';')).join(' ')+')';
+  const quoted='"'+program.replaceAll('\\','\\\\').replaceAll('"','\\"')+'"';
+  resetCompatibility='(let ((*package* (find-package :maxima))) (eval (read-from-string '+quoted+')))';
+  report.resetCompatibility={text,sha256:digest(text),command:resetCompatibility,commandSha256:digest(resetCompatibility)};
+}
 for(const path of files){const body=await readFile(join(site,path));report.files.push({path,bytes:body.length,sha256:digest(body)});}
 const worker=`importScripts('runtime/maxima-session.js');
 self.onmessage=async({data})=>{let session;const progress={phase:'initializing',resets:[]};try{
@@ -29,6 +40,10 @@ self.onmessage=async({data})=>{let session;const progress={phase:'initializing',
   const started=performance.now(),initialization=await session.init();
   const readyMs=performance.now()-started;
   Object.assign(progress,{readyMs,initialization,phase:'warm-calls'});
+  if(data.resetCompatibility){
+    session.write(':lisp '+data.resetCompatibility.replaceAll('\\n',' ')+'\\n',60000);
+    progress.reservedAllBefore=session.evaluate('ctm_reserved_all_state()');
+  }
   const warmCalls=[];for(let i=0;i<10;i++){const t=performance.now();warmCalls.push({value:session.evaluate('6*7'),elapsedMs:performance.now()-t});}
   const grade=session.assess({test:'AlgEquiv',student:'(x+1)^2',teacher:'x^2+2*x+1'});
   const version=session.evaluate('stackmaximaversion');
@@ -87,8 +102,8 @@ try{
             const timer=setTimeout(()=>{instance.terminate();resolveResult({ok:false,error:'Startup watchdog expired'});},300000);
             instance.onmessage=({data})=>{clearTimeout(timer);instance.terminate();resolveResult(data);};
             instance.onerror=error=>{clearTimeout(timer);instance.terminate();resolveResult({ok:false,error:error.message});};
-            instance.postMessage({manifest});
-          }),manifest);
+            instance.postMessage({manifest:manifest.manifest,resetCompatibility:manifest.resetCompatibility});
+          }),{manifest,resetCompatibility});
           const requests=app.requests.slice(start);
           const row={repetition,candidate,mode,...result,requests,
             encodedBodyBytes:requests.reduce((sum,record)=>sum+(record.encodedBodyBytes||0),0)};

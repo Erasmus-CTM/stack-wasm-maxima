@@ -21,6 +21,9 @@ concurrency:
   cancel-in-progress: true
 jobs:
   bundle-probe:
+    # The disposable debug PR targets the feature branch and is never merged.
+    # Its short collector cannot cancel or replace PR13's fresh parity runs.
+    if: github.head_ref != 'diagnostic/2026-10-kill-reset'
     name: bundle-probe (${{ matrix.compiler-profile }})
     strategy:
       fail-fast: false

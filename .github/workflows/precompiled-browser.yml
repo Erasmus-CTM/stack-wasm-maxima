@@ -22,7 +22,7 @@ jobs:
   browser-diagnostic:
     # These immutable artifacts diagnose issue14/PR13. Future PRs must use the
     # fresh full probe; expired frozen inputs must not become a general CI gate.
-    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.number == 13
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.number == 13 || github.head_ref == 'diagnostic/2026-10-kill-reset'
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
@@ -66,12 +66,13 @@ jobs:
             --stack-source .cache/precompiled-browser/upstream-stack \
             --ctm-checkers-source .cache/precompiled-browser/ctm-checkers
           python runtime/precompiled/stage-frozen-probe.py
-      - name: Collect original and marked-copy reset isolation evidence
+      - name: Require the real reset, GC, recovery and grading gates with the candidate adapter
         env:
           PRECOMPILED_SITE: .cache/precompiled-browser/site
           PRECOMPILED_REPORT: test-results/precompiled-browser/measure.json
           PRECOMPILED_DIAGNOSTIC_PROVENANCE: .cache/precompiled-frozen-inputs/pair.json
-        run: node runtime/precompiled/diagnose-reset.mjs
+          PRECOMPILED_RESET_COMPATIBILITY: runtime/precompiled/reserved-all.lisp
+        run: node runtime/precompiled/measure.mjs
       - name: Preserve diagnostic reports and frozen identities even on failure
         if: always()
         uses: actions/upload-artifact@v4
