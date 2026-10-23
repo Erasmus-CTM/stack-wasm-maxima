@@ -96,3 +96,16 @@ in logs and appended to the hash-bound phase snapshots for admission. This
 observer changes no compiler flags or source files. An actual subprocess test
 must pass on Ubuntu before compilation; local Windows checks exercise quoting,
 output forms, successful/failed execution, and incomplete/corrupted traces.
+
+Run 39947411410 passed that Ubuntu trace preflight and finished compilation,
+then rejected relative SDK sources and an interleaved parallel-make core
+command. Its three failed artifacts (12502340947 baseline, 12502415738 Oz,
+12501349430 O2) preserve the actual executions. The parser recognizes relative
+`system/` sources only with the pinned SDK's paired exact source-root prefix
+maps and debug-directory anchor. If a printed core command is corrupted, only
+a successful driver execution for an ECL DPP `.o.c` unit with the exact ECL
+include root and `DECL_BUILD` can supply its association. All actual target
+optimization and per-link spill checks remain mandatory. Relative paths with
+different directories cannot match merely by filename suffix. Local replay
+of retained compiler evidence is diagnostic validation; runtime parity and
+the common-runner timing comparison still require a complete successful run.

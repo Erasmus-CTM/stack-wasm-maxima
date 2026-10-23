@@ -64,6 +64,44 @@ def packaged(root, profile):
 
 
 class CompilerEvidence(unittest.TestCase):
+    def test_relative_sdk_source_requires_both_exact_root_anchors(self):
+        anchors=['-ffile-prefix-map=/repo/sources/emsdk/upstream/emscripten=/emsdk/emscripten',
+                 '-ffile-prefix-map=../../..=/emsdk/emscripten','-fdebug-compilation-dir=/emsdk/emscripten']
+        source='../../../system/lib/gl/webgl2.c'
+        for profile in profiles()['profiles'].values():
+            ecl,maxima=traces(profile)
+            def sdk_compile(flags=anchors,input_path=source):
+                return (' /repo/sources/emsdk/upstream/bin/clang -O2 -c '+input_path+' '+' '.join(flags)+'\n').encode()
+            result=derive(CONFIG,TARGET,ecl+sdk_compile(),maxima,profile)
+            excluded=result['excludedNonTargetCompiles']['ecl']
+            self.assertTrue(any(row.get('canonicalSource')=='/repo/sources/emsdk/upstream/emscripten/system/lib/gl/webgl2.c' for row in excluded))
+            for bad in [sdk_compile(anchors[:i]+anchors[i+1:]) for i in range(len(anchors))]+[
+                    sdk_compile([a.replace('/repo/sources/emsdk/','/unrelated/emsdk/') for a in anchors]),
+                    sdk_compile(input_path='../../../../system/lib/gl/webgl2.c'),
+                    sdk_compile(input_path='../../../system/../../sources/ecl/src/c/main.o.c')]:
+                with self.assertRaises(AssertionError):derive(CONFIG,TARGET,ecl+bad,maxima,profile)
+
+    def test_corrupted_parallel_core_print_uses_only_verified_executed_dpp_driver(self):
+        for profile in profiles()['profiles'].values():
+            ecl,maxima=traces(profile);lines=[]
+            for line in ecl.decode().splitlines():
+                if 'other-core.o.c' not in line:lines.append(line);continue
+                tokens=shlex.split(line)+['-DECL_BUILD','-I/repo/sources/ecl/src/c']
+                if tokens[0].endswith('/emcc'):
+                    lines.append(' 362 | ecl'+shlex.join(tokens))
+                    lines.append('123 execve('+json.dumps(tokens[0])+', '+json.dumps(tokens)+', 0x123 /* 50 vars */) = 0')
+                else:lines.append(shlex.join(tokens))
+            recovered=('\n'.join(lines)+'\n').encode()
+            result=derive(CONFIG,TARGET,recovered,maxima,profile)
+            self.assertTrue(any(row.get('sourceClassEvidence') for row in result['eclCore']))
+            for bad in [recovered.replace(b'"-DECL_BUILD"',b'"-DOTHER"'),
+                        recovered.replace(b'"-I/repo/sources/ecl/src/c"',b'"-I/unrelated/src/c"'),
+                        recovered.replace(b'other-core.o.c',b'other-core.c'),
+                        recovered.replace(b') = 0',b') = -1 ENOENT')]:
+                with self.assertRaises(AssertionError):derive(CONFIG,TARGET,bad,maxima,profile)
+            wrong_flag=recovered.replace((profile['eclCoreOptimization']+' -c other-core.o.c').encode(),b'-Ofast -c other-core.o.c')
+            with self.assertRaises(AssertionError):derive(CONFIG,TARGET,wrong_flag,maxima,profile)
+
     def test_autoconf_shell_quote_transitions(self):
         value="-O0 -DECLDIR='' -Wno-macro-redefined -DECL_C_COMPATIBLE_VARIADIC_DISPATCH -O0 -fPIC "
         assignment="CFLAGS='"+value.replace("'","'\\''")+"'"

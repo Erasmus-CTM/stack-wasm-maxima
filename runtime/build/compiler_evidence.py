@@ -48,6 +48,7 @@ def commands(body):
     pending = {}
     for line in body.decode(errors='replace').splitlines():
         stripped = line.lstrip()
+        executed=False
         # strace writes outside ECL's captured child stderr. Parse only
         # successful execve argv; no environment values are recorded by the
         # configured trace. Parallel unfinished/resumed syscalls retain PID.
@@ -67,13 +68,14 @@ def commands(body):
                 assert not stripped.rstrip().endswith('= 0'), 'Malformed successful execve'
                 continue
             executable_path=ast.literal_eval(match[1])
-            if PurePosixPath(executable_path).name not in ['clang','clang++','wasm-opt']:
+            if PurePosixPath(executable_path).name not in ['clang','clang++','wasm-opt','emcc','em++']:
                 continue
             tokens=ast.literal_eval(match[2])
             assert tokens and all(isinstance(token,str) for token in tokens), 'Truncated execution argv'
             assert PurePosixPath(tokens[0]).name==PurePosixPath(executable_path).name, 'Execution argv identity mismatch'
             tokens[0]=executable_path
             stripped=shlex.join(tokens)
+            executed=True
         generated = stripped.startswith(';;;')
         stripped = stripped.removeprefix(';;;').lstrip()
         for prefix in ['libtool: compile:','libtool: link:']:
@@ -86,7 +88,7 @@ def commands(body):
             continue
         executable = PurePosixPath(tokens[0]).name
         if executable in ['clang','clang++','emcc','em++','wasm-opt']:
-            result.append({'command':stripped,'tokens':tokens,'executable':executable,'generatedLisp':generated})
+            result.append({'command':stripped,'tokens':tokens,'executable':executable,'generatedLisp':generated,'executed':executed})
     assert not pending, 'Incomplete execution trace'
     return result
 
@@ -119,28 +121,58 @@ def same_source(left,right):
     # clang receives the compile-only input/output argv directly in pinned emcc.
     # Absolute paths may spell the same relative input; never match only basename.
     left,right = str(PurePosixPath(left)),str(PurePosixPath(right))
-    return left==right or (not left.startswith('/') and right.endswith('/'+left)) or (not right.startswith('/') and left.endswith('/'+right))
+    return left==right or (not left.startswith('/') and right.startswith('/') and right.endswith('/'+left)) or (not right.startswith('/') and left.startswith('/') and left.endswith('/'+right))
 
 
-def relevant_compiles(rows,sdk_source):
+def sdk_input(row,sdk_source):
+    """Recognize SDK sources, retaining the original execution argv unchanged.
+
+    Pinned tools/system_libs.py batches paths relative to its cache build
+    directory and emits both source-root prefix maps plus this debug directory.
+    A relative spelling alone cannot exempt a target compilation.
+    """
+    import posixpath
+    source=posixpath.normpath(row['input'])
+    if source.startswith(sdk_source+'/'):
+        return source
+    anchors={f'-ffile-prefix-map={sdk_source}=/emsdk/emscripten',
+             '-ffile-prefix-map=../../..=/emsdk/emscripten',
+             '-fdebug-compilation-dir=/emsdk/emscripten'}
+    if source.startswith('../../../system/') and anchors<=set(row['tokens']):
+        canonical=posixpath.normpath(sdk_source+'/'+source.removeprefix('../../../'))
+        if canonical.startswith(sdk_source+'/system/'):
+            return canonical
+    return None
+
+
+def relevant_compiles(rows,sdk_source,allow_ecl_core_fallback=False):
     observed = []
     excluded = []
     for row in c_compiles(rows,['clang','clang++']):
         if re.fullmatch(r'conftest[0-9]*\.c',PurePosixPath(row['input']).name):
             excluded.append({**row,'reason':'explicit configure conftest'})
-        elif row['input'].startswith(sdk_source+'/'):
-            excluded.append({**row,'reason':'verified SDK source, outside ECL/Maxima targets'})
+        elif sdk_input(row,sdk_source):
+            excluded.append({**row,'reason':'verified SDK source, outside ECL/Maxima targets','canonicalSource':sdk_input(row,sdk_source)})
         else:
             observed.append(row)
     raw = list(c_compiles(rows,['emcc','em++']))
+    printed = [row for row in raw if not row['executed']]
     for row in observed:
-        matching = [r for r in raw if same_source(r['input'],row['input']) and same_source(r['output'],row['output'])]
+        matching = [r for r in printed if same_source(r['input'],row['input']) and same_source(r['output'],row['output'])]
+        if not matching and allow_ecl_core_fallback and row['input'].endswith('.o.c'):
+            # Parallel make diagnostics can corrupt a printed command line.
+            # Only verified ECL DPP core units may use the complete successful
+            # driver execve as their source-class/input/output association.
+            include='-I'+sdk_source.removesuffix('/sources/emsdk/upstream/emscripten')+'/sources/ecl/src/c'
+            matching=[r for r in raw if r['executed'] and '-DECL_BUILD' in r['tokens'] and include in r['tokens'] and same_source(r['input'],row['input']) and same_source(r['output'],row['output'])]
+            if matching:
+                row['sourceClassEvidence']='executed ECL DPP core driver; printed make output absent/corrupted'
         assert matching, 'Missing raw target compile association: '+row['input']
         assert len({r['generatedLisp'] for r in matching})==1, 'Ambiguous source class: '+row['input']
         row['generatedLisp']=matching[0]['generatedLisp']
         row['rawCompileCommands']=[r['command'] for r in matching]
     for row in raw:
-        if re.fullmatch(r'conftest[0-9]*\.c',PurePosixPath(row['input']).name) or row['input'].startswith(sdk_source+'/'):
+        if re.fullmatch(r'conftest[0-9]*\.c',PurePosixPath(row['input']).name) or sdk_input(row,sdk_source):
             continue
         assert any(same_source(row['input'],r['input']) and same_source(row['output'],r['output']) for r in observed), 'Missing actual clang execution: '+row['input']
     return observed,excluded
@@ -205,7 +237,7 @@ def derive(config, target, ecl_trace, maxima_trace, profile):
     maxima_output=work+'/sources/maxima/src/binary-ecl/wasm32-emscripten'
     assert target, 'Missing target-info actually installed for Maxima'
     ecl_rows, maxima_rows = commands(ecl_trace), commands(maxima_trace)
-    ecl_c,ecl_excluded=relevant_compiles(ecl_rows,sdk_source)
+    ecl_c,ecl_excluded=relevant_compiles(ecl_rows,sdk_source,allow_ecl_core_fallback=True)
     maxima,maxima_excluded=relevant_compiles(maxima_rows,sdk_source)
     core = [row for row in ecl_c if not row['generatedLisp']]
     generated = [row for row in ecl_c if row['generatedLisp']]
