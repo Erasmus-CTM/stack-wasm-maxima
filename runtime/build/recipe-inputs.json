@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "directories": ["runtime/build"],
+  "files": [
+    ".gitattributes",
+    ".github/workflows/runtime-build.yml",
+    "scripts/milestone-two/prepare-runtime.py",
+    "scripts/milestone-one/run.mjs",
+    "scripts/milestone-one/compare.py",
+    "scripts/milestone-three/build-site.mjs"
+  ]
+}
