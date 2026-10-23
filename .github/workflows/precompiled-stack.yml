@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - 'runtime/precompiled/**'
+      - 'prototype/runtime/maxima-child.js'
       - '.github/workflows/precompiled-stack.yml'
 permissions:
   contents: read
@@ -90,8 +91,12 @@ jobs:
           path: |
             .cache/precompiled-stack/logs/
             .cache/precompiled-stack/source/stackmaxima.mac
+            .cache/precompiled-stack/source/stackmaxima.LISP
             .cache/precompiled-stack/source/stackmaxima.lisp
+            .cache/precompiled-stack/source/stackmaxima.UNLISP
             .cache/precompiled-stack/source/stackmaxima.unlisp
+            .cache/precompiled-stack/source/ctm-stackmaxima.asd
+            .cache/precompiled-stack/translate.mac
             .cache/precompiled-stack/stackmaxima.fas
             .cache/precompiled-stack/site/stack-sources.json
             .cache/precompiled-stack/site/stack-sources-timed-source.json

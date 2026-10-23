@@ -20,7 +20,18 @@ cp "$STACK/stack/maxima/stackmaxima.mac" "$WORK/source/stackmaxima.mac"
 sha256sum "$WORK/source/stackmaxima.mac" > "$WORK/logs/stackmaxima-source.sha256"
 printf 'translate_file("%s")$\n' "$WORK/source/stackmaxima.mac" > "$WORK/translate.mac"
 "$NATIVE" --very-quiet --batch="$WORK/translate.mac" 2>&1 | tee "$WORK/logs/translate.log"
+# The pinned Maxima translator writes .LISP (and .UNLISP warnings) on Linux.
+# Keep its raw output, then copy to ASDF's conventional lowercase source name.
+if test -s "$WORK/source/stackmaxima.LISP"; then
+  cp "$WORK/source/stackmaxima.LISP" "$WORK/source/stackmaxima.lisp"
+elif ! test -s "$WORK/source/stackmaxima.lisp"; then
+  echo 'Maxima translation did not produce stackmaxima.LISP or stackmaxima.lisp' >&2
+  exit 1
+fi
 test -s "$WORK/source/stackmaxima.lisp"
+if test -s "$WORK/source/stackmaxima.LISP"; then
+  sha256sum "$WORK/source/stackmaxima.LISP" > "$WORK/logs/stackmaxima-translator-output.sha256"
+fi
 sha256sum "$WORK/source/stackmaxima.lisp" > "$WORK/logs/stackmaxima-lisp.sha256"
 cat > "$WORK/source/ctm-stackmaxima.asd" <<'EOF'
 (asdf:defsystem #:ctm-stackmaxima
