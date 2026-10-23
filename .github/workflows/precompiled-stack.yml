@@ -112,7 +112,7 @@ jobs:
         run: |
           npm ci --ignore-scripts --no-audit --no-fund
           npx playwright install --with-deps chromium firefox webkit
-      - name: Measure actual source and precompiled browser startup
+      - name: Measure startup and validate full session restart
         env:
           PRECOMPILED_SITE: .cache/precompiled-stack/site
         run: node runtime/precompiled/measure.mjs
@@ -360,6 +360,10 @@ jobs:
             .cache/precompiled-stack/site/stack-sources.json
             .cache/precompiled-stack/site/stack-sources-timed-source.json
             .cache/precompiled-stack/site/stack-sources-precompiled.json
+            .cache/precompiled-stack/site/precompiled-measure-worker.js
+            .cache/precompiled-stack/site/runtime/maxima-session.js
+            .cache/precompiled-stack/site/runtime/maxima-child.js
+            runtime/precompiled/restart-checks.json
             .cache/precompiled-stack/site/maxima-runtime/stackmaxima.fas
             .cache/runtime-build/artifact/
             test-results/precompiled-stack/
