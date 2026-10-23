@@ -48,6 +48,39 @@ jobs:
           persist-credentials: false
       - name: Translate pinned STACK and cross-compile for the browser target
         run: bash runtime/precompiled/translate-and-cross-compile.sh "$PWD/.cache/precompiled-stack/upstream-stack"
+      - uses: actions/checkout@v4
+        with:
+          ref: b34bfc8af10cd80b6130baabe88a47c9a32c0333
+          path: .cache/runtime-build/notices
+          persist-credentials: false
+      - name: Package the exact source-loaded runtime control
+        run: python runtime/build/package.py --notices .cache/runtime-build/notices
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: c366f175aba6b62caa628bc60f57bb1167fc087b
+          path: .cache/precompiled-stack/ctm-checkers
+          persist-credentials: false
+      - name: Install pinned native packaging dependencies
+        run: python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'
+      - name: Stage the unchanged source-loaded control and opt-in compiled manifest
+        run: |
+          python scripts/milestone-two/prepare-runtime.py --output .cache/precompiled-stack/site \
+            --runtime-source .cache/runtime-build/artifact \
+            --stack-source .cache/precompiled-stack/upstream-stack \
+            --ctm-checkers-source .cache/precompiled-stack/ctm-checkers
+          python runtime/precompiled/stage-variant.py --site .cache/precompiled-stack/site \
+            --stack-source .cache/precompiled-stack/upstream-stack \
+            --bundle .cache/precompiled-stack/stackmaxima.fas \
+            --translated .cache/precompiled-stack/source/stackmaxima.lisp
+      - name: Install pinned browser dependencies
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Measure actual source and precompiled browser startup
+        env:
+          PRECOMPILED_SITE: .cache/precompiled-stack/site
+        run: node runtime/precompiled/measure.mjs
       - name: Preserve the feasibility evidence, including failures
         if: always()
         uses: actions/upload-artifact@v4
@@ -60,6 +93,12 @@ jobs:
             .cache/precompiled-stack/source/stackmaxima.lisp
             .cache/precompiled-stack/source/stackmaxima.unlisp
             .cache/precompiled-stack/stackmaxima.fas
+            .cache/precompiled-stack/site/stack-sources.json
+            .cache/precompiled-stack/site/stack-sources-timed-source.json
+            .cache/precompiled-stack/site/stack-sources-precompiled.json
+            .cache/precompiled-stack/site/maxima-runtime/stackmaxima.fas
+            .cache/runtime-build/artifact/manifest.json
+            test-results/precompiled-stack/
             .cache/runtime-build/logs/
             .cache/runtime-build/source-progress.json
           if-no-files-found: warn

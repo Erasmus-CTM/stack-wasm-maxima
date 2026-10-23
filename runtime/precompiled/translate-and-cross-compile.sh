@@ -10,6 +10,7 @@ WORK="$ROOT/.cache/precompiled-stack"
 MAXIMA="$ROOT/.cache/runtime-build/sources/maxima"
 ECL="$MAXIMA/wasm/ecl-host/bin/ecl"
 NATIVE="$MAXIMA/wasm/maxima-ecl-combined/bin/maxima"
+export MAXIMA_PREFIX="$MAXIMA/wasm/maxima-ecl-combined"
 PIN=33383047af39c204bf4442802a058f8b918b2b1b
 test "$(git -C "$STACK" rev-parse HEAD)" = "$PIN"
 test -x "$ECL"
