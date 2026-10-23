@@ -1,0 +1,39 @@
+name: Diagnose native translation and reset fixtures
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'runtime/precompiled/**'
+      - '.github/workflows/precompiled-fixtures.yml'
+permissions:
+  contents: read
+concurrency:
+  group: native-precompiled-fixtures-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  fixtures:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch exact source commits and verify archive hashes
+        run: python runtime/build/prepare-sources.py
+      - name: Install native and 32-bit build prerequisites
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends build-essential gcc-multilib g++-multilib libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config
+      - name: Build native-only prerequisites and compare unchanged controls with fixture adapters
+        run: bash runtime/precompiled/native-fixtures.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: precompiled-native-fixtures-${{ github.sha }}
+          include-hidden-files: true
+          path: |
+            .cache/precompiled-fixtures/
+            .cache/runtime-build/source-progress.json
+            .cache/runtime-build/logs/source-state-*.json
+          if-no-files-found: warn

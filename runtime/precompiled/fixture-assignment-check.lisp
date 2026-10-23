@@ -1,0 +1,31 @@
+; SPDX-License-Identifier: AGPL-3.0-or-later
+(in-package :maxima)
+(handler-case
+    (progn
+      (load (ext:getenv "CTM_FIXTURE_BRIDGE_FILE"))
+      (if (equal (ext:getenv "CTM_FIXTURE_MODE") "source")
+          (mfuncall '$batchload (ext:getenv "CTM_FIXTURE_SOURCE"))
+          (load (ext:getenv "CTM_FIXTURE_LISP")))
+      (dolist (value (list nil t '$emaxima '$imaxima))
+        (let ((before $display2d))
+          (unless (eq (mfuncall '$ctm_fixture_assignment value) value)
+            (error "Assignment hook returned the wrong local value"))
+          (unless (eq $display2d before) (error "Local binding was not restored"))))
+      (let ((before $display2d))
+        ; Maxima's merror throw payload is not portable; require an abort.
+        (let ((outcome (catch 'macsyma-quit
+                         (mfuncall '$ctm_fixture_assignment 123456)
+                         :unexpected-success)))
+          (when (eq outcome :unexpected-success)
+            (error "Invalid display2d value was accepted")))
+        (unless (eq $display2d before) (error "Error path changed display2d")))
+      (unless (= (mfuncall '$eval_string "6*7") 42)
+        (error "Assignment error recovery failed"))
+      (format t "~&CTM-ASSIGNMENT-BEHAVIOR-OK|valid=4|invalid=rejected|restoration=true~%")
+      (finish-output)
+      (bye 0))
+  (error (condition)
+    (let ((*print-readably* nil))
+      (format *error-output* "~&CTM-ASSIGNMENT-BEHAVIOR-FAILED|~A~%" condition)
+      (finish-output *error-output*))
+    (bye 1)))
