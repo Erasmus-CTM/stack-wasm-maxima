@@ -655,8 +655,10 @@ memory and must be re-established on restore. Each step is gated by the replay a
 *Status 23 October:* (0) done, the call entry works with the deployed binary
 (#5); (1) done, owned build with replay parity against a same-source desktop
 Maxima (#7); lossless compression sidecars (#8); (2) gnuplot and the plot
-module removed (#9); compiler profiles measured (L0, #12, not yet the
-default); (3) precompiled STACK in progress, no gain or parity yet (#13).
+module removed (#9); compiler profiles measured (L0, #12); `ecl-oz` is the
+production profile, and runtime releases are built and accepted from it by
+`runtime-release.yml` when AC tags `runtime-v<N>` (AC, 23 October); (3)
+precompiled STACK in progress, no gain or parity yet (#13).
 Effort is unknown: Emscripten builds of large Lisp systems tend to need CI
 tuning; step 1 shows quickly whether it is days or weeks.
 
@@ -786,8 +788,11 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
   (§6).
 - **D8 Startup target (AC, 23 October).** Cold start (fresh browser profile,
   first visit) ready for the first Validate within **20 s on a reference
-  student laptop** (which laptop is still open; until it is named, timings
-  stay on the CI runner and are reported as such). No warm target until the
+  student laptop**. *Reference (AC, 23 October):* until a real laptop is
+  named, the reference is the CI runner with the browser limited to a quarter
+  of one CPU (systemd `CPUQuota=25%`, about 4× slower for Maxima's
+  single-threaded startup); `runtime-build.yml` reports its medians against
+  the target. On this reference 20 s corresponds to about 5 s at full speed. No warm target until the
   warm-profile reload measurement (§3.2) exists. If the target is missed
   after the remaining runtime steps, the Maxima backend is **opt-in per
   question**: `cas: maxima` stays available for questions SymPy cannot run,
