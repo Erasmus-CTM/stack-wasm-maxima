@@ -15,4 +15,6 @@ def startup(config):
     assert config == configuration()
     body = (ROOT / 'runtime/build/no-plot.mac').read_bytes()
     assert hashlib.sha256(body).hexdigest() == config['startupSha256']
+    # dbm-read only dispatches a Lisp command when its first character is ':'.
+    assert body.startswith(b':lisp '), 'Startup must begin with the Lisp command'
     return body.decode().strip() + '\n'

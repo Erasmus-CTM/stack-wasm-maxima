@@ -8,6 +8,6 @@
   "capabilities": {
     "plotting": false
   },
-  "startupSha256": "63fa06031126206bfb31e01fa81a0b39e1cb33eb1d0f72a55ac4e203f8ad6aad",
+  "startupSha256": "4fb9fdab38b9676328550d00aeef492b9267aad3e10fd6ccb4e16135251d238b",
   "upstreamRecipesUnmodified": true
 }

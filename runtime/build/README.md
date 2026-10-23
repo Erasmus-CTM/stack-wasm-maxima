@@ -99,3 +99,17 @@ for Maxima/ECL compilation checkouts. Canonical archive generation temporarily
 omits that override, preserving the original archive policy and pinned hashes.
 The fixture reproduces forced CRLF checkout and verifies both exact working
 blob bytes and unchanged canonical archives. The failed run is retained.
+
+Run 39921294914 completed both no-gnuplot builds and packaging, then stopped
+at the unchanged STACK version gate. Retained-runtime browser A/B diagnosis
+found the adapter's leading Maxima comment prevented `:lisp` command dispatch;
+removing that exposed an unquoted `$done` Lisp return. The corrected adapter
+starts directly with `:lisp`, retains SPDX inside a Lisp block comment, and
+returns the quoted Maxima atom. Local diagnosis confirmed exact STACK version
+2026101500 plus all four plot diagnostics and same-worker success afterward.
+That local diagnosis is not the required fresh cold-build parity acceptance.
+The timing-only forced-GC helper also returns the quoted atom. The actual
+generated timing worker passed local diagnosis with all 100 full-GC checks,
+retained and temporary objects, deliberate CAS error recovery and four plot
+diagnostics. Captured native programs and cold/reload measurements still await
+the fresh CI run; local diagnostic timings are not reported as performance.
