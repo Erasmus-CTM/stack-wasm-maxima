@@ -11,7 +11,8 @@ ctm-checkers `e8ec8d7`, ctm-libs `a1626f6`, stack-sympy `1b1d50f`.
 call entry works without isolation (#5); F-9's licence notices are merged;
 `core/custom.py` exists; F-8 says what stays pure Python; the default CAS is
 left open (D2, merged with "D2 names"); the variants amendment is done (#49,
-on `handoff/2026-10`). Everything else is as of 22 October.
+on `handoff/2026-10`); instant validation is gated per backend (A-7, §8).
+Everything else is as of 22 October.
 
 Goal set by AC: the Python (SymPy) and Maxima backends should be as
 interchangeable as possible, and the STACK PythonChecker should preferably
@@ -715,7 +716,7 @@ merged by AC.
 | Phase | Content | Depends on |
 |---|---|---|
 | M4c Runtime (first) | owned build reproduced from source with replay parity; trims and compression; precompiled STACK; snapshot; call entry and interrupt; tracking job; remeasure cold/warm on the public build and on a slow laptop | can start now |
-| M4a Contracts | one JavaScript input admission for both backends; instant validation with a `button` fallback setting; `stack: cas:` setting and `#\| cas:` override; card descriptor instead of the frontend patch; one plan format; CAS-error/author-error/runtime-failure protocol (F-3); hybrid path kept as test oracle only; one exact STACK pin | step 6 frontend/worker in stack-sympy |
+| M4a Contracts | one JavaScript input admission for both backends; instant validation with a `button` fallback setting, gated per backend (§8); `stack: cas:` setting and `#\| cas:` override; card descriptor instead of the frontend patch; one plan format; CAS-error/author-error/runtime-failure protocol (F-3); hybrid path kept as test oracle only; one exact STACK pin | step 6 frontend/worker in stack-sympy |
 | M4b Build runner | Wasm Maxima in Node/Deno, no browser; plan cache; conformance suite with Maxima as oracle (F-5, F-6) | M4a, M4c step 1 |
 | M4d H1 in both backends | `stack.check` in ctm-checkers; Maxima continuation calls it on the page runtime; delete `python_bridge.py` and v1 usage here | H1 core in ctm-checkers, variants keys |
 | M4e Variants | STACK seeding as in Moodle; import of deployed seeds with notes (D1) | variants PRs, M4b |
@@ -824,6 +825,13 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
   students still get syntax feedback, and Check waits for the runtime. A
   setting (proposed `stack: validation: instant | button`, default `instant`)
   switches back to an explicit Validate button if the trial disappoints.
+  *Gated per backend (AC, 23 October):* automatic validation lets a student
+  trigger long-running or stuck CAS calls just by typing, and one stuck call
+  blocks every card on the page (F-13). So a backend gets instant validation
+  only once it can bound or cancel such calls: the SymPy backend after
+  S-12's budgets, the Maxima backend after F-13 (superseded requests dropped,
+  interrupt before restart). Until then that backend uses `button`, whatever
+  the setting says. `instant` stays the intended default.
 - **math-exercise is unaffected.** It keeps its own input language
   (`parse_expr` with its transformations), its own `#| variables:` language
   and grading modes, and has no validation step (Check only); H3 stands. The

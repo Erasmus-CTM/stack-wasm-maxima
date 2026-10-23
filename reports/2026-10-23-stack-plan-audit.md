@@ -173,6 +173,9 @@ the page (F-13), or on a shared runtime every component (S-12).
 F-13's cancellation for Maxima. Until both exist, keep the default at
 `validation: button`.
 
+*Applied 23 October*, per backend (AC): each backend uses `button` until its
+guard exists; `instant` stays the intended default (plan §7 M4a, §8).
+
 ### A-8 Moodle seeds and the single STACK pin
 
 D1 reproduces Moodle's deployed variants. The acceptance test checks the
