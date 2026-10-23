@@ -47,12 +47,13 @@ async function packaging(root){
 
 async function boardsReady(page){
   const frames=page.locator('iframe[data-stack-jsxgraph]');
+  await frames.first().waitFor({state:'attached',timeout:60000});
   assert.ok(await frames.count()>0,'A measured native page must contain actual graphical questions');
   for(let at=0;at<await frames.count();at++){
     const handle=await frames.nth(at).elementHandle();
     await page.waitForFunction(frame=>frame.dataset.stackJsxgraphReady==='true',handle,{timeout:60000});
     const child=await handle.contentFrame();assert.ok(child);
-    await child.waitForFunction(()=>window.__ctmStackJSXGraphReady===true&&Object.keys(window.JXG?.boards||{}).length>0,null,{timeout:60000});
+    await child.waitForFunction(()=>window.__ctmStackJSXGraphReady===true&&Object.keys(window.JXG?.boards||{}).length>0,null,{polling:100,timeout:60000});
   }
 }
 
@@ -66,7 +67,7 @@ async function settle(page){
     for(const element of await page.locator('iframe[data-stack-jsxgraph]').elementHandles()){
       const frame=await element.contentFrame();assert.ok(frame);
       await frame.waitForLoadState('load',{timeout:60000});
-      await frame.waitForFunction(()=>!!window.MathJax?.startup?.promise,null,{timeout:60000});
+      await frame.waitForFunction(()=>!!window.MathJax?.startup?.promise,null,{polling:100,timeout:60000});
       await frame.evaluate(()=>Promise.race([MathJax.startup.promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error('MathJax startup/typeset deadline')),60000))]));
     }
   }
@@ -104,15 +105,19 @@ async function interactions(page,rows,manifest){
       const board=Object.values(JXG.boards).find(board=>board.objectsList.some(point=>point.elType==='point'&&point.visProp.visible&&!point.visProp.fixed));
       if(!board)throw new Error('No actual draggable authored point');
       const point=board.objectsList.find(point=>point.elType==='point'&&point.visProp.visible&&!point.visProp.fixed);
-      return {from:point.coords.scrCoords.slice(1),to:[board.origin.scrCoords[1]+board.unitX,board.origin.scrCoords[2]-board.unitY]};
+      const rect=point.rendNode?.getBoundingClientRect(),container=board.containerObj.getBoundingClientRect();
+      return {name:point.name,user:[point.X(),point.Y()],from:point.coords.scrCoords.slice(1),svgPoint:rect?{x:rect.x,y:rect.y,width:rect.width,height:rect.height}:null,container:{x:container.x,y:container.y,width:container.width,height:container.height},to:[board.origin.scrCoords[1]+board.unitX,board.origin.scrCoords[2]-board.unitY]};
     });
     let box=await element.boundingBox();assert.ok(box);
     // Keep the real authored point and target reachable on a narrow viewport.
     const shift=Math.max(0,Math.max(box.x+point.from[0],box.x+point.to[0])-width+24);
     if(shift){await page.evaluate(shift=>window.scrollBy(shift,0),shift);box=await element.boundingBox();}
     evidence.point=point;evidence.frameBox=box;evidence.viewport=await page.evaluate(()=>({x:scrollX,y:scrollY,width:innerWidth,height:innerHeight}));
-    await page.mouse.move(box.x+point.from[0],box.y+point.from[1]);await page.mouse.down();
-    await page.mouse.move(box.x+point.to[0],box.y+point.to[1],{steps:12});await page.mouse.up();
+    const from=[box.x+point.from[0],box.y+point.from[1]],to=[box.x+point.to[0],box.y+point.to[1]];
+    await page.mouse.move(...from);await new Promise(resolve=>setTimeout(resolve,50));await page.mouse.down();
+    await new Promise(resolve=>setTimeout(resolve,50));
+    for(let step=1;step<=12;step++){await page.mouse.move(from[0]+(to[0]-from[0])*step/12,from[1]+(to[1]-from[1])*step/12);await new Promise(resolve=>setTimeout(resolve,25));}
+    await page.mouse.up();evidence.realPointerMoveMilliseconds=300;
     await page.waitForFunction(({id,name,before})=>Array.from(document.querySelectorAll('section.stack-sympy')).find(card=>card.dataset.stackId===id)
       ?.querySelector('.stack-answer[data-name='+JSON.stringify(name)+']')?.value!==before,{id,name:descriptor.inputs[0],before},{timeout:15000});
     const after=await field.inputValue();assert.notEqual(after,before,'Real drag must change its bound answer');
@@ -192,7 +197,7 @@ async function measure(name,root,expectedSHA,live){
     for(const pass of (functionalOnly?['functional']:['cold','warm-same-profile'])){
       for(const action of ['load','variants-drag-reset']){
         phase={pass,action,requests:[],serverRequestStart:app?.requests.length};result.phases.push(phase);
-        if(action==='load'){await page.goto(pageURL,{waitUntil:'load'});if(args.includes('--static-host'))await page.waitForFunction(()=>crossOriginIsolated&&navigator.serviceWorker.controller!==null,null,{timeout:60000});await settle(page);if(args.includes('--static-host'))assert.equal(await page.evaluate(()=>crossOriginIsolated),true,'Canonical service worker must isolate the actual native page');}
+        if(action==='load'){await page.goto(pageURL,{waitUntil:'load'});if(args.includes('--static-host')){await page.waitForFunction(()=>crossOriginIsolated&&navigator.serviceWorker.controller!==null,null,{timeout:60000});await page.waitForLoadState('load',{timeout:60000});}await settle(page);if(args.includes('--static-host'))assert.equal(await page.evaluate(()=>crossOriginIsolated),true,'Canonical service worker must isolate the actual native page');}
         else {phase.interactions=[];await interactions(page,phase.interactions,manifest);}
         await Promise.all([...pending]);
         phase.serverRequests=app?.requests.slice(phase.serverRequestStart)||[];
@@ -233,7 +238,7 @@ async function measure(name,root,expectedSHA,live){
       assert.deepEqual(result.consoleErrors,[],'Raw console failures are not accepted');
     }
     result.passed=true;
-  }catch(error){result.error=String(error.stack||error);if(browser){const page=browser.contexts()[0]?.pages()[0];if(page){await mkdir(resolve(output,'..'),{recursive:true});await page.screenshot({path:output.replace(/\.json$/,'.failure.png'),fullPage:true});}}throw error;}
+  }catch(error){result.error=String(error.stack||error);if(browser){const page=browser.contexts()[0]?.pages()[0];if(page){result.frameStates=[];for(const element of await page.locator('iframe[data-stack-jsxgraph]').elementHandles()){try{const frame=await element.contentFrame();result.frameStates.push({attributes:await element.evaluate(node=>({id:node.id,ready:node.getAttribute('data-stack-jsxgraph-ready'),spec:node.getAttribute('data-stack-jsxgraph')})),box:await element.boundingBox(),state:await Promise.race([frame.evaluate(()=>({url:location.href,base:document.baseURI,ready:window.__ctmStackJSXGraphReady,boardIds:Object.keys(window.JXG?.boards||{}),mathjax:window.MathJax?.version,text:document.body?.innerText.slice(-500)})),new Promise((_,reject)=>setTimeout(()=>reject(new Error('Frame diagnostic deadline')),5000))])});}catch(error){result.frameStates.push({error:String(error)});}}await mkdir(resolve(output,'..'),{recursive:true});await page.screenshot({path:output.replace(/\.json$/,'.failure.png'),fullPage:true});}}throw error;}
   finally{if(browser)await browser.close();if(app)await app.close();report.cases.push(result);}
 }
 
