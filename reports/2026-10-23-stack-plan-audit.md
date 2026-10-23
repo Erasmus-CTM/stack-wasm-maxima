@@ -207,6 +207,11 @@ it in §8.
   through the call entry. §1 should note it as solved in principle, pending
   the production worker.
 
+*Applied 23 October* in the plan, with the stale items of A-1 (F-1, L0 in
+§3.3, §3.4), A-4 (`core/custom.py`), A-5 (the amendment) and the licence
+notices, plus a runtime status line in §6. AC left the default CAS open; D2
+says so.
+
 ### A-10 S-fix list
 
 §8 lists S-07, S-05, S-10, S-11, S-12, S-04, S-08, S-09, S-06. S-01, S-02 and
