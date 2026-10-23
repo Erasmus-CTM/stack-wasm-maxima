@@ -19,4 +19,4 @@ jobs:
       - name: Inspect exact artifact archives without executing their contents
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python runtime/audit/inspect.py runtime/audit/artifacts.json
+        run: python runtime/audit/inspect-artifacts.py runtime/audit/artifacts.json

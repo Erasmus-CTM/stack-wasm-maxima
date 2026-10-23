@@ -9,18 +9,18 @@
     "conclusion": "failure",
     "sha256": "dc37fbb5932e428a3e4c87df4b9f202e142022339d6ff985bebfd28a415f4f95",
     "files": [
-      ".cache/precompiled-fixtures/report.json",
-      ".cache/precompiled-fixtures/assignment-control/check-source.log",
-      ".cache/precompiled-fixtures/assignment-control/check-compiled.log",
-      ".cache/precompiled-fixtures/assignment-control/translate.log",
-      ".cache/precompiled-fixtures/assignment-bridge/check-source.log",
-      ".cache/precompiled-fixtures/assignment-bridge/check-compiled.log",
-      ".cache/precompiled-fixtures/assignment-bridge/translate.log",
-      ".cache/precompiled-fixtures/assignment-bridge/fixture.LISP",
-      ".cache/precompiled-fixtures/reset-control/reset.log",
-      ".cache/precompiled-fixtures/reset-control/fixture.LISP",
-      ".cache/precompiled-fixtures/reset-package/reset.log",
-      ".cache/precompiled-fixtures/reset-package/fixture.LISP"
+      "precompiled-fixtures/report.json",
+      "precompiled-fixtures/assignment-control/check-source.log",
+      "precompiled-fixtures/assignment-control/check-compiled.log",
+      "precompiled-fixtures/assignment-control/translate.log",
+      "precompiled-fixtures/assignment-bridge/check-source.log",
+      "precompiled-fixtures/assignment-bridge/check-compiled.log",
+      "precompiled-fixtures/assignment-bridge/translate.log",
+      "precompiled-fixtures/assignment-bridge/fixture.LISP",
+      "precompiled-fixtures/reset-control/reset.log",
+      "precompiled-fixtures/reset-control/fixture.LISP",
+      "precompiled-fixtures/reset-package/reset.log",
+      "precompiled-fixtures/reset-package/fixture.LISP"
     ]
   },
   {

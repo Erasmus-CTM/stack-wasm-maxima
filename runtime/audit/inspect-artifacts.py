@@ -110,7 +110,7 @@ def inspect_zip(data, spec):
                 if entry.filename.endswith('.json'):
                     json.loads(body)
                 payloads.append({**row, 'gzipBase64': base64.b64encode(gzip.compress(bytes(body), mtime=0)).decode()})
-    assert set(spec['files']) <= {row['path'] for row in inventory}, 'Required evidence missing'
+    assert set(spec['files']) <= {row['path'] for row in inventory}, 'Required evidence missing: ' + json.dumps(sorted(set(spec['files']) - {row['path'] for row in inventory}))
     records = [{'kind': 'inventory', 'artifact': spec['id'], 'files': inventory}]
     records += [{'kind': 'file', 'artifact': spec['id'], **row} for row in payloads]
     return records
