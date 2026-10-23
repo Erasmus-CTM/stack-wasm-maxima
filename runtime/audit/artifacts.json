@@ -1,28 +1,17 @@
 [
   {
-    "id": 12533497184,
-    "name": "precompiled-stack-probe-baseline-34013b7a89a7f907fba4af0e7fc7160108742393",
-    "sha256": "1a7232cf2bf2219388f850b4f346340910b359f6204e0b64e9896ff3edc19697",
-    "run": 40022723472,
-    "head": "32140b0c2086af4059b881b3c14f90282da46227",
-    "workflow": 394101239,
+    "id": 12535530715,
+    "name": "frozen-precompiled-browser-d80f546707732b668de4102035641dfa5261e753",
+    "run": 40030608232,
+    "head": "71021123f1503b4d730abf2b4973a8a0a780bbf6",
+    "workflow": 394515508,
     "attempt": 1,
     "conclusion": "failure",
+    "sha256": "c5aa7fd18bb2fd1adbd87035e2e87e52538de2d20ac3db0499d1046e2c284708",
     "files": [
-      "test-results/precompiled-stack/measure.json"
-    ]
-  },
-  {
-    "id": 12533764792,
-    "name": "precompiled-stack-probe-ecl-oz-34013b7a89a7f907fba4af0e7fc7160108742393",
-    "sha256": "e6358c09a06332fd8c572c9da0f44d67eeb74a6c52bc083060d77cb9bb872b87",
-    "run": 40022723472,
-    "head": "32140b0c2086af4059b881b3c14f90282da46227",
-    "workflow": 394101239,
-    "attempt": 1,
-    "conclusion": "failure",
-    "files": [
-      "test-results/precompiled-stack/measure.json"
+      "test-results/precompiled-browser/measure.json",
+      ".cache/precompiled-frozen-inputs/pair.json",
+      ".cache/precompiled-browser/site/precompiled-measure-worker.js"
     ]
   }
 ]
