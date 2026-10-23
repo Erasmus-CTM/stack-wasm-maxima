@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       source_run_id:
-        description: Successful pinned owned-runtime build run (empty selects latest successful owned-build PR run)
+        description: Successful pinned owned-runtime build run (empty requires a successful build of this exact head)
         required: false
         type: string
   pull_request:
@@ -36,6 +36,7 @@ jobs:
           node runtime/compression/test-codec-server.mjs
           node runtime/compression/test-owned-recipe.mjs
           node runtime/compression/test-evidence.mjs
+          node runtime/compression/test-select-source.cjs
       - name: Select a successful owned source-build artifact
         id: source
         uses: actions/github-script@v7
@@ -44,27 +45,31 @@ jobs:
             const fs = require('node:fs/promises');
             const {owner, repo} = context.repo;
             const workflow = (await github.rest.actions.getWorkflow({owner,repo,workflow_id:'runtime-build.yml'})).data;
+            const {validateRun,selectArtifact} = require(process.cwd()+'/runtime/compression/select-source.cjs');
+            const head=context.payload.pull_request?.head.sha||context.sha;
+            const branch=context.payload.pull_request?.head.ref||context.ref.replace(/^refs\/heads\//,'');
+            const expected={workflowID:workflow.id,head,branch,repository:owner+'/'+repo};
             const input = context.payload.inputs?.source_run_id;
             let run;
             if (input) {
               if (!/^[0-9]+$/.test(input)) throw new Error('Expected a numeric source run id');
-              run = (await github.rest.actions.getWorkflowRun({owner,repo,run_id:Number(input)})).data;
+              const runID=Number(input);
+              if(!Number.isSafeInteger(runID))throw new Error('Unsafe source run id');
+              run = (await github.rest.actions.getWorkflowRun({owner,repo,run_id:runID})).data;
+              validateRun(run,expected);
             } else {
-              const branch=context.payload.pull_request?.head.ref||context.ref.replace(/^refs\/heads\//,'');
-              let runs = (await github.rest.actions.listWorkflowRuns({owner,repo,workflow_id:workflow.id,
-                branch,event:'pull_request',status:'completed',per_page:30})).data.workflow_runs;
-              if(!runs.some(row=>row.conclusion==='success'))runs=(await github.rest.actions.listWorkflowRuns({owner,repo,workflow_id:workflow.id,
-                branch:'runtime/2026-10-owned-build',event:'pull_request',status:'completed',per_page:30})).data.workflow_runs;
-              run = runs.find(row=>row.conclusion==='success');
+              const runs=await github.paginate(github.rest.actions.listWorkflowRuns,
+                {owner,repo,workflow_id:workflow.id,head_sha:head,branch,status:'completed',per_page:100});
+              run=runs.find(row=>{try{validateRun(row,expected);return true;}catch{return false;}});
             }
-            if (!run || run.workflow_id!==workflow.id || run.conclusion!=='success') {
-              throw new Error('A successful owned-runtime source build is required; no deployment-byte fallback is permitted.');
-            }
-            const artifacts = (await github.rest.actions.listWorkflowRunArtifacts({owner,repo,run_id:run.id,per_page:100})).data.artifacts;
-            const matches = artifacts.filter(row=>/^owned-runtime-[0-9a-f]{40}$/.test(row.name)&&!row.expired);
-            if (matches.length!==1) throw new Error('Expected one unexpired owned runtime artifact');
-            const artifact=matches[0];
-            const provenance={run:{id:run.id,html_url:run.html_url,head_sha:run.head_sha,workflow_id:run.workflow_id,conclusion:run.conclusion},
+            if (!run) throw new Error('No successful current-head source build; build the whole workflow first.');
+            const artifacts=await github.paginate(github.rest.actions.listWorkflowRunArtifacts,{owner,repo,run_id:run.id,per_page:100});
+            const candidates=artifacts.filter(row=>/^owned-runtime-[0-9a-f]{40}$/.test(row.name)&&!row.expired);
+            if(candidates.length!==1)throw new Error('Expected exactly one baseline source artifact');
+            const artifact=selectArtifact(artifacts,candidates[0].name.slice('owned-runtime-'.length),run);
+            const provenance={expected,run:{id:run.id,html_url:run.html_url,head_sha:run.head_sha,
+              head_branch:run.head_branch,event:run.event,run_attempt:run.run_attempt,run_started_at:run.run_started_at,
+              workflow_id:run.workflow_id,conclusion:run.conclusion},
               artifact:{id:artifact.id,name:artifact.name,digest:artifact.digest,size_in_bytes:artifact.size_in_bytes}};
             await fs.mkdir('.cache/runtime-compression',{recursive:true});
             await fs.writeFile('.cache/runtime-compression/source-run.json',JSON.stringify(provenance,null,2)+'\n');
@@ -86,9 +91,9 @@ jobs:
             const raw=JSON.parse(await fs.readFile('.cache/runtime-compression/source-run/.cache/runtime-build/artifact/manifest.json','utf8'));
             if(!/^[0-9a-f]{40}$/.test(raw.recipe.revision))throw new Error('Missing exact source recipe revision');
             const commit=(await github.rest.repos.getCommit({owner,repo,ref:raw.recipe.revision})).data;
-            const parents=commit.parents.map(row=>row.sha);
-            if(commit.sha!==provenance.run.head_sha&&!parents.includes(provenance.run.head_sha))throw new Error('Artifact recipe is not the source run head or its tested merge');
-            provenance.recipe={revision:commit.sha,parents,relationship:commit.sha===provenance.run.head_sha?'same-commit':'direct-merge-parent'};
+            const {validateRecipe}=require(process.cwd()+'/runtime/compression/select-source.cjs');
+            const profiles=JSON.parse(await fs.readFile('runtime/build/compiler-profiles.json','utf8'));
+            provenance.recipe=validateRecipe(raw,commit,provenance.run,provenance.artifact,profiles.profiles.baseline);
             await fs.writeFile(path,JSON.stringify(provenance,null,2)+'\n');
       - uses: quarto-dev/quarto-actions/setup@v2
         with:
