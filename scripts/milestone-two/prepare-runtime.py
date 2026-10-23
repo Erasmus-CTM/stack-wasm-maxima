@@ -27,7 +27,7 @@ def checked_checkout(path: Path, expected: str) -> Path:
         raise ValueError(f"Expected {expected} at {path}, got {actual}")
     return path
 
-def owned_runtime_source(path: Path | None, wanted: set[str], baseline_comparator=False):
+def owned_runtime_source(path: Path | None, wanted: set[str], baseline_comparator=False, compiler_profile_name=None):
     if path is None:
         return None
     path = path.resolve()
@@ -44,6 +44,11 @@ def owned_runtime_source(path: Path | None, wanted: set[str], baseline_comparato
     records = manifest.get("runtimeAssets")
     profile = manifest.get('configuration')
     if not baseline_comparator:
+        sys.path.insert(0, str(ROOT / 'runtime/build'))
+        from compiler_profile import compiler_profile
+        selected_compiler = compiler_profile(compiler_profile_name)
+        if manifest.get('compilerProfile') != selected_compiler:
+            raise ValueError('Current candidate requires the selected exact compiler profile')
         expected = json.loads((ROOT / 'runtime/build/configuration.json').read_text())
         if profile != expected:
             raise ValueError('Unknown or changed runtime build configuration')
@@ -71,7 +76,7 @@ def owned_runtime_source(path: Path | None, wanted: set[str], baseline_comparato
         raise ValueError("Owned runtime asset paths differ from the required inventory")
     return {"root": path / "runtime", "records": selected,
             "provenance": {"kind": "ctm-owned-build", "manifestSha256": hashlib.sha256(encoded).hexdigest(),
-                           "sourcePins": pins}, 'configuration': profile,
+                           "sourcePins": pins, **({"compilerProfile":manifest["compilerProfile"]} if not baseline_comparator else {})}, 'configuration': profile,
             'startup': manifest.get('startupAdapter', {}).get('content', '')}
 
 
@@ -84,6 +89,7 @@ def main() -> None:
     parser.add_argument("--runtime-source", type=Path, default=os.environ.get("CTM_MAXIMA_RUNTIME_SOURCE"),
                         help="Opt-in owned-build artifact directory; default remains the deployed runtime")
     parser.add_argument("--verified-baseline-comparator", action="store_true", help="Comparator only: exact frozen historical artifact; never permits another pin set")
+    parser.add_argument("--compiler-profile", help="Explicit current compiler profile when staging an accepted comparison artifact")
     args = parser.parse_args()
     stack = checked_checkout(args.stack_source, STACK_SHA)
     checkers = checked_checkout(args.ctm_checkers_source, CHECKERS_SHA)
@@ -107,7 +113,7 @@ def main() -> None:
         records[asset["url"]] = asset
     if set(records) != wanted:
         raise ValueError("Missing hashes for selected runtime assets")
-    owned = owned_runtime_source(args.runtime_source, wanted, args.verified_baseline_comparator)
+    owned = owned_runtime_source(args.runtime_source, wanted, args.verified_baseline_comparator, args.compiler_profile)
     if owned and owned['configuration']:
         wanted -= {BASE + p for p in owned['configuration']['omittedRuntimePaths']}
     args.output.mkdir(parents=True, exist_ok=True)

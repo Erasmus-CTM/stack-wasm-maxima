@@ -10,6 +10,8 @@ from pathlib import Path
 import shutil
 from configuration import configuration, startup
 from recipe_inputs import recipe_files
+from compiler_profile import compiler_profile
+from compiler_evidence import derive
 
 ROOT = Path(__file__).resolve().parents[2]
 BASE = 'https://maxima-on-wasm.pages.dev/'
@@ -40,6 +42,10 @@ def main():
     work = ROOT / '.cache/runtime-build'
     pins = json.loads((ROOT / 'runtime/build/pins.json').read_text())
     config = configuration()
+    profile = compiler_profile()
+    compiler_record = json.loads((work / 'logs/compiler-experiment.json').read_bytes())
+    observed = derive((work / 'logs/ecl-config.log').read_bytes(),(work / 'logs/target-info.lsp').read_bytes(),(work / 'logs/ecl-cross-build.log').read_bytes(),(work / 'logs/maxima-cross-build.log').read_bytes(),profile)
+    assert compiler_record['passed'] is True and compiler_record['profile']==profile and compiler_record['observed']==observed
     if subprocess.check_output(['git','rev-parse','HEAD'],cwd=args.notices,text=True).strip() != pins['notices']['commit']:
         raise ValueError('Third-party notices checkout is not the pinned revision')
     progress = json.loads((work / 'source-progress.json').read_text())['sources']
@@ -117,7 +123,7 @@ def main():
         target.parent.mkdir(parents=True,exist_ok=True)
         target.write_bytes(body)
         recipe['files'].append({'path':relative,'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()})
-    (args.output / 'source-manifest.json').write_text(json.dumps({'schema':1,'sourcePins':pins,'recipe':recipe,'toolchain':toolchain,'upstreamRecipe':recipe_evidence,'configuration':config,'startupAdapter':{'content':startup(config),'sha256':config['startupSha256']}},indent=2)+'\n')
+    (args.output / 'source-manifest.json').write_text(json.dumps({'schema':1,'compilerProfile':profile,'sourcePins':pins,'recipe':recipe,'toolchain':toolchain,'upstreamRecipe':recipe_evidence,'configuration':config,'startupAdapter':{'content':startup(config),'sha256':config['startupSha256']}},indent=2)+'\n')
     notices = ["# Notices for this owned-build artifact", "",
                "These runtime files were rebuilt by CTM from the exact upstream sources and recipe recorded in source-manifest.json.",
                "The licence text files under LICENSES are copied unchanged from the pinned third-party-notices PR; upstream original notices and full source archives are retained too.",
@@ -126,12 +132,12 @@ def main():
                "SITE-NOTICES-context.md is the legacy site's notice for its deployed dependencies; it is retained only as site context and does not describe the provenance of these rebuilt files.",
                "Build inputs, exact archive hashes, SDK binary identities, recipe revision and recipe files are in source-manifest.json and recipe/.", ""]
     (args.output / 'BUILD-NOTICES.md').write_text('\n'.join(notices))
-    manifest = {'schema':1, 'runtimeAssets':table, 'sourcePins':pins, 'recipe':recipe, 'toolchain':toolchain, 'upstreamRecipe':recipe_evidence,'configuration':config,'startupAdapter':{'content':startup(config),'sha256':config['startupSha256']},
+    manifest = {'schema':1, 'compilerProfile':profile, 'runtimeAssets':table, 'sourcePins':pins, 'recipe':recipe, 'toolchain':toolchain, 'upstreamRecipe':recipe_evidence,'configuration':config,'startupAdapter':{'content':startup(config),'sha256':config['startupSha256']},
                 'scope':'Uncompressed owned-build substitution candidate; parity not implied by successful compilation'}
     (args.output / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     lines = ['# Owned build versus deployed files', '', '| Path | Built bytes | Deployed bytes | Difference |', '|---|---:|---:|---:|']
     lines += [f"| `{r['path']}` | {r['bytes']} | {r['deployedBytes']} | {r['differenceBytes']:+} |" for r in table]
-    lines += ['', f"Total built bytes: {sum(r['bytes'] for r in table)}.", '', 'Plotting omitted from sources, build and delivery. Compiler flags unchanged; no other trim or compression applied.']
+    lines += ['', f"Total built bytes: {sum(r['bytes'] for r in table)}.", '', f"Plotting omitted from sources, build and delivery. Compiler experiment profile: {profile['name']}; only the ECL target phase accepts injected flags, and no other trim or compression is applied."]
     (args.output / 'sizes.md').write_text('\n'.join(lines) + '\n')
     all_files = []
     for path in sorted(args.output.rglob('*')):

@@ -6,11 +6,12 @@ import os
 from pathlib import Path
 import platform
 import subprocess
+from compiler_profile import compiler_profile
 
 ROOT = Path(__file__).resolve().parents[2]
 output = ROOT / '.cache/runtime-build/logs/environment.json'
 packages = subprocess.check_output(['dpkg-query','-W','-f=${binary:Package}\t${Version}\n'], text=True)
-record = {'schema':1,'runnerImage':{key:os.environ.get(key) for key in ['ImageOS','ImageVersion','RUNNER_OS','RUNNER_ARCH']},
+record = {'schema':1,'compilerProfile':compiler_profile(),'runnerImage':{key:os.environ.get(key) for key in ['ImageOS','ImageVersion','RUNNER_OS','RUNNER_ARCH']},
           'buildIdentity':{'runId':os.environ.get('GITHUB_RUN_ID'),'runAttempt':os.environ.get('GITHUB_RUN_ATTEMPT'),'sourceRevision':os.environ.get('GITHUB_SHA'),'coldBuild':os.environ.get('CTM_COLD_BUILD')},
           'kernel':platform.platform(),'dpkgPackages':packages,'runnerContext':{key:os.environ.get(key) for key in ['GITHUB_ACTIONS','RUNNER_ENVIRONMENT']},'coldBuild':{'observedGithubHostedRun':os.environ.get('GITHUB_ACTIONS')=='true' and os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted','configuredWorkflowPolicy':{'restoreHostCache':False,'restoreSdkCache':False,'useCcache':False}},
           'scope':'Observed environment and package versions. Ubuntu runner/package versions are not fully pinned; digest-pinned release build environment remains future work.'}

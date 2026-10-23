@@ -14,11 +14,24 @@ const paths=[...await expectedRuntimePaths(repository)];
 for(const path of paths){await mkdir(dirname(join(root,'runtime',path)),{recursive:true});await writeFile(join(root,'runtime',path),body);}
 const configuration=JSON.parse(await readFile(join(repository,'runtime/build/configuration.json')));
 const startup=(await readFile(join(repository,'runtime/build/no-plot.mac'),'utf8')).trim()+'\n';
-const valid={schema:1,sourcePins,configuration,startupAdapter:{content:startup,sha256:configuration.startupSha256},runtimeAssets:paths.map(path=>({path,bytes:body.length,sha256}))};
+const compilerProfile=JSON.parse(await readFile(join(repository,'runtime/build/compiler-profiles.json'))).profiles[process.env.CTM_ECL_COMPILER_PROFILE||'baseline'];
+const valid={schema:1,compilerProfile,sourcePins,configuration,startupAdapter:{content:startup,sha256:configuration.startupSha256},runtimeAssets:paths.map(path=>({path,bytes:body.length,sha256}))};
 async function check(manifest){await writeFile(join(root,'manifest.json'),JSON.stringify(manifest));return loadOwnedRuntime(root,repository);}
 try {
  assert.equal(await loadOwnedRuntime(undefined,repository),null);
  assert.equal((await check(valid)).records.size,paths.length);
+ await assert.rejects(()=>check({...valid,compilerProfile:undefined}));
+ await assert.rejects(()=>check({...valid,compilerProfile:{...compilerProfile,name:"fabricated"}}));
+ const profiles=JSON.parse(await readFile(join(repository,'runtime/build/compiler-profiles.json'))).profiles;
+ const originalProfile=process.env.CTM_ECL_COMPILER_PROFILE;
+ try{
+  const alternate=Object.values(profiles).find(profile=>profile.name!==compilerProfile.name);
+  const candidate={...valid,compilerProfile:alternate};
+  await assert.rejects(()=>check(candidate));
+  process.env.CTM_ECL_COMPILER_PROFILE=alternate.name;assert.equal((await check(candidate)).records.size,paths.length);
+  await assert.rejects(()=>check(valid));
+  process.env.CTM_ECL_COMPILER_PROFILE='unknown';await assert.rejects(()=>check(candidate));
+ }finally{if(originalProfile===undefined)delete process.env.CTM_ECL_COMPILER_PROFILE;else process.env.CTM_ECL_COMPILER_PROFILE=originalProfile;}
  await assert.rejects(()=>check({...valid,configuration:undefined}));
  await assert.rejects(()=>check({...valid,startupAdapter:undefined}));
  for(const runtimeAssets of [

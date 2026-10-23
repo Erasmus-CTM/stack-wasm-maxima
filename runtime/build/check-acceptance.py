@@ -41,6 +41,11 @@ def main():
         from configuration import configuration, startup
         from package import records
         config = configuration()
+        from compiler_profile import compiler_profile
+        from compiler_evidence import verify_packaged
+        profile = compiler_profile()
+        compiler_evidence = verify_packaged(artifact_path.parent,profile)
+        assert artifact['compilerProfile']==profile
         assert artifact['configuration'] == config
         assert artifact['startupAdapter'] == {'content':startup(config),'sha256':config['startupSha256']}
         assert all(row['name'] != 'gnuplot' for row in pins['sources']) and not pins.get('buildPatches')
@@ -52,6 +57,7 @@ def main():
             assert row['sha256'] == digest(artifact_path.parent / 'build-recipes/maxima' / row['path'])
         assert digest(artifact_path.parent / 'build-recipes/maxima/wasm/Makefile') == artifact['upstreamRecipe']['sha256']
         environment = read(artifact_path.parent / 'logs/environment.json')
+        assert environment['compilerProfile']==profile
         assert environment['coldBuild']['observedGithubHostedRun'] and not any(environment['coldBuild']['configuredWorkflowPolicy'].values())
         assert environment['runnerImage']['ImageVersion'] and environment['dpkgPackages']
         host_sha = (artifact_path.parent / 'logs/host-ecl.sha256').read_text().split()[0]
@@ -124,6 +130,8 @@ def main():
                 assert reference['nativeRuntime']['maxima'] == pinned_version
             report['nativeReplays'].append({'kind': name, 'nativeExecutableVersion': reference['nativeExecutableVersion'], 'summary': reference['summary']})
         timings = read(OUT / 'timings.json')
+        from timing_evidence import validate_workload
+        validate_workload(timings,browser)
         assert timings['passed'] and len(timings['samples']) == 12
         assert {(r['candidate'], r['repetition'],r['mode']) for r in timings['samples']} == {(candidate,n,mode) for candidate in ('owned','deployed','baseline') for n in (1,2) for mode in ('cold','warm-profile-reload')}
         baseline_pin = read(ROOT / 'runtime/build/baseline.json')
@@ -156,6 +164,9 @@ def main():
         report['artifactManifestSha256'] = artifact_sha
         report['browserReportSha256'] = browser_sha
         report['timingSamples'] = [{k: row[k] for k in ('candidate','repetition','mode','readyMs','calls','nativeCalls','encodedBodyBytes')} for row in timings['samples']]
+        report['timingReportSha256'] = digest(OUT / 'timings.json')
+        report['compilerProfile'] = profile
+        report['compilerEvidenceSha256'] = digest(artifact_path.parent / 'logs/compiler-experiment.json')
         report['configuration'] = config
         report['publicPagesEncodings'] = pages['assets']
         report['plotDiagnostic'] = diagnostic
