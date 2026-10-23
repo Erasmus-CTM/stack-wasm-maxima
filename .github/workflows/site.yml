@@ -206,6 +206,7 @@ jobs:
           path: |
             .cache/native-build/
             site/native/build-manifest.json
+            test-results/board-mathjax*.json
             test-results/milestone-three/
           if-no-files-found: warn
 

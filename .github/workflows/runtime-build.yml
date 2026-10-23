@@ -106,6 +106,18 @@ jobs:
           ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e
           path: .site-sources/jsxgraph-quarto
           persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-assessment
+          ref: 68fe838ca76ce7dfc4297f8ed4db1ccf1dc29a8b
+          path: .site-sources/ctm-assessment
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-libs
+          ref: 2cdd3b47bb4722f65f168a0baf4dbd6a18bff384
+          path: .site-sources/board-ctm-libs
+          persist-credentials: false
       - name: Install the pinned browser dependencies
         run: |
           npm ci --ignore-scripts --no-audit --no-fund
