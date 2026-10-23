@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 set -euo pipefail
 export LC_ALL=C
+export VERBOSE=1
 ROOT=$(cd "$(dirname "$0")/../.." && pwd)
 WORK="$ROOT/.cache/runtime-build"
 MAXIMA="$WORK/sources/maxima"
@@ -14,7 +15,7 @@ exec > >(tee "$WORK/logs/build.log") 2>&1
 printf 'Build started: '; date -u +%FT%TZ
 python "$ROOT/runtime/build/apply-build-patches.py"
 python "$ROOT/runtime/build/profile.py"
-if [[ -d "$WORK/build-sources/ecl" ]]; then export ECL_SRCDIR="$WORK/build-sources/ecl"; fi
+case "${CTM_RUNTIME_PROFILE:-baseline}" in ecl-oz|ecl-o2) export ECL_SRCDIR="$WORK/build-sources/ecl";; esac
 MAKE_RECIPE="$WORK/build-recipes/maxima/wasm/Makefile"
 python "$ROOT/runtime/build/prepare-toolchain.py"
 if [[ -n "${GITHUB_OUTPUT:-}" ]]; then printf 'sdk_cache_ready=true\n' >> "$GITHUB_OUTPUT"; fi

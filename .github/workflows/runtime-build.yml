@@ -230,7 +230,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: owned-runtime-${{ matrix.profile }}-${{ github.sha }}
+          name: ${{ matrix.profile == 'baseline' && format('owned-runtime-{0}', github.sha) || format('owned-runtime-{0}-{1}', matrix.profile, github.sha) }}
           include-hidden-files: true
           path: |
             .cache/runtime-build/artifact/

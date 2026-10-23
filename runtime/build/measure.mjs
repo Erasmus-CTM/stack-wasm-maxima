@@ -21,7 +21,7 @@ self.onmessage=async({data})=>{let session;try {
  session.write(':lisp (defun maxima::$ctm_force_gc () (si:gc t) maxima::$done)\\n',60000);
  const gcCalls=[];
  const retained=session.evaluate('block([],ctm_retained:makelist([i,i^2],i,1,1000),length(ctm_retained))');
- for(let i=0;i<100;i++)gcCalls.push(session.evaluate('block([temporary:makelist(j^3,j,1,2000)],ctm_force_gc(),is(ctm_retained[1000]=[1000,1000000]) and is(length(ctm_retained)=1000))'));
+ for(let i=0;i<100;i++)gcCalls.push(session.evaluate('block([temporary:makelist(j^3,j,1,2000)],ctm_force_gc(),is(temporary[2000]=8000000000) and is(ctm_retained[1000]=[1000,1000000]) and is(length(ctm_retained)=1000))'));
  const caughtError=session.evaluate('block([r:errcatch(error("CTM deliberate caught CAS error"))],if r=[] then errormsgtostring() else "unexpected")');
  const afterError=session.evaluate('6*7');
  const plotting=[];
