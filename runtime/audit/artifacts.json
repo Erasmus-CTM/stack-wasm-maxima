@@ -1,21 +1,17 @@
 [
   {
-    "id": 12521314303,
-    "name": "owned-runtime-ecl-o2-7003d99c68a59aaad97faf51f4e76d52ab184687",
+    "id": 12521604821,
+    "name": "compiler-comparison-7003d99c68a59aaad97faf51f4e76d52ab184687",
     "run": 39986450307,
     "head": "bedca2ac4e1443d6b4a0f531799992666b7e02f7",
     "workflow": 393419291,
     "attempt": 1,
-    "status": "in_progress",
-    "conclusion": null,
-    "sha256": "ed4c7ff9f9cf706a9082ae6a37aa461f0094ac9a172a091e8ab6a519bcef7497",
-    "files": [],
-    "ranges": [
-      {
-        "path": "test-results/milestone-three/browser.json",
-        "start": 25165824,
-        "end": 29066203
-      }
+    "status": "completed",
+    "conclusion": "success",
+    "sha256": "ee7b2cee44cf25285d704aa718e908f1aaf13cc5c89864cc9064199de6c4833c",
+    "files": [
+      "admission.json",
+      "timings.json"
     ]
   }
 ]
