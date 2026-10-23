@@ -17,7 +17,10 @@
     if (!plain(value) || typeof value.assessmentId !== 'string' || !value.assessmentId || value.assessmentId.length > 256 ||
         !Array.isArray(value.inputs) || value.inputs.length > MAX_INPUTS || new Set(value.inputs).size !== value.inputs.length ||
         !value.inputs.every(name => typeof name === 'string' && NAME.test(name))) throw new Error('Invalid STACK JSXGraph descriptor');
-    return {assessmentId:value.assessmentId, inputs:[...value.inputs]};
+    const boardValues = value.boardValues === undefined ? {} : value.boardValues;
+    if (!plain(boardValues) || Object.keys(boardValues).length > 128 || !Object.entries(boardValues).every(([key, entry]) =>
+        /^[A-Za-z0-9_]{1,64}$/.test(key) && typeof entry === 'number' && Number.isFinite(entry))) throw new Error('Invalid STACK JSXGraph board values');
+    return {assessmentId:value.assessmentId, inputs:[...value.inputs], boardValues:{...boardValues}};
   }
   function attachIframe(frame, supplied) {
     if (attached.has(frame)) return attached.get(frame);
@@ -77,7 +80,7 @@
     }
     function initialize() {
       const state = snapshot(); previousState = JSON.stringify(state);
-      post({type:'init', epoch, state});
+      post({type:'init', epoch, state, boardValues:spec.boardValues});
       layout();
     }
     function sync() {
@@ -100,8 +103,8 @@
     }
     function reloadFrame() {
       if (!current()) return;
-      // The stock extension uses a self-contained data: URL. Also accept
-      // srcdoc when a host embeds the same Quarto-rendered document that way.
+      // Native packaging links one shared Quarto-rendered template. Legacy
+      // data: and srcdoc documents retain the same navigation/reset behavior.
       if (originalSrcdoc !== null) frame.setAttribute('srcdoc', originalSrcdoc);
       else if (originalSrc !== null) frame.setAttribute('src', originalSrc);
       else showError('The graphical board has no original document to restore');

@@ -72,6 +72,7 @@ jobs:
           node prototype/native/test-engine.mjs
           node prototype/native/test-backend-worker.mjs
           node prototype/jsxgraph/test-adapter.mjs
+          node scripts/milestone-three/test-package-boards.mjs
           python prototype/backend/test_native_adapter.py
           python prototype/native/test_python_bridge.py
           python scripts/milestone-three/test-reference.py

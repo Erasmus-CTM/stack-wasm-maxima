@@ -20,6 +20,11 @@ export async function serveDemo({ root, port = 0, compression = 'gzip', latencyM
     try {
       if (latencyMs) await new Promise(resolveDelay => setTimeout(resolveDelay, latencyMs));
       const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
+      // Public, immutable board dependencies are fetched with CORS by an opaque
+      // allow-scripts iframe. Keep CORP/COEP unchanged for all other resources.
+      if (/^\/native\/boards\/(?:assets|mathjax)\//.test(pathname) && !pathname.split('/').includes('..')) {
+        headers['Access-Control-Allow-Origin'] = '*';
+      }
       if (pathname === '/favicon.ico') { response.writeHead(204, headers); response.end(); return; }
       let target = resolve(root, '.' + pathname);
       let rel = relative(root, target);

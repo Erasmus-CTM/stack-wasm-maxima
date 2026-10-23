@@ -121,8 +121,9 @@ const otherCard = child(hostDocument.body, 'section', 'stack-sympy');
 const external = child(otherCard, 'span', ''); external.id = 'outside'; external.innerHTML = 'private';
 const frame = child(card, 'iframe', ''); frame.contentWindow = frameProxy;
 frame.setAttribute('src', 'data:text/html;base64,PGh0bWw+b3JpZ2luYWwgYm9hcmQ8L2h0bWw+');
-const handle = hostWindow.CTMStackJSXGraph.attachIframe(frame, {assessmentId:'native-board', inputs:['ans1']});
-const api = frameWindow.CTMStackJSXGraphFrame.create({assessmentId:'native-board', inputNames:['ans1']});
+const handle = hostWindow.CTMStackJSXGraph.attachIframe(frame, {assessmentId:'native-board', inputs:['ans1'],boardValues:{t0:-2}});
+const api = frameWindow.CTMStackJSXGraphFrame.create({assessmentId:'native-board', inputNames:['ans1'],tokenNames:['t0']});
+assert.throws(()=>api.board_values(), /not initialized/);
 const settle = async () => { for (let index = 0; index < 4; index++) await new Promise(resolve => setImmediate(resolve)); };
 try {
   const id = await api.request_access_to_input('ans1', true, true);
@@ -132,6 +133,15 @@ try {
   assert.equal(api.get_input_metadata('ans1').InputType, 'algebraic');
   await api.mark_ready(); await settle();
   assert.equal(frame.getAttribute('data-stack-jsxgraph-ready'), 'true');
+  assert.equal(api.board_values().t0,-2,'The scoped init carries prepared numeric data');
+  assert.equal(Object.isFrozen(api.board_values()),true);
+  const initialized=sentToFrame.find(message=>message.type==='init');
+  for(const boardValues of [{t0:99},{t0:NaN},{t0:-2,extra:3},'code']) {
+    frameWindow.emit('message',{source:hostProxy,data:{...initialized,boardValues}});
+    assert.equal(api.board_values().t0,-2,'Late/malformed data cannot change initialized geometry');
+  }
+  frameWindow.emit('message',{source:{},data:{...initialized,boardValues:{t0:99}}});
+  assert.equal(api.board_values().t0,-2,'The data channel requires the exact parent WindowProxy');
   await assert.rejects(api.request_access_to_input('private'), /not bound/);
 
   mirror.value = '[1,2]'; mirror.dispatchEvent(new FakeEvent('change'));

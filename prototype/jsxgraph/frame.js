@@ -17,9 +17,11 @@
     options = options || {};
     const assessmentId = options.assessmentId;
     const names = options.inputNames || [];
+    const tokenNames = options.tokenNames || [];
     if (typeof assessmentId !== 'string' || !assessmentId || assessmentId.length > 256 ||
         !Array.isArray(names) || names.length > MAX_INPUTS || new Set(names).size !== names.length ||
-        !names.every(validName)) throw new Error('Invalid STACK JSXGraph binding descriptor');
+        !names.every(validName) || !Array.isArray(tokenNames) || tokenNames.length > 128 || new Set(tokenNames).size !== tokenNames.length ||
+        !tokenNames.every(name => typeof name === 'string' && /^[A-Za-z0-9_]{1,64}$/.test(name))) throw new Error('Invalid STACK JSXGraph binding descriptor');
     const allowed = new Set(names), instanceId = nonce();
     if (!scope.JXG?.QuartoAssessment?.register) throw new Error('The jsxgraph-quarto assessment bridge is missing');
     const timeoutMs = Math.min(30000, Math.max(1000, options.timeoutMs || 10000));
@@ -28,7 +30,7 @@
     const validationListeners = new Map(), buttonListeners = new Map();
     const desired = new Map(), writing = new Set(), pumps = new Map(), writeErrors = new Map();
     let generation = null, epoch = -1, sequence = 0, applying = false, disposed = false;
-    let latestState = null, helloTimer, loadTimer;
+    let latestState = null, boardValues = null, helloTimer, loadTimer;
     let resolveReady, rejectReady;
     const ready = new Promise((resolve, reject) => { resolveReady = resolve; rejectReady = reject; });
     // Keep failures observable through ready/request promises without an
@@ -167,6 +169,13 @@
       if (data.type === 'init') {
         if (!Number.isSafeInteger(data.epoch) || data.epoch < epoch || typeof data.generation !== 'string' ||
             data.generation.length > 128 || !validState(data.state)) return;
+        const values = data.boardValues === undefined ? {} : data.boardValues;
+        if (!plain(values) || Object.keys(values).length !== tokenNames.length || !tokenNames.every(name =>
+            Object.prototype.hasOwnProperty.call(values, name) && typeof values[name] === 'number' && Number.isFinite(values[name]))) return;
+        // Initialization is immutable for a document. Host variant/reset changes
+        // navigate a fresh document, so late/repeated init cannot alter geometry.
+        if (boardValues && JSON.stringify(boardValues) !== JSON.stringify(values)) return;
+        boardValues = Object.freeze({...values});
         if (generation && generation !== data.generation) {
           rejectRequests('The question was reset or its variant changed');
           desired.clear();
@@ -203,6 +212,10 @@
 
     const api = {
       ready,
+      board_values: function () {
+        if (!boardValues || disposed) throw new Error('The graphical board values are not initialized');
+        return boardValues;
+      },
       mark_ready: async function () {
         await ready;
         if (disposed) throw new Error('The graphical input is no longer connected');
