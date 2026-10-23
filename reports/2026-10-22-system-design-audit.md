@@ -13,7 +13,8 @@ call entry works without isolation (#5); F-9's licence notices are merged;
 left open (D2, merged with "D2 names"); the variants amendment is done (#49,
 on `handoff/2026-10`); instant validation is gated per backend (A-7, §8); one STACK pin, 4.14.0, and
 Moodle seeds from other STACK versions (A-8, D3a, D1); a startup target and
-what follows if it is missed (A-1 to A-3, D8).
+what follows if it is missed (A-1 to A-3, D8); S-03 and S-14 to S-19 placed
+(A-10, backend roles).
 Everything else is as of 22 October.
 
 Goal set by AC: the Python (SymPy) and Maxima backends should be as
@@ -740,6 +741,15 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
   S-08, S-09, S-06; being implemented with ChatGPT/Codex), as may smaller new
   features. It serves small, light questions. Maxima is the backend for full STACK. A course or question uses
   one of them; there is no switching back and forth.
+  *The other audit findings (AC, 23 October):* **S-03** (log/root/abs
+  identities) is not fixed in SymPy: it keeps principal branches, S-03 is a
+  documented difference, and the build diagnostic says "needs `cas: maxima`"
+  where a question depends on that family (its teacher answers or question
+  tests reach it). **S-14** (source panel), **S-15** (build without AI
+  feedback), **S-16** (second Pyodide and MathJax), **S-17** (English-only
+  UI; its messages also in M4g) and **S-18** (accessibility) belong to step 6.
+  **S-19** (small answer-test differences) is listed as documented differences
+  in the conformance suite (F-5 item 5) and fixed in SymPy only if small.
 - **D1 Variants.** Each backend generates its own variants. The Maxima backend
   reproduces Moodle's deployed seeds, imported as approved variants with their
   question notes (F-8); the SymPy backend states that they do not carry over.

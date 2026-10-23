@@ -247,6 +247,11 @@ heads is now a `.dev0` version above the recorded 0.7.0–0.10.0 releases.
 stack-sympy #28 still pins the 0.10.0 release commit `75284f7`, which is in
 the chain's history.
 
+*Applied 23 October* (AC, plan §8 backend roles): S-03 stays a documented
+difference, with a "needs `cas: maxima`" build diagnostic; S-14 to S-18 go to
+step 6 (S-17's messages also M4g); S-19 goes to the conformance suite's
+documented differences.
+
 ### A-11 Delivery size assumes compression the host can't do
 
 §6 estimates "about 8–10 MB compressed" for loading the runtime from the
