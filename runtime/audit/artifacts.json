@@ -1,20 +1,17 @@
 [
   {
-    "id": 12529398284,
-    "name": "frozen-precompiled-browser-d36c062f1b1f00a5863fa46d436c3cbf1459b55f",
-    "run": 40018888353,
-    "head": "f6e4cb5dc7818b081501cfe97f1839cf2280341f",
+    "id": 12531170636,
+    "name": "frozen-precompiled-browser-444b19521af36887781d41a43fd7294321a41593",
+    "run": 40020471303,
+    "head": "c5790838a0a89e406f6451bfadf4738af056ead5",
     "workflow": 394515508,
     "attempt": 1,
     "conclusion": "failure",
-    "sha256": "97ed310032d75820154226169139620b81ed3f468a3263f8b36a31c92c7ea012",
+    "sha256": "88ecc3ffc28c707f307eefd1b7134829bd41b1ef17774de157313f7e6abde427",
     "files": [
       "test-results/precompiled-browser/measure.json",
-      ".cache/precompiled-frozen-inputs/provenance.json",
       ".cache/precompiled-frozen-inputs/pair.json",
-      ".cache/precompiled-browser/site/precompiled-measure-worker.js",
-      ".cache/precompiled-browser/site/runtime/maxima-session.js",
-      ".cache/precompiled-browser/site/runtime/maxima-child.js"
+      ".cache/precompiled-browser/site/precompiled-measure-worker.js"
     ]
   }
 ]
