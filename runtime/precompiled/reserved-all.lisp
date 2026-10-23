@@ -33,22 +33,45 @@
 
 (ctm-install-reserved-all-fix)
 
-;;; The library explicitly compiles this helper because stacktex.lisp calls its
-;;; Lisp binding directly. Keep its interpreted function registration as the
-;;; owner of removal; an extra $PROPS entry otherwise kills it even when reset
-;;; explicitly preserves $FUNCTIONS. This is an experimental one-symbol policy.
-(defun ctm-register-stack-tex-helper ()
-  (let ((name '$%_ce_rem))
-    (unless (and (fboundp name) (get name 'translated)
-                 (mget name 'mexpr)
-                 (assoc (list name) (cdr $functions) :test #'equal))
-      (error "STACK tex helper lacks compiled/interpreted function ownership"))
-    (setq $props (remove name $props :test #'eq))
-    '$done))
+;;; Exact interactive compile targets in the two pinned STACK libraries.
+;;; Registration happens once at trusted startup, before any question programs.
+;;; $FUNCTIONS owns their removal; duplicate $PROPS ownership defeats
+;;; kill(allbut[functions]). Validate every target before changing any list.
+(defparameter *ctm-stack-compiled-helpers*
+  '($safe_op $op_usedp $zip_with $count_op $scientific_notation $%_ce_rem texnumformat))
 
-(defun $ctm_stack_tex_helper_state ()
-  (let ((name '$%_ce_rem))
-    (list '(mlist) (if (fboundp name) t nil)
-          (if (mget name 'mexpr) t nil)
-          (if (assoc (list name) (cdr $functions) :test #'equal) t nil)
-          (if (member name (cdr $props) :test #'eq) t nil))))
+(defun $ctm_stack_helper_state ()
+  (cons '(mlist)
+    (mapcar (lambda (name)
+      (list '(mlist) (symbol-name name)
+        (if (fboundp name) t nil)
+        (if (and (fboundp name) (compiled-function-p (symbol-function name))) t nil)
+        (if (get name 'translated) t nil)
+        (if (mget name 'mexpr) t nil)
+        (if (assoc (list name) (cdr $functions) :test #'equal) t nil)
+        (if (member name (cdr $props) :test #'eq) t nil)))
+      *ctm-stack-compiled-helpers*)))
+
+(defvar *ctm-stack-helper-registration-before* nil)
+(defun ctm-register-stack-library-helpers (&optional compiled-entry)
+  (setq *ctm-stack-helper-registration-before* ($ctm_stack_helper_state))
+  (dolist (name *ctm-stack-compiled-helpers*)
+    (unless (or (and (fboundp name) (get name 'translated)
+                     (mget name 'mexpr)
+                     (assoc (list name) (cdr $functions) :test #'equal))
+                ;; The packagefile entry defines this function directly; its
+                ;; caught interactive compile has no interpreted definition.
+                ;; Only the explicit compiled-entry mode admits this ownership.
+                (and (eq compiled-entry t) (eq name 'texnumformat)
+                     (fboundp name) (compiled-function-p (symbol-function name))
+                     (get name 'translated) (not (mget name 'mexpr))
+                     (not (assoc (list name) (cdr $functions) :test #'equal))
+                     (not (member name (cdr $props) :test #'eq))))
+      (error "STACK helper ~S lacks translated/interpreted function ownership" name)))
+  (setq $props (remove-if (lambda (name) (member name *ctm-stack-compiled-helpers* :test #'eq)) $props))
+  '$done)
+
+(defun $ctm_stack_helper_registration_before () *ctm-stack-helper-registration-before*)
+
+(defun $ctm_register_stack_library_helpers (compiled-entry)
+  (ctm-register-stack-library-helpers compiled-entry))

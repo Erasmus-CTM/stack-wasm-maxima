@@ -42,7 +42,8 @@ texput(all,"R")$
 kill(allbut[functions])$
 if not is(ctm_dropped='ctm_dropped) then error("allbut failed to clear variable")$
 if not is(ctm_kept(41)=42) then error("allbut failed to preserve function")$
-if featurep(all,constant) then error("Literal all properties survived cleanup")$
+if featurep(all,constant) then error("Literal all feature survived cleanup")$
+if not is(ctm_literal_all_texword()=absent) then error("Literal all texword survived cleanup")$
 kill(all)$
 declare(all,constant)$
 texput(all,"R")$
@@ -51,7 +52,7 @@ if not is(ctm_literal_all_texword()="R") then error("allbut literal-all exclusio
 ctm_scope:99$
 kill(props)$
 if not is(ctm_scope=99) then error("kill(props) expanded into kill(all)")$
-if featurep(all,constant) then error("kill(props) failed literal cleanup")$
+if not is(ctm_literal_all_texword()=absent) then error("kill(props) failed literal texword cleanup")$
 print("CTM-RESERVED-ALL-POSITIVE-CONTROLS-OK")$
 EOF
 cat > "$WORK/positive-driver.lisp" <<'EOF'
@@ -69,35 +70,73 @@ EOF
 cat > "$WORK/helper-driver.lisp" <<'EOF'
 (in-package :maxima)
 (load (merge-pathnames #P"adapter.lisp" *load-truename*))
-;; A one-symbol registration fixture, not an implementation of STACK's helper.
-(mfuncall '$eval_string "%_ce_rem(x):=x+1")
-(mfuncall '$eval_string "compile(%_ce_rem)")
+;; Synthetic functions test ownership, not the real helpers' mathematics.
+(defun ctm-define-helper-fixtures (&optional (names *ctm-stack-compiled-helpers*))
+ (dolist (name names)
+  (let ((spelling (if (eq name 'texnumformat) "?texnumformat" (string-downcase (subseq (symbol-name name) 1)))))
+   (mfuncall '$eval_string (format nil "~A(x):=x+1" spelling))
+   (mfuncall '$eval_string (format nil "compile(~A)" spelling)))))
+(ctm-define-helper-fixtures)
 (mfuncall '$eval_string "ctm_unrelated_compiled(x):=x+2")
 (mfuncall '$eval_string "compile(ctm_unrelated_compiled)")
-(assert (member '$%_ce_rem (cdr $props) :test #'eq))
+(dolist (name *ctm-stack-compiled-helpers*) (assert (member name (cdr $props) :test #'eq)))
 (assert (member '$ctm_unrelated_compiled (cdr $props) :test #'eq))
-(ctm-register-stack-tex-helper)
-(let ((binding (symbol-function '$%_ce_rem)))
+;; Missing ownership must reject without partially editing $PROPS.
+(let ((prior (copy-tree $props))
+      (definition (mget 'texnumformat 'mexpr))
+      (rejected nil))
+ (unwind-protect
+  (progn
+   (mremprop 'texnumformat 'mexpr)
+   (handler-case (ctm-register-stack-library-helpers) (error () (setq rejected t)))
+   (assert rejected)
+   (assert (equal prior $props)))
+  (mputprop 'texnumformat definition 'mexpr)))
+(ctm-register-stack-library-helpers)
+(let ((bindings (mapcar #'symbol-function *ctm-stack-compiled-helpers*)))
  (dotimes (iteration 3)
   (mfuncall '$eval_string "ctm_helper_sentinel:37")
   (mfuncall '$eval_string "kill(allbut[functions])")
   (assert (eq (meval '$ctm_helper_sentinel) '$ctm_helper_sentinel))
   (si:gc t)
-  (assert (eq binding (symbol-function '$%_ce_rem)))
-  (assert (= (mfuncall '$%_ce_rem 41) 42))
+  (loop for name in *ctm-stack-compiled-helpers* for binding in bindings do
+   (assert (eq binding (symbol-function name)))
+   (assert (= (mfuncall name 41) 42)))
   (assert (not (fboundp '$ctm_unrelated_compiled)))))
 (mfuncall '$eval_string "kill(functions)")
-(assert (not (fboundp '$%_ce_rem)))
-(assert (not (mget '$%_ce_rem 'mexpr)))
-(let ((rejected nil))
- (handler-case (ctm-register-stack-tex-helper) (error () (setq rejected t)))
- (assert rejected))
-(mfuncall '$eval_string "%_ce_rem(x):=x+1")
-(mfuncall '$eval_string "compile(%_ce_rem)")
-(ctm-register-stack-tex-helper)
+(dolist (name *ctm-stack-compiled-helpers*)
+ (assert (not (fboundp name))) (assert (not (mget name 'mexpr))))
+(ctm-define-helper-fixtures)
+(ctm-register-stack-library-helpers)
 (mfuncall '$eval_string "kill(all)")
-(assert (not (fboundp '$%_ce_rem)))
-(assert (not (mget '$%_ce_rem 'mexpr)))
+(dolist (name *ctm-stack-compiled-helpers*)
+ (assert (not (fboundp name))) (assert (not (mget name 'mexpr))))
+;; A packagefile DEFMTRFUN has Lisp/translated ownership without infolists.
+(ctm-define-helper-fixtures (remove 'texnumformat *ctm-stack-compiled-helpers*))
+(eval '(defmtrfun (texnumformat $any mdefine nil nil) ($x) (add $x 1)))
+(compile 'texnumformat)
+(assert (not (mget 'texnumformat 'mexpr)))
+(assert (not (assoc '(texnumformat) (cdr $functions) :test #'equal)))
+(assert (not (member 'texnumformat (cdr $props) :test #'eq)))
+(let ((rejected nil))
+ (handler-case (ctm-register-stack-library-helpers nil) (error () (setq rejected t)))
+ (assert rejected))
+(ctm-register-stack-library-helpers t)
+(let ((bindings (mapcar #'symbol-function *ctm-stack-compiled-helpers*)))
+ (dotimes (iteration 3)
+  (mfuncall '$eval_string "ctm_helper_sentinel:37")
+  (mfuncall '$eval_string "kill(allbut[functions])")
+  (assert (eq (meval '$ctm_helper_sentinel) '$ctm_helper_sentinel))
+  (si:gc t)
+  (loop for name in *ctm-stack-compiled-helpers* for binding in bindings do
+   (assert (eq binding (symbol-function name)))
+   (assert (= (mfuncall name 41) 42)))))
+(mfuncall '$eval_string "kill(functions)")
+(assert (= (mfuncall 'texnumformat 41) 42))
+(mfuncall '$eval_string "kill(all)")
+(assert (= (mfuncall 'texnumformat 41) 42))
+(mfuncall '$eval_string "kill(?texnumformat)")
+(assert (not (fboundp 'texnumformat)))
 (format t "CTM-STACK-TEX-HELPER-REGISTRATION-NATIVE-OK~%")
 (ext:quit)
 EOF

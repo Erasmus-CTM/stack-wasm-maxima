@@ -8,13 +8,22 @@ const start=source.indexOf('const worker=`'),end=source.indexOf('`;\nawait write
 assert.ok(start>=0&&end>start);
 const worker=vm.runInNewContext(source.slice(start,end)+';worker');
 new vm.Script(worker);
-async function execute({returnValue=true,failAcknowledgment=false,failRegrade=false,resetError=false,sentinelSurvives=false}={}) {
-  const writes=[],messages=[];let resets=0,sentinel=false,gc=false,grades=0;
+async function execute({returnValue=true,failAcknowledgment=false,failRegrade=false,resetError=false,sentinelSurvives=false,diagnostic=false,probeError=false,fatalProbe=false}={}) {
+  const writes=[],messages=[],probes=[];let resets=0,sentinel=false,gc=false,grades=0;
   class Session {
     constructor(){this.manifest={stackLibraryVersion:'fixture-version'};}
     async init(){return {stages:{stackLoadMs:1}};}
     evaluate(expression){
       if(expression.includes('stack_reset('))throw new Error('Reset must be outside the dynamic evaluation wrapper');
+      if(expression==='ctm_reserved_all_state()')return [true,false,[]];
+      if(expression==='ctm_stack_helper_state()')return [['fixture',true,true,true,true,true,false]];
+      if(expression.includes('errcatch(ctm_register_stack_library_helpers('))return [true,'done'];
+      if(expression.startsWith('block([%ERR:["stack_map"],%NOTES:')){
+        probes.push(expression);
+        assert.equal(expression.includes('\\"'),false,'Maxima probe quotes must survive generated JavaScript');
+        if(fatalProbe&&probes.length===3)throw new Error('Fixture fatal probe');
+        return probeError&&probes.length===1?[false,'Fixture caught CAS error']:[true,'fixture observation'];
+      }
       if(expression==='6*7')return 42;
       if(expression==='stackmaximaversion')return 'fixture-version';
       if(expression.startsWith('string([STACKpmOPT'))return 'fixture globals';
@@ -31,6 +40,7 @@ async function execute({returnValue=true,failAcknowledgment=false,failRegrade=fa
       assert.equal(command.endsWith('\n'),true,'Native commands need a real newline');
       assert.equal(command.includes('\\n'),false,'Literal backslash-n is not a command terminator');
       writes.push(command);
+      if(command===':lisp fixture\n')return;
       if(command.includes('ctm_reset_result:errcatch(stack_reset(true))')){assert.equal(sentinel,true);sentinel=sentinelSurvives;resets++;gc=false;}
       else if(command.startsWith(':lisp (defun maxima::$ctm_force_gc'))gc=true;
       else throw new Error('Unexpected trusted command');
@@ -40,9 +50,9 @@ async function execute({returnValue=true,failAcknowledgment=false,failRegrade=fa
   }
   const self={postMessage:row=>messages.push(row)};let clock=0;
   vm.runInNewContext(worker,{self,MaximaSession:Session,importScripts(){},performance:{now:()=>++clock}});
-  await self.onmessage({data:{manifest:'source-control'}});
+  await self.onmessage({data:{manifest:'source-control',resetCompatibility:diagnostic?'fixture':null}});
   assert.equal(messages.length,1);
-  return {result:messages[0],writes,resets};
+  return {result:messages[0],writes,resets,probes};
 }
 const positive=await execute();
 assert.equal(positive.result.ok,true);assert.equal(positive.result.phase,'complete');
@@ -69,3 +79,18 @@ assert.equal(failure.result.ok,false);assert.equal(failure.result.phase,'reset-1
 assert.ok(failure.result.readyMs>0);assert.equal(failure.result.warmCalls.length,10);
 assert.match(failure.result.error,/Reset acknowledgment failed/);
 console.log('Generated measurement worker: global reset commands, three acknowledgments, real newlines and failure progress verified');
+
+const diagnostic=await execute({diagnostic:true,probeError:true});
+assert.equal(diagnostic.result.ok,true);
+assert.deepEqual(Array.from(diagnostic.result.lifecycleBefore[0].result),[false,'Fixture caught CAS error']);
+assert.equal(diagnostic.result.lifecycleBefore.length,9,'Caught probe errors must not hide later observations');
+assert.ok(diagnostic.probes.some(program=>program.includes('parse_string("x#pm#y")')));
+assert.ok(diagnostic.result.resets.every(row=>row.lifecycle.length===9));
+const fatalProbe=await execute({diagnostic:true,fatalProbe:true});
+assert.equal(fatalProbe.result.ok,false);
+assert.equal(fatalProbe.result.phase,'lifecycle-before:pm-structure');
+assert.equal(fatalProbe.result.lifecycleBefore.length,3);
+assert.equal(fatalProbe.result.lifecycleBefore[1].result[0],true);
+assert.equal(fatalProbe.result.lifecycleBefore[2].result,null);
+assert.match(fatalProbe.result.error,/Fixture fatal probe/);
+console.log('Diagnostic probe transport: plain quotes, caught-error continuation and fatal-progress retention verified');

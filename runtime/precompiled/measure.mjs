@@ -30,7 +30,7 @@ if(process.env.PRECOMPILED_RESET_COMPATIBILITY){
   // source separately; parse its flattened program explicitly in MAXIMA.
   const program='(progn '+text.split('\n').filter(line=>!line.trim().startsWith(';')).join(' ')+')';
   const quoted='"'+program.replaceAll('\\','\\\\').replaceAll('"','\\"')+'"';
-  resetCompatibility='(let ((*package* (find-package :maxima))) (eval (read-from-string '+quoted+')) (ctm-register-stack-tex-helper))';
+  resetCompatibility='(let ((*package* (find-package :maxima))) (eval (read-from-string '+quoted+')))';
   report.resetCompatibility={text,sha256:digest(text),command:resetCompatibility,commandSha256:digest(resetCompatibility)};
 }
 for(const path of files){const body=await readFile(join(site,path));report.files.push({path,bytes:body.length,sha256:digest(body)});}
@@ -43,9 +43,23 @@ self.onmessage=async({data})=>{let session;const progress={phase:'initializing',
   if(data.resetCompatibility){
     session.write(':lisp '+data.resetCompatibility.replaceAll('\\n',' ')+'\\n',60000);
     progress.reservedAllBefore=session.evaluate('ctm_reserved_all_state()');
-    progress.texHelperBefore=session.evaluate('ctm_stack_tex_helper_state()');
+    progress.phase='helper-registration';
+    progress.helpersAtRegistration=session.evaluate('ctm_stack_helper_state()');
+    progress.helperRegistration=session.evaluate('block([r:errcatch(ctm_register_stack_library_helpers('+(session.manifest.compiledStack?'true':'false')+'))],if r=[] then [false,errormsgtostring()] else [true,first(r)])');
+    if(progress.helperRegistration[0]!==true)throw new Error('Helper registration rejected: '+JSON.stringify(progress.helperRegistration));
+    progress.helpersBefore=session.evaluate('ctm_stack_helper_state()');
   }
+  // Diagnostic observations stay individually caught so a missing display
+  // setting cannot conceal parser, noun-policy or helper survival evidence.
+  const lifecyclePrograms=[["noun-isolation", "block([a,b,c],a:ATAlgEquiv(noundiff(y,x),0),b:ATAlgEquivNouns(noundiff(y,x),0),c:ATAlgEquiv(noundiff(y,x),0),[a[1],a[2],b[1],b[2],c[1],c[2],algebraic_equivalence_nounsp])"], ["direct-noun-equivalence", "algebraic_equivalence(noundiff(y,x),0)"], ["pm-structure", "block([p:parse_string(\\"x#pm#y\\"),q:parse_string(\\"#pm#y\\")],[is(op(p)=\\"#pm#\\"),is(args(p)=[x,y]),is(op(q)=\\"#pm#\\"),is(args(q)=[y])])"], ["pm-replacement", "block([p:parse_string(\\"x#pm#y\\")],[is(count_op(p,STACKpmOPT)=1),is(pm_replace(p)=parse_string(\\"(x+y) nounor (x-y)\\"))])"], ["pm-display", "[tex1(parse_string(\\"x#pm#y\\")),tex1(parse_string(\\"#pm#y\\"))]"], ["pm-unary-rewrite", "is(ev(parse_string(\\"-(x#pm#y)\\"),simp)=ev(parse_string(\\"-x#pm#y\\"),simp))"], ["pm-positive", "block([r:ATAlgEquiv(parse_string(\\"sin(x#pm#y)\\"),parse_string(\\"sin(x)*cos(y)#pm#cos(x)*sin(y)\\"))],[r[1],r[2]])"], ["pm-negative", "block([r:ATAlgEquiv(parse_string(\\"sin(x#pm#y)\\"),parse_string(\\"cos(x)*sin(y)#pm#sin(x)*cos(y)\\"))],[r[1],r[2]])"], ["number-display", "tex1(42)"]];
+  const lifecycleProbes=(target,phase)=>{for(const [name,program] of lifecyclePrograms){
+    const row={name,result:null};target.push(row);progress.phase=phase+':'+name;
+    row.result=session.evaluate('block([%ERR:["stack_map"],%NOTES:["stack_map"],%FEEDBACK:["stack_map"],r],r:errcatch('+program+'),if r=[] then [false,errormsgtostring()] else if length(%ERR)>1 then [false,string(%ERR)] else [true,first(r)])');
+  }};
+  if(data.resetCompatibility){progress.lifecycleBefore=[];lifecycleProbes(progress.lifecycleBefore,'lifecycle-before');}
+  progress.phase='warm-calls';
   const warmCalls=[];for(let i=0;i<10;i++){const t=performance.now();warmCalls.push({value:session.evaluate('6*7'),elapsedMs:performance.now()-t});}
+  progress.phase='initial-grade';
   const grade=session.assess({test:'AlgEquiv',student:'(x+1)^2',teacher:'x^2+2*x+1'});
   const version=session.evaluate('stackmaximaversion');
   Object.assign(progress,{warmCalls,grade,version});
@@ -75,7 +89,7 @@ self.onmessage=async({data})=>{let session;const progress={phase:'initializing',
     progress.phase='arithmetic-'+(i+1);
     round.afterError=session.evaluate('6*7');
     if(round.afterError!==42)throw new Error('Error recovery arithmetic failed');
-    if(data.resetCompatibility)round.texHelper=session.evaluate('ctm_stack_tex_helper_state()');
+    if(data.resetCompatibility){round.helpers=session.evaluate('ctm_stack_helper_state()');round.lifecycle=[];lifecycleProbes(round.lifecycle,'lifecycle-after-'+(i+1));}
     progress.phase='regrade-'+(i+1);
     round.grade=session.assess({test:'AlgEquiv',student:'(x+1)^2',teacher:'x^2+2*x+1'});
     progress.phase='metadata-'+(i+1);
