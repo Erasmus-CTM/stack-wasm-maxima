@@ -1,0 +1,65 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Experiment with precompiled STACK
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'runtime/precompiled/**'
+      - '.github/workflows/precompiled-stack.yml'
+permissions:
+  contents: read
+concurrency:
+  group: precompiled-stack-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  bundle-probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check exact owned-runtime inputs
+        run: |
+          node runtime/build/test-runtime-source.mjs
+          python runtime/build/test-substitution.py
+          python runtime/build/test-toolchain.py
+          python runtime/build/test-cold-evidence.py
+          python runtime/build/test-source-checkout.py
+      - name: Fetch exact source commits and verify archive hashes
+        run: python runtime/build/prepare-sources.py
+      - name: Install native and 32-bit build prerequisites
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends build-essential gcc-multilib g++-multilib \
+            libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config
+      - name: Build the pinned unoptimized Maxima/ECL control
+        run: bash runtime/build/build.sh
+      - uses: actions/checkout@v4
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: .cache/precompiled-stack/upstream-stack
+          sparse-checkout: stack/maxima
+          persist-credentials: false
+      - name: Translate pinned STACK and cross-compile for the browser target
+        run: bash runtime/precompiled/translate-and-cross-compile.sh "$PWD/.cache/precompiled-stack/upstream-stack"
+      - name: Preserve the feasibility evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: precompiled-stack-probe-${{ github.sha }}
+          include-hidden-files: true
+          path: |
+            .cache/precompiled-stack/logs/
+            .cache/precompiled-stack/source/stackmaxima.mac
+            .cache/precompiled-stack/source/stackmaxima.lisp
+            .cache/precompiled-stack/source/stackmaxima.unlisp
+            .cache/precompiled-stack/stackmaxima.fas
+            .cache/runtime-build/logs/
+            .cache/runtime-build/source-progress.json
+          if-no-files-found: warn
