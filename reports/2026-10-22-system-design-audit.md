@@ -12,7 +12,7 @@ call entry works without isolation (#5); F-9's licence notices are merged;
 `core/custom.py` exists; F-8 says what stays pure Python; the default CAS is
 left open (D2, merged with "D2 names"); the variants amendment is done (#49,
 on `handoff/2026-10`); instant validation is gated per backend (A-7, §8); one STACK pin, 4.14.0, and
-Moodle seeds from other STACK versions (A-8, D3a, D1); a startup target and
+Moodle seeds from other STACK versions (A-8, D3a, D1); F-10 and L6 resolved by #11; a startup target and
 what follows if it is missed (A-1 to A-3, D8); S-03 and S-14 to S-19 placed
 (A-10, backend roles).
 Everything else is as of 22 October.
@@ -57,7 +57,7 @@ architectural rather than incremental:
 | F-7 | The PythonChecker bridge is built on API v1 (`CHECKERS`, 3-argument), which the approved H1 decision retires; a second Pyodide is loaded inside the Maxima worker | high |
 | F-8 | The same seed yields different variants under the two backends (Maxima RNG vs Python `random`). The native engine seeds as STACK's `stack_randseed` does; whether it reproduces Moodle's variants is unverified | medium (D1) |
 | F-9 | Runtime binaries are fetched from a third-party deployment (`maxima-on-wasm.pages.dev`); Maxima there is a 5.49 development branch, the CTM oracle is 5.46; no CTM build from source; the public `gh-pages` site already redistributes Maxima, ECL, gnuplot and STACK's GPL sources without their licence texts or a source offer | high |
-| F-10 | The native page HTML is **16.9 MB**, 99 % of it nine copies of a 1.86 MB base64 board page | medium |
+| F-10 | The native page HTML is **16.9 MB**, 99 % of it nine copies of a 1.86 MB base64 board page. *Resolved 23 Oct (#11):* one board template per question/board, JSXGraph core as a shared pinned asset; `native.html` 146,783 bytes, no embedded boards | medium |
 | F-11 | Warm calls cost 104 ms (validate) and 336 ms (grade) versus 12 ms for SymPy; each call rebuilds the whole question environment | medium |
 | F-12 | Supported author subset excludes function definitions (`f(x):=…`), `apply`, `define`, random feedback variables and more; real-question compatibility is unmeasured | medium |
 | F-13 | One serialized queue for every card on the page; a 60 s timeout and restart blocks all cards | medium |
@@ -177,7 +177,7 @@ in the frozen summary; it makes 103–107 requests before Python is needed.
 | L3 | **Start early**: start the Maxima worker when a Maxima card enters the page (idle callback / viewport), with the planned status lamp (step 5, P16) | hides most of the wait while the student reads | cheap; costs CPU and memory on pages where nobody answers |
 | L4 | **Load heavy libraries on demand** (statistics etc.) when the compiled plan says a question needs them | 62.5 → 37.8 s instrumented | changes STACK's load order; the exact-directory experiment already failed a library load; parity-gated only |
 | L5 | **Binary preload pack** instead of base64 JSON decoded one character at a time (`maxima-child.js:32`) | −25 % of 4.98 MB (1.25 MB), less decode CPU | small, safe |
-| L6 | **One board template per question**; pass variant data through the binding's initial values; JSXGraph core as one shared, cacheable asset | native page 16.9 MB → ~2 MB | jsxgraph-quarto change or a non-embedded mode; also matters for ctm-demo (variants design: 2.07 of 2.30 MB of a page are variant data) |
+| L6 | **One board template per question**; pass variant data through the binding's initial values; JSXGraph core as one shared, cacheable asset | native page 16.9 MB → ~2 MB | jsxgraph-quarto change or a non-embedded mode; also matters for ctm-demo (variants design: 2.07 of 2.30 MB of a page are variant data) *Done 23 Oct (#11).* |
 | L7 | **Cross-page persistence** with a `SharedWorker` | saves startup between open tabs only | not reliable across same-tab navigation; Safari support of SAB in shared workers to be tested; low priority |
 
 L1 and L2 together were taken to be the only path to SymPy-like startup.
@@ -733,7 +733,7 @@ merged by AC.
 | M4b Build runner | Wasm Maxima in Node/Deno, no browser; plan cache; conformance suite with Maxima as oracle (F-5, F-6) | M4a, M4c step 1 |
 | M4d H1 in both backends | `stack.check` in ctm-checkers; Maxima continuation calls it on the page runtime; delete `python_bridge.py` and v1 usage here | H1 core in ctm-checkers, variants keys |
 | M4e Variants | STACK seeding as in Moodle; import of deployed seeds with notes (D1) | variants PRs, M4b |
-| M4f Page weight | one board template per question (L6); binary preload (L5) | jsxgraph-quarto |
+| M4f Page weight | one board template per question (L6, done in #11); binary preload (L5) | jsxgraph-quarto |
 | M4g Compatibility and language | census (F-12), widen subset; feedback messages through ctm-libs' catalogue with nb/nn (F-15) | M4b |
 | — Repositories | AC renames stack-sympy to ctm-stack; native code moves in with M4a | step 6 |
 | M4h Packaging | asset lock entries, licences and source offer, closure check, Firefox/WebKit, memory | M4c, step 5 |
