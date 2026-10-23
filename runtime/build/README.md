@@ -1,145 +1,115 @@
-# Owned runtime reproduction (step 1, in progress)
+# Owned Maxima/ECL runtime: first step-2 change
 
-The source/build pins are exact. Maxima and ECL identities are embedded in the
-deployed binary. Emscripten 4.0.10 is present in maxima.wasm and the port README.
-The gnuplot commit is a reconstructed candidate from the referenced port's
-unchanged default branch and matching version, not an embedded binary commit.
-Bundled GMP and Boehm GC versions are recorded from the exact ECL tree; libffi
-is bundled for host use but the Wasm configure branch explicitly disables it.
+AC's 23 October decision removes external gnuplot completely before compiler
+optimization or any other trim. This branch removes its source pin/archive,
+source checkout, build/bootstrap commands, delivered library, plot module and
+the old derived Makefile patch/applicator. The pending upstream patch offer is
+closed because that patch is no longer carried. Historical failed runs remain
+available; no old evidence is presented as a result of this configuration.
 
-GitLab archive HTTP requests returned 406 locally, so those sources use canonical
-uncompressed `git archive --format=tar --prefix=NAME/ COMMIT` SHA-256 values.
-`core.autocrlf=false` and `core.eol=lf` fix checkout/archive text conversion; filenames are Git tree order,
-and archive timestamps/comment derive from the pinned commit. CI validates the
-same bytes; a mismatch fails rather than bypassing the pin. GitHub SDK/source
-archives have independently downloaded tar.gz hashes. Existing upstream tags
-are fetched for Maxima versioning; no tags are created. core.abbrev=9 preserves
-the deployed version/share directory spelling without a source patch.
+Maxima, ECL, Emscripten, SDK archives, both STACK revisions and notices remain
+exactly pinned. `pins.json` has no gnuplot source and no build patch. Original
+Maxima/ECL mathematical sources and STACK sources are unchanged.
 
-The initial workflow is an actionable build experiment, not a completion claim.
-It uses the port's own Makefile to build 32-bit host ECL, cross ECL, Maxima and all
-nine modules including plotting. No mathematical source is edited. It stages
-exactly today's asset inventory, with all bytes/hashes and deployed size
-comparisons. Complete source archives and original notices accompany the runtime;
-the prepared licence PR is read at its exact commit rather than duplicated.
+## Build and artifact
 
-Substitution parity, the two STACK pins, browser checks, native replay and timings
-are wired into the build workflow and remain acceptance gates until that workflow passes.
-No site publication, tags, releases, trims or compression are performed here.
+The unchanged upstream Makefile builds native ECL32, native Maxima, cross ECL,
+main Wasm, share/index and loader files. Its optional-module targets impose an
+artificial plot prerequisite. Their actual ASDF systems depend only on
+`maxima/core`, so `build.sh` invokes the pinned upstream
+`cross-compile-maxima-module` directly for the eight nonplot modules and copies
+the resulting Wasm bundles. It creates no placeholder plot target and changes
+no upstream recipe. Browser plot/gnuplot outputs and external source/archive
+paths must be absent.
 
-The first CI source check (run 39863489271, before any compiler execution)
-rejected the original Windows ECL archive hash. Its 2,890 tar entries describe
-the same pinned tree: 2,452 contents are identical and 438 entries under
-`ecl/src/libffi/` differ only by CRLF versus LF. Bundled libffi's `text=auto`
-attributes use native EOL unless `core.eol=lf` is explicit. The LF archive is
-36,106,240 bytes with SHA-256 `fafd6275264c33dd4d8562703752f709bf992b29c40fd766d1351782f4c507b0`,
-matching Ubuntu exactly. Maxima and gnuplot hashes are unchanged with this
-configuration. This is staging configuration, not an upstream source patch.
-The failed run remains in GitHub Actions; subsequent attempts preserve source
-logs, partial archives and per-source verification progress even on failure.
+Two jobs run on independent fresh Ubuntu hosted runners without source, SDK,
+host or ccache restores. Each rebuilds the native host, records the installed
+host SHA-256 before using it for cross compilation, and verifies it again.
+Bootstrap ECL necessarily executes during its own build. Environment evidence
+records runner image/kernel and `dpkg-query -W` versions. This is observation,
+not a fully pinned release environment. SDK binary archives are still verified
+before extraction and execution.
 
-The executed Linux SDK and Node binary archives are separately size/hash pinned
-and verified before emsdk extraction, including cache hits. Only compressed SDK
-archives are cached; extracted executables are recreated from verified bytes.
-The host must be ELF32/i386 with a 29-bit positive fixnum, and the output module
-must declare unshared wasm32 memory. Packaging records build-recipe hashes and
-its Git revision alongside upstream source and actual toolchain evidence.
-Owned artifacts carry a build-specific notice; the licence PR's original site
-notice is labelled as historical site context, and licence texts are unchanged.
+Every artifact includes the current 79-file closure, original source archives,
+unchanged notices, original Makefile and current orchestration recipe, hashes,
+logs and manifests. The old site's notice is labelled historical site context;
+the active licence bundle omits the unused gnuplot text. The comparison job
+checks actual runtime bytes from both successful cold builds. Its report states
+either byte-reproducible runtime or rebuildable with equivalent behaviour and
+lists every differing file. Successful compilation alone is never acceptance.
 
-The second CI attempt (39865240495) verified every source archive and both
-executed SDK archives, then stopped in gnuplot bootstrap because `ltmain.sh`
-was absent. The recipe now invokes `libtoolize --copy` before upstream
-`./prepare`, generating build support without changing mathematical sources.
-It also restores `EMSDK_PATH` after emsdk's environment script clears it,
-because the port Makefile requires that variable. Tool version logs use the
-actual bundled clang and SDK Node executables, not similarly named tools on
-Ubuntu's default PATH. Failed build logs are retained as Actions artifacts.
+## Plot capability and acceptance
 
-## Opt-in validation
+A hash-pinned startup adapter replaces ECL's plot autoload functions before
+unchanged STACK startup. The five plot-option names used by both STACK loaders
+are accepted as no-ops. Other plotting operations produce
+`CTM plotting unavailable; use JSXGraph.` Current candidate admission requires
+this exact configuration, adapter and closure; stale omitted files are rejected.
+An actual authored XML question with a plot assignment goes through the normal
+XML compiler and real Wasm build preparation and must fail with its question ID
+and that actionable diagnostic. No regex-based function-name admission is added.
+Direct plot calls and STACK `plot()` must produce the same diagnostic and leave
+a subsequent caught-error/success path usable in that worker.
 
-`python scripts/milestone-two/prepare-runtime.py --runtime-source ARTIFACT ...`
-(or `CTM_MAXIMA_RUNTIME_SOURCE=ARTIFACT`) selects an owned artifact containing
-`manifest.json` and `runtime/`. Without that option the existing deployed
-runtime remains the default. Every owned request must have a manifest hash;
-there is no fallback download or discovery of unhashed owned share files.
-The current 81-file inventory is required exactly during staging. Integrity
-fixtures cover changed pins, malformed inventories, duplicate/traversal paths,
-size/hash mismatches and post-manifest tampering.
+Each cold build retains all 22 probes at both STACK pins, native browser checks
+and both independent/same-source native replays of exactly 316 captured programs
+with zero unaccepted differences. The default/published runtime is unchanged.
+No module besides plotting is removed. Compiler flags and conservative-GC
+spill-pointers are unchanged; compiler optimization follows in a separate PR.
 
-The CI acceptance path stages the owned files into an unpublished site, runs
-its actual native browser checks, and replays exactly 316 captured programs
-against both Ubuntu's independent Maxima and the already-installed native
-Maxima from the same upstream commit/ECL32 build. It then runs the same 22
-fixtures at each of the two STACK pins with deployed and owned Wasm, preserving
-the generated batches, raw results, desktop comparisons and explicit parity.
-A final assertion rejects missing/partial evidence or any unaccepted replay
-difference. Compilation alone is not acceptance.
+## Measurements and comparator isolation
 
-`measure.mjs` records two alternating-order trials per runtime, with fresh
-Chromium process/profile/worker and uncompressed local HTTP for each trial,
-then ten simple `6*7` overhead-control calls and actual captured native-rational
-prepare/validate/PRT programs in that worker, with result equality checks. Readiness includes STACK. HTTP caches start
-fresh; OS/filesystem/process warming is uncontrolled. The baseline and owned
-results are retained side by side without a statistical performance claim.
-The existing published transport and page are not switched.
+The old fully validated owned build is frozen by exact manifest/artifact hashes
+and original pins in `baseline.json`. Every manifested byte and its acceptance
+record are checked. Only the explicit comparator staging option admits that
+historical pin set; current candidates must match current pins/configuration.
 
-The separate upstream workflow writes a weekly/manual read-only drift artifact
-for the three port branches and the pinned tool tags. It never rewrites pins,
-creates an upgrade PR, merges, tags or publishes. A changed branch is evidence
-for an exact candidate decision and the full build/substitution workflow;
-release discovery and automatic tested upgrade proposals remain later tracking
-work as described after the runtime steps in audit section 6.
+Two alternating-order trials on each runner compare deployed, historical owned
+and current runtimes under the same gzip-6 local server policy. Every trial
+records a fresh profile and a page reload in the same profile/context and live
+origin with a new worker/session. Reload request deltas/readiness are separate
+from warm calls. Real captured native-rational prepare/validate/PRT programs
+and simple call controls retain result equality checks. A retained-object/forced
+GC smoke is additional evidence; Wasm linear-memory capacity is not live heap.
+No internet-performance or statistical speed claim follows from these trials.
 
-Verified SDK archives and validated host ECL are saved to their caches before
-later job failure can discard them. The upstream host-ECL Makefile target has
-no prerequisites: an existing cached executable skips compilation, then the
-ELF/fixnum assertions still execute. Cache readiness is emitted only after
-archive verification or successful host assertions, respectively.
-Acceptance binds the browser's asset inventory and staged manifest to the
-actual owned artifact digest, each native replay to the exact browser JSON
-hash, the same-source oracle to the observed/pinned Maxima version, and the
-probe/timing provenance to the same artifact. Raw failed probe evidence is
-always uploaded even when its comparator exits before the usual copy step.
+`measure-pages.mjs` independently observes the public Pages preview's actual
+response encodings and encoded body sizes for .wasm/.so/.fas. Pages' own
+automatic compression is distinct from the tested CTM sidecar negotiation,
+which is a server/offline policy and is not deployed by this PR. No page,
+frontend, hosting, tag or release is published. AC merges and creates tags.
 
-## Later size experiments (not applied in step 1)
+## Retained historical build failures
 
-The deployed comparison inventory is 57,083,412 bytes across 81 files. Its
-`maxima-plot.fas` (1,135,430 bytes) and `libgnuplot.so` (3,937,451 bytes) total
-5,072,881 bytes; omitting them is a later capability/coverage decision, not a
-claim that the current test suite exercises plotting. Slatec (6,182,186 bytes)
-and quadpack (3,714,554 bytes) also merit dependency measurements before any
-removal. The owned artifact's generated `sizes.md` supplies the corresponding
-rebuilt sizes once compilation succeeds.
+Step-1 runs 39863489271 (Windows/LF archive mismatch), 39865240495 (missing
+libtool bootstrap file), 39865663672 (gnuplot cross host), and 39868037264
+(gnuplot shared-library emission) remain diagnostic history. The final historical
+owned build was 39870918765. The removed patch solved those old gnuplot failures;
+this configuration avoids that external dependency entirely.
 
-A separate authorized compression experiment can compare Brotli/gzip for
-Wasm, side modules and JavaScript, preserving each decoded SHA-256, MIME type,
-range/lazy-loader behavior and all substitution checks. The largest deployed
-inputs are `maxima.wasm` (23,611,995 bytes) and `libecl.so` (7,966,927 bytes).
-Compiler size optimization is a separate experiment: this reproduction keeps
-the port's flags, including ECL's O0 and Binaryen spill-pointers behavior.
-No module, source or runtime file is trimmed or compressed by this build.
+PWA delivery is a later production task: a service worker with versioned asset
+caching can avoid repeat transfers during semester reuse. A new Maxima worker
+still performs startup, measured separately by the warm-profile reload samples.
+This build change does not implement PWA caching.
 
-The first native compiler attempt (39865663672) built ECL32 and native Maxima,
-then gnuplot configure exited 77 because the port recipe did not declare a
-cross host. `patches/maxima-gnuplot-cross-host.patch` is a separate SHA-pinned
-build-only patch adding the same wasm32/Linux host/build tuples used by ECL.
-The applicator checks the exact source commit, clean tree and patch hash,
-permits only `wasm/Makefile` changes, and records the resulting file hash.
-Original source archives remain unchanged and the full patch accompanies the
-artifact. An isolated checkout application check passed. No mathematical
-source changes. See patches/README.md for the failed run and upstream offer:
-the patch is publicly ready in PR 7 but has NOT been posted to GitLab because
-no authenticated session or credential is available. All subbuild config logs
-are now preserved to close the diagnostic gap in the failed attempt.
+Focused run 39920599300 stopped before compilation when the strict Git-blob
+source check caught upstream libffi `eol=crlf` checkout conversion. Source
+preparation now disables text conversion only in repository-local Git metadata
+for Maxima/ECL compilation checkouts. Canonical archive generation temporarily
+omits that override, preserving the original archive policy and pinned hashes.
+The fixture reproduces forced CRLF checkout and verifies both exact working
+blob bytes and unchanged canonical archives. The failed run is retained.
 
-The next compiler attempt (39868037264) confirmed gnuplot cross configure now
-works, but stock libtool disables shared libraries for the wasm32 host. It
-installed only libgnuplot.a, so the original .so copy failed. The separate build
-patch now compiles PIC and links that complete archive as a real Emscripten
-SIDE_MODULE=1. It is applied to an external derived Makefile; original sources
-remain clean, preserving the pinned version and share paths without hiding the
-patch from provenance. gnuplot builds before the longer host/Maxima phases to
-fail early. All original/effective recipe hashes are retained. The notices
-checkout is refreshed to licence PR 4 commit
-b34bfc8af10cd80b6130baabe88a47c9a32c0333; its texts are copied unchanged.
+Run 39921294914 completed both no-gnuplot builds and packaging, then stopped
+at the unchanged STACK version gate. Retained-runtime browser A/B diagnosis
+found the adapter's leading Maxima comment prevented `:lisp` command dispatch;
+removing that exposed an unquoted `$done` Lisp return. The corrected adapter
+starts directly with `:lisp`, retains SPDX inside a Lisp block comment, and
+returns the quoted Maxima atom. Local diagnosis confirmed exact STACK version
+2026101500 plus all four plot diagnostics and same-worker success afterward.
+That local diagnosis is not the required fresh cold-build parity acceptance.
+The timing-only forced-GC helper also returns the quoted atom. The actual
+generated timing worker passed local diagnosis with all 100 full-GC checks,
+retained and temporary objects, deliberate CAS error recovery and four plot
+diagnostics. Captured native programs and cold/reload measurements still await
+the fresh CI run; local diagnostic timings are not reported as performance.

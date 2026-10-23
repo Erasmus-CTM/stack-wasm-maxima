@@ -2,8 +2,11 @@
 import assert from 'node:assert/strict';
 import {readFile,writeFile} from 'node:fs/promises';
 import {resolve,join} from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {loadSidecars} from './server-source.mjs';
 import {hash} from './codec.mjs';
+import {expectedRuntimePaths} from '../build/inventory.mjs';
+const repository=resolve(fileURLToPath(new URL('../..',import.meta.url)));
 const artifact=resolve('.cache/runtime-compression/artifact'),output=resolve('test-results/runtime-compression');
 const read=async path=>JSON.parse(await readFile(path,'utf8'));
 const normalize=rows=>new Map(rows.map(row=>[row.path,[row.bytes??row.fileBytes,row.sha256]]));
@@ -18,7 +21,7 @@ try{
  for(const row of (await read(join(artifact,'compression-artifact-manifest.json'))).files){
   const body=await readFile(join(artifact,row.path));assert.equal(body.length,row.bytes);assert.equal(hash(body),row.sha256,row.path);
  }
- report.rawRuntimeBytes=raw.runtimeAssets.reduce((n,r)=>n+r.bytes,0);report.originalRuntimeFiles=raw.runtimeAssets.length;assert.equal(report.originalRuntimeFiles,81);
+ report.rawRuntimeBytes=raw.runtimeAssets.reduce((n,r)=>n+r.bytes,0);report.originalRuntimeFiles=raw.runtimeAssets.length;const config=JSON.parse(await readFile(join(repository,'runtime/build/configuration.json'),'utf8'));assert.deepEqual(raw.configuration,config);assert.deepEqual(new Set(raw.runtimeAssets.map(row=>row.path)),await expectedRuntimePaths(repository));assert.ok(config.omittedRuntimePaths.every(path=>!raw.runtimeAssets.some(row=>row.path===path)));
  report.packagingTotalsIncludingDerivedPreload=manifest.totals;
  for(const mode of ['gzip','br']){
   await loadSidecars(artifact,mode); // Verify all encoded bytes and decoded hashes.

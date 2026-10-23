@@ -88,7 +88,9 @@ try {
   for(const item of data.questions){
     const variants=[];
     for(const seed of item.seeds){
-      const result=await page.evaluate(({question,seed})=>window.__nativeBuildCall({type:'prepare',question,seed}),{question:item.question,seed});
+      let result;
+      try { result=await page.evaluate(({question,seed})=>window.__nativeBuildCall({type:'prepare',question,seed}),{question:item.question,seed}); }
+      catch(error){ throw new Error(item.id+' seed '+seed+': '+error.message); }
       assert.equal(result.ok,true,item.id+' seed '+seed);
       variants.push(result.result);
     }

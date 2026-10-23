@@ -9,7 +9,6 @@ from datetime import datetime, timezone
 ROOT = Path(__file__).resolve().parents[2]
 REFERENCES = {'maxima': 'refs/heads/emscripten-port-deployed',
               'ecl': 'refs/heads/maxima-emscripten-hacks-wip',
-              'gnuplot': 'refs/heads/master',
               'emsdk': 'refs/tags/4.0.10',
               'emscripten': 'refs/tags/4.0.10'}
 

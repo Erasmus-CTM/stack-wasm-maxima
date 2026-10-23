@@ -18,7 +18,9 @@ async function files(root){
 export async function verifyOwnedRecipe(source,repository){
  const raw=JSON.parse(await readFile(join(source,'manifest.json')));
  assert.match(raw.recipe.revision,/^[0-9a-f]{40}$/);
- const relevant=['runtime/build','.github/workflows/runtime-build.yml','scripts/milestone-two/prepare-runtime.py','scripts/milestone-one/run.mjs','scripts/milestone-one/compare.py'];
+ const scope=JSON.parse(await readFile(join(repository,'runtime/build/recipe-inputs.json'),'utf8'));
+ assert.equal(scope.schema,1);
+ const relevant=[...scope.directories,...scope.files];
  const expected=execFileSync('git',['ls-files','-z','--',...relevant],{cwd:repository,encoding:'utf8'}).split('\0').filter(Boolean);
  assert.deepEqual(new Set(raw.recipe.files.map(row=>row.path)),new Set(expected),'Owned artifact must use the exact current relevant tracked recipe inventory');
  assert.equal(raw.recipe.files.length,expected.length);

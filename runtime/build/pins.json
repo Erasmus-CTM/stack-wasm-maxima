@@ -40,19 +40,6 @@
       ]
     },
     {
-      "name": "gnuplot",
-      "repository": "https://gitlab.com/mgerbershagen/gnuplot.git",
-      "commit": "525fa7486bb0a92095d2467b7fec993deab7545d",
-      "version": "6.1.0",
-      "licence": "LicenseRef-gnuplot",
-      "archive": {
-        "format": "git-archive-tar",
-        "prefix": "gnuplot/",
-        "sha256": "e9ed7ba457fa9c751d5c8d62d4bb1fddae7cb75b1f1387422e7912c816f281f5"
-      },
-      "evidence": "Reconstructed candidate: upstream port README clones this default branch; last commit predates Maxima deployed commit and source/binary both say 6.1. Binary does not embed a gnuplot commit; exact deployed-source identity is not independently attested."
-    },
-    {
       "name": "emsdk",
       "repository": "https://github.com/emscripten-core/emsdk.git",
       "commit": "62a853cd3b3134398ce85cde8bb5cbb2ef0194cb",
@@ -133,14 +120,6 @@
       "file": "node-v22.16.0-linux-x64.tar.xz",
       "bytes": 30425588,
       "sha256": "f4cb75bb036f0d0eddf6b79d9596df1aaab9ddccd6a20bf489be5abe9467e84e"
-    }
-  ],
-  "buildPatches": [
-    {
-      "source": "maxima",
-      "path": "runtime/build/patches/maxima-gnuplot-cross-host.patch",
-      "sha256": "0e799e4fd35471aa48403d43c4cc361c39d2cd74db14b2df073f6722bb2c90b6",
-      "reason": "Use an explicit wasm32 host, compile the complete gnuplot archive with PIC, and link a genuine Emscripten SIDE_MODULE=1 because stock libtool does not emit shared libraries for this host. Applied to an external derived build recipe; original sources remain clean."
     }
   ]
 }

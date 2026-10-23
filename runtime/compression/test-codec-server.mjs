@@ -6,23 +6,27 @@ import {resolve,join,dirname} from 'node:path';
 import {encode,hash,accepted,brotliSafe} from './codec.mjs';
 import {loadSidecars} from './server-source.mjs';
 import {serveDemo} from '../../scripts/milestone-two/serve.mjs';
+import {expectedRuntimePaths} from '../build/inventory.mjs';
 const work=resolve('.cache/runtime-compression/tests');await mkdir(work,{recursive:true});
 const root=await mkdtemp(join(work,'fixture-')),artifact=join(root,'artifact'),site=join(root,'site');
 const bodies={'maxima.wasm':Buffer.from('ordinary fetch body '.repeat(2000)),'maxima-solve.fas':Buffer.from('lazy file body '.repeat(2000)),'runtime-preload.json':Buffer.from(JSON.stringify({fixture:'preload'.repeat(3000)}))};
 let app;
 try {
  const sourcePins=JSON.parse(await readFile(resolve('runtime/build/pins.json'))),rows=[];
+ const configuration=JSON.parse(await readFile(resolve('runtime/build/configuration.json')));
+ const startup=(await readFile(resolve('runtime/build/no-plot.mac'),'utf8')).trim()+'\n';
+ for(const path of await expectedRuntimePaths(resolve('.')))if(!bodies[path])bodies[path]=Buffer.from('canonical-path codec fixture '.repeat(100));
  for(const [path,body] of Object.entries(bodies)){
-  await mkdir(join(site,'maxima-runtime'),{recursive:true});await writeFile(join(site,'maxima-runtime',path),body);
-  if(path!=='runtime-preload.json'){await mkdir(join(artifact,'runtime'),{recursive:true});await writeFile(join(artifact,'runtime',path),body);}
+  await mkdir(dirname(join(site,'maxima-runtime',path)),{recursive:true});await writeFile(join(site,'maxima-runtime',path),body);
+  if(path!=='runtime-preload.json'){await mkdir(dirname(join(artifact,'runtime',path)),{recursive:true});await writeFile(join(artifact,'runtime',path),body);}
   const variants=encode(body);assert.deepEqual(encode(body),variants);assert.equal(variants.gzip.readUInt32LE(4),0);
   const encodings={};for(const [encoding,encoded] of Object.entries(variants)){
-   const file=path+'.'+encoding;await writeFile(join(artifact,file),encoded);
+   const file=path+'.'+encoding;await mkdir(dirname(join(artifact,file)),{recursive:true});await writeFile(join(artifact,file),encoded);
    encodings[encoding]={path:file,bytes:encoded.length,sha256:hash(encoded),decodedBytes:body.length,decodedSha256:hash(body)};
   }
   rows.push({path,bytes:body.length,sha256:hash(body),brotliSafe:brotliSafe(path),encodings});
  }
- const raw={schema:1,sourcePins,runtimeAssets:rows.filter(r=>r.path!=='runtime-preload.json').map(({path,bytes,sha256})=>({path,bytes,sha256}))};
+ const raw={schema:1,sourcePins,configuration,startupAdapter:{content:startup,sha256:configuration.startupSha256},runtimeAssets:rows.filter(r=>r.path!=='runtime-preload.json').map(({path,bytes,sha256})=>({path,bytes,sha256}))};
  const rawBytes=Buffer.from(JSON.stringify(raw)),original=Buffer.from(JSON.stringify({schema:1,files:[]}));
  await writeFile(join(artifact,'manifest.json'),rawBytes);await writeFile(join(artifact,'artifact-manifest.json'),original);
  const manifest={schema:1,toolchain:{node:'v22.16.0'},source:{kind:'ctm-owned-build',manifestSha256:hash(rawBytes),artifactManifestSha256:hash(original)},files:rows};
