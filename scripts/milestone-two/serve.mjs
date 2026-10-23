@@ -24,6 +24,9 @@ export async function serveDemo({ root, port = 0, compression = 'gzip', latencyM
       // allow-scripts iframe. Keep CORP/COEP unchanged for all other resources.
       if (/^\/native\/boards\/(?:assets|mathjax)\//.test(pathname) && !pathname.split('/').includes('..')) {
         headers['Access-Control-Allow-Origin'] = '*';
+        // MathJax's unchanged classic speech worker uses importScripts, whose
+        // no-cors request cannot opt into the parent's anonymous CORS mode.
+        headers['Cross-Origin-Resource-Policy'] = 'cross-origin';
       }
       if (pathname === '/favicon.ico') { response.writeHead(204, headers); response.end(); return; }
       let target = resolve(root, '.' + pathname);

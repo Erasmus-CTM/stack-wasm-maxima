@@ -24,9 +24,12 @@ there is no new JavaScript evaluator or general authored-template interpreter.
 
 The iframe retains `sandbox="allow-scripts"`. Its external scripts, modules and
 stylesheet use CORS because its origin is opaque. A static host must provide
-`Access-Control-Allow-Origin: *` for public assets beneath
+`Access-Control-Allow-Origin: *` and `Cross-Origin-Resource-Policy: cross-origin`
+for public assets beneath
 `native/boards/assets/` and `native/boards/mathjax/`. `serveDemo` provides exactly
-that policy while retaining COOP, COEP and CORP for the rest of the site. No
+that policy while retaining COOP, COEP and CORP for the rest of the site. The
+narrow CORP exception is needed by MathJax's original speech-worker importScripts;
+anonymous CORS alone does not authorize that no-cors worker resource. No
 credentials or runtime endpoints are made cross-origin. Offline copies must
 retain this complete directory structure and use an HTTP static server with
 those headers; a double-clicked `file:` page is not the execution contract.

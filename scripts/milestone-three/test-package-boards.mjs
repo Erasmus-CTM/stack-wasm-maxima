@@ -58,9 +58,10 @@ try {
   app=await serveDemo({root:site});
   const asset=await fetch(app.baseURL+packed.assets[0].path);
   assert.equal(asset.headers.get('access-control-allow-origin'),'*');
-  assert.equal(asset.headers.get('cross-origin-resource-policy'),'same-origin');
+  assert.equal(asset.headers.get('cross-origin-resource-policy'),'cross-origin');
   const template=await fetch(app.baseURL+packed.path);
   assert.equal(template.headers.get('access-control-allow-origin'),null);
+  assert.equal(template.headers.get('cross-origin-resource-policy'),'same-origin');
   assert.equal(template.headers.get('cross-origin-embedder-policy'),'require-corp');
   console.log('Board packaging: exact vendor bytes, shared files, numeric data boundary, CORS and isolation passed');
 } finally {if(app)await app.close();await rm(site,{recursive:true,force:true});}
