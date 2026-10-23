@@ -42,6 +42,7 @@ const report = {...data, sourceRevision:sourceSha, createdAt:new Date().toISOStr
 for(const path of ['scripts/milestone-three/compile.py','scripts/milestone-three/build-site.mjs','scripts/milestone-three/render-cards.py',
   'scripts/milestone-three/package-boards.mjs',
   'scripts/milestone-three/stage-board-mathjax.py',
+  'scripts/public-demo/isolation-worker.js',
   'prototype/native/engine.js','prototype/native/input.js','prototype/native/feedback.js',
   'prototype/native/backend-worker.js','prototype/native/python-bridge.js','prototype/native/python_bridge.py',
   'scripts/milestone-three/stage-feedback.py',

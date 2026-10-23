@@ -107,7 +107,7 @@ jobs:
       - name: Install the pinned browser dependencies
         run: |
           npm ci --ignore-scripts --no-audit --no-fund
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium firefox webkit
       - name: Stage pinned dependencies around the tracked QMD
         run: |
           python scripts/milestone-two/materialize.py --prepare-existing site \
@@ -136,6 +136,7 @@ jobs:
           python scripts/milestone-three/test-reference.py
           node prototype/jsxgraph/test-adapter.mjs
           node scripts/milestone-three/test-package-boards.mjs
+          node prototype/jsxgraph/test-board-isolation.mjs
           node scripts/milestone-three/build-site.mjs --site site --stack-source .site-sources/stack \
             --ctm-checkers-source .site-sources/ctm-checkers --jsxgraph-source .site-sources/jsxgraph-quarto
       - name: Render the committed Quarto page
@@ -149,6 +150,11 @@ jobs:
           test -s site/_site/licenses.html && test "$(ls site/_site/LICENSES | wc -l)" -eq "$(ls site/LICENSES | wc -l)"
       - name: Exercise both backends in the rendered comparison page
         run: node scripts/site/smoke.mjs site/_site test-results/reviewer-site
+      - name: Prove opaque board MathJax font and accessibility closure offline
+        run: |
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser chromium
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser firefox
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser webkit
       - name: Exercise native questions, graphical inputs and Python continuations
         run: node scripts/milestone-three/browser.mjs site/_site test-results/milestone-three
       - name: Install the independent native Maxima reference
