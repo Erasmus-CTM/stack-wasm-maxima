@@ -63,7 +63,7 @@ export async function packageBoard({iframe, id, site, assetMap, mathjax}) {
     // installs its supported startup adaptor. Every local base is absolute at
     // runtime, including imports from an opaque speech worker.
     const setup='<script>(function(){const c='+json+';for(const key of Object.keys(c.loader.paths))c.loader.paths[key]=new URL(c.loader.paths[key],document.baseURI).href;for(const part of [c.svg,c.chtml])for(const key of Object.keys(part))part[key]=new URL(part[key],document.baseURI).href;window.MathJax=c;})();</script>\n'+
-      '<script src="'+relativePath(mathjax.preloader)+'" crossorigin="anonymous"></script>\n';
+      '<script src="'+relativePath(mathjax.preloader)+'" data-ctm-mathjax-transport="cors" crossorigin="anonymous"></script>\n';
     assert.equal((document.match(/<script id="MathJax-script"/g)||[]).length,1,'Expected exactly one stock MathJax entry point');
     document=document.replace('<script id="MathJax-script"',setup+'<script id="MathJax-script"');
   }

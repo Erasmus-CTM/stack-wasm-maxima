@@ -42,6 +42,7 @@ try {
   const configuredHTML=await readFile(join(site,configured.path),'utf8');
   assert.ok(configuredHTML.indexOf('window.MathJax=c')<configuredHTML.indexOf('src="assets/preloader.js"'));
   assert.ok(configuredHTML.indexOf('src="assets/preloader.js"')<configuredHTML.indexOf('id="MathJax-script"'));
+  assert.ok(configuredHTML.includes('data-ctm-mathjax-transport="cors"'),'Native boards explicitly opt into canonical CORS-only static transport');
   const scope={window:{},document:{baseURI:'https://offline.test/course/native/boards/configured.html'},URL};
   vm.runInNewContext(configuredHTML.match(/<script>([\s\S]*?)<\/script>/)[1],scope);
   assert.equal(scope.window.MathJax.loader.paths.sre,'https://offline.test/course/native/boards/mathjax/npm/mathjax@4.1.3/sre');

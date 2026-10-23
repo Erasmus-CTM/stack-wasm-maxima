@@ -25,17 +25,17 @@ as standalone array elements. Strings/comments/template literals, raw source
 expressions, LaTeX tokens, signed zero and nonfinite numbers fail explicitly;
 there is no new JavaScript evaluator or general authored-template interpreter.
 
-The iframe retains `sandbox="allow-scripts"`. Its external scripts, modules and
-stylesheet use CORS because its origin is opaque. A static host must provide
-`Access-Control-Allow-Origin: *` and `Cross-Origin-Resource-Policy: cross-origin`
-for public assets beneath
-`native/boards/assets/` and `native/boards/mathjax/`. `serveDemo` provides exactly
-that policy while retaining COOP, COEP and CORP for the rest of the site. The
-narrow CORP exception is needed by MathJax's original speech-worker importScripts;
-anonymous CORS alone does not authorize that no-cors worker resource. No
-credentials or runtime endpoints are made cross-origin. Offline copies must
-retain this complete directory structure and use an HTTP static server with
-those headers; a double-clicked `file:` page is not the execution contract.
+The iframe retains `sandbox="allow-scripts"`. Native templates explicitly set
+`data-ctm-mathjax-transport="cors"` on the separately pinned canonical pre-loader.
+Its supported opt-in loader uses anonymous CORS for dynamic components and
+CORS-fetches unchanged SRE worker bytes before data-URL import. Authored custom
+loader requirements and the component default remain intact. Static hosts need
+`Access-Control-Allow-Origin: *` on the public board asset roots. The normal
+headered server additionally supplies narrowly scoped CORP exceptions; the
+headerless Pages acceptance test supplies no raw COOP/COEP/CORP. No credentials
+or runtime endpoints are made public. Offline copies retain the full directory
+structure and use an HTTP static server; double-clicked file pages are outside
+the native execution contract.
 
 Direct opaque HTTP template navigation was rejected on headerless static hosts,
 where the new document is outside the parent's isolation worker. Parent fetch

@@ -330,7 +330,7 @@ braille. The [bundle manifest](native/boards/mathjax/manifest.json) and
 |---|---|---|---|
 | MathJax, including its shipped accessibility/SRE runtime | `native/boards/mathjax/npm/mathjax@4.1.3/` | 4.1.3 | Apache-2.0; original [LICENSE](native/boards/mathjax/npm/mathjax@4.1.3/LICENSE), [official package](https://www.npmjs.com/package/mathjax/v/4.1.3) |
 | New Computer Modern MathJax fonts | `native/boards/mathjax/npm/@mathjax/mathjax-newcm-font@4.1.3/` | 4.1.3 | Apache-2.0 AND GUST-Font-License per the canonical lock; bundled [Apache](native/boards/mathjax/LICENSES/boards/mathjax-newcm-font/apache.txt), [GUST](native/boards/mathjax/LICENSES/boards/mathjax-newcm-font/gust.txt), [LPPL context](native/boards/mathjax/LICENSES/boards/mathjax-newcm-font/lppl.txt) and [copyright/member notice](native/boards/mathjax/LICENSES/boards/mathjax-newcm-font/COPYRIGHT.txt); [official package](https://www.npmjs.com/package/@mathjax/mathjax-newcm-font/v/4.1.3) |
-| CTM opaque-worker pre-loader | content-addressed script under `native/boards/assets/` | ctm-libs `62235ae386da9ce591d956caae3b54aa7da9785d` | AGPL-3.0-or-later; [copied licence](native/boards/assets/CTM-LICENSE.txt), [canonical source](https://github.com/Erasmus-CTM/ctm-libs/blob/62235ae386da9ce591d956caae3b54aa7da9785d/_extensions/ctm-libs/runtime/mathjax-opaque-adaptor.js) |
+| CTM opaque-worker pre-loader | content-addressed script under `native/boards/assets/` | ctm-libs `2cdd3b47bb4722f65f168a0baf4dbd6a18bff384` | AGPL-3.0-or-later; [copied licence](native/boards/assets/CTM-LICENSE.txt), [canonical source](https://github.com/Erasmus-CTM/ctm-libs/blob/2cdd3b47bb4722f65f168a0baf4dbd6a18bff384/_extensions/ctm-libs/runtime/mathjax-opaque-adaptor.js) |
 
 ## Page libraries from Quarto
 
