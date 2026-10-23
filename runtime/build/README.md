@@ -183,3 +183,10 @@ checks collection survival without changing the existing transport fatal-error
 policy. Linear-memory capacity is not live Lisp heap; no live-heap estimate is
 claimed. Failed candidates retain their logs and evidence and cannot be silently
 replaced by the baseline. Publishing, deployment, tags and merges remain AC's.
+
+These flags vary the ECL C runtime. The unchanged Lisp speed-2 policy appends
+its own final `-O2` when compiling generated Lisp/Maxima C, even when the
+target-info prefix contains `-O0` or the candidate flag. The gate records an
+actual ECL core `main.o.c` compile and an actual Maxima generated compilation
+unit separately, and verifies installed target-info bytes match the captured
+ECL build file. No claim that the complete runtime is compiled at -Oz is made.

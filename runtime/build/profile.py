@@ -20,7 +20,7 @@ def configuration(name=None):
 def startup(profile):
     if profile['capabilities']['plotting']:
         return ''
-    # Replace ECL autoload functions before STACK sets its two legacy options.
+    # Replace ECL autoload functions before STACK sets its five legacy options.
     # No STACK or Maxima source changes. Other plot-module entry points remain
     # unavailable; absent owned files fail closed in the hash-bound HTTP server.
     return (ROOT / 'runtime/build/profiles/no-plot.lisp').read_text().strip() + '\n'

@@ -22,6 +22,8 @@ assert all('--spill-pointers' in row and '-sSTACK_SIZE=33554432' in row for row 
 shutil.copy2(config, WORK / 'logs/ecl-config.log')
 target = source / 'build/target-info.lsp'
 assert target.is_file(), 'Missing actual target-info consumed by cross compilation'
+installed_target = WORK / 'sources/maxima/wasm/ecl-emscripten/target-info.lsp'
+assert installed_target.read_bytes() == target.read_bytes(), 'Installed cross-compile target-info differs from captured ECL build'
 shutil.copy2(target, WORK / 'logs/target-info.lsp')
 commands = (WORK / 'logs/build.log').read_text(errors='replace').splitlines()
 ecl_commands = [line for line in commands if 'emcc ' in line and ' -c ' in line and 'main.o.c' in line and (' -O' in line) and not line.lstrip().startswith(';;;')]
@@ -29,7 +31,7 @@ assert ecl_commands, 'Missing representative target ECL compiler command'
 selected = ecl_commands[-1]
 observed = re.findall(r'(?<!\S)-O(?:[0-3sz]|fast)(?!\S)', selected)
 assert observed[-1] == profile['eclCFlag'], selected
-maxima_commands = [line for line in commands if 'emcc ' in line and ' -c ' in line and ' -Demscripten ' in line]
+maxima_commands = [line for line in commands if 'emcc ' in line and ' -c ' in line and ' -Demscripten ' in line and '/src/binary-ecl/wasm32-emscripten/' in line]
 assert maxima_commands and re.findall(r'(?<!\S)-O(?:[0-3sz]|fast)(?!\S)', maxima_commands[-1])[-1] == '-O2'
 command_snapshot = ('\n'.join(line for line in commands if 'emcc ' in line) + '\n').encode()
 (WORK / 'logs/compiler-commands.log').write_bytes(command_snapshot)
