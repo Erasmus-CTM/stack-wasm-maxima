@@ -6,6 +6,17 @@ against CTM's consolidation designs: ctm-assessment `docs/consolidation/` on
 `handoff/2026-10` (step 5 offline/exam, variants, `HANDOFF-2026-10.md`),
 ctm-checkers `e8ec8d7`, ctm-libs `a1626f6`, stack-sympy `1b1d50f`.
 
+**Updated 23 October 2026** after the [plan audit](2026-10-23-stack-plan-audit.md)
+(A-9 and stale items): F-1 and §3.3/§3.4 note the `-Oz` result (#12); F-2's
+call entry works without isolation (#5); F-9's licence notices are merged;
+`core/custom.py` exists; F-8 says what stays pure Python; the default CAS is
+left open (D2, merged with "D2 names"); the variants amendment is done (#49,
+on `handoff/2026-10`); instant validation is gated per backend (A-7, §8); one STACK pin, 4.14.0, and
+Moodle seeds from other STACK versions (A-8, D3a, D1); a startup target and
+what follows if it is missed (A-1 to A-3, D8); S-03 and S-14 to S-19 placed
+(A-10, backend roles).
+Everything else is as of 22 October.
+
 Goal set by AC: the Python (SymPy) and Maxima backends should be as
 interchangeable as possible, and the STACK PythonChecker should preferably
 reuse math-exercise's checkers.
@@ -37,8 +48,8 @@ architectural rather than incremental:
 
 | # | Finding | Severity |
 |---|---|---|
-| F-1 | Native startup is **38.6 s** per fresh page (public build, desktop CI runner); every page navigation pays it again. SymPy: 5.7 s | blocking |
-| F-2 | Maxima requires cross-origin isolation and **fails closed** without it. Pyodide degrades gracefully; a page embedded cross-origin (LMS iframe, exam system) loses STACK-Maxima entirely | high |
+| F-1 | Native startup is **38.6 s** per fresh page (public build, desktop CI runner); every page navigation pays it again. SymPy: 5.7 s. *23 Oct:* ECL built with `-Oz` gave 20.0/20.0 s in two cold samples (#12, not yet the default) | blocking |
+| F-2 | Maxima requires cross-origin isolation and **fails closed** without it. Pyodide degrades gracefully; a page embedded cross-origin (LMS iframe, exam system) loses STACK-Maxima entirely. *23 Oct:* the call entry runs without isolation (step 0, #5); the production worker still uses the stdin transport | high |
 | F-3 | A CAS error raised in a response-tree node or in preparation terminates the Maxima child, so the next request restarts it (another ~38 s); STACK takes a false branch with a note (learner-input errors during Validate are caught and reported as invalid) | high |
 | F-4 | Build-time preparation runs Wasm Maxima in headless Chromium driven by Playwright; incompatible with "authors install one package" and local VS Code builds | high |
 | F-5 | Three authoring syntaxes (`stack-question`, `stack-maxima`, `stack-native` + `#\| prepared:`), a SHA-gated text patch of `stack-sympy.js` and a side-channel `questions.json` | high |
@@ -160,6 +171,7 @@ in the frozen summary; it makes 103–107 requests before Python is needed.
 
 | # | Remedy | Expected effect | Status / risk |
 |---|---|---|---|
+| L0 | **Compiler optimisation** of the ECL core (`-Oz` or `-O2` instead of the port's `-O0`) | measured 38.3/38.8 s → 20.0/20.0 s (`-Oz`), `libecl.so` 7.97 → 5.28 MB | added 23 Oct (#12, merged): two samples on one runner, all replay and probe gates passed; not yet the default |
 | L1 | **Memory snapshot**: run Maxima + STACK load once at build, save Wasm linear memory and the Emscripten FS state, restore it in the browser | 38 s → a few seconds (download + instantiate + copy) | *hypothesis*. ECL cannot dump a Lisp image (no `save-lisp-and-die`), so Moodle's "optimised Maxima image" has no direct analogue; a Wasm-level snapshot is the equivalent (Pyodide ships memory snapshots for the same reason). Needs control of the Emscripten build (F-9) and the call entry first (the Wasm call stack and dynamic-linking state are outside linear memory, §6); GC and file-descriptor state must survive; gate by the full 316-program replay |
 | L2 | **Precompiled STACK libraries** (ECL `.fas` compiled in the same Wasm build, loaded instead of `.mac`/`.lisp` sources) | large share of the STACK library loading (startup README: 59.5 s of 62.5 s inclusive, instrumented) | *hypothesis*; startup README lists "reusable compilation caches" as the next experiment; pinned-build parity required |
 | L3 | **Start early**: start the Maxima worker when a Maxima card enters the page (idle callback / viewport), with the planned status lamp (step 5, P16) | hides most of the wait while the student reads | cheap; costs CPU and memory on pages where nobody answers |
@@ -168,9 +180,13 @@ in the frozen summary; it makes 103–107 requests before Python is needed.
 | L6 | **One board template per question**; pass variant data through the binding's initial values; JSXGraph core as one shared, cacheable asset | native page 16.9 MB → ~2 MB | jsxgraph-quarto change or a non-embedded mode; also matters for ctm-demo (variants design: 2.07 of 2.30 MB of a page are variant data) |
 | L7 | **Cross-page persistence** with a `SharedWorker` | saves startup between open tabs only | not reliable across same-tab navigation; Safari support of SAB in shared workers to be tested; low priority |
 
-L1 and L2 together are the only path to SymPy-like startup. Without them, the
-Maxima backend fits single-page practice sets where L3 hides the wait, not
-course-wide default use.
+L1 and L2 together were taken to be the only path to SymPy-like startup.
+L0 (added 23 October) halved startup on its own, and L2 has shown no gain so
+far (#13, diagnostic runs only); the split in §3.2 was measured on the `-O0`
+build and needs re-profiling on the optimised one before L1, L2 and L4 are
+ranked again. Until startup is near SymPy's, the Maxima backend fits
+single-page practice sets where L3 hides the wait, not course-wide default
+use.
 
 ### 3.4 Startup files, and what an own build can trim
 
@@ -210,7 +226,8 @@ Trims an own build allows (estimates until measured):
 
 Plausibly 8–10 MB compressed for startup, against ~21 MB for today's hybrid
 page. **Fewer modules do not shorten the 38 s**: that is STACK's own library
-loading, addressed only by L1 and L2, both of which also need the own build.
+loading. On 22 October that was thought addressable only by L1 and L2; the
+compiler flags of the own build (L0) turned out to matter as much.
 A snapshot is itself a download (the post-load heap, from 128 MiB of mostly
 empty initial memory); its compressed size is unknown and must be weighed
 against the CPU time it saves.
@@ -298,9 +315,9 @@ dependencies itself.
    `stack: cas: sympy | maxima` (a `stack:` section independent of the
    repository name stack-sympy), with `#| cas:` on a block as an override for
    a few questions. Mixing on one page should work (separate workers; *not yet implemented or tested*, milestone 2) but loads both
-   runtimes; the build notes it. Default `sympy`: it matters little, since no
-   course exists before the package is settled, but ctm-demo has STACK pages
-   and follows `ref: main`, so `sympy` keeps it unchanged.
+   runtimes; the build notes it. The default is open (D2). Note when choosing
+   it: ctm-demo has STACK pages and follows `ref: main`, so a `maxima`
+   default would change it.
 2. **Backend registry, not a patch.** stack-sympy's frontend (step 6, when it
    moves onto ctm-libs' runtime and worker) reads a backend descriptor from
    the card: `{id, version, workerURL, assets, capabilities, requires:
@@ -369,8 +386,9 @@ depends on STACK's PHP passing the seed unchanged and on Maxima's Lisp
 Mersenne Twister behaving identically under ECL: a *hypothesis*, verified by
 the acceptance test below.
 
-**Decided (D1).** Each backend generates its own variants; SymPy-graded
-questions keep a pure-Python build. The Maxima backend reproduces Moodle's
+**Decided (D1).** Each backend generates its own variants; variant generation
+for SymPy-graded questions stays pure Python (input admission at build needs
+Deno, §8). The Maxima backend reproduces Moodle's
 variants, so a teacher can bring a course whose variants they are happy with:
 
 1. the questions use `cas: maxima`;
@@ -385,7 +403,10 @@ STACK's PHP to `stack_randseed`; confirm that Maxima's own Mersenne Twister give
 ECL as under the Lisp of a Moodle server (*hypothesis*); and for STACK sample
 questions with deployed seeds, require equal question notes from desktop STACK
 and from this backend, by extending the desktop replay with notes. The SymPy
-backend states that deployed seeds do not carry over. This D1 supersedes the
+backend states that deployed seeds do not carry over. Seeds deployed under
+another STACK version than the pin (D3a) can give other variants without any
+RNG difference; their notes are compared like the rest, and a mismatch is
+reported for review, not approved (§8, D1). This D1 supersedes the
 variants design's decision 6 (19 October: "no Maxima-compatible generator") for
 the Maxima backend; the variants design needs an amendment PR in
 ctm-assessment so the two binding documents agree.
@@ -449,7 +470,8 @@ exam bundle triggers the step-5 rule (copyleft only with a source offer). The
 public `gh-pages` deployment of this repository already redistributes
 `maxima.wasm`, `libecl.so`, `libgnuplot.so` and STACK's GPL-3.0 Maxima sources,
 with no licence texts beside them. **Now:** add the licence texts and source
-links to the deployed site, not only to the future asset lock.
+links to the deployed site, not only to the future asset lock. *Done 23 Oct
+(`licenses/2026-10-third-party-notices`, merged).*
 
 **Redesign.** See §6: an owned, reproducible build pinned to one Maxima
 version used by both browser and oracle, the full share tree or a closure
@@ -472,8 +494,9 @@ names, `response["variables"]` for question data (exact SymPy values),
 `response["expressions"]` unchanged as the positional list, and
 `response["variant"]` (identity only). The handoff orders the work: question
 tests PR (done in ctm-checkers `e8ec8d7`), variants, then H1. The shared runner
-`core/custom.py` (step-2 §9) does not exist yet; ctm-checkers' `core/` holds
-only `result.py`.
+`core/custom.py` (step-2 §9) did not exist on 22 October; it is on ctm-checkers
+`main` since 23 October ("Extract custom-checker execution into the shared
+core").
 
 ### 5.2 Where the prototype stands
 
@@ -627,6 +650,12 @@ so it can only be taken when control has returned to JavaScript, not while ECL
 sits in `main()` blocked in `readChar`; and the dynamic-linking state (side
 modules `libecl.so` and `.fas`, the function table) lives outside linear
 memory and must be re-established on restore. Each step is gated by the replay and timed on the public page.
+
+*Status 23 October:* (0) done, the call entry works with the deployed binary
+(#5); (1) done, owned build with replay parity against a same-source desktop
+Maxima (#7); lossless compression sidecars (#8); (2) gnuplot and the plot
+module removed (#9); compiler profiles measured (L0, #12, not yet the
+default); (3) precompiled STACK in progress, no gain or parity yet (#13).
 Effort is unknown: Emscripten builds of large Lisp systems tend to need CI
 tuning; step 1 shows quickly whether it is days or weeks.
 
@@ -664,7 +693,14 @@ mode). No CDN for firewalls to block (the earlier Pyodide exam problem), the
 worker scripts are same-origin as required, same-origin files need no extra
 CORP headers under COEP, and hashed file names allow long-lived caching. Cost:
 ~42 MB uncompressed per site, about 8–10 MB compressed after the trims
-(estimate). Exams and offline use carry the same files in the bundle, served
+(estimate). *Measured 23 October* (#18, run 40025225097): GitHub Pages
+gzips every runtime file, `.wasm`, `.so` and `.fas` included, so courses on
+Pages get gzip without our sidecars. For the deployed (upstream, untrimmed)
+runtime the files a page loads at startup transfer about 11.4 MB
+(`maxima.wasm` 23.6 → 5.2 MB, `libecl.so` 8.0 → 2.4 MB, `libgnuplot.so` 3.9 →
+2.0 MB, preload pack 5.0 → 1.1 MB, loaders and STACK sources 0.7 MB); the lazy
+modules add 2.6 MB. That matches #8's gzip-only figure; Brotli sidecars
+(8.43 MB) apply only to servers we run. Exams and offline use carry the same files in the bundle, served
 with step 5's headers. A CDN stays optional; jsDelivr is believed to limit
 single files to about 20 MB, below `maxima.wasm` (23.6 MB uncompressed), to be
 checked before relying on it.
@@ -693,7 +729,7 @@ merged by AC.
 | Phase | Content | Depends on |
 |---|---|---|
 | M4c Runtime (first) | owned build reproduced from source with replay parity; trims and compression; precompiled STACK; snapshot; call entry and interrupt; tracking job; remeasure cold/warm on the public build and on a slow laptop | can start now |
-| M4a Contracts | one JavaScript input admission for both backends; instant validation with a `button` fallback setting; `stack: cas:` setting and `#\| cas:` override; card descriptor instead of the frontend patch; one plan format; CAS-error/author-error/runtime-failure protocol (F-3); hybrid path kept as test oracle only; one exact STACK pin | step 6 frontend/worker in stack-sympy |
+| M4a Contracts | one JavaScript input admission for both backends; instant validation with a `button` fallback setting, gated per backend (§8); `stack: cas:` setting and `#\| cas:` override; card descriptor instead of the frontend patch; one plan format; CAS-error/author-error/runtime-failure protocol (F-3); hybrid path kept as test oracle only; one exact STACK pin | step 6 frontend/worker in stack-sympy |
 | M4b Build runner | Wasm Maxima in Node/Deno, no browser; plan cache; conformance suite with Maxima as oracle (F-5, F-6) | M4a, M4c step 1 |
 | M4d H1 in both backends | `stack.check` in ctm-checkers; Maxima continuation calls it on the page runtime; delete `python_bridge.py` and v1 usage here | H1 core in ctm-checkers, variants keys |
 | M4e Variants | STACK seeding as in Moodle; import of deployed seeds with notes (D1) | variants PRs, M4b |
@@ -712,23 +748,53 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
   S-08, S-09, S-06; being implemented with ChatGPT/Codex), as may smaller new
   features. It serves small, light questions. Maxima is the backend for full STACK. A course or question uses
   one of them; there is no switching back and forth.
+  *The other audit findings (AC, 23 October):* **S-03** (log/root/abs
+  identities) is not fixed in SymPy: it keeps principal branches, S-03 is a
+  documented difference, and the build diagnostic says "needs `cas: maxima`"
+  where a question depends on that family (its teacher answers or question
+  tests reach it). **S-14** (source panel), **S-15** (build without AI
+  feedback), **S-16** (second Pyodide and MathJax), **S-17** (English-only
+  UI; its messages also in M4g) and **S-18** (accessibility) belong to step 6.
+  **S-19** (small answer-test differences) is listed as documented differences
+  in the conformance suite (F-5 item 5) and fixed in SymPy only if small.
 - **D1 Variants.** Each backend generates its own variants. The Maxima backend
   reproduces Moodle's deployed seeds, imported as approved variants with their
   question notes (F-8); the SymPy backend states that they do not carry over.
-- **D2 Selection.** A course setting with a per-question override; the
-  default does not matter, since no course exists before the package is
-  settled. Proposed names: `stack: cas: sympy | maxima` and `#| cas:`.
+  *Other STACK versions (AC, 23 October):* the import records the Moodle
+  site's STACK version; a seed whose question note differs from Moodle's is
+  reported as "different STACK version" for the teacher to review and is not
+  approved automatically.
+- **D2 Selection.** A course setting with a per-question override:
+  `stack: cas: sympy | maxima` as the course setting (a `stack:` section,
+  independent of the repository name) and `#| cas:` on a block. The default
+  is open: it matters little, since no course exists before the package is
+  settled (see F-5 item 1 for ctm-demo).
 - **D3 Runtime.** CTM owns the Maxima/ECL Wasm build, via the upstream
   Emscripten port, with exact pins of emsdk, ECL, Maxima and STACK and a
   tracking job; first milestone: reproduction from source with replay parity;
   then trims and compression, precompiled STACK, call entry, snapshot (§3.4,
   §6; snapshot after the call entry per the independent review).
+- **D3a One STACK pin (AC, 23 October).** STACK 4.14.0 (`3338304`) for both
+  backends: the Maxima runtime, the input admission, the SymPy engine's
+  reference data and the desktop oracle. Already on it: the Maxima runtime's
+  default, `stackmplite.js` and its data, the variants aliases. To move from
+  4.13.1 (`10d3233`): ctm-checkers' `native-stack.yml` oracle, the compliance
+  fixtures, `student_input`'s data and its S-13 goldens, and the 35-question
+  corpus, each with its golden diff reviewed; then the runtime's second
+  build for `10d3233` (#13) is dropped. Upgrades go through the tracking job
+  (§6).
+- **D8 Startup target (AC, 23 October).** Cold start (fresh browser profile,
+  first visit) ready for the first Validate within **20 s on a reference
+  student laptop** (which laptop is still open; until it is named, timings
+  stay on the CI runner and are reported as such). No warm target until the
+  warm-profile reload measurement (§3.2) exists. If the target is missed
+  after the remaining runtime steps, the Maxima backend is **opt-in per
+  question**: `cas: maxima` stays available for questions SymPy cannot run,
+  with early start (L3) and a loading notice on the card, and SymPy remains
+  the course default. Precompiled STACK (L2) continues without a time box.
 - **D6 Hybrid path.** It was only ever meant as a test oracle and stays one.
 - **D7 Exam.** The December 2026 exam is Pyodide-only: no STACK, no
   math-exercise.
-
-- **D2 names.** `stack: cas: sympy | maxima` as the course setting (a `stack:`
-  section, independent of the repository name) and `#| cas:` on a block.
 - **D4 Checker scoring.** A checker returns a score from 0 to 1 exactly as in
   math-exercise (bool, number or dict; one normalizer; a score outside [0, 1]
   is an author error at build time), plus `valid: False` for an invalid
@@ -803,6 +869,13 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
   students still get syntax feedback, and Check waits for the runtime. A
   setting (proposed `stack: validation: instant | button`, default `instant`)
   switches back to an explicit Validate button if the trial disappoints.
+  *Gated per backend (AC, 23 October):* automatic validation lets a student
+  trigger long-running or stuck CAS calls just by typing, and one stuck call
+  blocks every card on the page (F-13). So a backend gets instant validation
+  only once it can bound or cancel such calls: the SymPy backend after
+  S-12's budgets, the Maxima backend after F-13 (superseded requests dropped,
+  interrupt before restart). Until then that backend uses `button`, whatever
+  the setting says. `instant` stays the intended default.
 - **math-exercise is unaffected.** It keeps its own input language
   (`parse_expr` with its transformations), its own `#| variables:` language
   and grading modes, and has no validation step (Check only); H3 stands. The
@@ -815,7 +888,8 @@ Taken by AC on 22 October 2026, in the discussion of this audit:
 Open after the independent review (for AC):
 
 - **Amendment PR in ctm-assessment** for the variants design (D1 versus its
-  decision 6), so the binding documents agree.
+  decision 6), so the binding documents agree. *Done 23 Oct:* #49 (decision
+  20), merged into `handoff/2026-10`; not yet on ctm-assessment `main`.
 
 ## 9. Sources
 
