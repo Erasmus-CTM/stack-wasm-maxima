@@ -43,13 +43,22 @@ self.onmessage=async({data})=>{let session;const progress={phase:'initializing',
     // A fresh wrapped call verifies the actual return and cleared sentinel.
     session.write('ctm_reset_completed:false$\\nctm_reset_completed:stack_reset(true)$\\n',60000);
     const reset=session.evaluate("is(ctm_reset_completed=true) and is(ctm_reset_sentinel='ctm_reset_sentinel)");
+    const round={reset};resets.push(round);
+    if(reset!==true)throw new Error('Reset completion/sentinel verification failed');
     progress.phase='gc-'+(i+1);
     session.write(':lisp (defun maxima::$ctm_force_gc () (si:gc t) (quote maxima::$done))\\n',60000);
-    const gc=session.evaluate('block([temporary:makelist(j^3,j,1,2000)],is(ctm_force_gc()=done) and is(temporary[2000]=8000000000))');
-    const caught=session.evaluate('block([r:errcatch(error("CTM deliberate caught CAS error"))],if r=[] then errormsgtostring() else "unexpected")');
-    const afterError=session.evaluate('6*7');
-    const afterGrade=session.assess({test:'AlgEquiv',student:'(x+1)^2',teacher:'x^2+2*x+1'});
-    resets.push({reset,gc,caught,afterError,grade:afterGrade,version:session.evaluate('stackmaximaversion')});
+    round.gc=session.evaluate('block([temporary:makelist(j^3,j,1,2000)],is(ctm_force_gc()=done) and is(temporary[2000]=8000000000))');
+    if(round.gc!==true)throw new Error('Full collection verification failed');
+    progress.phase='caught-error-'+(i+1);
+    round.caught=session.evaluate('block([r:errcatch(error("CTM deliberate caught CAS error"))],if r=[] then errormsgtostring() else "unexpected")');
+    if(typeof round.caught!=='string'||!round.caught.includes('CTM deliberate caught CAS error'))throw new Error('Caught error verification failed');
+    progress.phase='arithmetic-'+(i+1);
+    round.afterError=session.evaluate('6*7');
+    if(round.afterError!==42)throw new Error('Error recovery arithmetic failed');
+    progress.phase='regrade-'+(i+1);
+    round.grade=session.assess({test:'AlgEquiv',student:'(x+1)^2',teacher:'x^2+2*x+1'});
+    progress.phase='metadata-'+(i+1);
+    round.version=session.evaluate('stackmaximaversion');
   }
   progress.phase='complete';
   self.postMessage({ok:true,...progress,
@@ -81,6 +90,10 @@ try{
             encodedBodyBytes:requests.reduce((sum,record)=>sum+(record.encodedBodyBytes||0),0)};
           report.samples.push(row);
           await writeFile(output,JSON.stringify(report,null,2)+'\n');
+          // A diagnostic retains every attempted sample, including failures, so
+          // a source-control reset error cannot hide compiled initialization.
+          // The fresh parity workflow still stops at the first failed sample.
+          if(report.diagnosticOnly&&result.ok!==true)continue;
           assert.equal(result.ok,true,result.error);
           assert.ok(Number.isFinite(result.readyMs)&&result.readyMs>0);
           assert.ok(Number.isFinite(result.initialization.stages.stackLoadMs)&&result.initialization.stages.stackLoadMs>0);
@@ -113,6 +126,7 @@ try{
       }finally{await browser.close();}
     }
   }
+  assert.ok(report.samples.every(row=>row.ok===true),'Every sample must pass before paired observations can clear');
   // STACK's reset can clear metadata variables. Require the compiled path to
   // match the source control's observed reset state, rather than inventing a
   // metadata-preservation contract that the source loader does not promise.

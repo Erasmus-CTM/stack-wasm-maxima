@@ -8,8 +8,8 @@ const start=source.indexOf('const worker=`'),end=source.indexOf('`;\nawait write
 assert.ok(start>=0&&end>start);
 const worker=vm.runInNewContext(source.slice(start,end)+';worker');
 new vm.Script(worker);
-async function execute({returnValue=true,failAcknowledgment=false}={}) {
-  const writes=[],messages=[];let resets=0,sentinel=false,gc=false;
+async function execute({returnValue=true,failAcknowledgment=false,failRegrade=false}={}) {
+  const writes=[],messages=[];let resets=0,sentinel=false,gc=false,grades=0;
   class Session {
     constructor(){this.manifest={stackLibraryVersion:'fixture-version'};}
     async init(){return {stages:{stackLoadMs:1}};}
@@ -34,7 +34,7 @@ async function execute({returnValue=true,failAcknowledgment=false}={}) {
       else if(command.startsWith(':lisp (defun maxima::$ctm_force_gc'))gc=true;
       else throw new Error('Unexpected trusted command');
     }
-    assess(){return {cas_valid:true,correct:true};}
+    assess(){if(failRegrade&&grades++>0)throw new Error('CAS evaluation failed: fixture cause');return {cas_valid:true,correct:true};}
     terminate(){}
   }
   const self={postMessage:row=>messages.push(row)};let clock=0;
@@ -48,7 +48,15 @@ assert.equal(positive.result.ok,true);assert.equal(positive.result.phase,'comple
 assert.equal(positive.resets,3);assert.equal(positive.writes.length,6);
 assert.ok(positive.result.resets.every(row=>row.reset===true&&row.gc===true&&row.afterError===42));
 const falseReturn=await execute({returnValue:false});
+assert.equal(falseReturn.result.ok,false);
+assert.equal(falseReturn.resets,1,'Failed reset must stop before collection and further resets');
 assert.equal(falseReturn.result.resets[0].reset,false,'A failed reset result cannot be converted into success');
+const regrade=await execute({failRegrade:true});
+assert.equal(regrade.result.ok,false);assert.equal(regrade.result.phase,'regrade-1');
+assert.equal(regrade.result.resets.length,1);
+assert.equal(regrade.result.resets[0].reset,true);assert.equal(regrade.result.resets[0].gc,true);
+assert.equal(regrade.result.resets[0].afterError,42);
+assert.match(regrade.result.error,/fixture cause/);
 const failure=await execute({failAcknowledgment:true});
 assert.equal(failure.result.ok,false);assert.equal(failure.result.phase,'reset-1');
 assert.ok(failure.result.readyMs>0);assert.equal(failure.result.warmCalls.length,10);

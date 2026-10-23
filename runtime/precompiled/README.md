@@ -14,6 +14,14 @@ reset outside the dynamic question wrapper, then checks its return value and
 removal of a disposable variable through a fresh evaluation. All three resets,
 full collections, caught-error recovery and regrading remain required.
 
+Frozen diagnostic run 40017911368 reached source readiness and the first reset,
+but failed post-reset regrading with a generic CAS error before any compiled
+trial. Subsequent diagnostics retain each reset operation and the underlying CAS
+error, and attempt the remaining source/compiled samples after a failed sample.
+Any failed sample keeps the diagnostic red. The fresh full probe still stops at
+its first failed sample. Partial readiness observations cannot clear parity or
+establish a precompiled speedup.
+
 This separate, opt-in experiment starts with the exact STACK source pin used
 by the browser site and the accepted unoptimized Maxima/ECL build recipe. It
 translates `stackmaxima.mac` using that build's native Maxima, then asks the
