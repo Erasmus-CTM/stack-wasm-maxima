@@ -1,14 +1,15 @@
 [
   {
-    "id": 12568155555,
-    "name": "owned-runtime-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+    "id": 12567098921,
+    "name": "owned-runtime-ecl-oz-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
     "run": 40108653797,
-    "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
     "workflow": 393419291,
     "attempt": 1,
+    "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
     "status": "in_progress",
     "conclusion": null,
-    "sha256": "6aa60b44da3030b8397a84aa74e173cc806bf54ef0a11cc338f26e79d18086bc",
+    "sha256": "3bc5ddf977979c45a867cf0587e90e74cb2b77a0487267632d69f6cd21d22d55",
+    "zipBytes": 391603635,
     "files": [
       ".cache/runtime-build/artifact/logs/ecl-cross-build.log"
     ],
@@ -71,7 +72,12 @@
       {
         "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
         "start": 46137344,
-        "end": 49346107
+        "end": 50331648
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 50331648,
+        "end": 53664311
       }
     ]
   }
