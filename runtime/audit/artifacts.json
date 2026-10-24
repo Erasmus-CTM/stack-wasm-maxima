@@ -1,38 +1,15 @@
 [
   {
-    "id": 12539753741,
-    "name": "precompiled-stack-probe-ecl-oz-f9750e742a0dd95b92547e27a1b467654e36fb1e",
-    "run": 40035963125,
-    "head": "1a64387984bd5b59f360d715da9355528fb77f6d",
-    "workflow": 394101239,
+    "id": 12541236614,
+    "name": "milestone-three-65a6725ef26dbe76db3e4dbaef651242dfadd723",
+    "run": 40045461564,
+    "head": "1f59437a304fb6f4270a611f4af91a03fd4d42da",
+    "workflow": 393039684,
     "attempt": 1,
-    "status": "in_progress",
-    "conclusion": null,
-    "sha256": "1680a4e04d637c80e8c9683fa4a0926f4c13478675f472ab7e9cadf779434668",
+    "conclusion": "success",
+    "sha256": "99717a0422814b31427b544117d20cb29622fcf0a987cc6914c2ab266c570f23",
     "files": [
-      "test-results/milestone-three/browser.json",
-      "test-results/milestone-three/native-reference/native-reference.json",
-      "test-results/precompiled-stack/measure.json",
-      ".cache/native-build/prepared.json",
-      "site/_site/native/build-manifest.json",
-      "site/_site/stack-sources.json",
-      ".cache/precompiled-stack/stackmaxima.fas.json",
-      ".cache/precompiled-stack/stackmaxima.fas",
-      ".cache/precompiled-stack/source-initialized/stackmaxima.lisp",
-      ".cache/precompiled-stack/source-initialized/display2d-bridge.lisp",
-      ".cache/precompiled-stack/source-initialized/parser-declarations.json",
-      ".cache/precompiled-stack/source-initialized/parser-declarations.mac",
-      "runtime/precompiled/restart-checks.json",
-      ".cache/precompiled-stack/site/stack-sources.json",
-      ".cache/precompiled-stack/site/stack-sources-timed-source.json",
-      ".cache/precompiled-stack/site/stack-sources-precompiled.json",
-      ".cache/precompiled-stack/site/precompiled-measure-worker.js",
-      ".cache/precompiled-stack/site/runtime/maxima-session.js",
-      ".cache/precompiled-stack/site/runtime/maxima-child.js",
-      ".cache/precompiled-stack/site/maxima-runtime/stackmaxima.fas",
-      "test-results/milestone-three/native-reference/native.log",
-      "test-results/milestone-three/native-reference/reference.mac",
-      "site/native/build-manifest.json"
+      "native-probe/browser.json"
     ]
   }
 ]
