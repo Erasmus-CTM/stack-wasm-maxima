@@ -1,0 +1,8 @@
+{
+  "artifact": 12567788724,
+  "path": "test-results/milestone-three/browser.json",
+  "bytes": 5116139,
+  "sha256": "75a14e899f641b03b1a1af6c02435a3c3dc82790f7df7cf8680f642b1e9eb242",
+  "programs": 316,
+  "selection": "Pinned trusted captured_workload native-rational prepare/validate/prt; test reads actual bytes as data only."
+}

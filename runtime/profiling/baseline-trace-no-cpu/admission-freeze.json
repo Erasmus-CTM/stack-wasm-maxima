@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "state": "ready-for-independent-source-review-no-publication",
+  "component": "baseline TRACE no-CPU pilot admission/workflow",
+  "files": {
+    "prepare.py": {
+      "bytes": 22116,
+      "sha256": "bedcc821efa92097cfecfe2c5a064e79db7495f8892afc6c6e38dc4be538da56"
+    },
+    "baseline-trace-no-cpu-pilot.yml": {
+      "bytes": 4562,
+      "sha256": "877b375ff001de157653f5ba6218380c0f2fc6ae51b1d9b65fe99dd008cf48bc"
+    },
+    "test_prepare.py": {
+      "bytes": 12467,
+      "sha256": "74c2df2cf67aa0ab9901289c5fbba3f9d55521f58c0283caf98f4f65770cc6b8"
+    },
+    "prepare-test-results.json": {
+      "bytes": 194,
+      "sha256": "6628f12144d4cdb237ade5eda3a51f5206f30c84c3f3bd473a2ae1a36534c1d2"
+    },
+    "PLAN.md": {
+      "bytes": 4373,
+      "sha256": "b3094576a020a7d7e214f211d3cf4d9a528f4c287c53331a7704445fed5d0088"
+    },
+    "native-capture-fixture.json": {
+      "bytes": 331,
+      "sha256": "db48f7a1b5e9d96b3253714f2e1b1372e0aace979b915ffaa637ac34de76e793"
+    }
+  },
+  "actualPriorToolSourceBindings": {
+    "prepare.py": {
+      "artifact": 12578335489,
+      "path": "tool-sources/runtime/profiling/no-rebuild/prepare.py",
+      "bytes": 20320,
+      "sha256": "edae9d58efd34d16a122cbfd3952d6d9ab3b1a35eb8444a94c920c43bb925ac2"
+    },
+    "no-rebuild-profile.yml": {
+      "artifact": 12578335489,
+      "path": "tool-sources/.github/workflows/no-rebuild-profile.yml",
+      "bytes": 3722,
+      "sha256": "6b63fcde4bf0b3f5be430d6dabdc7da493f1c7c82f9960d098d6ee4c71ae3c9c"
+    }
+  },
+  "prepareFunctionDelta": {
+    "changed": [
+      "selected",
+      "main"
+    ],
+    "added": [
+      "native_workload"
+    ],
+    "allOtherFunctionASTsIdentical": true
+  },
+  "validation": {
+    "admissionTests": 11,
+    "actualNativeCaptureFixtureVerified": true,
+    "PythonAST": true,
+    "YAML": true,
+    "BashBodies": 3,
+    "untimedHardwareJavaScriptSyntax": true,
+    "pinnedActions": 5,
+    "runtimeAdjacentDependenciesCopied": 8
+  },
+  "pending": [
+    "Separate harness/derived child freeze and independent integrated review"
+  ],
+  "notPerformed": [
+    "External writes or CI launch",
+    "Artifact/browser/CAS/Lisp/Wasm/native/compiler execution"
+  ]
+}

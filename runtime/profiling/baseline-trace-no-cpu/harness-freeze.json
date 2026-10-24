@@ -1,0 +1,269 @@
+{
+  "schema": 1,
+  "kind": "baseline-trace-no-cpu-pilot-harness-source-freeze",
+  "runtimeExecution": false,
+  "githubWrites": false,
+  "publicationAllowed": false,
+  "priorActualSource": {
+    "run": 40139262456,
+    "head": "f2fb05562e285336d8122c5f1fb0d0536e118ca1",
+    "artifact": 12578335489,
+    "filesHashBoundToActualInventory": [
+      {
+        "path": "/workspace/work/no-rebuild-profile-repair3/run.mjs",
+        "bytes": 19569,
+        "sha256": "8001053ec50ad140415a008f8f81b78f02780ea6b3a30b752e2c72b1666d64e0"
+      },
+      {
+        "path": "/workspace/work/no-rebuild-profile-repair3/stage.mjs",
+        "bytes": 9396,
+        "sha256": "2c5da45d4990eff7fe7bad1a46d888fd210f1f32265ff8e354f056f253e73638"
+      },
+      {
+        "path": "/workspace/work/no-rebuild-profile-repair3/cdp-profile.mjs",
+        "bytes": 6237,
+        "sha256": "0fa1801bed61fe99139c43856a4e44bac6dfc7edf5d3b7c51ad3be8b019ddb3f"
+      },
+      {
+        "path": "/workspace/work/no-rebuild-profile-repair3/child-hooks.js",
+        "bytes": 7788,
+        "sha256": "1fb0e026e0a2a2425333255d5d7c6bef2fcd94c1a49b17073bd680efee878b5b"
+      },
+      {
+        "path": "/workspace/work/no-rebuild-profile-repair3/load-hooks.lisp",
+        "bytes": 1279,
+        "sha256": "ce21365c8389e304c0deca3ea5e67cf71ebfe4359eaf38deeaf15b46c54a840e"
+      },
+      {
+        "path": "/workspace/work/no-rebuild-profile-repair3/probe-worker.js",
+        "bytes": 6665,
+        "sha256": "9ca8b1af486c8f5ddb2a297d3cfdbc7eaf934bad4502ae10831a7e0279a2a7f0"
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "run.mjs",
+      "bytes": 23136,
+      "sha256": "62d3f40402074e30b5f5ccd46b963797aa8051a3e668364e8bb750f7b826131f"
+    },
+    {
+      "path": "stage.mjs",
+      "bytes": 9859,
+      "sha256": "d300e667763311695b1bdf57a240886665e77d3b1086239be04183cc000863b2"
+    },
+    {
+      "path": "probe-worker.js",
+      "bytes": 12458,
+      "sha256": "b976f1c46efa8fea0552cfe128f96310d5f782500871fe4678d2309461391963"
+    },
+    {
+      "path": "child-hooks.js",
+      "bytes": 7788,
+      "sha256": "1fb0e026e0a2a2425333255d5d7c6bef2fcd94c1a49b17073bd680efee878b5b"
+    },
+    {
+      "path": "load-hooks.lisp",
+      "bytes": 1279,
+      "sha256": "ce21365c8389e304c0deca3ea5e67cf71ebfe4359eaf38deeaf15b46c54a840e"
+    },
+    {
+      "path": "cdp-profile.mjs",
+      "bytes": 6237,
+      "sha256": "0fa1801bed61fe99139c43856a4e44bac6dfc7edf5d3b7c51ad3be8b019ddb3f"
+    },
+    {
+      "path": "derive-startup-observer.mjs",
+      "bytes": 2830,
+      "sha256": "9a3cffad1fbe26823b1f970b9b9806d1f79292be94b7db5653c9db1f94a70939"
+    },
+    {
+      "path": "startup-observer.jsfrag",
+      "bytes": 2322,
+      "sha256": "ca6d11bad5be261ff67415bb765bf93347052faf5b85c9c58bdc9ff09f8721c7"
+    },
+    {
+      "path": "test-harness.mjs",
+      "bytes": 26281,
+      "sha256": "64e3bd3b1dd83e27fdc49dcf53ed951baf88e65eba5925eac5686c27c8d8d5e3"
+    },
+    {
+      "path": "test-baseline-pilot.mjs",
+      "bytes": 9026,
+      "sha256": "cc939f4dc5c60081d07df246dc20bf780981bdd7ba6a3b1dd95a2c0b554a8308"
+    },
+    {
+      "path": "test-startup-observer.mjs",
+      "bytes": 5217,
+      "sha256": "e3ecec25e626da76bd8c59a7b45ebb809a4043e6dd27e35fb6b6794c4354fa1d"
+    },
+    {
+      "path": "HARNESS.md",
+      "bytes": 5027,
+      "sha256": "1b08df2433272df1534b0ee7c62166bb0439b08f8dad74323ac528393c4e6f95"
+    }
+  ],
+  "priorObserverAndLispSourcesUnchanged": [
+    "child-hooks.js",
+    "load-hooks.lisp",
+    "cdp-profile.mjs"
+  ],
+  "reviewedGuardSourcesUnchanged": [
+    "derive-startup-observer.mjs",
+    "startup-observer.jsfrag"
+  ],
+  "composedInstrumentedChild": {
+    "bytes": 25124,
+    "sha256": "b1c39e58e3d8a63b272c4047f55e827bb9350e029e51cb0fc366a66491719c07"
+  },
+  "validation": {
+    "prior": {
+      "passed": true,
+      "scope": "Trusted JS mocks plus retained stdout JSON replayed only as data; no runtime, browser, artifact program or Lisp execution",
+      "actualTraceReplays": [
+        {
+          "relative": "original-failure/test-results/milestone-one/browser-3338304.json",
+          "sha256": "ee486649eb888efc36677692bbb29f617b897cef96eab8d9adc949cd359c2914",
+          "declaredOk": false,
+          "entries": 30,
+          "returns": 27,
+          "openFrames": 3
+        },
+        {
+          "relative": "frozen-replay/attempts/01-compiled/results/browser-3338304.json",
+          "sha256": "8904ccc84747d2356d014b92d7a1ae33ef52e899ccd25f159306c096ebb370ff",
+          "declaredOk": true,
+          "entries": 53,
+          "returns": 53,
+          "openFrames": 0
+        },
+        {
+          "relative": "frozen-replay/attempts/02-source/results/browser-3338304.json",
+          "sha256": "176e842f27283aa80351070bf563df1faa864e91231c4b914492ba5f411ef028",
+          "declaredOk": true,
+          "entries": 81,
+          "returns": 81,
+          "openFrames": 0
+        },
+        {
+          "relative": "frozen-replay/attempts/03-compiled/results/browser-3338304.json",
+          "sha256": "e558fdc7395448f2b616784c46bd5be7d3c9d9e8e142184fe2eeb9f920e642ff",
+          "declaredOk": true,
+          "entries": 53,
+          "returns": 53,
+          "openFrames": 0
+        }
+      ],
+      "checks": [
+        "default24 planned cells",
+        "explicit two-cell Oz operational pilot",
+        "nested exclusive durations",
+        "elapsed intervals never reported as ECL CPU",
+        "duplicate/cyclic frame rejection",
+        "exact child-source anchors and bounded startup stdout",
+        "import exception/return preservation",
+        "Wasm result preservation",
+        "FS stream/exception preservation",
+        "flush marker forwarding",
+        "admission required",
+        "swapped profile rejected",
+        "manifest tamper rejected",
+        "CPU leaf summary",
+        "clean Worker untouched",
+        "first logical before grades",
+        "logical mismatch rejected before grading",
+        "wrong grade rejected",
+        "finite ordered phase timestamps",
+        "direct child epoch phase alignment",
+        "core failure halts but optional CPU does not",
+        "30700 filesystem opens bounded and counted",
+        "early directory and failure traffic cannot consume file buckets",
+        "optional event saturation preserves trace and finish",
+        "bad aggregate count and duration rejected",
+        "page-root and nested CDP profiles",
+        "failed nested profiler still resumes child",
+        "rejected root attach stops profiler",
+        "instrumented fake session restores Worker",
+        "observer error records rejected",
+        "missing declared trace frames rejected",
+        "malformed profile JSON increments finish error counter",
+        "one physical Lisp load command preserves original startup",
+        "exact hook file mounted before native initialization",
+        "77 embedded STACK files unchanged",
+        "corrupt hook mount fails before initialization",
+        "canonical CPU call-frame aggregation retains node identities",
+        "process CPU snapshots include epoch alignment",
+        "three successful retained stdout traces parsed completely",
+        "original failed trace retains three open frames",
+        "Lisp string escapes and symbol arguments parsed without evaluation",
+        "malformed and mismatched traces rejected",
+        "512-frame and64-depth limits fail visibly"
+      ]
+    },
+    "pilot": {
+      "passed": true,
+      "scope": "Synthetic trusted source/session/transport mocks only; no browser/CAS/Lisp/Wasm/artifact programs executed",
+      "plannedCells": 2,
+      "default24Unchanged": true,
+      "cpuSamplingCalls": 0,
+      "composedChild": {
+        "bytes": 25124,
+        "sha256": "b1c39e58e3d8a63b272c4047f55e827bb9350e029e51cb0fc366a66491719c07"
+      },
+      "checks": [
+        "exclusive baseline source/FAS n1 plan",
+        "both sampler factory calls forbidden",
+        "host Node CPU observation disabled",
+        "reviewed startup guard precedes unchanged TRACE parser",
+        "unchanged TRACE/FS/Lisp/CDP sources",
+        "fresh workers/buffers",
+        "ten typed and three native guards",
+        "100 GC/live-object checks",
+        "caught-error recovery and four plot controls",
+        "first logical before grades",
+        "exact FAS read",
+        "strict trace restoration/open-frame checks",
+        "sticky startup receipt and delayed duplicate enforcement",
+        "failed sessions terminated",
+        "successful session termination checked"
+      ]
+    },
+    "observer": {
+      "passed": true,
+      "scope": "Trusted observer/consume source with synthetic transport and read-only actual failed stdout data; no browser/CAS/Lisp/Wasm/artifact program executed",
+      "original": {
+        "bytes": 12159,
+        "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+      },
+      "derived": {
+        "bytes": 14744,
+        "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+      },
+      "actualFailureFixture": {
+        "artifact": 12578335489,
+        "replayedTailCharacters": 4096,
+        "syntheticBeginPrefix": true
+      },
+      "checks": [
+        "exact original hash",
+        "stream fragments",
+        "ordered success",
+        "post-ready caught errors unaffected",
+        "four anchored diagnostics",
+        "sticky fatal survives later READY",
+        "five marker order failures",
+        "original fail remains fatal",
+        "bounded long output",
+        "actual draw.lisp failure retained/rejected"
+      ]
+    }
+  },
+  "syntaxChecks": [
+    "run.mjs",
+    "stage.mjs",
+    "probe-worker.js",
+    "child-hooks.js",
+    "cdp-profile.mjs",
+    "derive-startup-observer.mjs"
+  ]
+}

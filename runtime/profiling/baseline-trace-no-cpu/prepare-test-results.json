@@ -1,0 +1,7 @@
+{
+  "tests": 11,
+  "passed": true,
+  "failures": 0,
+  "errors": 0,
+  "scope": "Own-source data fixtures and existing decoded evidence only; no network or artifact/browser/compiler execution."
+}
