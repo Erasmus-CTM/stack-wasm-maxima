@@ -1,67 +1,9 @@
 {
-  "state": "FROZEN SECOND REPAIR SOURCE CANDIDATE; independent review and diagnostic CI required",
+  "state": "FROZEN THIRD REPAIR SOURCE; independent review and operational pilot required",
   "diagnosticOnly": true,
   "acceptance": false,
-  "previousFreezeSha256": "970f2d64e36791222699e78e8aadf51fa5349706604f8f5ac8e92626077c2496",
-  "secondRunArtifactId": 12576652256,
-  "files": [
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair2/run.mjs",
-      "bytes": 18411,
-      "sha256": "582d0c1d0535f4e14f29736b566cd91c0507da485ff4b2bbfe3bc7127f80fda7",
-      "previousSha256": "37979cf435aff4bf46bd1889058f4c2ce46d2d2509c32b6a1293348fdd1e1560",
-      "unchangedFromRepair1": false
-    },
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair2/stage.mjs",
-      "bytes": 9396,
-      "sha256": "2c5da45d4990eff7fe7bad1a46d888fd210f1f32265ff8e354f056f253e73638",
-      "previousSha256": "0fb813a0815ff94ce9ddbe6ee92ccd7fcb848ee213837d5a4b8b5f564340e02a",
-      "unchangedFromRepair1": false
-    },
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair2/cdp-profile.mjs",
-      "bytes": 6237,
-      "sha256": "0fa1801bed61fe99139c43856a4e44bac6dfc7edf5d3b7c51ad3be8b019ddb3f",
-      "previousSha256": "e307f7d516e4f0b9d8fc2e2d949abbab3c828cf7e78273ba8fa634c47024f5e1",
-      "unchangedFromRepair1": false
-    },
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair2/child-hooks.js",
-      "bytes": 5353,
-      "sha256": "1fb0d4ac0962e3db5f5ec428596a945b3145549a6c3f3b91c926e1a1a1d7e92b",
-      "previousSha256": "1fb0d4ac0962e3db5f5ec428596a945b3145549a6c3f3b91c926e1a1a1d7e92b",
-      "unchangedFromRepair1": true
-    },
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair2/load-hooks.lisp",
-      "bytes": 4703,
-      "sha256": "1af2eff88202e300708d744ea0b03bb63ee6b1ccbca9d71f0f1997cc3c8c87d0",
-      "previousSha256": "1af2eff88202e300708d744ea0b03bb63ee6b1ccbca9d71f0f1997cc3c8c87d0",
-      "unchangedFromRepair1": true
-    },
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair2/probe-worker.js",
-      "bytes": 6342,
-      "sha256": "e831eef1dbba70031001dac3a45c04d47b4c57349098f8033e1f355c655d3e19",
-      "previousSha256": "e831eef1dbba70031001dac3a45c04d47b4c57349098f8033e1f355c655d3e19",
-      "unchangedFromRepair1": true
-    },
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair2/test-harness.mjs",
-      "bytes": 21971,
-      "sha256": "ff2730764f563251d3182dbeae1e44bf3a45afe1d8c369fe0a37d421daacb5a6",
-      "previousSha256": "e7dfdaf92a8ee51d0ecd0f937f81555c86dd88c6c52058b6bd98f8c994024457",
-      "unchangedFromRepair1": false
-    },
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair2/HARNESS.md",
-      "bytes": 9020,
-      "sha256": "8e9637fa4e11116707060e023b6393417f2f7ea49ef72062f372233db748a803",
-      "previousSha256": "9834ea5b2a9f333b1123e5292297e1761210825c5eb84b0bd5287c6cc07b7f6c",
-      "unchangedFromRepair1": false
-    }
-  ],
+  "previousFreezeSha256": "ccc8ecc9bba225d997cef1c09ba5d45b17e0cd7738d9eb1eda444d887906335f",
+  "thirdRunArtifactId": 12577466247,
   "runtimeAllowlist": [
     "run.mjs",
     "stage.mjs",
@@ -70,12 +12,119 @@
     "load-hooks.lisp",
     "probe-worker.js"
   ],
-  "syntheticChecksPassed": 37,
-  "syntaxChecks": "All six JS/MJS modules parse. Trusted JavaScript mocks only; no browser, Maxima, ECL, Wasm or artifact program executed. Lisp bytes unchanged.",
-  "changes": [
-    "Mount exact unchanged Lisp file in derived preRun, verify readback, prepend one physical :lisp load line",
-    "Preserve original77 manifest.files; record injected path/bytes/SHA256",
-    "Add canonical call-frame CPU aggregation while retaining per-node summary and raw profile",
-    "Record process CPU snapshot epoch alignment and stop polling before Profiler.stop/raw serialization"
-  ]
+  "files": [
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair3/run.mjs",
+      "bytes": 19569,
+      "sha256": "8001053ec50ad140415a008f8f81b78f02780ea6b3a30b752e2c72b1666d64e0",
+      "previousSha256": "582d0c1d0535f4e14f29736b566cd91c0507da485ff4b2bbfe3bc7127f80fda7",
+      "unchangedFromRepair2": false
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair3/stage.mjs",
+      "bytes": 9396,
+      "sha256": "2c5da45d4990eff7fe7bad1a46d888fd210f1f32265ff8e354f056f253e73638",
+      "previousSha256": "2c5da45d4990eff7fe7bad1a46d888fd210f1f32265ff8e354f056f253e73638",
+      "unchangedFromRepair2": true
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair3/cdp-profile.mjs",
+      "bytes": 6237,
+      "sha256": "0fa1801bed61fe99139c43856a4e44bac6dfc7edf5d3b7c51ad3be8b019ddb3f",
+      "previousSha256": "0fa1801bed61fe99139c43856a4e44bac6dfc7edf5d3b7c51ad3be8b019ddb3f",
+      "unchangedFromRepair2": true
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair3/child-hooks.js",
+      "bytes": 7788,
+      "sha256": "1fb0e026e0a2a2425333255d5d7c6bef2fcd94c1a49b17073bd680efee878b5b",
+      "previousSha256": "1fb0d4ac0962e3db5f5ec428596a945b3145549a6c3f3b91c926e1a1a1d7e92b",
+      "unchangedFromRepair2": false
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair3/load-hooks.lisp",
+      "bytes": 1279,
+      "sha256": "ce21365c8389e304c0deca3ea5e67cf71ebfe4359eaf38deeaf15b46c54a840e",
+      "previousSha256": "1af2eff88202e300708d744ea0b03bb63ee6b1ccbca9d71f0f1997cc3c8c87d0",
+      "unchangedFromRepair2": false
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair3/probe-worker.js",
+      "bytes": 6665,
+      "sha256": "9ca8b1af486c8f5ddb2a297d3cfdbc7eaf934bad4502ae10831a7e0279a2a7f0",
+      "previousSha256": "e831eef1dbba70031001dac3a45c04d47b4c57349098f8033e1f355c655d3e19",
+      "unchangedFromRepair2": false
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair3/test-harness.mjs",
+      "bytes": 26281,
+      "sha256": "64e3bd3b1dd83e27fdc49dcf53ed951baf88e65eba5925eac5686c27c8d8d5e3",
+      "previousSha256": "ff2730764f563251d3182dbeae1e44bf3a45afe1d8c369fe0a37d421daacb5a6",
+      "unchangedFromRepair2": false
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair3/HARNESS.md",
+      "bytes": 8958,
+      "sha256": "244259fa0a393927debfaea2ce5f6245a41178d67ad9c18777f6c26809fdff30",
+      "previousSha256": "8e9637fa4e11116707060e023b6393417f2f7ea49ef72062f372233db748a803",
+      "unchangedFromRepair2": false
+    }
+  ],
+  "syntheticChecksPassed": 43,
+  "syntaxChecksPassed": 6,
+  "lispLexicalCheck": "Balanced parentheses/strings/comments checked without reading/evaluating Lisp; no custom CL:LOAD or COMPILE interposition, no ECL timing calls. Current execution remains unvalidated.",
+  "actualTraceReplays": [
+    {
+      "relative": "original-failure/test-results/milestone-one/browser-3338304.json",
+      "sha256": "ee486649eb888efc36677692bbb29f617b897cef96eab8d9adc949cd359c2914",
+      "declaredOk": false,
+      "entries": 30,
+      "returns": 27,
+      "openFrames": 3
+    },
+    {
+      "relative": "frozen-replay/attempts/01-compiled/results/browser-3338304.json",
+      "sha256": "8904ccc84747d2356d014b92d7a1ae33ef52e899ccd25f159306c096ebb370ff",
+      "declaredOk": true,
+      "entries": 53,
+      "returns": 53,
+      "openFrames": 0
+    },
+    {
+      "relative": "frozen-replay/attempts/02-source/results/browser-3338304.json",
+      "sha256": "176e842f27283aa80351070bf563df1faa864e91231c4b914492ba5f411ef028",
+      "declaredOk": true,
+      "entries": 81,
+      "returns": 81,
+      "openFrames": 0
+    },
+    {
+      "relative": "frozen-replay/attempts/03-compiled/results/browser-3338304.json",
+      "sha256": "e558fdc7395448f2b616784c46bd5be7d3c9d9e8e142184fe2eeb9f920e642ff",
+      "declaredOk": true,
+      "entries": 53,
+      "returns": 53,
+      "openFrames": 0
+    }
+  ],
+  "inspectedTraceSource": {
+    "path": "/workspace/work/ecl-localization-sources/ecl/src/lsp/trace.lsp",
+    "bytes": 13737,
+    "sha256": "3c28a630a4e638b5aea4e10d538cb71351a31ad037b9d7faee4ef8c06ca2725e",
+    "scope": "Read-only source inspection of built-in trace implementation; not an extra runtime admission claim."
+  },
+  "operationalPilot": {
+    "flag": "--operational-pilot",
+    "trials": 2,
+    "profile": "ecl-oz",
+    "arms": [
+      "source",
+      "precompiled"
+    ],
+    "instrumentedOnly": true,
+    "fullComparisonComplete": false
+  },
+  "defaultTrials": 24,
+  "sourceOnly": true,
+  "noRuntimeOrArtifactProgramsExecuted": true
 }

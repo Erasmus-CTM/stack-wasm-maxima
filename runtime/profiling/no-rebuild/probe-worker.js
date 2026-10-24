@@ -22,8 +22,8 @@ self.onmessage=async({data})=>{
       constructor(...args){super(...args);this.addEventListener('message',({data:message})=>{
         if(message.type!=='ctm-profile')return;
         if(rows.length>=4096){progress.profileOverflow=true;return;}
-        rows.push(message.row);if(message.row.kind==='lisp-finish')resolveFlush();
-        if(rows.length%16===0)send();
+        rows.push(message.row);if(message.row.kind==='trace-finish')resolveFlush();
+        if(['trace-start','trace-enter','trace-finish'].includes(message.row.kind)||rows.length%16===0)send();
       });}
     };
     const initializationPhase=beginPhase('initialization');
@@ -60,11 +60,12 @@ self.onmessage=async({data})=>{
       session.write(':lisp (funcall (symbol-function (find-symbol "FINISH" "CTM-PROFILE")))\n',60000);
       require(session.evaluate('6*7')===42,'Post-observer restoration arithmetic failed');
       await Promise.race([flushed,new Promise((_,reject)=>setTimeout(()=>reject(Error('Profile flush marker missing')),5000))]);
-      const finish=rows.filter(r=>r.kind==='lisp-finish');require(finish.length===1,'Duplicate profile finish marker');
-      require(!finish[0].dropped&&!finish[0].observerErrors&&!finish[0].jsDropped&&!finish[0].changedFunctions&&!progress.profileOverflow,'Incomplete observer coverage');
+      const finish=rows.filter(r=>r.kind==='trace-finish');require(finish.length===1,'Duplicate profile finish marker');
+      require(finish[0].restored===true&&!finish[0].openFrames&&!finish[0].dropped&&!finish[0].observerErrors&&!finish[0].jsDropped&&!progress.profileOverflow,'Incomplete observer coverage');
       require(!rows.some(r=>r.kind==='observer-error'),'Observer error record present');
-      require(finish[0].observed===rows.filter(r=>r.kind==='lisp-call').length,'Observed Lisp frame count differs from completion record');
-      require(rows.some(r=>r.kind==='lisp-call'&&r.operation==='maxima-load'),'No Maxima load calls observed');
+      require(rows.filter(r=>r.kind==='trace-start'&&r.active===true).length===1,'Trace activation marker missing');
+      require(finish[0].observed===rows.filter(r=>r.kind==='trace-call').length&&finish[0].entries===rows.filter(r=>r.kind==='trace-enter').length&&finish[0].entries===finish[0].observed,'Observed trace frame count differs from completion record');
+      require(rows.some(r=>r.kind==='trace-call'&&r.operation==='maxima-load'),'No Maxima load calls observed');
     }
     progress.phase='complete';progress.ok=true;self.postMessage({type:'complete',progress});
   }catch(error){progress.ok=false;progress.error=String(error);progress.stack=error.stack;self.postMessage({type:'complete',progress});}

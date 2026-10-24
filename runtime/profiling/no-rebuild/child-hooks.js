@@ -1,16 +1,18 @@
 // Diagnostic-only observers; copied into a new child wrapper, never runtime assets.
 (() => {
   'use strict';
-  const start = performance.now(), ordinaryLimit = 512, priorityLimit = 1024, pathLimit = 512, otherLimit = 64, exampleLimit = 4;
+  const start = performance.now(), ordinaryLimit = 512, priorityLimit = 1200, pathLimit = 512, otherLimit = 64, exampleLimit = 4;
   let ordinaryCount = 0, priorityCount = 0, ordinaryDropped = 0, priorityDropped = 0, observerErrors = 0;
   let fsOpenCalls = 0, fsOpenElapsedMs = 0, fsUnbucketedFileCalls = 0, fsUnbucketedFileElapsedMs = 0, fsUnbucketedOtherCalls = 0, fsUnbucketedOtherElapsedMs = 0;
   const fsPaths = new Map(), fsOthers = new Map();
+  const traceStack=[],traceFrameLimit=512,traceDepthLimit=64;
+  let tracing=false,traceSerial=0,traceCompleted=0,traceDropped=0;
   const post = self.postMessage.bind(self);
   const emit = row => {
     try {
-      const priority=/^lisp-/.test(row.kind)||['child-created','child-ready','fs-summary','observer-error'].includes(row.kind);
+      const priority=/^(?:lisp|trace)-/.test(row.kind)||['child-created','child-ready','fs-summary','observer-error'].includes(row.kind);
       // Completion cannot be displaced by optional high-volume observers.
-      if(row.kind!=='lisp-finish') {
+      if(row.kind!=='trace-finish') {
         if(priority) { if(priorityCount++>=priorityLimit){priorityDropped++;return;} }
         else if(ordinaryCount++>=ordinaryLimit){ordinaryDropped++;return;}
       }
@@ -66,12 +68,41 @@
       } catch(error) { record(args[0],['string','number'].includes(typeof args[1])?args[1]:null,false,performance.now()-begin,Number.isInteger(error?.errno)?error.errno:null,'failure'); throw error; }
     };
   };
+  const traceAtom=text=>{
+    if(text.length>2048)throw Error('Trace argument exceeds bound');
+    if(text.startsWith('"')){
+      let value='';for(let i=1;i<text.length;i++){
+        const ch=text[i];if(ch==='"'){if(i!==text.length-1)throw Error('Multiple trace values');return {kind:'string',value};}
+        if(ch==='\\'){if(++i>=text.length)throw Error('Incomplete trace string escape');value+=text[i];}else value+=ch;
+        if(value.length>512)throw Error('Trace string exceeds bound');
+      }throw Error('Unterminated trace string');
+    }
+    if(!/^[A-Za-z0-9_$:+*.\/-]{1,512}$/.test(text))throw Error('Unsupported trace argument');
+    return {kind:'symbol',value:text};
+  };
+  const traceLine=text=>{
+    const marker=/(?:^|[\s|])(?:(\d+)>|<(\d+))\s+\((?:MAXIMA:{1,2})?\$LOAD\s+(.+)\)\s*$/i.exec(text);
+    if(!marker){if(/(?:\d+>|<\d+)\s+\((?:MAXIMA:{1,2})?\$LOAD/i.test(text))throw Error('Malformed LOAD trace line');return;}
+    if(!tracing)throw Error('LOAD trace outside active interval');
+    const level=Number(marker[1]||marker[2]),atom=traceAtom(marker[3]),time=performance.now()-start;
+    if(marker[1]){
+      if(level!==traceStack.length+1||level>traceDepthLimit)throw Error('Unexpected LOAD trace entry depth');
+      const id=++traceSerial,frame={id,parent:traceStack.at(-1)?.id||0,depth:level-1,name:atom.value,argumentKind:atom.kind,operation:'maxima-load',startMs:time,kept:id<=traceFrameLimit};
+      traceStack.push(frame);if(frame.kept)emit({kind:'trace-enter',...frame});else traceDropped++;
+    }else{
+      const frame=traceStack.at(-1);if(!frame||level!==traceStack.length)throw Error('Unmatched LOAD trace return');
+      traceStack.pop();if(frame.kept){traceCompleted++;emit({kind:'trace-call',...frame,endMs:time,returnedValue:atom.value,returnKind:atom.kind,resolvedPath:atom.kind==='string'&&atom.value.startsWith('/')?atom.value:null,completed:true});}
+    }
+  };
   const line = text => {
-    if(!text.startsWith('CTM-PROFILE|'))return;
     try {
+      if(!text.startsWith('CTM-PROFILE|')){traceLine(text);return;}
       const row=JSON.parse(text.slice('CTM-PROFILE|'.length));
-      if(row.kind==='lisp-finish') {
+      if(row.kind==='trace-start'){if(tracing||traceSerial||row.active!==true)throw Error('Invalid/duplicate trace start');tracing=true;}
+      if(row.kind==='trace-finish') {
+        if(!tracing)throw Error('Trace finish without start');tracing=false;
         emit({kind:'fs-summary',schema:2,pathLimit,otherLimit,exampleLimit,totalOpenCalls:fsOpenCalls,totalOpenElapsedMs:fsOpenElapsedMs,unbucketedFileCalls:fsUnbucketedFileCalls,unbucketedFileElapsedMs:fsUnbucketedFileElapsedMs,unbucketedOtherCalls:fsUnbucketedOtherCalls,unbucketedOtherElapsedMs:fsUnbucketedOtherElapsedMs,paths:[...fsPaths.values()],otherGroups:[...fsOthers.values()]});
+        row.observed=traceCompleted;row.entries=traceSerial;row.openFrames=traceStack.length;row.dropped=traceDropped;row.observerErrors=observerErrors;
         row.jsDropped=priorityDropped+observerErrors;
         row.ordinaryEventsDropped=ordinaryDropped;
         row.fsUnbucketedOpenCalls=fsUnbucketedFileCalls+fsUnbucketedOtherCalls;

@@ -7,28 +7,28 @@ import {stageProfileSite,digest} from './stage.mjs';
 import {startCPUProfiles,startProcessCPU} from './cdp-profile.mjs';
 
 export function analyzeLoads(rows,phases=[]){
-  const calls=rows.filter(r=>r.kind==='lisp-call'),byId=new Map(calls.map(r=>[r.id,r]));
+  const calls=rows.filter(r=>r.kind==='trace-call'),byId=new Map(calls.map(r=>[r.id,r])),entries=rows.filter(r=>r.kind==='trace-enter'),entryById=new Map(entries.map(r=>[r.id,r]));
   assert.equal(byId.size,calls.length,'Duplicate load frame ID');
-  const calibration=rows.filter(r=>r.kind==='lisp-clock-calibration');
-  const cpuAdvanced=calibration.length===1&&calibration[0].runTicks>0;
-  const childClock=rows.find(r=>r.kind==='child-created'),lispClock=rows.find(r=>r.kind==='lisp-clock-start');
+  assert.equal(entryById.size,entries.length,'Duplicate trace entry ID');
+  const childClock=rows.find(r=>r.kind==='child-created');
   const frames=calls.map(r=>{
-    assert.ok(r.units>0&&r.realEnd>=r.realStart&&r.runEnd>=r.runStart);
+    assert.ok(Number.isFinite(r.startMs)&&Number.isFinite(r.endMs)&&r.endMs>=r.startMs);
+    assert.ok(entryById.has(r.id),'Missing trace entry');for(const key of ['parent','depth','name','startMs'])assert.equal(entryById.get(r.id)[key],r[key],'Trace entry/return differs');
     if(r.parent){assert.ok(byId.has(r.parent)&&r.parent<r.id,'Missing or cyclic parent load frame');assert.equal(r.depth,byId.get(r.parent).depth+1,'Wrong load depth');}else assert.equal(r.depth,0);
     const children=calls.filter(c=>c.parent===r.id);
-    for(const c of children)assert.ok(c.realStart>=r.realStart&&c.realEnd<=r.realEnd,'Child load interval outside parent');
-    const inclusive=(r.realEnd-r.realStart)*1000/r.units;
-    const exclusive=inclusive-children.reduce((s,c)=>s+(c.realEnd-c.realStart)*1000/c.units,0);
+    for(const c of children)assert.ok(c.startMs>=r.startMs&&c.endMs<=r.endMs,'Child load interval outside parent');
+    const inclusive=r.endMs-r.startMs;
+    const exclusive=inclusive-children.reduce((s,c)=>s+c.endMs-c.startMs,0);
     assert.ok(exclusive>=-1e-6,'Overlapping child frame accounting');
     let alignment=null;
-    if(childClock&&lispClock&&lispClock.units===r.units){
-      const anchor=childClock.createdEpochMs+lispClock.childMs;
-      const startEpochMs=anchor+(r.realStart-lispClock.realTicks)*1000/r.units,endEpochMs=anchor+(r.realEnd-lispClock.realTicks)*1000/r.units;
-      alignment={startEpochMs,endEpochMs,overlaps:phases.filter(p=>Number.isFinite(p.endEpochMs)).map(p=>({phase:p.name,overlapMs:Math.max(0,Math.min(endEpochMs,p.endEpochMs)-Math.max(startEpochMs,p.startEpochMs))})).filter(p=>p.overlapMs>0).sort((a,b)=>b.overlapMs-a.overlapMs),scope:'Approximate alignment using the emitted ECL real-clock anchor and child epoch clock; anchor emission overhead and timer resolution remain.'};
+    if(childClock){
+      const startEpochMs=childClock.createdEpochMs+r.startMs,endEpochMs=childClock.createdEpochMs+r.endMs;
+      alignment={startEpochMs,endEpochMs,overlaps:phases.filter(p=>Number.isFinite(p.endEpochMs)).map(p=>({phase:p.name,overlapMs:Math.max(0,Math.min(endEpochMs,p.endEpochMs)-Math.max(startEpochMs,p.startEpochMs))})).filter(p=>p.overlapMs>0).sort((a,b)=>b.overlapMs-a.overlapMs),scope:'Child JavaScript performance timestamps aligned by its epoch origin; trace printing/processing overhead and timer resolution remain.'};
     }
-    return {...r,inclusiveElapsedMs:inclusive,exclusiveElapsedMs:Math.max(0,exclusive),reportedRunClockMs:cpuAdvanced?(r.runEnd-r.runStart)*1000/r.units:null,phaseAlignment:alignment};
+    return {...r,inclusiveElapsedMs:inclusive,exclusiveElapsedMs:Math.max(0,exclusive),reportedRunClockMs:null,phaseAlignment:alignment};
   });
   const groups=new Map();for(const r of frames){const key=r.operation+'|'+r.name,g=groups.get(key)||{operation:r.operation,name:r.name,calls:0,inclusiveElapsedMs:0,exclusiveElapsedMs:0};g.calls++;g.inclusiveElapsedMs+=r.inclusiveElapsedMs;g.exclusiveElapsedMs+=r.exclusiveElapsedMs;groups.set(key,g);}
+  const paths=new Map();for(const r of frames.filter(r=>r.resolvedPath)){const g=paths.get(r.resolvedPath)||{path:r.resolvedPath,calls:0,inclusiveElapsedMs:0,exclusiveElapsedMs:0};g.calls++;g.inclusiveElapsedMs+=r.inclusiveElapsedMs;g.exclusiveElapsedMs+=r.exclusiveElapsedMs;paths.set(r.resolvedPath,g);}
   const opens=new Map();for(const r of rows.filter(r=>r.kind==='fs-open'&&r.completed&&(r.flags&3)!==1)){const p=opens.get(r.path)||{path:r.path,opens:0,openElapsedMs:0};p.opens++;p.openElapsedMs+=r.elapsedMs;opens.set(r.path,p);}
   const summaries=rows.filter(r=>r.kind==='fs-summary');assert.ok(summaries.length<=1,'Duplicate filesystem summary');
   for(const summary of summaries){
@@ -39,11 +39,12 @@ export function analyzeLoads(rows,phases=[]){
     assert.ok(Math.abs(summary.totalOpenElapsedMs-totalTime)<Math.max(1e-6,summary.totalOpenElapsedMs*1e-9),'Filesystem aggregate duration mismatch');
     for(const r of summary.paths){assert.ok(r.completed&&r.kind==='regular-file','Non-file consumed reserved file bucket');if((r.flags&3)!==1){const p=opens.get(r.path)||{path:r.path,opens:0,openElapsedMs:0};p.opens+=r.opens;p.openElapsedMs+=r.openElapsedMs;opens.set(r.path,p);}}
   }
-  return {frames,groupedByExactLoadArgument:[...groups.values()].sort((a,b)=>b.exclusiveElapsedMs-a.exclusiveElapsedMs),successfulReadOpensByResolvedPath:[...opens.values()].sort((a,b)=>b.opens-a.opens),filesystemAggregate:summaries[0]||null,clockCalibration:calibration,
-    reportedRunClockStatus:cpuAdvanced?'advanced during calibration; ECL clock implementation still unvalidated as process CPU':'unavailable/nonadvancing in calibration; zero is not evidence of zero CPU',
-    scope:'Nested function-cell load/compile observers only, inclusive and direct-child-subtracted elapsed durations. Compiled direct calls may bypass these wrappers. FS.open paths are resolved paths but file-open time is not full load time. Observer and clock-call overhead is included; do not sum inclusive nested durations.'};
+  return {frames,groupedByExactLoadArgument:[...groups.values()].sort((a,b)=>b.exclusiveElapsedMs-a.exclusiveElapsedMs),groupedByResolvedReturnPath:[...paths.values()].sort((a,b)=>b.exclusiveElapsedMs-a.exclusiveElapsedMs),successfulReadOpensByResolvedPath:[...opens.values()].sort((a,b)=>b.opens-a.opens),filesystemAggregate:summaries[0]||null,
+    reportedRunClockStatus:'Not collected; JavaScript elapsed trace intervals are not process CPU measurements',
+    scope:'Pinned ECL TRACE of MAXIMA::$LOAD only. Inclusive and direct-child-subtracted exclusive elapsed durations include trace printing and JS processing; compiled direct calls may bypass tracing. String return values identify resolved load paths. CL:LOAD and compilation are not separately interposed or timed. FS.open duration is not full load time. Do not sum inclusive nested durations.'};
 }
-export function trialPlan(repetitions){
+export function trialPlan(repetitions,operationalPilot=false){
+  if(operationalPilot)return ['source','precompiled'].map(candidate=>({repetition:1,profile:'ecl-oz',arm:'instrumented',candidate}));
   const rows=[];
   for(let repetition=1;repetition<=repetitions;repetition++){
     const profiles=repetition%2?['baseline','ecl-oz']:['ecl-oz','baseline'];
@@ -78,11 +79,11 @@ function summarizeTrials(samples){
     groups.push({profile,candidate,arm,successfulTrials:rows.length,medians:Object.fromEntries(Object.entries(metrics).map(([k,f])=>[k,median(rows.map(f))])),perTrialLoadTop20:rows.filter(r=>r.loads).map(r=>({trial:r.id,rows:r.loads.groupedByExactLoadArgument.slice(0,20)}))});
   }
   const pairedOverhead=[];for(const instrumented of samples.filter(r=>r.arm==='instrumented'&&r.ok)){const control=samples.find(r=>r.arm==='control'&&r.ok&&r.profile===instrumented.profile&&r.candidate===instrumented.candidate&&r.repetition===instrumented.repetition);if(control)pairedOverhead.push({profile:instrumented.profile,candidate:instrumented.candidate,repetition:instrumented.repetition,instrumentedMinusControlReadyMs:instrumented.result.readyMs-control.result.readyMs,instrumentedMinusControlStackLoadMs:instrumented.result.initialization.stages.stackLoadMs-control.result.initialization.stages.stackLoadMs,scope:'Uncontrolled cache/runner variation and instrumentation overhead both contribute; this difference does not isolate observer cost.'});}
-  return {groups,pairedOverhead,scope:'Separate clean and instrumented summaries. n3 diagnostic observations are not a statistical speedup or performance acceptance claim. Ready+logical+positive is the sum of measured blocks, not full UI navigation latency.'};
+  return {groups,pairedOverhead,scope:'Separate clean and instrumented summaries; successfulTrials gives each actual group size. Diagnostic observations are not a statistical speedup or performance acceptance claim. Ready+logical+positive is the sum of measured blocks, not full UI navigation latency.'};
 }
 async function main(){
   const {chromium}=await import('playwright');
-  const args={};for(let i=2;i<process.argv.length;i++){const key=process.argv[i];if(key==='--cpu-profile')args[key]=true;else{assert.ok(key.startsWith('--')&&process.argv[i+1],'Invalid argument');args[key]=process.argv[++i];}}
+  const args={};for(let i=2;i<process.argv.length;i++){const key=process.argv[i];if(['--cpu-profile','--operational-pilot'].includes(key))args[key]=true;else{assert.ok(key.startsWith('--')&&process.argv[i+1],'Invalid argument');args[key]=process.argv[++i];}}
   for(const key of ['--trusted-root','--profiles-root','--output','--admission'])assert.ok(args[key],key+' required');
   const trustedRoot=resolve(args['--trusted-root']),profilesRoot=resolve(args['--profiles-root']),output=resolve(args['--output']),repetitions=Number(args['--repetitions']||3);
   assert.ok(Number.isSafeInteger(repetitions)&&repetitions>=1&&repetitions<=10,'Repetitions must be1..10');
@@ -90,8 +91,9 @@ async function main(){
   const {serveDemo}=await import(pathToFileURL(join(trustedRoot,'scripts/milestone-two/serve.mjs')));
   const checksBytes=await readFile(join(trustedRoot,'runtime/precompiled/restart-checks.json')),checks=JSON.parse(checksBytes);
   assert.equal(checks.checks.length,10);assert.equal(checks.checks[0].name,'first-call-logical-validation');
-  const plan=trialPlan(repetitions),report={schema:1,diagnosticOnly:true,acceptance:false,startedAt:new Date().toISOString(),plan,repetitions,cpuSamplingRequested:Boolean(args['--cpu-profile']),watchdogMs:300000,checks:{bytes:checksBytes.length,sha256:digest(checksBytes)},staging:{},samples:[],passed:false,
+  const operationalPilot=Boolean(args['--operational-pilot']),plan=trialPlan(repetitions,operationalPilot),report={schema:1,diagnosticOnly:true,acceptance:false,operationalPilot,startedAt:new Date().toISOString(),plan,repetitions:operationalPilot?1:repetitions,requestedRepetitions:repetitions,cpuSamplingRequested:Boolean(args['--cpu-profile']),watchdogMs:300000,checks:{bytes:checksBytes.length,sha256:digest(checksBytes)},staging:{},samples:[],passed:false,
     scope:'Fresh Chromium process/profile per trial, source versus entry-FAS STACK with identical admitted runtime assets within each compiler profile. Clean controls retain original child and startup. Instrumented timing includes observer/sampler overhead and is not mixed into clean-control medians. OS caches/runner contention remain uncontrolled. No production acceptance, rebuild, default promotion or speedup claim.'};
+  if(operationalPilot)report.scope='Operational pilot only: two fresh-browser Oz instrumented source/FAS trials reusing the same admitted runtime assets. No clean controls or full n3 comparison. Trace/observer/sampler overhead is present; elapsed intervals are not CPU durations. All typed correctness and FAS identity/fallback guards remain. No production acceptance, rebuild, default promotion or speedup claim.';
   const save=()=>writeFile(join(output,'report.json'),JSON.stringify(report,null,2)+'\n');await save();
   const admissionBody=await readFile(resolve(args['--admission'])),admission=JSON.parse(admissionBody);assert.equal(admission.passed,true,'Successful current artifact admission required');
   report.admission={path:resolve(args['--admission']),bytes:admissionBody.length,sha256:digest(admissionBody),source:admission.source,profiling:admission.profiling};
@@ -136,7 +138,7 @@ async function main(){
     }
     if(haltForCoreFailure(row)){report.halted={trial:row.id,reason:'Instrumented core correctness/load/flush coverage failed; remaining cells were not attempted. Optional CPU partial coverage alone does not halt.'};report.skipped=plan.slice(index+1);await save();break;}
   }
-  report.finishedAt=new Date().toISOString();report.passed=report.samples.length===plan.length&&report.samples.every(r=>r.ok);report.cpuSamplingComplete=report.samples.filter(r=>r.arm==='instrumented').every(r=>!args['--cpu-profile']||r.cpuProfiles?.complete===true);
+  report.finishedAt=new Date().toISOString();report.passed=report.samples.length===plan.length&&report.samples.every(r=>r.ok);report.fullComparisonComplete=!operationalPilot&&report.passed;report.cpuSamplingComplete=report.samples.filter(r=>r.arm==='instrumented').every(r=>!args['--cpu-profile']||r.cpuProfiles?.complete===true);
   await save();if(!report.passed)process.exitCode=1;
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)await main();
