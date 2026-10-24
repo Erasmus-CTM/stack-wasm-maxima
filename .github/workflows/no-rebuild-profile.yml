@@ -60,13 +60,13 @@ jobs:
           done
           node --version > .cache/no-rebuild-profile/evidence/node-version.txt
           ./node_modules/.bin/playwright --version > .cache/no-rebuild-profile/evidence/playwright-version.txt
-      - name: Profile two Oz instrumented source/FAS operational pilot
+      - name: Profile clean controls and instrumented source or compiled loading
         timeout-minutes: 135
         run: |
           set -o pipefail
           node .cache/no-rebuild-profile/tools/run.mjs \
             --trusted-root "$PWD" --profiles-root "$PWD/.cache/no-rebuild-profile/profiles" \
-            --output "$PWD/.cache/no-rebuild-profile/evidence" --repetitions 1 --cpu-profile --operational-pilot \
+            --output "$PWD/.cache/no-rebuild-profile/evidence" --repetitions 3 --cpu-profile \
             --admission "$PWD/.cache/no-rebuild-profile/evidence/admission.json" \
             2>&1 | tee .cache/no-rebuild-profile/evidence/profile-driver.log
       - name: Preserve complete and partial profiling evidence
