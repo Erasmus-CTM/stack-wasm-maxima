@@ -143,8 +143,10 @@ each pin's original declarations: 198 bytes at the newer pin, 265 at the older
 pin, including its right-associativity declarations.
 
 Staging requires `stackmaxima.fas.json`, produced beside the fresh bundle and
-binding its bytes/hash to the exact pin, entry source, translated Lisp, bridge
-and parser inputs. Source and compiled official-probe reports are separate.
+binding its bytes/hash to the exact pin, entry source, translated Lisp, bridge,
+translation-process adapter and parser inputs. Source and compiled official-probe reports are separate.
+Fresh bundles require descriptor schema 2; historical frozen diagnostic inputs
+retain their original provenance and cannot satisfy fresh staging.
 Filesystem instrumentation records successful read-capable opens after mounting;
 mounting writes and failed opens cannot prove selection. Normalized source-entry
 opens are rejected. The controller gate binds every captured program and native
@@ -197,3 +199,22 @@ Native source/translated fixtures must verify precedence and explicit grouping.
 Complete generated entry Lisp must retain the original assessment/logic runtime
 loads. The manifest binds both the bridge and parser-bootstrap metadata. These
 are further feasibility controls; full runtime parity and speedup remain unproved.
+
+Run 40035963125 passed the full startup/restart measurement but failed controller
+parity: the valid list `[2*x,2]` triggered an untranslated-function warning from
+a compiled `texcolor` call, contaminating the validator's captured output. Native
+replay confirmed the validation difference. This is independent of raw reset.
+
+The translation-process adapter now delegates calls to `texcolor` and
+`texcolorplain` to Maxima's standard `apply` translator, with the original
+operator quoted. Arguments still translate normally; ordinary function lookup
+and dynamic author aliases retain their runtime behavior. Both temporary
+translation properties are restored, including their original absence, after
+success or failure. No warning filtering or validation relaxation is used.
+Native fixtures must demonstrate the warning in a fresh control process and
+require silent source/compiled parity for ordinary constructors and dynamic
+bindings. Their printer check uses the four exact colour-printer forms from
+hash-verified `stacktex.lisp`; full STACK rendering remains a browser gate.
+The exact adapter bytes are bound to each fresh bundle. These checks
+supplement the full controller, both-pin official-probe and lifecycle gates;
+they establish no precompiled speedup on their own.

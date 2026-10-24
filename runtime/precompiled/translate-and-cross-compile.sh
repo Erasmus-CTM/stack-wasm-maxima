@@ -103,6 +103,7 @@ grep -q '^CTM-TRANSLATION-FAILED|Cannot print object.*readably' "$WORK/logs/tran
 cp "$WORK/source/stackmaxima.mac" "$WORK/source-adapted/stackmaxima.mac"
 cp "$ROOT/runtime/precompiled/display2d-bridge.lisp" "$WORK/display2d-bridge.lisp"
 cp "$ROOT/runtime/precompiled/assignment-adapter.lisp" "$WORK/assignment-adapter.lisp"
+cmp "$ROOT/runtime/precompiled/assignment-adapter.lisp" "$WORK/assignment-adapter.lisp"
 cp "$WORK/display2d-bridge.lisp" "$WORK/source-adapted/display2d-bridge.lisp"
 {
   printf '(load (merge-pathnames #P"assignment-adapter.lisp" *load-truename*))\n'
@@ -127,10 +128,12 @@ cp "$WORK/display2d-bridge.lisp" "$WORK/source-initialized/display2d-bridge.lisp
 } > "$WORK/initialized-translate-driver.lisp"
 "$NATIVE" --very-quiet --quit-on-error --batch-lisp="$WORK/initialized-translate-driver.lisp" 2>&1 | tee "$WORK/logs/translate-initialized.log"
 grep -q '^CTM-TRANSLATION-OK|' "$WORK/logs/translate-initialized.log"
+cmp "$ROOT/runtime/precompiled/assignment-adapter.lisp" "$WORK/assignment-adapter.lisp"
 test -s "$WORK/source-initialized/stackmaxima.LISP"
 cp "$WORK/source-initialized/stackmaxima.LISP" "$WORK/source-initialized/stackmaxima.lisp"
 sha256sum "$WORK/source-initialized/stackmaxima.mac" "$WORK/source-initialized/stackmaxima.LISP" \
   "$WORK/source-initialized/stackmaxima.lisp" "$WORK/source-initialized/display2d-bridge.lisp" \
+  "$WORK/assignment-adapter.lisp" \
   "$WORK/source-initialized/parser-declarations.mac" "$WORK/source-initialized/parser-declarations.json" > "$WORK/logs/initialized-source.sha256"
 cat > "$WORK/source-initialized/$SYSTEM.asd" <<EOF
 (asdf:defsystem #:$SYSTEM

@@ -8,7 +8,7 @@ import json
 import subprocess
 from pathlib import Path
 from parser_bootstrap import extract as parser_declarations, SOURCE as PARSER_SOURCE, PINNED_SOURCES
-from bundle_provenance import describe as describe_bundle
+from bundle_provenance import describe as describe_bundle, PROCESS_ADAPTER, TRANSLATION_MODE
 
 ENTRY = "stack/maxima/stackmaxima.mac"
 LOADER = "stack/maxima/stacklocallinux.mac"
@@ -57,6 +57,11 @@ def stage(site, stack, bundle, translated):
     reviewed_adapter = Path(__file__).with_name("display2d-bridge.lisp").read_bytes()
     if not adapter_bytes or adapter_bytes != reviewed_adapter:
         raise ValueError("Compiled assignment bridge differs from the reviewed source")
+    process_adapter = bundle.parent / PROCESS_ADAPTER
+    process_adapter_bytes = process_adapter.read_bytes()
+    if (not process_adapter_bytes or
+            process_adapter_bytes != Path(__file__).with_name(PROCESS_ADAPTER).read_bytes()):
+        raise ValueError('Translation-process adapter differs from the reviewed source')
     parser_source = (stack / PARSER_SOURCE).read_bytes()
     expected_declarations, declaration_start = parser_declarations(parser_source, pin)
     parser_file = translated.parent / 'parser-declarations.mac'
@@ -76,7 +81,8 @@ def stage(site, stack, bundle, translated):
     descriptor_path = bundle.with_name('stackmaxima.fas.json')
     descriptor_bytes = descriptor_path.read_bytes()
     if json.loads(descriptor_bytes) != describe_bundle(
-            pin, source, lisp, adapter_bytes, parser_bytes, parser_metadata_file.read_bytes(), binary):
+            pin, source, lisp, adapter_bytes, process_adapter_bytes,
+            parser_bytes, parser_metadata_file.read_bytes(), binary):
         raise ValueError('Bundle provenance differs from its exact pin and translation inputs')
     target = site / "maxima-runtime" / ASSET
     if target.exists():
@@ -100,8 +106,11 @@ def stage(site, stack, bundle, translated):
         "sourcePath": ENTRY, "sourceSha256": digest(source),
         "translatedLispSha256": digest(lisp),
         "bundleProvenanceSha256": digest(descriptor_bytes),
-        "translationAdapter": {"mode": "symbolic-assignment-hooks+packagefile+pinned-parser-declarations", "path": adapter.name,
+        "translationAdapter": {"mode": TRANSLATION_MODE, "path": adapter.name,
                                "fileBytes": len(adapter_bytes), "sha256": digest(adapter_bytes),
+                               "processAdapter": {"path": process_adapter.name,
+                                                  "fileBytes": len(process_adapter_bytes),
+                                                  "sha256": digest(process_adapter_bytes)},
                                "parserBootstrap": parser_metadata,
                                "parserBootstrapMetadataSha256": digest(parser_metadata_file.read_bytes())},
         "originalLoaderSha256": digest(loader_source),
