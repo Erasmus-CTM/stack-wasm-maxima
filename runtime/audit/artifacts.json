@@ -11,11 +11,30 @@
     "status": "completed",
     "conclusion": "success",
     "files": [
-      "identity.json",
-      "admission.json",
-      "tool-sources.json",
-      "bindings.json",
-      "report.json"
+      "trials/01-control-source-cold/sample.json",
+      "trials/01-control-source-warm-profile-reload/sample.json",
+      "trials/02-control-precompiled-cold/sample.json",
+      "trials/02-control-precompiled-warm-profile-reload/sample.json",
+      "trials/03-errno-stack-suppressed-precompiled-cold/sample.json",
+      "trials/03-errno-stack-suppressed-precompiled-warm-profile-reload/sample.json",
+      "trials/04-errno-stack-suppressed-source-cold/sample.json",
+      "trials/04-errno-stack-suppressed-source-warm-profile-reload/sample.json",
+      "trials/05-errno-stack-suppressed-source-cold/sample.json",
+      "trials/05-errno-stack-suppressed-source-warm-profile-reload/sample.json",
+      "trials/06-errno-stack-suppressed-precompiled-cold/sample.json",
+      "trials/06-errno-stack-suppressed-precompiled-warm-profile-reload/sample.json",
+      "trials/07-control-precompiled-cold/sample.json",
+      "trials/07-control-precompiled-warm-profile-reload/sample.json",
+      "trials/08-control-source-warm-profile-reload/sample.json",
+      "trials/09-control-source-cold/sample.json",
+      "trials/09-control-source-warm-profile-reload/sample.json",
+      "trials/10-control-precompiled-cold/sample.json",
+      "trials/10-control-precompiled-warm-profile-reload/sample.json",
+      "trials/11-errno-stack-suppressed-precompiled-cold/sample.json",
+      "trials/11-errno-stack-suppressed-precompiled-warm-profile-reload/sample.json",
+      "trials/12-errno-stack-suppressed-source-cold/sample.json",
+      "trials/12-errno-stack-suppressed-source-warm-profile-reload/sample.json",
+      "trials/08-control-source-cold/sample.json"
     ]
   }
 ]
