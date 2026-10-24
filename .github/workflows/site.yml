@@ -13,6 +13,7 @@ on:
       - 'scripts/site/**'
       - 'demos/manifest.json'
       - 'measurements/*runtime*.json'
+      - 'runtime/release.json'
       - 'reports/milestone-one/browser-3338304.json'
       - 'package*.json'
   pull_request:
@@ -26,6 +27,7 @@ on:
       - 'scripts/site/**'
       - 'demos/manifest.json'
       - 'measurements/*runtime*.json'
+      - 'runtime/release.json'
       - 'reports/milestone-one/browser-3338304.json'
       - 'package*.json'
   workflow_dispatch:
@@ -114,7 +116,7 @@ jobs:
             --stack-sympy-source .site-sources/stack-sympy \
             --ctm-checkers-source .site-sources/ctm-checkers \
             --ctm-libs-source .site-sources/ctm-libs
-          python scripts/milestone-two/prepare-runtime.py --output site \
+          python scripts/milestone-two/prepare-runtime.py --output site --runtime-release \
             --stack-source .site-sources/stack \
             --ctm-checkers-source .site-sources/ctm-checkers
           node scripts/milestone-two/test-frontend-pools.mjs site/_extensions/stack-sympy/stack-sympy.js
