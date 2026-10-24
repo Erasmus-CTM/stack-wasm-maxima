@@ -13,7 +13,8 @@
       "gc-mark-instrumentation/logs/ecl-config.log",
       "gc-mark-instrumentation/logs/compiler-evidence.json",
       "gc-mark-instrumentation/source-overlay/instrumentation.json",
-      "gc-mark-instrumentation/logs/toolchain-archives.json"
+      "gc-mark-instrumentation/logs/toolchain-archives.json",
+      "mark-stack-replay/frozen/.cache/runtime-build/artifact/logs/target-info.lsp"
     ]
   }
 ]
