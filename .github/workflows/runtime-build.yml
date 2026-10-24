@@ -277,7 +277,7 @@ jobs:
     # Only when all three profiles were built (not for a single-profile release).
     if: ${{ !inputs.profiles }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 180
+    timeout-minutes: 240
     needs: build
     steps:
       - uses: actions/checkout@v4
