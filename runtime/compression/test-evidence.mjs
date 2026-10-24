@@ -25,7 +25,11 @@ try{
   rows.push({path,bytes:body.length,sha256:hash(body),brotliSafe:brotliSafe(path),encodings});
  }
  const compilerProfile=(await load(join(repository,'runtime/build/compiler-profiles.json'))).profiles[process.env.CTM_ECL_COMPILER_PROFILE||'baseline'];
- const raw={schema:1,compilerProfile,sourcePins:pins,configuration,startupAdapter:{content:startup,sha256:configuration.startupSha256},recipe:{revision:'a'.repeat(40)},runtimeAssets:rows.filter(row=>row.path!=='runtime-preload.json').map(({path,bytes,sha256})=>({path,bytes,sha256}))};
+ // Synthetic identity fields exercise the loader contract, not source/build acceptance.
+ const sourceIntegrity={schema:1,allVerifiedFilesUnmodified:false,overlays:[await load(join(repository,'runtime/build/patches/ecl-root-scanner.json'))],
+  originalArchives:pins.sources.filter(p=>['maxima','ecl'].includes(p.name)).map(p=>({path:'sources/'+p.name+'.tar',sha256:p.archive.sha256})),
+  beforeSha256:'0'.repeat(64),hostSourceSha256:'1'.repeat(64),afterSha256:'2'.repeat(64),applicationSha256:'3'.repeat(64)};
+ const raw={schema:1,compilerProfile,sourcePins:pins,configuration,sourceIntegrity,startupAdapter:{content:startup,sha256:configuration.startupSha256},recipe:{revision:'a'.repeat(40)},runtimeAssets:rows.filter(row=>row.path!=='runtime-preload.json').map(({path,bytes,sha256})=>({path,bytes,sha256}))};
  await json(join(artifact,'manifest.json'),raw);await json(join(artifact,'artifact-manifest.json'),{schema:1,files:[]});
  const manifest={schema:1,source:{kind:'ctm-owned-build',manifestSha256:hash(await readFile(join(artifact,'manifest.json'))),artifactManifestSha256:hash(await readFile(join(artifact,'artifact-manifest.json'))),stagedManifestSha256:'b'.repeat(64),github:{run:{conclusion:'success'},artifact:{name:'owned-runtime-'+raw.recipe.revision}}},toolchain:{node:'v22.16.0',platform:'linux',arch:'x64'},files:rows,totals:{fixture:true}};
  await json(join(artifact,'compression-manifest.json'),manifest);const manifestSHA=hash(await readFile(join(artifact,'compression-manifest.json')));
