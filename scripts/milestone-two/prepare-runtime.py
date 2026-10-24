@@ -13,6 +13,8 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import tarfile
+import urllib.request
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -26,6 +28,42 @@ def checked_checkout(path: Path, expected: str) -> Path:
     if actual != expected:
         raise ValueError(f"Expected {expected} at {path}, got {actual}")
     return path
+
+def released_runtime_source(cache: Path) -> tuple[Path, str, dict]:
+    """Download, verify and unpack the release pinned in runtime/release.json."""
+    pin = json.loads((ROOT / "runtime/release.json").read_text())
+    base = f"https://github.com/{pin['repository']}/releases/download/{pin['tag']}/"
+
+    def fetch(name: str, sha256: str, size: int | None = None) -> Path:
+        target = cache / pin["tag"] / name
+        if not (target.is_file() and hashlib.sha256(target.read_bytes()).hexdigest() == sha256):
+            with urllib.request.urlopen(base + name, timeout=120) as response:
+                body = response.read(256 * 1024 * 1024 + 1)
+            if len(body) > 256 * 1024 * 1024 or (size is not None and len(body) != size):
+                raise ValueError("Released runtime file has an unexpected size: " + name)
+            if hashlib.sha256(body).hexdigest() != sha256:
+                raise ValueError("Released runtime file hash differs from its pin: " + name)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(body)
+        return target
+
+    record = json.loads(fetch(pin["record"], pin["recordSha256"]).read_bytes())
+    archive_name = f"maxima-{pin['tag']}.tar.gz"
+    if record.get("schema") != 1 or record.get("tag") != pin["tag"] or archive_name not in record.get("files", {}):
+        raise ValueError("Release record does not describe the pinned release")
+    entry = record["files"][archive_name]
+    archive = fetch(archive_name, entry["sha256"], entry["bytes"])
+    unpacked = cache / pin["tag"] / "artifact"
+    if unpacked.exists():
+        shutil.rmtree(unpacked)
+    unpacked.mkdir(parents=True)
+    with tarfile.open(archive) as bundle:
+        bundle.extractall(unpacked, filter="data")
+    if hashlib.sha256((unpacked / "manifest.json").read_bytes()).hexdigest() != record["runtimeManifestSha256"]:
+        raise ValueError("Released runtime manifest differs from its release record")
+    return unpacked, record["compilerProfile"], {"tag": pin["tag"], "recordSha256": pin["recordSha256"],
+                                                 "commit": record["commit"], "buildRun": record["buildRun"]}
+
 
 def owned_runtime_source(path: Path | None, wanted: set[str], baseline_comparator=False, compiler_profile_name=None):
     if path is None:
@@ -88,9 +126,16 @@ def main() -> None:
     parser.add_argument("--asset-cache", type=Path, default=ROOT / ".cache/maxima-runtime")
     parser.add_argument("--runtime-source", type=Path, default=os.environ.get("CTM_MAXIMA_RUNTIME_SOURCE"),
                         help="Opt-in owned-build artifact directory; default remains the deployed runtime")
+    parser.add_argument("--runtime-release", action="store_true",
+                        help="Serve the released owned runtime pinned in runtime/release.json")
     parser.add_argument("--verified-baseline-comparator", action="store_true", help="Comparator only: exact frozen historical artifact; never permits another pin set")
     parser.add_argument("--compiler-profile", help="Explicit current compiler profile when staging an accepted comparison artifact")
     args = parser.parse_args()
+    release = None
+    if args.runtime_release:
+        if args.runtime_source or args.verified_baseline_comparator or args.compiler_profile:
+            parser.error("--runtime-release selects the runtime and its compiler profile itself")
+        args.runtime_source, args.compiler_profile, release = released_runtime_source(args.asset_cache / "releases")
     stack = checked_checkout(args.stack_source, STACK_SHA)
     checkers = checked_checkout(args.ctm_checkers_source, CHECKERS_SHA)
     sys.path.insert(0, str(checkers / "tools/stack_native"))
@@ -114,6 +159,8 @@ def main() -> None:
     if set(records) != wanted:
         raise ValueError("Missing hashes for selected runtime assets")
     owned = owned_runtime_source(args.runtime_source, wanted, args.verified_baseline_comparator, args.compiler_profile)
+    if owned and release:
+        owned["provenance"]["release"] = release
     if owned and owned['configuration']:
         wanted -= {BASE + p for p in owned['configuration']['omittedRuntimePaths']}
     args.output.mkdir(parents=True, exist_ok=True)
