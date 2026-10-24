@@ -1,45 +1,13 @@
 [
   {
-    "id": 12552510109,
-    "name": "reviewer-site-6aa04cbf9c1db2659f530a05fac0ee24e796843b",
-    "sha256": "8c2e435c3e67d01fea98bcbd3d0898eedb98dc3e24157960aa3f250a0efce935",
-    "files": [
-      "_headers",
-      "maxima/native.html",
-      "native/build-manifest.json"
-    ],
-    "run": 40072423695,
+    "id": 12552321475,
+    "name": "precompiled-native-fixtures-6aa04cbf9c1db2659f530a05fac0ee24e796843b",
+    "run": 40072423704,
     "head": "f50014dfe874c898d1803f0c1c5a480d3ba4d925",
-    "workflow": 392492178,
+    "workflow": 394303393,
     "attempt": 1,
-    "conclusion": "success"
-  },
-  {
-    "id": 12552575235,
-    "name": "native-reviewer-evidence-6aa04cbf9c1db2659f530a05fac0ee24e796843b",
-    "sha256": "a25b598730be065a40965502ffbe832e705026cb7569d330f352368212d698c4",
-    "files": [
-      "site/native/build-manifest.json",
-      "test-results/board-mathjax-chromium.json",
-      "test-results/board-mathjax-firefox.json",
-      "test-results/board-mathjax-static-chromium.json",
-      "test-results/board-mathjax-static-firefox.json",
-      "test-results/board-mathjax-static-webkit.json",
-      "test-results/milestone-three/board-functional-chromium-1280.json",
-      "test-results/board-mathjax-webkit.json",
-      "test-results/milestone-three/board-functional-chromium-390.json",
-      "test-results/milestone-three/board-functional-firefox-1280.json",
-      "test-results/milestone-three/board-functional-firefox-390.json",
-      "test-results/milestone-three/board-functional-webkit-1280.json",
-      "test-results/milestone-three/board-functional-webkit-390.json",
-      "test-results/milestone-three/board-transfer-chromium.json",
-      "test-results/milestone-three/browser.json",
-      "test-results/milestone-three/native-reference/native-reference.json"
-    ],
-    "run": 40072423695,
-    "head": "f50014dfe874c898d1803f0c1c5a480d3ba4d925",
-    "workflow": 392492178,
-    "attempt": 1,
-    "conclusion": "success"
+    "conclusion": "success",
+    "sha256": "335762b1ff40736ffb1d9079b03134637cce0a16a55843d52c605cf9808bfba1",
+    "files": []
   }
 ]
