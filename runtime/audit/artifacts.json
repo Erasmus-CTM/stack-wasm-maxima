@@ -1,28 +1,20 @@
 [
   {
-    "id": 12577025920,
-    "name": "owned-maxima-oz-o2-source-40108653797-benchmark-40134746490-attempt-1",
-    "zipBytes": 1296439,
-    "sha256": "782d992f8df6a818d9ce6b935bb8686f8cc1e7c19b37379468eafcf84f5cb76e",
-    "run": 40134746490,
-    "workflow": 395443275,
-    "head": "adea9d362e79650abab7f4ecd79028bccd087399",
+    "id": 12577466247,
+    "name": "no-rebuild-stack-profile-40136517092-1",
+    "zipBytes": 26412707,
+    "sha256": "67dadfbb5d290e8eba955d85ff762ee4a288cbfa851ac902f7c268e6370f3ee1",
+    "run": 40136517092,
+    "workflow": 395414190,
+    "head": "23ae09e8212cd136338cb4fa71c1257b056fcbd1",
     "attempt": 1,
     "status": "completed",
-    "conclusion": "success",
+    "conclusion": "failure",
     "files": [
-      "benchmark-identity.json",
-      "source-api-provenance.json",
-      "source-revalidation.json",
+      "identity.json",
       "admission.json",
-      "timings-full-speed.json",
-      "comparison-summary.json",
-      "comparison-summary.md",
-      "benchmark-workflow.yml",
-      "archive-inventory-baseline.json",
-      "archive-inventory-ecl-oz.json",
-      "archive-inventory-ecl-o2.json",
-      "archive-inventory-accepted-aggregate.json"
+      "report.json",
+      "trials/03-baseline-source-instrumented/sample.json"
     ]
   }
 ]
