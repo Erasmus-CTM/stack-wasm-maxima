@@ -2,6 +2,13 @@
 name: Compare scoped ECL compiler experiments
 on:
   workflow_dispatch:
+  # A runtime release (runtime-release.yml) builds and accepts one profile.
+  workflow_call:
+    inputs:
+      profiles:
+        description: JSON list of compiler profiles to build and accept
+        type: string
+        required: true
   pull_request:
     paths:
       - '.gitattributes'
@@ -20,8 +27,8 @@ permissions:
   contents: read
   actions: read
 concurrency:
-  group: scoped-ecl-compiler-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: scoped-ecl-compiler-${{ inputs.profiles && 'release-' || '' }}${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ !inputs.profiles }}
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -29,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        profile: [baseline, ecl-oz, ecl-o2]
+        profile: ${{ fromJSON(inputs.profiles || '["baseline","ecl-oz","ecl-o2"]') }}
     env:
       CTM_COLD_BUILD: cold1
       CTM_ECL_COMPILER_PROFILE: ${{ matrix.profile }}
@@ -261,8 +268,10 @@ jobs:
           if-no-files-found: warn
 
   compare-compiler-trials:
+    # Only when all three profiles were built (not for a single-profile release).
+    if: ${{ !inputs.profiles }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 180
     needs: build
     steps:
       - uses: actions/checkout@v4
@@ -308,8 +317,39 @@ jobs:
           for profile in baseline ecl-oz ecl-o2; do
             python scripts/milestone-two/prepare-runtime.py --stack-source .site-sources/stack --ctm-checkers-source .site-sources/ctm-checkers --runtime-source ".cache/compiler-trials/$profile/.cache/runtime-build/artifact" --compiler-profile "$profile" --output ".cache/compiler-trials/demos/$profile"
           done
-      - name: Compare baseline and candidates on this same runner
+      - name: Compare baseline and the production profile on this same runner
+        env:
+          CTM_TIMING_REPETITIONS: '10'
+          CTM_TIMING_PROFILES: baseline,ecl-oz
         run: node runtime/build/measure-compiler-trials.mjs
+      # Plan D8: until a reference student laptop is named, the reference is this
+      # runner with the browser limited to a quarter of one CPU (about 4x slower
+      # for Maxima's single-threaded startup).
+      - name: Repeat under a CPU limit standing in for the reference laptop
+        env:
+          CTM_TIMING_REPETITIONS: '10'
+          CTM_TIMING_PROFILES: baseline,ecl-oz
+          CTM_TIMING_LABEL: cpu-quarter
+          CTM_TIMING_CPU_LIMIT: systemd CPUQuota=25%
+        run: |
+          sudo -E systemd-run --scope --quiet -p CPUQuota=25% --uid="$(id -u)" --gid="$(id -g)" \
+            -- "$(command -v node)" runtime/build/measure-compiler-trials.mjs
+      - name: Report medians against the 20 s target (plan D8)
+        if: ${{ !cancelled() }}
+        run: |
+          node -e '
+            const fs=require("fs"),dir=".cache/compiler-trials/comparison";
+            const rows=[["full speed","timings.json"],["CPU quarter (D8 reference)","timings-cpu-quarter.json"]];
+            const out=["## Startup medians (readiness, s)","","| Run | Profile | Cold | Warm-profile reload |","|---|---|---:|---:|"];
+            let target=null;
+            for(const [name,file] of rows){
+              let r;try{r=JSON.parse(fs.readFileSync(dir+"/"+file))}catch{out.push(`| ${name} | (no report) | | |`);continue}
+              if(!r.passed){out.push(`| ${name} | failed: ${String(r.failure).slice(0,80)} | | |`);continue}
+              for(const [p,m] of Object.entries(r.medians))out.push(`| ${name} | ${p} | ${(m.cold/1000).toFixed(1)} | ${(m["warm-profile-reload"]/1000).toFixed(1)} |`);
+              if(file.includes("cpu-quarter"))target=r.medians["ecl-oz"]?.cold;
+            }
+            out.push("",target==null?"D8: no reference measurement.":`D8: production profile cold start on the reference ${(target/1000).toFixed(1)} s against the 20 s target: ${target<=20000?"met":"not met"}.`);
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,out.join("\n")+"\n");console.log(out.join("\n"));'
       - name: Preserve comparison and failed-trial evidence
         if: always()
         uses: actions/upload-artifact@v4

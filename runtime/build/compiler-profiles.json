@@ -1,6 +1,8 @@
 {
   "schema": 1,
   "scope": "EMCC_CFLAGS applies only to the standalone upstream ecl-emscripten target; unset before Maxima main and optional modules. Original configure CFLAGS remain unchanged.",
+  "production": "ecl-oz",
+  "productionNote": "The profile runtime releases are built and accepted with (AC, 23 Oct 2026). Experiments and comparators keep selecting their profile explicitly through CTM_ECL_COMPILER_PROFILE (fallback baseline).",
   "profiles": {
     "baseline": {"name": "baseline", "injectedEmccFlags": null, "eclCoreOptimization": "-O0", "eclGeneratedLispOptimization": "-O2", "maximaGeneratedOptimization": "-O2"},
     "ecl-oz": {"name": "ecl-oz", "injectedEmccFlags": "-Oz", "eclCoreOptimization": "-Oz", "eclGeneratedLispOptimization": "-Oz", "maximaGeneratedOptimization": "-O2"},
