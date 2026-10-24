@@ -11,22 +11,14 @@
     "sha256": "08dfcd8686e1be8da91b19c850c9668bd96e3e224df513192d3e0de023dfce74",
     "zipBytes": 214091662,
     "files": [
-      ".cache/native-build/preparation-messages.json",
-      ".cache/native-build/prepared.json",
-      "site/_site/maxima/native.html",
-      "site/_site/native/build-manifest.json",
-      "site/_site/stack-sources.json",
-      "site/native/build-manifest.json",
-      "test-results/milestone-three/browser.json",
-      "test-results/milestone-three/native-reference/native-reference.json",
-      "test-results/milestone-three/native-reference/native.log",
-      "test-results/milestone-three/native-reference/reference.mac",
-      "test-results/milestone-three/same-source-reference/native-reference.json",
-      "test-results/milestone-three/same-source-reference/native.log",
-      "test-results/milestone-three/same-source-reference/reference.mac",
-      "test-results/precompiled-stack/controller-parity.json",
-      "test-results/precompiled-stack/measure.json",
-      "test-results/reviewer-site/smoke.json"
+      ".cache/native-build/boards.json",
+      ".cache/native-build/boards/_extensions/jsxgraph/_extension.yml",
+      ".cache/native-build/boards/_extensions/jsxgraph/graph-editor.js",
+      ".cache/native-build/boards/_extensions/jsxgraph/lua/jsxgraph.lua",
+      ".cache/native-build/boards/_extensions/jsxgraph/resources/css/jsxgraph.css",
+      ".cache/native-build/boards/_extensions/jsxgraph/resources/js/jsxgraphcore.js",
+      ".cache/native-build/boards/boards.html",
+      ".cache/native-build/boards/boards.qmd"
     ]
   }
 ]
