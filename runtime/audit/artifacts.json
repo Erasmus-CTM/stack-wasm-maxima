@@ -9,6 +9,35 @@
     "status": "in_progress",
     "conclusion": null,
     "sha256": "f875d2176c050e5d9bc9d7074163178a84e08dd78e03b8b2c019e70ff8c9dd52",
-    "files": []
+    "files": [
+      ".cache/runtime-build/logs/build.log",
+      ".cache/runtime-build/logs/environment.json",
+      ".cache/runtime-build/logs/compiler-profile.json",
+      ".cache/runtime-build/source-progress.json",
+      ".cache/runtime-build/logs/target-source-overlay.json",
+      ".cache/runtime-build/logs/target-info.lsp"
+    ],
+    "ranges": [
+      {
+        "path": ".cache/runtime-build/logs/ecl-cross-build.log",
+        "start": 11367514,
+        "end": 11629658
+      },
+      {
+        "path": ".cache/runtime-build/logs/ecl-exec.log",
+        "start": 10264017,
+        "end": 10526161
+      },
+      {
+        "path": ".cache/runtime-build/logs/maxima-cross-build.log",
+        "start": 53439163,
+        "end": 53701307
+      },
+      {
+        "path": ".cache/runtime-build/logs/maxima-exec.log",
+        "start": 49980074,
+        "end": 50242218
+      }
+    ]
   }
 ]
