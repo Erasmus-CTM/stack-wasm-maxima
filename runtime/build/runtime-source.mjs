@@ -16,6 +16,13 @@ export async function loadOwnedRuntime(source,repository) {
  assert.ok(profile,'Unknown compiler experiment');assert.deepEqual(manifest.compilerProfile,profile,'Current compiler profile differs');
  const configuration=JSON.parse(await readFile(resolve(repository,'runtime/build/configuration.json')));
  assert.deepEqual(manifest.configuration,configuration,'Current candidates require the exact no-gnuplot configuration');
+ const descriptorBytes=await readFile(resolve(repository,'runtime/build/patches/ecl-root-scanner.json'));
+ const overlay=JSON.parse(descriptorBytes),integrity=manifest.sourceIntegrity;
+ assert.equal(hash(descriptorBytes),configuration.targetSourceOverlaySha256);
+ assert.equal(integrity?.schema,1);assert.equal(integrity.allVerifiedFilesUnmodified,false);
+ assert.deepEqual(integrity.overlays,[overlay],'Prepared runtime requires the current declared target overlay');
+ assert.deepEqual(integrity.originalArchives,pins.sources.filter(p=>['maxima','ecl'].includes(p.name)).map(p=>({path:'sources/'+p.name+'.tar',sha256:p.archive.sha256})));
+ for(const key of ['beforeSha256','hostSourceSha256','afterSha256','applicationSha256'])assert.match(integrity[key],/^[0-9a-f]{64}$/);
  const startup=(await readFile(resolve(repository,'runtime/build/no-plot.mac'),'utf8')).trim()+'\n';
  assert.deepEqual(manifest.startupAdapter,{content:startup,sha256:configuration.startupSha256});
  assert.equal(hash(await readFile(resolve(repository,'runtime/build/no-plot.mac'))),configuration.startupSha256);

@@ -27,10 +27,22 @@ try {
   rows.push({path,bytes:body.length,sha256:hash(body),brotliSafe:brotliSafe(path),encodings});
  }
  const compilerProfile=JSON.parse(await readFile(resolve('runtime/build/compiler-profiles.json'))).profiles[process.env.CTM_ECL_COMPILER_PROFILE||'baseline'];
- const raw={schema:1,compilerProfile,sourcePins,configuration,startupAdapter:{content:startup,sha256:configuration.startupSha256},runtimeAssets:rows.filter(r=>r.path!=='runtime-preload.json').map(({path,bytes,sha256})=>({path,bytes,sha256}))};
+ // Synthetic identity fields exercise the loader contract, not source/build acceptance.
+ const sourceIntegrity={schema:1,allVerifiedFilesUnmodified:false,overlays:[JSON.parse(await readFile(resolve('runtime/build/patches/ecl-root-scanner.json')))],
+  originalArchives:sourcePins.sources.filter(p=>['maxima','ecl'].includes(p.name)).map(p=>({path:'sources/'+p.name+'.tar',sha256:p.archive.sha256})),
+  beforeSha256:'0'.repeat(64),hostSourceSha256:'1'.repeat(64),afterSha256:'2'.repeat(64),applicationSha256:'3'.repeat(64)};
+ const raw={schema:1,compilerProfile,sourcePins,configuration,sourceIntegrity,startupAdapter:{content:startup,sha256:configuration.startupSha256},runtimeAssets:rows.filter(r=>r.path!=='runtime-preload.json').map(({path,bytes,sha256})=>({path,bytes,sha256}))};
  const rawBytes=Buffer.from(JSON.stringify(raw)),original=Buffer.from(JSON.stringify({schema:1,files:[]}));
  await writeFile(join(artifact,'manifest.json'),rawBytes);await writeFile(join(artifact,'artifact-manifest.json'),original);
  const manifest={schema:1,toolchain:{node:'v22.16.0'},source:{kind:'ctm-owned-build',manifestSha256:hash(rawBytes),artifactManifestSha256:hash(original)},files:rows};
+ await writeFile(join(artifact,'compression-manifest.json'),JSON.stringify(manifest));
+ for(const invalid of [undefined,null,{...sourceIntegrity,allVerifiedFilesUnmodified:true},{...sourceIntegrity,overlays:[]},{...sourceIntegrity,applicationSha256:'invalid'}]){
+  const invalidBytes=Buffer.from(JSON.stringify({...raw,sourceIntegrity:invalid}));
+  await writeFile(join(artifact,'manifest.json'),invalidBytes);
+  await writeFile(join(artifact,'compression-manifest.json'),JSON.stringify({...manifest,source:{...manifest.source,manifestSha256:hash(invalidBytes)}}));
+  await assert.rejects(()=>loadSidecars(artifact,'br'),{code:'ERR_ASSERTION'},'Consistent wrapper hashes must not admit absent or invalid source-integrity identity');
+ }
+ await writeFile(join(artifact,'manifest.json'),rawBytes);
  await writeFile(join(artifact,'compression-manifest.json'),JSON.stringify(manifest));
  assert.equal(accepted('br;q=0, gzip;q=1','br'),false);assert.equal(accepted('br;q=0, gzip;q=1','gzip'),true);
  assert.equal(accepted('*;q=0','br'),false);assert.equal(accepted('br;q=not-a-number','br'),false);
@@ -54,5 +66,5 @@ try {
  assert.equal(sidecars.select('/maxima-runtime/maxima-solve.fas',bodies['maxima-solve.fas'],'br'),null,'Lazy-file Brotli-only requests must use identity');
  assert.throws(()=>sidecars.select('/maxima-runtime/unknown.fas',Buffer.from('x'),'gzip'));
  await writeFile(join(artifact,'maxima.wasm.br'),'corrupt');await assert.rejects(()=>loadSidecars(artifact,'br'));
- console.log('Deterministic codec, decoded SHA, ordinary Brotli/lazy gzip, HEAD, identity ranges and tampering checks passed; unit Node '+process.version);
+ console.log('Synthetic source identity admission/rejection, deterministic codec, decoded SHA, ordinary Brotli/lazy gzip, HEAD, identity ranges and tampering checks passed; unit Node '+process.version);
 }finally{if(app)await app.close();assert.equal(dirname(root),work);await rm(root,{recursive:true,force:true});}

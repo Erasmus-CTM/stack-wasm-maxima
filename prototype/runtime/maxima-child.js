@@ -9,6 +9,18 @@ let pendingInput = new Uint32Array(0), inputIndex = 0;
 let outputLine = '', stdoutTail = '', initialized = false;
 let stages = {}, started;
 const hex = bytes => Array.from(new Uint8Array(bytes), n => n.toString(16).padStart(2, '0')).join('');
+function traceCompiledEntryReads(filesystem, stages, entry) {
+  const open=filesystem.open;
+  filesystem.open=function(path,...args) {
+    const stream=open.call(this,path,...args);
+    const resolved=typeof stream.path==='string'?stream.path:filesystem.getPath(stream.node);
+    if((stream.flags&3)!==1) {
+      if(resolved===entry+'.fas')stages.compiledStackOpens++;
+      if(resolved===entry+'.mac')stages.compiledSourceEntryOpens++;
+    }
+    return stream;
+  };
+}
 async function preloadFiles(base, spec) {
   const mounted = new Map();
   if (!spec) return mounted; // Older manifests retain the original loader.
@@ -38,6 +50,42 @@ async function preloadFiles(base, spec) {
   }
   return mounted;
 }
+async function fetchCompiledStack(base, spec) {
+  if (!spec) return null;
+  const entry = manifest.files.filter(file => file.path === 'stack/maxima/stackmaxima.mac');
+  const loader = manifest.files.filter(file => file.path === 'stack/maxima/stacklocallinux.mac');
+  if (spec.schema !== 1 || spec.mode !== 'entry-fas' || spec.stackRevision !== manifest.stackRevision ||
+      entry.length !== 1 || loader.length !== 1 ||
+      spec.sourcePath !== entry[0].path || spec.sourceSha256 !== entry[0].sha256 ||
+      spec.overlayLoaderSha256 !== loader[0].sha256 ||
+      spec.asset?.path !== 'stackmaxima.fas' ||
+      manifest.files.some(file => file.path === 'stack/maxima/stackmaxima.fas') ||
+      loader[0].content.includes('load("stackmaxima.mac")$') ||
+      loader[0].content.split('load("/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.fas")$').length !== 2) {
+    throw new Error('Invalid precompiled STACK manifest');
+  }
+  for (const file of [entry[0], loader[0]]) {
+    const body = new TextEncoder().encode(file.content);
+    if (body.length !== file.bytes || hex(await crypto.subtle.digest('SHA-256', body)) !== file.sha256) {
+      throw new Error('Precompiled STACK source hash mismatch: ' + file.path);
+    }
+  }
+  const {fileBytes, sha256} = spec.asset;
+  if (!Number.isSafeInteger(fileBytes) || fileBytes < 1 || !/^[0-9a-f]{64}$/.test(sha256)) {
+    throw new Error('Invalid precompiled STACK asset record');
+  }
+  const url = new URL(spec.asset.path, base);
+  if (url.origin !== new URL(base).origin || !url.href.startsWith(base)) {
+    throw new Error('Unsafe precompiled STACK asset URL');
+  }
+  const response = await fetch(url);
+  if (!response.ok) throw new Error('Precompiled STACK HTTP ' + response.status);
+  const bytes = new Uint8Array(await response.arrayBuffer());
+  if (bytes.length !== fileBytes || hex(await crypto.subtle.digest('SHA-256', bytes)) !== sha256) {
+    throw new Error('Precompiled STACK asset hash mismatch');
+  }
+  return bytes;
+}
 function fail(error) {
   const message = String(error && (error.stack || error.message) || error);
   if (control && Atomics.load(control, C.REQUEST) > 0) {
@@ -64,6 +112,11 @@ function consume(text) {
     outputLine = outputLine.slice(end + 1);
     const ready = /^CTMMAXIMA-READY\|([^|]+)\|(.+)$/.exec(line);
     const result = /^CTMMAXIMA\|(\d+)\|(.+)$/.exec(line);
+    if (line.trim() === 'CTMSTACK-LOAD-BEGIN') stages.stackLoadStartedMs = performance.now() - started;
+    if (line.trim() === 'CTMSTACK-LOAD-END') {
+      stages.stackLoadEndedMs = performance.now() - started;
+      if (stages.stackLoadStartedMs !== undefined) stages.stackLoadMs = stages.stackLoadEndedMs - stages.stackLoadStartedMs;
+    }
     if (ready) {
       initialized = true;
       stages.readyMs = performance.now() - started;
@@ -113,8 +166,10 @@ self.onmessage = async ({ data }) => {
     sharedInput = new Uint32Array(data.buffers[1]);
     sharedOutput = new Uint8Array(data.buffers[2]);
     const preloaded = await preloadFiles(runtimeBase, data.preload === false ? null : manifest.preload);
+    const compiledStack = await fetchCompiledStack(runtimeBase, manifest.compiledStack);
     stages.preloadMs = performance.now() - started;
     stages.preloadedFiles = preloaded.size;
+    if (compiledStack) stages.compiledStackBytes = compiledStack.length;
     nativeImport(new URL('maxima_thread.js', runtimeBase).href);
     const upstreamStart = self.onmessage;
     const preInit = Module.preInit;
@@ -149,6 +204,13 @@ self.onmessage = async ({ data }) => {
         const path = '/ctm/moodle-qtype_stack-master/' + file.path;
         FS.mkdirTree(path.slice(0, path.lastIndexOf('/')));
         FS.writeFile(path, new TextEncoder().encode(file.content));
+      }
+      if (compiledStack) {
+        const entry='/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima';
+        FS.writeFile(entry+'.fas', compiledStack);
+        Object.assign(stages,{compiledStackMounted:true,compiledStackOpens:0,compiledSourceEntryOpens:0,
+          compiledStackSha256:manifest.compiledStack.asset.sha256,compiledStackRevision:manifest.stackRevision});
+        traceCompiledEntryReads(FS,stages,entry);
       }
     });
     self.importScripts = function (...urls) {

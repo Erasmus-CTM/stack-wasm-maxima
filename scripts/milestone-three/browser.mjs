@@ -490,6 +490,7 @@ try {
   const runtime=JSON.parse(runtimeBytes);
   report.runtime={stackRevision:runtime.stackRevision,stackLibraryVersion:runtime.stackLibraryVersion,manifestSha256:hash(runtimeBytes),
     assets:runtime.runtimeAssets,preload:runtime.preload};
+  if(runtime.compiledStack)report.runtime.compiledStack=runtime.compiledStack;
   if(!liveURL)app=await serveDemo({root:site});
   baseURL=liveURL ? new URL('../',liveURL).href : app.baseURL;
   browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE||undefined});
