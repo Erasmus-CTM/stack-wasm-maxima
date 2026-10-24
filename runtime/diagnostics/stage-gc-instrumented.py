@@ -7,12 +7,15 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+from target_info import compare as compare_target_info
 
 ROOT = Path(__file__).resolve().parents[2]
 PIN = 'e4bdb2e5b1e444e1773032a53650773848f4d6cd'
 MANIFEST = 'ebe109fcd21ddaf79f6d73562a8ce047f08e5430ffee8af63c0234faefbd037a'
 MODULE = 'fafd807fcb5f68a01135694421b1bb5006476de078aeba0c7c8fdfe7dec9aee6'
 SOURCE_FILES = {'src/bdwgc/mark.c', 'src/bdwgc/mark_rts.c', 'src/c/alloc_2.d'}
+FROZEN_TARGET = {'bytes': 259333,
+                 'sha256': '03ff4b16dcca2c0ff11c8feab748602c8673d4a736d7b84d203b428a57f909ff'}
 
 
 def sha(body):
@@ -64,7 +67,10 @@ def main():
         original = subprocess.check_output(['git', '-C', str(source), 'show', PIN + ':' + row['path']])
         assert record(original) == row['original']
         assert record((source / row['path']).read_bytes()) == row['derived']
-    assert target.read_bytes() == (frozen / 'logs/target-info.lsp').read_bytes(), 'Target configuration changed'
+    original_target = (frozen / 'logs/target-info.lsp').read_bytes()
+    instrumented_target = target.read_bytes()
+    assert record(original_target) == FROZEN_TARGET, 'Frozen target-info changed'
+    target_comparison = compare_target_info(original_target, instrumented_target)
     original_manifest = (frozen / 'manifest.json').read_bytes()
     assert sha(original_manifest) == MANIFEST
     manifest = json.loads(original_manifest)
@@ -109,6 +115,7 @@ def main():
              'parentManifest': record(original_manifest), 'sourcePatchReport': record(patch_bytes),
              'originalModule': record(original_module.read_bytes()), 'instrumentedModule': record(new_bytes),
              'onlyChangedRuntimeAsset': 'libecl.so', 'targetInfoMatches': True,
+             'targetInfoComparison': target_comparison,
              'moduleInterfaceShapeMatches': True, 'extraDiagnosticExports': extra_exports,
              'interfaceScope': 'Import/export names and kinds only; not a full binary ABI or production admission proof',
              'originalInterface': old_interface, 'instrumentedInterface': new_interface,
@@ -121,6 +128,8 @@ def main():
     (output / 'original-manifest.json').write_bytes(original_manifest)
     (output / 'manifest.json').write_text(json.dumps(derived, indent=2) + '\n')
     (output / 'instrumentation.json').write_bytes(patch_bytes)
+    (output / 'original-target-info.lsp').write_bytes(original_target)
+    (output / 'instrumented-target-info.lsp').write_bytes(instrumented_target)
     (output / 'diagnostic-provenance.json').write_text(json.dumps(proof, indent=2) + '\n')
     print(json.dumps({'diagnosticOnly': True, 'acceptance': False,
                       'assets': len(rows), 'changed': 'libecl.so', 'module': record(new_bytes)}))

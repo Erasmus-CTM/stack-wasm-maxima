@@ -8,6 +8,8 @@ on:
       - 'runtime/diagnostics/instrument-ecl-gc.py'
       - 'runtime/diagnostics/stage-gc-instrumented.py'
       - 'runtime/diagnostics/run-gc-instrumentation.py'
+      - 'runtime/diagnostics/target_info.py'
+      - 'runtime/diagnostics/test-target-info.py'
 permissions:
   contents: read
   actions: read
@@ -31,6 +33,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22.16.0'
+      - name: Check bounded target configuration comparison
+        run: python runtime/diagnostics/test-target-info.py
       - name: Recover the exact failed baseline artifact without executing it
         env:
           GH_TOKEN: ${{ github.token }}

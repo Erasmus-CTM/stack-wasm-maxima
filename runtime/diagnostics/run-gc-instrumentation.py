@@ -11,6 +11,7 @@ import re
 import shutil
 import subprocess
 import sys
+from target_info import compare as compare_target_info
 
 sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[2]
@@ -24,6 +25,8 @@ ADDITIONS = {
     'runtime/diagnostics/instrument-ecl-gc.py',
     'runtime/diagnostics/stage-gc-instrumented.py',
     'runtime/diagnostics/run-gc-instrumentation.py',
+    'runtime/diagnostics/target_info.py',
+    'runtime/diagnostics/test-target-info.py',
 }
 FROZEN_HELPER = '373e54a242d2a19d8b9d41af207da1937bcddad8ee0708c0c003ff325019514f'
 
@@ -61,7 +64,7 @@ def checkout_binding():
     require(not os.environ.get('GITHUB_SHA') or os.environ['GITHUB_SHA'] == head, 'Wrong CI checkout')
     changes = subprocess.check_output(['git', 'diff', '--name-status', BASE, 'HEAD'], cwd=ROOT, text=True)
     require(set(changes.splitlines()) == {'A\t' + path for path in ADDITIONS},
-            'Instrumentation checkout must add exactly six diagnostic files')
+            'Instrumentation checkout must add exactly eight diagnostic files')
     require(subprocess.run(['git', 'diff', '--quiet', 'HEAD', '--'], cwd=ROOT).returncode == 0,
             'Tracked checkout changed')
     return {'diagnosticRevision': head, 'productRevision': BASE,
@@ -98,6 +101,11 @@ def verify_mixed(f):
             and proof['parentArchiveSha256'] == f.SPEC['sha256'], 'Wrong mixed parent')
     require(proof['onlyChangedRuntimeAsset'] == 'libecl.so' and proof['targetInfoMatches'] is True
             and proof['moduleInterfaceShapeMatches'] is True, 'Incomplete module-shape/config checks')
+    original_target = (f.FROZEN / f.RUNTIME / 'logs/target-info.lsp').read_bytes()
+    require((MIXED / 'original-target-info.lsp').read_bytes() == original_target,
+            'Mixed original target-info differs from the frozen input')
+    target_comparison = compare_target_info(original_target, (MIXED / 'instrumented-target-info.lsp').read_bytes())
+    require(proof['targetInfoComparison'] == target_comparison, 'Target-info comparison evidence changed')
     require(record(MIXED / 'instrumentation.json') == proof['sourcePatchReport'], 'Patch evidence changed')
     original = json.loads((f.FROZEN / f.RUNTIME / 'manifest.json').read_text())
     require(record(f.FROZEN / f.RUNTIME / 'manifest.json') == proof['parentManifest'], 'Parent manifest changed')
