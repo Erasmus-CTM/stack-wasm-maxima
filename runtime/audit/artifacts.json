@@ -11,14 +11,19 @@
     "sha256": "08dfcd8686e1be8da91b19c850c9668bd96e3e224df513192d3e0de023dfce74",
     "zipBytes": 214091662,
     "files": [
-      ".cache/native-build/boards.json",
-      ".cache/native-build/boards/_extensions/jsxgraph/_extension.yml",
-      ".cache/native-build/boards/_extensions/jsxgraph/graph-editor.js",
-      ".cache/native-build/boards/_extensions/jsxgraph/lua/jsxgraph.lua",
-      ".cache/native-build/boards/_extensions/jsxgraph/resources/css/jsxgraph.css",
-      ".cache/native-build/boards/_extensions/jsxgraph/resources/js/jsxgraphcore.js",
-      ".cache/native-build/boards/boards.html",
-      ".cache/native-build/boards/boards.qmd"
+      "test-results/board-mathjax-chromium.json",
+      "test-results/board-mathjax-firefox.json",
+      "test-results/board-mathjax-static-chromium.json",
+      "test-results/board-mathjax-static-firefox.json",
+      "test-results/board-mathjax-static-webkit.json",
+      "test-results/board-mathjax-webkit.json",
+      "test-results/milestone-three/board-functional-chromium-1280.json",
+      "test-results/milestone-three/board-functional-chromium-390.json",
+      "test-results/milestone-three/board-functional-firefox-1280.json",
+      "test-results/milestone-three/board-functional-firefox-390.json",
+      "test-results/milestone-three/board-functional-webkit-1280.json",
+      "test-results/milestone-three/board-functional-webkit-390.json",
+      "test-results/milestone-three/board-transfer-chromium.json"
     ]
   }
 ]
