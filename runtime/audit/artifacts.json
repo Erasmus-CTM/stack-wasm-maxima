@@ -14,53 +14,48 @@
     "ranges": [
       {
         "path": "trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json",
-        "start": 0,
-        "end": 4194304
+        "start": 41943040,
+        "end": 46137344
       },
       {
         "path": "trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json",
-        "start": 4194304,
-        "end": 8388608
+        "start": 46137344,
+        "end": 50331648
       },
       {
         "path": "trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json",
-        "start": 8388608,
-        "end": 12582912
+        "start": 50331648,
+        "end": 54525952
       },
       {
         "path": "trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json",
-        "start": 12582912,
-        "end": 16777216
+        "start": 54525952,
+        "end": 58720256
       },
       {
         "path": "trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json",
-        "start": 16777216,
-        "end": 20971520
+        "start": 58720256,
+        "end": 62914560
       },
       {
         "path": "trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json",
-        "start": 20971520,
-        "end": 25165824
+        "start": 62914560,
+        "end": 67108864
       },
       {
         "path": "trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json",
-        "start": 25165824,
-        "end": 29360128
+        "start": 67108864,
+        "end": 71303168
       },
       {
         "path": "trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json",
-        "start": 29360128,
-        "end": 33554432
+        "start": 71303168,
+        "end": 75497472
       },
       {
         "path": "trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json",
-        "start": 33554432,
-        "end": 37748736
-      },
-      {
-        "path": "trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json",
-        "start": 37748736,
-        "end": 41943040
+        "start": 75497472,
+        "end": 75610047
       }
     ]
   }
