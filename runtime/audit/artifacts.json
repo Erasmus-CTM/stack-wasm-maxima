@@ -1,24 +1,24 @@
 [
   {
-    "id": 12579700576,
-    "name": "fs-error-stack-ab-01ffcfe9d5559502df7daa9321de48c77bc56789-1",
-    "zipBytes": 36132905,
-    "sha256": "aec085c5b5e67cf59d50baa927ff166a845556ebe5d6abdb7a5e9c789492aaff",
-    "run": 40141617243,
-    "workflow": 395494340,
-    "head": "01ffcfe9d5559502df7daa9321de48c77bc56789",
+    "id": 12579452850,
+    "name": "baseline-trace-no-cpu-40143548841-1",
+    "zipBytes": 26443358,
+    "sha256": "e03d7b00bc9d58aa28d7dbc7e52580d24bdc16ac854158070c2bb9dfbc81c6c9",
+    "run": 40143548841,
+    "workflow": 395508358,
+    "head": "61abc65d4c4ac4f03122d5df161d9140e88fb5f1",
     "attempt": 1,
     "status": "completed",
     "conclusion": "success",
     "files": [
-      "derivation.json",
-      "derived-runtime-manifest.json",
-      "startup-observer-derivation.json",
-      "original-maxima.js",
-      "derived-maxima.js",
-      "derived-maxima-child.js",
-      "producer-api.json",
-      "zip-inventory.json"
+      "report.json",
+      "admission.json",
+      "identity.json",
+      "source-api-provenance.json",
+      "tool-sources.json",
+      "runner-hardware.json",
+      "node-version.txt",
+      "playwright-version.txt"
     ]
   }
 ]
