@@ -1,39 +1,20 @@
 [
   {
-    "id": 12575260011,
-    "name": "runtime-compression-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
-    "run": 40108653737,
-    "workflow": 393488033,
-    "attempt": 2,
-    "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+    "id": 12575428079,
+    "name": "no-rebuild-stack-profile-40131288849-1",
+    "zipBytes": 29534096,
+    "sha256": "14b5c98536be157d923d0f9cc23cdb42698eeffedc739d050e46f7d137dd8816",
+    "run": 40131288849,
+    "workflow": 395414190,
+    "head": "4a4450021853136eb41679a8449852f78a101a98",
+    "attempt": 1,
     "status": "completed",
-    "conclusion": "success",
-    "sha256": "6bafb181e908cfb90c258c3763be4e7a7cf6de0b3c80e4ef992e50c62fb62035",
-    "verifySidecars": true,
+    "conclusion": "failure",
     "files": [
-      ".cache/runtime-compression/artifact/artifact-manifest.json",
-      ".cache/runtime-compression/artifact/compression-artifact-manifest.json",
-      ".cache/runtime-compression/artifact/compression-manifest.json",
-      ".cache/runtime-compression/artifact/compression-recipe.json",
-      ".cache/runtime-compression/artifact/manifest.json",
-      ".cache/runtime-compression/node-provenance.json",
-      ".cache/runtime-compression/source-run.json",
-      "test-results/runtime-compression/acceptance.json",
-      "test-results/runtime-compression/br/browser.json",
-      "test-results/runtime-compression/br/reference/native-reference.json",
-      "test-results/runtime-compression/gzip/browser.json",
-      "test-results/runtime-compression/gzip/reference/native-reference.json",
-      "test-results/runtime-compression/http-probe.json",
-      "test-results/runtime-compression/br/reference/native.log",
-      "test-results/runtime-compression/br/reference/reference.mac",
-      "test-results/runtime-compression/gzip/reference/native.log",
-      "test-results/runtime-compression/gzip/reference/reference.mac",
-      ".cache/runtime-compression/artifact/source-manifest.json",
-      ".cache/runtime-compression/artifact/owned-build-run.json",
-      ".cache/runtime-compression/artifact/COMPRESSION-NOTICES.md",
-      ".cache/runtime-compression/artifact/compression-sizes.md",
-      ".cache/runtime-compression/artifact/NODE-TOOL-LICENSE"
-    ],
-    "zipBytes": 194522453
+      "identity.json",
+      "admission.json",
+      "report.json",
+      "tool-sources.json"
+    ]
   }
 ]
