@@ -1,0 +1,81 @@
+# Publish only on the separate profiling branch after independent source review.
+name: Profile accepted STACK source and compiled entry without rebuilding
+'on':
+  push:
+    branches: [profiling/e8ad-no-rebuild-stack]
+    paths:
+      - .github/workflows/no-rebuild-profile.yml
+      - runtime/profiling/no-rebuild/**
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: e8ad-no-rebuild-profile-${{ github.ref }}
+  cancel-in-progress: false
+env:
+  PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/playwright
+jobs:
+  profile:
+    if: github.repository == 'Erasmus-CTM/stack-wasm-maxima' && github.event_name == 'push' && github.ref == 'refs/heads/profiling/e8ad-no-rebuild-stack'
+    runs-on: ubuntu-24.04
+    #24 fresh trials with300s watchdogs:120min worst-case plus verification/setup.
+    timeout-minutes: 180
+    defaults:
+      run:
+        shell: bash
+        working-directory: trusted
+    steps:
+      - name: Check out the exact accepted runtime recipe
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31
+          path: trusted
+          persist-credentials: false
+      - name: Check out this separately reviewed profiling harness
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          path: profiling
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Verify accepted archives and stage exact original runtime bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python ../profiling/runtime/profiling/no-rebuild/prepare.py \
+            --trusted-root "$PWD" --profiling-root "$GITHUB_WORKSPACE/profiling" \
+            --work-root "$PWD/.cache/no-rebuild-profile"
+      - name: Install pinned Chromium harness dependencies
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          ./node_modules/.bin/playwright install --with-deps chromium
+          mkdir -p .cache/no-rebuild-profile/tools
+          for profile_tool in run.mjs stage.mjs cdp-profile.mjs child-hooks.js load-hooks.lisp probe-worker.js; do
+            cp "../profiling/runtime/profiling/no-rebuild/$profile_tool" .cache/no-rebuild-profile/tools/
+          done
+          node --version > .cache/no-rebuild-profile/evidence/node-version.txt
+          ./node_modules/.bin/playwright --version > .cache/no-rebuild-profile/evidence/playwright-version.txt
+      - name: Profile clean controls and instrumented source or compiled loading
+        timeout-minutes: 135
+        run: |
+          set -o pipefail
+          node .cache/no-rebuild-profile/tools/run.mjs \
+            --trusted-root "$PWD" --profiles-root "$PWD/.cache/no-rebuild-profile/profiles" \
+            --output "$PWD/.cache/no-rebuild-profile/evidence" --repetitions 3 --cpu-profile \
+            --admission "$PWD/.cache/no-rebuild-profile/evidence/admission.json" \
+            2>&1 | tee .cache/no-rebuild-profile/evidence/profile-driver.log
+      - name: Preserve complete and partial profiling evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: no-rebuild-stack-profile-${{ github.run_id }}-${{ github.run_attempt }}
+          path: trusted/.cache/no-rebuild-profile/evidence
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 90
+          compression-level: 6

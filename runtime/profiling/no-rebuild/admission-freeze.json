@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "component": "no-rebuild admission/workflow",
+  "revision": 2,
+  "supersedes": "admission-freeze.before-harness-copy-fix.json",
+  "files": [
+    {
+      "path": "/workspace/work/no-rebuild-profile/prepare.py",
+      "bytes": 20320,
+      "sha256": "edae9d58efd34d16a122cbfd3952d6d9ab3b1a35eb8444a94c920c43bb925ac2"
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile/no-rebuild-profile.yml",
+      "bytes": 3722,
+      "sha256": "6b63fcde4bf0b3f5be430d6dabdc7da493f1c7c82f9960d098d6ee4c71ae3c9c"
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile/test_prepare.py",
+      "bytes": 9837,
+      "sha256": "74255cf86c3d94a9f51d8b751cd5430a3a225a0869f62774383812e8ebf535fc"
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile/prepare-test-results.json",
+      "bytes": 193,
+      "sha256": "eeb817cabf5b65f204b380201bba57a660e535738e34226cf50130e3ee9c4c9b"
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile/plan.json",
+      "bytes": 6741,
+      "sha256": "c7c41f80cd6fa1c90a9bc46cb80ae8880c7e52993134c47ad9c7d8bdbae2b116"
+    }
+  ],
+  "wordingCorrection": "Plan-only CPU accounting description now explicitly distinguishes raw unvalidated Lisp run ticks from OS CPU measurements."
+}

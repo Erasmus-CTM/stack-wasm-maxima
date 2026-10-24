@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "status": "Unpublished; workflow/admission component frozen for independent source review; harness authored separately",
+  "branch": "profiling/e8ad-no-rebuild-stack",
+  "publicationPaths": {
+    "no-rebuild-profile.yml": ".github/workflows/no-rebuild-profile.yml",
+    "prepare.py": "runtime/profiling/no-rebuild/prepare.py",
+    "run.mjs": "runtime/profiling/no-rebuild/run.mjs",
+    "otherHarnessMjs": "runtime/profiling/no-rebuild/"
+  },
+  "source": {
+    "publicHead": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+    "testedMerge": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+    "tree": "0e543f936a385548a7ffd53d68930bd88c033922",
+    "workflow": 394101239,
+    "run": 40108653819,
+    "attempt": 1,
+    "wholeStatus": "completed",
+    "wholeConclusion": "success"
+  },
+  "artifacts": {
+    "baseline": {
+      "id": 12567788724,
+      "zipBytes": 214342343,
+      "sha256": "8478694866575c1b638c00bfc1abe9868b8615b02002ad8013d73524354d290b"
+    },
+    "ecl-oz": {
+      "id": 12568085269,
+      "zipBytes": 213921626,
+      "sha256": "890a9c1c6c96d915ada2c41bf85e8b3756132ea2f42d6c5d4c6d9a9357c6759d"
+    }
+  },
+  "admission": [
+    "Exact original whole successful run/attempt/head/jobs/merge tree and exact artifact IDs,names,sizes and API digests before downloads.",
+    "All token-bearing metadata/API requests reject redirects; signed HTTPS storage receives no GitHub token and also rejects further redirects.",
+    "Rehash complete downloaded ZIPs before opening. Bound,safe regular-file ZIP paths and all3404-member hashes recorded; extract complete224-file package plus precise site/bundle/measurement inputs.",
+    "Exact package closure223 delivery rows+manifest,71 recipe rows equal trusted e8ad checkout including240-budget workflow,79runtime assets,profile,pins/config/environment identity and original source-manifest all verified.",
+    "Recompute trusted compiler evidence and source-overlay transition proof using actual archived sources; no compiler/runtime binaries executed.",
+    "Rebind original77-source/timed/compiled manifest relation, trusted wrappers/translation adapters, parser declarations,translatedLisp/FAS descriptor and original passed8-trial report before profiling.",
+    "Keep source build and fresh profiling identities separate; never rewrite GITHUB_SHA or other GitHub variables."
+  ],
+  "staging": {
+    "profilesRoot": "trusted/.cache/no-rebuild-profile/profiles",
+    "paths": "{baseline,ecl-oz}/site",
+    "archiveSiteFilesEach": 7,
+    "runtimeAssetFilesEach": 79,
+    "stagedFilesEach": 87,
+    "reconstructedPreload": "runtime-preload.json is absent from both accepted full ZIPs. Reconstruct deterministic compact JSON/base64 from manifest.preload.paths and admitted runtime bytes; require exact archived manifest bytecount/SHA. Label reconstructed data, not an archived payload. No compilation.",
+    "pristineStagesRetained": true,
+    "harnessCopies": "Harness owns separate diagnostic copies under evidence/staged and records every instrumented wrapper/manifest delta."
+  },
+  "experiment": {
+    "repetitions": 3,
+    "profiles": [
+      "baseline",
+      "ecl-oz"
+    ],
+    "loadingModes": [
+      "source",
+      "precompiled"
+    ],
+    "arms": [
+      "clean-control",
+      "instrumented"
+    ],
+    "trials": 24,
+    "order": "Harness balances source/compiled and clean/instrumented arms; exact order persisted.",
+    "cpuSampling": "--cpu-profile enabled in workflow for instrumented arms; all worker targets attempted, coverage and errors explicit.",
+    "cpuAccounting": "OS process CPU usage plus raw Lisp internal run ticks and clock calibration. Lisp clocks may be stubbed or zero; report raw values/validation status and do not label them measured CPU duration without validation.",
+    "semantics": "First logical-validation result, first positive/negative question, repeated grades,warm arithmetic and retained correctness checks.",
+    "jobMinutes": 180,
+    "profilingStepMinutes": 135,
+    "trialWatchdogSeconds": 300
+  },
+  "persistence": [
+    "Raw harness output,per-trial partial evidence,profiles/traces,tool sources,original/staged hashes and API/ZIP/admission proofs.",
+    "always() upload after failure; no source artifacts reuploaded wholesale."
+  ],
+  "permissions": {
+    "contents": "read",
+    "actions": "read"
+  },
+  "limits": [
+    "No runtime rebuilds,PR13 edits,deployments,pushes or GitHub writes during preparation.",
+    "Only current accepted owned baseline/Oz runtime versus source/entry-FAS loading; no O2 or generic upstream-stock comparator in this run.",
+    "Diagnostic instrumentation may affect timings; clean controls identify observer overhead. CPU-profile symbol resolution is limited by retained artifacts and worker attachment coverage.",
+    "Profiling does not re-establish full parity admission or justify promotion by itself.",
+    "Local validation executes own-source data fixtures only; no browser/runtime/artifact execution."
+  ],
+  "componentFiles": [
+    {
+      "path": "/workspace/work/no-rebuild-profile/prepare.py",
+      "bytes": 20320,
+      "sha256": "edae9d58efd34d16a122cbfd3952d6d9ab3b1a35eb8444a94c920c43bb925ac2"
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile/no-rebuild-profile.yml",
+      "bytes": 3722,
+      "sha256": "6b63fcde4bf0b3f5be430d6dabdc7da493f1c7c82f9960d098d6ee4c71ae3c9c"
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile/test_prepare.py",
+      "bytes": 9837,
+      "sha256": "74255cf86c3d94a9f51d8b751cd5430a3a225a0869f62774383812e8ebf535fc"
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile/prepare-test-results.json",
+      "bytes": 193,
+      "sha256": "eeb817cabf5b65f204b380201bba57a660e535738e34226cf50130e3ee9c4c9b"
+    }
+  ],
+  "checks": {
+    "dataTests": {
+      "tests": 9,
+      "passed": true,
+      "failures": 0,
+      "errors": 0,
+      "scope": "Own-source data fixtures and existing decoded evidence only; no network or artifact/browser/compiler execution."
+    },
+    "pythonAST": true,
+    "yaml": true,
+    "bashNRunBlocks": 3
+  },
+  "remaining": [
+    "Independent admission/workflow source review.",
+    "Harness completion and independent review; final integrated file hashes and CLI contract verification before root publishes new profiling branch."
+  ],
+  "harnessRuntimeFiles": [
+    "run.mjs",
+    "stage.mjs",
+    "cdp-profile.mjs",
+    "child-hooks.js",
+    "load-hooks.lisp",
+    "probe-worker.js"
+  ],
+  "harnessAdmissionArgument": "--admission trusted/.cache/no-rebuild-profile/evidence/admission.json",
+  "revisionNote": "Workflow now copies exact six adjacent harness files including.js/.lisp dependencies; missing hook regression included. Explicit admission receipt passed to harness."
+}

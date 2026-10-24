@@ -1,0 +1,53 @@
+{
+  "state": "SOURCE CANDIDATE READY FOR INDEPENDENT REVIEW; no local runtime execution",
+  "files": [
+    {
+      "path": "/workspace/work/no-rebuild-profile/run.mjs",
+      "bytes": 14875,
+      "sha256": "4e8c97fb18bd0767766e21282711b43154039a77ede6d1d8f7ac02f7cfb4d685"
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile/stage.mjs",
+      "bytes": 8029,
+      "sha256": "eb150936e6e1b4a41bb1da88b90d75b0aad87c07ea21b838178e0f8d6f828a3a"
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile/cdp-profile.mjs",
+      "bytes": 5374,
+      "sha256": "dea0297a8b112e12f9f4d473138d15a0c9efaba5523737d4b9f484f68abd6ed9"
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile/child-hooks.js",
+      "bytes": 2636,
+      "sha256": "3d794430e64d55a2b4643b29c6f071e6642e9a0b57047da1a880dba6b3f4ee4f"
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile/load-hooks.lisp",
+      "bytes": 4703,
+      "sha256": "1af2eff88202e300708d744ea0b03bb63ee6b1ccbca9d71f0f1997cc3c8c87d0"
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile/probe-worker.js",
+      "bytes": 5480,
+      "sha256": "e96ad35e4c35d1ec129667bbf90cf227e3c2f609d4ce628a7a5c75ca3fea7bd0"
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile/test-harness.mjs",
+      "bytes": 6837,
+      "sha256": "c977b76ddd1048466d2baae1134c6ea24e1dce89d4f75874b884e38d54da69d0"
+    }
+  ],
+  "runtimeAllowlist": [
+    "run.mjs",
+    "stage.mjs",
+    "cdp-profile.mjs",
+    "child-hooks.js",
+    "load-hooks.lisp",
+    "probe-worker.js"
+  ],
+  "syntheticChecksPassed": 17,
+  "syntaxChecks": "All five runtime JS/MJS modules parsed; Lisp delimiters/strings/character literals checked without evaluation. Actual Lisp and CDP coverage await diagnostic CI.",
+  "existingPhaseEvidence": "/workspace/work/no-rebuild-profile/existing-phase-evidence.json",
+  "diagnosticOnly": true,
+  "acceptance": false
+}
