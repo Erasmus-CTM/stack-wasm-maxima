@@ -1,0 +1,21 @@
+error: warning: unsupported syscall: __syscall_prlimit64
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: warning: unsupported syscall: __syscall_getrusage
+
+error: Unexpected mark stack overflow
+error: Aborted(native code called abort())
+pageerror: 

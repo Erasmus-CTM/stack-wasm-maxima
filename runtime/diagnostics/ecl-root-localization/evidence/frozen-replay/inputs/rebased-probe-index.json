@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "officialPrepared": {
+    "bytes": 1956873,
+    "sha256": "e9e3b011d591fab150ef186858dc1225244360cd4f2e28f5c42e69f6594b04f9"
+  },
+  "pins": [
+    {
+      "stackRevision": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+      "compiledStack": {
+        "schema": 1,
+        "mode": "entry-fas",
+        "stackRevision": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+        "sourcePath": "stack/maxima/stackmaxima.mac",
+        "sourceSha256": "35d315d776296b8c3ac3b5029984911bc97bc209340b5894916c7c817f765f10",
+        "translatedLispSha256": "08bb0c41a6137e52e30cb06200e6ee0f3587562ab3f24aeb3faefca6685ca3d7",
+        "bundleProvenanceSha256": "4b2eedcce6fd504d644600bae50b428150fd9ae65f3c8c83aaa059392aa772a7",
+        "translationAdapter": {
+          "mode": "symbolic-assignment-hooks+packagefile+pinned-parser-declarations+targeted-texcolor-texcolorplain-nounor-apply-dispatch",
+          "path": "display2d-bridge.lisp",
+          "fileBytes": 761,
+          "sha256": "a35a207a820e61db53e1454719fa44c1ffcb81bcd8d653c1ce7c334cbd9f1479",
+          "processAdapter": {
+            "path": "assignment-adapter.lisp",
+            "fileBytes": 4525,
+            "sha256": "c7cfb8d6645d9d8cd0896b4f90781001a794ea927c6d8436cbf8db717427c695"
+          },
+          "parserBootstrap": {
+            "schema": 1,
+            "stackRevision": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+            "scope": "Translation-process parser declarations only; target dependency loads and upstream files are unchanged",
+            "source": {
+              "path": "stack/maxima/assessment.mac",
+              "bytes": 116099,
+              "sha256": "2d69d86e3ae2e097f254a69da322b9bc6117d40dab2451ab8f9d62c353143864",
+              "start": 54055,
+              "end": 54320
+            },
+            "file": {
+              "path": "parser-declarations.mac",
+              "bytes": 265,
+              "sha256": "5330a2932f2a6d33bd3645637f89ad8e12aeea54f3bc543700f18d50e203137b"
+            }
+          },
+          "parserBootstrapMetadataSha256": "c24f7b2c557c7763e84162be2c8a13461e25f7876facc9ea0bf0ca4859862dc8"
+        },
+        "originalLoaderSha256": "9f16f2addeaf1bf13a5364b86a9d6dc424dea94fb50deb9d640f79deb8cba7d9",
+        "overlayLoaderSha256": "0e0f3e76f73c3cdb383ecaeafbc2a7bf0586ac910d8e790f5652fd5625d570f8",
+        "asset": {
+          "path": "stackmaxima.fas",
+          "fileBytes": 2644359,
+          "sha256": "a069425e283bb513250ffb9b5edcf47d4f6990b8b8ca8cf896d28212a387cfbe"
+        }
+      },
+      "manifest": {
+        "path": "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/mark-stack-replay/frozen/.cache/precompiled-probes/10d323311b7f39fb7b092dd10ce75f7d8632f525/stack-sources-precompiled.json",
+        "bytes": 927283,
+        "sha256": "a0a8aafdeee5967853a2e84daac6cb26933cd93315a7689e7370aeab80aeae8b"
+      },
+      "bundlePath": "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/mark-stack-replay/frozen/.cache/precompiled-probes/10d323311b7f39fb7b092dd10ce75f7d8632f525/maxima-runtime/stackmaxima.fas"
+    },
+    {
+      "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+      "compiledStack": {
+        "schema": 1,
+        "mode": "entry-fas",
+        "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "sourcePath": "stack/maxima/stackmaxima.mac",
+        "sourceSha256": "7dce85b0c4949944e1963e87b07310356ef93b93d99c1f318f1db1df3cc8d359",
+        "translatedLispSha256": "a3489edff3e1a0d5b537f0c28d26bdefae593b7b9589d8d7b8f677217a90b77e",
+        "bundleProvenanceSha256": "07fdcd5ef3d4ed632e97bb74ed1e373925c739f7b7c0ca7db50c436b4c2f2b52",
+        "translationAdapter": {
+          "mode": "symbolic-assignment-hooks+packagefile+pinned-parser-declarations+targeted-texcolor-texcolorplain-nounor-apply-dispatch",
+          "path": "display2d-bridge.lisp",
+          "fileBytes": 761,
+          "sha256": "a35a207a820e61db53e1454719fa44c1ffcb81bcd8d653c1ce7c334cbd9f1479",
+          "processAdapter": {
+            "path": "assignment-adapter.lisp",
+            "fileBytes": 4525,
+            "sha256": "c7cfb8d6645d9d8cd0896b4f90781001a794ea927c6d8436cbf8db717427c695"
+          },
+          "parserBootstrap": {
+            "schema": 1,
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "scope": "Translation-process parser declarations only; target dependency loads and upstream files are unchanged",
+            "source": {
+              "path": "stack/maxima/assessment.mac",
+              "bytes": 116032,
+              "sha256": "d45f18db6bbb0b85fee9e2724276cfa1f92998f9d1db3c4115b5ab05835f9978",
+              "start": 54055,
+              "end": 54253
+            },
+            "file": {
+              "path": "parser-declarations.mac",
+              "bytes": 198,
+              "sha256": "9b815714cb1c2c9720078412242d1ecf1b398a3772f2df2fc109734227738b9c"
+            }
+          },
+          "parserBootstrapMetadataSha256": "458e7e04888fcd24ae0b663d680835cb94e30737f79668a7051daaa2db43e6aa"
+        },
+        "originalLoaderSha256": "9f16f2addeaf1bf13a5364b86a9d6dc424dea94fb50deb9d640f79deb8cba7d9",
+        "overlayLoaderSha256": "0e0f3e76f73c3cdb383ecaeafbc2a7bf0586ac910d8e790f5652fd5625d570f8",
+        "asset": {
+          "path": "stackmaxima.fas",
+          "fileBytes": 2626498,
+          "sha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89"
+        }
+      },
+      "manifest": {
+        "path": "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/mark-stack-replay/frozen/.cache/precompiled-probes/33383047af39c204bf4442802a058f8b918b2b1b/stack-sources-precompiled.json",
+        "bytes": 952079,
+        "sha256": "8f1bf9e2db50bb2e29b7200e503c00ae96b5f870a08c1efb4c38f2ff9ad4fe26"
+      },
+      "bundlePath": "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/mark-stack-replay/frozen/.cache/precompiled-probes/33383047af39c204bf4442802a058f8b918b2b1b/maxima-runtime/stackmaxima.fas"
+    }
+  ]
+}

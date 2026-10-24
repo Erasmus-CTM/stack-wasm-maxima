@@ -1,0 +1,6705 @@
+{
+  "schema": 2,
+  "createdAt": "2026-10-24T02:41:42.753Z",
+  "sourceRevision": "580019b25ae0be764fae181066c932ff499c0865",
+  "scope": "Opt-in local HTTP measurement with a fresh Chromium process/profile per candidate/repetition pair and one same-profile reload: four fresh profiles and eight cold/reload samples in the full matrix. Alternating order limits runner warming bias but does not remove it. Initial readiness includes Maxima and STACK; warm calls reuse that worker. Every trial then performs three full CAS session restarts in the same page/profile with warm caches, before the next same-profile page reload. Restart readiness is separate. lifecycleEncodedBodyBytes sums server-accounted response-body bytes across all four initializations and checks, not initial startup alone. The server records queued bodies before response finish; this total does not prove completed wire transfer or include internet traffic.",
+  "restartProtocol": {
+    "schema": 1,
+    "kind": "full-session-restart",
+    "scope": "Fresh CAS worker and heap in the same page/profile. Raw same-worker stack_reset remains unsupported and unresolved; this does not prove general per-question isolation.",
+    "officialFixture": {
+      "repository": "maths/moodle-qtype_stack",
+      "pins": [
+        "33383047af39c204bf4442802a058f8b918b2b1b",
+        "10d323311b7f39fb7b092dd10ce75f7d8632f525"
+      ],
+      "path": "tests/fixtures/answertestfixtures.class.php",
+      "blob": "95b01a768c5cd227edee417949e8ea99fab684be"
+    },
+    "checks": [
+      {
+        "name": "first-call-logical-validation",
+        "expression": "block([simp:false,assume_pos:false,assume_real:false,%ERR:[\"stack_map\"],%NOTES:[\"stack_map\"],%FEEDBACK:[\"stack_map\"],%stmt:\"ctm-native\",_ctm_s,_ctm_t,_ctm_v,_ctm_lines:[],_ctm_stream,_ctm_line,_ctm_good,_ctm_path:sconcat(maxima_tempdir,\"/ctm-restart-logical-validation.txt\")],_ctm_t:eval_string(\"(x<0) nounor ((x>0) nounand (x<2))\"),_ctm_s:eval_string(\"(x#0) nounand (x<2)\"),with_stdout(_ctm_path,_ctm_v:stack_validate([_ctm_s],false,_ctm_t,0)),_ctm_stream:openr(_ctm_path),_ctm_line:readline(_ctm_stream),while not is(_ctm_line=false) do (if slength(_ctm_line)>0 then _ctm_lines:endcons(_ctm_line,_ctm_lines),_ctm_line:readline(_ctm_stream)),close(_ctm_stream),if length(%ERR)>1 then _ctm_lines:endcons(\"Native STACK could not evaluate this expression\",_ctm_lines),_ctm_good:is(_ctm_lines=[] and length(%ERR)=1),[_ctm_good,_ctm_lines,length(%ERR),is(tr_warn_bad_function_calls=true)])",
+        "expected": [
+          true,
+          [],
+          1,
+          true
+        ]
+      },
+      {
+        "name": "noun-isolation",
+        "expression": "block([a,b,c],a:ATAlgEquiv(noundiff(y,x),0),b:ATAlgEquivNouns(noundiff(y,x),0),c:ATAlgEquiv(noundiff(y,x),0),[a[1],a[2],b[1],b[2],c[1],c[2],algebraic_equivalence_nounsp])",
+        "expected": [
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "name": "direct-noun-equivalence",
+        "expression": "algebraic_equivalence(noundiff(y,x),0)",
+        "expected": true
+      },
+      {
+        "name": "pm-structure",
+        "expression": "block([p:parse_string(\"x#pm#y\"),q:parse_string(\"#pm#y\")],[is(op(p)=\"#pm#\"),is(args(p)=[x,y]),is(op(q)=\"#pm#\"),is(args(q)=[y])])",
+        "expected": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "name": "pm-replacement",
+        "expression": "block([p:parse_string(\"x#pm#y\")],[is(count_op(p,STACKpmOPT)=1),is(pm_replace(p)=parse_string(\"(x+y) nounor (x-y)\"))])",
+        "expected": [
+          true,
+          true
+        ]
+      },
+      {
+        "name": "pm-display",
+        "expression": "[tex1(parse_string(\"x#pm#y\")),tex1(parse_string(\"#pm#y\"))]",
+        "expected": [
+          "{x \\pm y}",
+          " \\pm y"
+        ]
+      },
+      {
+        "name": "pm-unary-rewrite",
+        "expression": "is(ev(parse_string(\"-(x#pm#y)\"),simp)=ev(parse_string(\"-x#pm#y\"),simp))",
+        "expected": true
+      },
+      {
+        "name": "pm-positive",
+        "expression": "block([r:ATAlgEquiv(parse_string(\"sin(x#pm#y)\"),parse_string(\"sin(x)*cos(y)#pm#cos(x)*sin(y)\"))],[r[1],r[2]])",
+        "expected": [
+          true,
+          true
+        ]
+      },
+      {
+        "name": "pm-negative",
+        "expression": "block([r:ATAlgEquiv(parse_string(\"sin(x#pm#y)\"),parse_string(\"cos(x)*sin(y)#pm#sin(x)*cos(y)\"))],[r[1],r[2]])",
+        "expected": [
+          true,
+          false
+        ]
+      },
+      {
+        "name": "number-display",
+        "expression": "tex1(42)",
+        "expected": "42"
+      }
+    ],
+    "basis": "Official fixtures provide the noun and plus/minus equivalence cases. The first-call compound logical-validation regression uses the native engine's stdout/error acceptance boundary and runs before warmups or grading in every fresh generation. Parser, policy, display and validation controls are source-derived; they are not additional official cases.",
+    "sha256": "2c2d07a78c01c8d04c89f214a02a5ef67b94fe7ec05e102096c2a955a64d7e72",
+    "bytes": 3955
+  },
+  "files": [
+    {
+      "path": "stack-sources.json",
+      "bytes": 987162,
+      "sha256": "50fa5e8e0e8171769f5070c2790352a356fd992f24d0fa3dc709adccf437ae44"
+    },
+    {
+      "path": "stack-sources-timed-source.json",
+      "bytes": 987230,
+      "sha256": "61f6b10d2b8b0377e8137a2ee7f782004d3feda39e53d105a82a1641abf74bab"
+    },
+    {
+      "path": "stack-sources-precompiled.json",
+      "bytes": 989084,
+      "sha256": "721078df87b976343a5651f98c1af5226faa316252111a9d4daaabc8fdc408f5"
+    },
+    {
+      "path": "maxima-runtime/stackmaxima.fas",
+      "bytes": 2626498,
+      "sha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89"
+    },
+    {
+      "path": "runtime/maxima-child.js",
+      "bytes": 12159,
+      "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+    },
+    {
+      "path": "runtime/maxima-session.js",
+      "bytes": 14344,
+      "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+    }
+  ],
+  "samples": [
+    {
+      "repetition": 1,
+      "candidate": "source",
+      "mode": "cold",
+      "ok": true,
+      "phase": "complete",
+      "restartKind": "full-session-restart",
+      "restarts": [
+        {
+          "generation": 1,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 38024.04000000004,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 252.27499999990687,
+              "preloadedFiles": 67,
+              "wasmReadyMs": 737.7050000000745,
+              "stackLoadStartedMs": 8421.53000000026,
+              "stackLoadEndedMs": 38000.205000000075,
+              "stackLoadMs": 29578.674999999814,
+              "readyMs": 38006.50499999989
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 38024.06999999983,
+          "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 98.68500000005588
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 35.59999999962747
+          }
+        },
+        {
+          "generation": 2,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 37833.935000000056,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 253.49500000011176,
+              "preloadedFiles": 67,
+              "wasmReadyMs": 740.4050000002608,
+              "stackLoadStartedMs": 8425.120000000112,
+              "stackLoadEndedMs": 37809.455000000075,
+              "stackLoadMs": 29384.334999999963,
+              "readyMs": 37816.35499999998
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 37833.970000000205,
+          "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 99.02499999990687
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 35.14500000001863
+          }
+        },
+        {
+          "generation": 3,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 37984.64500000002,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 255.25,
+              "preloadedFiles": 67,
+              "wasmReadyMs": 726.0300000002608,
+              "stackLoadStartedMs": 8354.740000000224,
+              "stackLoadEndedMs": 37961.11500000022,
+              "stackLoadMs": 29606.375,
+              "readyMs": 37967.41500000004
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 37984.674999999814,
+          "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 99.46500000031665
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 35.60000000009313
+          }
+        }
+      ],
+      "generation": 0,
+      "initialization": {
+        "elapsedMs": 37601.87000000011,
+        "maximaVersion": "branch_5_49_base_90_g813903d33",
+        "stages": {
+          "preloadMs": 329.61499999975786,
+          "preloadedFiles": 67,
+          "wasmReadyMs": 1301.3299999996088,
+          "stackLoadStartedMs": 7485.7249999996275,
+          "stackLoadEndedMs": 37543.00999999978,
+          "stackLoadMs": 30057.28500000015,
+          "readyMs": 37549.47499999963
+        },
+        "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "stackLibraryVersion": "2026101500"
+      },
+      "readyMs": 37602.0549999997,
+      "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+      "version": 2026101500,
+      "policy": [
+        "#pm#",
+        true,
+        true,
+        true,
+        false,
+        "~d",
+        "~a",
+        ".",
+        true,
+        true
+      ],
+      "checks": [
+        {
+          "name": "first-call-logical-validation",
+          "result": [
+            true,
+            [
+              true,
+              [],
+              1,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "noun-isolation",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "direct-noun-equivalence",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-structure",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-replacement",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-display",
+          "result": [
+            true,
+            [
+              "{x \\pm y}",
+              " \\pm y"
+            ]
+          ]
+        },
+        {
+          "name": "pm-unary-rewrite",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-positive",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-negative",
+          "result": [
+            true,
+            [
+              true,
+              false
+            ]
+          ]
+        },
+        {
+          "name": "number-display",
+          "result": [
+            true,
+            "42"
+          ]
+        }
+      ],
+      "warmCalls": [
+        {
+          "value": 42,
+          "elapsedMs": 8.5
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.984999999869615
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.559999999590218
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.415000000037253
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.399999999906868
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.384999999776483
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.539999999571592
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.299999999813735
+        },
+        {
+          "value": 42,
+          "elapsedMs": 9.300000000279397
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.915000000037253
+        }
+      ],
+      "grade": {
+        "cas_valid": true,
+        "correct": true,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 101.02999999979511
+      },
+      "negativeGrade": {
+        "cas_valid": true,
+        "correct": false,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 34.71999999973923
+      },
+      "expectedVersion": "2026101500",
+      "requests": [
+        {
+          "pathname": "/precompiled-measure.html",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "identity",
+          "encodedBodyBytes": 54,
+          "decodedFileBytes": 54,
+          "sha256": "33225608a2256116facf00d28025485a462197011ec53f2e1c60026723bd065c"
+        },
+        {
+          "pathname": "/precompiled-measure-worker.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 3534,
+          "decodedFileBytes": 10371,
+          "sha256": "abc4dba62a1346a0726aba104f6a75851fb80355b859c87edae93e867331e437"
+        },
+        {
+          "pathname": "/runtime/maxima-session.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 4094,
+          "decodedFileBytes": 14344,
+          "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+        },
+        {
+          "pathname": "/stack-sources-timed-source.json",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 224120,
+          "decodedFileBytes": 987230,
+          "sha256": "61f6b10d2b8b0377e8137a2ee7f782004d3feda39e53d105a82a1641abf74bab"
+        },
+        {
+          "pathname": "/runtime/maxima-child.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 3886,
+          "decodedFileBytes": 12159,
+          "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+        },
+        {
+          "pathname": "/maxima-runtime/runtime-preload.json",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 830952,
+          "decodedFileBytes": 3470156,
+          "sha256": "a33d93f356b01ef40b578b5c9d52d96e0e310ed9b4d8e9960e7b971d0876a679"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima_thread.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 874,
+          "decodedFileBytes": 3229,
+          "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 236381,
+          "decodedFileBytes": 1239434,
+          "sha256": "385763ca1038fac02e8f7d247a8d808997238b03ba1919ce2f4dcec482fdb101"
+        },
+        {
+          "pathname": "/maxima-runtime/share_files.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 27843,
+          "decodedFileBytes": 528107,
+          "sha256": "e07cdd6ef8eac3ee63869a1f9c0e5cb3ec30f7f538f3dadd764e248e404a6057"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima.wasm",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 5165347,
+          "decodedFileBytes": 23626720,
+          "sha256": "81e11f42263f3e120e32872b00822e9a89c81dc700d8ad328b9551109b93aa37"
+        },
+        {
+          "pathname": "/maxima-runtime/libecl.so",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 2366041,
+          "decodedFileBytes": 7967119,
+          "sha256": "fafd807fcb5f68a01135694421b1bb5006476de078aeba0c7c8fdfe7dec9aee6"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima-solve.fas",
+          "method": "HEAD",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 0,
+          "decodedFileBytes": 1373890,
+          "sha256": "1e65d81b1de944be97717a5d694df7e0e97a8f11043e4db9c74ef245db336e93"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima-solve.fas",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 254124,
+          "decodedFileBytes": 1373890,
+          "sha256": "1e65d81b1de944be97717a5d694df7e0e97a8f11043e4db9c74ef245db336e93"
+        }
+      ],
+      "lifecycleEncodedBodyBytes": 9117250
+    },
+    {
+      "repetition": 1,
+      "candidate": "source",
+      "mode": "warm-profile-reload",
+      "ok": true,
+      "phase": "complete",
+      "restartKind": "full-session-restart",
+      "restarts": [
+        {
+          "generation": 1,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 37925.87000000011,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 259.3599999998696,
+              "preloadedFiles": 67,
+              "wasmReadyMs": 750.5249999999069,
+              "stackLoadStartedMs": 8405.444999999832,
+              "stackLoadEndedMs": 37901.3049999997,
+              "stackLoadMs": 29495.85999999987,
+              "readyMs": 37908.00999999978
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 37925.90999999968,
+          "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 100.83999999985099
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 35.19499999983236
+          }
+        },
+        {
+          "generation": 2,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 37930.29500000039,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 255.375,
+              "preloadedFiles": 67,
+              "wasmReadyMs": 728.5849999999627,
+              "stackLoadStartedMs": 8348.475000000093,
+              "stackLoadEndedMs": 37907.255000000354,
+              "stackLoadMs": 29558.78000000026,
+              "readyMs": 37913.40000000037
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 37930.314999999944,
+          "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 99.49000000022352
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 35.515000000130385
+          }
+        },
+        {
+          "generation": 3,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 37762.330000000075,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 261.59499999973923,
+              "preloadedFiles": 67,
+              "wasmReadyMs": 736.3999999999069,
+              "stackLoadStartedMs": 8360.080000000075,
+              "stackLoadEndedMs": 37738.04000000004,
+              "stackLoadMs": 29377.959999999963,
+              "readyMs": 37744.439999999944
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 37762.35000000009,
+          "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 97.29000000003725
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 34.43500000005588
+          }
+        }
+      ],
+      "generation": 0,
+      "initialization": {
+        "elapsedMs": 38008.66500000004,
+        "maximaVersion": "branch_5_49_base_90_g813903d33",
+        "stages": {
+          "preloadMs": 252.910000000149,
+          "preloadedFiles": 67,
+          "wasmReadyMs": 732.0250000003725,
+          "stackLoadStartedMs": 8411.920000000391,
+          "stackLoadEndedMs": 37984.77500000037,
+          "stackLoadMs": 29572.85499999998,
+          "readyMs": 37991.200000000186
+        },
+        "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "stackLibraryVersion": "2026101500"
+      },
+      "readyMs": 38008.825000000186,
+      "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+      "version": 2026101500,
+      "policy": [
+        "#pm#",
+        true,
+        true,
+        true,
+        false,
+        "~d",
+        "~a",
+        ".",
+        true,
+        true
+      ],
+      "checks": [
+        {
+          "name": "first-call-logical-validation",
+          "result": [
+            true,
+            [
+              true,
+              [],
+              1,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "noun-isolation",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "direct-noun-equivalence",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-structure",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-replacement",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-display",
+          "result": [
+            true,
+            [
+              "{x \\pm y}",
+              " \\pm y"
+            ]
+          ]
+        },
+        {
+          "name": "pm-unary-rewrite",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-positive",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-negative",
+          "result": [
+            true,
+            [
+              true,
+              false
+            ]
+          ]
+        },
+        {
+          "name": "number-display",
+          "result": [
+            true,
+            "42"
+          ]
+        }
+      ],
+      "warmCalls": [
+        {
+          "value": 42,
+          "elapsedMs": 7.975000000093132
+        },
+        {
+          "value": 42,
+          "elapsedMs": 7.8549999999813735
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.09499999973923
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.334999999962747
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.31499999994412
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.234999999869615
+        },
+        {
+          "value": 42,
+          "elapsedMs": 81.70999999996275
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.419999999925494
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.610000000335276
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.089999999850988
+        }
+      ],
+      "grade": {
+        "cas_valid": true,
+        "correct": true,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 98.52000000001863
+      },
+      "negativeGrade": {
+        "cas_valid": true,
+        "correct": false,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 34.6300000003539
+      },
+      "expectedVersion": "2026101500",
+      "requests": [
+        {
+          "pathname": "/precompiled-measure.html",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "identity",
+          "encodedBodyBytes": 54,
+          "decodedFileBytes": 54,
+          "sha256": "33225608a2256116facf00d28025485a462197011ec53f2e1c60026723bd065c"
+        }
+      ],
+      "lifecycleEncodedBodyBytes": 54
+    },
+    {
+      "repetition": 1,
+      "candidate": "precompiled",
+      "mode": "cold",
+      "ok": true,
+      "phase": "complete",
+      "restartKind": "full-session-restart",
+      "restarts": [
+        {
+          "generation": 1,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 39957.45999999996,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 282.5150000001304,
+              "preloadedFiles": 67,
+              "compiledStackBytes": 2626498,
+              "wasmReadyMs": 769.8849999997765,
+              "compiledStackMounted": true,
+              "compiledStackOpens": 1,
+              "compiledSourceEntryOpens": 0,
+              "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+              "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+              "stackLoadStartedMs": 8458.384999999776,
+              "stackLoadEndedMs": 39933.60499999998,
+              "stackLoadMs": 31475.220000000205,
+              "readyMs": 39940.080000000075
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 39957.48999999976,
+          "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 98.39500000001863
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 36.47499999962747
+          }
+        },
+        {
+          "generation": 2,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 39922.04000000004,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 281.7050000000745,
+              "preloadedFiles": 67,
+              "compiledStackBytes": 2626498,
+              "wasmReadyMs": 755.8300000000745,
+              "compiledStackMounted": true,
+              "compiledStackOpens": 1,
+              "compiledSourceEntryOpens": 0,
+              "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+              "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+              "stackLoadStartedMs": 8416.505000000354,
+              "stackLoadEndedMs": 39898.89000000013,
+              "stackLoadMs": 31482.384999999776,
+              "readyMs": 39905.47999999998
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 39922.05999999959,
+          "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 97.42999999970198
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 36.35499999998137
+          }
+        },
+        {
+          "generation": 3,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 39871.794999999925,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 284.75499999988824,
+              "preloadedFiles": 67,
+              "compiledStackBytes": 2626498,
+              "wasmReadyMs": 768.0500000002794,
+              "compiledStackMounted": true,
+              "compiledStackOpens": 1,
+              "compiledSourceEntryOpens": 0,
+              "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+              "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+              "stackLoadStartedMs": 8453.455000000075,
+              "stackLoadEndedMs": 39846.65500000026,
+              "stackLoadMs": 31393.200000000186,
+              "readyMs": 39852.814999999944
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 39871.81999999983,
+          "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 95.01000000024214
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 34.39500000001863
+          }
+        }
+      ],
+      "generation": 0,
+      "initialization": {
+        "elapsedMs": 41523.03000000026,
+        "maximaVersion": "branch_5_49_base_90_g813903d33",
+        "stages": {
+          "preloadMs": 359.46999999973923,
+          "preloadedFiles": 67,
+          "compiledStackBytes": 2626498,
+          "wasmReadyMs": 891.1850000000559,
+          "compiledStackMounted": true,
+          "compiledStackOpens": 1,
+          "compiledSourceEntryOpens": 0,
+          "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+          "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+          "stackLoadStartedMs": 9438.674999999814,
+          "stackLoadEndedMs": 41464.1799999997,
+          "stackLoadMs": 32025.50499999989,
+          "readyMs": 41470.75999999978
+        },
+        "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "stackLibraryVersion": "2026101500"
+      },
+      "readyMs": 41523.1799999997,
+      "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+      "version": 2026101500,
+      "policy": [
+        "#pm#",
+        true,
+        true,
+        true,
+        false,
+        "~d",
+        "~a",
+        ".",
+        true,
+        true
+      ],
+      "checks": [
+        {
+          "name": "first-call-logical-validation",
+          "result": [
+            true,
+            [
+              true,
+              [],
+              1,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "noun-isolation",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "direct-noun-equivalence",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-structure",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-replacement",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-display",
+          "result": [
+            true,
+            [
+              "{x \\pm y}",
+              " \\pm y"
+            ]
+          ]
+        },
+        {
+          "name": "pm-unary-rewrite",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-positive",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-negative",
+          "result": [
+            true,
+            [
+              true,
+              false
+            ]
+          ]
+        },
+        {
+          "name": "number-display",
+          "result": [
+            true,
+            "42"
+          ]
+        }
+      ],
+      "warmCalls": [
+        {
+          "value": 42,
+          "elapsedMs": 8.704999999608845
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.390000000130385
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.244999999646097
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.375
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.325000000186265
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.194999999832362
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.479999999981374
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.194999999832362
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.459999999962747
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.600000000093132
+        }
+      ],
+      "grade": {
+        "cas_valid": true,
+        "correct": true,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 99.99000000022352
+      },
+      "negativeGrade": {
+        "cas_valid": true,
+        "correct": false,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 32.39500000001863
+      },
+      "expectedVersion": "2026101500",
+      "requests": [
+        {
+          "pathname": "/precompiled-measure.html",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "identity",
+          "encodedBodyBytes": 54,
+          "decodedFileBytes": 54,
+          "sha256": "33225608a2256116facf00d28025485a462197011ec53f2e1c60026723bd065c"
+        },
+        {
+          "pathname": "/precompiled-measure-worker.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 3534,
+          "decodedFileBytes": 10371,
+          "sha256": "abc4dba62a1346a0726aba104f6a75851fb80355b859c87edae93e867331e437"
+        },
+        {
+          "pathname": "/runtime/maxima-session.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 4094,
+          "decodedFileBytes": 14344,
+          "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+        },
+        {
+          "pathname": "/stack-sources-precompiled.json",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 224984,
+          "decodedFileBytes": 989084,
+          "sha256": "721078df87b976343a5651f98c1af5226faa316252111a9d4daaabc8fdc408f5"
+        },
+        {
+          "pathname": "/runtime/maxima-child.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 3886,
+          "decodedFileBytes": 12159,
+          "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+        },
+        {
+          "pathname": "/maxima-runtime/runtime-preload.json",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 830952,
+          "decodedFileBytes": 3470156,
+          "sha256": "a33d93f356b01ef40b578b5c9d52d96e0e310ed9b4d8e9960e7b971d0876a679"
+        },
+        {
+          "pathname": "/maxima-runtime/stackmaxima.fas",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 508957,
+          "decodedFileBytes": 2626498,
+          "sha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima_thread.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 874,
+          "decodedFileBytes": 3229,
+          "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 236381,
+          "decodedFileBytes": 1239434,
+          "sha256": "385763ca1038fac02e8f7d247a8d808997238b03ba1919ce2f4dcec482fdb101"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima.wasm",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 5165347,
+          "decodedFileBytes": 23626720,
+          "sha256": "81e11f42263f3e120e32872b00822e9a89c81dc700d8ad328b9551109b93aa37"
+        },
+        {
+          "pathname": "/maxima-runtime/share_files.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 27843,
+          "decodedFileBytes": 528107,
+          "sha256": "e07cdd6ef8eac3ee63869a1f9c0e5cb3ec30f7f538f3dadd764e248e404a6057"
+        },
+        {
+          "pathname": "/maxima-runtime/libecl.so",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 2366041,
+          "decodedFileBytes": 7967119,
+          "sha256": "fafd807fcb5f68a01135694421b1bb5006476de078aeba0c7c8fdfe7dec9aee6"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima-solve.fas",
+          "method": "HEAD",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 0,
+          "decodedFileBytes": 1373890,
+          "sha256": "1e65d81b1de944be97717a5d694df7e0e97a8f11043e4db9c74ef245db336e93"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima-solve.fas",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 254124,
+          "decodedFileBytes": 1373890,
+          "sha256": "1e65d81b1de944be97717a5d694df7e0e97a8f11043e4db9c74ef245db336e93"
+        }
+      ],
+      "lifecycleEncodedBodyBytes": 9627071
+    },
+    {
+      "repetition": 1,
+      "candidate": "precompiled",
+      "mode": "warm-profile-reload",
+      "ok": true,
+      "phase": "complete",
+      "restartKind": "full-session-restart",
+      "restarts": [
+        {
+          "generation": 1,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 39784.60499999998,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 284.8549999999814,
+              "preloadedFiles": 67,
+              "compiledStackBytes": 2626498,
+              "wasmReadyMs": 765.6899999999441,
+              "compiledStackMounted": true,
+              "compiledStackOpens": 1,
+              "compiledSourceEntryOpens": 0,
+              "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+              "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+              "stackLoadStartedMs": 8416.875,
+              "stackLoadEndedMs": 39760.439999999944,
+              "stackLoadMs": 31343.564999999944,
+              "readyMs": 39766.9299999997
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 39784.63499999978,
+          "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 97.46499999985099
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 33.09500000020489
+          }
+        },
+        {
+          "generation": 2,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 39929.61499999976,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 285.36499999975786,
+              "preloadedFiles": 67,
+              "compiledStackBytes": 2626498,
+              "wasmReadyMs": 782.875,
+              "compiledStackMounted": true,
+              "compiledStackOpens": 1,
+              "compiledSourceEntryOpens": 0,
+              "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+              "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+              "stackLoadStartedMs": 8477.569999999832,
+              "stackLoadEndedMs": 39905.669999999925,
+              "stackLoadMs": 31428.100000000093,
+              "readyMs": 39911.86499999976
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 39929.64500000002,
+          "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 96.46500000031665
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 33.44500000029802
+          }
+        },
+        {
+          "generation": 3,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 39967.799999999814,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 282.0950000002049,
+              "preloadedFiles": 67,
+              "compiledStackBytes": 2626498,
+              "wasmReadyMs": 747.4599999999627,
+              "compiledStackMounted": true,
+              "compiledStackOpens": 1,
+              "compiledSourceEntryOpens": 0,
+              "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+              "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+              "stackLoadStartedMs": 8404.964999999851,
+              "stackLoadEndedMs": 39944.4299999997,
+              "stackLoadMs": 31539.46499999985,
+              "readyMs": 39950.55999999959
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 39967.825000000186,
+          "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 94.74500000011176
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 32.92999999970198
+          }
+        }
+      ],
+      "generation": 0,
+      "initialization": {
+        "elapsedMs": 39753.12999999989,
+        "maximaVersion": "branch_5_49_base_90_g813903d33",
+        "stages": {
+          "preloadMs": 283.75,
+          "preloadedFiles": 67,
+          "compiledStackBytes": 2626498,
+          "wasmReadyMs": 774.1549999997951,
+          "compiledStackMounted": true,
+          "compiledStackOpens": 1,
+          "compiledSourceEntryOpens": 0,
+          "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+          "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+          "stackLoadStartedMs": 8453.674999999814,
+          "stackLoadEndedMs": 39728.40999999968,
+          "stackLoadMs": 31274.73499999987,
+          "readyMs": 39735.12999999989
+        },
+        "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "stackLibraryVersion": "2026101500"
+      },
+      "readyMs": 39753.28000000026,
+      "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+      "version": 2026101500,
+      "policy": [
+        "#pm#",
+        true,
+        true,
+        true,
+        false,
+        "~d",
+        "~a",
+        ".",
+        true,
+        true
+      ],
+      "checks": [
+        {
+          "name": "first-call-logical-validation",
+          "result": [
+            true,
+            [
+              true,
+              [],
+              1,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "noun-isolation",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "direct-noun-equivalence",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-structure",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-replacement",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-display",
+          "result": [
+            true,
+            [
+              "{x \\pm y}",
+              " \\pm y"
+            ]
+          ]
+        },
+        {
+          "name": "pm-unary-rewrite",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-positive",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-negative",
+          "result": [
+            true,
+            [
+              true,
+              false
+            ]
+          ]
+        },
+        {
+          "name": "number-display",
+          "result": [
+            true,
+            "42"
+          ]
+        }
+      ],
+      "warmCalls": [
+        {
+          "value": 42,
+          "elapsedMs": 8.040000000037253
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.165000000037253
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.040000000037253
+        },
+        {
+          "value": 42,
+          "elapsedMs": 7.964999999850988
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.260000000242144
+        },
+        {
+          "value": 42,
+          "elapsedMs": 7.949999999720603
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.28499999968335
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.18999999994412
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.260000000242144
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.625
+        }
+      ],
+      "grade": {
+        "cas_valid": true,
+        "correct": true,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 95.57999999960884
+      },
+      "negativeGrade": {
+        "cas_valid": true,
+        "correct": false,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 32.794999999925494
+      },
+      "expectedVersion": "2026101500",
+      "requests": [
+        {
+          "pathname": "/precompiled-measure.html",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "identity",
+          "encodedBodyBytes": 54,
+          "decodedFileBytes": 54,
+          "sha256": "33225608a2256116facf00d28025485a462197011ec53f2e1c60026723bd065c"
+        }
+      ],
+      "lifecycleEncodedBodyBytes": 54
+    },
+    {
+      "repetition": 2,
+      "candidate": "precompiled",
+      "mode": "cold",
+      "ok": true,
+      "phase": "complete",
+      "restartKind": "full-session-restart",
+      "restarts": [
+        {
+          "generation": 1,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 40060.90000000037,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 281.1699999999255,
+              "preloadedFiles": 67,
+              "compiledStackBytes": 2626498,
+              "wasmReadyMs": 769.1349999997765,
+              "compiledStackMounted": true,
+              "compiledStackOpens": 1,
+              "compiledSourceEntryOpens": 0,
+              "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+              "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+              "stackLoadStartedMs": 8441.634999999776,
+              "stackLoadEndedMs": 40036.49500000011,
+              "stackLoadMs": 31594.860000000335,
+              "readyMs": 40042.859999999404
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 40060.919999999925,
+          "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 96.96499999985099
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 34.85999999940395
+          }
+        },
+        {
+          "generation": 2,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 39789.299999999814,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 282.00500000081956,
+              "preloadedFiles": 67,
+              "compiledStackBytes": 2626498,
+              "wasmReadyMs": 760.6500000003725,
+              "compiledStackMounted": true,
+              "compiledStackOpens": 1,
+              "compiledSourceEntryOpens": 0,
+              "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+              "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+              "stackLoadStartedMs": 8414.03000000026,
+              "stackLoadEndedMs": 39765.47500000056,
+              "stackLoadMs": 31351.445000000298,
+              "readyMs": 39771.85500000045
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 39789.3200000003,
+          "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 95.83999999985099
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 32.9300000006333
+          }
+        },
+        {
+          "generation": 3,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 39712.800000000745,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 280.8549999995157,
+              "preloadedFiles": 67,
+              "compiledStackBytes": 2626498,
+              "wasmReadyMs": 765.304999999702,
+              "compiledStackMounted": true,
+              "compiledStackOpens": 1,
+              "compiledSourceEntryOpens": 0,
+              "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+              "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+              "stackLoadStartedMs": 8415.259999999776,
+              "stackLoadEndedMs": 39689.330000000075,
+              "stackLoadMs": 31274.070000000298,
+              "readyMs": 39695.41000000015
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 39712.830000000075,
+          "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 98.0550000006333
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 33.455000000074506
+          }
+        }
+      ],
+      "generation": 0,
+      "initialization": {
+        "elapsedMs": 40918.1950000003,
+        "maximaVersion": "branch_5_49_base_90_g813903d33",
+        "stages": {
+          "preloadMs": 314.21999999973923,
+          "preloadedFiles": 67,
+          "compiledStackBytes": 2626498,
+          "wasmReadyMs": 838.6699999999255,
+          "compiledStackMounted": true,
+          "compiledStackOpens": 1,
+          "compiledSourceEntryOpens": 0,
+          "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+          "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+          "stackLoadStartedMs": 9361.075000000186,
+          "stackLoadEndedMs": 40888.5,
+          "stackLoadMs": 31527.424999999814,
+          "readyMs": 40894.89999999944
+        },
+        "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "stackLibraryVersion": "2026101500"
+      },
+      "readyMs": 40918.38500000071,
+      "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+      "version": 2026101500,
+      "policy": [
+        "#pm#",
+        true,
+        true,
+        true,
+        false,
+        "~d",
+        "~a",
+        ".",
+        true,
+        true
+      ],
+      "checks": [
+        {
+          "name": "first-call-logical-validation",
+          "result": [
+            true,
+            [
+              true,
+              [],
+              1,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "noun-isolation",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "direct-noun-equivalence",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-structure",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-replacement",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-display",
+          "result": [
+            true,
+            [
+              "{x \\pm y}",
+              " \\pm y"
+            ]
+          ]
+        },
+        {
+          "name": "pm-unary-rewrite",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-positive",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-negative",
+          "result": [
+            true,
+            [
+              true,
+              false
+            ]
+          ]
+        },
+        {
+          "name": "number-display",
+          "result": [
+            true,
+            "42"
+          ]
+        }
+      ],
+      "warmCalls": [
+        {
+          "value": 42,
+          "elapsedMs": 8.549999999813735
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.404999999329448
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.240000000223517
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.270000000484288
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.339999999850988
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.214999999850988
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.5
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.355000000447035
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.68999999947846
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.635000000707805
+        }
+      ],
+      "grade": {
+        "cas_valid": true,
+        "correct": true,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 96.65499999932945
+      },
+      "negativeGrade": {
+        "cas_valid": true,
+        "correct": false,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 33.96499999985099
+      },
+      "expectedVersion": "2026101500",
+      "requests": [
+        {
+          "pathname": "/precompiled-measure.html",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "identity",
+          "encodedBodyBytes": 54,
+          "decodedFileBytes": 54,
+          "sha256": "33225608a2256116facf00d28025485a462197011ec53f2e1c60026723bd065c"
+        },
+        {
+          "pathname": "/precompiled-measure-worker.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 3534,
+          "decodedFileBytes": 10371,
+          "sha256": "abc4dba62a1346a0726aba104f6a75851fb80355b859c87edae93e867331e437"
+        },
+        {
+          "pathname": "/runtime/maxima-session.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 4094,
+          "decodedFileBytes": 14344,
+          "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+        },
+        {
+          "pathname": "/stack-sources-precompiled.json",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 224984,
+          "decodedFileBytes": 989084,
+          "sha256": "721078df87b976343a5651f98c1af5226faa316252111a9d4daaabc8fdc408f5"
+        },
+        {
+          "pathname": "/runtime/maxima-child.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 3886,
+          "decodedFileBytes": 12159,
+          "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+        },
+        {
+          "pathname": "/maxima-runtime/runtime-preload.json",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 830952,
+          "decodedFileBytes": 3470156,
+          "sha256": "a33d93f356b01ef40b578b5c9d52d96e0e310ed9b4d8e9960e7b971d0876a679"
+        },
+        {
+          "pathname": "/maxima-runtime/stackmaxima.fas",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 508957,
+          "decodedFileBytes": 2626498,
+          "sha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima_thread.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 874,
+          "decodedFileBytes": 3229,
+          "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 236381,
+          "decodedFileBytes": 1239434,
+          "sha256": "385763ca1038fac02e8f7d247a8d808997238b03ba1919ce2f4dcec482fdb101"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima.wasm",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 5165347,
+          "decodedFileBytes": 23626720,
+          "sha256": "81e11f42263f3e120e32872b00822e9a89c81dc700d8ad328b9551109b93aa37"
+        },
+        {
+          "pathname": "/maxima-runtime/share_files.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 27843,
+          "decodedFileBytes": 528107,
+          "sha256": "e07cdd6ef8eac3ee63869a1f9c0e5cb3ec30f7f538f3dadd764e248e404a6057"
+        },
+        {
+          "pathname": "/maxima-runtime/libecl.so",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 2366041,
+          "decodedFileBytes": 7967119,
+          "sha256": "fafd807fcb5f68a01135694421b1bb5006476de078aeba0c7c8fdfe7dec9aee6"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima-solve.fas",
+          "method": "HEAD",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 0,
+          "decodedFileBytes": 1373890,
+          "sha256": "1e65d81b1de944be97717a5d694df7e0e97a8f11043e4db9c74ef245db336e93"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima-solve.fas",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 254124,
+          "decodedFileBytes": 1373890,
+          "sha256": "1e65d81b1de944be97717a5d694df7e0e97a8f11043e4db9c74ef245db336e93"
+        }
+      ],
+      "lifecycleEncodedBodyBytes": 9627071
+    },
+    {
+      "repetition": 2,
+      "candidate": "precompiled",
+      "mode": "warm-profile-reload",
+      "ok": true,
+      "phase": "complete",
+      "restartKind": "full-session-restart",
+      "restarts": [
+        {
+          "generation": 1,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 39775.58999999985,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 281.429999999702,
+              "preloadedFiles": 67,
+              "compiledStackBytes": 2626498,
+              "wasmReadyMs": 761.5400000000373,
+              "compiledStackMounted": true,
+              "compiledStackOpens": 1,
+              "compiledSourceEntryOpens": 0,
+              "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+              "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+              "stackLoadStartedMs": 8407.245000000112,
+              "stackLoadEndedMs": 39752.08499999996,
+              "stackLoadMs": 31344.83999999985,
+              "readyMs": 39758.830000000075
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 39775.61500000022,
+          "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 96.43500000052154
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 33.28500000014901
+          }
+        },
+        {
+          "generation": 2,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 39664.49000000022,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 279.7849999992177,
+              "preloadedFiles": 67,
+              "compiledStackBytes": 2626498,
+              "wasmReadyMs": 773,
+              "compiledStackMounted": true,
+              "compiledStackOpens": 1,
+              "compiledSourceEntryOpens": 0,
+              "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+              "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+              "stackLoadStartedMs": 8401.794999999925,
+              "stackLoadEndedMs": 39641.354999999516,
+              "stackLoadMs": 31239.55999999959,
+              "readyMs": 39647.90999999922
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 39664.50999999978,
+          "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 96.33499999996275
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 32.70999999996275
+          }
+        },
+        {
+          "generation": 3,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 39617.47500000056,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 282.2600000007078,
+              "preloadedFiles": 67,
+              "compiledStackBytes": 2626498,
+              "wasmReadyMs": 764.6350000007078,
+              "compiledStackMounted": true,
+              "compiledStackOpens": 1,
+              "compiledSourceEntryOpens": 0,
+              "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+              "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+              "stackLoadStartedMs": 8382.850000000559,
+              "stackLoadEndedMs": 39593.91000000015,
+              "stackLoadMs": 31211.05999999959,
+              "readyMs": 39600.610000000335
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 39617.50499999989,
+          "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 96.76500000059605
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 35.330000000074506
+          }
+        }
+      ],
+      "generation": 0,
+      "initialization": {
+        "elapsedMs": 39510.700000000186,
+        "maximaVersion": "branch_5_49_base_90_g813903d33",
+        "stages": {
+          "preloadMs": 280.4799999995157,
+          "preloadedFiles": 67,
+          "compiledStackBytes": 2626498,
+          "wasmReadyMs": 767.5149999996647,
+          "compiledStackMounted": true,
+          "compiledStackOpens": 1,
+          "compiledSourceEntryOpens": 0,
+          "compiledStackSha256": "563105d877698d60dcef0ee66b8b37199813f19c19483539f43e88ad85db9b89",
+          "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+          "stackLoadStartedMs": 8432.334999999963,
+          "stackLoadEndedMs": 39486.36500000022,
+          "stackLoadMs": 31054.03000000026,
+          "readyMs": 39492.93499999959
+        },
+        "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "stackLibraryVersion": "2026101500"
+      },
+      "readyMs": 39510.84500000067,
+      "manifestSha256": "7d3a9fc3ff4804ce74c452462fe33baedc7845ea07c14b4715b392c7a5596723",
+      "version": 2026101500,
+      "policy": [
+        "#pm#",
+        true,
+        true,
+        true,
+        false,
+        "~d",
+        "~a",
+        ".",
+        true,
+        true
+      ],
+      "checks": [
+        {
+          "name": "first-call-logical-validation",
+          "result": [
+            true,
+            [
+              true,
+              [],
+              1,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "noun-isolation",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "direct-noun-equivalence",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-structure",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-replacement",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-display",
+          "result": [
+            true,
+            [
+              "{x \\pm y}",
+              " \\pm y"
+            ]
+          ]
+        },
+        {
+          "name": "pm-unary-rewrite",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-positive",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-negative",
+          "result": [
+            true,
+            [
+              true,
+              false
+            ]
+          ]
+        },
+        {
+          "name": "number-display",
+          "result": [
+            true,
+            "42"
+          ]
+        }
+      ],
+      "warmCalls": [
+        {
+          "value": 42,
+          "elapsedMs": 8.340000000782311
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.309999999590218
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.705000000074506
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.515000000596046
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.53000000026077
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.259999999776483
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.669999999925494
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.140000000596046
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.024999999441206
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.4300000006333
+        }
+      ],
+      "grade": {
+        "cas_valid": true,
+        "correct": true,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 95.65000000037253
+      },
+      "negativeGrade": {
+        "cas_valid": true,
+        "correct": false,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 32.144999999552965
+      },
+      "expectedVersion": "2026101500",
+      "requests": [
+        {
+          "pathname": "/precompiled-measure.html",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "identity",
+          "encodedBodyBytes": 54,
+          "decodedFileBytes": 54,
+          "sha256": "33225608a2256116facf00d28025485a462197011ec53f2e1c60026723bd065c"
+        }
+      ],
+      "lifecycleEncodedBodyBytes": 54
+    },
+    {
+      "repetition": 2,
+      "candidate": "source",
+      "mode": "cold",
+      "ok": true,
+      "phase": "complete",
+      "restartKind": "full-session-restart",
+      "restarts": [
+        {
+          "generation": 1,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 37899.68500000052,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 253.23500000033528,
+              "preloadedFiles": 67,
+              "wasmReadyMs": 732.3250000001863,
+              "stackLoadStartedMs": 8404.794999999925,
+              "stackLoadEndedMs": 37875.90000000037,
+              "stackLoadMs": 29471.105000000447,
+              "readyMs": 37881.955000000075
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 37899.71999999974,
+          "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 96.16000000014901
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 34.6800000006333
+          }
+        },
+        {
+          "generation": 2,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 37914.669999999925,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 255.3950000004843,
+              "preloadedFiles": 67,
+              "wasmReadyMs": 735.4900000002235,
+              "stackLoadStartedMs": 8420.415000000037,
+              "stackLoadEndedMs": 37891.60500000045,
+              "stackLoadMs": 29471.19000000041,
+              "readyMs": 37898.28000000026
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 37914.68500000052,
+          "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 100.43999999947846
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 34.23499999940395
+          }
+        },
+        {
+          "generation": 3,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 37927.00500000082,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 253.70999999996275,
+              "preloadedFiles": 67,
+              "wasmReadyMs": 725.8349999999627,
+              "stackLoadStartedMs": 8348.145000000484,
+              "stackLoadEndedMs": 37902.66000000015,
+              "stackLoadMs": 29554.514999999665,
+              "readyMs": 37909.044999999925
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 37927.02500000037,
+          "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 98.40500000026077
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 35.05499999970198
+          }
+        }
+      ],
+      "generation": 0,
+      "initialization": {
+        "elapsedMs": 36595.34999999963,
+        "maximaVersion": "branch_5_49_base_90_g813903d33",
+        "stages": {
+          "preloadMs": 276.320000000298,
+          "preloadedFiles": 67,
+          "wasmReadyMs": 797.0400000000373,
+          "stackLoadStartedMs": 6904.715000000782,
+          "stackLoadEndedMs": 36563.36500000022,
+          "stackLoadMs": 29658.64999999944,
+          "readyMs": 36570.21500000078
+        },
+        "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "stackLibraryVersion": "2026101500"
+      },
+      "readyMs": 36595.49000000022,
+      "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+      "version": 2026101500,
+      "policy": [
+        "#pm#",
+        true,
+        true,
+        true,
+        false,
+        "~d",
+        "~a",
+        ".",
+        true,
+        true
+      ],
+      "checks": [
+        {
+          "name": "first-call-logical-validation",
+          "result": [
+            true,
+            [
+              true,
+              [],
+              1,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "noun-isolation",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "direct-noun-equivalence",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-structure",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-replacement",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-display",
+          "result": [
+            true,
+            [
+              "{x \\pm y}",
+              " \\pm y"
+            ]
+          ]
+        },
+        {
+          "name": "pm-unary-rewrite",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-positive",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-negative",
+          "result": [
+            true,
+            [
+              true,
+              false
+            ]
+          ]
+        },
+        {
+          "name": "number-display",
+          "result": [
+            true,
+            "42"
+          ]
+        }
+      ],
+      "warmCalls": [
+        {
+          "value": 42,
+          "elapsedMs": 8.174999999813735
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.205000000074506
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.179999999701977
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.40500000026077
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.5699999993667
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.410000000149012
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.440000000409782
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.200000000186265
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.71999999973923
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.589999999850988
+        }
+      ],
+      "grade": {
+        "cas_valid": true,
+        "correct": true,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 99.76499999966472
+      },
+      "negativeGrade": {
+        "cas_valid": true,
+        "correct": false,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 34.44000000040978
+      },
+      "expectedVersion": "2026101500",
+      "requests": [
+        {
+          "pathname": "/precompiled-measure.html",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "identity",
+          "encodedBodyBytes": 54,
+          "decodedFileBytes": 54,
+          "sha256": "33225608a2256116facf00d28025485a462197011ec53f2e1c60026723bd065c"
+        },
+        {
+          "pathname": "/precompiled-measure-worker.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 3534,
+          "decodedFileBytes": 10371,
+          "sha256": "abc4dba62a1346a0726aba104f6a75851fb80355b859c87edae93e867331e437"
+        },
+        {
+          "pathname": "/runtime/maxima-session.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 4094,
+          "decodedFileBytes": 14344,
+          "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+        },
+        {
+          "pathname": "/stack-sources-timed-source.json",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 224120,
+          "decodedFileBytes": 987230,
+          "sha256": "61f6b10d2b8b0377e8137a2ee7f782004d3feda39e53d105a82a1641abf74bab"
+        },
+        {
+          "pathname": "/runtime/maxima-child.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 3886,
+          "decodedFileBytes": 12159,
+          "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+        },
+        {
+          "pathname": "/maxima-runtime/runtime-preload.json",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 830952,
+          "decodedFileBytes": 3470156,
+          "sha256": "a33d93f356b01ef40b578b5c9d52d96e0e310ed9b4d8e9960e7b971d0876a679"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima_thread.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 874,
+          "decodedFileBytes": 3229,
+          "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 236381,
+          "decodedFileBytes": 1239434,
+          "sha256": "385763ca1038fac02e8f7d247a8d808997238b03ba1919ce2f4dcec482fdb101"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima.wasm",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 5165347,
+          "decodedFileBytes": 23626720,
+          "sha256": "81e11f42263f3e120e32872b00822e9a89c81dc700d8ad328b9551109b93aa37"
+        },
+        {
+          "pathname": "/maxima-runtime/share_files.js",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 27843,
+          "decodedFileBytes": 528107,
+          "sha256": "e07cdd6ef8eac3ee63869a1f9c0e5cb3ec30f7f538f3dadd764e248e404a6057"
+        },
+        {
+          "pathname": "/maxima-runtime/libecl.so",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 2366041,
+          "decodedFileBytes": 7967119,
+          "sha256": "fafd807fcb5f68a01135694421b1bb5006476de078aeba0c7c8fdfe7dec9aee6"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima-solve.fas",
+          "method": "HEAD",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 0,
+          "decodedFileBytes": 1373890,
+          "sha256": "1e65d81b1de944be97717a5d694df7e0e97a8f11043e4db9c74ef245db336e93"
+        },
+        {
+          "pathname": "/maxima-runtime/maxima-solve.fas",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "gzip",
+          "encodedBodyBytes": 254124,
+          "decodedFileBytes": 1373890,
+          "sha256": "1e65d81b1de944be97717a5d694df7e0e97a8f11043e4db9c74ef245db336e93"
+        }
+      ],
+      "lifecycleEncodedBodyBytes": 9117250
+    },
+    {
+      "repetition": 2,
+      "candidate": "source",
+      "mode": "warm-profile-reload",
+      "ok": true,
+      "phase": "complete",
+      "restartKind": "full-session-restart",
+      "restarts": [
+        {
+          "generation": 1,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 38051.14499999955,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 259.054999999702,
+              "preloadedFiles": 67,
+              "wasmReadyMs": 750.625,
+              "stackLoadStartedMs": 8452.964999999851,
+              "stackLoadEndedMs": 38026.825000000186,
+              "stackLoadMs": 29573.860000000335,
+              "readyMs": 38032.77500000037
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 38051.174999999814,
+          "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 96.78500000014901
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 34.25
+          }
+        },
+        {
+          "generation": 2,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 37795.294999999925,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 255.63999999966472,
+              "preloadedFiles": 67,
+              "wasmReadyMs": 733.2000000001863,
+              "stackLoadStartedMs": 8367.485000000335,
+              "stackLoadEndedMs": 37770.83499999996,
+              "stackLoadMs": 29403.349999999627,
+              "readyMs": 37777.514999999665
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 37795.3200000003,
+          "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 97.7600000007078
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 34.705000000074506
+          }
+        },
+        {
+          "generation": 3,
+          "kind": "full-session-restart",
+          "oldState": [
+            123456,
+            42,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "oldSessionStopped": true,
+          "oldSessionRejected": true,
+          "initialization": {
+            "elapsedMs": 37869.78000000026,
+            "maximaVersion": "branch_5_49_base_90_g813903d33",
+            "stages": {
+              "preloadMs": 254.035000000149,
+              "preloadedFiles": 67,
+              "wasmReadyMs": 730.339999999851,
+              "stackLoadStartedMs": 8353.870000000112,
+              "stackLoadEndedMs": 37846.73000000045,
+              "stackLoadMs": 29492.860000000335,
+              "readyMs": 37852.75999999978
+            },
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "stackLibraryVersion": "2026101500"
+          },
+          "readyMs": 37869.799999999814,
+          "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+          "version": 2026101500,
+          "childReplaced": true,
+          "buffersReplaced": [
+            true,
+            true,
+            true
+          ],
+          "namespaceCleared": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "policy": [
+            "#pm#",
+            true,
+            true,
+            true,
+            false,
+            "~d",
+            "~a",
+            ".",
+            true,
+            true
+          ],
+          "checks": [
+            {
+              "name": "first-call-logical-validation",
+              "result": [
+                true,
+                [
+                  true,
+                  [],
+                  1,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "noun-isolation",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  false,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "direct-noun-equivalence",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-structure",
+              "result": [
+                true,
+                [
+                  true,
+                  true,
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-replacement",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-display",
+              "result": [
+                true,
+                [
+                  "{x \\pm y}",
+                  " \\pm y"
+                ]
+              ]
+            },
+            {
+              "name": "pm-unary-rewrite",
+              "result": [
+                true,
+                true
+              ]
+            },
+            {
+              "name": "pm-positive",
+              "result": [
+                true,
+                [
+                  true,
+                  true
+                ]
+              ]
+            },
+            {
+              "name": "pm-negative",
+              "result": [
+                true,
+                [
+                  true,
+                  false
+                ]
+              ]
+            },
+            {
+              "name": "number-display",
+              "result": [
+                true,
+                "42"
+              ]
+            }
+          ],
+          "gc": true,
+          "caught": "CTM deliberate caught CAS error",
+          "afterError": 42,
+          "grade": {
+            "cas_valid": true,
+            "correct": true,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 98.31499999947846
+          },
+          "negativeGrade": {
+            "cas_valid": true,
+            "correct": false,
+            "answer_note": "",
+            "feedback": "",
+            "native_feedback": "",
+            "elapsedMs": 34.74500000011176
+          }
+        }
+      ],
+      "generation": 0,
+      "initialization": {
+        "elapsedMs": 37673.53500000015,
+        "maximaVersion": "branch_5_49_base_90_g813903d33",
+        "stages": {
+          "preloadMs": 254.34999999962747,
+          "preloadedFiles": 67,
+          "wasmReadyMs": 724.4749999996275,
+          "stackLoadStartedMs": 8366.014999999665,
+          "stackLoadEndedMs": 37649.664999999106,
+          "stackLoadMs": 29283.64999999944,
+          "readyMs": 37656.125
+        },
+        "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "stackLibraryVersion": "2026101500"
+      },
+      "readyMs": 37673.6950000003,
+      "manifestSha256": "a5c57c1226cf96ee570acd9619346524b48c34fd4f7f09140d39694692d927ff",
+      "version": 2026101500,
+      "policy": [
+        "#pm#",
+        true,
+        true,
+        true,
+        false,
+        "~d",
+        "~a",
+        ".",
+        true,
+        true
+      ],
+      "checks": [
+        {
+          "name": "first-call-logical-validation",
+          "result": [
+            true,
+            [
+              true,
+              [],
+              1,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "noun-isolation",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              false,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "direct-noun-equivalence",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-structure",
+          "result": [
+            true,
+            [
+              true,
+              true,
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-replacement",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-display",
+          "result": [
+            true,
+            [
+              "{x \\pm y}",
+              " \\pm y"
+            ]
+          ]
+        },
+        {
+          "name": "pm-unary-rewrite",
+          "result": [
+            true,
+            true
+          ]
+        },
+        {
+          "name": "pm-positive",
+          "result": [
+            true,
+            [
+              true,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "pm-negative",
+          "result": [
+            true,
+            [
+              true,
+              false
+            ]
+          ]
+        },
+        {
+          "name": "number-display",
+          "result": [
+            true,
+            "42"
+          ]
+        }
+      ],
+      "warmCalls": [
+        {
+          "value": 42,
+          "elapsedMs": 9.06000000052154
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.834999999962747
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.645000000484288
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.679999999701977
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.629999999888241
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.620000000111759
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.540000000037253
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.709999999962747
+        },
+        {
+          "value": 42,
+          "elapsedMs": 84.4750000005588
+        },
+        {
+          "value": 42,
+          "elapsedMs": 8.509999999776483
+        }
+      ],
+      "grade": {
+        "cas_valid": true,
+        "correct": true,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 97.81499999947846
+      },
+      "negativeGrade": {
+        "cas_valid": true,
+        "correct": false,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 34.73499999940395
+      },
+      "expectedVersion": "2026101500",
+      "requests": [
+        {
+          "pathname": "/precompiled-measure.html",
+          "method": "GET",
+          "status": 200,
+          "contentEncoding": "identity",
+          "encodedBodyBytes": 54,
+          "decodedFileBytes": 54,
+          "sha256": "33225608a2256116facf00d28025485a462197011ec53f2e1c60026723bd065c"
+        }
+      ],
+      "lifecycleEncodedBodyBytes": 54
+    }
+  ],
+  "passed": true,
+  "planned": {
+    "trials": 8,
+    "initializations": 32,
+    "restarts": 24
+  },
+  "browser": "141.0.7390.37",
+  "completed": {
+    "trials": 8,
+    "initializations": 32,
+    "restarts": 24
+  }
+}

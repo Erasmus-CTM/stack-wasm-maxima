@@ -1,0 +1,485 @@
+{
+  "schema": 1,
+  "compilerProfile": {
+    "name": "baseline",
+    "injectedEmccFlags": null,
+    "eclCoreOptimization": "-O0",
+    "eclGeneratedLispOptimization": "-O2",
+    "maximaGeneratedOptimization": "-O2"
+  },
+  "sourcePins": {
+    "schema": 1,
+    "sources": [
+      {
+        "name": "maxima",
+        "repository": "https://gitlab.com/mgerbershagen/maxima.git",
+        "commit": "813903d33f5ccca09cbe3086dbfe5e228521da52",
+        "version": "branch_5_49_base_90_g813903d33",
+        "licence": "Project COPYING contains GPL v2; mixed per-file notices apply (no blanket or-later assertion)",
+        "archive": {
+          "format": "git-archive-tar",
+          "prefix": "maxima/",
+          "sha256": "05192416af11303dc5974fe02d0e5a894df813593af8a57d37e51897707dab42"
+        },
+        "tag": {
+          "name": "branch-5_49-base",
+          "object": "00acb694f8128b8e8bfcc544e1540df3def04d3e",
+          "commit": "cce856a60952c971e6f3604706335455c9a46fca"
+        },
+        "evidence": "Deployed version suffix and exact upstream commit; existing tag plus ancestry gives 90 commits. Git core.abbrev=9 preserves deployed version spelling."
+      },
+      {
+        "name": "ecl",
+        "repository": "https://gitlab.com/mgerbershagen/ecl.git",
+        "commit": "e4bdb2e5b1e444e1773032a53650773848f4d6cd",
+        "version": "26.3.27",
+        "licence": "LGPL-2.1-or-later AND bundled notices",
+        "archive": {
+          "format": "git-archive-tar",
+          "prefix": "ecl/",
+          "sha256": "fafd6275264c33dd4d8562703752f709bf992b29c40fd766d1351782f4c507b0"
+        },
+        "evidence": "Exact full commit and version embedded in deployed libecl.so.",
+        "noticeExceptions": [
+          "src/lsp/loop.lsp",
+          "src/lsp/pprint.lsp",
+          "src/lsp/format.lsp",
+          "contrib/",
+          "examples/"
+        ]
+      },
+      {
+        "name": "emsdk",
+        "repository": "https://github.com/emscripten-core/emsdk.git",
+        "commit": "62a853cd3b3134398ce85cde8bb5cbb2ef0194cb",
+        "version": "4.0.10",
+        "licence": "MIT AND bundled SDK notices",
+        "release": "8103ffedfb0c42d231c6af6859a5a1a832260b43",
+        "archive": {
+          "format": "tar.gz",
+          "url": "https://codeload.github.com/emscripten-core/emsdk/tar.gz/62a853cd3b3134398ce85cde8bb5cbb2ef0194cb",
+          "sha256": "7e97513705790405f9c385b6a73e380a69139c5d23913a1320bb009e6e1595dc"
+        },
+        "evidence": "Version4.0.10 occurs in deployed maxima.wasm and port README; SDK tag maps to the pinned release hash."
+      },
+      {
+        "name": "emscripten",
+        "repository": "https://github.com/emscripten-core/emscripten.git",
+        "commit": "b7dc6e5747465580df5984e723b9d1f10d8e804b",
+        "version": "4.0.10",
+        "licence": "MIT OR NCSA AND bundled notices",
+        "archive": {
+          "format": "tar.gz",
+          "url": "https://codeload.github.com/emscripten-core/emscripten/tar.gz/b7dc6e5747465580df5984e723b9d1f10d8e804b",
+          "sha256": "901c1881daf528523b848ea596588e7d21c41b4a279d20250d2d56168d24ef9f"
+        },
+        "evidence": "Official source tag for deployed Emscripten version; source archive retained beside SDK build."
+      }
+    ],
+    "bundled": [
+      {
+        "name": "gmp",
+        "version": "4.2.1",
+        "source": "ecl",
+        "path": "src/gmp",
+        "licence": "LGPL-2.1-or-later",
+        "wasmLinked": true
+      },
+      {
+        "name": "boehm-gc",
+        "version": "8.2.8",
+        "source": "ecl",
+        "path": "src/bdwgc",
+        "licence": "LicenseRef-Boehm-GC",
+        "wasmLinked": true
+      },
+      {
+        "name": "libffi",
+        "version": "3.5.2",
+        "source": "ecl",
+        "path": "src/libffi",
+        "licence": "MIT",
+        "wasmLinked": false,
+        "evidence": "ECL wasm32 configure branch forces enable_libffi=no; deployed module exports no ffi_* symbols."
+      }
+    ],
+    "notices": {
+      "repository": "Erasmus-CTM/stack-wasm-maxima",
+      "commit": "b34bfc8af10cd80b6130baabe88a47c9a32c0333",
+      "path": "site/LICENSES"
+    },
+    "stack": [
+      "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+      "33383047af39c204bf4442802a058f8b918b2b1b"
+    ],
+    "toolchainArchives": [
+      {
+        "name": "sdk-linux-x86_64",
+        "version": "4.0.10",
+        "release": "8103ffedfb0c42d231c6af6859a5a1a832260b43",
+        "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/linux/8103ffedfb0c42d231c6af6859a5a1a832260b43/wasm-binaries.tar.xz",
+        "file": "8103ffedfb0c42d231c6af6859a5a1a832260b43-wasm-binaries.tar.xz",
+        "bytes": 303902856,
+        "sha256": "0183f887b56c3f8d4b45826cb49856a3324afb66236ad3c13944c0fd2550cbbc"
+      },
+      {
+        "name": "sdk-node-linux-x86_64",
+        "version": "22.16.0",
+        "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/node-v22.16.0-linux-x64.tar.xz",
+        "file": "node-v22.16.0-linux-x64.tar.xz",
+        "bytes": 30425588,
+        "sha256": "f4cb75bb036f0d0eddf6b79d9596df1aaab9ddccd6a20bf489be5abe9467e84e"
+      }
+    ]
+  },
+  "recipe": {
+    "repository": "https://github.com/Erasmus-CTM/stack-wasm-maxima",
+    "revision": "580019b25ae0be764fae181066c932ff499c0865",
+    "files": [
+      {
+        "path": ".gitattributes",
+        "bytes": 38,
+        "sha256": "a868ea4f6215e0e8fcedcb862bd8ad3904899d0f373c0c47db3ea30c54f9cc5a"
+      },
+      {
+        "path": ".github/workflows/runtime-build.yml",
+        "bytes": 14976,
+        "sha256": "0a3336093f664625e381d12d763b446f62c019f36b70b2de493c0066822c94b1"
+      },
+      {
+        "path": "package-lock.json",
+        "bytes": 1764,
+        "sha256": "b3f2b192435d7cabc98ff89ac766a9e0fcab7c96f452f8473d15aa31b20aafd2"
+      },
+      {
+        "path": "package.json",
+        "bytes": 176,
+        "sha256": "1306a578b294df073d764e51abe54c4cd4ea15227eb192abb28462278fff44a1"
+      },
+      {
+        "path": "prototype/runtime/maxima-child.js",
+        "bytes": 12159,
+        "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+      },
+      {
+        "path": "prototype/runtime/maxima-session.js",
+        "bytes": 14344,
+        "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+      },
+      {
+        "path": "runtime/build/COMPILER-EXPERIMENTS.md",
+        "bytes": 7286,
+        "sha256": "8e91c4b7d71f41ee993af977eefe3fba677f1a76f8348790448b1e925785c400"
+      },
+      {
+        "path": "runtime/build/README.md",
+        "bytes": 7391,
+        "sha256": "35a028a2956aa0d44cffa2e2f71ebb54e91d519476ad9a726fe92fa67684fe56"
+      },
+      {
+        "path": "runtime/build/baseline.json",
+        "bytes": 6469,
+        "sha256": "2fdf024eeed9d3625df435868aab9499b0ff55d81fdcaa3e0d659e0bd2865319"
+      },
+      {
+        "path": "runtime/build/build.sh",
+        "bytes": 5026,
+        "sha256": "6bd907ff4587cdcc1d101629854617f072d95ccd06a579e0246367947959a483"
+      },
+      {
+        "path": "runtime/build/check-acceptance.py",
+        "bytes": 12169,
+        "sha256": "99e7ac4690e09c33cd238eefb6a2453eca8c47ceb47f64ef7b5012b1d7d6a75b"
+      },
+      {
+        "path": "runtime/build/check-compiler-experiment.py",
+        "bytes": 1581,
+        "sha256": "0056398c530ffcbb95e932b499beed18ea9c5c102a259e3fe342f4b70fae10d9"
+      },
+      {
+        "path": "runtime/build/check-upstream.py",
+        "bytes": 2161,
+        "sha256": "4ac8d7bf686baadfba9c7322348ef5ecef8bf1d08285ca902110769284571b8e"
+      },
+      {
+        "path": "runtime/build/cold_evidence.py",
+        "bytes": 5351,
+        "sha256": "ebd19cc176fe7ac5d16d87354d53ee40d4044e0e76fa88277ca89ab907d0a12f"
+      },
+      {
+        "path": "runtime/build/compare-cold-builds.py",
+        "bytes": 2013,
+        "sha256": "97c450555e95fd566ea33f8c931a6ce045e586fddf090e7bcea5463a8778a11e"
+      },
+      {
+        "path": "runtime/build/compiler-profiles.json",
+        "bytes": 728,
+        "sha256": "859950f4f03a73c0019cf0867e16353c1a80c3225f3b340cf93e390d16f67854"
+      },
+      {
+        "path": "runtime/build/compiler_evidence.py",
+        "bytes": 14771,
+        "sha256": "a4e5f253fb194ceaf6cd642b5d07fe8cfb19edf5a085a9d55d7978ac5acf7198"
+      },
+      {
+        "path": "runtime/build/compiler_profile.py",
+        "bytes": 794,
+        "sha256": "a992bdbacb7061c16fd6dee0ea605f71cd74a287335a061688eb105b3c6430b9"
+      },
+      {
+        "path": "runtime/build/configuration.json",
+        "bytes": 288,
+        "sha256": "83bf8ca299007445cc59adda913c57ec7066e692d98f780c3e5a8ba28d54fea4"
+      },
+      {
+        "path": "runtime/build/configuration.py",
+        "bytes": 722,
+        "sha256": "e25a673720cce5514e2489d8b2fbfd6da54e14990ff94afe2003d59e4e3f4b78"
+      },
+      {
+        "path": "runtime/build/inspect-wasm.mjs",
+        "bytes": 1954,
+        "sha256": "8449410522034ac33192cdf9c4d4cd7e3338075fbe51fa49d66aa0bfb04433bc"
+      },
+      {
+        "path": "runtime/build/inventory.mjs",
+        "bytes": 1082,
+        "sha256": "1cbb58636a7760644f35ef24e41c6c2409421a7976376a86734cc83fe640f38c"
+      },
+      {
+        "path": "runtime/build/measure-compiler-trials.mjs",
+        "bytes": 5451,
+        "sha256": "4f0cbd288ea22bffa0a5bb059b21abab3367175511c9d58b67c3722662996972"
+      },
+      {
+        "path": "runtime/build/measure-pages.mjs",
+        "bytes": 2962,
+        "sha256": "cd3b6317fffd9855815997db6c12d46f471ff142b87f6169c4244c0871d51695"
+      },
+      {
+        "path": "runtime/build/measure.mjs",
+        "bytes": 5293,
+        "sha256": "4466ca767412e6be8258e8644497cabb494f984ff1f2877aa6a3339347957d11"
+      },
+      {
+        "path": "runtime/build/no-plot.mac",
+        "bytes": 1532,
+        "sha256": "4fb9fdab38b9676328550d00aeef492b9267aad3e10fd6ccb4e16135251d238b"
+      },
+      {
+        "path": "runtime/build/package.py",
+        "bytes": 11565,
+        "sha256": "030aa8748afc3fcd368d8f99d9914014e99ae0f47785566dedbe8907c501c0b4"
+      },
+      {
+        "path": "runtime/build/patches/.gitattributes",
+        "bytes": 20,
+        "sha256": "ad8c5e2ea67d853ac69c15ab40676838d684205acdef68e7e00a138025021272"
+      },
+      {
+        "path": "runtime/build/pins.json",
+        "bytes": 4660,
+        "sha256": "e09593d1f15372b2aebe4c67ec98944e7f630a402e365ec6f00decfff4f5f5b6"
+      },
+      {
+        "path": "runtime/build/prepare-sources.py",
+        "bytes": 5689,
+        "sha256": "355e8300c6ccac6017e332c1e95846b2370312e7238ce0289cc4b772e1490cb3"
+      },
+      {
+        "path": "runtime/build/prepare-toolchain.py",
+        "bytes": 3020,
+        "sha256": "c3feefb88a0b14d54b45dc85988e9560d8c656713ce8b0d81d95861fd0f4bf0f"
+      },
+      {
+        "path": "runtime/build/recipe-inputs.json",
+        "bytes": 483,
+        "sha256": "63f66e8d6b04c543560181676000738574e13c2b9dcb5b8a272d5fac463a13cf"
+      },
+      {
+        "path": "runtime/build/recipe_inputs.py",
+        "bytes": 713,
+        "sha256": "9a5c0b32a462b4dfb3d5e4c0760d2dcab8629daa404bcdbca9bec71867ab6d4b"
+      },
+      {
+        "path": "runtime/build/record-environment.py",
+        "bytes": 1604,
+        "sha256": "88af3868b2db64172834ed60726a2035c987e266473d91ceed03c20711fe4381"
+      },
+      {
+        "path": "runtime/build/runtime-source.mjs",
+        "bytes": 2973,
+        "sha256": "d5b77345b189cadb379cbd20ba3cfa56e9796a731a91d7da8c791fa39605665e"
+      },
+      {
+        "path": "runtime/build/test-cold-evidence.py",
+        "bytes": 6684,
+        "sha256": "2abbc52b46e361b912a0ed280c01197acc1978aa95aa706bc81f09c86a74792a"
+      },
+      {
+        "path": "runtime/build/test-compiler-evidence.py",
+        "bytes": 14412,
+        "sha256": "dda8440bf8b30016a20ccb7461e7f8dd4d9f168b1ef031b2657516281caeecbf"
+      },
+      {
+        "path": "runtime/build/test-plot-build.py",
+        "bytes": 3209,
+        "sha256": "6e6335f4420f5924106c9f2b59949fc280a3e898f7ecca56cb0c26455f137195"
+      },
+      {
+        "path": "runtime/build/test-runtime-source.mjs",
+        "bytes": 3582,
+        "sha256": "97629fdfdfa75a7707c8f8392d35691256b5c927105a1378615124c37cd09966"
+      },
+      {
+        "path": "runtime/build/test-source-checkout.py",
+        "bytes": 4154,
+        "sha256": "cce49f64f3b70950fbc6663b49c2189fca8f4a94668e5762d94a1b44fe25e90b"
+      },
+      {
+        "path": "runtime/build/test-substitution.py",
+        "bytes": 3679,
+        "sha256": "58f9013e14635dc23255c42f114ecd4c337bd9a71ec8090cb1130629a0b1f8d2"
+      },
+      {
+        "path": "runtime/build/test-timing-evidence.py",
+        "bytes": 3791,
+        "sha256": "8d3921f77e7584d4606658851d9742404f2f73dace3b4c44a8f2ba181a4fffc8"
+      },
+      {
+        "path": "runtime/build/test-toolchain.py",
+        "bytes": 2787,
+        "sha256": "03e55e3d799ab3ed8ab2614da295375d40858ed5648250d8afe0f76f5f107d42"
+      },
+      {
+        "path": "runtime/build/timing-worker.mjs",
+        "bytes": 2337,
+        "sha256": "05aa3caa0a50c39aa2db90a255ae81649ec805873cdbf456dca7981fde0a3f9b"
+      },
+      {
+        "path": "runtime/build/timing_evidence.py",
+        "bytes": 2348,
+        "sha256": "b2cabcf8aab8bfa293b59c2502186b48743dd5a81cdb575a590a939b985db05c"
+      },
+      {
+        "path": "runtime/build/validate-probes.sh",
+        "bytes": 770,
+        "sha256": "546dfd4e135d37533a34aa9f158b02d1d04576918ffb9c5653beac3f2d382948"
+      },
+      {
+        "path": "runtime/build/verify-baseline.py",
+        "bytes": 1344,
+        "sha256": "ba43bfa6b6b67eacca9aa56fdc5d15f7fe117b9ee8efce19e6c2f723ca63b769"
+      },
+      {
+        "path": "runtime/build/verify-compiler-trials.py",
+        "bytes": 2875,
+        "sha256": "8f9c0b1fadbbd11bc528df852b1c43f95f276f12b7e3dc5ec804733b502f7f5a"
+      },
+      {
+        "path": "runtime/build/verify-source-state.py",
+        "bytes": 2690,
+        "sha256": "12aa0dd2940014fbe6ebf875a8eb1b7540c355ebce95534cc9e0f551faf11c3e"
+      },
+      {
+        "path": "scripts/milestone-one/compare.py",
+        "bytes": 6193,
+        "sha256": "70d9152bbb5c146c201df9e41904747784b338753822eef87b9d7f7ed2d3bf52"
+      },
+      {
+        "path": "scripts/milestone-one/run.mjs",
+        "bytes": 9767,
+        "sha256": "6a521ea1acb4dcd5030a3ad942a3d9e5407d89306e2a6fa18e6aff6c30684a96"
+      },
+      {
+        "path": "scripts/milestone-three/build-site.mjs",
+        "bytes": 14874,
+        "sha256": "ce883d5d209055295fb2cde529cafb5985fd0e52c11470024288bdfaddc417d2"
+      },
+      {
+        "path": "scripts/milestone-two/prepare-runtime.py",
+        "bytes": 13868,
+        "sha256": "843c356cdd668b91fb5f8d98d3b9942dddb594689508736a6ef7b19fccdebe5f"
+      },
+      {
+        "path": "scripts/milestone-two/serve.mjs",
+        "bytes": 7906,
+        "sha256": "f46c0d9688971dd1fbf3e9b83b4cce76ddd4136b71514159eede1c8bb5fa7e4e"
+      }
+    ]
+  },
+  "toolchain": {
+    "schema": 1,
+    "archives": [
+      {
+        "name": "sdk-linux-x86_64",
+        "version": "4.0.10",
+        "release": "8103ffedfb0c42d231c6af6859a5a1a832260b43",
+        "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/linux/8103ffedfb0c42d231c6af6859a5a1a832260b43/wasm-binaries.tar.xz",
+        "file": "8103ffedfb0c42d231c6af6859a5a1a832260b43-wasm-binaries.tar.xz",
+        "bytes": 303902856,
+        "sha256": "0183f887b56c3f8d4b45826cb49856a3324afb66236ad3c13944c0fd2550cbbc",
+        "observedBytes": 303902856,
+        "observedSha256": "0183f887b56c3f8d4b45826cb49856a3324afb66236ad3c13944c0fd2550cbbc",
+        "verified": true
+      },
+      {
+        "name": "sdk-node-linux-x86_64",
+        "version": "22.16.0",
+        "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/node-v22.16.0-linux-x64.tar.xz",
+        "file": "node-v22.16.0-linux-x64.tar.xz",
+        "bytes": 30425588,
+        "sha256": "f4cb75bb036f0d0eddf6b79d9596df1aaab9ddccd6a20bf489be5abe9467e84e",
+        "observedBytes": 30425588,
+        "observedSha256": "f4cb75bb036f0d0eddf6b79d9596df1aaab9ddccd6a20bf489be5abe9467e84e",
+        "verified": true
+      }
+    ]
+  },
+  "upstreamRecipe": {
+    "path": "wasm/Makefile",
+    "sha256": "165e45ff9c6578381ac4535c52782796db58193d445ad8ee3b59ab3b2a0435d4",
+    "verifiedFilesUnmodified": true,
+    "verifiedInputs": [
+      {
+        "path": "src/maxima.asd",
+        "gitBlob": "c49fcbf5726898339a17cc8cb3f8171435b7d28c",
+        "bytes": 27201,
+        "sha256": "e1ad24f88abd9fdbfa269c086408417561073fb0a66230b3e814ffec3a397172"
+      },
+      {
+        "path": "wasm/Makefile",
+        "gitBlob": "b07bb7bd5f6236114a15dd08b8307b2c3d59e5ee",
+        "bytes": 19413,
+        "sha256": "165e45ff9c6578381ac4535c52782796db58193d445ad8ee3b59ab3b2a0435d4"
+      },
+      {
+        "path": "wasm/build.lisp",
+        "gitBlob": "01d9fea18c6162eb0f02cf0e292ca9c27dfd77dc",
+        "bytes": 8410,
+        "sha256": "9712cd0e68ee80249f08aadbaef930f53b043b2287f0027550ff5d05ff90a62d"
+      }
+    ],
+    "patches": [],
+    "scope": "Before: every tracked Maxima/ECL input byte. After: tracked .lisp/.lsp/.mac/.asd/.c/.h/.d files and the three Maxima build inputs; generated configuration/build support is excluded from the after claim.",
+    "beforeSha256": "176b02b89e402accd270d3c9a034685b5bc24eb20a2800283d2431cd83a0702e",
+    "afterSha256": "c545af28fd7b6c18e0cde7bbabda4cb38353caeb1850e204899431cfed5cd2ea"
+  },
+  "configuration": {
+    "schema": 1,
+    "name": "no-gnuplot",
+    "omittedRuntimePaths": [
+      "libgnuplot.so",
+      "maxima-plot.fas"
+    ],
+    "capabilities": {
+      "plotting": false
+    },
+    "startupSha256": "4fb9fdab38b9676328550d00aeef492b9267aad3e10fd6ccb4e16135251d238b",
+    "upstreamRecipesUnmodified": true
+  },
+  "startupAdapter": {
+    "content": ":lisp (progn #| SPDX-License-Identifier: AGPL-3.0-or-later |# (setf (symbol-function 'maxima::$set_plot_option) (lambda (&rest options) (unless (every (lambda (x) (member (cadr x) '(maxima::$run_viewer maxima::$plot_format maxima::$nticks maxima::$adapt_depth maxima::$gnuplot_default_term_command))) options) (maxima::merror \"CTM plotting unavailable; use JSXGraph.\")) 'maxima::$done)) (dolist (name '(maxima::$gnuplot_close maxima::$gnuplot_start maxima::$gnuplot_restart maxima::$gnuplot_send maxima::$gnuplot_reset maxima::$gnuplot_replot maxima::$get_plot_option maxima::$remove_plot_option maxima::$rotation1 maxima::$rotate_pts maxima::$rotate_list maxima::$get_range maxima::$polar_to_xy maxima::$spherical_to_xyz maxima::$make_transform maxima::$concat_polygons maxima::$copy_pts maxima::$plot2d maxima::$tcl_output maxima::$zero_fun maxima::$contour_plot maxima::$plot3d maxima::plot-preamble maxima::plot-shipout maxima::ensure-string maxima::start-gnuplot-process maxima::check-gnuplot-process maxima::stop-gnuplot-process maxima::send-gnuplot-command maxima::adaptive-plot maxima::random-name maxima::plot-temp-file maxima::plot-file-path maxima::plot-options-parser maxima::naturalp maxima::plotcolorp maxima::parse-azimuth maxima::parse-elevation maxima::check-option maxima::check-option-boole maxima::check-range maxima::rgb-color maxima::gnuplot-palette maxima::display-plot)) (setf (symbol-function name) (lambda (&rest args) (declare (ignore args)) (maxima::merror \"CTM plotting unavailable; use JSXGraph.\")))))\n",
+    "sha256": "4fb9fdab38b9676328550d00aeef492b9267aad3e10fd6ccb4e16135251d238b"
+  }
+}

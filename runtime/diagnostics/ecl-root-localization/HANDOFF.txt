@@ -1,0 +1,207 @@
+Research handoff: ECL root scanning and BDWGC mark-stack capacity
+================================================================
+
+Goal
+----
+Determine whether UNMODIFIED ECL can reach BDWGC's "Unexpected mark stack
+overflow" through ECL's actual root scanner, without an application installing
+a custom GC root callback or directly filling the collector's mark stack.
+Produce a small, self-contained reproducer and localize the failing call if
+possible. Negative results are useful and must be reported honestly.
+
+This is authorized debugging of our own open-source runtime and test environment.
+Keep the research on a separate diagnostic branch. Do not modify or merge PR13,
+publish a runtime release, or post upstream messages as part of this handoff.
+
+Upstream discussion
+-------------------
+Issue: https://gitlab.com/embeddable-common-lisp/ecl/-/work_items/860
+Maintainer reply:
+https://gitlab.com/embeddable-common-lisp/ecl/-/work_items/860#note_4082425916
+Contribution requirements:
+https://gitlab.com/embeddable-common-lisp/ecl/-/blob/develop/CONTRIBUTING
+
+Daniel Kochmanski asks for:
+* A self-contained test without Python or our third-party repository.
+* Clarification: does our application directly call libgc, or can ECL reach the
+  state on its own?
+* Host architecture, OS, ECL revision/build flags and installation method.
+* Actual observed logs and expected behavior.
+
+His question is justified: our existing collector fixture does NOT establish an
+ECL-only trigger. Do not describe his reply as confirmation of an ECL defect.
+
+ECL's policy permits AI-assisted analysis/debugging, but requires human-written
+discussion messages and submitted contributions. Reviewing generated text/code
+does not satisfy that policy. Research findings can inform the reporter's own
+reply and independently written contribution. Do not present AI-generated work
+as human-authored or upstream-ready.
+
+Versions and relevant source
+----------------------------
+Application repository: https://github.com/Erasmus-CTM/stack-wasm-maxima
+Pinned ECL Emscripten fork: https://gitlab.com/mgerbershagen/ecl
+Exact tested fork revision: e4bdb2e5b1e444e1773032a53650773848f4d6cd
+Reported ECL version: 26.3.27
+Bundled collector: unmodified BDWGC 8.2.8
+
+Previously inspected upstream develop revision:
+ff5c6abbe73e3b3e95608e32721ce0be232c1987
+This was SOURCE INSPECTION, not a completed build/test of upstream develop.
+
+Frozen existing fixture and downstream patch:
+https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/35a668be94898c300392863e4e98cb895a104b1e/runtime/diagnostics
+https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/35a668be94898c300392863e4e98cb895a104b1e/runtime/build/patches/ecl-root-scanner.patch
+Passing earlier native fixture CI:
+https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40079456120
+
+Read these ECL files:
+* src/c/alloc_2.d: ecl_mark_env, stacks_scanner, GC initialization.
+* src/c/ffi.d: si_load_foreign_module.
+* src/c/ffi/libraries.d: ecl_library_open[_inner], library lookup and locking.
+* src/c/read.d: ecl_init_module.
+* src/bdwgc/mark.c: GC_push_all, GC_push_conditional, ordinary overflow recovery.
+* src/bdwgc/mark_rts.c: GC_push_roots and GC_push_other_roots invocation order.
+
+Established evidence
+--------------------
+1. The standalone C collector fixture uses real BDWGC APIs and private headers
+   to OBSERVE occupancy. It deliberately queues valid zero-containing ranges
+   until two mark-stack entries remain, then invokes modeled ECL-style scanning.
+   Additional lazy pushes abort with SIGABRT and "Unexpected mark stack overflow".
+   This is a synthetic capacity precondition, not a natural ECL workload.
+
+2. GC_push_all's own source comment says it should be used only when mark-stack
+   overflow is impossible. It adds a descriptor and aborts at the current limit.
+   GC_push_conditional(...,1) usually delegates to GC_push_all; inspect platform
+   and PROC_VDB/auto-incremental branches rather than assuming universal behavior.
+
+3. GC_push_roots invokes GC_push_other_roots after register/C-stack traversal.
+   Its source explicitly cautions that the callback must handle possible overflow.
+   This provides a plausible entry-pressure mechanism, not proof of the browser
+   failure's caller or of natural reachability in ECL.
+
+4. Native 32-bit and 64-bit runs of the existing fixture passed their expected
+   controls: 16 cases per width, including four expected aborts per width. Eager
+   scanning retained atomic referents without capacity growth. Separate pointerful
+   cases exercised BDWGC's ordinary recoverable worklist growth. No collector code,
+   initial capacity or growth algorithm was patched.
+
+5. The downstream target-only ECL patch replaces seven GC_push_all calls and one
+   locked-cblock GC_push_conditional(...,1) call with GC_push_all_eager. It preserves
+   bounds, null guards, locked-cblock mark bits and the previous callback. Native
+   host ECL is built from pristine source before applying the target overlay.
+   The inspected upstream revision has one additional ecl_core range, so the fork
+   patch must not be applied blindly to current upstream.
+
+Important limits
+----------------
+* The standalone fixture does NOT execute ECL's actual scanner.
+* No ECL-only reproducer is established yet.
+* The exact caller responsible for the original browser abort remains unproven.
+* Fixing ECL-owned ranges does not fix an unsafe unchanged previous callback;
+  the fixture explicitly demonstrates that limitation.
+* Eager scanning retains an unregistered interior-pointer control that lazy
+  scanning rejects. Equal retention, memory use and finalizer timing are unproven.
+* Native 32/64-bit results do not themselves establish Wasm32 behavior.
+* Incremental-enabled fixture runs perform full collections; they do not cover
+  mutations between incremental marking steps.
+* Passing downstream browser/parity tests does not retrospectively prove the
+  original failure mechanism.
+
+Prepared, UNEXECUTED actual-ECL candidate
+---------------------------------------
+Source inspection suggests a simpler route than synthetic mark-stack prefill:
+
+SI:LOAD-FOREIGN-MODULE opens and locks a library cblock. stacks_scanner queues a
+range for each locked library in cl_core.libraries. Loading many DISTINCT inert
+local shared libraries may therefore exercise the real ECL scanner's descriptor
+capacity without direct collector calls or callback replacement.
+
+The pinned library loader also deduplicates by library handle. Use a SAME-PATH
+repeated-load control as well as distinct-file copies, and verify actual unique
+locked-cblock counts rather than assuming each load added a new one.
+
+Prepared local files, if you share this workspace:
+/workspace/work/ecl-root-localization/runtime/diagnostics/ecl-root-localization/
+  module.c     -- inert shared library, one function, no GC calls/constructors
+  prepare.sh   -- prepares up to 10,000 separate file copies; no downloads/ECL run
+  load.lisp    -- loads libraries and calls ordinary SI:GC, same-path control
+  README.txt   -- scope, manual commands, localization requirements
+
+Local branch: diagnostics/2026-10-ecl-root-localization
+At initial handoff preparation these files were uncommitted and unpublished.
+The user subsequently authorized publishing this branch with diagnostic evidence;
+use the branch commit and accompanying evidence index as publication authority.
+The worktree is based on private ac6891481534c0807c510ccd994918125d2037b9,
+whose tree matches public PR13 head e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31.
+Do not assume these local files exist in another environment; the description
+above is sufficient to independently construct a small diagnostic.
+
+Only shell syntax and the inert C module's compiler syntax check have passed.
+The Lisp candidate, library preparation and actual ECL experiment were NOT run.
+An automated diagnostic-agent screening block interrupted this follow-up; that
+is not an ECL test result. No alternate execution route was used afterward.
+
+Suggested research sequence
+---------------------------
+1. Independently review the source paths and candidate assumptions. Keep actual
+   ECL integration separate from the already established synthetic collector test.
+2. Obtain/build an unmodified, precisely identified ECL. A distribution ECL can
+   provide preliminary evidence, but cannot substitute for the pinned fork or
+   current upstream. Record complete host/build/compiler/collector information.
+3. Establish a small successful load/collection control. Then compare repeated
+   loads of one library against distinct inert local libraries in fresh processes.
+   Use bounded runtimes and preserve stdout/stderr, exit status and resource limits.
+4. If an abort occurs, capture a debugger backtrace and identify the precise
+   root-push call, actual mark-stack occupancy/capacity and number of locked
+   libraries/environments. Bisect the count needed to reproduce.
+5. Distinguish ECL scanner overflow from OS loader limits, collector dynamic-root
+   registration limits, ordinary recoverable object-worklist overflow and timeout.
+   The error text alone does not prove the ECL scanner is responsible.
+6. Test pristine versus eager-scanning variants only AFTER establishing the
+   unmodified baseline. Do not enlarge/shrink collector limits to manufacture
+   the desired result. Check retention consequences separately.
+7. If library loading does not reproduce, retain that negative result. Investigate
+   natural pointerful C-stack pressure before callback entry, and normal ECL
+   environment/thread roots, without starting from synthetic collector prefill.
+8. Reduce any positive result to attached C/shell/Lisp files plus exact commands
+   that require neither Python nor our repository. Include observed logs, expected
+   behavior and a clear statement about which actual ECL callback was exercised.
+
+Useful ECL host report from CONTRIBUTING:
+
+(format t "~&~@{~12@A ~S~%~}"
+        :version (lisp-implementation-version)
+        :vcs-id (ext:lisp-implementation-vcs-id)
+        :os (software-type)
+        :os-version (software-version)
+        :machine-type (machine-type)
+        :features *features*)
+
+Requested deliverable
+---------------------
+A research report answering:
+* Can actual, unmodified ECL reproduce this, under which supported configuration?
+* What exact scanner/call and input cause it? Include backtrace and raw logs.
+* Is the library-count route real, or only a hypothesis/negative experiment?
+* Does the eager change fix that result, and what remains unproven?
+* What minimal attached files and host details should the human reporter use?
+
+If an ECL-only failure cannot be reproduced, state that prominently. Do not
+invent a successful reproducer or equate synthetic collector stress with an
+upstream ECL defect. Do not post a generated upstream reply.
+
+Separate application work — leave untouched
+-------------------------------------------
+PR13: https://github.com/Erasmus-CTM/stack-wasm-maxima/pull/13
+Current published head: e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31
+Fresh source workflow: 40108653797
+Fresh precompiled workflow: 40108653819
+Both were started successfully; completion is not asserted here.
+The only newest production change raises aggregate CI wall time from 180 to 240
+minutes; all 80 trials, 25% CPU quota and 300-second worker guard are unchanged.
+Do not merge without complete current-head parity and independent Astra reviews.
+No precompiled STACK speedup is established. The previously quoted 19.7-second
+result is SOURCE-LOADED STACK on the Oz-optimized Maxima runtime, not precompiled
+STACK. Whole-library same-worker raw reset/F11 remains a separate open issue.

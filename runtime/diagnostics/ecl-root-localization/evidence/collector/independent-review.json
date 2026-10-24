@@ -1,0 +1,122 @@
+{
+  "sourceRevision": "317e0ed25f006b20df39e7d2e15e5077c9bf3aef",
+  "sourceHead": "7bd4fe4462dedf59e048c1d9431ef381dd75ca17",
+  "sourceTree": "6f47632e500b052871ca164d480967e0e5824a81",
+  "run": 40087768835,
+  "artifact": 12558435559,
+  "collectors": [
+    {
+      "bits": 32,
+      "report": {
+        "bytes": 71818,
+        "sha256": "1c0759d693026db228554c77ff23d30283ad8041dbe03240607a282602e96eee"
+      },
+      "binary": {
+        "bytes": 504692,
+        "sha256": "af7de1aed1be02b431f8f475fd9ff51e59e3042b450ee3e9c2bca6b233123866"
+      },
+      "staticLibrary": {
+        "bytes": 806286,
+        "sha256": "1e312086db8798ddbb42c694dca2d850e2470b4f7e37b0b19bcf281ee843f520"
+      },
+      "ELFObjects": [
+        "allchblk.o",
+        "alloc.o",
+        "blacklst.o",
+        "dbg_mlc.o",
+        "dyn_load.o",
+        "finalize.o",
+        "gc_dlopen.o",
+        "headers.o",
+        "mach_dep.o",
+        "malloc.o",
+        "mallocx.o",
+        "mark.o",
+        "mark_rts.o",
+        "misc.o",
+        "new_hblk.o",
+        "obj_map.o",
+        "os_dep.o",
+        "ptr_chck.o",
+        "reclaim.o",
+        "specific.o",
+        "typd_mlc.o",
+        "gcj_mlc.o",
+        "fnlz_mlc.o"
+      ],
+      "cases": 16,
+      "outcomes": {
+        "expected-original-abort": 2,
+        "root-survival-passed": 10,
+        "root-survival-with-ordinary-recovery-passed": 2,
+        "expected-unchanged-lazy-chain-abort": 2
+      },
+      "incrementalModes": [
+        0,
+        1
+      ],
+      "initialCapacity": 4096,
+      "fixedCapacityControls": true,
+      "graphRecoveryCapacity": 65536,
+      "sourceFiles": 321,
+      "allChecksPassed": true
+    },
+    {
+      "bits": 64,
+      "report": {
+        "bytes": 71819,
+        "sha256": "1cb817d984cbc09ed028b6cf240e3baf80cb4a15ea77f433e3c50e209bc17801"
+      },
+      "binary": {
+        "bytes": 565040,
+        "sha256": "33252ca04d971b5f8edc8a528e57ddc9f1449596a423ecd0eb130904373789c0"
+      },
+      "staticLibrary": {
+        "bytes": 1196360,
+        "sha256": "db2e5f7bba0f859836370cc5ac7414713acc0ec5bdeaec0222d5811efd2fde46"
+      },
+      "ELFObjects": [
+        "allchblk.o",
+        "alloc.o",
+        "blacklst.o",
+        "dbg_mlc.o",
+        "dyn_load.o",
+        "finalize.o",
+        "gc_dlopen.o",
+        "headers.o",
+        "mach_dep.o",
+        "malloc.o",
+        "mallocx.o",
+        "mark.o",
+        "mark_rts.o",
+        "misc.o",
+        "new_hblk.o",
+        "obj_map.o",
+        "os_dep.o",
+        "ptr_chck.o",
+        "reclaim.o",
+        "specific.o",
+        "typd_mlc.o",
+        "gcj_mlc.o",
+        "fnlz_mlc.o"
+      ],
+      "cases": 16,
+      "outcomes": {
+        "expected-original-abort": 2,
+        "root-survival-passed": 10,
+        "root-survival-with-ordinary-recovery-passed": 2,
+        "expected-unchanged-lazy-chain-abort": 2
+      },
+      "incrementalModes": [
+        0,
+        1
+      ],
+      "initialCapacity": 4096,
+      "fixedCapacityControls": true,
+      "graphRecoveryCapacity": 65536,
+      "sourceFiles": 321,
+      "allChecksPassed": true
+    }
+  ],
+  "scope": "Actual native32/64 standalone collector API tests. No artifact programs executed in this audit; binary/object ELF headers parsed. Not Wasm/ECL integration, original browser caller, or performance proof."
+}

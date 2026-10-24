@@ -1,0 +1,36 @@
+{
+  "schema": 2,
+  "stackRevision": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+  "translationMode": "symbolic-assignment-hooks+packagefile+pinned-parser-declarations+targeted-texcolor-texcolorplain-nounor-apply-dispatch",
+  "entry": {
+    "path": "stack/maxima/stackmaxima.mac",
+    "bytes": 158269,
+    "sha256": "35d315d776296b8c3ac3b5029984911bc97bc209340b5894916c7c817f765f10"
+  },
+  "translatedLisp": {
+    "bytes": 1317254,
+    "sha256": "08bb0c41a6137e52e30cb06200e6ee0f3587562ab3f24aeb3faefca6685ca3d7"
+  },
+  "assignmentBridge": {
+    "bytes": 761,
+    "sha256": "a35a207a820e61db53e1454719fa44c1ffcb81bcd8d653c1ce7c334cbd9f1479"
+  },
+  "processAdapter": {
+    "path": "assignment-adapter.lisp",
+    "bytes": 4525,
+    "sha256": "c7cfb8d6645d9d8cd0896b4f90781001a794ea927c6d8436cbf8db717427c695"
+  },
+  "parserDeclarations": {
+    "bytes": 265,
+    "sha256": "5330a2932f2a6d33bd3645637f89ad8e12aeea54f3bc543700f18d50e203137b"
+  },
+  "parserMetadata": {
+    "bytes": 555,
+    "sha256": "c24f7b2c557c7763e84162be2c8a13461e25f7876facc9ea0bf0ca4859862dc8"
+  },
+  "bundle": {
+    "path": "stackmaxima.fas",
+    "bytes": 2644359,
+    "sha256": "a069425e283bb513250ffb9b5edcf47d4f6990b8b8ca8cf896d28212a387cfbe"
+  }
+}

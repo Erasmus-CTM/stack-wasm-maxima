@@ -1,0 +1,2 @@
+CTM-GC-ROOT-START|pointerBits=64|incremental=1|capacity=4096|objects=25|chain=eager|chainRanges=3|previousCollectorCallback=0
+CTM-GC-ROOT-PASS|mode=eager|pressure=nearfull|objects=atomic|pointerBits=64|incremental=1|capacity=4096|collections=4|callbacks=5|arbitraryInteriorRetained=1|rootsReleased=1|chain=eager|chainCallbacks=5|finalCapacity=4096|maxCapacity=4096|recoveries=0
