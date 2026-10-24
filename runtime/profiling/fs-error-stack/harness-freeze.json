@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "kind": "guarded-diagnostic-ab-harness-source-freeze",
+  "runtimeExecution": false,
+  "githubWrites": false,
+  "files": [
+    {
+      "path": "run.mjs",
+      "bytes": 24830,
+      "sha256": "ff713220c0e470acaa8c724028db20137bcb226dabb7173b62139c0703a3bcf7"
+    },
+    {
+      "path": "clean-probe-worker.js",
+      "bytes": 11935,
+      "sha256": "0b54262568824dedb06bbf40b96f535736c6dce6d5003020ef79ead76ab9daca"
+    },
+    {
+      "path": "derive-startup-observer.mjs",
+      "bytes": 2830,
+      "sha256": "9a3cffad1fbe26823b1f970b9b9806d1f79292be94b7db5653c9db1f94a70939"
+    },
+    {
+      "path": "startup-observer.jsfrag",
+      "bytes": 2322,
+      "sha256": "ca6d11bad5be261ff67415bb765bf93347052faf5b85c9c58bdc9ff09f8721c7"
+    },
+    {
+      "path": "test-harness.mjs",
+      "bytes": 16807,
+      "sha256": "e42d2325cac6fe35b0ae3e7e54ad1016a3466da2bc9f761b46430223fb898bdf"
+    },
+    {
+      "path": "test-startup-observer.mjs",
+      "bytes": 5217,
+      "sha256": "e3ecec25e626da76bd8c59a7b45ebb809a4043e6dd27e35fb6b6794c4354fa1d"
+    },
+    {
+      "path": "HARNESS.md",
+      "bytes": 5145,
+      "sha256": "1860568eda3dd41dfa420126b4a4cac8d52f6cdd4e1849619b3e964acd657608"
+    }
+  ],
+  "validation": {
+    "harness": {
+      "passed": true,
+      "scope": "Synthetic trusted driver/session/browser transports only; no browser/CAS/Lisp/Wasm/artifact execution",
+      "groups": [
+        "24 balanced cells and both source/FAS orderings per arm",
+        "exact original/derived admission and allowed manifest deltas",
+        "original child/session lifecycle and first-call ordering",
+        "all typed/native/GC/error/plot guards",
+        "startup missing/failure rejection and termination",
+        "actual-child receipt classification including absent/fallback/malformed/duplicate/unrestored/untreated",
+        "capability-eligible summaries and matched pairs only",
+        "300-second watchdog/termination/reload",
+        "progress reporting excluded from timed calls"
+      ]
+    },
+    "startupObserver": {
+      "passed": true,
+      "scope": "Trusted observer/consume source with synthetic transport and read-only actual failed stdout data; no browser/CAS/Lisp/Wasm/artifact program executed",
+      "original": {
+        "bytes": 12159,
+        "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+      },
+      "derived": {
+        "bytes": 14744,
+        "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+      },
+      "actualFailureFixture": {
+        "artifact": 12578335489,
+        "replayedTailCharacters": 4096,
+        "syntheticBeginPrefix": true
+      },
+      "checks": [
+        "exact original hash",
+        "stream fragments",
+        "ordered success",
+        "post-ready caught errors unaffected",
+        "four anchored diagnostics",
+        "sticky fatal survives later READY",
+        "five marker order failures",
+        "original fail remains fatal",
+        "bounded long output",
+        "actual draw.lisp failure retained/rejected"
+      ]
+    },
+    "syntax": [
+      "run.mjs",
+      "clean-probe-worker.js",
+      "derive-startup-observer.mjs"
+    ]
+  }
+}

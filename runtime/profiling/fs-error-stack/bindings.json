@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "repository": "Erasmus-CTM/stack-wasm-maxima",
+  "branch": "refs/heads/profiling/e8ad-fs-error-stack",
+  "publicationAllowed": true,
+  "producer": {
+    "source": {
+      "runId": 40108653819,
+      "runAttempt": 1,
+      "workflowId": 394101239,
+      "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+      "testedRevision": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+      "trustedRevision": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+      "tree": "0e543f936a385548a7ffd53d68930bd88c033922",
+      "recipeFiles": 71,
+      "jobs": [
+        {
+          "id": 120915544152,
+          "name": "bundle-probe (ecl-oz)"
+        },
+        {
+          "id": 120915544199,
+          "name": "bundle-probe (baseline)"
+        }
+      ]
+    },
+    "artifact": {
+      "id": 12568085269,
+      "name": "precompiled-stack-probe-ecl-oz-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+      "zipBytes": 213921626,
+      "zipSha256": "890a9c1c6c96d915ada2c41bf85e8b3756132ea2f42d6c5d4c6d9a9357c6759d",
+      "zipFileCount": 3404,
+      "packageFileCount": 223,
+      "archivedPreload": false
+    },
+    "independentReview": {
+      "path": "reviews/ecl-oz.json",
+      "sha256": "0a1b39fb99372d10c58a2d4bd0071bd53dda7f39d74ffa9a282c3770495801ce"
+    }
+  }
+}

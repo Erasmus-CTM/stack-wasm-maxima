@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "state": "source-ready-for-independent-review-publication-blocked",
+  "files": {
+    "artifact.py": {
+      "bytes": 16056,
+      "sha256": "e0b923210a32a1d490c09e4c13b624e499465bb32ef6e35a753d55e6577feb8b"
+    },
+    "prepare.py": {
+      "bytes": 11725,
+      "sha256": "07befcdcebe27720ce304e16a64f72842ab5fe512403eac0fd24cbcc59648a53"
+    },
+    "derive.py": {
+      "bytes": 4004,
+      "sha256": "2b2e11f2b5dede5cf87e2ca1f0bb01d41d2582deea3b19c075615896f8a17cbf"
+    },
+    "errno-stack-body.jsfrag": {
+      "bytes": 1039,
+      "sha256": "a18e5f17a9f201e25f463bbb33f94a4177757bd25919b76adfbdb45020161787"
+    },
+    "errno-stack-receipt.jsfrag": {
+      "bytes": 2726,
+      "sha256": "10dc13d48bb14daa8bc014a586a6b5deb3e39fedfb4271c918db5aec9a6a08fa"
+    },
+    "bindings.json": {
+      "bytes": 1267,
+      "sha256": "598e051be6096eab54614a3ed39058ef85518c966f6298e455710034fedec5a4"
+    },
+    "fs-error-stack-ab.yml": {
+      "bytes": 3499,
+      "sha256": "1e148cf87cf220bb8e110e1a34c9137160358ee28434f3d12a3f699b1af05756"
+    },
+    "test-admission.py": {
+      "bytes": 9935,
+      "sha256": "cc5c0babc4ace83522f2c17375be05396213c9680bb1c8afc6b0efaa38f580f3"
+    },
+    "test-derivation.py": {
+      "bytes": 1704,
+      "sha256": "22711c9db7c06d103e9c115562420dde8bb1858dbe6dd5bc76652effb64b36e0"
+    },
+    "test-exception-contract.mjs": {
+      "bytes": 8471,
+      "sha256": "222c19e7b70c065174e1376c1b3dbf8ec8a858f1b6e03a443f0b065eb159511d"
+    },
+    "PLAN.md": {
+      "bytes": 6658,
+      "sha256": "46889de45b6f22d65f68c0b8c6553d9464fb543e05f1b96b17291b2ad7da6ebd"
+    },
+    "reviews/ecl-oz.json": {
+      "bytes": 23593,
+      "sha256": "0a1b39fb99372d10c58a2d4bd0071bd53dda7f39d74ffa9a282c3770495801ce"
+    }
+  },
+  "derivedJavaScript": {
+    "bytes": 1243139,
+    "sha256": "f12ad6f70ff8ef9c865cc278b9b92b4d449281aa18c6c5f2bbcddd4dc5cb111c"
+  },
+  "validation": {
+    "admissionDataTests": 9,
+    "exactDerivationDataTests": 3,
+    "minimalConstructorChecks": 39,
+    "PythonAST": true,
+    "YAML": true,
+    "BashBodies": 3,
+    "pinnedActions": 5
+  },
+  "pendingIntegration": [
+    "Separate shared startup-observer source and clean runner freeze authored by Configuration",
+    "Independent integrated source review"
+  ],
+  "notPerformed": [
+    "GitHub writes",
+    "CI launch",
+    "artifact JavaScript/Wasm/FAS/native/browser/compiler execution"
+  ]
+}

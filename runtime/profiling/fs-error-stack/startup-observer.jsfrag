@@ -1,0 +1,41 @@
+// Benchmark-only stdout observer; no startup commands, runtime or load hooks change.
+const ctmStartupGuard = {schema:1,kind:'ctm-startup-stdout-guard',state:'before-load',failed:false,
+  emitted:false,completedLines:0,stdoutCharacters:0,beginCount:0,endCount:0,readyCount:0,firstFatal:null};
+function ctmStartupReceipt(passed, reason) {
+  if (ctmStartupGuard.emitted) return;
+  ctmStartupGuard.emitted=true;
+  const receipt={...ctmStartupGuard,passed,reason,stdoutTail,
+    stdoutTailTruncated:ctmStartupGuard.stdoutCharacters>stdoutTail.length,
+    stderrScope:'Browser console retained separately; no stderr stream interposition',
+    completionScope:'Existing LOAD-BEGIN/LOAD-END/READY markers; no same-evaluation root-return sentinel'};
+  self.postMessage({type:'diagnostic',text:'CTM-STARTUP-GUARD|'+JSON.stringify(receipt)});
+}
+function ctmStartupReject(reason, line) {
+  if (ctmStartupGuard.failed) return false;
+  ctmStartupGuard.failed=true;
+  ctmStartupGuard.firstFatal={reason,line:String(line).slice(0,2048),lineNumber:ctmStartupGuard.completedLines};
+  ctmStartupReceipt(false,reason);
+  self.postMessage({type:'error',error:'Benchmark startup guard: '+reason});
+  return false;
+}
+function ctmStartupObserve(line) {
+  if (ctmStartupGuard.failed) return false;
+  ctmStartupGuard.completedLines++;
+  const trimmed=line.trim();
+  if (/^(?:loadfile:\s*failed to load\b|Maxima encountered a Lisp error\b|-- an error\.\s*To debug this try:|incorrect syntax:)/i.test(trimmed))
+    return ctmStartupReject('Fatal startup diagnostic',line);
+  if (trimmed==='CTMSTACK-LOAD-BEGIN') {
+    ctmStartupGuard.beginCount++;
+    if (ctmStartupGuard.state!=='before-load') return ctmStartupReject('Out-of-order or repeated LOAD-BEGIN',line);
+    ctmStartupGuard.state='loading';
+  } else if (trimmed==='CTMSTACK-LOAD-END') {
+    ctmStartupGuard.endCount++;
+    if (ctmStartupGuard.state!=='loading') return ctmStartupReject('Out-of-order or repeated LOAD-END',line);
+    ctmStartupGuard.state='loaded';
+  } else if (/^CTMMAXIMA-READY\|/.test(line)) {
+    ctmStartupGuard.readyCount++;
+    if (ctmStartupGuard.state!=='loaded'||!/^CTMMAXIMA-READY\|[^|]+\|.+$/.test(line)) return ctmStartupReject('READY without ordered startup markers',line);
+    ctmStartupGuard.state='ready';ctmStartupReceipt(true,null);
+  }
+  return true;
+}

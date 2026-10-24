@@ -1,0 +1,32 @@
+          if (errno === 44 || errno === 54) {
+            try {
+              const ctmReceiptKey = '__ctmErrnoStackExperimentReceiptV1';
+              if (!Object.prototype.hasOwnProperty.call(Module, ctmReceiptKey)) {
+                // Never overwrite a preexisting key; mark before observing so
+                // reentrancy or an observer failure cannot emit repeatedly.
+                Object.defineProperty(Module, ctmReceiptKey, {value: true});
+                const ctmAfter = Object.getOwnPropertyDescriptor(Error, 'stackTraceLimit');
+                const ctmRestored = ctmStackDescriptor === undefined ? ctmAfter === undefined :
+                  Boolean(ctmAfter && Reflect.ownKeys(ctmStackDescriptor).length === Reflect.ownKeys(ctmAfter).length &&
+                    Reflect.ownKeys(ctmStackDescriptor).every(key => Object.is(ctmStackDescriptor[key], ctmAfter[key])));
+                const ctmStack = this.stack;
+                const ctmOwnData = Boolean(ctmStackDescriptor && Object.prototype.hasOwnProperty.call(ctmStackDescriptor, 'value'));
+                postMessage({type: 'diagnostic', text: 'CTM-ERRNO-STACK-CAPABILITY|' + JSON.stringify({
+                  schema: 1, kind: 'ctm-errno-stack-capability', errno, assignedErrno: this.errno, code: this.code,
+                  supported: ctmStackSupported, didSuppress: ctmDidSuppress, descriptorRestored: ctmRestored,
+                  originalStackTraceLimit: typeof ctmStackDescriptor?.value === 'number' && Number.isFinite(ctmStackDescriptor.value) ? ctmStackDescriptor.value : null,
+                  capability: {ownData: ctmOwnData, writable: ctmStackDescriptor?.writable === true,
+                    finiteNumeric: typeof ctmStackDescriptor?.value === 'number' && Number.isFinite(ctmStackDescriptor.value),
+                    messageIsString: typeof ctmErrnoMessage === 'string'},
+                  stack: {type: typeof ctmStack, lineCount: typeof ctmStack === 'string' ? ctmStack.split('\n').length : null,
+                    frameCount: typeof ctmStack === 'string' ? ctmStack.split('\n').filter(line => /^\s*at\s/.test(line)).length : null},
+                  fallbackReason: ctmStackSupported ? null : !ctmStackDescriptor ? 'missing-own-descriptor' :
+                    !ctmOwnData ? 'accessor-descriptor' : ctmStackDescriptor.writable !== true ? 'read-only-data' :
+                    typeof ctmErrnoMessage !== 'string' ? 'non-string-message' : 'non-finite-or-nonnumeric-limit'
+                })});
+              }
+            } catch (ctmObserverError) {
+              // Diagnostic failure must not change the filesystem exception.
+              // Missing receipt makes treatment attribution fail closed.
+            }
+          }

@@ -1,0 +1,20 @@
+          const ctmErrnoMessage = runtimeInitialized ? strError(errno) : '';
+          const ctmStackDescriptor = (errno === 44 || errno === 54) ?
+            Object.getOwnPropertyDescriptor(Error, 'stackTraceLimit') : null;
+          const ctmStackSupported = Boolean(typeof ctmErrnoMessage === 'string' && ctmStackDescriptor &&
+              Object.prototype.hasOwnProperty.call(ctmStackDescriptor, 'value') &&
+              ctmStackDescriptor.writable === true &&
+              typeof ctmStackDescriptor.value === 'number' &&
+              Number.isFinite(ctmStackDescriptor.value));
+          let ctmDidSuppress = false;
+          if (ctmStackSupported) {
+            try {
+              Object.defineProperty(Error, 'stackTraceLimit', {...ctmStackDescriptor, value: 0});
+              ctmDidSuppress = true;
+              super(ctmErrnoMessage);
+            } finally {
+              Object.defineProperty(Error, 'stackTraceLimit', ctmStackDescriptor);
+            }
+          } else {
+            super(ctmErrnoMessage);
+          }
