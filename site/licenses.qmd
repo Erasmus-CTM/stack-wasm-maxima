@@ -20,7 +20,7 @@ are additional to the 27 texts above.
 
 Everything below was checked on 2026-10-22 and 2026-10-23 against the files
 deployed on this site; the runtime section was updated on 2026-10-24, when the
-site switched to the runtime release `runtime-v1`. Older preview copies of
+site switched to the runtime release `runtime-v2`. Older preview copies of
 research branches under `previews/research/` (`2026-10-native-stack` and
 `2026-10-runtime-feasibility`), where still present, serve the earlier runtime
 copied from <https://maxima-on-wasm.pages.dev/>;
@@ -32,24 +32,24 @@ found the entry says so.
 ## Maxima and ECL runtime
 
 The Maxima runtime in `maxima-runtime/` is the CTM project's release
-[`runtime-v1`](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/tag/runtime-v1):
+[`runtime-v2`](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/tag/runtime-v2):
 Marius Gerbershagen's Emscripten port of Maxima running on ECL
 (<https://gitlab.com/mgerbershagen/maxima>, the build first deployed at
 <https://maxima-on-wasm.pages.dev/>), rebuilt by this project from exact,
 hash-pinned sources in
-[this run](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40073237957)
-(commit `64d02c43`, compiler profile `ecl-oz`).
+[this run](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40132538310)
+(commit `51fdadd6`, compiler profile `ecl-oz`).
 
 - **Corresponding source.** The release asset
-  [`maxima-runtime-v1-sources.tar.gz`](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v1/maxima-runtime-v1-sources.tar.gz)
+  [`maxima-runtime-v2-sources.tar.gz`](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v2/maxima-runtime-v2-sources.tar.gz)
   holds the exact source archives (Maxima `813903d33`, ECL `e4bdb2e5`,
   Emscripten and emsdk 4.0.10), the build recipe and the source manifest with
   every archive's SHA-256. The runtime archive
-  [`maxima-runtime-v1.tar.gz`](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v1/maxima-runtime-v1.tar.gz)
+  [`maxima-runtime-v2.tar.gz`](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v2/maxima-runtime-v2.tar.gz)
   carries the same licence texts and the build's notices. Both are published
   beside each other for as long as the release exists.
 - The site build downloads the release, checks the release record
-  (`maxima-runtime-v1.json`, SHA-256 `0cce0c87…7492`, pinned in the repository's
+  (`maxima-runtime-v2.json`, SHA-256 `c2d80a41…0e8c`, pinned in the repository's
   `runtime/release.json`), the archive and every runtime file against their
   hashes, and serves the files unchanged. Each file's SHA-256 is recorded in
   [`runtime-assets.json`](runtime-assets.json).
@@ -58,17 +58,25 @@ hash-pinned sources in
   load in one request.
 - The build omits plotting: gnuplot (`libgnuplot.so`) and `maxima-plot.fas` are
   not built and not served. An authored plot gets a build diagnostic instead.
+- **Modified ECL source.** The WebAssembly build of ECL carries one declared
+  change by the CTM project: in `src/c/alloc_2.d`, eight root-scanning calls in
+  `ecl_mark_env` and `stacks_scanner` use the collector's `GC_push_all_eager`
+  instead of `GC_push_all`/`GC_push_conditional`. The exact patch, the original
+  and derived file hashes and a dated comment in the changed file are in the
+  release's sources archive (`source-overlays/`); the native build host uses
+  unchanged ECL. ECL's licence (LGPL-2.1-or-later) and original notices apply to
+  the modified file.
 
 | Component | Files on this site | Version as reported by the files | Licence | Source |
 |---|---|---|---|---|
-| Maxima (Emscripten port) | `maxima.wasm`, `maxima-integration.fas`, `maxima-limits.fas`, `maxima-matrix-algebra.fas`, `maxima-number-theory.fas`, `maxima-poisson-series.fas`, `maxima-quadpack.fas`, `maxima-slatec.fas`, `maxima-solve.fas` | `branch_5_49_base_90_g813903d33` | GNU GPL version 2, as in Maxima's `COPYING` ([GPL-2.0 text](LICENSES/GPL-2.0-only.txt); [Maxima's COPYING](LICENSES/Maxima-COPYING.txt)). "Only" or "or later" is not stated in `COPYING`; GitLab labels the port "GNU General Public License v2.0 or later". Individual source files differ, see [notes](#maxima). | commit `813903d33f5ccca09cbe3086dbfe5e228521da52` of <https://gitlab.com/mgerbershagen/maxima>, archived in the [release's sources](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v1/maxima-runtime-v1-sources.tar.gz); upstream Maxima at <https://maxima.sourceforge.io/>, read at [tag `branch-5_49-base`](https://github.com/rtoy/maxima/tree/cce856a60952c971e6f3604706335455c9a46fca) in a GitHub mirror |
+| Maxima (Emscripten port) | `maxima.wasm`, `maxima-integration.fas`, `maxima-limits.fas`, `maxima-matrix-algebra.fas`, `maxima-number-theory.fas`, `maxima-poisson-series.fas`, `maxima-quadpack.fas`, `maxima-slatec.fas`, `maxima-solve.fas` | `branch_5_49_base_90_g813903d33` | GNU GPL version 2, as in Maxima's `COPYING` ([GPL-2.0 text](LICENSES/GPL-2.0-only.txt); [Maxima's COPYING](LICENSES/Maxima-COPYING.txt)). "Only" or "or later" is not stated in `COPYING`; GitLab labels the port "GNU General Public License v2.0 or later". Individual source files differ, see [notes](#maxima). | commit `813903d33f5ccca09cbe3086dbfe5e228521da52` of <https://gitlab.com/mgerbershagen/maxima>, archived in the [release's sources](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v2/maxima-runtime-v2-sources.tar.gz); upstream Maxima at <https://maxima.sourceforge.io/>, read at [tag `branch-5_49-base`](https://github.com/rtoy/maxima/tree/cce856a60952c971e6f3604706335455c9a46fca) in a GitHub mirror |
 | Maxima share packages | 66 files under `maxima-runtime/share/` | same | per file, see [table below](#maxima-share-packages) | same |
-| ECL (Embeddable Common Lisp) | `libecl.so` | 26.3.27, source id `e4bdb2e5b1e444e1773032a53650773848f4d6cd` | [LGPL-2.1-or-later](LICENSES/LGPL-2.1-or-later.txt) ([ECL's LICENSE](LICENSES/ECL-LICENSE.txt)), with exceptions that include parts present in the file (`loop.lsp`, `contrib/ecl-cdb`), see [notes](#ecl) | commit `e4bdb2e5b1e444e1773032a53650773848f4d6cd` of <https://gitlab.com/mgerbershagen/ecl>, archived in the [release's sources](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v1/maxima-runtime-v1-sources.tar.gz); [tag 26.3.27](https://gitlab.com/embeddable-common-lisp/ecl/-/tree/26.3.27) checked in the [GitHub mirror](https://github.com/roswell/ecl/tree/26.3.27) |
+| ECL (Embeddable Common Lisp) | `libecl.so` | 26.3.27, source id `e4bdb2e5b1e444e1773032a53650773848f4d6cd` | [LGPL-2.1-or-later](LICENSES/LGPL-2.1-or-later.txt) ([ECL's LICENSE](LICENSES/ECL-LICENSE.txt)), with exceptions that include parts present in the file (`loop.lsp`, `contrib/ecl-cdb`), see [notes](#ecl) | commit `e4bdb2e5b1e444e1773032a53650773848f4d6cd` of <https://gitlab.com/mgerbershagen/ecl>, archived in the [release's sources](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v2/maxima-runtime-v2-sources.tar.gz); [tag 26.3.27](https://gitlab.com/embeddable-common-lisp/ecl/-/tree/26.3.27) checked in the [GitHub mirror](https://github.com/roswell/ecl/tree/26.3.27) |
 | GMP, bundled with ECL | inside `libecl.so` | 4.2.1 | [LGPL-2.1-or-later](LICENSES/LGPL-2.1-or-later.txt) | [`src/gmp` of ECL 26.3.27](https://github.com/roswell/ecl/tree/26.3.27/src/gmp) |
 | Boehm-Demers-Weiser GC, bundled with ECL | inside `libecl.so` | 8.2.8 | [Boehm-GC](LICENSES/Boehm-GC.txt) | [`src/bdwgc` of ECL 26.3.27](https://github.com/roswell/ecl/tree/26.3.27/src/bdwgc); [bdwgc v8.2.8](https://github.com/ivmai/bdwgc/tree/v8.2.8) |
-| Emscripten JavaScript runtime | `maxima.js` | built with Emscripten 4.0.10 (release source manifest) | MIT or NCSA, at the user's choice ([MIT](LICENSES/MIT.txt), [NCSA](LICENSES/NCSA.txt), [Emscripten's LICENSE](LICENSES/Emscripten-LICENSE.txt)) | Emscripten commit `b7dc6e57`, archived in the [release's sources](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v1/maxima-runtime-v1-sources.tar.gz); its licence was read at [`45a6cffd`](https://github.com/emscripten-core/emscripten/tree/45a6cffdbdf003665c7f48072191ce5a860fd0f4) (`main` when read) |
+| Emscripten JavaScript runtime | `maxima.js` | built with Emscripten 4.0.10 (release source manifest) | MIT or NCSA, at the user's choice ([MIT](LICENSES/MIT.txt), [NCSA](LICENSES/NCSA.txt), [Emscripten's LICENSE](LICENSES/Emscripten-LICENSE.txt)) | Emscripten commit `b7dc6e57`, archived in the [release's sources](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v2/maxima-runtime-v2-sources.tar.gz); its licence was read at [`45a6cffd`](https://github.com/emscripten-core/emscripten/tree/45a6cffdbdf003665c7f48072191ce5a860fd0f4) (`main` when read) |
 | Emscripten system libraries: musl libc (`maxima.wasm` contained `__crypt_*` names in the earlier deployed build); libc++ (`std::__2` symbols), libc++abi and compiler-rt (source paths) in `maxima.wasm` only | inside the files named | not stated in the files | musl: MIT ([musl COPYRIGHT](LICENSES/musl-COPYRIGHT.txt)); LLVM libraries: Apache-2.0 with LLVM exception ([Apache-2.0](LICENSES/Apache-2.0.txt), [LLVM-exception](LICENSES/LLVM-exception.txt), [LLVM LICENSE.TXT](LICENSES/LLVM-LICENSE.TXT.txt)) | [`system/lib` of Emscripten at `45a6cffd`](https://github.com/emscripten-core/emscripten/tree/45a6cffdbdf003665c7f48072191ce5a860fd0f4/system/lib) (the `main` branch when read); the build's own toolchain (4.0.10) is archived in the release's sources |
-| Port glue scripts | `maxima_thread.js`, `share_files.js` | none | no notice in the files; licence not determined | generated by the build from the Maxima port's sources, archived in the [release's sources](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v1/maxima-runtime-v1-sources.tar.gz) |
+| Port glue scripts | `maxima_thread.js`, `share_files.js` | none | no notice in the files; licence not determined | generated by the build from the Maxima port's sources, archived in the [release's sources](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v2/maxima-runtime-v2-sources.tar.gz) |
 
 ### Notes on the runtime {#runtime-notes}
 
@@ -204,7 +212,7 @@ LLGPL files (`mring.lisp` here, `maxmin.lisp` and `nummod.lisp` above) are cover
 
 #### gnuplot {#gnuplot}
 
-- Not served since the switch to `runtime-v1`: the release is built without
+- Not served since the switch to `runtime-v2`: the release is built without
   plotting (`libgnuplot.so` and `maxima-plot.fas` are omitted). The licence text
   [`LICENSES/gnuplot.txt`](LICENSES/gnuplot.txt) stays for older preview copies,
   which still serve the earlier deployed build; the

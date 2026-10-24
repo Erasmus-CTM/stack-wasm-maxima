@@ -2,7 +2,7 @@
   "schema": 1,
   "note": "The released owned runtime the reviewer site serves (prepare-runtime.py --runtime-release). Change only to a newer release of runtime-release.yml; the record hash is the release's maxima-<tag>.json.",
   "repository": "Erasmus-CTM/stack-wasm-maxima",
-  "tag": "runtime-v1",
-  "record": "maxima-runtime-v1.json",
-  "recordSha256": "0cce0c87ff961f8d2f898d8914c4b8c870b8795f4affbdac9154e3f492227492"
+  "tag": "runtime-v2",
+  "record": "maxima-runtime-v2.json",
+  "recordSha256": "c2d80a4109246e519e1899c0032b23b6ebf42bcf377b900a7ca2e31d0e010e8c"
 }
