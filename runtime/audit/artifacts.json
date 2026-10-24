@@ -1,118 +1,49 @@
 [
   {
-    "id": 12545214476,
-    "name": "owned-runtime-ecl-o2-580019b25ae0be764fae181066c932ff499c0865",
     "run": 40051138504,
     "head": "6d3735dd480bd50753d3ba7efc01636c7d269d8a",
     "workflow": 393419291,
     "attempt": 1,
-    "status": "in_progress",
-    "conclusion": null,
+    "conclusion": "success",
+    "id": 12545951221,
+    "name": "owned-runtime-580019b25ae0be764fae181066c932ff499c0865",
+    "sha256": "0105027031e3d9ecd0e3f06826401e6e51cad9cdd0b4185b92d09c99f9d7025c",
+    "files": []
+  },
+  {
+    "run": 40051138504,
+    "head": "6d3735dd480bd50753d3ba7efc01636c7d269d8a",
+    "workflow": 393419291,
+    "attempt": 1,
+    "conclusion": "success",
+    "id": 12545255513,
+    "name": "owned-runtime-ecl-oz-580019b25ae0be764fae181066c932ff499c0865",
+    "sha256": "4aafa01eb5d240bf502d77a130f8be1fc78c1411cbb593153a425a2818215157",
+    "files": []
+  },
+  {
+    "run": 40051138504,
+    "head": "6d3735dd480bd50753d3ba7efc01636c7d269d8a",
+    "workflow": 393419291,
+    "attempt": 1,
+    "conclusion": "success",
+    "id": 12545214476,
+    "name": "owned-runtime-ecl-o2-580019b25ae0be764fae181066c932ff499c0865",
     "sha256": "3c3d93c778830fdaa3e1209487dc0df4ce4d61eeb406c190ae3cf11f5ad026ea",
+    "files": []
+  },
+  {
+    "run": 40051138504,
+    "head": "6d3735dd480bd50753d3ba7efc01636c7d269d8a",
+    "workflow": 393419291,
+    "attempt": 1,
+    "conclusion": "success",
+    "id": 12545424600,
+    "name": "compiler-comparison-580019b25ae0be764fae181066c932ff499c0865",
+    "sha256": "196905b15597f5fca4b1c32c48dcc64b81ca67bf80cba2a17cd8faaf34f2ad27",
     "files": [
-      ".cache/runtime-build/artifact/manifest.json",
-      ".cache/runtime-build/artifact/artifact-manifest.json",
-      ".cache/runtime-build/artifact/source-manifest.json",
-      ".cache/runtime-build/artifact/logs/environment.json",
-      ".cache/runtime-build/artifact/logs/compiler-experiment.json",
-      ".cache/runtime-build/artifact/logs/ecl-config.log",
-      ".cache/runtime-build/artifact/logs/target-info.lsp",
-      ".cache/runtime-build/artifact/logs/ecl-cross-build.log",
-      ".cache/runtime-build/artifact/logs/source-state-before.json",
-      ".cache/runtime-build/artifact/logs/source-state-after.json",
-      ".cache/runtime-build/artifact/logs/host-ecl.sha256",
-      ".cache/runtime-build/artifact/build-recipes/maxima/wasm/Makefile",
-      ".cache/runtime-build/artifact/build-recipes/maxima/wasm/build.lisp",
-      ".cache/runtime-build/artifact/build-recipes/maxima/src/maxima.asd",
-      ".cache/runtime-build/source-manifest.json",
-      ".cache/runtime-build/source-progress.json",
-      ".cache/runtime-build/validation/acceptance.json",
-      ".cache/runtime-build/validation/timings.json",
-      ".cache/runtime-build/validation/plot-diagnostic.json",
-      ".cache/runtime-build/validation/public-pages-encoding.json",
-      ".cache/runtime-build/validation/m1-owned/prepared.json",
-      ".cache/runtime-build/validation/m1-owned/comparison.json",
-      ".cache/runtime-build/validation/m1-owned/browser-10d3233.json",
-      ".cache/runtime-build/validation/m1-owned/browser-3338304.json",
-      ".cache/runtime-build/validation/m1-deployed/prepared.json",
-      ".cache/runtime-build/validation/m1-deployed/comparison.json",
-      ".cache/runtime-build/validation/m1-deployed/browser-10d3233.json",
-      ".cache/runtime-build/validation/m1-deployed/browser-3338304.json",
-      ".cache/runtime-build/plot-diagnostic/preparation/build-failure.json",
-      "test-results/milestone-three/browser.json",
-      "test-results/milestone-three/native-reference/native-reference.json",
-      "test-results/milestone-three/native-reference/native.log",
-      "test-results/milestone-three/native-reference/reference.mac",
-      "test-results/milestone-three/same-source-reference/native-reference.json",
-      "test-results/milestone-three/same-source-reference/native.log",
-      "test-results/milestone-three/same-source-reference/reference.mac"
-    ],
-    "ranges": [
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 0,
-        "end": 4194304
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 4194304,
-        "end": 8388608
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 8388608,
-        "end": 12582912
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 12582912,
-        "end": 16777216
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 16777216,
-        "end": 20971520
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 20971520,
-        "end": 25165824
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 25165824,
-        "end": 29360128
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 29360128,
-        "end": 33554432
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 33554432,
-        "end": 37748736
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 37748736,
-        "end": 41943040
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 41943040,
-        "end": 46137344
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 46137344,
-        "end": 50331648
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 50331648,
-        "end": 53687994
-      }
+      "admission.json",
+      "timings.json"
     ]
   }
 ]
