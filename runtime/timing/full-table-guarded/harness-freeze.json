@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "kind": "guarded-six-cell-harness-source-freeze",
+  "runtimeExecution": false,
+  "githubWrites": false,
+  "files": [
+    {
+      "path": "run.mjs",
+      "bytes": 20161,
+      "sha256": "19adee69cc4cfe2cfb5ab834e76c4ae6816de5f3a9f557ec34c387c541d1df52"
+    },
+    {
+      "path": "clean-probe-worker.js",
+      "bytes": 9899,
+      "sha256": "c519a7b6cdda56b97186bcfa6600813050ad30fa5c770620cb3f6a8686ae191c"
+    },
+    {
+      "path": "derive-startup-observer.mjs",
+      "bytes": 2830,
+      "sha256": "9a3cffad1fbe26823b1f970b9b9806d1f79292be94b7db5653c9db1f94a70939"
+    },
+    {
+      "path": "startup-observer.jsfrag",
+      "bytes": 2322,
+      "sha256": "ca6d11bad5be261ff67415bb765bf93347052faf5b85c9c58bdc9ff09f8721c7"
+    },
+    {
+      "path": "test-harness.mjs",
+      "bytes": 14583,
+      "sha256": "6df0bf3626936edef33ae6fd522857dc3be6f7ee8bded946d4ee5cc3f57ae05b"
+    },
+    {
+      "path": "test-startup-observer.mjs",
+      "bytes": 5217,
+      "sha256": "e3ecec25e626da76bd8c59a7b45ebb809a4043e6dd27e35fb6b6794c4354fa1d"
+    },
+    {
+      "path": "HARNESS.md",
+      "bytes": 4393,
+      "sha256": "de3690b08bad2d7297427f10017d62ddb1807e63ce24bfbe6614939e988dfbe5"
+    }
+  ],
+  "originalCleanFilesUnchanged": {
+    "run.mjs": "fb2fb1d93f406724f883928e532af9fe3bd5508a0fb3eaacabb437fb2aef8797",
+    "clean-probe-worker.js": "ff4aa0031f27bcca48e68130ebca1bf6a95722277f60627b7fe70219769b5ec1",
+    "test-harness.mjs": "494ceab78b17b0f2b55b16d631dbf1e511dc7e2d26d3028e489b249e0bcff092",
+    "HARNESS.md": "729b2682fcf6622fe72b02b0b238be718c3a7faa5e5b14b9261ae358a45dac28"
+  },
+  "validation": {
+    "harness": {
+      "passed": true,
+      "scope": "Trusted source with synthetic JS sessions/browser transports only; no browser, CAS, Lisp, Wasm or artifact program executed",
+      "checks": [
+        "36 balanced guarded cells",
+        "missing/fatal/delayed duplicate startup receipts reject and terminate",
+        "rotating profile order",
+        "both source/FAS orderings for every profile",
+        "minimum three repetitions",
+        "known syscall warnings retained and other fatal console text rejected",
+        "old/new source identities stay separate",
+        "exact candidate artifact prefix accepted",
+        "wrong artifact prefix rejected",
+        "failed admission rejected",
+        "profile swap rejected",
+        "source swap rejected",
+        "package swap rejected",
+        "asset tamper rejected",
+        "native workload substitution rejected",
+        "first logical before grades or warmup",
+        "clean Worker binding unchanged",
+        "ten typed controls and pinned policy",
+        "positive and negative grades",
+        "ten warm grades and arithmetic calls",
+        "three native programs",
+        "100 GC/live-object checks",
+        "caught-error recovery and four plot diagnostics",
+        "fresh worker/buffer guards",
+        "exact matching FAS read and zero fallback",
+        "logical failure rejects before grading",
+        "grade/native/GC/plot mismatches fail",
+        "worker reuse rejected",
+        "terminated session rejects calls",
+        "combined metric sums declared blocks",
+        "cold worker terminated before fresh reload worker",
+        "failed stop acknowledgment fails",
+        "300-second watchdog retains failure and forces cleanup",
+        "progress serialization excluded from measured call durations"
+      ]
+    },
+    "startupObserver": {
+      "passed": true,
+      "scope": "Trusted observer/consume source with synthetic transport and read-only actual failed stdout data; no browser/CAS/Lisp/Wasm/artifact program executed",
+      "original": {
+        "bytes": 12159,
+        "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+      },
+      "derived": {
+        "bytes": 14744,
+        "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+      },
+      "actualFailureFixture": {
+        "artifact": 12578335489,
+        "replayedTailCharacters": 4096,
+        "syntheticBeginPrefix": true
+      },
+      "checks": [
+        "exact original hash",
+        "stream fragments",
+        "ordered success",
+        "post-ready caught errors unaffected",
+        "four anchored diagnostics",
+        "sticky fatal survives later READY",
+        "five marker order failures",
+        "original fail remains fatal",
+        "bounded long output",
+        "actual draw.lisp failure retained/rejected"
+      ]
+    },
+    "syntax": [
+      "run.mjs",
+      "clean-probe-worker.js",
+      "derive-startup-observer.mjs"
+    ]
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "state": "all-candidate-scope-bindings-prepared-publication-blocked-for-final-independent-review",
+  "files": {
+    "artifact.py": {
+      "bytes": 16056,
+      "sha256": "e0b923210a32a1d490c09e4c13b624e499465bb32ef6e35a753d55e6577feb8b"
+    },
+    "prepare.py": {
+      "bytes": 8154,
+      "sha256": "81664bf5c03c110e59a42e970f3f647004dd212e64d1b4845228309427149d45"
+    },
+    "verify-one.py": {
+      "bytes": 3951,
+      "sha256": "52615e0353b53be8ee1c8e4a4b54fa5717839f55c3bb340ad3622b2b873ae0a0"
+    },
+    "test-admission.py": {
+      "bytes": 9410,
+      "sha256": "ee242366b517cd091acd3a2fe5f28056820002146f220badb6923817e915f051"
+    },
+    "bindings.json": {
+      "bytes": 3654,
+      "sha256": "afe3627a021f455947f0b577d9eff83d40e24d563987ad2c4a9bb5760794f8bb"
+    },
+    "full-timing-table-guarded.yml": {
+      "bytes": 4137,
+      "sha256": "8796bb9fa86216fc95cce51a21dff43e41c96e18270db8b2e268413fa0879e22"
+    },
+    "PLAN.md": {
+      "bytes": 5321,
+      "sha256": "4a437b44a23a2925521426840cf19150ff8158ff58c10f19e4371ea7a7b827c4"
+    },
+    "reviews/baseline.json": {
+      "bytes": 25871,
+      "sha256": "4539bfd319c1515780838e65fa901a9a02c754df14e4f31b23ae9fd4ae56a4ff"
+    },
+    "reviews/ecl-oz.json": {
+      "bytes": 23593,
+      "sha256": "0a1b39fb99372d10c58a2d4bd0071bd53dda7f39d74ffa9a282c3770495801ce"
+    },
+    "reviews/ecl-oz-maxima-oz-compiler-bundle-official.json": {
+      "bytes": 23065,
+      "sha256": "5c3151393e107aaebd927ee5b43e14ddc7c044fc9fe4427e4069019653426bd1"
+    },
+    "reviews/ecl-oz-maxima-oz-controller-graphics.json": {
+      "bytes": 12329,
+      "sha256": "642b021c5f9b481cd3dbc62d2548b727046c9fc020aa51f0401d01435e75df01"
+    },
+    "reviews/ecl-oz-maxima-oz-native.json": {
+      "bytes": 13337,
+      "sha256": "89ab99ac793b3796852b1fea19d2c9decfe6dbc22ac6db39cae52c30257e984b"
+    },
+    "reviews/ecl-oz-maxima-oz-producer-api.json": {
+      "bytes": 142288,
+      "sha256": "577aa754f9917b4733f37436ca49531986d4352d3fe65628fc3d11dfde17f1e2"
+    },
+    "reviews/ecl-oz-maxima-oz.json": {
+      "bytes": 7159,
+      "sha256": "8ff54c1c2bfcd9710875be76fd1a0d2f85792c108bc9a9d58588f20201961124"
+    }
+  },
+  "previousUnboundSourceFreeze": {
+    "path": "/workspace/work/full-timing-table-guarded/integration-freeze.json",
+    "bytes": 9030,
+    "sha256": "f460d42a818edcbe0a8c3bb0358f7be868d4c235585a88799a394dd0b04d32ec"
+  },
+  "validation": {
+    "admissionDataTests": 9,
+    "allThreeRawReviewsExact": true,
+    "producerApiAndPackageCountsVerified": true,
+    "runtimeAdmissionAndWorkflowCodeUnchanged": true,
+    "PythonAST": true,
+    "YAML": true,
+    "BashBodies": 3
+  },
+  "notPerformed": [
+    "External writes",
+    "CI launch",
+    "Browser/CAS/Lisp/Wasm/native/compiler/artifact execution"
+  ]
+}

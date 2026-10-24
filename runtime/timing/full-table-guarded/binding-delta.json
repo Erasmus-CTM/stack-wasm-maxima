@@ -1,0 +1,124 @@
+{
+  "schema": 1,
+  "state": "BOUND; independent final binding review and parent activation pending",
+  "priorGuardedFreeze": {
+    "bytes": 9030,
+    "sha256": "f460d42a818edcbe0a8c3bb0358f7be868d4c235585a88799a394dd0b04d32ec"
+  },
+  "changedExistingSourceFiles": {
+    "test-admission.py": {
+      "before": {
+        "bytes": 9256,
+        "sha256": "3b4deebb4c9f171e402d1bc2f1b599a5bac6e2287fd3f28d218268ff5ba73814"
+      },
+      "after": {
+        "bytes": 9410,
+        "sha256": "ee242366b517cd091acd3a2fe5f28056820002146f220badb6923817e915f051"
+      }
+    },
+    "bindings.json": {
+      "before": {
+        "bytes": 3295,
+        "sha256": "588c7fc2ba1b6c145688f16a85dc46a3458c36148d58e558ecfc28ea6b98d353"
+      },
+      "after": {
+        "bytes": 3654,
+        "sha256": "afe3627a021f455947f0b577d9eff83d40e24d563987ad2c4a9bb5760794f8bb"
+      }
+    },
+    "PLAN.md": {
+      "before": {
+        "bytes": 4999,
+        "sha256": "97b4ba199d1d0baf9fda103dd7c89d742dd43a3c61ee598d815173a3b2071619"
+      },
+      "after": {
+        "bytes": 5321,
+        "sha256": "4a437b44a23a2925521426840cf19150ff8158ff58c10f19e4371ea7a7b827c4"
+      }
+    }
+  },
+  "bindingChanges": [
+    {
+      "pointer": "/profiles/ecl-oz-maxima-oz/source/workflowId",
+      "before": null,
+      "after": 395458321
+    },
+    {
+      "pointer": "/profiles/ecl-oz-maxima-oz/source/jobs",
+      "before": null,
+      "after": [
+        {
+          "id": 120999345248,
+          "name": "bundle-probe (ecl-oz-maxima-oz)"
+        }
+      ]
+    },
+    {
+      "pointer": "/profiles/ecl-oz-maxima-oz/artifact/id",
+      "before": null,
+      "after": 12578753698
+    },
+    {
+      "pointer": "/profiles/ecl-oz-maxima-oz/artifact/name",
+      "before": null,
+      "after": "maxima-oz-candidate-ecl-oz-maxima-oz-58cf269f303898a7b679d9d164346fbb9384b781"
+    },
+    {
+      "pointer": "/profiles/ecl-oz-maxima-oz/artifact/zipBytes",
+      "before": null,
+      "after": 214091662
+    },
+    {
+      "pointer": "/profiles/ecl-oz-maxima-oz/artifact/zipSha256",
+      "before": null,
+      "after": "08dfcd8686e1be8da91b19c850c9668bd96e3e224df513192d3e0de023dfce74"
+    },
+    {
+      "pointer": "/profiles/ecl-oz-maxima-oz/artifact/zipFileCount",
+      "before": null,
+      "after": 3420
+    },
+    {
+      "pointer": "/profiles/ecl-oz-maxima-oz/artifact/packageFileCount",
+      "before": null,
+      "after": 232
+    },
+    {
+      "pointer": "/profiles/ecl-oz-maxima-oz/independentReview/path",
+      "before": null,
+      "after": "reviews/ecl-oz-maxima-oz.json"
+    },
+    {
+      "pointer": "/profiles/ecl-oz-maxima-oz/independentReview/sha256",
+      "before": null,
+      "after": "8ff54c1c2bfcd9710875be76fd1a0d2f85792c108bc9a9d58588f20201961124"
+    }
+  ],
+  "addedReviewFiles": {
+    "reviews/ecl-oz-maxima-oz-compiler-bundle-official.json": {
+      "bytes": 23065,
+      "sha256": "5c3151393e107aaebd927ee5b43e14ddc7c044fc9fe4427e4069019653426bd1"
+    },
+    "reviews/ecl-oz-maxima-oz-controller-graphics.json": {
+      "bytes": 12329,
+      "sha256": "642b021c5f9b481cd3dbc62d2548b727046c9fc020aa51f0401d01435e75df01"
+    },
+    "reviews/ecl-oz-maxima-oz-native.json": {
+      "bytes": 13337,
+      "sha256": "89ab99ac793b3796852b1fea19d2c9decfe6dbc22ac6db39cae52c30257e984b"
+    },
+    "reviews/ecl-oz-maxima-oz-producer-api.json": {
+      "bytes": 142288,
+      "sha256": "577aa754f9917b4733f37436ca49531986d4352d3fe65628fc3d11dfde17f1e2"
+    },
+    "reviews/ecl-oz-maxima-oz.json": {
+      "bytes": 7159,
+      "sha256": "8ff54c1c2bfcd9710875be76fd1a0d2f85792c108bc9a9d58588f20201961124"
+    }
+  },
+  "runtimeWorkflowAdmissionImplementationUnchanged": true,
+  "testChange": "The now-fully-bound positive activation fixture passes; tampered composite review hash rejects. Publication false still rejects before API/download.",
+  "documentationChange": "Replaces unresolved candidate metadata paragraph with exact admitted artifact and three scope receipts; publication and production promotion remain blocked.",
+  "activationStillFalse": true,
+  "oldCleanAndUnboundGuardedPreserved": true
+}

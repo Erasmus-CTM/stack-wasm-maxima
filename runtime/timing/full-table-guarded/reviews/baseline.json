@@ -1,0 +1,628 @@
+{
+  "schema": 1,
+  "reviewer": "independent Astra xHigh config-safety",
+  "observedAt": "2026-10-24T19:33:35.402032+00:00",
+  "scope": "Current e8ad full-precompiled baseline119 bundle+23 official+32 compiler logical files; independent restart, source/bundle, compiler/package/source-overlay, licence and descriptive timing checks",
+  "context": {
+    "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+    "testedRevision": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+    "tree": "0e543f936a385548a7ffd53d68930bd88c033922",
+    "repository": "/workspace/work/gc-aggregate-budget-fix",
+    "run": 40108653819,
+    "workflow": 394101239,
+    "profile": "baseline",
+    "artifact": {
+      "id": 12567788724,
+      "name": "precompiled-stack-probe-baseline-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+      "zipBytes": 214342343,
+      "sha256": "8478694866575c1b638c00bfc1abe9868b8615b02002ad8013d73524354d290b"
+    }
+  },
+  "profileScopeClear": true,
+  "wholeWorkflowSucceeded": true,
+  "globalCrossWorkflowAdmissionClaimed": false,
+  "workflow": {
+    "id": 40108653819,
+    "workflow_id": 394101239,
+    "run_attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31"
+  },
+  "jobs": [
+    {
+      "id": 120915544152,
+      "name": "bundle-probe (ecl-oz)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 120915544199,
+      "name": "bundle-probe (baseline)",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "payloads": {
+    "files": 174,
+    "bytes": 108874723,
+    "recordFiles": [
+      {
+        "path": "/workspace/work/e8ad-full-baseline-bundle-part1-records.json",
+        "bytes": 4343853,
+        "sha256": "58877d620d286063b9722c9bb3d0b29ae7543c2c16251d231d009f08617934d8"
+      },
+      {
+        "path": "/workspace/work/e8ad-full-baseline-bundle-part2-records.json",
+        "bytes": 4344803,
+        "sha256": "4cd735619f618367d1223c720607242243cc74468ecbdc8b2eecd42d858c7a7f"
+      },
+      {
+        "path": "/workspace/work/e8ad-full-baseline-official-records.json",
+        "bytes": 2761012,
+        "sha256": "389667bf0ecc53912e9c12f970ab6daf4703aee8ee35872d4e2d8cb2efe9c692"
+      },
+      {
+        "path": "/workspace/work/e8ad-full-baseline-compiler-records.json",
+        "bytes": 4930322,
+        "sha256": "007c106e501b617037587aa5f4218ef845562684ed06490aa36be7e9f09fc0d9"
+      }
+    ],
+    "allGzipPayloadsIndependentlyDecodedCompared": true,
+    "allRangesContiguousAndFullFileHashesVerified": true
+  },
+  "sameZipClosure": {
+    "fourFullInventoryTablesEqual": true,
+    "allFourOriginalRunProvenancesCompletedSuccess": true,
+    "zipSha256": "8478694866575c1b638c00bfc1abe9868b8615b02002ad8013d73524354d290b",
+    "apiArtifactDigestEqualsAuditWholeZipHash": true,
+    "finalCompilerAuditCompletion": {
+      "path": "/workspace/work/e8ad-full-baseline-compiler-completion.json",
+      "bytes": 196,
+      "sha256": "8bcbca475ecff4ccba5434f44a4c23df88e7bc7f0f43f1541aa7ab51017cd207"
+    },
+    "apiMetadata": {
+      "path": "/workspace/work/e8ad-full-baseline-review/final-api-metadata.json",
+      "bytes": 171300,
+      "sha256": "728e49a68dd612c0839761ed14f0e5e7b8ad5b9e647ff810299f824eccc1b5c7"
+    }
+  },
+  "audits": [
+    {
+      "key": "e8ad-full-baseline-bundle-part1",
+      "head": "fb85a5f1bda626f55b8e2b699c93005ac71d4b5c",
+      "tree": "ee63624b5746986b2118602fc501089f6fd5ba31",
+      "specPath": "/workspace/work/e8ad-full-baseline-bundle-part1-spec.json",
+      "artifact": 12567788724,
+      "payloads": 58,
+      "ranges": 0,
+      "run": 40117344464,
+      "status": "completed",
+      "conclusion": "success",
+      "job": 120941241137,
+      "records": "/workspace/work/e8ad-full-baseline-bundle-part1-records.json",
+      "decoded": true,
+      "apiIdentityIndependentlyVerified": true,
+      "helperSha256": "5e6c83c7c6acc52dc6337a0a4acba27e7c8b3e6fbd3dcc780a243ca6eecdb26e",
+      "publishedSpecBytesExact": true,
+      "completionAndDecoding": "Root recovered complete successful audit logs and decoded; this reviewer independently binds API identity, helper, spec and all selected decoded bytes."
+    },
+    {
+      "key": "e8ad-full-baseline-bundle-part2",
+      "head": "cccce547932e8b4d35c391b17ca0fe69308a644f",
+      "tree": "97ece1f454b729d15d79dc8276d884fe6bf0f4bd",
+      "specPath": "/workspace/work/e8ad-full-baseline-bundle-part2-spec.json",
+      "artifact": 12567788724,
+      "payloads": 61,
+      "ranges": 0,
+      "run": 40117373328,
+      "status": "completed",
+      "conclusion": "success",
+      "job": 120941329344,
+      "records": "/workspace/work/e8ad-full-baseline-bundle-part2-records.json",
+      "decoded": true,
+      "apiIdentityIndependentlyVerified": true,
+      "helperSha256": "5e6c83c7c6acc52dc6337a0a4acba27e7c8b3e6fbd3dcc780a243ca6eecdb26e",
+      "publishedSpecBytesExact": true,
+      "completionAndDecoding": "Root recovered complete successful audit logs and decoded; this reviewer independently binds API identity, helper, spec and all selected decoded bytes."
+    },
+    {
+      "key": "e8ad-full-baseline-official",
+      "head": "710043f06cb7875f051acbd2f9d2d42965f0e9bf",
+      "tree": "e619cb0d78ac12a894d43754a24eed8d208ee729",
+      "specPath": "/workspace/work/e8ad-full-baseline-official-spec.json",
+      "artifact": 12567788724,
+      "payloads": 23,
+      "ranges": 0,
+      "run": 40117390620,
+      "status": "completed",
+      "conclusion": "success",
+      "job": 120941385136,
+      "records": "/workspace/work/e8ad-full-baseline-official-records.json",
+      "decoded": true,
+      "apiIdentityIndependentlyVerified": true,
+      "helperSha256": "5e6c83c7c6acc52dc6337a0a4acba27e7c8b3e6fbd3dcc780a243ca6eecdb26e",
+      "publishedSpecBytesExact": true,
+      "completionAndDecoding": "Root recovered complete successful audit logs and decoded; this reviewer independently binds API identity, helper, spec and all selected decoded bytes."
+    },
+    {
+      "key": "e8ad-full-baseline-compiler",
+      "run": 40125565031,
+      "job": 120966125785,
+      "head": "693c3c658be68dd06459a6331c3d6eb8c80d2ef3",
+      "tree": "16d937b3d00f7af295c5c866c2e3c59181d83818",
+      "completeMarkers": 1,
+      "logCharacters": 4943024,
+      "records": 45,
+      "status": "completed",
+      "conclusion": "success",
+      "apiIdentityIndependentlyVerified": true,
+      "helperSha256": "5e6c83c7c6acc52dc6337a0a4acba27e7c8b3e6fbd3dcc780a243ca6eecdb26e",
+      "publishedSpecBytesExact": true,
+      "completeMarkerVerifiedByRootRecovery": true
+    }
+  ],
+  "inventory": {
+    "zipEntries": 3404,
+    "zipUncompressedBytes": 702161971,
+    "artifactEntries": 224,
+    "artifactManifestRows": 223,
+    "recipeFiles": 71,
+    "runtimeAssets": 79,
+    "runtimeAssetBytes": 52033666,
+    "runtimeBuildWorkflow": {
+      "path": ".github/workflows/runtime-build.yml",
+      "bytes": 17805,
+      "sha256": "be1faf5aba77f2d1c1dace09ba495687f03f086dbcf145f1ad2ad45f53e2f19c"
+    }
+  },
+  "measurement": {
+    "trials": 8,
+    "initializations": 32,
+    "fullSessionRestarts": 24,
+    "typedSemanticResults": 320,
+    "exactPolicyAndFirstLogicalGuard": true,
+    "compiledFasOpensPositiveSourceEntryOpensZero": true,
+    "oldNamespaceWorkerAndBuffersReplaced": true,
+    "gcAndCaughtErrorRecovery": true,
+    "sourceInitializations": 16,
+    "compiledInitializations": 16,
+    "firstLogicalResult": [
+      true,
+      [
+        true,
+        [],
+        1,
+        true
+      ]
+    ],
+    "file": {
+      "path": "/workspace/work/compiler-audit-evidence/12567788724/test-results/precompiled-stack/measure.json",
+      "bytes": 172497,
+      "sha256": "7580bccfa10a1aee56ea275369278994332919ad532a1dd9338cdd7651f79909"
+    }
+  },
+  "official": {
+    "pins": [
+      "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+      "33383047af39c204bf4442802a058f8b918b2b1b"
+    ],
+    "sourceFilesEachPin": 77,
+    "sourceBytesEqualExactGitPins": true,
+    "typedCasesEachPinEachArm": 22,
+    "arms": [
+      "source",
+      "compiled"
+    ],
+    "fixtureAndBatchRegenerated": true,
+    "rawWasmOutputReparsed": true,
+    "structuredNativeOraclesMatch": true,
+    "consoleWarningsEachPinEachArm": {
+      "getrusage": 65,
+      "prlimit64": 1
+    },
+    "otherConsoleClasses": 0,
+    "prepared": {
+      "path": "/workspace/work/compiler-audit-evidence/12567788724/test-results/precompiled-stack/probes-source/prepared.json",
+      "bytes": 1956874,
+      "sha256": "09871120b9661204e27e9d3847e77e2317da959b8d05afda93bb596fa836cd36"
+    }
+  },
+  "bundles": [
+    {
+      "path": "/workspace/work/compiler-audit-evidence/12567788724/.cache/precompiled-stack-10d3233/stackmaxima.fas",
+      "bytes": 2644359,
+      "sha256": "9790dd33c6ecb6acf049e93d811aa5eaf8be96fc037c2637e6fff357635bae0c"
+    },
+    {
+      "path": "/workspace/work/compiler-audit-evidence/12567788724/.cache/precompiled-stack/stackmaxima.fas",
+      "bytes": 2626498,
+      "sha256": "dfa05fc4652d4b94c4d59d8a3dc7f18e590992cb72d97e590ec0e9f1baa41755"
+    }
+  ],
+  "compilerAndOverlay": {
+    "counts": {
+      "eclCore": {
+        "successfulExecveRecords": 378,
+        "printedRecords": 378,
+        "uniqueExecutedInputOutputPairs": 378,
+        "optimizations": [
+          "-O0"
+        ]
+      },
+      "eclGeneratedLisp": {
+        "successfulExecveRecords": 74,
+        "printedRecords": 0,
+        "uniqueExecutedInputOutputPairs": 74,
+        "optimizations": [
+          "-O2"
+        ]
+      },
+      "maximaGeneratedUnits": {
+        "successfulExecveRecords": 615,
+        "printedRecords": 0,
+        "uniqueExecutedInputOutputPairs": 615,
+        "optimizations": [
+          "-O2"
+        ]
+      },
+      "eclLinks": {
+        "successfulDriverExecveRecords": 6,
+        "uniqueWasmOutputs": 6,
+        "requiredTargets": 1,
+        "successfulSpillPassExecveRequiredForEveryLink": true
+      },
+      "maximaLinks": {
+        "successfulDriverExecveRecords": 311,
+        "uniqueWasmOutputs": 311,
+        "requiredTargets": 9,
+        "successfulSpillPassExecveRequiredForEveryLink": true
+      }
+    },
+    "compilerProofSha256": "73c2f21719ce753ba929a2611836d72f7a36783f513a686472e44ee3194fd97f",
+    "sourceIntegrity": {
+      "schema": 1,
+      "allVerifiedFilesUnmodified": false,
+      "scope": "Before: every tracked Maxima/ECL input byte is original. Host: tracked .lisp/.lsp/.mac/.asd/.c/.h/.d and the three Maxima build inputs are original. After: the same coverage, with only the declared ECL target overlay admitted explicitly; each row records its actual bytes and Git blob. Generated configuration/build support is excluded from host/after claims.",
+      "overlays": [
+        {
+          "schema": 1,
+          "id": "ecl-eager-owned-root-ranges",
+          "source": "ecl",
+          "revision": "e4bdb2e5b1e444e1773032a53650773848f4d6cd",
+          "path": "src/c/alloc_2.d",
+          "target": "wasm32-unknown-emscripten",
+          "applyAfter": "verified-original-native-ecl32",
+          "original": {
+            "gitBlob": "57f945305a16e2bd6a932d49bfa928c11ae091ff",
+            "bytes": 38136,
+            "sha256": "d7492e257e5dc9a143bb86461686b6f3e030b1d741c93c31ab645a9f74d2f5d7"
+          },
+          "derived": {
+            "bytes": 38245,
+            "sha256": "daec4a8a78be8a67114bb14f6ea13bacff5c78977b8ed652924c3a5df18ec585"
+          },
+          "patch": {
+            "path": "runtime/build/patches/ecl-root-scanner.patch",
+            "bytes": 2040,
+            "sha256": "cf1b01e1a67be3a6af8159c8f9b26f0e2741b1e0d0ee04c8b16cf45122e75dab"
+          },
+          "licence": "LGPL-2.1-or-later; original ECL file notices and LICENSE retained",
+          "scope": "Eight calls in ecl_mark_env and stacks_scanner only; range bounds, null guards, locked-cblock mark bit and previous-root-callback chain preserved."
+        }
+      ],
+      "beforeSha256": "3fe42b6f3147997e614953cc5d38a6fc117cda61f0269284f262653a0a18ec8b",
+      "hostSourceSha256": "5ddeb030b4a7515892ecdc2db584324cd9fa8ddbf78df3f604ccd7b36e081bd8",
+      "afterSha256": "bf760983a676c9d028b2c0979830d8bdd4ff3a21d7c0bc6a90551fc50760411f",
+      "applicationSha256": "c1f88714b9acc7323e2c1b38baef8887453df902043d2c45265544265e71194c",
+      "originalArchives": [
+        {
+          "path": "sources/maxima.tar",
+          "sha256": "05192416af11303dc5974fe02d0e5a894df813593af8a57d37e51897707dab42"
+        },
+        {
+          "path": "sources/ecl.tar",
+          "sha256": "fafd6275264c33dd4d8562703752f709bf992b29c40fd766d1351782f4c507b0"
+        }
+      ]
+    },
+    "nativeHostRecord": {
+      "path": "sources/maxima/wasm/ecl-host/bin/ecl",
+      "bytes": 31268,
+      "sha256": "c02758a8e9381d6d32d28f3be9e710c28fa6e2c619de1e0cb2ba134143c1cf5d",
+      "format": "ELF32-i386"
+    },
+    "installedInventoryRows": 265,
+    "rawHostPathsInZip": [],
+    "archives": "explicit local canonical archives matched to full ZIP inventory; not decoded payload",
+    "traces": {
+      "ecl-cross-build.log": {
+        "bytes": 11043945,
+        "sha256": "a442e5cc9f1b62ed186332206d7a06b17bb846534baa399348acc034ccf176ff"
+      },
+      "maxima-cross-build.log": {
+        "bytes": 49353837,
+        "sha256": "a6bd1caafe3612434c881a2d2a622d55fa5e1928aa648d50ab3a81d17d560126"
+      }
+    }
+  },
+  "environment": {
+    "buildIdentity": {
+      "runId": "40108653819",
+      "runAttempt": "1",
+      "sourceRevision": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+      "coldBuild": null
+    },
+    "compilerProfile": {
+      "name": "baseline",
+      "injectedEmccFlags": null,
+      "eclCoreOptimization": "-O0",
+      "eclGeneratedLispOptimization": "-O2",
+      "maximaGeneratedOptimization": "-O2"
+    }
+  },
+  "licenses": {
+    "licenseRows": 34,
+    "pinnedNoticeRows": 26,
+    "upstreamOriginalRows": 8,
+    "noticeCommit": "b34bfc8af10cd80b6130baabe88a47c9a32c0333",
+    "siteContextHashMatches": true,
+    "buildNoticesExactTrustedRecipe": true
+  },
+  "timingInterpretation": {
+    "schema": 1,
+    "source": {
+      "path": "/workspace/work/compiler-audit-evidence/12567788724/test-results/precompiled-stack/measure.json",
+      "bytes": 172497,
+      "sha256": "7580bccfa10a1aee56ea275369278994332919ad532a1dd9338cdd7651f79909"
+    },
+    "comparison": "Source-loaded versus opt-in entry-FAS in the same owned baseline runtime; not a generic stock runtime or an Oz/O2 flag comparison.",
+    "scope": "Opt-in local HTTP measurement with a fresh Chromium process/profile per candidate/repetition pair and one same-profile reload: four fresh profiles and eight cold/reload samples in the full matrix. Alternating order limits runner warming bias but does not remove it. Initial readiness includes Maxima and STACK; warm calls reuse that worker. Every trial then performs three full CAS session restarts in the same page/profile with warm caches, before the next same-profile page reload. Restart readiness is separate. lifecycleEncodedBodyBytes sums server-accounted response-body bytes across all four initializations and checks, not initial startup alone. The server records queued bodies before response finish; this total does not prove completed wire transfer or include internet traffic.",
+    "pairs": [
+      {
+        "repetition": 1,
+        "mode": "cold",
+        "sourceReadyMs": 39626.13499999978,
+        "compiledReadyMs": 40369.20999999996,
+        "compiledMinusSourceReadyMs": 743.0750000001863
+      },
+      {
+        "repetition": 2,
+        "mode": "cold",
+        "sourceReadyMs": 39013.22000000067,
+        "compiledReadyMs": 40471.935000000056,
+        "compiledMinusSourceReadyMs": 1458.7149999993853
+      },
+      {
+        "repetition": 1,
+        "mode": "warm-profile-reload",
+        "sourceReadyMs": 37474.02500000037,
+        "compiledReadyMs": 39346.32499999972,
+        "compiledMinusSourceReadyMs": 1872.299999999348
+      },
+      {
+        "repetition": 2,
+        "mode": "warm-profile-reload",
+        "sourceReadyMs": 37514.45999999996,
+        "compiledReadyMs": 39285.139999999665,
+        "compiledMinusSourceReadyMs": 1770.679999999702
+      }
+    ],
+    "summary": {
+      "cold": {
+        "source": {
+          "samples": 2,
+          "medianReadyMs": 39319.67750000022,
+          "minReadyMs": 39013.22000000067,
+          "maxReadyMs": 39626.13499999978,
+          "medianStackLoadMs": 29778.587499999907,
+          "lifecycleEncodedBodyBytes": [
+            9117291
+          ]
+        },
+        "precompiled": {
+          "samples": 2,
+          "medianReadyMs": 40420.57250000001,
+          "minReadyMs": 40369.20999999996,
+          "maxReadyMs": 40471.935000000056,
+          "medianStackLoadMs": 31166.064999999944,
+          "lifecycleEncodedBodyBytes": [
+            9627126
+          ]
+        },
+        "medianCompiledMinusSourceReadyMs": 1100.8949999997858
+      },
+      "warm-profile-reload": {
+        "source": {
+          "samples": 2,
+          "medianReadyMs": 37494.24250000017,
+          "minReadyMs": 37474.02500000037,
+          "maxReadyMs": 37514.45999999996,
+          "medianStackLoadMs": 29206.092500000028,
+          "lifecycleEncodedBodyBytes": [
+            54
+          ]
+        },
+        "precompiled": {
+          "samples": 2,
+          "medianReadyMs": 39315.73249999969,
+          "minReadyMs": 39285.139999999665,
+          "maxReadyMs": 39346.32499999972,
+          "medianStackLoadMs": 30984.637500000186,
+          "lifecycleEncodedBodyBytes": [
+            54
+          ]
+        },
+        "medianCompiledMinusSourceReadyMs": 1821.489999999525
+      }
+    },
+    "restartsDescriptiveOnly": {
+      "source": {
+        "observations": 12,
+        "medianReadyMs": 37609.172500000335,
+        "minReadyMs": 37464.48499999987,
+        "maxReadyMs": 37835.75
+      },
+      "precompiled": {
+        "observations": 12,
+        "medianReadyMs": 39215.48750000005,
+        "minReadyMs": 39037.299999999814,
+        "maxReadyMs": 39414.91000000015
+      }
+    },
+    "interpretation": [
+      "Compiled initial readiness is slower in all four repetition/mode comparisons in this run.",
+      "Cold medians are approximately39.320s source versus40.421s compiled; warm-profile reload medians37.494s versus39.316s.",
+      "Only two repetitions per candidate/mode, one hosted runner, with alternating order. Restart observations share workers/profiles and are not additional independent startup trials.",
+      "This record supplies no startup speedup evidence for the compiled entry and does not justify promotion. It does not determine the fastest owned ECL optimization profile.",
+      "Lifecycle response-body byte accounting spans all four initializations and checks; it is neither initial-startup transfer nor completed internet wire traffic."
+    ]
+  },
+  "independentNativeCrossBinding": {
+    "proof": {
+      "path": "/workspace/work/e8ad-full-native-combined-independent-proof.json",
+      "bytes": 9577,
+      "sha256": "c5053d4a0721cd0788aa98bd2c14402f0d286ba636300e4f2420bc5e3280d874"
+    },
+    "reviewer": "astra_xhigh_configuration",
+    "hostSha256": "c02758a8e9381d6d32d28f3be9e710c28fa6e2c619de1e0cb2ba134143c1cf5d",
+    "overlayApplicationSha256": "c1f88714b9acc7323e2c1b38baef8887453df902043d2c45265544265e71194c",
+    "installedRows": 265,
+    "agreementConfirmedByIndependentReviewer": true,
+    "native657ScopeNotClaimedByThisReviewer": true
+  },
+  "keyReports": [
+    {
+      "path": "/workspace/work/compiler-audit-evidence/12567788724/.cache/runtime-build/artifact/manifest.json",
+      "bytes": 52516,
+      "sha256": "e60eee4686d39b41bc9cde093c4e158fed1284293b86c8f4f96f51289e87d7ea"
+    },
+    {
+      "path": "/workspace/work/compiler-audit-evidence/12567788724/.cache/runtime-build/artifact/source-manifest.json",
+      "bytes": 24829,
+      "sha256": "af6e20a571b751c14d55e9f7b0a56a31ce9fc1ce44374802ebf7f670c79e1d62"
+    },
+    {
+      "path": "/workspace/work/compiler-audit-evidence/12567788724/.cache/runtime-build/artifact/artifact-manifest.json",
+      "bytes": 40634,
+      "sha256": "280ef2966cbfdad3846e846ccc0f4e02080ab1a6d07dd890c7bd365b24da16b2"
+    },
+    {
+      "path": "/workspace/work/compiler-audit-evidence/12567788724/.cache/runtime-build/artifact/logs/environment.json",
+      "bytes": 44424,
+      "sha256": "926c86c636b760033721ecc91191157d310e775821052d81bae22fab06303e2a"
+    },
+    {
+      "path": "/workspace/work/compiler-audit-evidence/12567788724/.cache/runtime-build/artifact/logs/compiler-experiment.json",
+      "bytes": 7035690,
+      "sha256": "73c2f21719ce753ba929a2611836d72f7a36783f513a686472e44ee3194fd97f"
+    },
+    {
+      "path": "/workspace/work/compiler-audit-evidence/12567788724/.cache/runtime-build/artifact/logs/target-source-overlay.json",
+      "bytes": 54139,
+      "sha256": "c1f88714b9acc7323e2c1b38baef8887453df902043d2c45265544265e71194c"
+    },
+    {
+      "path": "/workspace/work/compiler-audit-evidence/12567788724/.cache/runtime-build/artifact/logs/source-state-before.json",
+      "bytes": 1921336,
+      "sha256": "3fe42b6f3147997e614953cc5d38a6fc117cda61f0269284f262653a0a18ec8b"
+    },
+    {
+      "path": "/workspace/work/compiler-audit-evidence/12567788724/.cache/runtime-build/artifact/logs/source-state-host.json",
+      "bytes": 864448,
+      "sha256": "5ddeb030b4a7515892ecdc2db584324cd9fa8ddbf78df3f604ccd7b36e081bd8"
+    },
+    {
+      "path": "/workspace/work/compiler-audit-evidence/12567788724/.cache/runtime-build/artifact/logs/source-state-after.json",
+      "bytes": 864614,
+      "sha256": "bf760983a676c9d028b2c0979830d8bdd4ff3a21d7c0bc6a90551fc50760411f"
+    }
+  ],
+  "reviewerScripts": [
+    {
+      "path": "/workspace/work/e8ad-full-baseline-review/compiler-overlay-review.py",
+      "bytes": 4191,
+      "sha256": "8516c7e4d0be5046d8e2c3c20e05359ab5e870c2ff94659fe0c799a6586b6923"
+    },
+    {
+      "path": "/workspace/work/e8ad-full-baseline-review/full-bundle-official-review.py",
+      "bytes": 12275,
+      "sha256": "488cd00b1ad3d477b564c0bea534aba0a3568ad53b80496d5f173259bdc15f5f"
+    },
+    {
+      "path": "/workspace/work/e8ad-full-baseline-review/full-restart-review.py",
+      "bytes": 11731,
+      "sha256": "04b73243bde8e5ac6fc1c0ff31053d30920224575b475324eef78bafd8fe4cd7"
+    },
+    {
+      "path": "/workspace/work/e8ad-full-baseline-review/license-review.py",
+      "bytes": 2783,
+      "sha256": "4583563920928b92d6c02c559faaa5bda1f94da7a287b9a0136b8f624f2947fc"
+    },
+    {
+      "path": "/workspace/work/e8ad-full-baseline-review/review_inputs.py",
+      "bytes": 4854,
+      "sha256": "606e77e82b06a1c52769a07fddddfcd242c3da26e3a8c9246faad1a04e2a2fa7"
+    },
+    {
+      "path": "/workspace/work/e8ad-full-baseline-review/write-index.py",
+      "bytes": 12419,
+      "sha256": "c7637770b170d32cfdc24f9f9a6308952095ed19ecf4b943737542f1aa4221f5"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/workspace/work/e8ad-full-baseline-review/full-restart-result.txt",
+      "bytes": 336,
+      "sha256": "3a3e0d8b9496af1038f814c42c3d72d59a06b8c2e5ff05aa1a0d4701396220d8"
+    },
+    {
+      "path": "/workspace/work/e8ad-full-baseline-review/full-bundle-official-result.txt",
+      "bytes": 1412,
+      "sha256": "72514ef99f0472ae125a7dd7ba97674fe2bae3677bcd1d1589f4a3411b550159"
+    },
+    {
+      "path": "/workspace/work/e8ad-full-baseline-review/compiler-overlay-result.txt",
+      "bytes": 1537,
+      "sha256": "fb6ca7b8c8f7bea2755cacca103c040544b0d28ff9e0967fe02d6de40e23dd16"
+    },
+    {
+      "path": "/workspace/work/e8ad-full-baseline-review/compiler-overlay-result.json",
+      "bytes": 4019,
+      "sha256": "2a9b195be6251fa0a61eed408e24da24c92aae3f44ee6a5391d9a08b554bf0af"
+    },
+    {
+      "path": "/workspace/work/e8ad-full-baseline-review/license-result.txt",
+      "bytes": 560,
+      "sha256": "39289d6dcfbea860a5fd14854408230d86cf8507b459d075204b805163c98136"
+    },
+    {
+      "path": "/workspace/work/e8ad-full-baseline-review/license-result.json",
+      "bytes": 217,
+      "sha256": "97841ba4d14e333a2d010a6e9ae4533b0cf42ac2e0175d7179b0715406f2f77e"
+    },
+    {
+      "path": "/workspace/work/e8ad-full-baseline-review/timing-interpretation.json",
+      "bytes": 4556,
+      "sha256": "c8e6dd93c2ae57eeb80ab502d3994d9a180ae1ccb197a96aa1b807b4c9982274"
+    },
+    {
+      "path": "/workspace/work/e8ad-full-baseline-review/context.reviewed.json",
+      "bytes": 8938,
+      "sha256": "31b93f3969a98b29caf394f9ba7da9a738c877a0b180f927701e8dd449d44b6f"
+    }
+  ],
+  "limitations": [
+    "Clearance applies only to stated e8ad head/tested5295 merge/tree0e543 and immutable artifact12567788724.",
+    "No artifact code or executable was executed during review.",
+    "Overlay verification used an explicit derived validation copy plus local canonical archives matched by size and SHA256 to full ZIP inventory; archive payload was not decoded.",
+    "Native host executable/installed bytes are absent from full ZIP; only recorded identity,265-row inventory and source checkpoint bindings verified.",
+    "Official native22 are structured oracle observations; raw individual native-process logs were outside this scope.",
+    "Restart measurement records worker completion/request errors but no page console/pageerror streams; official console logs were checked separately.",
+    "Bundle cross-compile logs expose ECL-invoked emcc commands; lower-level clang execve rederivation applies to runtime compiler traces.",
+    "Source cold1 is not claimed for this full job; environment coldBuild is null by design.",
+    "Minimal raw-reset negative controls remain failed; supported restart is complete session replacement.",
+    "Timing sample sizes are two repetitions per candidate/mode; restart observations are dependent and not additional independent trials.",
+    "No startup speedup,default profile change,whole-library raw reset,F11,PHP-controller equivalence or complete cross-workflow acceptance claim."
+  ]
+}

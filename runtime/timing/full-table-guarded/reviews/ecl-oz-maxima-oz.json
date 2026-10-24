@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "kind": "composite-independent-artifact-acceptance-index",
+  "verdict": "CLEAR for guarded benchmark artifact admission across the three required independent scopes",
+  "allRequiredScopesClear": true,
+  "indexIsAdditionalIndependentReview": false,
+  "productionPromotion": false,
+  "performanceClaim": false,
+  "source": {
+    "runId": 40136606442,
+    "runAttempt": 1,
+    "workflowId": 395458321,
+    "head": "58cf269f303898a7b679d9d164346fbb9384b781",
+    "testedRevision": "58cf269f303898a7b679d9d164346fbb9384b781",
+    "trustedRevision": "58cf269f303898a7b679d9d164346fbb9384b781",
+    "tree": "3cf2954ebe3ab81990e47b37106d0e07b12b544d",
+    "recipeFiles": 80,
+    "jobs": [
+      {
+        "id": 120999345248,
+        "name": "bundle-probe (ecl-oz-maxima-oz)"
+      }
+    ]
+  },
+  "artifact": {
+    "id": 12578753698,
+    "name": "maxima-oz-candidate-ecl-oz-maxima-oz-58cf269f303898a7b679d9d164346fbb9384b781",
+    "zipBytes": 214091662,
+    "zipSha256": "08dfcd8686e1be8da91b19c850c9668bd96e3e224df513192d3e0de023dfce74",
+    "zipFileCount": 3420,
+    "packageFileCount": 232,
+    "archivedPreload": true
+  },
+  "reviews": [
+    {
+      "scope": "compilerBundleOfficial203",
+      "path": "reviews/ecl-oz-maxima-oz-compiler-bundle-official.json",
+      "bytes": 23065,
+      "sha256": "5c3151393e107aaebd927ee5b43e14ddc7c044fc9fe4427e4069019653426bd1",
+      "verdict": "FINAL SCOPED CLEAR",
+      "scopeDescription": "Independent actual runtime/compiler/overlay/licenses, both-pin FAS compiler/bundle/official data, preload and full-session restart review. Separate controller/graphics/native scopes remain independently required for overall candidate acceptance.",
+      "limitations": [
+        "This is an experimental artifact acceptance scope, not production promotion or a performance claim.",
+        "Compiled scope is translated STACK entry FAS with pinned source dependencies; no full-library FAS, F11 restore or raw runtime reset claim.",
+        "Full-session restart semantic evidence is preserved; startup output absent from historical clean timing samples cannot exclude recoverable startup errors in those samples.",
+        "The failed original translation/reset exploratory controls are intentionally preserved and are not represented as successful full-library translation or reset capability.",
+        "Audit log COMPLETE framing is confirmed by parent recovery; this reviewer independently checked decoded records, exact audit API identities, helper/workflow/spec bytes and all payloads."
+      ]
+    },
+    {
+      "scope": "native657",
+      "path": "reviews/ecl-oz-maxima-oz-native.json",
+      "bytes": 13337,
+      "sha256": "89ab99ac793b3796852b1fea19d2c9decfe6dbc22ac6db39cae52c30257e984b",
+      "verdict": "CLEAR",
+      "scopeDescription": "Native translated-entry fixture evidence, 657 actual ZIP payloads; separate from compiler/FAS/official/controller/graphics/316 native replay scopes.",
+      "limitations": [
+        "This scope validates archived native translated-entry Lisp evidence; it does not independently clear FAS, Wasm, the runtime compiler, controller/graphics/316 programs or performance.",
+        "Raw native host/install executable bytes are absent; host provenance is a 265-row hash/report binding to the original 32-bit host, not re-execution or byte recovery.",
+        "Canonical local ECL/Maxima source archives are explicitly derived validation copies checked against pinned source manifests, not recovered artifact payloads.",
+        "Raw whole-library reset/F11 remains outside acceptance; fixture reset checks do not establish raw whole-library reset support.",
+        "Recorded startup and compiled-history warnings remain; no silent global warnings claim.",
+        "No artifact programs, Lisp, Wasm, compiler, browser or native runtime were executed by this review."
+      ]
+    },
+    {
+      "scope": "controllerGraphics",
+      "path": "reviews/ecl-oz-maxima-oz-controller-graphics.json",
+      "bytes": 12329,
+      "sha256": "642b021c5f9b481cd3dbc62d2548b727046c9fc020aa51f0401d01435e75df01",
+      "verdict": "CLEAR",
+      "scopeDescription": "37 controller/graphics payloads plus2 shared actual inputs; both316 native comparisons recomputed from raw logs and batch programs. Separate compiler/source/FAS/native657 scopes are required for full acceptance.",
+      "limitations": [
+        "No artifact code was executed; only trusted source verifier functions read JSON/native-log/MAC data and cached FAS bytes.",
+        "The 316-program replays cover captured self-contained generated CAS blocks, with limited declared presentation equivalence; not Moodle/PHP controller equivalence or whole STACK-library coverage.",
+        "Board reset observations do not establish raw whole-library reset or F11/reload behavior.",
+        "Controller and reviewer-smoke warning counts are reported from these fresh captures; they do not establish whole-runtime or whole-CI console cleanliness.",
+        "Any functional origin aborts are retained with their actual engine and viewport, not used for transfer claims. Strict transfer reports have zero aborts.",
+        "Browser encoded-body fields remain known observed subtotals with size unavailability and service-worker exclusions; no whole-wire, speedup or before/after performance claim.",
+        "Original unguarded startup stdout was not captured by this controller scope; successful typed checks do not independently exclude every prior startup diagnostic."
+      ]
+    }
+  ],
+  "producerApi": {
+    "path": "reviews/ecl-oz-maxima-oz-producer-api.json",
+    "bytes": 142288,
+    "sha256": "577aa754f9917b4733f37436ca49531986d4352d3fe65628fc3d11dfde17f1e2"
+  },
+  "package": {
+    "deliveryManifestRowsExcludingSelf": 232,
+    "packageZipMembersIncludingInventory": 233,
+    "allZipFiles": 3420,
+    "recipeFiles": 80,
+    "runtimeAssets": 79,
+    "manifest": {
+      "bytes": 54340,
+      "sha256": "6f0d1e7475503a88576309614efc16fe753c8f2a9a097591dcdfa9848455615f"
+    }
+  },
+  "scope": "This index binds exact independent raw review receipts; it does not expand any reviewed scope or claim an additional independent review. The benchmark revalidates original runtime/source/compiler/package/FAS bytes before staging and uses the shared declared startup stdout observer.",
+  "limitations": [
+    "Benchmark artifact acceptance only; no production/default promotion, speedup, laptop or CPU-saving claim.",
+    "No raw whole-library reset, full-library FAS or F11/restore guarantee.",
+    "All raw scope limitations and warnings remain in their exact copied receipts. Functional Firefox request aborts remain scoped to functional reports; strict transfer reports have zero aborts. Native known stderr and startup/history warnings remain; no overall zero-warning claim.",
+    "Raw native host/install executable bytes were not recovered; native host provenance remains a hash/report binding.",
+    "Original clean startup stdout was not archived; typed success alone does not exclude recoverable historical startup errors. Guarded timings retain a bounded stdout observer and its explicit scope limits."
+  ]
+}

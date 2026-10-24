@@ -1,0 +1,599 @@
+{
+  "schema": 1,
+  "verdict": "CLEAR for assigned current full-Oz 174-file scope; final whole-full success and same-ZIP closure verified",
+  "globalMergeAcceptance": false,
+  "ownerBoundary": "Native/controller/graphics, source workflow and aggregate admission have separate independent reviewers; this index does not replace their verdicts.",
+  "productionHead": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+  "testedMerge": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+  "testedTree": "0e543f936a385548a7ffd53d68930bd88c033922",
+  "trustedLocalHead": "ac6891481534c0807c510ccd994918125d2037b9",
+  "artifact": 12568085269,
+  "run": 40108653819,
+  "job": 120915544152,
+  "profile": "ecl-oz",
+  "wholeWorkflowStatus": "completed",
+  "wholeWorkflowConclusion": "success",
+  "runAttempt": 1,
+  "bothFullJobsSuccessful": true,
+  "artifactCodeExecuted": false,
+  "repositoryChanged": false,
+  "githubWrites": false,
+  "payload": {
+    "passed": true,
+    "scope": "Exact current audit identity and complete selected payload verification only; semantic acceptance remains a separate check",
+    "provisionalScopeEvidence": false,
+    "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+    "artifact": 12568085269,
+    "run": 40108653819,
+    "attempt": 1,
+    "zipBytes": 213921626,
+    "zipSha256": "890a9c1c6c96d915ada2c41bf85e8b3756132ea2f42d6c5d4c6d9a9357c6759d",
+    "fullInventoryFiles": 3404,
+    "selectedLogicalFiles": 174,
+    "selectedBytes": 114620808
+  },
+  "finalClosure": {
+    "passed": true,
+    "allFourSnapshotsAlreadyFinal": true,
+    "sameZipBytes": 213921626,
+    "sameZipSha256": "890a9c1c6c96d915ada2c41bf85e8b3756132ea2f42d6c5d4c6d9a9357c6759d",
+    "fullInventoryFiles": 3404,
+    "inventoriesIdentical": true,
+    "measurePayloadRepeatedAndIdentical": true,
+    "measureSha256": "13e09e1fb5801f13f6236f8f3a751fd1a5ca1976529e33feaeb653bbc309f0e1",
+    "metadataCheckedBeforeAndAfterActualZipRead": true,
+    "auditRun": 40117324619,
+    "auditJob": 120941183970,
+    "method": "Unchanged helper actual ZIP rehash plus complete inventory and payload checks in each of four successful completed/success inspections; no provisional metadata inherited."
+  },
+  "compiler": {
+    "passed": true,
+    "profile": {
+      "name": "ecl-oz",
+      "injectedEmccFlags": "-Oz",
+      "eclCoreOptimization": "-Oz",
+      "eclGeneratedLispOptimization": "-Oz",
+      "maximaGeneratedOptimization": "-O2"
+    },
+    "executionCounts": {
+      "eclCore": {
+        "optimizations": [
+          "-Oz"
+        ],
+        "printedRecords": 378,
+        "successfulExecveRecords": 378,
+        "uniqueExecutedInputOutputPairs": 378
+      },
+      "eclGeneratedLisp": {
+        "optimizations": [
+          "-Oz"
+        ],
+        "printedRecords": 0,
+        "successfulExecveRecords": 74,
+        "uniqueExecutedInputOutputPairs": 74
+      },
+      "eclLinks": {
+        "requiredTargets": 1,
+        "successfulDriverExecveRecords": 6,
+        "successfulSpillPassExecveRequiredForEveryLink": true,
+        "uniqueWasmOutputs": 6
+      },
+      "maximaGeneratedUnits": {
+        "optimizations": [
+          "-O2"
+        ],
+        "printedRecords": 0,
+        "successfulExecveRecords": 615,
+        "uniqueExecutedInputOutputPairs": 615
+      },
+      "maximaLinks": {
+        "requiredTargets": 9,
+        "successfulDriverExecveRecords": 311,
+        "successfulSpillPassExecveRequiredForEveryLink": true,
+        "uniqueWasmOutputs": 311
+      }
+    },
+    "previousFailureSourceNowAssociated": {
+      "source": "unicode/ucd.c",
+      "records": 2,
+      "successfulExecve": 1,
+      "optimization": "-Oz",
+      "association": "Complete printed emcc commands bound to actual clang source/output; unchanged strict verifier"
+    },
+    "eclTrace": {
+      "bytes": 11740268,
+      "sha256": "7f599bbb50da66679933508fc163c4ba04e533b47d6209ced716eb66a2cdd895"
+    },
+    "maximaTrace": {
+      "bytes": 53682292,
+      "sha256": "0b100bb746fdde7ff4c2067106f82c31ac173cca316ce00ab27f9618806c8456"
+    },
+    "compilerVerifierSha256": "a4e5f253fb194ceaf6cd642b5d07fe8cfb19edf5a085a9d55d7978ac5acf7198"
+  },
+  "official": [
+    {
+      "pin": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+      "arm": "probes-source",
+      "officialCases": 22,
+      "correct": 11,
+      "incorrect": 11,
+      "casValid": 19,
+      "rawReportSha256": "7a848556526a6a68383051a5427b28690c89f02827a88f458b55c49538e83eac",
+      "warnings": {
+        "error: warning: unsupported syscall: __syscall_prlimit64": 1,
+        "error: warning: unsupported syscall: __syscall_getrusage": 65
+      },
+      "consoleSha256": "acbebfecc737589eb6ef7178e9979598dc60aa171a29ed4cb50fe49445bdf522"
+    },
+    {
+      "pin": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+      "arm": "probes-compiled",
+      "officialCases": 22,
+      "correct": 11,
+      "incorrect": 11,
+      "casValid": 19,
+      "rawReportSha256": "7a4328987d12fbefff6c1d117a85b3c3270673fc4e2f2b89f1ec8ddd027c32a8",
+      "warnings": {
+        "error: warning: unsupported syscall: __syscall_prlimit64": 1,
+        "error: warning: unsupported syscall: __syscall_getrusage": 65
+      },
+      "consoleSha256": "acbebfecc737589eb6ef7178e9979598dc60aa171a29ed4cb50fe49445bdf522"
+    },
+    {
+      "pin": "33383047af39c204bf4442802a058f8b918b2b1b",
+      "arm": "probes-source",
+      "officialCases": 22,
+      "correct": 11,
+      "incorrect": 11,
+      "casValid": 19,
+      "rawReportSha256": "08ad46a99e1eb5e422822fdb0b38ec4e929c4593172b5469fa5d8b006972fa10",
+      "warnings": {
+        "error: warning: unsupported syscall: __syscall_prlimit64": 1,
+        "error: warning: unsupported syscall: __syscall_getrusage": 65
+      },
+      "consoleSha256": "acbebfecc737589eb6ef7178e9979598dc60aa171a29ed4cb50fe49445bdf522"
+    },
+    {
+      "pin": "33383047af39c204bf4442802a058f8b918b2b1b",
+      "arm": "probes-compiled",
+      "officialCases": 22,
+      "correct": 11,
+      "incorrect": 11,
+      "casValid": 19,
+      "rawReportSha256": "1b9c249aeea708c49928fa6a994845abd72cbfc7ccb246bc17d6f0a067db2544",
+      "warnings": {
+        "error: warning: unsupported syscall: __syscall_prlimit64": 1,
+        "error: warning: unsupported syscall: __syscall_getrusage": 65
+      },
+      "consoleSha256": "acbebfecc737589eb6ef7178e9979598dc60aa171a29ed4cb50fe49445bdf522"
+    }
+  ],
+  "restart": {
+    "passed": true,
+    "trials": 8,
+    "initializations": 32,
+    "restarts": 24,
+    "typedSemanticResults": 320,
+    "positiveNegativeGradeControls": 64,
+    "firstLogicalResult": [
+      true,
+      [],
+      1,
+      true
+    ],
+    "compiledInitializations": 16,
+    "actualFasOpenCounts": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "actualSourceEntryOpenCounts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "trustedGeneratedWorkerMatched": true,
+    "exactSixFileAndThreeLoaderManifestBindings": true,
+    "restartBoundary": "Full CAS child worker and shared buffers replaced; no raw same-worker whole-library reset or F11 proof"
+  },
+  "timing": {
+    "passed": true,
+    "scope": "Observed current full-Oz timing and body accounting, with semantic restart checks in separate full-restart-review.log; no speedup acceptance",
+    "artifact": 12568085269,
+    "sourceRevision": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+    "measureSha256": "13e09e1fb5801f13f6236f8f3a751fd1a5ca1976529e33feaeb653bbc309f0e1",
+    "trials": 8,
+    "initializations": 32,
+    "restarts": 24,
+    "typedSemanticResults": 320,
+    "gradeControls": 64,
+    "pairs": [
+      {
+        "repetition": 1,
+        "mode": "cold",
+        "sourceReadyMs": 15236.475000000093,
+        "compiledReadyMs": 15718.93499999959,
+        "readyDeltaMs": 482.4599999994971,
+        "readyDeltaPercent": 3.166480435924281,
+        "sourceStackLoadMs": 10800.650000000373,
+        "compiledStackLoadMs": 11645.169999999925,
+        "sourceLifecycleEncodedBodyBytes": 8293540,
+        "compiledLifecycleEncodedBodyBytes": 8803365,
+        "bodyDeltaBytes": 509825
+      },
+      {
+        "repetition": 1,
+        "mode": "warm-profile-reload",
+        "sourceReadyMs": 14126.614999999758,
+        "compiledReadyMs": 16208.865000000224,
+        "readyDeltaMs": 2082.2500000004657,
+        "readyDeltaPercent": 14.739907614106432,
+        "sourceStackLoadMs": 10401.03000000026,
+        "compiledStackLoadMs": 11758.21999999974,
+        "sourceLifecycleEncodedBodyBytes": 54,
+        "compiledLifecycleEncodedBodyBytes": 54,
+        "bodyDeltaBytes": 0
+      },
+      {
+        "repetition": 2,
+        "mode": "cold",
+        "sourceReadyMs": 14508.410000000149,
+        "compiledReadyMs": 15981.674999999814,
+        "readyDeltaMs": 1473.2649999996647,
+        "readyDeltaPercent": 10.154558631853178,
+        "sourceStackLoadMs": 10313.870000000112,
+        "compiledStackLoadMs": 11861.439999999944,
+        "sourceLifecycleEncodedBodyBytes": 8293540,
+        "compiledLifecycleEncodedBodyBytes": 8803365,
+        "bodyDeltaBytes": 509825
+      },
+      {
+        "repetition": 2,
+        "mode": "warm-profile-reload",
+        "sourceReadyMs": 14787.454999999609,
+        "compiledReadyMs": 16334.584999999963,
+        "readyDeltaMs": 1547.130000000354,
+        "readyDeltaPercent": 10.462449420812403,
+        "sourceStackLoadMs": 10391.89000000013,
+        "compiledStackLoadMs": 11895.779999999795,
+        "sourceLifecycleEncodedBodyBytes": 54,
+        "compiledLifecycleEncodedBodyBytes": 54,
+        "bodyDeltaBytes": 0
+      }
+    ],
+    "initialReadinessMedianMs": {
+      "source": 14647.932499999879,
+      "precompiled": 16095.270000000019
+    },
+    "restartReadinessMedianMs": {
+      "source": 14846.987500000047,
+      "precompiled": 16176.507499999832
+    },
+    "restartBoundary": "Full CAS child worker and shared buffers replaced; raw same-worker stack_reset and F11 unproven",
+    "transferBoundary": "Server-accounted queued response-body bytes across four-initialization lifecycles; not completed wire traffic or initial startup alone",
+    "errorCoverage": "Worker/result error capture; no blanket page-console capture"
+  },
+  "performanceConclusion": "No precompiled speedup: compiled readiness was slower in all four matched current-job pairs (two repetitions per cold/reload mode). No cross-job/runtime ranking or default promotion.",
+  "source": {
+    "passed": true,
+    "packagedFilesIncludingInventory": 224,
+    "recipeFiles": 71,
+    "runtimeAssets": 79,
+    "originalSourceRows": 7662,
+    "hostAndTargetScopedRows": 3452,
+    "nativeHostFormat": "ELF32-i386",
+    "nativeHostInventoryRows": 265,
+    "nativeHostRawBytesArchived": false,
+    "canonicalArchiveValidation": [
+      {
+        "path": "/workspace/work/gc-overlay-sources/maxima.tar",
+        "bytes": 99614720,
+        "sha256": "05192416af11303dc5974fe02d0e5a894df813593af8a57d37e51897707dab42",
+        "source": "Explicit local derived-validation copy, hash-matched to current ZIP inventory; not decoded artifact payload"
+      },
+      {
+        "path": "/workspace/work/gc-overlay-sources/ecl.tar",
+        "bytes": 36106240,
+        "sha256": "fafd6275264c33dd4d8562703752f709bf992b29c40fd766d1351782f4c507b0",
+        "source": "Explicit local derived-validation copy, hash-matched to current ZIP inventory; not decoded artifact payload"
+      }
+    ],
+    "manifestSha256": "f7b1fc526776e585532d859d89cbdd0797a8290366b5b8970cb790a4cc4fd17c",
+    "sourceIntegrity": {
+      "schema": 1,
+      "allVerifiedFilesUnmodified": false,
+      "scope": "Before: every tracked Maxima/ECL input byte is original. Host: tracked .lisp/.lsp/.mac/.asd/.c/.h/.d and the three Maxima build inputs are original. After: the same coverage, with only the declared ECL target overlay admitted explicitly; each row records its actual bytes and Git blob. Generated configuration/build support is excluded from host/after claims.",
+      "overlays": [
+        {
+          "schema": 1,
+          "id": "ecl-eager-owned-root-ranges",
+          "source": "ecl",
+          "revision": "e4bdb2e5b1e444e1773032a53650773848f4d6cd",
+          "path": "src/c/alloc_2.d",
+          "target": "wasm32-unknown-emscripten",
+          "applyAfter": "verified-original-native-ecl32",
+          "original": {
+            "gitBlob": "57f945305a16e2bd6a932d49bfa928c11ae091ff",
+            "bytes": 38136,
+            "sha256": "d7492e257e5dc9a143bb86461686b6f3e030b1d741c93c31ab645a9f74d2f5d7"
+          },
+          "derived": {
+            "bytes": 38245,
+            "sha256": "daec4a8a78be8a67114bb14f6ea13bacff5c78977b8ed652924c3a5df18ec585"
+          },
+          "patch": {
+            "path": "runtime/build/patches/ecl-root-scanner.patch",
+            "bytes": 2040,
+            "sha256": "cf1b01e1a67be3a6af8159c8f9b26f0e2741b1e0d0ee04c8b16cf45122e75dab"
+          },
+          "licence": "LGPL-2.1-or-later; original ECL file notices and LICENSE retained",
+          "scope": "Eight calls in ecl_mark_env and stacks_scanner only; range bounds, null guards, locked-cblock mark bit and previous-root-callback chain preserved."
+        }
+      ],
+      "beforeSha256": "3fe42b6f3147997e614953cc5d38a6fc117cda61f0269284f262653a0a18ec8b",
+      "hostSourceSha256": "5ddeb030b4a7515892ecdc2db584324cd9fa8ddbf78df3f604ccd7b36e081bd8",
+      "afterSha256": "bf760983a676c9d028b2c0979830d8bdd4ff3a21d7c0bc6a90551fc50760411f",
+      "applicationSha256": "7aab4da337f439282f4c6cac7e6037755fe5dce5c7610f60f625bea80d604771",
+      "originalArchives": [
+        {
+          "path": "sources/maxima.tar",
+          "sha256": "05192416af11303dc5974fe02d0e5a894df813593af8a57d37e51897707dab42"
+        },
+        {
+          "path": "sources/ecl.tar",
+          "sha256": "fafd6275264c33dd4d8562703752f709bf992b29c40fd766d1351782f4c507b0"
+        }
+      ]
+    },
+    "buildIdentity": {
+      "runId": "40108653819",
+      "runAttempt": "1",
+      "sourceRevision": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+      "coldBuild": null
+    },
+    "coldBuildNullValidForFullWorkflow": true
+  },
+  "currentWorkflowRecipe": {
+    "path": ".github/workflows/runtime-build.yml",
+    "bytes": 17805,
+    "sha256": "be1faf5aba77f2d1c1dace09ba495687f03f086dbcf145f1ad2ad45f53e2f19c",
+    "aggregateTimeoutMinutes": 240,
+    "buildTimeoutMinutes": 180,
+    "recipeFiles": 71
+  },
+  "audits": [
+    {
+      "scope": "e8ad-full-oz-bundle-1",
+      "run": 40116659152,
+      "job": 120939233137,
+      "head": "fa4b40d2cc0803565fd1f90e3456117dfd3909e0",
+      "tree": "3d35c2a42fe3188be36feeb76657765f686d45ec",
+      "status": "completed",
+      "conclusion": "success",
+      "records": 62,
+      "wholePayloadRows": 60,
+      "rangePayloadRows": 0,
+      "completeMarkers": 1,
+      "completeMarkerRecoveryOwner": "root; independently verified audit Git/run/job/helper metadata and decoded/rehashed all delivered records",
+      "recordsFile": "/workspace/work/e8ad-full-oz-bundle-1-records.json",
+      "recordsFileHash": {
+        "bytes": 4344272,
+        "sha256": "204f32a4bff793910380b56385f234669c607a2daf0a523c21a8c84ca007dd75"
+      }
+    },
+    {
+      "scope": "e8ad-full-oz-bundle-2",
+      "run": 40116678715,
+      "job": 120939288984,
+      "head": "8e991c1dba507c936719ae282e0864a46681fe8b",
+      "tree": "5d8d3741774222fbaefefa99a3b517f66d242b9f",
+      "status": "completed",
+      "conclusion": "success",
+      "records": 61,
+      "wholePayloadRows": 59,
+      "rangePayloadRows": 0,
+      "completeMarkers": 1,
+      "completeMarkerRecoveryOwner": "root; independently verified audit Git/run/job/helper metadata and decoded/rehashed all delivered records",
+      "recordsFile": "/workspace/work/e8ad-full-oz-bundle-2-records.json",
+      "recordsFileHash": {
+        "bytes": 4344338,
+        "sha256": "6f38d15053982dd18a566ff735d18786e00d240d71b7b78d1a16cba7a2edf749"
+      }
+    },
+    {
+      "scope": "e8ad-full-oz-official",
+      "run": 40116698891,
+      "job": 120939348728,
+      "head": "f22b46a7831133ee6ea9d0e400b76f5789232639",
+      "tree": "c6519444a425f95436bb8f1dd4c2d76d28ff1a78",
+      "status": "completed",
+      "conclusion": "success",
+      "records": 25,
+      "wholePayloadRows": 23,
+      "rangePayloadRows": 0,
+      "completeMarkers": 1,
+      "completeMarkerRecoveryOwner": "root; independently verified audit Git/run/job/helper metadata and decoded/rehashed all delivered records",
+      "recordsFile": "/workspace/work/e8ad-full-oz-official-records.json",
+      "recordsFileHash": {
+        "bytes": 2760967,
+        "sha256": "7e9f5280a7522b8775930fd3d2d94c578a5888f7759b2b2296d8dfbb34d14e5d"
+      }
+    },
+    {
+      "scope": "e8ad-full-oz-compiler",
+      "run": 40117324619,
+      "job": 120941183970,
+      "head": "725cae3a3cc37365cd85d386529c5124e4ef0ce6",
+      "tree": "c5cc287d78ab76c2366ab5bf39e02879bebdfc2b",
+      "status": "completed",
+      "conclusion": "success",
+      "records": 47,
+      "wholePayloadRows": 32,
+      "rangePayloadRows": 13,
+      "completeMarkers": 1,
+      "completeMarkerRecoveryOwner": "root; independently verified audit Git/run/job/helper metadata and decoded/rehashed all delivered records",
+      "recordsFile": "/workspace/work/e8ad-full-oz-compiler-records.json",
+      "recordsFileHash": {
+        "bytes": 5086193,
+        "sha256": "9941cc75971f2a00938031b030399e2835a172be08f849b6a3da5e5d095945ba"
+      }
+    }
+  ],
+  "reviewMethod": "Prepared trusted source checkers, unchanged from their recorded hashes, ran with require-final and exact e8ad/merge/tree/artifact parameters. Artifact payloads remained data. Trusted worker-template regeneration executes only trusted repository template code; no artifact JavaScript, Wasm, Lisp or FAS, browser/CAS runtime, native probe or new benchmark was executed.",
+  "reports": {
+    "payload-verification.json": {
+      "bytes": 32888,
+      "sha256": "a3b91ac99b46b724b6163a4132bb0b6b9387cf3d4a4ac4edff6ba22b89407580"
+    },
+    "final-zip-closure.json": {
+      "bytes": 667,
+      "sha256": "2051eeb609342e0825263129e7b8492385f18808632f81bb777d5a3e07c52475"
+    },
+    "compiler-execution-review.json": {
+      "bytes": 1796,
+      "sha256": "927bf42bdc89d9a558383e981d21c7bc91c1475a2fdbd19e06a05a4aaa253704"
+    },
+    "compiler-overlay-review.log": {
+      "bytes": 1778,
+      "sha256": "ae8d531b756f3dfd62cbf19855b7bcd5fe0b4ebeedb9ab707adb15a07b1a5d04"
+    },
+    "full-bundle-official-review.log": {
+      "bytes": 1764,
+      "sha256": "97036c5250e6e1280cf4183a39ae2a5943ad14b517925d4405766613939adcf5"
+    },
+    "official-summary.json": {
+      "bytes": 2083,
+      "sha256": "5e2e43382bf72e2a08140cee5194727efe5b7388df2f6d1a87feeb274b5659c3"
+    },
+    "full-restart-review.log": {
+      "bytes": 679,
+      "sha256": "7c21cfeb7f4bcdff8bdb86416a0740b377b62fba1121ba5551e972c29144ad0a"
+    },
+    "restart-summary.json": {
+      "bytes": 763,
+      "sha256": "dc40870297bc14358efa60dd7ce3eff7faedcfe85683af77b40b140d53205f41"
+    },
+    "measurement.json": {
+      "bytes": 2913,
+      "sha256": "4256d023eabd32867b4302683d3a80aab67ad3560e522879c813ee1a46acc058"
+    },
+    "measurement-summary.log": {
+      "bytes": 2890,
+      "sha256": "2bebc9fd5a3c80af70fb4ee06610c080f187b0f344bff48f98991fc08c4737cb"
+    },
+    "module-build-log.json": {
+      "bytes": 746,
+      "sha256": "7b8156e8d5f52f4e8e9de4c137fc3e4917c7f1d12f78b483745fcfce0207c618"
+    },
+    "module-build-log-review.log": {
+      "bytes": 973,
+      "sha256": "c152808eaee82407aef6c7aff54bd325e593b9e91038d2c252603d1abf7b93a9"
+    },
+    "source-identity-summary.json": {
+      "bytes": 3518,
+      "sha256": "9528302493e7cb0ec92ab33c076a58079f7e3b719602327ce2e20b33812f6c3f"
+    },
+    "initial-audit-api-provenance.json": {
+      "bytes": 191285,
+      "sha256": "7e0b39c2428ec0d2c11ce0e1b86ebf0c9f269b91fae302c2ae495fdfb7dd82b9"
+    },
+    "compiler-audit-api-provenance.json": {
+      "bytes": 28747,
+      "sha256": "144c4261062dc80d11247ed76afb35bb1ebd890bab1a5918e53553f0ad313b4d"
+    },
+    "current-pr-head-api.json": {
+      "bytes": 381,
+      "sha256": "a914d51bdd78ec0e4dd9a2c4eff72d6a6f0b070231c2573b22e2c8720091e311"
+    },
+    "initial-data-binding-review.json": {
+      "bytes": 2509,
+      "sha256": "59bac27f5d277179f72c25c85ddb7ab51e8f4ad503adf96a2aadcb9249753a46"
+    }
+  },
+  "trustedReviewCheckers": {
+    "compiler-overlay-review.py": {
+      "bytes": 4634,
+      "sha256": "2c52e84681989189e966a7ffd0b1e8243744c72040273415b50c0af0f03fd63e"
+    },
+    "full-bundle-official-review.py": {
+      "bytes": 12837,
+      "sha256": "97b10a284bb0418d9792c431d6c6b7b906bcb3cea3fb3f1fd8cf6061e306ed5e"
+    },
+    "full-restart-review.py": {
+      "bytes": 11677,
+      "sha256": "b77c43d55e03f907f597bac74a02f3a7835cca252f8cddd01fef7bcdf6c3cabe"
+    },
+    "measurement-summary.py": {
+      "bytes": 2573,
+      "sha256": "1d55872cf9d85aaeb658b99890965e14101165b8b2ce5ce4ebb23998829a7de5"
+    },
+    "module-build-log-review.py": {
+      "bytes": 1788,
+      "sha256": "f7399cffed067f930ca1390095d09e560b3ccbdaf39d534f767d86dbca5c554f"
+    },
+    "review_inputs.py": {
+      "bytes": 6142,
+      "sha256": "f7e2392a3199a4fd54d67acd7708138acda33f8dc7571eb34e0e4e5f558b61b2"
+    },
+    "run-review.py": {
+      "bytes": 1059,
+      "sha256": "f1f91f6439971abf91b98e14f63b2a3388c686fa2a22d7be82cbfa2bff7c7d77"
+    },
+    "source-page-review.py": {
+      "bytes": 6239,
+      "sha256": "d92844c6c6dedd43381181fe79c58f3965246655bc31a6a737015b3d40143d6a"
+    },
+    "source-report-review.py": {
+      "bytes": 9930,
+      "sha256": "8105b8df10fbba7027c9f83b13558bf7a416b3fe6063b619fd53bc8c3a5798ca"
+    },
+    "verify-audit-payloads.py": {
+      "bytes": 4409,
+      "sha256": "040f35a8c8b56f7cf3e06781c6f27ef2cdb205c4f3aaa48d8209c56a16720c64"
+    }
+  },
+  "immutableGitEvidence": {
+    "path": "/workspace/work/e8ad-reviewed-git-identities.json",
+    "bytes": 4011,
+    "sha256": "aca689a64e42047072164475aa6db38fb935e728b32118b01e6de2360914c3d9"
+  },
+  "reviewedAtUtc": "2026-10-24T18:55:34.246183+00:00",
+  "limitations": [
+    "This is the independent full-Oz bundle/official/compiler/restart scope; other required reviewers and source aggregate remain separate.",
+    "All 174 selected logical payloads (114620808 bytes) and full 3404-file ZIP inventory are hash-bound. Other archive bytes were inventoried but not separately decoded in this scope.",
+    "No native FAS loading, raw same-worker whole-library reset, F11 or general per-question isolation claim. The supported tested boundary is a full CAS session restart.",
+    "No precompiled speedup or default promotion. These four matched pairs cannot establish an Oz-versus-O2 ranking across different jobs.",
+    "Full measurement captures worker/result errors without blanket page-console capture. Each official pin/arm retains 65 getrusage and one prlimit64 warning.",
+    "Response-body totals are server-accounted queued lifecycle bytes, not completed wire traffic or initial startup traffic alone.",
+    "Native host 265-file hashes are reported identities; raw host executable/library bytes are not archived.",
+    "Canonical source archive validation uses explicit local derived copies hash-bound to the current ZIP inventory; these are not additionally recovered payloads.",
+    "STACK module logs contain emitted build commands; actual execve compiler and spill-pass proofs concern the ECL/Maxima runtime traces.",
+    "Full-workflow coldBuild:null is legitimate and distinct from source cold1."
+  ]
+}

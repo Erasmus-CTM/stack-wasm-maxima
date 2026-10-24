@@ -1,0 +1,156 @@
+// Explicit guarded comparison of admitted runtimes; shared derived stdout-only child, no rebuilding.
+import assert from 'node:assert/strict';
+import {readFile,writeFile,mkdir,readdir,cp,stat} from 'node:fs/promises';
+import {resolve,join} from 'node:path';
+import {createHash,randomUUID} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+import {deriveStartupObserver} from './derive-startup-observer.mjs';
+import {pathToFileURL} from 'node:url';
+export const profiles=['baseline','ecl-oz','ecl-oz-maxima-oz'];
+export const hash=body=>createHash('sha256').update(body).digest('hex');
+const record=(path,body)=>({path,bytes:body.length,sha256:hash(body)});
+const oldSource={runId:40108653819,runAttempt:1,head:'e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31',testedRevision:'5295b5a79bfb983f9e43dd911e6f8ab65139a930',tree:'0e543f936a385548a7ffd53d68930bd88c033922',trustedRevision:'e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31',recipeFiles:71};
+const newSource={runId:40136606442,runAttempt:1,head:'58cf269f303898a7b679d9d164346fbb9384b781',testedRevision:'58cf269f303898a7b679d9d164346fbb9384b781',tree:'3cf2954ebe3ab81990e47b37106d0e07b12b544d',trustedRevision:'58cf269f303898a7b679d9d164346fbb9384b781',recipeFiles:80};
+export function validateAdmission(admission,profile,manifest){
+  assert.equal(admission.schema,1);assert.equal(admission.passed,true,'Passed artifact admission required');
+  assert.deepEqual(Object.keys(admission.profiles).sort(),[...profiles].sort(),'Exact three profiles required');
+  const row=admission.profiles[profile],expected=profile==='ecl-oz-maxima-oz'?newSource:oldSource;assert.ok(row);
+  for(const [key,value] of Object.entries(expected))assert.deepEqual(row.source[key],value,'Wrong source '+key);
+  assert.equal(row.compilerProfile.name,profile);assert.deepEqual(manifest.runtimeBuild.compilerProfile,row.compilerProfile,'Compiler profile swapped');
+  assert.equal(manifest.runtimeBuild.manifestSha256,row.packageManifest.sha256,'Package manifest swapped');
+  assert.ok(Number.isSafeInteger(row.artifact.id)&&row.artifact.id>0);
+  assert.equal(row.artifact.workflow_run.id,expected.runId);assert.equal(row.artifact.workflow_run.head_sha,expected.head);
+  assert.equal(row.artifact.name,(profile==='ecl-oz-maxima-oz'?'maxima-oz-candidate-':'precompiled-stack-probe-')+profile+'-'+expected.testedRevision);
+  assert.match(row.artifact.digest,/^sha256:[a-f0-9]{64}$/);assert.ok(row.artifact.size_in_bytes>0);
+  const assets=rows=>rows.map(r=>({path:r.path,bytes:r.bytes??r.fileBytes,sha256:r.sha256})).sort((a,b)=>a.path.localeCompare(b.path));
+  assert.equal(row.runtimeAssets.length,79);assert.equal(new Set(row.runtimeAssets.map(r=>r.path)).size,79);
+  assert.deepEqual(assets(manifest.runtimeAssets),assets(row.runtimeAssets),'Runtime asset closure differs');
+  assert.equal(manifest.files.length,77);assert.equal(new Set(manifest.files.map(r=>r.path)).size,77);
+  assert.equal(admission.nativePrograms.length,3);assert.deepEqual(admission.nativePrograms.map(r=>r.operation),['prepare','validate','prt']);
+  assert.deepEqual(row.nativePrograms,admission.nativePrograms,'Native workload differs across sources');
+  return row;
+}
+export function trialPlan(repetitions){
+  assert.ok(Number.isSafeInteger(repetitions)&&repetitions>=3&&repetitions<=10,'At least three repetitions required');
+  const pairs=[];
+  for(let repetition=1;repetition<=repetitions;repetition++){
+    const offset=(repetition-1)%profiles.length,order=[...profiles.slice(offset),...profiles.slice(0,offset)];
+    for(const profile of order)for(const candidate of (repetition+profiles.indexOf(profile))%2?['source','precompiled']:['precompiled','source'])pairs.push({pair:pairs.length+1,repetition,profile,candidate,modes:['cold','warm-profile-reload']});
+  }
+  return pairs;
+}
+export const isKnownSyscallWarning=text=>/^warning: unsupported syscall: __syscall_(?:prlimit64|getrusage)\s*$/.test(text);
+export const isFatalConsole=(type,text)=>(type==='error'&&!isKnownSyscallWarning(text))||/RuntimeError|Unexpected mark stack overflow|\bAborted\(|memory access out of bounds|unreachable executed|out of memory/i.test(text);
+const median=values=>{const rows=values.filter(Number.isFinite).sort((a,b)=>a-b);return rows.length?(rows[Math.floor((rows.length-1)/2)]+rows[Math.ceil((rows.length-1)/2)])/2:null;};
+export function compactResult(result){
+  if(!result?.ok)return null;
+  return {readyMs:result.readyMs,stackLoadMs:result.initialization.stages.stackLoadMs,
+    wasmReadyMs:result.initialization.stages.wasmReadyMs,firstLogicalMs:result.checks[0].elapsedMs,
+    firstPositiveGradeMs:result.firstPositiveGrade.elapsedMs,firstNegativeGradeMs:result.firstNegativeGrade.elapsedMs,
+    warmGradeMedianMs:median(result.warmGrades.map(r=>r.elapsedMs)),warmArithmeticMedianMs:median(result.warmCalls.map(r=>r.elapsedMs)),
+    readyPlusFirstLogicalAndFirstPositiveMs:result.readyMs+result.checks[0].elapsedMs+result.firstPositiveGrade.elapsedMs};
+}
+export function summarize(samples){
+  const rows=[];for(const profile of profiles)for(const candidate of ['source','precompiled'])for(const mode of ['cold','warm-profile-reload']){
+    const matches=samples.filter(s=>s.profile===profile&&s.candidate===candidate&&s.mode===mode&&s.ok),keys=Object.keys(matches[0]?.timings||{});
+    rows.push({profile,candidate,mode,successfulTrials:matches.length,medians:Object.fromEntries(keys.map(k=>[k,median(matches.map(s=>s.timings[k]))]))});
+  }return rows;
+}
+async function stageSite({site,output,root,admission,profile}){
+  assert.notEqual(resolve(site),resolve(output));try{await stat(output);throw Error('Refusing to replace staged site');}catch(error){if(error.code!=='ENOENT')throw error;}
+  const actual=[];async function walk(relative=''){for(const entry of await readdir(join(site,relative),{withFileTypes:true})){const path=relative?relative+'/'+entry.name:entry.name;if(entry.isDirectory())await walk(path);else{assert.equal(entry.isFile(),true,'Nonregular site entry');actual.push(path);}}}await walk();
+  const accepted=admission.profiles[profile];assert.equal(accepted.stagedFiles.length,87);assert.equal(new Set(accepted.stagedFiles.map(r=>r.path)).size,87);
+  assert.deepEqual(actual.sort(),accepted.stagedFiles.map(r=>r.path).sort(),'Staged file set differs from admission');
+  for(const row of accepted.stagedFiles){assert.ok(resolve(site,row.path).startsWith(resolve(site)+'/'),'Unsafe admitted file path');const body=await readFile(join(site,row.path));assert.equal(body.length,row.bytes);assert.equal(hash(body),row.sha256,'Staged file bytes changed: '+row.path);}
+  for(const name of ['maxima-child.js','maxima-session.js'])assert.deepEqual(await readFile(join(site,'runtime',name)),await readFile(join(root,'prototype/runtime',name)),'Original runtime wrapper changed');
+  const manifests={},identities={};
+  for(const candidate of ['source','precompiled']){
+    const name=candidate==='source'?'stack-sources-timed-source.json':'stack-sources-precompiled.json',body=await readFile(join(site,name)),manifest=JSON.parse(body);
+    validateAdmission(admission,profile,manifest);assert.ok(manifest.startup.includes('CTMSTACK-LOAD-BEGIN')&&manifest.startup.includes('CTMSTACK-LOAD-END'));
+    for(const row of manifest.files){const bytes=Buffer.from(row.content);assert.equal(bytes.length,row.bytes);assert.equal(hash(bytes),row.sha256);}
+    if(candidate==='source')assert.equal(manifest.compiledStack,undefined);else{const file=manifest.compiledStack.asset,bytes=await readFile(join(site,'maxima-runtime',file.path));assert.equal(bytes.length,file.fileBytes);assert.equal(hash(bytes),file.sha256);}
+    const preload=await readFile(join(site,'maxima-runtime',manifest.preload.path));assert.equal(preload.length,manifest.preload.fileBytes);assert.equal(hash(preload),manifest.preload.sha256);
+    manifests[candidate]={name,expected:{stackRevision:manifest.stackRevision,stackLibraryVersion:manifest.stackLibraryVersion,maximaVersion:manifest.runtimeBuild.sourcePins.sources.find(r=>r.name==='maxima').version,compiledStack:manifest.compiledStack||null}};
+    identities[candidate]={...record(name,body),stackRevision:manifest.stackRevision,stackLibraryVersion:manifest.stackLibraryVersion,compiledStack:manifest.compiledStack||null};
+  }
+  await mkdir(resolve(output,'..'),{recursive:true});await cp(site,output,{recursive:true,errorOnExist:true,force:false});
+  const observer=deriveStartupObserver(await readFile(join(site,'runtime/maxima-child.js')));
+  await writeFile(join(output,'runtime/maxima-child.js'),observer.derived);
+  const observerProof=Buffer.from(JSON.stringify(observer.proof,null,2)+'\n');
+  await writeFile(output+'-startup-observer-derivation.json',observerProof);
+  await writeFile(join(output,'clean-timing.html'),'<!doctype html><meta charset="utf-8"><title>Guarded STACK runtime comparison</title>');
+  const worker=await readFile(new URL('./clean-probe-worker.js',import.meta.url));await writeFile(join(output,'clean-probe-worker.js'),worker);
+  return {site:output,manifests,proof:{source:accepted.source,artifact:accepted.artifact,packageManifest:accepted.packageManifest,compilerProfile:accepted.compilerProfile,manifestFiles:identities,originalFilesVerified:87,runtimeAssetsVerified:79,embeddedStackFilesPerManifest:77,worker:record('clean-probe-worker.js',worker),originalRuntimeAssetsAndStartupUnchanged:true,originalChildUnchanged:false,sharedStartupObserver:{...observer.proof,proof:record('staged/'+profile+'-startup-observer-derivation.json',observerProof)}}};
+}
+export function runPageMeasurement(input){
+  return new Promise(resolveTrial=>{
+    if(window.ctmCleanWorker){resolveTrial({ok:false,error:'Prior worker has not been terminated'});return;}
+    const worker=window.ctmCleanWorker=new Worker('clean-probe-worker.js');window.ctmCleanRunId=input.runId;let latest={runId:input.runId,phase:'worker-start'},finished=false;
+    const finish=value=>{if(finished)return;finished=true;clearTimeout(timer);resolveTrial(value);};
+    const timer=setTimeout(()=>finish({...latest,ok:false,error:'300-second clean measurement watchdog expired'}),300000);
+    worker.onmessage=({data})=>{if(data.progress?.runId!==input.runId){finish({...latest,ok:false,error:'Worker measurement token changed'});return;}if(data.type==='progress'){latest=data.progress;void window.ctmCleanProgress(latest);}else if(data.type==='complete')finish(data.progress);};
+    worker.onerror=error=>finish({...latest,ok:false,error:error.message});worker.postMessage(input);
+  });
+}
+export function stopPageWorker(runId){
+  return new Promise(resolveStop=>{
+    const worker=window.ctmCleanWorker;if(!worker){resolveStop({ok:false,error:'No worker to terminate'});return;}
+    const finish=value=>{clearTimeout(timer);worker.terminate();delete window.ctmCleanWorker;delete window.ctmCleanRunId;resolveStop(value);};
+    const timer=setTimeout(()=>finish({ok:false,error:'Worker termination acknowledgment missing'}),5000);
+    worker.onmessage=({data})=>{if(data.type==='stopped')finish({...data,ok:data.runId===runId&&data.stopped===true&&data.rejected===true});};
+    worker.onerror=error=>finish({ok:false,error:error.message});worker.postMessage({type:'stop',runId});
+  });
+}
+async function main(){
+  const args={};for(let i=2;i<process.argv.length;i+=2){assert.ok(process.argv[i]?.startsWith('--')&&process.argv[i+1]);args[process.argv[i]]=process.argv[i+1];}
+  for(const key of ['--old-trusted-root','--candidate-trusted-root','--profiles-root','--admission','--output'])assert.ok(args[key],key+' required');
+  const oldRoot=resolve(args['--old-trusted-root']),candidateRoot=resolve(args['--candidate-trusted-root']),profilesRoot=resolve(args['--profiles-root']),output=resolve(args['--output']),repetitions=Number(args['--repetitions']||3),plan=trialPlan(repetitions);
+  await mkdir(output,{recursive:true});const report={schema:1,diagnosticOnly:true,acceptance:false,passed:false,startedAt:new Date().toISOString(),repetitions,plan,plannedMeasurements:plan.length*2,watchdogMs:300000,staging:{},samples:[],skipped:[],scope:'Guarded matched-runner comparison of three admitted runtime profiles and source versus each profile’s own FAS. Fresh browser/profile per pair, then same-page/context reload after confirmed old CAS and probe-worker termination. Fresh probe/session/buffers on every measurement; same explicitly derived stdout-only child observer in all six cells and every restart. Original startup/session/runtime bytes unchanged. These are guarded timings, not pristine-wrapper timings; marker parsing/one bounded receipt add shared overhead. No TRACE, CPU profiler or FS observer. Existing marker order and no matched fatal do not prove a same-evaluation root-load return. Warm calls reuse that measurement’s worker. Rotating order limits but does not remove cache/runner variation. n3 medians are descriptive, not a statistical speedup or default promotion. Combined readiness/logical/positive is a synthetic sum of measured blocks, not complete UI latency.'};
+  const save=async()=>{report.summary=summarize(report.samples);await writeFile(join(output,'report.json'),JSON.stringify(report,null,2)+'\n');};await save();
+  try{
+    const body=await readFile(resolve(args['--admission'])),admission=JSON.parse(body);assert.equal(admission.passed,true);
+    for(const key of ['GITHUB_REPOSITORY','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','GITHUB_SHA','GITHUB_REF']){assert.ok(process.env[key]);assert.equal(admission.benchmark[key],process.env[key],'Benchmark identity changed: '+key);}
+    report.benchmark=admission.benchmark;report.admission=record(resolve(args['--admission']),body);
+    for(const [root,expected] of [[oldRoot,oldSource],[candidateRoot,newSource]]){
+      const git=(...args)=>execFileSync('git',['-C',root,...args],{encoding:'utf8'}).trim();assert.equal(git('rev-parse','HEAD'),expected.trustedRevision);assert.equal(git('rev-parse','HEAD^{tree}'),expected.tree);assert.equal(git('status','--porcelain','--untracked-files=no'),'');
+    }
+    report.sharedTrustedFiles=[];
+    for(const path of ['prototype/runtime/maxima-child.js','prototype/runtime/maxima-session.js','runtime/precompiled/restart-checks.json','scripts/milestone-two/serve.mjs','runtime/compression/server-source.mjs']){const a=await readFile(join(oldRoot,path));assert.deepEqual(a,await readFile(join(candidateRoot,path)),'Common trusted input differs: '+path);report.sharedTrustedFiles.push(record(path,a));}
+    const checks=JSON.parse(await readFile(join(oldRoot,'runtime/precompiled/restart-checks.json'))).checks;assert.equal(checks.length,10);assert.equal(checks[0].name,'first-call-logical-validation');
+    report.nativeWorkload={sha256:hash(JSON.stringify(admission.nativePrograms)),operations:admission.nativePrograms.map(r=>r.operation),captures:Object.fromEntries(profiles.map(p=>[p,admission.profiles[p].nativeCapture]))};
+    const staged={};for(const profile of profiles){staged[profile]=await stageSite({site:join(profilesRoot,profile,'site'),output:join(output,'staged',profile),root:profile==='ecl-oz-maxima-oz'?candidateRoot:oldRoot,admission,profile});report.staging[profile]=staged[profile].proof;await save();}
+    assert.equal(new Set(Object.values(staged).map(row=>row.proof.sharedStartupObserver.derived.sha256)).size,1,'Shared observer differs across profiles');
+    const {chromium}=await import('playwright'),{serveDemo}=await import(pathToFileURL(join(oldRoot,'scripts/milestone-two/serve.mjs')));
+    for(const pair of plan){
+      let app,browser,page,priorStopped=false;
+      try{
+        app=await serveDemo({root:staged[pair.profile].site,compression:'gzip',sidecarSource:null});browser=await chromium.launch({headless:true});page=await browser.newPage();report.browser=browser.version();
+        let activeRow,writeQueue=Promise.resolve();await page.exposeFunction('ctmCleanProgress',value=>{if(!activeRow)return;const path=activeRow.partialPath;writeQueue=writeQueue.then(()=>writeFile(path,JSON.stringify(value,null,2)+'\n'));});
+        page.on('console',message=>{if(!activeRow)return;const text=message.text(),type=message.type(),key=type+':'+text.slice(0,2000);if(Object.keys(activeRow.consoleCounts).length<1000||key in activeRow.consoleCounts)activeRow.consoleCounts[key]=(activeRow.consoleCounts[key]||0)+1;else activeRow.consoleOverflow=(activeRow.consoleOverflow||0)+1;if(isFatalConsole(type,text)){activeRow.fatalConsoleCount++;if(activeRow.fatalConsoleSamples.length<20)activeRow.fatalConsoleSamples.push({type,text:text.slice(0,2000)});}});
+        page.on('pageerror',error=>{if(activeRow)activeRow.pageErrors.push(String(error));});
+        for(const mode of pair.modes){
+          const id=String(pair.pair).padStart(2,'0')+'-'+pair.profile+'-'+pair.candidate+'-'+mode,directory=join(output,'trials',id);await mkdir(directory,{recursive:true});
+          const row=activeRow={id,...pair,mode,runId:randomUUID(),startedAt:new Date().toISOString(),ok:false,consoleCounts:{},fatalConsoleCount:0,fatalConsoleSamples:[],pageErrors:[],partialPath:join(directory,'partial.json')};
+          report.samples.push({id,profile:pair.profile,candidate:pair.candidate,repetition:pair.repetition,mode,pair:pair.pair,ok:false,phase:'started',samplePath:'trials/'+id+'/sample.json'});await save();await writeFile(row.partialPath,JSON.stringify({phase:'before-navigation',runId:row.runId})+'\n');
+          const requestStart=app.requests.length;
+          try{
+            if(mode==='cold')await page.goto(app.baseURL+'clean-timing.html');else{assert.equal(priorStopped,true,'Cannot reload without confirmed prior termination');await page.reload();}
+            const m=staged[pair.profile].manifests[pair.candidate];row.result=await page.evaluate(runPageMeasurement,{runId:row.runId,candidate:pair.candidate,manifest:m.name,expected:m.expected,checks,nativePrograms:admission.nativePrograms});await writeQueue;
+            row.ok=row.result.ok===true&&row.result.correctnessPassed===true&&row.result.startupGuard?.passed===true;row.termination=await page.evaluate(stopPageWorker,row.runId);priorStopped=row.termination.ok===true;row.ok&&=priorStopped;
+            row.requests=app.requests.slice(requestStart);assert.ok(!row.requests.some(r=>r.status>=400||/maxima-plot\.fas|libgnuplot\.so/.test(r.pathname||'')),'Unexpected runtime request failure or plotting asset');assert.equal(row.pageErrors.length,0,'Page error observed');assert.equal(row.fatalConsoleCount,0,'Fatal/unexpected console error observed');
+          }catch(error){row.error=String(error);row.ok=false;priorStopped=false;}
+          finally{
+            await writeQueue;row.requests=app.requests.slice(requestStart);row.finishedAt=new Date().toISOString();delete row.partialPath;await writeFile(join(directory,'sample.json'),JSON.stringify(row,null,2)+'\n');
+            Object.assign(report.samples.at(-1),{ok:row.ok,phase:'finished',runId:row.runId,timings:compactResult(row.result),startupGuardPassed:row.result?.startupGuard?.passed===true,error:row.error||row.result?.error||(!priorStopped?'Worker termination guard failed':null),termination:row.termination||null,warningCount:Object.entries(row.consoleCounts).filter(([k])=>k.startsWith('warning:')||isKnownSyscallWarning(k.slice(k.indexOf(':')+1))).reduce((sum,[,n])=>sum+n,0),fatalConsoleCount:row.fatalConsoleCount});activeRow=null;await save();
+          }
+          if(!priorStopped&&mode==='cold'){report.skipped.push({...pair,mode:'warm-profile-reload',reason:'Cold measurement did not confirm old worker termination'});break;}
+        }
+      }catch(error){report.pairFailures??=[];report.pairFailures.push({...pair,error:String(error)});}
+      finally{if(browser)await browser.close().catch(()=>{});if(app)await app.close();await save();}
+    }
+    report.passed=report.samples.length===report.plannedMeasurements&&report.samples.every(s=>s.ok)&&!report.skipped.length&&!report.pairFailures?.length;
+  }catch(error){report.failure=String(error);}
+  finally{report.finishedAt=new Date().toISOString();await save();}
+  if(!report.passed)process.exitCode=1;
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)await main();

@@ -1,0 +1,1505 @@
+{
+  "producer": {
+    "id": 40136606442,
+    "name": "Validate the ECL-Oz Maxima-Oz and matching STACK candidate",
+    "node_id": "WFR_kwLOVSnxL88AAAAJWFQC6g",
+    "head_branch": "experiment/e8ad-maxima-oz",
+    "head_sha": "58cf269f303898a7b679d9d164346fbb9384b781",
+    "path": ".github/workflows/experiment-maxima-oz.yml",
+    "display_title": "Experiment with Maxima and matching STACK FAS at Oz while ECL remains Oz",
+    "run_number": 1,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "workflow_id": 395458321,
+    "check_suite_id": 108789308521,
+    "check_suite_node_id": "CS_kwDOVSnxL88AAAAZVFkcaQ",
+    "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40136606442",
+    "html_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40136606442",
+    "pull_requests": [],
+    "created_at": "2026-10-24T21:59:29Z",
+    "updated_at": "2026-10-24T23:11:47Z",
+    "actor": {
+      "login": "aacchhee",
+      "id": 59649991,
+      "node_id": "MDQ6VXNlcjU5NjQ5OTkx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59649991?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/aacchhee",
+      "html_url": "https://github.com/aacchhee",
+      "followers_url": "https://api.github.com/users/aacchhee/followers",
+      "following_url": "https://api.github.com/users/aacchhee/following{/other_user}",
+      "gists_url": "https://api.github.com/users/aacchhee/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/aacchhee/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/aacchhee/subscriptions",
+      "organizations_url": "https://api.github.com/users/aacchhee/orgs",
+      "repos_url": "https://api.github.com/users/aacchhee/repos",
+      "events_url": "https://api.github.com/users/aacchhee/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/aacchhee/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "run_attempt": 1,
+    "referenced_workflows": [],
+    "run_started_at": "2026-10-24T21:59:29Z",
+    "triggering_actor": {
+      "login": "aacchhee",
+      "id": 59649991,
+      "node_id": "MDQ6VXNlcjU5NjQ5OTkx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59649991?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/aacchhee",
+      "html_url": "https://github.com/aacchhee",
+      "followers_url": "https://api.github.com/users/aacchhee/followers",
+      "following_url": "https://api.github.com/users/aacchhee/following{/other_user}",
+      "gists_url": "https://api.github.com/users/aacchhee/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/aacchhee/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/aacchhee/subscriptions",
+      "organizations_url": "https://api.github.com/users/aacchhee/orgs",
+      "repos_url": "https://api.github.com/users/aacchhee/repos",
+      "events_url": "https://api.github.com/users/aacchhee/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/aacchhee/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "jobs_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40136606442/jobs",
+    "logs_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40136606442/logs",
+    "check_suite_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/check-suites/108789308521",
+    "artifacts_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40136606442/artifacts",
+    "cancel_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40136606442/cancel",
+    "rerun_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40136606442/rerun",
+    "previous_attempt_url": null,
+    "workflow_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/workflows/395458321",
+    "head_commit": {
+      "id": "58cf269f303898a7b679d9d164346fbb9384b781",
+      "tree_id": "3cf2954ebe3ab81990e47b37106d0e07b12b544d",
+      "message": "Experiment with Maxima and matching STACK FAS at Oz while ECL remains Oz",
+      "timestamp": "2026-10-24T21:59:21Z",
+      "author": {
+        "name": "Andrey Chesnokov",
+        "email": "59649991+aacchhee@users.noreply.github.com"
+      },
+      "committer": {
+        "name": "Andrey Chesnokov",
+        "email": "59649991+aacchhee@users.noreply.github.com"
+      }
+    },
+    "repository": {
+      "id": 1428812079,
+      "node_id": "R_kgDOVSnxLw",
+      "name": "stack-wasm-maxima",
+      "full_name": "Erasmus-CTM/stack-wasm-maxima",
+      "private": false,
+      "owner": {
+        "login": "Erasmus-CTM",
+        "id": 228944013,
+        "node_id": "O_kgDODaVojQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/228944013?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Erasmus-CTM",
+        "html_url": "https://github.com/Erasmus-CTM",
+        "followers_url": "https://api.github.com/users/Erasmus-CTM/followers",
+        "following_url": "https://api.github.com/users/Erasmus-CTM/following{/other_user}",
+        "gists_url": "https://api.github.com/users/Erasmus-CTM/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/Erasmus-CTM/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/Erasmus-CTM/subscriptions",
+        "organizations_url": "https://api.github.com/users/Erasmus-CTM/orgs",
+        "repos_url": "https://api.github.com/users/Erasmus-CTM/repos",
+        "events_url": "https://api.github.com/users/Erasmus-CTM/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/Erasmus-CTM/received_events",
+        "type": "Organization",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima",
+      "description": "Native backend",
+      "fork": false,
+      "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima",
+      "forks_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/forks",
+      "keys_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/teams",
+      "hooks_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/hooks",
+      "issue_events_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/events",
+      "assignees_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/tags",
+      "blobs_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/languages",
+      "stargazers_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/stargazers",
+      "contributors_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contributors",
+      "subscribers_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/subscribers",
+      "subscription_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/subscription",
+      "commits_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/merges",
+      "archive_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/downloads",
+      "issues_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/labels{/name}",
+      "releases_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/deployments"
+    },
+    "head_repository": {
+      "id": 1428812079,
+      "node_id": "R_kgDOVSnxLw",
+      "name": "stack-wasm-maxima",
+      "full_name": "Erasmus-CTM/stack-wasm-maxima",
+      "private": false,
+      "owner": {
+        "login": "Erasmus-CTM",
+        "id": 228944013,
+        "node_id": "O_kgDODaVojQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/228944013?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Erasmus-CTM",
+        "html_url": "https://github.com/Erasmus-CTM",
+        "followers_url": "https://api.github.com/users/Erasmus-CTM/followers",
+        "following_url": "https://api.github.com/users/Erasmus-CTM/following{/other_user}",
+        "gists_url": "https://api.github.com/users/Erasmus-CTM/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/Erasmus-CTM/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/Erasmus-CTM/subscriptions",
+        "organizations_url": "https://api.github.com/users/Erasmus-CTM/orgs",
+        "repos_url": "https://api.github.com/users/Erasmus-CTM/repos",
+        "events_url": "https://api.github.com/users/Erasmus-CTM/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/Erasmus-CTM/received_events",
+        "type": "Organization",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima",
+      "description": "Native backend",
+      "fork": false,
+      "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima",
+      "forks_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/forks",
+      "keys_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/teams",
+      "hooks_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/hooks",
+      "issue_events_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/events",
+      "assignees_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/tags",
+      "blobs_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/languages",
+      "stargazers_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/stargazers",
+      "contributors_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contributors",
+      "subscribers_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/subscribers",
+      "subscription_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/subscription",
+      "commits_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/merges",
+      "archive_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/downloads",
+      "issues_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/labels{/name}",
+      "releases_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/deployments"
+    }
+  },
+  "producerJobs": {
+    "total_count": 1,
+    "jobs": [
+      {
+        "id": 120999345248,
+        "run_id": 40136606442,
+        "workflow_name": "Validate the ECL-Oz Maxima-Oz and matching STACK candidate",
+        "head_branch": "experiment/e8ad-maxima-oz",
+        "run_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40136606442",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOVSnxL88AAAAcLB98YA",
+        "head_sha": "58cf269f303898a7b679d9d164346fbb9384b781",
+        "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/jobs/120999345248",
+        "html_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40136606442/job/120999345248",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-24T21:59:30Z",
+        "started_at": "2026-10-24T21:59:32Z",
+        "completed_at": "2026-10-24T23:11:46Z",
+        "name": "bundle-probe (ecl-oz-maxima-oz)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-24T21:59:33Z",
+            "completed_at": "2026-10-24T21:59:35Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-24T21:59:35Z",
+            "completed_at": "2026-10-24T21:59:37Z"
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-24T21:59:37Z",
+            "completed_at": "2026-10-24T21:59:37Z"
+          },
+          {
+            "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-10-24T21:59:37Z",
+            "completed_at": "2026-10-24T21:59:47Z"
+          },
+          {
+            "name": "Check compiled input and parity evidence bindings",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-10-24T21:59:47Z",
+            "completed_at": "2026-10-24T21:59:52Z"
+          },
+          {
+            "name": "Check exact owned-runtime inputs",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-24T21:59:52Z",
+            "completed_at": "2026-10-24T21:59:55Z"
+          },
+          {
+            "name": "Fetch exact source commits and verify archive hashes",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-24T21:59:55Z",
+            "completed_at": "2026-10-24T22:00:14Z"
+          },
+          {
+            "name": "Install native and 32-bit build prerequisites",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-10-24T22:00:14Z",
+            "completed_at": "2026-10-24T22:00:39Z"
+          },
+          {
+            "name": "Build the explicit ECL-Oz and Maxima-Oz candidate",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-10-24T22:00:39Z",
+            "completed_at": "2026-10-24T22:43:27Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-10-24T22:43:27Z",
+            "completed_at": "2026-10-24T22:43:28Z"
+          },
+          {
+            "name": "Require native assignment, reset and parser fixture controls",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-10-24T22:43:28Z",
+            "completed_at": "2026-10-24T22:43:39Z"
+          },
+          {
+            "name": "Translate pinned STACK and cross-compile for the browser target",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-10-24T22:43:39Z",
+            "completed_at": "2026-10-24T22:44:11Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-10-24T22:44:11Z",
+            "completed_at": "2026-10-24T22:44:12Z"
+          },
+          {
+            "name": "Translate and cross-compile the older STACK pin independently",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-10-24T22:44:12Z",
+            "completed_at": "2026-10-24T22:44:43Z"
+          },
+          {
+            "name": "Require fresh full-library native validation parity at both pins",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-10-24T22:44:43Z",
+            "completed_at": "2026-10-24T22:46:51Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-10-24T22:46:51Z",
+            "completed_at": "2026-10-24T22:46:52Z"
+          },
+          {
+            "name": "Package the exact source-loaded runtime control",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-10-24T22:46:52Z",
+            "completed_at": "2026-10-24T22:47:10Z"
+          },
+          {
+            "name": "Replay packaged runtime and both successful FAS compiler proofs",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-10-24T22:47:10Z",
+            "completed_at": "2026-10-24T22:47:41Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-10-24T22:47:41Z",
+            "completed_at": "2026-10-24T22:47:43Z"
+          },
+          {
+            "name": "Install pinned native packaging dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-10-24T22:47:43Z",
+            "completed_at": "2026-10-24T22:47:54Z"
+          },
+          {
+            "name": "Stage the unchanged source-loaded control and opt-in compiled manifest",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-10-24T22:47:54Z",
+            "completed_at": "2026-10-24T22:47:55Z"
+          },
+          {
+            "name": "Install pinned browser dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-10-24T22:47:55Z",
+            "completed_at": "2026-10-24T22:55:02Z"
+          },
+          {
+            "name": "Measure startup and validate full session restart",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-10-24T22:55:02Z",
+            "completed_at": "2026-10-24T23:00:04Z"
+          },
+          {
+            "name": "Run quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-10-24T23:00:04Z",
+            "completed_at": "2026-10-24T23:00:13Z"
+          },
+          {
+            "name": "Install the pinned authoring dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-10-24T23:00:13Z",
+            "completed_at": "2026-10-24T23:00:14Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 26,
+            "started_at": "2026-10-24T23:00:14Z",
+            "completed_at": "2026-10-24T23:00:14Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 27,
+            "started_at": "2026-10-24T23:00:14Z",
+            "completed_at": "2026-10-24T23:00:16Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 28,
+            "started_at": "2026-10-24T23:00:16Z",
+            "completed_at": "2026-10-24T23:00:17Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29,
+            "started_at": "2026-10-24T23:00:17Z",
+            "completed_at": "2026-10-24T23:00:19Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 30,
+            "started_at": "2026-10-24T23:00:19Z",
+            "completed_at": "2026-10-24T23:00:20Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 31,
+            "started_at": "2026-10-24T23:00:20Z",
+            "completed_at": "2026-10-24T23:00:21Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 32,
+            "started_at": "2026-10-24T23:00:21Z",
+            "completed_at": "2026-10-24T23:00:22Z"
+          },
+          {
+            "name": "Stage pinned dependencies around the tracked QMD",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 33,
+            "started_at": "2026-10-24T23:00:22Z",
+            "completed_at": "2026-10-24T23:00:23Z"
+          },
+          {
+            "name": "Select the compiled entry before native-page preparation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 34,
+            "started_at": "2026-10-24T23:00:23Z",
+            "completed_at": "2026-10-24T23:00:23Z"
+          },
+          {
+            "name": "Prepare native variants in the actual Wasm backend",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 35,
+            "started_at": "2026-10-24T23:00:23Z",
+            "completed_at": "2026-10-24T23:01:03Z"
+          },
+          {
+            "name": "Render the committed Quarto page",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 36,
+            "started_at": "2026-10-24T23:01:03Z",
+            "completed_at": "2026-10-24T23:01:23Z"
+          },
+          {
+            "name": "Exercise both backends in the rendered comparison page",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 37,
+            "started_at": "2026-10-24T23:01:23Z",
+            "completed_at": "2026-10-24T23:02:04Z"
+          },
+          {
+            "name": "Prove opaque board MathJax font and accessibility closure offline",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38,
+            "started_at": "2026-10-24T23:02:04Z",
+            "completed_at": "2026-10-24T23:02:33Z"
+          },
+          {
+            "name": "Exercise every graphical variant on desktop and mobile static hosting",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39,
+            "started_at": "2026-10-24T23:02:33Z",
+            "completed_at": "2026-10-24T23:06:42Z"
+          },
+          {
+            "name": "Measure current board transfers across cold and same-profile warm loads",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 40,
+            "started_at": "2026-10-24T23:06:42Z",
+            "completed_at": "2026-10-24T23:07:48Z"
+          },
+          {
+            "name": "Exercise native questions, graphical inputs and Python continuations",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 41,
+            "started_at": "2026-10-24T23:07:48Z",
+            "completed_at": "2026-10-24T23:08:51Z"
+          },
+          {
+            "name": "Install the independent native Maxima reference",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 42,
+            "started_at": "2026-10-24T23:08:51Z",
+            "completed_at": "2026-10-24T23:08:58Z"
+          },
+          {
+            "name": "Compare captured native programs with the independent native runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 43,
+            "started_at": "2026-10-24T23:08:58Z",
+            "completed_at": "2026-10-24T23:09:18Z"
+          },
+          {
+            "name": "Replay the same 316 programs with the same-source native ECL build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 44,
+            "started_at": "2026-10-24T23:09:18Z",
+            "completed_at": "2026-10-24T23:09:31Z"
+          },
+          {
+            "name": "Require complete compiled controller evidence and replay bindings",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 45,
+            "started_at": "2026-10-24T23:09:31Z",
+            "completed_at": "2026-10-24T23:09:31Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 46,
+            "started_at": "2026-10-24T23:09:31Z",
+            "completed_at": "2026-10-24T23:09:32Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 47,
+            "started_at": "2026-10-24T23:09:32Z",
+            "completed_at": "2026-10-24T23:09:37Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 48,
+            "started_at": "2026-10-24T23:09:37Z",
+            "completed_at": "2026-10-24T23:09:41Z"
+          },
+          {
+            "name": "Prepare the unchanged official probes and their independent native controls",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49,
+            "started_at": "2026-10-24T23:09:41Z",
+            "completed_at": "2026-10-24T23:10:46Z"
+          },
+          {
+            "name": "Require source-loaded official probes at both pins",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50,
+            "started_at": "2026-10-24T23:10:46Z",
+            "completed_at": "2026-10-24T23:11:05Z"
+          },
+          {
+            "name": "Stage two separately bound compiled official-probe bundles",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51,
+            "started_at": "2026-10-24T23:11:05Z",
+            "completed_at": "2026-10-24T23:11:06Z"
+          },
+          {
+            "name": "Require compiled official probes at both exact pins",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 52,
+            "started_at": "2026-10-24T23:11:06Z",
+            "completed_at": "2026-10-24T23:11:24Z"
+          },
+          {
+            "name": "Preserve the feasibility evidence, including failures",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 53,
+            "started_at": "2026-10-24T23:11:24Z",
+            "completed_at": "2026-10-24T23:11:38Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 90,
+            "started_at": "2026-10-24T23:11:38Z",
+            "completed_at": "2026-10-24T23:11:38Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 91,
+            "started_at": "2026-10-24T23:11:38Z",
+            "completed_at": "2026-10-24T23:11:38Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 92,
+            "started_at": "2026-10-24T23:11:38Z",
+            "completed_at": "2026-10-24T23:11:38Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 93,
+            "started_at": "2026-10-24T23:11:38Z",
+            "completed_at": "2026-10-24T23:11:38Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 94,
+            "started_at": "2026-10-24T23:11:38Z",
+            "completed_at": "2026-10-24T23:11:39Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 95,
+            "started_at": "2026-10-24T23:11:39Z",
+            "completed_at": "2026-10-24T23:11:39Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 96,
+            "started_at": "2026-10-24T23:11:39Z",
+            "completed_at": "2026-10-24T23:11:39Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 97,
+            "started_at": "2026-10-24T23:11:39Z",
+            "completed_at": "2026-10-24T23:11:39Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 98,
+            "started_at": "2026-10-24T23:11:39Z",
+            "completed_at": "2026-10-24T23:11:39Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 99,
+            "started_at": "2026-10-24T23:11:39Z",
+            "completed_at": "2026-10-24T23:11:39Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 100,
+            "started_at": "2026-10-24T23:11:39Z",
+            "completed_at": "2026-10-24T23:11:39Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 101,
+            "started_at": "2026-10-24T23:11:39Z",
+            "completed_at": "2026-10-24T23:11:40Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 102,
+            "started_at": "2026-10-24T23:11:40Z",
+            "completed_at": "2026-10-24T23:11:40Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 103,
+            "started_at": "2026-10-24T23:11:40Z",
+            "completed_at": "2026-10-24T23:11:40Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 104,
+            "started_at": "2026-10-24T23:11:40Z",
+            "completed_at": "2026-10-24T23:11:40Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 105,
+            "started_at": "2026-10-24T23:11:40Z",
+            "completed_at": "2026-10-24T23:11:40Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 106,
+            "started_at": "2026-10-24T23:11:40Z",
+            "completed_at": "2026-10-24T23:11:40Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 107,
+            "started_at": "2026-10-24T23:11:40Z",
+            "completed_at": "2026-10-24T23:11:40Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/check-runs/120999345248",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000012809,
+        "runner_name": "GitHub Actions 1000012809",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ]
+  },
+  "producerCommit": {
+    "sha": "58cf269f303898a7b679d9d164346fbb9384b781",
+    "node_id": "C_kwDOVSnxL9oAKDU4Y2YyNjlmMzAzODk4YTdiNjc5ZDlkMTY0MzQ2ZmJiOTM4NGI3ODE",
+    "commit": {
+      "author": {
+        "name": "Andrey Chesnokov",
+        "email": "59649991+aacchhee@users.noreply.github.com",
+        "date": "2026-10-24T21:59:21Z"
+      },
+      "committer": {
+        "name": "Andrey Chesnokov",
+        "email": "59649991+aacchhee@users.noreply.github.com",
+        "date": "2026-10-24T21:59:21Z"
+      },
+      "message": "Experiment with Maxima and matching STACK FAS at Oz while ECL remains Oz",
+      "tree": {
+        "sha": "3cf2954ebe3ab81990e47b37106d0e07b12b544d",
+        "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/trees/3cf2954ebe3ab81990e47b37106d0e07b12b544d"
+      },
+      "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/commits/58cf269f303898a7b679d9d164346fbb9384b781",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/commits/58cf269f303898a7b679d9d164346fbb9384b781",
+    "html_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/commit/58cf269f303898a7b679d9d164346fbb9384b781",
+    "comments_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/commits/58cf269f303898a7b679d9d164346fbb9384b781/comments",
+    "author": {
+      "login": "aacchhee",
+      "id": 59649991,
+      "node_id": "MDQ6VXNlcjU5NjQ5OTkx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59649991?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/aacchhee",
+      "html_url": "https://github.com/aacchhee",
+      "followers_url": "https://api.github.com/users/aacchhee/followers",
+      "following_url": "https://api.github.com/users/aacchhee/following{/other_user}",
+      "gists_url": "https://api.github.com/users/aacchhee/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/aacchhee/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/aacchhee/subscriptions",
+      "organizations_url": "https://api.github.com/users/aacchhee/orgs",
+      "repos_url": "https://api.github.com/users/aacchhee/repos",
+      "events_url": "https://api.github.com/users/aacchhee/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/aacchhee/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "aacchhee",
+      "id": 59649991,
+      "node_id": "MDQ6VXNlcjU5NjQ5OTkx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59649991?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/aacchhee",
+      "html_url": "https://github.com/aacchhee",
+      "followers_url": "https://api.github.com/users/aacchhee/followers",
+      "following_url": "https://api.github.com/users/aacchhee/following{/other_user}",
+      "gists_url": "https://api.github.com/users/aacchhee/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/aacchhee/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/aacchhee/subscriptions",
+      "organizations_url": "https://api.github.com/users/aacchhee/orgs",
+      "repos_url": "https://api.github.com/users/aacchhee/repos",
+      "events_url": "https://api.github.com/users/aacchhee/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/aacchhee/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "51fdadd606c668371f5d50d0b853ecafe47883fc",
+        "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/commits/51fdadd606c668371f5d50d0b853ecafe47883fc",
+        "html_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/commit/51fdadd606c668371f5d50d0b853ecafe47883fc"
+      }
+    ],
+    "stats": {
+      "total": 879,
+      "additions": 861,
+      "deletions": 18
+    },
+    "files": [
+      {
+        "sha": "d4cf6e8fc6bd2fc5c1b12be1e9ebb9456daf5730",
+        "filename": ".github/workflows/experiment-maxima-oz.yml",
+        "status": "added",
+        "additions": 386,
+        "deletions": 0,
+        "changes": 386,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/58cf269f303898a7b679d9d164346fbb9384b781/.github%2Fworkflows%2Fexperiment-maxima-oz.yml",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/58cf269f303898a7b679d9d164346fbb9384b781/.github%2Fworkflows%2Fexperiment-maxima-oz.yml",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/.github%2Fworkflows%2Fexperiment-maxima-oz.yml?ref=58cf269f303898a7b679d9d164346fbb9384b781",
+        "patch": "@@ -0,0 +1,386 @@\n+# SPDX-License-Identifier: AGPL-3.0-or-later\n+# Explicit experiment only; no production or legacy matrix build is triggered.\n+name: Validate the ECL-Oz Maxima-Oz and matching STACK candidate\n+'on':\n+  push:\n+    branches: [experiment/e8ad-maxima-oz]\n+    paths:\n+      - '.github/workflows/experiment-maxima-oz.yml'\n+      - 'runtime/build/**'\n+      - 'runtime/precompiled/**'\n+permissions:\n+  contents: read\n+concurrency:\n+  group: experiment-maxima-oz-${{ github.ref }}-${{ github.sha }}\n+  cancel-in-progress: false\n+jobs:\n+  bundle-probe:\n+    name: bundle-probe (${{ matrix.compiler-profile }})\n+    if: github.repository == 'Erasmus-CTM/stack-wasm-maxima' && github.event_name == 'push' && github.ref == 'refs/heads/experiment/e8ad-maxima-oz'\n+    strategy:\n+      fail-fast: false\n+      matrix:\n+        compiler-profile: [ecl-oz-maxima-oz]\n+    env:\n+      CTM_ECL_COMPILER_PROFILE: ${{ matrix.compiler-profile }}\n+    runs-on: ubuntu-24.04\n+    timeout-minutes: 240\n+    steps:\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          persist-credentials: false\n+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065\n+        with:\n+          python-version: '3.12'\n+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020\n+        with:\n+          node-version: '22'\n+      - name: Check compiled input and parity evidence bindings\n+        run: |\n+          node scripts/milestone-one/test-fatal-reporting.mjs\n+          python runtime/precompiled/test-bundle-provenance.py\n+          python runtime/precompiled/test-controller-parity.py\n+          node runtime/precompiled/test-probe-inputs.mjs\n+          node runtime/precompiled/test-entry-reads.mjs\n+          node runtime/precompiled/test-measure-worker.mjs\n+      - name: Check exact owned-runtime inputs\n+        run: |\n+          node runtime/build/test-runtime-source.mjs\n+          python runtime/build/test-substitution.py\n+          python runtime/build/test-toolchain.py\n+          python runtime/build/test-cold-evidence.py\n+          python runtime/build/test-source-checkout.py\n+          python runtime/build/test-source-overlay.py\n+      - name: Fetch exact source commits and verify archive hashes\n+        run: python runtime/build/prepare-sources.py\n+      - name: Install native and 32-bit build prerequisites\n+        run: |\n+          sudo apt-get update -qq\n+          sudo apt-get install -y --no-install-recommends build-essential gcc-multilib g++-multilib \\\n+            libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config strace\n+          python runtime/precompiled/test-stack-compiler-evidence.py\n+      - name: Build the explicit ECL-Oz and Maxima-Oz candidate\n+        run: bash runtime/build/build.sh\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          repository: maths/moodle-qtype_stack\n+          ref: 33383047af39c204bf4442802a058f8b918b2b1b\n+          path: .cache/precompiled-stack/upstream-stack\n+          sparse-checkout: stack/maxima\n+          persist-credentials: false\n+      - name: Require native assignment, reset and parser fixture controls\n+        run: bash runtime/precompiled/native-fixtures.sh --reuse-built-native\n+      - name: Translate pinned STACK and cross-compile for the browser target\n+        run: bash runtime/precompiled/translate-and-cross-compile.sh \"$PWD/.cache/precompiled-stack/upstream-stack\"\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          repository: maths/moodle-qtype_stack\n+          ref: 10d323311b7f39fb7b092dd10ce75f7d8632f525\n+          path: .cache/precompiled-stack-10d3233/upstream-stack\n+          sparse-checkout: stack/maxima\n+          persist-credentials: false\n+      - name: Translate and cross-compile the older STACK pin independently\n+        env:\n+          CTM_PRECOMPILED_STACK_PIN: 10d323311b7f39fb7b092dd10ce75f7d8632f525\n+        run: bash runtime/precompiled/translate-and-cross-compile.sh \"$PWD/.cache/precompiled-stack-10d3233/upstream-stack\"\n+      - name: Require fresh full-library native validation parity at both pins\n+        run: |\n+          python runtime/precompiled/full-entry-check.py --pin 33383047af39c204bf4442802a058f8b918b2b1b\n+          python runtime/precompiled/full-entry-check.py --pin 10d323311b7f39fb7b092dd10ce75f7d8632f525\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          ref: b34bfc8af10cd80b6130baabe88a47c9a32c0333\n+          path: .cache/runtime-build/notices\n+          persist-credentials: false\n+      - name: Package the exact source-loaded runtime control\n+        run: python runtime/build/package.py --notices .cache/runtime-build/notices\n+      - name: Replay packaged runtime and both successful FAS compiler proofs\n+        run: |\n+          python runtime/build/verify-source-overlay.py .cache/runtime-build/artifact\n+          python runtime/precompiled/stack_compiler_evidence.py \\\n+            --work .cache/precompiled-stack --pin 33383047af39c204bf4442802a058f8b918b2b1b \\\n+            --runtime-artifact .cache/runtime-build/artifact\n+          python runtime/precompiled/stack_compiler_evidence.py \\\n+            --work .cache/precompiled-stack-10d3233 --pin 10d323311b7f39fb7b092dd10ce75f7d8632f525 \\\n+            --runtime-artifact .cache/runtime-build/artifact\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          repository: Erasmus-CTM/ctm-checkers\n+          ref: c366f175aba6b62caa628bc60f57bb1167fc087b\n+          path: .cache/precompiled-stack/ctm-checkers\n+          persist-credentials: false\n+      - name: Install pinned native packaging dependencies\n+        run: python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'\n+      - name: Stage the unchanged source-loaded control and opt-in compiled manifest\n+        run: |\n+          python scripts/milestone-two/prepare-runtime.py --output .cache/precompiled-stack/site \\\n+            --runtime-source .cache/runtime-build/artifact \\\n+            --stack-source .cache/precompiled-stack/upstream-stack \\\n+            --ctm-checkers-source .cache/precompiled-stack/ctm-checkers\n+          python runtime/precompiled/stage-variant.py --site .cache/precompiled-stack/site \\\n+            --stack-source .cache/precompiled-stack/upstream-stack \\\n+            --bundle .cache/precompiled-stack/stackmaxima.fas \\\n+            --translated .cache/precompiled-stack/source-initialized/stackmaxima.lisp\n+      - name: Install pinned browser dependencies\n+        run: |\n+          npm ci --ignore-scripts --no-audit --no-fund\n+          npx playwright install --with-deps chromium firefox webkit\n+      - name: Measure startup and validate full session restart\n+        env:\n+          PRECOMPILED_SITE: .cache/precompiled-stack/site\n+        run: node runtime/precompiled/measure.mjs\n+      - uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b\n+        with:\n+          version: 1.8.27\n+      - name: Install the pinned authoring dependencies\n+        run: python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          repository: Erasmus-CTM/stack-sympy\n+          ref: 1b1d50f69fc1e7eb39846b497657d72be325f597\n+          path: .site-sources/stack-sympy\n+          persist-credentials: false\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          repository: Erasmus-CTM/ctm-checkers\n+          ref: c366f175aba6b62caa628bc60f57bb1167fc087b\n+          path: .site-sources/ctm-checkers\n+          persist-credentials: false\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          repository: Erasmus-CTM/ctm-libs\n+          ref: 94687f718fd651fc2857bc5242a64e45c8fd4697\n+          path: .site-sources/ctm-libs\n+          persist-credentials: false\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          repository: maths/moodle-qtype_stack\n+          ref: 33383047af39c204bf4442802a058f8b918b2b1b\n+          path: .site-sources/stack\n+          sparse-checkout: |\n+            stack/maxima\n+            stack/cas\n+            stack/maximaparser\n+            corsscripts\n+            lang/en\n+            samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs\n+          persist-credentials: false\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          repository: jsxgraph/jsxgraph-quarto\n+          ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e\n+          path: .site-sources/jsxgraph-quarto\n+          persist-credentials: false\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          repository: Erasmus-CTM/ctm-assessment\n+          ref: 68fe838ca76ce7dfc4297f8ed4db1ccf1dc29a8b\n+          path: .site-sources/ctm-assessment\n+          persist-credentials: false\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          repository: Erasmus-CTM/ctm-libs\n+          ref: 2cdd3b47bb4722f65f168a0baf4dbd6a18bff384\n+          path: .site-sources/board-ctm-libs\n+          persist-credentials: false\n+      - name: Stage pinned dependencies around the tracked QMD\n+        run: |\n+          python scripts/milestone-two/materialize.py --prepare-existing site \\\n+            --stack-sympy-source .site-sources/stack-sympy \\\n+            --ctm-checkers-source .site-sources/ctm-checkers \\\n+            --ctm-libs-source .site-sources/ctm-libs\n+          python scripts/milestone-two/prepare-runtime.py --output site --runtime-source .cache/runtime-build/artifact \\\n+            --stack-source .site-sources/stack \\\n+            --ctm-checkers-source .site-sources/ctm-checkers\n+          node scripts/milestone-two/test-frontend-pools.mjs site/_extensions/stack-sympy/stack-sympy.js\n+          python scripts/milestone-three/stage-parser.py --stack-source .site-sources/stack --output site/native\n+          python scripts/milestone-three/stage-feedback.py --stack-source .site-sources/stack --output site/native\n+          node prototype/native/test-feedback.mjs site/native\n+          python scripts/milestone-three/compile.py --stack-source .site-sources/stack \\\n+            --ctm-checkers-source .site-sources/ctm-checkers --output site/native/questions.json \\\n+            --resources site/maxima/native-questions\n+      - name: Select the compiled entry before native-page preparation\n+        run: |\n+          python runtime/precompiled/stage-variant.py --site site \\\n+            --stack-source .site-sources/stack --bundle .cache/precompiled-stack/stackmaxima.fas \\\n+            --translated .cache/precompiled-stack/source-initialized/stackmaxima.lisp\n+          cp site/stack-sources-precompiled.json site/stack-sources.json\n+      - name: Prepare native variants in the actual Wasm backend\n+        env:\n+          CTM_COMPONENT_DEV: '1'\n+          STACK_SYMPY_PYTHON: python\n+          CTM_CHECKERS_SOURCE: .site-sources/ctm-checkers\n+          STACK_SOURCE: .site-sources/stack\n+          PYTHONPATH: .site-sources/ctm-checkers/src\n+        run: |\n+          python scripts/milestone-three/test-build.py\n+          python scripts/milestone-three/test-reference.py\n+          node scripts/milestone-three/build-site.mjs --site site --stack-source .site-sources/stack \\\n+            --ctm-checkers-source .site-sources/ctm-checkers --jsxgraph-source .site-sources/jsxgraph-quarto\n+      - name: Render the committed Quarto page\n+        env:\n+          CTM_COMPONENT_DEV: '1'\n+          STACK_SYMPY_PYTHON: python\n+        run: |\n+          export CTM_LIBS_EXTENSION=\"$PWD/site/_extensions/ctm-libs\"\n+          export CTM_CHECKERS_EXTENSION=\"$PWD/site/_extensions/ctm-checkers\"\n+          quarto render site\n+      - name: Exercise both backends in the rendered comparison page\n+        run: node scripts/site/smoke.mjs site/_site test-results/reviewer-site\n+      - name: Prove opaque board MathJax font and accessibility closure offline\n+        run: |\n+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser chromium\n+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser firefox\n+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser webkit\n+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser chromium --static-host --cors-transport --output test-results/board-mathjax-static-chromium.json\n+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser firefox --static-host --cors-transport --output test-results/board-mathjax-static-firefox.json\n+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser webkit --static-host --cors-transport --output test-results/board-mathjax-static-webkit.json\n+      - name: Exercise every graphical variant on desktop and mobile static hosting\n+        run: |\n+          for browser in chromium firefox webkit; do\n+            for width in 1280 390; do\n+              node scripts/milestone-three/measure-board-weight.mjs --site site/_site --browser \"$browser\" \\\n+                --functional-only --static-host --width \"$width\" \\\n+                --output \"test-results/milestone-three/board-functional-$browser-$width.json\"\n+            done\n+          done\n+      - name: Measure current board transfers across cold and same-profile warm loads\n+        run: |\n+          node scripts/milestone-three/measure-board-weight.mjs --site site/_site --browser chromium \\\n+            --static-host --width 1280 \\\n+            --output test-results/milestone-three/board-transfer-chromium.json\n+      - name: Exercise native questions, graphical inputs and Python continuations\n+        run: node scripts/milestone-three/browser.mjs site/_site test-results/milestone-three\n+      - name: Install the independent native Maxima reference\n+        if: ${{ !cancelled() && hashFiles('test-results/milestone-three/browser.json') != '' }}\n+        run: |\n+          sudo apt-get update -qq\n+          sudo apt-get install -y --no-install-recommends maxima maxima-share\n+      - name: Compare captured native programs with the independent native runtime\n+        if: ${{ !cancelled() && hashFiles('test-results/milestone-three/browser.json') != '' }}\n+        run: |\n+          python scripts/milestone-three/native-reference.py --browser-report test-results/milestone-three/browser.json \\\n+            --stack-source .site-sources/stack --output test-results/milestone-three/native-reference\n+      - name: Replay the same 316 programs with the same-source native ECL build\n+        env:\n+          MAXIMA_PREFIX: ${{ github.workspace }}/.cache/runtime-build/sources/maxima/wasm/maxima-ecl-combined\n+        run: |\n+          python scripts/milestone-three/native-reference.py --browser-report test-results/milestone-three/browser.json \\\n+            --stack-source .site-sources/stack --output test-results/milestone-three/same-source-reference \\\n+            --maxima \"$MAXIMA_PREFIX/bin/maxima\"\n+      - name: Require complete compiled controller evidence and replay bindings\n+        run: |\n+          python runtime/precompiled/check-controller-parity.py --site site/_site \\\n+            --prepared .cache/native-build/prepared.json --browser test-results/milestone-three/browser.json \\\n+            --independent test-results/milestone-three/native-reference/native-reference.json \\\n+            --same-source test-results/milestone-three/same-source-reference/native-reference.json \\\n+            --output test-results/precompiled-stack/controller-parity.json\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          repository: Erasmus-CTM/ctm-checkers\n+          ref: 9e042dc5e57a1636be64ca5d08910c9af5ff1371\n+          path: .ctm-checkers-source\n+          persist-credentials: false\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          repository: maths/moodle-qtype_stack\n+          ref: 10d323311b7f39fb7b092dd10ce75f7d8632f525\n+          path: .stack-upstream/10d323311b7f39fb7b092dd10ce75f7d8632f525\n+          persist-credentials: false\n+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683\n+        with:\n+          repository: maths/moodle-qtype_stack\n+          ref: 33383047af39c204bf4442802a058f8b918b2b1b\n+          path: .stack-upstream/33383047af39c204bf4442802a058f8b918b2b1b\n+          persist-credentials: false\n+      - name: Prepare the unchanged official probes and their independent native controls\n+        run: python scripts/milestone-one/prepare.py\n+      - name: Require source-loaded official probes at both pins\n+        env:\n+          CTM_MAXIMA_RUNTIME_SOURCE: .cache/runtime-build/artifact\n+          MILESTONE_ONE_REPORT_ROOT: .cache/precompiled-stack/probes-source-report\n+        run: |\n+          node scripts/milestone-one/run.mjs\n+          python scripts/milestone-one/compare.py\n+          mkdir -p test-results/precompiled-stack/probes-source\n+          cp test-results/milestone-one/* test-results/precompiled-stack/probes-source/\n+          cp .cache/precompiled-stack/probes-source-report/latest.json test-results/precompiled-stack/probes-source/comparison.json\n+      - name: Stage two separately bound compiled official-probe bundles\n+        run: |\n+          python runtime/precompiled/prepare-probes.py --prepared test-results/milestone-one/prepared.json \\\n+            --output .cache/precompiled-probes\n+      - name: Require compiled official probes at both exact pins\n+        env:\n+          CTM_MAXIMA_RUNTIME_SOURCE: .cache/runtime-build/artifact\n+          CTM_PRECOMPILED_PROBE_INDEX: .cache/precompiled-probes/index.json\n+          MILESTONE_ONE_REPORT_ROOT: .cache/precompiled-stack/probes-compiled-report\n+        run: |\n+          node scripts/milestone-one/run.mjs\n+          python scripts/milestone-one/compare.py\n+          mkdir -p test-results/precompiled-stack/probes-compiled\n+          cp test-results/milestone-one/* test-results/precompiled-stack/probes-compiled/\n+          cp .cache/precompiled-stack/probes-compiled-report/latest.json test-results/precompiled-stack/probes-compiled/comparison.json\n+      - name: Preserve the feasibility evidence, including failures\n+        if: always()\n+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02\n+        with:\n+          name: maxima-oz-candidate-${{ matrix.compiler-profile }}-${{ github.sha }}\n+          include-hidden-files: true\n+          path: |\n+            .cache/precompiled-stack/logs/\n+            .cache/precompiled-stack/source-initialized/\n+            .cache/precompiled-stack/initialized-translate-driver.lisp\n+            .cache/precompiled-stack/source-adapted/\n+            .cache/precompiled-stack/adapted-translate-driver.lisp\n+            .cache/precompiled-stack/assignment-adapter.lisp\n+            .cache/precompiled-stack/display2d-bridge.lisp\n+            .cache/precompiled-fixtures/\n+            .cache/precompiled-stack/source/stackmaxima.mac\n+            .cache/precompiled-stack/source/stackmaxima.LISP\n+            .cache/precompiled-stack/source/stackmaxima.lisp\n+            .cache/precompiled-stack/source/stackmaxima.UNLISP\n+            .cache/precompiled-stack/source/stackmaxima.unlisp\n+            .cache/precompiled-stack/source/ctm-assignment-probe.mac\n+            .cache/precompiled-stack/source/ctm-assignment-probe.LISP\n+            .cache/precompiled-stack/source/ctm-assignment-probe.UNLISP\n+            .cache/precompiled-stack/source/ctm-reset-probe.*\n+            .cache/precompiled-stack/reset-translate-driver.lisp\n+            .cache/precompiled-stack/reset-probe.lisp\n+            .cache/precompiled-stack/source/ctm-stackmaxima.asd\n+            .cache/precompiled-stack/translate-driver.lisp\n+            .cache/precompiled-stack/assignment-probe-driver.lisp\n+            .cache/precompiled-stack/stackmaxima.fas\n+            .cache/precompiled-stack/stackmaxima.fas.json\n+            .cache/precompiled-stack-10d3233/logs/\n+            .cache/precompiled-stack-10d3233/source/\n+            .cache/precompiled-stack-10d3233/source-adapted/\n+            .cache/precompiled-stack-10d3233/source-initialized/\n+            .cache/precompiled-stack-10d3233/*.lisp\n+            .cache/precompiled-stack-10d3233/stackmaxima.fas\n+            .cache/precompiled-stack-10d3233/stackmaxima.fas.json\n+            .cache/precompiled-probes/\n+            .cache/native-build/\n+            site/native/build-manifest.json\n+            site/_site/native/build-manifest.json\n+            site/_site/stack-sources.json\n+            site/_site/maxima/native.html\n+            test-results/milestone-three/\n+            test-results/milestone-one/\n+            test-results/reviewer-site/\n+            test-results/board-mathjax*.json\n+            .cache/precompiled-stack/probes-source-report/\n+            .cache/precompiled-stack/probes-compiled-report/\n+            .cache/precompiled-stack/site/stack-sources.json\n+            .cache/precompiled-stack/site/stack-sources-timed-source.json\n+            .cache/precompiled-stack/site/stack-sources-precompiled.json\n+            .cache/precompiled-stack/site/precompiled-measure-worker.js\n+            .cache/precompiled-stack/site/runtime/maxima-session.js\n+            .cache/precompiled-stack/site/runtime/maxima-child.js\n+            runtime/precompiled/restart-checks.json\n+            .cache/precompiled-stack/site/maxima-runtime/stackmaxima.fas\n+            .cache/precompiled-stack/site/maxima-runtime/runtime-preload.json\n+            .cache/runtime-build/artifact/\n+            test-results/precompiled-stack/\n+            .cache/runtime-build/logs/\n+            .cache/runtime-build/source-progress.json\n+          if-no-files-found: warn"
+      },
+      {
+        "sha": "559262cfec294f7fbb29f844e26afa6b2768450a",
+        "filename": "runtime/build/MAXIMA-OZ-EXPERIMENT.md",
+        "status": "added",
+        "additions": 51,
+        "deletions": 0,
+        "changes": 51,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2FMAXIMA-OZ-EXPERIMENT.md",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2FMAXIMA-OZ-EXPERIMENT.md",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/runtime%2Fbuild%2FMAXIMA-OZ-EXPERIMENT.md?ref=58cf269f303898a7b679d9d164346fbb9384b781",
+        "patch": "@@ -0,0 +1,51 @@\n+# Explicit Maxima-Oz and matching STACK experiment\n+\n+`ecl-oz-maxima-oz` keeps the production `ecl-oz` ECL settings and separately\n+injects `EMCC_CFLAGS=-Oz` while compiling Maxima main, its eight optional\n+modules, and each pinned translated STACK bundle. The original configure,\n+target-info, Lisp policy, GC root-scanner overlay, spill pass and 32 MiB stack\n+settings remain unchanged. The three ordinary profiles and production choice\n+are unchanged. The new profile lives in `experimentalProfiles`, so ordinary\n+three-profile comparisons do not silently acquire a fourth build.\n+\n+`.github/workflows/experiment-maxima-oz.yml` runs only on an explicit push to\n+`experiment/e8ad-maxima-oz`. Its one candidate job has a 240-minute budget and\n+retains every full precompiled-workflow validation: both exact STACK pins,\n+native translation/reset/parser controls, full-library native cases, official\n+source and compiled probes, first logical/warning checks, complete restart\n+semantics, independent and same-source native controller replays, and graphics\n+and plot-policy checks. Worker timeouts and correctness criteria are unchanged.\n+It uploads raw partial evidence on failure and never deploys or promotes a\n+runtime. This branch has no pull request trigger for the legacy build matrix.\n+\n+The runtime uses the unchanged strict `compiler_evidence.py` parser to require\n+actual generated Maxima clang flags at `-Oz`. For each STACK pin, a separate\n+`cross-compile-exec.log` records tool argv and process exits without environment\n+values. `stack_compiler_evidence.py` requires printed source association plus\n+successful driver and clang executions at the expected optimization, and\n+successful linker and Binaryen spill executions for the delivered bundle and\n+intermediate target links. Every recognized tool process must exit zero.\n+Generated STACK/bridge C, translated inputs, descriptor and final FAS bytes are\n+hash-bound. Proofs are recomputed against the packaged runtime before browser\n+staging; matching-looking claims without raw traces cannot pass. Source code,\n+workflow, proof checker and translator inputs are included in the packaged\n+recipe inventory.\n+\n+No candidate runtime has yet passed CI or been timed. Local synthetic tests do\n+not establish runtime parity, performance, full raw-reset safety, F11 browser\n+semantics or PHP equivalence. The existing full-suite timing is an initial\n+source-versus-compiled observation on the new runtime, not a matched comparison\n+against older artifacts.\n+\n+After complete successful CI and independent artifact review, a separate\n+no-rebuild comparison must bind the new run/attempt/head/tree, artifact ID/name,\n+ZIP byte length and SHA-256, complete package/runtime closure, both pinned FAS\n+proofs and exact manifests. It must also independently admit the existing\n+accepted ECL-Oz/Maxima-O2 control. Stage exact archived bytes for each route on\n+one fresh runner, alternate route order, retain separate startup/restart/first\n+question/warm-call timings, preserve correctness and 300-second watchdogs,\n+and report repetitions, raw samples, absolute/relative differences and spread.\n+Use at least three balanced repetitions (ten for a selection decision), clean\n+uninstrumented arms, and separately labeled optional CPU profiling. Old build\n+identity remains distinct from fresh benchmark identity. Never insert a new\n+candidate row into a results table as measured before those bindings exist."
+      },
+      {
+        "sha": "d633429a5fb6d21b64477f29a215a4216c931b23",
+        "filename": "runtime/build/build.sh",
+        "status": "modified",
+        "additions": 5,
+        "deletions": 3,
+        "changes": 8,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Fbuild.sh",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Fbuild.sh",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/runtime%2Fbuild%2Fbuild.sh?ref=58cf269f303898a7b679d9d164346fbb9384b781",
+        "patch": "@@ -66,9 +66,11 @@ ECL_INJECTED_FLAGS=$(python \"$ROOT/runtime/build/compiler_profile.py\" --emcc-fla\n  strace -f -qq -e trace=execve -e signal=none -s 1048576 -o \"$WORK/logs/ecl-exec.log\" make --output-sync=target -f \"$MAKE_RECIPE\" -j2 ecl-emscripten\n ) 2>&1 | tee \"$WORK/logs/ecl-cross-build.log\"\n cat \"$WORK/logs/ecl-exec.log\" >> \"$WORK/logs/ecl-cross-build.log\"\n-# Target-info carries raw upstream CFLAGS, not the injected experiment. Keep\n-# it unchanged so Maxima still uses its original generated-Lisp optimization.\n+# Target-info always retains raw upstream CFLAGS. Only the explicitly selected\n+# Maxima experiment injects a separate override into this process environment.\n unset EMCC_CFLAGS\n+MAXIMA_INJECTED_FLAGS=$(python \"$ROOT/runtime/build/compiler_profile.py\" --maxima-emcc-flags)\n+if [[ -n \"$MAXIMA_INJECTED_FLAGS\" ]]; then export EMCC_CFLAGS=\"$MAXIMA_INJECTED_FLAGS\"; fi\n export EMCC_VERBOSE=1\n build_maxima_phase() {\n targets=(maxima-ecl-combined/maxima.wasm maxima-ecl-combined/libecl.so maxima-ecl-combined/maxima_thread.js maxima-ecl-combined/share_files.js)\n@@ -86,7 +88,7 @@ export -f build_maxima_phase\n strace -f -qq -e trace=execve -e signal=none -s 1048576 -o \"$WORK/logs/maxima-exec.log\" bash -euo pipefail -c build_maxima_phase 2>&1 | tee \"$WORK/logs/maxima-cross-build.log\"\n cat \"$WORK/logs/maxima-exec.log\" >> \"$WORK/logs/maxima-cross-build.log\"\n unset -f build_maxima_phase\n-unset EMCC_VERBOSE\n+unset EMCC_CFLAGS EMCC_VERBOSE\n python \"$ROOT/runtime/build/check-compiler-experiment.py\"\n test ! -e ../src/binary-ecl/wasm32-emscripten/maxima/plot.fasb\n test ! -e maxima-ecl-combined/maxima-plot.fas"
+      },
+      {
+        "sha": "eb39f9cd67e83270fa228ffbd65ab8c4a532431c",
+        "filename": "runtime/build/check-compiler-experiment.py",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 1,
+        "changes": 2,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Fcheck-compiler-experiment.py",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Fcheck-compiler-experiment.py",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/runtime%2Fbuild%2Fcheck-compiler-experiment.py?ref=58cf269f303898a7b679d9d164346fbb9384b781",
+        "patch": "@@ -18,7 +18,7 @@\n profile = compiler_profile()\n observed = derive(config,target,(logs/'ecl-cross-build.log').read_bytes(),(logs/'maxima-cross-build.log').read_bytes(),profile)\n record = {'schema':1,'passed':True,'profile':profile,'observed':observed,\n-          'scope':'Actual clang subprocess optimization in separate ECL/Maxima build phases, plus raw unchanged configure flags and mandatory GC link settings. Injection affects ECL target C, generated ECL Lisp C and target link invocations; Maxima generated C retains its baseline policy. No performance conclusion.'}\n+          'scope':'Actual clang subprocess optimization in separate ECL/Maxima build phases, plus raw unchanged configure flags and mandatory GC link settings. Each phase uses the explicitly selected profile; upstream configure and Lisp policy remain unchanged. No performance conclusion.'}\n (logs/'compiler-experiment.json').write_text(json.dumps(record,indent=2)+'\\n')\n print(json.dumps({'passed':True,'profile':profile,'actualEclCoreCompiles':len(observed['eclCore']),\n                   'actualEclGeneratedLispCompiles':len(observed['eclGeneratedLisp']),"
+      },
+      {
+        "sha": "6f0142f607b909ca8f9d99a8cbde246c4af69161",
+        "filename": "runtime/build/compiler-profiles.json",
+        "status": "modified",
+        "additions": 4,
+        "deletions": 1,
+        "changes": 5,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Fcompiler-profiles.json",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Fcompiler-profiles.json",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/runtime%2Fbuild%2Fcompiler-profiles.json?ref=58cf269f303898a7b679d9d164346fbb9384b781",
+        "patch": "@@ -1,11 +1,14 @@\n {\n   \"schema\": 1,\n-  \"scope\": \"EMCC_CFLAGS applies only to the standalone upstream ecl-emscripten target; unset before Maxima main and optional modules. Original configure CFLAGS remain unchanged.\",\n+  \"scope\": \"The three profiles inject EMCC_CFLAGS only into the standalone ECL target, then unset it. Explicit experimentalProfiles can separately inject Maxima and matching STACK flags. Original configure CFLAGS remain unchanged.\",\n   \"production\": \"ecl-oz\",\n   \"productionNote\": \"The profile runtime releases are built and accepted with (AC, 23 Oct 2026). Experiments and comparators keep selecting their profile explicitly through CTM_ECL_COMPILER_PROFILE (fallback baseline).\",\n   \"profiles\": {\n     \"baseline\": {\"name\": \"baseline\", \"injectedEmccFlags\": null, \"eclCoreOptimization\": \"-O0\", \"eclGeneratedLispOptimization\": \"-O2\", \"maximaGeneratedOptimization\": \"-O2\"},\n     \"ecl-oz\": {\"name\": \"ecl-oz\", \"injectedEmccFlags\": \"-Oz\", \"eclCoreOptimization\": \"-Oz\", \"eclGeneratedLispOptimization\": \"-Oz\", \"maximaGeneratedOptimization\": \"-O2\"},\n     \"ecl-o2\": {\"name\": \"ecl-o2\", \"injectedEmccFlags\": \"-O2\", \"eclCoreOptimization\": \"-O2\", \"eclGeneratedLispOptimization\": \"-O2\", \"maximaGeneratedOptimization\": \"-O2\"}\n+  },\n+  \"experimentalProfiles\": {\n+    \"ecl-oz-maxima-oz\": {\"name\": \"ecl-oz-maxima-oz\", \"injectedEmccFlags\": \"-Oz\", \"eclCoreOptimization\": \"-Oz\", \"eclGeneratedLispOptimization\": \"-Oz\", \"maximaGeneratedOptimization\": \"-Oz\", \"maximaInjectedEmccFlags\": \"-Oz\", \"stackGeneratedOptimization\": \"-Oz\"}\n   }\n }"
+      },
+      {
+        "sha": "8ee3f3805c13d0ab22381711334dd2de84bea8ff",
+        "filename": "runtime/build/compiler_profile.py",
+        "status": "modified",
+        "additions": 6,
+        "deletions": 2,
+        "changes": 8,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Fcompiler_profile.py",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Fcompiler_profile.py",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/runtime%2Fbuild%2Fcompiler_profile.py?ref=58cf269f303898a7b679d9d164346fbb9384b781",
+        "patch": "@@ -1,5 +1,5 @@\n # SPDX-License-Identifier: AGPL-3.0-or-later\n-\"\"\"Controlled ECL-only experiments; never edit upstream configure or Lisp policy.\"\"\"\n+\"\"\"Explicit compiler experiments; never edit upstream configure or Lisp policy.\"\"\"\n import json\n import os\n from pathlib import Path\n@@ -21,7 +21,9 @@ def production_name():\n \n def compiler_profile(name=None):\n     name = name or os.environ.get('CTM_ECL_COMPILER_PROFILE', 'baseline')\n-    selected = profiles()['profiles'].get(name)\n+    catalog = profiles()\n+    assert not (set(catalog['profiles']) & set(catalog.get('experimentalProfiles', {})))\n+    selected = {**catalog['profiles'], **catalog.get('experimentalProfiles', {})}.get(name)\n     if selected is None:\n         raise ValueError('Unknown ECL compiler experiment: ' + name)\n     return selected\n@@ -32,5 +34,7 @@ def compiler_profile(name=None):\n     profile = compiler_profile()\n     if len(sys.argv) > 1 and sys.argv[1] == '--production':\n         print(production_name())\n+    elif len(sys.argv) > 1 and sys.argv[1] == '--maxima-emcc-flags':\n+        print(profile.get('maximaInjectedEmccFlags') or '')\n     else:\n         print((profile['injectedEmccFlags'] or '') if len(sys.argv)>1 and sys.argv[1]=='--emcc-flags' else json.dumps(profile))"
+      },
+      {
+        "sha": "e9f879619bfc26c3c4c1a58c5453193ac477476d",
+        "filename": "runtime/build/recipe-inputs.json",
+        "status": "modified",
+        "additions": 9,
+        "deletions": 1,
+        "changes": 10,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Frecipe-inputs.json",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Frecipe-inputs.json",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/runtime%2Fbuild%2Frecipe-inputs.json?ref=58cf269f303898a7b679d9d164346fbb9384b781",
+        "patch": "@@ -23,6 +23,14 @@\n     \"prototype/runtime/maxima-child.js\",\n     \"scripts/milestone-two/serve.mjs\",\n     \"package.json\",\n-    \"package-lock.json\"\n+    \"package-lock.json\",\n+    \".github/workflows/experiment-maxima-oz.yml\",\n+    \"runtime/precompiled/translate-and-cross-compile.sh\",\n+    \"runtime/precompiled/bundle_provenance.py\",\n+    \"runtime/precompiled/parser_bootstrap.py\",\n+    \"runtime/precompiled/assignment-adapter.lisp\",\n+    \"runtime/precompiled/display2d-bridge.lisp\",\n+    \"runtime/precompiled/stack_compiler_evidence.py\",\n+    \"runtime/precompiled/test-stack-compiler-evidence.py\"\n   ]\n }"
+      },
+      {
+        "sha": "cc1abc32e062d70c43955070dc537c78eb8cbc3f",
+        "filename": "runtime/build/runtime-source.mjs",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 1,
+        "changes": 2,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Fruntime-source.mjs",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Fruntime-source.mjs",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/runtime%2Fbuild%2Fruntime-source.mjs?ref=58cf269f303898a7b679d9d164346fbb9384b781",
+        "patch": "@@ -12,7 +12,7 @@ export async function loadOwnedRuntime(source,repository) {\n  const pins=JSON.parse(await readFile(resolve(repository,'runtime/build/pins.json')));\n  assert.equal(manifest.schema,1);assert.deepEqual(manifest.sourcePins,pins,'Owned runtime must match the exact current source pins');\n  const profiles=JSON.parse(await readFile(resolve(repository,'runtime/build/compiler-profiles.json')));\n- const profile=profiles.profiles[process.env.CTM_ECL_COMPILER_PROFILE||'baseline'];\n+ const profile={...profiles.profiles,...profiles.experimentalProfiles}[process.env.CTM_ECL_COMPILER_PROFILE||'baseline'];\n  assert.ok(profile,'Unknown compiler experiment');assert.deepEqual(manifest.compilerProfile,profile,'Current compiler profile differs');\n  const configuration=JSON.parse(await readFile(resolve(repository,'runtime/build/configuration.json')));\n  assert.deepEqual(manifest.configuration,configuration,'Current candidates require the exact no-gnuplot configuration');"
+      },
+      {
+        "sha": "898b032f160e27a535046dfaf85c2871f2a51466",
+        "filename": "runtime/build/test-compiler-evidence.py",
+        "status": "modified",
+        "additions": 20,
+        "deletions": 3,
+        "changes": 23,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Ftest-compiler-evidence.py",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Ftest-compiler-evidence.py",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/runtime%2Fbuild%2Ftest-compiler-evidence.py?ref=58cf269f303898a7b679d9d164346fbb9384b781",
+        "patch": "@@ -9,7 +9,7 @@\n import shutil\n import subprocess\n import sys\n-from compiler_profile import profiles\n+from compiler_profile import profiles, compiler_profile\n from compiler_evidence import derive, digest, verify_packaged, MODULES, commands, config_assignments\n \n REQUIRE_STRACE='--require-strace' in sys.argv\n@@ -41,8 +41,8 @@ def link(output,wasm):\n     for auxiliary in ['ecl-cdb.fas','ecl-help.fas','serve-event.fas','package-locks.fas']:\n         ecl+=link(auxiliary,auxiliary)\n     prefix='/repo/sources/maxima/src/binary-ecl/wasm32-emscripten'\n-    maxima=compile(prefix+'/maxima/residu.c','residu.o','-O0 -O2','-O2',True)\n-    maxima+=compile('/tmp/eclinitMAX.c','init-max.o','-O0 -O2','-O2',True)\n+    maxima=compile(prefix+'/maxima/residu.c','residu.o','-O0 -O2',profile['maximaGeneratedOptimization'],True)\n+    maxima+=compile('/tmp/eclinitMAX.c','init-max.o','-O0 -O2',profile['maximaGeneratedOptimization'],True)\n     maxima+=link(prefix+'/maxima.html',prefix+'/maxima.wasm')\n     for module in MODULES:\n         maxima+=link(prefix+'/maxima/'+module+'.fasb',prefix+'/maxima/'+module+'.fasb')\n@@ -64,6 +64,23 @@ def packaged(root, profile):\n \n \n class CompilerEvidence(unittest.TestCase):\n+    def test_explicit_maxima_oz_does_not_expand_the_standard_comparison(self):\n+        catalog=profiles()\n+        self.assertEqual(set(catalog['profiles']), {'baseline','ecl-oz','ecl-o2'})\n+        self.assertEqual(catalog['production'], 'ecl-oz')\n+        for profile in catalog['profiles'].values():\n+            self.assertNotIn('maximaInjectedEmccFlags',profile)\n+            self.assertEqual(profile['maximaGeneratedOptimization'],'-O2')\n+        profile=compiler_profile('ecl-oz-maxima-oz')\n+        ecl,maxima=traces(profile)\n+        result=derive(CONFIG,TARGET,ecl,maxima,profile)\n+        self.assertTrue(all(row['optimization']=='-Oz' for row in result['maximaGeneratedUnits']))\n+        for wrong in ['-O0','-O2','-O3']:\n+            with self.assertRaises(AssertionError):\n+                derive(CONFIG,TARGET,ecl,maxima.replace(b'-Oz',wrong.encode()),profile)\n+        with self.assertRaises(AssertionError):\n+            derive(CONFIG,TARGET,ecl,maxima,compiler_profile('ecl-oz'))\n+\n     def test_relative_sdk_source_requires_both_exact_root_anchors(self):\n         anchors=['-ffile-prefix-map=/repo/sources/emsdk/upstream/emscripten=/emsdk/emscripten',\n                  '-ffile-prefix-map=../../..=/emsdk/emscripten','-fdebug-compilation-dir=/emsdk/emscripten']"
+      },
+      {
+        "sha": "94114df9c263862e386907ac45ed8a8bd05a26fc",
+        "filename": "runtime/build/test-runtime-source.mjs",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 1,
+        "changes": 3,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Ftest-runtime-source.mjs",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Ftest-runtime-source.mjs",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/runtime%2Fbuild%2Ftest-runtime-source.mjs?ref=58cf269f303898a7b679d9d164346fbb9384b781",
+        "patch": "@@ -14,7 +14,8 @@ const paths=[...await expectedRuntimePaths(repository)];\n for(const path of paths){await mkdir(dirname(join(root,'runtime',path)),{recursive:true});await writeFile(join(root,'runtime',path),body);}\n const configuration=JSON.parse(await readFile(join(repository,'runtime/build/configuration.json')));\n const startup=(await readFile(join(repository,'runtime/build/no-plot.mac'),'utf8')).trim()+'\\n';\n-const compilerProfile=JSON.parse(await readFile(join(repository,'runtime/build/compiler-profiles.json'))).profiles[process.env.CTM_ECL_COMPILER_PROFILE||'baseline'];\n+const catalog=JSON.parse(await readFile(join(repository,'runtime/build/compiler-profiles.json')));\n+const compilerProfile={...catalog.profiles,...catalog.experimentalProfiles}[process.env.CTM_ECL_COMPILER_PROFILE||'baseline'];\n const valid={schema:1,compilerProfile,sourcePins,configuration,startupAdapter:{content:startup,sha256:configuration.startupSha256},runtimeAssets:paths.map(path=>({path,bytes:body.length,sha256}))};\n valid.sourceIntegrity={schema:1,allVerifiedFilesUnmodified:false,overlays:[JSON.parse(await readFile(join(repository,'runtime/build/patches/ecl-root-scanner.json')))],\n  originalArchives:sourcePins.sources.filter(p=>['maxima','ecl'].includes(p.name)).map(p=>({path:'sources/'+p.name+'.tar',sha256:p.archive.sha256})),"
+      },
+      {
+        "sha": "3a02c468d0c99c217582a7046c6334b172288e6e",
+        "filename": "runtime/build/test-substitution.py",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 1,
+        "changes": 3,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Ftest-substitution.py",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fbuild%2Ftest-substitution.py",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/runtime%2Fbuild%2Ftest-substitution.py?ref=58cf269f303898a7b679d9d164346fbb9384b781",
+        "patch": "@@ -22,7 +22,8 @@ def test_inventory_rejections(self):\n             root = Path(directory)\n             record = {'path': 'asset.wasm', 'bytes': 4, 'sha256': 'a' * 64}\n             config = json.loads((ROOT / 'runtime/build/configuration.json').read_text())\n-            profiles=json.loads((ROOT / 'runtime/build/compiler-profiles.json').read_text())['profiles']\n+            catalog=json.loads((ROOT / 'runtime/build/compiler-profiles.json').read_text())\n+            profiles={**catalog['profiles'], **catalog.get('experimentalProfiles', {})}\n             compiler = profiles[os.environ.get('CTM_ECL_COMPILER_PROFILE','baseline')]\n             manifest = {'schema': 1,'compilerProfile':compiler, 'sourcePins': json.loads((ROOT / 'runtime/build/pins.json').read_text()), 'runtimeAssets': [record], 'configuration':config, 'startupAdapter':{'content':(ROOT / 'runtime/build/no-plot.mac').read_text().strip()+'\\n','sha256':config['startupSha256']}}\n             manifest['sourceIntegrity'] = {'schema':1,'allVerifiedFilesUnmodified':False,"
+      },
+      {
+        "sha": "b444fca83e4fb2108479450c31234d9ce6b2da69",
+        "filename": "runtime/precompiled/stack_compiler_evidence.py",
+        "status": "added",
+        "additions": 162,
+        "deletions": 0,
+        "changes": 162,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fprecompiled%2Fstack_compiler_evidence.py",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fprecompiled%2Fstack_compiler_evidence.py",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/runtime%2Fprecompiled%2Fstack_compiler_evidence.py?ref=58cf269f303898a7b679d9d164346fbb9384b781",
+        "patch": "@@ -0,0 +1,162 @@\n+#!/usr/bin/env python3\n+# SPDX-License-Identifier: AGPL-3.0-or-later\n+\"\"\"Require executed compiler/link/spill evidence for the explicit Maxima-Oz FAS.\"\"\"\n+import argparse\n+import json\n+from pathlib import Path, PurePosixPath\n+import re\n+import sys\n+\n+ROOT = Path(__file__).resolve().parents[2]\n+sys.path.insert(0, str(ROOT / 'runtime/build'))\n+from compiler_profile import compiler_profile\n+from compiler_evidence import (commands, config_assignments, c_compiles, digest,\n+                               link_evidence, relevant_compiles, same_source,\n+                               verify_packaged, LINK_FIELDS)\n+from bundle_provenance import record\n+from parser_bootstrap import PINNED_SOURCES\n+\n+NAME = 'ecl-oz-maxima-oz'\n+PROOF = 'stack-compiler-evidence.json'\n+\n+\n+def successful_tools(body):\n+    \"\"\"Each recognized successful exec must also finish with exit_group(0).\n+\n+    Reuse the strict argv parser; add only PID/exit binding here. Printed\n+    commands cannot satisfy this check, and incomplete traces fail closed.\n+    \"\"\"\n+    commands(body)  # Includes strict unfinished/resumed and argv checks.\n+    pending, executed, exits = {}, {}, {}\n+    for line in body.decode().splitlines():\n+        match = re.fullmatch(r'(\\d+)\\s+(.*)', line.strip())\n+        if not match:\n+            continue\n+        pid, value = match.groups()\n+        if value.startswith('execve(') and value.endswith(' <unfinished ...>'):\n+            assert pid not in pending\n+            pending[pid] = value.removesuffix(' <unfinished ...>')\n+            continue\n+        if value.startswith('<... execve resumed>'):\n+            assert pid in pending\n+            value = pending.pop(pid) + value.removeprefix('<... execve resumed>')\n+        rows = commands((pid + ' ' + value + '\\n').encode())\n+        for row in rows:\n+            assert row['executed'], 'Printed command masquerades as a process'\n+            executed.setdefault(pid, []).append(row['command'])\n+        ending = re.fullmatch(r'exit_group\\((\\d+)\\)\\s+= \\?', value)\n+        if ending:\n+            assert pid not in exits, 'Duplicate process exit'\n+            exits[pid] = int(ending[1])\n+    assert not pending and executed, 'Missing complete successful tool executions'\n+    assert all(exits.get(pid) == 0 for pid in executed), 'Compiler/link/spill process did not exit successfully'\n+    return [{'pid': pid, 'exitCode': exits[pid], 'commands': executed[pid]}\n+            for pid in sorted(executed, key=int)]\n+\n+\n+def derive(config, target, printed, execution, profile, pin):\n+    assert pin in PINNED_SOURCES and profile == compiler_profile(NAME)\n+    assert target, 'Missing unchanged target-info'\n+    assignments = config_assignments(config.decode(), LINK_FIELDS | {'CC', 'CFLAGS'})\n+    cc = assignments['CC']\n+    assert cc.endswith('/sources/emsdk/upstream/emscripten/emcc')\n+    build = cc.removesuffix('/sources/emsdk/upstream/emscripten/emcc')\n+    cache = str(PurePosixPath(build).parent)\n+    work = cache + ('/precompiled-stack' if pin.startswith('3338304') else '/precompiled-stack-10d3233')\n+    generated = work + '/source-initialized/wasm32-emscripten/'\n+    system = 'ctm-stackmaxima-' + pin[:7]\n+    delivered = generated + system + '.fasb'\n+    rows = commands(printed) + commands(execution)\n+    assert not any(r['executed'] for r in commands(printed)), 'Execution log must be independently retained'\n+    assert all(r['executed'] for r in commands(execution)), 'Execution trace contains printed tool claims'\n+    process_exits = successful_tools(execution)\n+    observed, excluded = relevant_compiles(rows, cc.removesuffix('/emcc'))\n+    actual = [row for row in observed if row['executed']]\n+    assert actual and all(row['optimization'] == profile['stackGeneratedOptimization'] for row in observed), 'Wrong/missing STACK optimization'\n+    expected = {generated + 'stackmaxima.c', generated + 'display2d-bridge.c'}\n+    assert expected <= {r['input'] for r in actual}, 'Missing executed translated STACK or assignment bridge'\n+    assert any(re.fullmatch(r'/tmp/eclinit[^/]+\\.c', row['input']) for row in actual), 'Missing executed bundle initializer'\n+    assert all(row['input'] in expected or re.fullmatch(r'/tmp/eclinit[^/]+\\.c', row['input']) for row in actual), 'Unexpected target compilation in STACK phase'\n+    raw = list(c_compiles(rows, ['emcc', 'em++']))\n+    for row in observed:\n+        assert any(r['executed'] and same_source(r['input'], row['input']) and same_source(r['output'], row['output']) for r in raw), 'Missing executed compiler driver'\n+        assert any(same_source(r['input'], row['input']) and same_source(r['output'], row['output']) for r in actual), 'Printed clang has no successful execution'\n+    links = link_evidence([r for r in rows if r['executed']], build + '/sources/maxima/wasm', [delivered])\n+    outputs = {row['wasmOutput'] for row in links['targetLinks']}\n+    # The final bundle cannot stand in for either intermediate. Require both\n+    # distinct source-specific temporary outputs in this exact target directory.\n+    for stem in ['display2d-bridge', 'stackmaxima']:\n+        pattern = re.escape(generated + stem) + r'-tmp[A-Za-z0-9]+\\.fas'\n+        assert any(re.fullmatch(pattern, output) for output in outputs), 'Missing required intermediate STACK target link: ' + stem\n+    return {'configSha256': digest(config), 'targetInfoSha256': digest(target),\n+            'printedTrace': record(printed), 'executionTrace': record(execution),\n+            'generatedCompiles': observed, 'excludedNonTargetCompiles': excluded,\n+            'successfulToolProcesses': process_exits, 'links': links,\n+            'deliveredOutput': delivered}\n+\n+\n+def describe(work, runtime_logs, pin):\n+    profile = compiler_profile(NAME)\n+    runtime = json.loads((runtime_logs / 'compiler-experiment.json').read_bytes())\n+    environment = json.loads((runtime_logs / 'environment.json').read_bytes())\n+    assert runtime['passed'] is True and runtime['profile'] == profile\n+    assert environment['compilerProfile'] == profile\n+    descriptor = json.loads((work / 'stackmaxima.fas.json').read_bytes())\n+    assert descriptor['stackRevision'] == pin\n+    binary = (work / 'stackmaxima.fas').read_bytes()\n+    assert descriptor['bundle'] == {'path': 'stackmaxima.fas', **record(binary)}\n+    observed = derive((runtime_logs / 'ecl-config.log').read_bytes(),\n+                      (runtime_logs / 'target-info.lsp').read_bytes(),\n+                      (work / 'logs/cross-compile.log').read_bytes(),\n+                      (work / 'logs/cross-compile-exec.log').read_bytes(), profile, pin)\n+    generated = work / 'source-initialized/wasm32-emscripten'\n+    assert (generated / ('ctm-stackmaxima-' + pin[:7] + '.fasb')).read_bytes() == binary\n+    inputs = ['stackmaxima.fas', 'stackmaxima.fas.json', 'assignment-adapter.lisp',\n+              'source-initialized/stackmaxima.mac', 'source-initialized/stackmaxima.lisp',\n+              'source-initialized/display2d-bridge.lisp', 'source-initialized/parser-declarations.mac',\n+              'source-initialized/parser-declarations.json',\n+              'source-initialized/ctm-stackmaxima-' + pin[:7] + '.asd',\n+              'source-initialized/wasm32-emscripten/stackmaxima.c',\n+              'source-initialized/wasm32-emscripten/display2d-bridge.c']\n+    for key, path in [('translatedLisp', inputs[4]), ('assignmentBridge', inputs[5]),\n+                      ('parserDeclarations', inputs[6]), ('parserMetadata', inputs[7])]:\n+        assert descriptor[key] == record((work / path).read_bytes())\n+    assert descriptor['entry']['sha256'] == digest((work / inputs[3]).read_bytes())\n+    assert descriptor['processAdapter'] == {'path': 'assignment-adapter.lisp', **record((work / inputs[2]).read_bytes())}\n+    return {'schema': 1, 'passed': True, 'profile': profile, 'stackRevision': pin,\n+            'buildIdentity': environment['buildIdentity'],\n+            'runtimeCompilerEvidence': record((runtime_logs / 'compiler-experiment.json').read_bytes()),\n+            'inputs': {path: record((work / path).read_bytes()) for path in inputs},\n+            'observed': observed,\n+            'scope': 'Successful compiler driver, clang and spill-pass process exits with exact translated inputs and FAS bytes. Unchanged configure/target-info and runtime compilation are checked separately by the packaged runtime verifier. No timing or semantic conclusion.'}\n+\n+\n+def verify(work, artifact, pin):\n+    profile = compiler_profile(NAME)\n+    verify_packaged(artifact, profile)\n+    manifest = json.loads((artifact / 'manifest.json').read_bytes())\n+    assert manifest['compilerProfile'] == profile\n+    proof = json.loads((work / 'logs' / PROOF).read_bytes())\n+    assert proof == describe(work, artifact / 'logs', pin), 'STACK proof differs from raw inputs/traces'\n+    return {'schema': 1, 'passed': True, 'stackRevision': pin, 'compilerProfile': profile,\n+            'runtimeManifest': record((artifact / 'manifest.json').read_bytes()),\n+            'stackCompilerEvidence': record((work / 'logs' / PROOF).read_bytes()),\n+            'bundle': record((work / 'stackmaxima.fas').read_bytes())}\n+\n+\n+if __name__ == '__main__':\n+    parser = argparse.ArgumentParser()\n+    parser.add_argument('--work', type=Path, required=True)\n+    parser.add_argument('--pin', choices=PINNED_SOURCES, required=True)\n+    parser.add_argument('--runtime-artifact', type=Path)\n+    args = parser.parse_args()\n+    if args.runtime_artifact:\n+        proof = verify(args.work, args.runtime_artifact, args.pin)\n+        output = args.work / 'logs/stack-compiler-package-binding.json'\n+    else:\n+        assert compiler_profile() == compiler_profile(NAME), 'Explicit candidate selection required'\n+        proof = describe(args.work, ROOT / '.cache/runtime-build/logs', args.pin)\n+        output = args.work / 'logs' / PROOF\n+    with output.open('x') as stream:\n+        stream.write(json.dumps(proof, indent=2) + '\\n')\n+    print(json.dumps({'passed': True, 'pin': args.pin, 'output': str(output)}))"
+      },
+      {
+        "sha": "9e020bdd6244a3894d028bb8d76f0566a9c0cdb4",
+        "filename": "runtime/precompiled/test-stack-compiler-evidence.py",
+        "status": "added",
+        "additions": 189,
+        "deletions": 0,
+        "changes": 189,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fprecompiled%2Ftest-stack-compiler-evidence.py",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fprecompiled%2Ftest-stack-compiler-evidence.py",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/runtime%2Fprecompiled%2Ftest-stack-compiler-evidence.py?ref=58cf269f303898a7b679d9d164346fbb9384b781",
+        "patch": "@@ -0,0 +1,189 @@\n+#!/usr/bin/env python3\n+# SPDX-License-Identifier: AGPL-3.0-or-later\n+\"\"\"Synthetic controls for executed STACK optimization and packaged FAS binding.\"\"\"\n+import importlib.util\n+import json\n+from pathlib import Path\n+import shlex\n+import shutil\n+import subprocess\n+import sys\n+import tempfile\n+import unittest\n+from unittest.mock import patch\n+\n+from stack_compiler_evidence import (NAME, ROOT, PROOF, compiler_profile, derive,\n+                                     describe, successful_tools, verify)\n+from bundle_provenance import describe as bundle, record\n+from parser_bootstrap import PINNED_SOURCES\n+\n+spec = importlib.util.spec_from_file_location('runtime_fixtures', ROOT / 'runtime/build/test-compiler-evidence.py')\n+fixtures = importlib.util.module_from_spec(spec)\n+spec.loader.exec_module(fixtures)\n+\n+\n+def traces(pin, base='/repo/.cache/runtime-build'):\n+    cc = base + '/sources/emsdk/upstream/emscripten/emcc'\n+    clang = base + '/sources/emsdk/upstream/bin/clang'\n+    opt = base + '/sources/emsdk/upstream/bin/wasm-opt'\n+    cache = str(Path(base).parent)\n+    directory = cache + ('/precompiled-stack' if pin.startswith('3338304') else '/precompiled-stack-10d3233')\n+    directory += '/source-initialized/wasm32-emscripten/'\n+    printed, executed = [], []\n+    def command(argv, prefix=''):\n+        printed.append(prefix + shlex.join(argv))\n+        pid = str(100 + len(executed))\n+        executed.append(f'{pid} execve({json.dumps(argv[0])}, {json.dumps(argv)}, 0x123 /* 50 vars */) = 0\\n{pid} exit_group(0) = ?')\n+    for source in [directory+'display2d-bridge.c', directory+'stackmaxima.c', '/tmp/eclinitABC.c']:\n+        output = source.removesuffix('.c') + '.o'\n+        command([cc, '-O0', '-O2', '-c', source, '-o', output], ';;; ')\n+        command([clang, '-Oz', '-c', source, '-o', output])\n+    for output in [directory+'display2d-bridge-tmpX.fas', directory+'stackmaxima-tmpY.fas',\n+                   directory+'ctm-stackmaxima-'+pin[:7]+'.fasb']:\n+        command([cc, '-o', output, '-sSIDE_MODULE', '-sSTACK_SIZE=33554432',\n+                 '-sBINARYEN_EXTRA_PASSES=--spill-pointers', 'unit.o'], ';;; ')\n+        command([opt, '--spill-pointers', output, '-o', output])\n+    config = fixtures.CONFIG.replace(b'/repo', base.encode())\n+    return config, fixtures.TARGET, ('\\n'.join(printed)+'\\n').encode(), ('\\n'.join(executed)+'\\n').encode()\n+\n+\n+class StackCompilerEvidence(unittest.TestCase):\n+    def setUp(self):\n+        self.profile = compiler_profile(NAME)\n+        self.pins = list(PINNED_SOURCES)\n+\n+    def test_both_pins_require_executed_oz_and_the_exact_delivered_link(self):\n+        for pin in self.pins:\n+            result = derive(*traces(pin), self.profile, pin)\n+            self.assertEqual(len(result['successfulToolProcesses']), 12)\n+            actual = [r for r in result['generatedCompiles'] if r['executed']]\n+            self.assertEqual(len(actual), 3)\n+            self.assertTrue(all(r['optimization']=='-Oz' for r in actual))\n+            self.assertTrue(result['deliveredOutput'].endswith(pin[:7]+'.fasb'))\n+\n+    def test_wrong_optimization_and_printed_only_claims_fail(self):\n+        pin = self.pins[0]\n+        config, target, printed, execution = traces(pin)\n+        cases = [(printed, b''), (printed, execution.replace(b'\"-Oz\"', b'\"-O2\"')),\n+                 (printed.replace(b'-Oz', b'-O3'), execution),\n+                 (printed, b'\\n'.join(line for line in execution.splitlines() if b'/clang\"' not in line))]\n+        for left, right in cases:\n+            with self.assertRaises(AssertionError):\n+                derive(config, target, left, right, self.profile, pin)\n+\n+    def test_missing_or_failed_process_exit_fails_even_with_successful_exec(self):\n+        pin = self.pins[0]\n+        config, target, printed, execution = traces(pin)\n+        for bad in [execution.replace(b'exit_group(0)', b'exit_group(1)', 1),\n+                    execution.replace(b'100 exit_group(0) = ?', b''),\n+                    execution.replace(b') = 0', b') = -1 ENOENT')]:\n+            with self.assertRaises(AssertionError):\n+                derive(config, target, printed, bad, self.profile, pin)\n+\n+    def test_missing_driver_spill_stack_or_cross_pin_target_fails(self):\n+        pin = self.pins[0]\n+        config, target, printed, execution = traces(pin)\n+        cases = [execution.replace(b'\"--spill-pointers\"', b'\"--strip-debug\"'),\n+                 execution.replace(b'33554432', b'16777216'),\n+                 execution.replace(('ctm-stackmaxima-'+pin[:7]).encode(), b'ctm-stackmaxima-wrong'),\n+                 b'\\n'.join(line for line in execution.splitlines() if b'/emcc\"' not in line)]\n+        for bad in cases:\n+            with self.assertRaises(AssertionError):\n+                derive(config, target, printed, bad, self.profile, pin)\n+\n+    def test_raw_printed_source_association_is_still_required(self):\n+        pin = self.pins[0]\n+        config, target, printed, execution = traces(pin)\n+        with self.assertRaises(AssertionError):\n+            derive(config, target, b'\\n'.join(line for line in printed.splitlines() if not line.startswith(b';;; ')), execution, self.profile, pin)\n+\n+    def test_distinct_exact_directory_intermediates_cannot_be_replaced_by_final_links(self):\n+        for pin in self.pins:\n+            config, target, printed, execution = traces(pin)\n+            final = ('ctm-stackmaxima-' + pin[:7] + '.fasb').encode()\n+            cases = [\n+                [(b'display2d-bridge-tmpX.fas', final), (b'stackmaxima-tmpY.fas', final)],\n+                [(b'display2d-bridge-tmpX.fas', b'stackmaxima-tmpY.fas')],\n+                [(b'display2d-bridge-tmpX.fas', b'../display2d-bridge-tmpX.fas')],\n+                [(b'stackmaxima-tmpY.fas', b'stackmaxima-tmp.fas')],\n+            ]\n+            for replacements in cases:\n+                left, right = printed, execution\n+                for original, replacement in replacements:\n+                    left, right = left.replace(original, replacement), right.replace(original, replacement)\n+                with self.assertRaisesRegex(AssertionError, 'Missing required intermediate STACK target link'):\n+                    derive(config, target, left, right, self.profile, pin)\n+\n+    def test_unfinished_resumed_exec_and_truncation(self):\n+        execution = traces(self.pins[0])[3]\n+        resumed = execution.replace(b'], 0x123', b'] <unfinished ...>\\n100 <... execve resumed>, 0x123', 1)\n+        self.assertEqual(successful_tools(execution), successful_tools(resumed))\n+        for bad in [resumed.splitlines()[0]+b'\\n', execution.replace(b'\"-Oz\"', b'...', 1)]:\n+            with self.assertRaises((AssertionError, ValueError, SyntaxError)):\n+                successful_tools(bad)\n+\n+    @unittest.skipUnless(shutil.which('strace'), 'Builder requires strace')\n+    def test_real_strace_process_exit_format(self):\n+        with tempfile.TemporaryDirectory() as temporary:\n+            root = Path(temporary)\n+            tool = root/'clang'; tool.symlink_to(sys.executable)\n+            log = root/'exec.log'\n+            for code in [0, 7]:\n+                subprocess.run(['strace','-f','-qq','-e','trace=execve,exit_group','-e','signal=none',\n+                                '-s','1048576','-o',str(log),str(tool),'-c',f'raise SystemExit({code})'],\n+                               check=False, stdout=subprocess.DEVNULL)\n+                if code == 0:\n+                    self.assertEqual(successful_tools(log.read_bytes())[0]['exitCode'], 0)\n+                else:\n+                    with self.assertRaises(AssertionError): successful_tools(log.read_bytes())\n+\n+    def test_bundle_trace_and_rehashed_claim_tampering_fail(self):\n+        with tempfile.TemporaryDirectory() as temporary:\n+            root = Path(temporary); pin = self.pins[0]\n+            work = root/('precompiled-stack' if pin.startswith('3338304') else 'precompiled-stack-10d3233')\n+            logs = root/'runtime/logs'; logs.mkdir(parents=True)\n+            (work/'logs').mkdir(parents=True)\n+            initialized = work/'source-initialized'; generated=initialized/'wasm32-emscripten'\n+            generated.mkdir(parents=True)\n+            values = {'stackmaxima.mac': b'entry', 'stackmaxima.lisp': b'translated',\n+                      'display2d-bridge.lisp': b'bridge', 'parser-declarations.mac': b'parser',\n+                      'parser-declarations.json': b'{}', 'ctm-stackmaxima-'+pin[:7]+'.asd': b'asdf'}\n+            for path, body in values.items(): (initialized/path).write_bytes(body)\n+            for path in ['stackmaxima.c','display2d-bridge.c']: (generated/path).write_bytes(b'generated C')\n+            binary=b'fixture wasm'; adapter=b'adapter'\n+            (work/'stackmaxima.fas').write_bytes(binary)\n+            (work/'assignment-adapter.lisp').write_bytes(adapter)\n+            (generated/('ctm-stackmaxima-'+pin[:7]+'.fasb')).write_bytes(binary)\n+            descriptor=bundle(pin,b'entry',b'translated',b'bridge',adapter,b'parser',b'{}',binary)\n+            (work/'stackmaxima.fas.json').write_text(json.dumps(descriptor))\n+            config,target,printed,execution=traces(pin,str(root/'runtime-build'))\n+            for path,body in [('cross-compile.log',printed),('cross-compile-exec.log',execution)]:\n+                (work/'logs'/path).write_bytes(body)\n+            for path,body in [('ecl-config.log',config),('target-info.lsp',target),\n+                              ('compiler-experiment.json',json.dumps({'passed':True,'profile':self.profile}).encode()),\n+                              ('environment.json',json.dumps({'compilerProfile':self.profile,'buildIdentity':{'runId':'123'}}).encode())]:\n+                (logs/path).write_bytes(body)\n+            expected=describe(work,logs,pin)\n+            (work/'logs'/PROOF).write_text(json.dumps(expected))\n+            artifact=logs.parent\n+            (artifact/'manifest.json').write_text(json.dumps({'compilerProfile':self.profile}))\n+            # Isolate FAS replay/binding; runtime packaged replay is independently\n+            # covered by test-compiler-evidence.py and the actual workflow call.\n+            with patch('stack_compiler_evidence.verify_packaged'):\n+                self.assertTrue(verify(work,artifact,pin)['passed'])\n+                original=(work/'stackmaxima.fas').read_bytes()\n+                (work/'stackmaxima.fas').write_bytes(b'copied other bundle')\n+                with self.assertRaises(AssertionError): verify(work,artifact,pin)\n+                (work/'stackmaxima.fas').write_bytes(original)\n+                expected['observed']['generatedCompiles'][0]['optimization']='-O2'\n+                (work/'logs'/PROOF).write_text(json.dumps(expected))\n+                with self.assertRaises(AssertionError): verify(work,artifact,pin)\n+                expected=describe(work,logs,pin)\n+                (work/'logs'/PROOF).write_text(json.dumps(expected))\n+                # Matching fresh proof cannot reclassify a changed runtime.\n+                (logs/'compiler-experiment.json').write_text(json.dumps({'passed':True,'profile':compiler_profile('ecl-oz')}))\n+                with self.assertRaises(AssertionError): verify(work,artifact,pin)\n+\n+\n+if __name__ == '__main__':\n+    unittest.main()"
+      },
+      {
+        "sha": "b52675272640648b12bbeabdbaf983aa1baf308d",
+        "filename": "runtime/precompiled/translate-and-cross-compile.sh",
+        "status": "modified",
+        "additions": 23,
+        "deletions": 4,
+        "changes": 27,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fprecompiled%2Ftranslate-and-cross-compile.sh",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/58cf269f303898a7b679d9d164346fbb9384b781/runtime%2Fprecompiled%2Ftranslate-and-cross-compile.sh",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/runtime%2Fprecompiled%2Ftranslate-and-cross-compile.sh?ref=58cf269f303898a7b679d9d164346fbb9384b781",
+        "patch": "@@ -149,14 +149,33 @@ if [[ \"$MODE\" == native-only ]]; then\n   printf 'CTM-NATIVE-ENTRY-TRANSLATION-OK\\n' | tee \"$WORK/logs/native-entry-status.txt\"\n   exit 0\n fi\n-\"$ECL\" --norc --load build.lisp \\\n-  --eval \"(asdf:load-asd \\\"$WORK/source-initialized/$SYSTEM.asd\\\")\" \\\n-  --eval \"(cross-compile-maxima-module \\\"$SYSTEM\\\")\" \\\n-  --eval '(ext:quit)' 2>&1 | tee \"$WORK/logs/cross-compile.log\"\n+if [[ ${CTM_ECL_COMPILER_PROFILE:-baseline} == ecl-oz-maxima-oz ]]; then\n+  # Only this explicit candidate changes STACK target optimization. Retain\n+  # independent raw execution/exit evidence even if ECL captures child stderr.\n+  (\n+    unset EMCC_CFLAGS EMCC_DEBUG EMCC_DEBUG_SAVE EMCC_VERBOSE\n+    export EMCC_CFLAGS=\"$(python \"$ROOT/runtime/build/compiler_profile.py\" --maxima-emcc-flags)\"\n+    export EMCC_VERBOSE=1\n+    test \"$EMCC_CFLAGS\" = -Oz\n+    strace -f -qq -e trace=execve,exit_group -e signal=none -s 1048576 \\\n+      -o \"$WORK/logs/cross-compile-exec.log\" \\\n+      \"$ECL\" --norc --load build.lisp \\\n+      --eval \"(asdf:load-asd \\\"$WORK/source-initialized/$SYSTEM.asd\\\")\" \\\n+      --eval \"(cross-compile-maxima-module \\\"$SYSTEM\\\")\" --eval '(ext:quit)'\n+  ) 2>&1 | tee \"$WORK/logs/cross-compile.log\"\n+else\n+  \"$ECL\" --norc --load build.lisp \\\n+    --eval \"(asdf:load-asd \\\"$WORK/source-initialized/$SYSTEM.asd\\\")\" \\\n+    --eval \"(cross-compile-maxima-module \\\"$SYSTEM\\\")\" \\\n+    --eval '(ext:quit)' 2>&1 | tee \"$WORK/logs/cross-compile.log\"\n+fi\n mapfile -t bundles < <(find \"$WORK\" \"$MAXIMA/src/binary-ecl\" -type f \\( -name \"$SYSTEM.fasb\" -o -name \"$SYSTEM.fas\" \\) -print)\n test \"${#bundles[@]}\" = 1\n cp \"${bundles[0]}\" \"$WORK/stackmaxima.fas\"\n file \"$WORK/stackmaxima.fas\" | tee \"$WORK/logs/bundle-format.txt\"\n sha256sum \"$WORK/stackmaxima.fas\" > \"$WORK/logs/stackmaxima-fas.sha256\"\n python \"$ROOT/runtime/precompiled/bundle_provenance.py\" --stack-source \"$STACK\" --work \"$WORK\" --pin \"$PIN\"\n+if [[ ${CTM_ECL_COMPILER_PROFILE:-baseline} == ecl-oz-maxima-oz ]]; then\n+  python \"$ROOT/runtime/precompiled/stack_compiler_evidence.py\" --work \"$WORK\" --pin \"$PIN\"\n+fi\n python \"$ROOT/runtime/build/verify-source-state.py\" after --target-overlay"
+      }
+    ]
+  },
+  "initialAudit": {
+    "id": 40141762832,
+    "name": "Inspect pinned CI artifacts for independent review",
+    "node_id": "WFR_kwLOVSnxL88AAAAJWKKxEA",
+    "head_branch": "audit/2026-10-artifact-inspection",
+    "head_sha": "6a190ff67d989a01f712fbf78bf7875debd522d2",
+    "path": ".github/workflows/artifact-audit.yml",
+    "display_title": "audit: admit green Maxima-Oz artifact and recover initial exact compi…",
+    "run_number": 205,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "workflow_id": 394294041,
+    "check_suite_id": 108802775801,
+    "check_suite_node_id": "CS_kwDOVSnxL88AAAAZVSaa-Q",
+    "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40141762832",
+    "html_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40141762832",
+    "pull_requests": [],
+    "created_at": "2026-10-24T23:12:17Z",
+    "updated_at": "2026-10-24T23:12:35Z",
+    "actor": {
+      "login": "aacchhee",
+      "id": 59649991,
+      "node_id": "MDQ6VXNlcjU5NjQ5OTkx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59649991?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/aacchhee",
+      "html_url": "https://github.com/aacchhee",
+      "followers_url": "https://api.github.com/users/aacchhee/followers",
+      "following_url": "https://api.github.com/users/aacchhee/following{/other_user}",
+      "gists_url": "https://api.github.com/users/aacchhee/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/aacchhee/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/aacchhee/subscriptions",
+      "organizations_url": "https://api.github.com/users/aacchhee/orgs",
+      "repos_url": "https://api.github.com/users/aacchhee/repos",
+      "events_url": "https://api.github.com/users/aacchhee/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/aacchhee/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "run_attempt": 1,
+    "referenced_workflows": [],
+    "run_started_at": "2026-10-24T23:12:17Z",
+    "triggering_actor": {
+      "login": "aacchhee",
+      "id": 59649991,
+      "node_id": "MDQ6VXNlcjU5NjQ5OTkx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59649991?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/aacchhee",
+      "html_url": "https://github.com/aacchhee",
+      "followers_url": "https://api.github.com/users/aacchhee/followers",
+      "following_url": "https://api.github.com/users/aacchhee/following{/other_user}",
+      "gists_url": "https://api.github.com/users/aacchhee/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/aacchhee/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/aacchhee/subscriptions",
+      "organizations_url": "https://api.github.com/users/aacchhee/orgs",
+      "repos_url": "https://api.github.com/users/aacchhee/repos",
+      "events_url": "https://api.github.com/users/aacchhee/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/aacchhee/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "jobs_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40141762832/jobs",
+    "logs_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40141762832/logs",
+    "check_suite_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/check-suites/108802775801",
+    "artifacts_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40141762832/artifacts",
+    "cancel_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40141762832/cancel",
+    "rerun_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40141762832/rerun",
+    "previous_attempt_url": null,
+    "workflow_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/workflows/394294041",
+    "head_commit": {
+      "id": "6a190ff67d989a01f712fbf78bf7875debd522d2",
+      "tree_id": "e1c3b7ad55c694609db6a2508790f841752985d3",
+      "message": "audit: admit green Maxima-Oz artifact and recover initial exact compiler/FAS bindings",
+      "timestamp": "2026-10-24T23:12:10Z",
+      "author": {
+        "name": "Andrey Chesnokov",
+        "email": "59649991+aacchhee@users.noreply.github.com"
+      },
+      "committer": {
+        "name": "Andrey Chesnokov",
+        "email": "59649991+aacchhee@users.noreply.github.com"
+      }
+    },
+    "repository": {
+      "id": 1428812079,
+      "node_id": "R_kgDOVSnxLw",
+      "name": "stack-wasm-maxima",
+      "full_name": "Erasmus-CTM/stack-wasm-maxima",
+      "private": false,
+      "owner": {
+        "login": "Erasmus-CTM",
+        "id": 228944013,
+        "node_id": "O_kgDODaVojQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/228944013?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Erasmus-CTM",
+        "html_url": "https://github.com/Erasmus-CTM",
+        "followers_url": "https://api.github.com/users/Erasmus-CTM/followers",
+        "following_url": "https://api.github.com/users/Erasmus-CTM/following{/other_user}",
+        "gists_url": "https://api.github.com/users/Erasmus-CTM/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/Erasmus-CTM/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/Erasmus-CTM/subscriptions",
+        "organizations_url": "https://api.github.com/users/Erasmus-CTM/orgs",
+        "repos_url": "https://api.github.com/users/Erasmus-CTM/repos",
+        "events_url": "https://api.github.com/users/Erasmus-CTM/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/Erasmus-CTM/received_events",
+        "type": "Organization",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima",
+      "description": "Native backend",
+      "fork": false,
+      "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima",
+      "forks_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/forks",
+      "keys_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/teams",
+      "hooks_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/hooks",
+      "issue_events_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/events",
+      "assignees_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/tags",
+      "blobs_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/languages",
+      "stargazers_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/stargazers",
+      "contributors_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contributors",
+      "subscribers_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/subscribers",
+      "subscription_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/subscription",
+      "commits_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/merges",
+      "archive_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/downloads",
+      "issues_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/labels{/name}",
+      "releases_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/deployments"
+    },
+    "head_repository": {
+      "id": 1428812079,
+      "node_id": "R_kgDOVSnxLw",
+      "name": "stack-wasm-maxima",
+      "full_name": "Erasmus-CTM/stack-wasm-maxima",
+      "private": false,
+      "owner": {
+        "login": "Erasmus-CTM",
+        "id": 228944013,
+        "node_id": "O_kgDODaVojQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/228944013?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Erasmus-CTM",
+        "html_url": "https://github.com/Erasmus-CTM",
+        "followers_url": "https://api.github.com/users/Erasmus-CTM/followers",
+        "following_url": "https://api.github.com/users/Erasmus-CTM/following{/other_user}",
+        "gists_url": "https://api.github.com/users/Erasmus-CTM/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/Erasmus-CTM/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/Erasmus-CTM/subscriptions",
+        "organizations_url": "https://api.github.com/users/Erasmus-CTM/orgs",
+        "repos_url": "https://api.github.com/users/Erasmus-CTM/repos",
+        "events_url": "https://api.github.com/users/Erasmus-CTM/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/Erasmus-CTM/received_events",
+        "type": "Organization",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima",
+      "description": "Native backend",
+      "fork": false,
+      "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima",
+      "forks_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/forks",
+      "keys_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/teams",
+      "hooks_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/hooks",
+      "issue_events_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/events",
+      "assignees_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/tags",
+      "blobs_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/languages",
+      "stargazers_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/stargazers",
+      "contributors_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contributors",
+      "subscribers_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/subscribers",
+      "subscription_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/subscription",
+      "commits_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/merges",
+      "archive_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/downloads",
+      "issues_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/labels{/name}",
+      "releases_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/deployments"
+    }
+  },
+  "initialAuditJobs": {
+    "total_count": 1,
+    "jobs": [
+      {
+        "id": 121014791999,
+        "run_id": 40141762832,
+        "workflow_name": "Inspect pinned CI artifacts for independent review",
+        "head_branch": "audit/2026-10-artifact-inspection",
+        "run_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40141762832",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOVSnxL88AAAAcLQsvPw",
+        "head_sha": "6a190ff67d989a01f712fbf78bf7875debd522d2",
+        "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/jobs/121014791999",
+        "html_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40141762832/job/121014791999",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-24T23:12:17Z",
+        "started_at": "2026-10-24T23:12:20Z",
+        "completed_at": "2026-10-24T23:12:34Z",
+        "name": "inspect",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-10-24T23:12:20Z",
+            "completed_at": "2026-10-24T23:12:21Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-10-24T23:12:21Z",
+            "completed_at": "2026-10-24T23:12:23Z"
+          },
+          {
+            "name": "Inspect exact artifact archives without executing their contents",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-10-24T23:12:23Z",
+            "completed_at": "2026-10-24T23:12:32Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-10-24T23:12:32Z",
+            "completed_at": "2026-10-24T23:12:32Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-10-24T23:12:32Z",
+            "completed_at": "2026-10-24T23:12:32Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/check-runs/121014791999",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000012823,
+        "runner_name": "GitHub Actions 1000012823",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ]
+  },
+  "initialAuditCommit": {
+    "sha": "6a190ff67d989a01f712fbf78bf7875debd522d2",
+    "node_id": "C_kwDOVSnxL9oAKDZhMTkwZmY2N2Q5ODlhMDFmNzEyZmJmNzhiZjc4NzVkZWJkNTIyZDI",
+    "commit": {
+      "author": {
+        "name": "Andrey Chesnokov",
+        "email": "59649991+aacchhee@users.noreply.github.com",
+        "date": "2026-10-24T23:12:10Z"
+      },
+      "committer": {
+        "name": "Andrey Chesnokov",
+        "email": "59649991+aacchhee@users.noreply.github.com",
+        "date": "2026-10-24T23:12:10Z"
+      },
+      "message": "audit: admit green Maxima-Oz artifact and recover initial exact compiler/FAS bindings",
+      "tree": {
+        "sha": "e1c3b7ad55c694609db6a2508790f841752985d3",
+        "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/trees/e1c3b7ad55c694609db6a2508790f841752985d3"
+      },
+      "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/git/commits/6a190ff67d989a01f712fbf78bf7875debd522d2",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/commits/6a190ff67d989a01f712fbf78bf7875debd522d2",
+    "html_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/commit/6a190ff67d989a01f712fbf78bf7875debd522d2",
+    "comments_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/commits/6a190ff67d989a01f712fbf78bf7875debd522d2/comments",
+    "author": {
+      "login": "aacchhee",
+      "id": 59649991,
+      "node_id": "MDQ6VXNlcjU5NjQ5OTkx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59649991?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/aacchhee",
+      "html_url": "https://github.com/aacchhee",
+      "followers_url": "https://api.github.com/users/aacchhee/followers",
+      "following_url": "https://api.github.com/users/aacchhee/following{/other_user}",
+      "gists_url": "https://api.github.com/users/aacchhee/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/aacchhee/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/aacchhee/subscriptions",
+      "organizations_url": "https://api.github.com/users/aacchhee/orgs",
+      "repos_url": "https://api.github.com/users/aacchhee/repos",
+      "events_url": "https://api.github.com/users/aacchhee/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/aacchhee/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "aacchhee",
+      "id": 59649991,
+      "node_id": "MDQ6VXNlcjU5NjQ5OTkx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59649991?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/aacchhee",
+      "html_url": "https://github.com/aacchhee",
+      "followers_url": "https://api.github.com/users/aacchhee/followers",
+      "following_url": "https://api.github.com/users/aacchhee/following{/other_user}",
+      "gists_url": "https://api.github.com/users/aacchhee/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/aacchhee/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/aacchhee/subscriptions",
+      "organizations_url": "https://api.github.com/users/aacchhee/orgs",
+      "repos_url": "https://api.github.com/users/aacchhee/repos",
+      "events_url": "https://api.github.com/users/aacchhee/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/aacchhee/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "b821e28bad027266a2d3a8c319b6ac7cb552c5eb",
+        "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/commits/b821e28bad027266a2d3a8c319b6ac7cb552c5eb",
+        "html_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/commit/b821e28bad027266a2d3a8c319b6ac7cb552c5eb"
+      }
+    ],
+    "stats": {
+      "total": 74,
+      "additions": 20,
+      "deletions": 54
+    },
+    "files": [
+      {
+        "sha": "79178af7c6c741fb0a3ffa8b9920af8b8f292a82",
+        "filename": "runtime/audit/artifacts.json",
+        "status": "modified",
+        "additions": 20,
+        "deletions": 54,
+        "changes": 74,
+        "blob_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/6a190ff67d989a01f712fbf78bf7875debd522d2/runtime%2Faudit%2Fartifacts.json",
+        "raw_url": "https://github.com/Erasmus-CTM/stack-wasm-maxima/raw/6a190ff67d989a01f712fbf78bf7875debd522d2/runtime%2Faudit%2Fartifacts.json",
+        "contents_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/contents/runtime%2Faudit%2Fartifacts.json?ref=6a190ff67d989a01f712fbf78bf7875debd522d2",
+        "patch": "@@ -1,62 +1,28 @@\n [\n   {\n-    \"id\": 12578048686,\n-    \"name\": \"no-rebuild-stack-profile-40138617107-1\",\n-    \"zipBytes\": 34833643,\n-    \"sha256\": \"c9df2fc37d8de4b53cb1c1723226cc1ffef2ee178fcd724bd1559eb5015de64e\",\n-    \"run\": 40138617107,\n-    \"workflow\": 395414190,\n-    \"head\": \"6669bb57e39783e93e5515a48a00d7af736c4a1e\",\n+    \"id\": 12578753698,\n+    \"name\": \"maxima-oz-candidate-ecl-oz-maxima-oz-58cf269f303898a7b679d9d164346fbb9384b781\",\n+    \"zipBytes\": 214091662,\n+    \"sha256\": \"08dfcd8686e1be8da91b19c850c9668bd96e3e224df513192d3e0de023dfce74\",\n+    \"run\": 40136606442,\n+    \"workflow\": 395458321,\n     \"attempt\": 1,\n+    \"head\": \"58cf269f303898a7b679d9d164346fbb9384b781\",\n     \"status\": \"completed\",\n     \"conclusion\": \"success\",\n-    \"files\": [],\n-    \"ranges\": [\n-      {\n-        \"path\": \"trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json\",\n-        \"start\": 41943040,\n-        \"end\": 46137344\n-      },\n-      {\n-        \"path\": \"trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json\",\n-        \"start\": 46137344,\n-        \"end\": 50331648\n-      },\n-      {\n-        \"path\": \"trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json\",\n-        \"start\": 50331648,\n-        \"end\": 54525952\n-      },\n-      {\n-        \"path\": \"trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json\",\n-        \"start\": 54525952,\n-        \"end\": 58720256\n-      },\n-      {\n-        \"path\": \"trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json\",\n-        \"start\": 58720256,\n-        \"end\": 62914560\n-      },\n-      {\n-        \"path\": \"trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json\",\n-        \"start\": 62914560,\n-        \"end\": 67108864\n-      },\n-      {\n-        \"path\": \"trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json\",\n-        \"start\": 67108864,\n-        \"end\": 71303168\n-      },\n-      {\n-        \"path\": \"trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json\",\n-        \"start\": 71303168,\n-        \"end\": 75497472\n-      },\n-      {\n-        \"path\": \"trials/02-ecl-oz-precompiled-instrumented/cpu-profiles.json\",\n-        \"start\": 75497472,\n-        \"end\": 75610047\n-      }\n+    \"files\": [\n+      \".cache/runtime-build/artifact/manifest.json\",\n+      \".cache/runtime-build/artifact/artifact-manifest.json\",\n+      \".cache/runtime-build/artifact/source-manifest.json\",\n+      \".cache/runtime-build/artifact/logs/environment.json\",\n+      \".cache/runtime-build/artifact/logs/compiler-experiment.json\",\n+      \".cache/precompiled-stack/stackmaxima.fas.json\",\n+      \".cache/precompiled-stack/logs/stack-compiler-evidence.json\",\n+      \".cache/precompiled-stack/logs/stack-compiler-package-binding.json\",\n+      \".cache/precompiled-stack-10d3233/stackmaxima.fas.json\",\n+      \".cache/precompiled-stack-10d3233/logs/stack-compiler-evidence.json\",\n+      \".cache/precompiled-stack-10d3233/logs/stack-compiler-package-binding.json\",\n+      \".cache/precompiled-probes/index.json\"\n     ]\n   }\n ]"
+      }
+    ]
+  },
+  "artifacts": {
+    "artifacts": [
+      {
+        "id": 12578753698,
+        "name": "maxima-oz-candidate-ecl-oz-maxima-oz-58cf269f303898a7b679d9d164346fbb9384b781",
+        "size_in_bytes": 214091662,
+        "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12578753698",
+        "archive_download_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12578753698/zip",
+        "expired": false,
+        "created_at": "2026-10-24T23:11:38Z",
+        "expires_at": "2027-01-22T21:59:29Z",
+        "updated_at": "2026-10-24T23:11:38Z",
+        "digest": "sha256:08dfcd8686e1be8da91b19c850c9668bd96e3e224df513192d3e0de023dfce74",
+        "workflow_run": {
+          "id": 40136606442,
+          "repository_id": 1428812079,
+          "head_repository_id": 1428812079,
+          "head_branch": "experiment/e8ad-maxima-oz",
+          "head_sha": "58cf269f303898a7b679d9d164346fbb9384b781"
+        }
+      }
+    ]
+  }
+}
