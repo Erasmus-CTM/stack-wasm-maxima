@@ -1,0 +1,481 @@
+# Final current source/aggregate independently accepted; publish on the dedicated branch only.
+name: Compare e8ad accepted owned Maxima Oz and O2
+'on':
+  push:
+    branches: [benchmark/e8ad-maxima-oz-o2]
+    paths: [.github/workflows/e8ad-compare-maxima-candidates.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: e8ad-compare-maxima-candidates-${{ github.ref }}
+  cancel-in-progress: false
+env:
+  RUN_CPU_QUARTER: 'false'
+  PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/playwright
+jobs:
+  compare:
+    if: github.repository == 'Erasmus-CTM/stack-wasm-maxima' && github.event_name == 'push' && github.ref == 'refs/heads/benchmark/e8ad-maxima-oz-o2'
+    runs-on: ubuntu-24.04
+    # Independent benchmark budget; the accepted source aggregate recipe also uses 240 minutes.
+    # Default: 40 samples * 300-second watchdog + verification/setup headroom.
+    # Optional CPU25 shares this cap and may leave partial evidence if exhausted.
+    timeout-minutes: 240
+    defaults:
+      run:
+        shell: bash
+        working-directory: trusted
+    steps:
+      - name: Check out the exact accepted recipe and timing harness
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31
+          path: trusted
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Require completed source success and revalidate exact accepted archives
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import base64, hashlib, json, os, re, shutil, stat, subprocess, sys, urllib.error, urllib.parse, urllib.request, zipfile
+          from pathlib import Path, PurePosixPath
+          
+          REPO = 'Erasmus-CTM/stack-wasm-maxima'
+          SOURCE_RUN, SOURCE_ATTEMPT, SOURCE_WORKFLOW = 40108653797, 1, 393419291
+          SOURCE_HEAD = 'e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31'
+          SOURCE_MERGE = '5295b5a79bfb983f9e43dd911e6f8ab65139a930'
+          SOURCE_TREE = '0e543f936a385548a7ffd53d68930bd88c033922'
+          SOURCE_RECIPE_WORKFLOW_SHA256 = 'be1faf5aba77f2d1c1dace09ba495687f03f086dbcf145f1ad2ad45f53e2f19c'
+          BRANCH = 'refs/heads/benchmark/e8ad-maxima-oz-o2'
+          # Fill these only after independent final source/aggregate admission review.
+          AGGREGATE_ID = '12573955519'
+          AGGREGATE_ZIP_BYTES = '170769'
+          AGGREGATE_ZIP_SHA256 = '27b8665dc83b4f0f49813e9108b4b7dc9c6d0c2b67c81bac3003de997189d74a'
+          ADMISSION_SHA256 = 'f8aba8fb7f23c96a73167754a563e547a564e7d48ae190d55faf6a617e3a2a5b'
+          SPECS = {
+              'baseline': (12568155555, 'owned-runtime-' + SOURCE_MERGE, 393651953, '6aa60b44da3030b8397a84aa74e173cc806bf54ef0a11cc338f26e79d18086bc'),
+              'ecl-oz': (12567098921, 'owned-runtime-ecl-oz-' + SOURCE_MERGE, 391603635, '3bc5ddf977979c45a867cf0587e90e74cb2b77a0487267632d69f6cd21d22d55'),
+              'ecl-o2': (12567466827, 'owned-runtime-ecl-o2-' + SOURCE_MERGE, 391713081, 'dc2adee29772c1bd4844150cdcb7b2937ed2a1a324b12ba9973f3c48f50574c4'),
+          }
+          ROOT = Path.cwd()
+          TRIALS = ROOT / '.cache/compiler-trials'
+          OUT = TRIALS / 'comparison'
+          API = 'https://api.github.com/repos/' + REPO
+          
+          def digest(body):
+              return hashlib.sha256(body).hexdigest()
+          
+          def same(a, b):
+              assert json.dumps(a, sort_keys=True, allow_nan=False) == json.dumps(b, sort_keys=True, allow_nan=False)
+          
+          def emit(name, value):
+              OUT.mkdir(parents=True, exist_ok=True)
+              (OUT / name).write_text(json.dumps(value, indent=2) + '\n')
+          
+          def api(path):
+              assert path.startswith('/') and not path.startswith('//')
+              request = urllib.request.Request(API + path, headers={
+                  'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+                  'Accept': 'application/vnd.github+json',
+                  'X-GitHub-Api-Version': '2022-11-28',
+                  'User-Agent': 'ctm-pinned-maxima-benchmark'}, method='GET')
+              # Every token-bearing API request rejects redirects, including metadata GETs.
+              with urllib.request.build_opener(NoRedirect).open(request, timeout=120) as response:
+                  return json.load(response)
+          
+          def pages(path, field):
+              result = []
+              for page in range(1, 101):
+                  rows = api(path + ('&' if '?' in path else '?') + f'per_page=100&page={page}')[field]
+                  result.extend(rows)
+                  if len(rows) < 100:
+                      return result
+              raise AssertionError('Unexpected pagination bound')
+          
+          def check_run(run, jobs):
+              assert run['id'] == SOURCE_RUN and run['workflow_id'] == SOURCE_WORKFLOW
+              assert run['repository']['full_name'] == REPO
+              assert run['head_sha'] == SOURCE_HEAD and run['run_attempt'] == SOURCE_ATTEMPT
+              assert run['status'] == 'completed' and run['conclusion'] == 'success'
+              required = {'build (baseline)', 'build (ecl-oz)', 'build (ecl-o2)', 'compare-compiler-trials'}
+              assert len(jobs) == 4 and {j['name'] for j in jobs} == required
+              assert all(j['status'] == 'completed' and j['conclusion'] == 'success' for j in jobs)
+          
+          def resolve_source_specs():
+              # No prior-run IDs, archive sizes or hashes are inherited by this draft.
+              resolved = {}
+              for profile, (identifier, name, size, sha) in SPECS.items():
+                  assert re.fullmatch(r'[1-9][0-9]*', str(identifier)), 'Source artifact ID remains an unresolved placeholder: ' + profile
+                  assert re.fullmatch(r'[1-9][0-9]*', str(size)), 'Source ZIP size remains an unresolved placeholder: ' + profile
+                  assert isinstance(sha, str) and re.fullmatch(r'[0-9a-f]{64}', sha), 'Source ZIP hash remains an unresolved placeholder: ' + profile
+                  resolved[profile] = (int(identifier), name, int(size), sha)
+              assert len(resolved) == 3 and len({spec[0] for spec in resolved.values()}) == 3
+              return resolved
+
+          def check_artifact(rows, spec):
+              identifier, name, size, sha = spec
+              matches = [r for r in rows if r['id'] == identifier or r['name'] == name]
+              assert len(matches) == 1, 'Missing or ambiguous exact artifact'
+              row = matches[0]
+              assert row['id'] == identifier and row['name'] == name and row['expired'] is False
+              assert row['size_in_bytes'] == size and row['digest'] == 'sha256:' + sha
+              if row.get('workflow_run'):
+                  assert row['workflow_run']['id'] == SOURCE_RUN and row['workflow_run']['head_sha'] == SOURCE_HEAD
+              return row
+          
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, request, fp, code, message, headers, newurl):
+                  return None
+          
+          def download(spec, archive):
+              identifier, _, size, sha = spec
+              request = urllib.request.Request(API + f'/actions/artifacts/{identifier}/zip', headers={
+                  'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+                  'Accept': 'application/vnd.github+json',
+                  'X-GitHub-Api-Version': '2022-11-28',
+                  'User-Agent': 'ctm-pinned-maxima-benchmark'}, method='GET')
+              try:
+                  urllib.request.build_opener(NoRedirect).open(request, timeout=120)
+              except urllib.error.HTTPError as response:
+                  assert response.code == 302
+                  location = response.headers['Location']
+              else:
+                  raise AssertionError('Expected signed artifact redirect')
+              parsed = urllib.parse.urlsplit(location)
+              assert parsed.scheme == 'https' and parsed.hostname and not parsed.username and not parsed.password
+              archive.parent.mkdir(parents=True, exist_ok=True)
+              actual, length = hashlib.sha256(), 0
+              # The signed storage request carries no GitHub Authorization header.
+              with urllib.request.urlopen(urllib.request.Request(location, method='GET'), timeout=120) as source, archive.open('wb') as target:
+                  while block := source.read(1024 * 1024):
+                      length += len(block)
+                      assert length <= size, 'Oversized ZIP'
+                      target.write(block)
+                      actual.update(block)
+              assert length == size and actual.hexdigest() == sha, 'ZIP identity changed'
+          
+          def unpack(archive, destination):
+              assert not destination.exists()
+              inventory, seen = [], set()
+              with zipfile.ZipFile(archive) as z:
+                  entries = z.infolist()
+                  assert 0 < len(entries) <= 10000
+                  assert sum(x.file_size for x in entries) <= 2 * 1024**3
+                  for entry in entries:
+                      name = entry.filename
+                      path = PurePosixPath(name)
+                      assert name and not path.is_absolute() and '\\' not in name and ':' not in name
+                      assert '..' not in path.parts and path.as_posix() == name.rstrip('/')
+                      assert path.as_posix() not in seen, 'Duplicate ZIP path'
+                      seen.add(path.as_posix())
+                      mode = stat.S_IFMT(entry.external_attr >> 16)
+                      assert mode in (0, stat.S_IFREG, stat.S_IFDIR), 'Non-regular ZIP entry'
+                      assert not entry.flag_bits & 1 and entry.file_size <= 1024**3
+                      target = destination.joinpath(*path.parts)
+                      assert target.resolve().is_relative_to(destination.resolve())
+                      if entry.is_dir():
+                          assert mode in (0, stat.S_IFDIR)
+                          target.mkdir(parents=True, exist_ok=True)
+                          continue
+                      assert mode in (0, stat.S_IFREG)
+                      target.parent.mkdir(parents=True, exist_ok=True)
+                      h, length = hashlib.sha256(), 0
+                      with z.open(entry) as source, target.open('xb') as output:
+                          while block := source.read(1024 * 1024):
+                              output.write(block); h.update(block); length += len(block)
+                      assert length == entry.file_size
+                      inventory.append({'path': path.as_posix(), 'bytes': length, 'sha256': h.hexdigest()})
+              return inventory
+          
+          def package_closure(artifact):
+              rows = json.loads((artifact / 'artifact-manifest.json').read_bytes())['files']
+              paths = [r['path'] for r in rows]
+              assert len(paths) == len(set(paths))
+              assert not any(p.is_symlink() for p in artifact.rglob('*'))
+              actual = {p.relative_to(artifact).as_posix() for p in artifact.rglob('*')
+                        if p.is_file() and p != artifact / 'artifact-manifest.json'}
+              assert set(paths) == actual, 'Exact package closure changed'
+              for row in rows:
+                  path = artifact / row['path']
+                  assert path.resolve().is_relative_to(artifact.resolve())
+                  body = path.read_bytes()
+                  assert type(row['bytes']) is int and len(body) == row['bytes'] and digest(body) == row['sha256']
+              return rows
+          
+          def main():
+              benchmark = {k: os.environ.get(k) for k in (
+                  'GITHUB_REPOSITORY', 'GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT', 'GITHUB_SHA',
+                  'GITHUB_REF', 'GITHUB_EVENT_NAME', 'GITHUB_WORKFLOW_REF', 'GITHUB_WORKFLOW_SHA',
+                  'RUNNER_OS', 'RUNNER_ARCH', 'ImageOS', 'ImageVersion')}
+              emit('benchmark-identity.json', {'benchmark': benchmark,
+                  'source': {'runId': str(SOURCE_RUN), 'runAttempt': str(SOURCE_ATTEMPT),
+                             'head': SOURCE_HEAD, 'sourceRevision': SOURCE_MERGE, 'tree': SOURCE_TREE},
+                  'scope': 'Three accepted OWNED builds; timed Oz/O2 only. No precompiled or general upstream-stock comparator.'})
+              assert benchmark['GITHUB_REPOSITORY'] == REPO and benchmark['GITHUB_REF'] == BRANCH
+              assert benchmark['GITHUB_EVENT_NAME'] == 'push'
+              assert benchmark['GITHUB_RUN_ID'] != str(SOURCE_RUN)
+              assert os.environ['RUN_CPU_QUARTER'] in ('true', 'false')
+              assert re.fullmatch(r'[1-9][0-9]*', AGGREGATE_ID) and re.fullmatch(r'[1-9][0-9]*', AGGREGATE_ZIP_BYTES), 'Aggregate IDs remain unpublished placeholders'
+              assert all(re.fullmatch(r'[0-9a-f]{64}', x) for x in (AGGREGATE_ZIP_SHA256, ADMISSION_SHA256)), 'Aggregate hashes remain unpublished placeholders'
+              source_specs = resolve_source_specs()
+              assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip() == SOURCE_HEAD
+              assert subprocess.check_output(['git', 'rev-parse', 'HEAD^{tree}'], text=True).strip() == SOURCE_TREE
+              assert digest((ROOT / '.github/workflows/runtime-build.yml').read_bytes()) == SOURCE_RECIPE_WORKFLOW_SHA256
+              assert not subprocess.check_output(['git', 'status', '--porcelain', '--untracked-files=no'], text=True)
+              run = api(f'/actions/runs/{SOURCE_RUN}')
+              jobs = pages(f'/actions/runs/{SOURCE_RUN}/attempts/{SOURCE_ATTEMPT}/jobs', 'jobs')
+              check_run(run, jobs)
+              merge = api('/commits/' + SOURCE_MERGE)
+              assert merge['sha'] == SOURCE_MERGE and merge['commit']['tree']['sha'] == SOURCE_TREE
+              assert SOURCE_HEAD in {p['sha'] for p in merge['parents']}
+              artifact_rows = pages(f'/actions/runs/{SOURCE_RUN}/artifacts', 'artifacts')
+              specs = {**source_specs, 'accepted-aggregate': (int(AGGREGATE_ID), 'compiler-comparison-' + SOURCE_MERGE, int(AGGREGATE_ZIP_BYTES), AGGREGATE_ZIP_SHA256)}
+              selected = {name: check_artifact(artifact_rows, spec) for name, spec in specs.items()}
+              emit('source-api-provenance.json', {'run': run, 'jobs': jobs, 'merge': merge, 'artifacts': selected})
+              workflow = api('/contents/.github/workflows/e8ad-compare-maxima-candidates.yml?ref=' + benchmark['GITHUB_SHA'])
+              assert workflow['encoding'] == 'base64'
+              workflow_body = base64.b64decode(''.join(workflow['content'].split()), validate=True)
+              assert hashlib.sha1(b'blob ' + str(len(workflow_body)).encode() + b'\0' + workflow_body).hexdigest() == workflow['sha']
+              (OUT / 'benchmark-workflow.yml').write_bytes(workflow_body)
+              for name, spec in specs.items():
+                  archive = TRIALS / 'downloaded-zips' / f'{spec[0]}.zip'
+                  download(spec, archive)
+                  inventory = unpack(archive, TRIALS / name)
+                  emit('archive-inventory-' + name + '.json', {'artifact': selected[name], 'files': inventory})
+              admission_bytes = (TRIALS / 'accepted-aggregate/admission.json').read_bytes()
+              assert digest(admission_bytes) == ADMISSION_SHA256
+              admission = json.loads(admission_bytes)
+              assert admission['schema'] == 1 and admission['passed'] is True
+              assert list(admission['trials']) == ['baseline', 'ecl-oz', 'ecl-o2']
+              sys.path.insert(0, str(ROOT / 'runtime/build'))
+              from cold_evidence import current_expectations, validate_build
+              from compiler_profile import profiles
+              from timing_evidence import verify_workload_files
+              source_identity = {'runId': str(SOURCE_RUN), 'runAttempt': str(SOURCE_ATTEMPT), 'sourceRevision': SOURCE_MERGE}
+              checked, programs = {}, None
+              for name, profile in profiles()['profiles'].items():
+                  root = TRIALS / name
+                  artifact = root / '.cache/runtime-build/artifact'
+                  closure = package_closure(artifact)
+                  expected = current_expectations(ROOT, source_identity)
+                  expected['compilerProfile'] = profile
+                  accepted = validate_build(root, 'cold1', expected)
+                  acceptance_path = root / '.cache/runtime-build/validation/acceptance.json'
+                  acceptance = json.loads(acceptance_path.read_bytes())
+                  same(acceptance['compilerProfile'], profile)
+                  assert acceptance['compilerEvidenceSha256'] == digest((artifact / 'logs/compiler-experiment.json').read_bytes())
+                  timing_path = root / '.cache/runtime-build/validation/timings.json'
+                  native = verify_workload_files(timing_path, root / 'test-results/milestone-three/browser.json', acceptance, accepted['manifestSha256'])
+                  timing = json.loads(timing_path.read_bytes())
+                  assert timing['passed'] is True and timing['owned']['runtimeBuild']['manifestSha256'] == accepted['manifestSha256']
+                  if programs is None: programs = native
+                  same(native, programs)
+                  accepted.update(acceptanceSha256=digest(acceptance_path.read_bytes()),
+                      artifactManifestSha256=digest((artifact / 'artifact-manifest.json').read_bytes()),
+                      timingReportSha256=digest(timing_path.read_bytes()),
+                      runtimeBytes=sum(r['bytes'] for r in accepted['assets'].values()))
+                  same(accepted, admission['trials'][name])
+                  assert len(accepted['assets']) == 79
+                  checked[name] = {'accepted': accepted, 'packageFiles': closure}
+              assert len(programs) == 3 and {p['operation'] for p in programs} == {'prepare', 'validate', 'prt'}
+              same(programs, admission['nativePrograms'])
+              assert len({r['accepted']['manifestSha256'] for r in checked.values()}) == 3
+              emit('source-revalidation.json', {'passed': True, 'sourceIdentity': source_identity,
+                  'admissionSha256': ADMISSION_SHA256, 'trials': checked, 'nativePrograms': programs})
+              # Preserve the accepted original. Do not run verify-compiler-trials.py here:
+              # its GITHUB_* contract belongs to the original source build run.
+              (OUT / 'admission.json').write_bytes(admission_bytes)
+              shutil.copytree(TRIALS / 'accepted-aggregate', OUT / 'original-source-aggregate')
+              (OUT / 'hardware.json').write_bytes(subprocess.check_output(['lscpu', '--json']))
+              print('Verified all three exact accepted owned packages and original admission.')
+          
+          try:
+              main()
+          except Exception as error:
+              emit('preflight-failure.json', {'passed': False, 'failure': type(error).__name__ + ': ' + str(error)})
+              raise
+          
+          PY
+      - name: Check out the exact unchanged STACK source used by the harness
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: trusted/.site-sources/stack
+          persist-credentials: false
+      - name: Check out the pinned demo preparation dependency
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: c366f175aba6b62caa628bc60f57bb1167fc087b
+          path: trusted/.site-sources/ctm-checkers
+          persist-credentials: false
+      - name: Install the pinned browser harness
+        run: |
+          python -m pip install sympy==1.13.3 networkx==3.4.2 PyYAML==6.0.2
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Stage all three accepted owned packages without recompilation
+        run: |
+          for profile in baseline ecl-oz ecl-o2; do
+            python scripts/milestone-two/prepare-runtime.py \
+              --stack-source .site-sources/stack \
+              --ctm-checkers-source .site-sources/ctm-checkers \
+              --runtime-source ".cache/compiler-trials/$profile/.cache/runtime-build/artifact" \
+              --compiler-profile "$profile" \
+              --output ".cache/compiler-trials/demos/$profile"
+          done
+      - name: Compare Oz and O2 at full speed first
+        id: full_speed
+        timeout-minutes: 205
+        env:
+          CTM_TIMING_REPETITIONS: '10'
+          CTM_TIMING_PROFILES: ecl-oz,ecl-o2
+          CTM_TIMING_LABEL: full-speed
+          CTM_TIMING_CPU_LIMIT: ''
+        run: |
+          set -o pipefail
+          node runtime/build/measure-compiler-trials.mjs 2>&1 \
+            | tee .cache/compiler-trials/comparison/full-speed.log
+      - name: Preserve full-speed evidence before the optional longer CPU run
+        if: always() && env.RUN_CPU_QUARTER == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: owned-maxima-oz-o2-full-speed-benchmark-${{ github.run_id }}-attempt-${{ github.run_attempt }}
+          path: trusted/.cache/compiler-trials/comparison/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 6
+      - name: Optionally repeat with an enforced quarter-CPU scope
+        id: cpu_quarter
+        timeout-minutes: 180
+        if: env.RUN_CPU_QUARTER == 'true'
+        env:
+          CTM_TIMING_REPETITIONS: '10'
+          CTM_TIMING_PROFILES: ecl-oz,ecl-o2
+          CTM_TIMING_LABEL: cpu-quarter
+          CTM_TIMING_CPU_LIMIT: systemd CPUQuota=25%
+        run: |
+          cat > .cache/compiler-trials/comparison/run-cpu-quarter.py <<'PY'
+          import json, os, pathlib, subprocess, sys
+          out = pathlib.Path('.cache/compiler-trials/comparison/cpu-quarter-control.json')
+          expected = {'CTM_TIMING_REPETITIONS': '10', 'CTM_TIMING_PROFILES': 'ecl-oz,ecl-o2',
+                      'CTM_TIMING_LABEL': 'cpu-quarter', 'CTM_TIMING_CPU_LIMIT': 'systemd CPUQuota=25%'}
+          assert all(os.environ.get(k) == v for k, v in expected.items())
+          assert pathlib.Path(os.environ['PLAYWRIGHT_BROWSERS_PATH']).is_absolute()
+          node = pathlib.Path(sys.argv[1]); assert node.is_absolute() and node.is_file()
+          lines = pathlib.Path('/proc/self/cgroup').read_text().splitlines()
+          unified = [x.split(':', 2)[2] for x in lines if x.startswith('0::')]
+          assert len(unified) == 1
+          scope = 'ctm-maxima-benchmark-' + os.environ['GITHUB_RUN_ID'] + '-' + os.environ['GITHUB_RUN_ATTEMPT'] + '.scope'
+          assert unified[0].endswith('/' + scope)
+          group = pathlib.Path('/sys/fs/cgroup') / unified[0].lstrip('/')
+          quota, period = (group / 'cpu.max').read_text().split()
+          assert quota != 'max' and int(quota) * 4 == int(period), 'CPU25 quota not active'
+          record = {'scope': scope, 'cgroup': unified[0], 'cpuMax': [quota, period],
+                    'environment': expected, 'playwrightBrowsersPath': os.environ['PLAYWRIGHT_BROWSERS_PATH'],
+                    'cpuStatBefore': (group / 'cpu.stat').read_text(), 'passed': False}
+          out.write_text(json.dumps(record, indent=2) + '\n')
+          try:
+              subprocess.run([str(node), 'runtime/build/measure-compiler-trials.mjs'], check=True)
+              record['passed'] = True
+          finally:
+              record['cpuStatAfter'] = (group / 'cpu.stat').read_text()
+              out.write_text(json.dumps(record, indent=2) + '\n')
+          
+          PY
+          set -o pipefail
+          node_binary="$(command -v node)"
+          python_binary="$(command -v python)"
+          sudo -E systemd-run --scope --quiet \
+            --unit="ctm-maxima-benchmark-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" \
+            -p CPUQuota=25% --uid="$(id -u)" --gid="$(id -g)" \
+            -- "$python_binary" .cache/compiler-trials/comparison/run-cpu-quarter.py "$node_binary" 2>&1 \
+            | tee .cache/compiler-trials/comparison/cpu-quarter.log
+      - name: Report paired results and retain failure details
+        if: always()
+        run: |
+          python - <<'PY'
+          import hashlib, json, math, os, statistics
+          from pathlib import Path
+          root = Path('.cache/compiler-trials/comparison')
+          root.mkdir(parents=True, exist_ok=True)
+          result = {'schema': 1, 'passed': False, 'runs': {},
+                    'scope': 'Matched ten-repetition Oz/O2 comparison of accepted OWNED Maxima builds; no precompiled arm or general upstream-stock comparison; no automatic promotion.',
+                    'practicality': '20 s is aspirational. A roughly 1 s win alone does not justify taking on ownership of a custom build. Oz versus O2 here is a flag choice within an already owned pipeline; assess paired noise, consistency and any added cost, without a universal 1 s cutoff. Repetitions on one hosted runner do not establish broad hardware performance.'}
+          lines = ['## Accepted owned Maxima: Oz versus O2', '',
+                   '| Condition | Profile | Mode | Median readiness, s | Q1–Q3, s |',
+                   '|---|---|---|---:|---:|']
+          try:
+              admission_sha = hashlib.sha256((root / 'admission.json').read_bytes()).hexdigest()
+              enabled = os.environ['RUN_CPU_QUARTER']
+              assert enabled in ('true', 'false')
+              labels = [('full-speed', None)] + ([('cpu-quarter', 'systemd CPUQuota=25%')] if enabled == 'true' else [])
+              result['cpuQuarterRequested'] = enabled == 'true'
+              for label, limit in labels:
+                  path = root / ('timings-' + label + '.json')
+                  raw = path.read_bytes(); report = json.loads(raw)
+                  assert report['passed'] is True and report['admissionSha256'] == admission_sha
+                  assert report['profiles'] == ['ecl-oz', 'ecl-o2'] and report['repetitions'] == 10
+                  assert report['label'] == label and report['cpuLimit'] == limit
+                  expected = [(rep, candidate, mode) for rep in range(1, 11)
+                              for candidate in (['ecl-oz', 'ecl-o2'] if rep % 2 else ['ecl-o2', 'ecl-oz'])
+                              for mode in ('cold', 'warm-profile-reload')]
+                  samples = report['samples']
+                  assert [(s['repetition'], s['candidate'], s['mode']) for s in samples] == expected
+                  assert all(s['ok'] is True and type(s['readyMs']) in (int, float)
+                             and math.isfinite(s['readyMs']) and s['readyMs'] > 0 for s in samples)
+                  modes = {}
+                  for mode in ('cold', 'warm-profile-reload'):
+                      values = {}
+                      for profile in ('ecl-oz', 'ecl-o2'):
+                          values[profile] = [s['readyMs'] / 1000 for s in samples if s['mode'] == mode and s['candidate'] == profile]
+                          q = statistics.quantiles(values[profile], n=4, method='inclusive')
+                          median = statistics.median(values[profile])
+                          assert math.isclose(median * 1000, report['medians'][profile][mode], rel_tol=1e-12, abs_tol=1e-8)
+                          lines.append(f'| {label} | {profile} | {mode} | {median:.3f} | {q[0]:.3f}–{q[2]:.3f} |')
+                      paired = [oz - o2 for oz, o2 in zip(values['ecl-oz'], values['ecl-o2'], strict=True)]
+                      modes[mode] = {'secondsByRepetition': values,
+                                    'ozMinusO2SecondsByRepetition': paired,
+                                    'medianOzMinusO2Seconds': statistics.median(paired),
+                                    'direction': 'Positive means O2 is faster.',
+                                    'o2FasterPairs': sum(x > 0 for x in paired),
+                                    'ozFasterPairs': sum(x < 0 for x in paired)}
+                  result['runs'][label] = {'reportSha256': hashlib.sha256(raw).hexdigest(), 'samples': 40, 'modes': modes}
+              if enabled == 'true':
+                  control = json.loads((root / 'cpu-quarter-control.json').read_text())
+                  assert control['passed'] is True
+              result['passed'] = True
+          except Exception as error:
+              result['failure'] = type(error).__name__ + ': ' + str(error)
+              lines += ['', '**Incomplete or failed comparison:** ' + result['failure']]
+          finally:
+              lines += ['', result['practicality'],
+                        'CPU25, when requested, limits Node, server and Chromium together; it is not a measured student laptop.',
+                        'The original accepted source identity and the fresh benchmark identity are recorded separately.']
+              (root / 'comparison-summary.json').write_text(json.dumps(result, indent=2) + '\n')
+              (root / 'comparison-summary.md').write_text('\n'.join(lines) + '\n')
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as stream:
+                  stream.write('\n'.join(lines) + '\n')
+          if not result['passed']:
+              raise SystemExit(1)
+          
+          PY
+      - name: Preserve complete benchmark evidence, including partial failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: owned-maxima-oz-o2-source-40108653797-benchmark-${{ github.run_id }}-attempt-${{ github.run_attempt }}
+          path: trusted/.cache/compiler-trials/comparison/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 6
+
