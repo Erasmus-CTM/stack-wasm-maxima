@@ -13,8 +13,11 @@
     "files": [
       "identity.json",
       "admission.json",
-      "report.json",
-      "tool-sources.json"
+      "tool-sources.json",
+      "trials/01-baseline-source-control/sample.json",
+      "trials/02-baseline-precompiled-control/sample.json",
+      "trials/03-baseline-source-instrumented/sample.json",
+      "trials/04-baseline-precompiled-instrumented/sample.json"
     ]
   }
 ]
