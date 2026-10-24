@@ -11,13 +11,26 @@
     "status": "completed",
     "conclusion": "failure",
     "files": [
-      "identity.json",
-      "admission.json",
-      "tool-sources.json",
-      "trials/01-baseline-source-control/sample.json",
-      "trials/02-baseline-precompiled-control/sample.json",
-      "trials/03-baseline-source-instrumented/sample.json",
-      "trials/04-baseline-precompiled-instrumented/sample.json"
+      "trials/05-ecl-oz-source-control/sample.json",
+      "trials/06-ecl-oz-precompiled-control/sample.json",
+      "trials/07-ecl-oz-source-instrumented/sample.json",
+      "trials/08-ecl-oz-precompiled-instrumented/sample.json",
+      "trials/09-ecl-oz-precompiled-instrumented/sample.json",
+      "trials/10-ecl-oz-source-instrumented/sample.json",
+      "trials/11-ecl-oz-precompiled-control/sample.json",
+      "trials/12-ecl-oz-source-control/sample.json",
+      "trials/13-baseline-precompiled-instrumented/sample.json",
+      "trials/14-baseline-source-instrumented/sample.json",
+      "trials/15-baseline-precompiled-control/sample.json",
+      "trials/16-baseline-source-control/sample.json",
+      "trials/17-baseline-source-control/sample.json",
+      "trials/18-baseline-precompiled-control/sample.json",
+      "trials/19-baseline-source-instrumented/sample.json",
+      "trials/20-baseline-precompiled-instrumented/sample.json",
+      "trials/21-ecl-oz-source-control/sample.json",
+      "trials/22-ecl-oz-precompiled-control/sample.json",
+      "trials/23-ecl-oz-source-instrumented/sample.json",
+      "trials/24-ecl-oz-precompiled-instrumented/sample.json"
     ]
   }
 ]
