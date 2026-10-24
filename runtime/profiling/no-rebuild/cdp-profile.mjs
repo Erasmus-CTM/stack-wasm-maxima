@@ -52,12 +52,12 @@ export async function startCPUProfiles(page){
   }};
 }
 export async function startProcessCPU(browser){
-  const cdp=await browser.newBrowserCDPSession(),snapshots=[],errors=[];let collecting=Promise.resolve();
-  const take=()=>{collecting=collecting.then(async()=>{try{const value=await cdp.send('SystemInfo.getProcessInfo');snapshots.push({wallMs:performance.now(),processes:value.processInfo});}catch(error){errors.push(String(error));}});return collecting;};
+  const cdp=await browser.newBrowserCDPSession(),snapshots=[],errors=[],performanceTimeOriginEpochMs=performance.timeOrigin;let collecting=Promise.resolve();
+  const take=()=>{collecting=collecting.then(async()=>{try{const value=await cdp.send('SystemInfo.getProcessInfo'),wallMs=performance.now();snapshots.push({wallMs,epochMs:performanceTimeOriginEpochMs+wallMs,processes:value.processInfo});}catch(error){errors.push(String(error));}});return collecting;};
   await take();const timer=setInterval(take,250);
   return {async stop(){clearInterval(timer);await take();
     const first=new Map((snapshots[0]?.processes||[]).map(p=>[p.id,p])),last=new Map();for(const s of snapshots)for(const p of s.processes)last.set(p.id,p);
     const rows=[...last.values()].map(p=>({id:p.id,type:p.type,startCPUSeconds:first.get(p.id)?.cpuTime||0,lastObservedCPUSeconds:p.cpuTime,deltaCPUSeconds:p.cpuTime-(first.get(p.id)?.cpuTime||0)}));
-    return {rows,totalObservedCPUSeconds:rows.reduce((s,r)=>s+r.deltaCPUSeconds,0),snapshots,errors,scope:'Chrome SystemInfo cumulative process CPU seconds from pre-worker baseline to last observation, summed across this fresh browser. Short-lived processes may be undercounted; this includes browser/renderer/utility work, not only CAS. Browser launch before baseline is excluded.'};
+    return {rows,totalObservedCPUSeconds:rows.reduce((s,r)=>s+r.deltaCPUSeconds,0),performanceTimeOriginEpochMs,snapshots,errors,scope:'Chrome SystemInfo cumulative process CPU seconds from pre-worker baseline to last observation, summed across this fresh browser. Polling stops before Profiler.stop and raw CPU-profile serialization. Snapshot epochMs marks receipt, allowing approximate alignment with parent phase epochs at250ms polling resolution plus protocol latency. Short-lived processes may be undercounted; this includes browser/renderer/utility work, not only CAS. Browser launch before baseline is excluded.'};
   }};
 }

@@ -3,8 +3,8 @@ import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
 import {EventEmitter} from 'node:events';
 import {analyzeLoads,trialPlan,summarizeCPU,haltForCoreFailure} from './run.mjs';
-import {instrumentChild,assertProfileAdmission} from './stage.mjs';
-import {startCPUProfiles} from './cdp-profile.mjs';
+import {instrumentChild,assertProfileAdmission,profileStartup,profileLispPath,digest} from './stage.mjs';
+import {startCPUProfiles,startProcessCPU} from './cdp-profile.mjs';
 
 const plan=trialPlan(3);assert.equal(plan.length,24);
 for(const profile of ['baseline','ecl-oz'])for(const candidate of ['source','precompiled'])for(const arm of ['control','instrumented'])assert.equal(plan.filter(r=>r.profile===profile&&r.candidate===candidate&&r.arm===arm).length,3);
@@ -16,9 +16,36 @@ assert.throws(()=>analyzeLoads([...calls,calls[1]]),/Duplicate/);
 assert.throws(()=>analyzeLoads([calls[0],{...calls[1],parent:2}]),/cyclic/);
 const source=await readFile(new URL('../gc-aggregate-budget-fix/prototype/runtime/maxima-child.js',import.meta.url),'utf8');
 const hooks=await readFile(new URL('./child-hooks.js',import.meta.url),'utf8');
-assert.ok(instrumentChild(source,hooks).includes('CTMProfile.installFS(FS)'));
-assert.ok(instrumentChild(source,hooks).includes('startupStdoutTail:stdoutTail.slice(-4096)'));
-assert.throws(()=>instrumentChild(source.replace('      preInit();','      changed();'),hooks),/unique/);
+const lisp=await readFile(new URL('./load-hooks.lisp',import.meta.url),'utf8'),derivedChild=instrumentChild(source,hooks,lisp);
+assert.ok(derivedChild.includes('CTMProfile.installFS(FS)'));
+assert.ok(derivedChild.includes('startupStdoutTail:stdoutTail.slice(-4096)'));
+assert.throws(()=>instrumentChild(source.replace('      preInit();','      changed();'),hooks,lisp),/unique/);
+assert.throws(()=>instrumentChild(source,hooks),/Exact Lisp/);
+const originalStartup='m2_emit("CTMSTACK-LOAD-BEGIN")$\nload("stacklocallinux.mac")$\nm2_emit("CTMSTACK-LOAD-END")$',derivedStartup=profileStartup(originalStartup);
+assert.equal(derivedStartup,':lisp (load "/ctm/no-rebuild-profile/load-hooks.lisp")\n'+originalStartup);
+assert.deepEqual(derivedStartup.split('\n').filter(line=>line.startsWith(':lisp ')),[':lisp (load "/ctm/no-rebuild-profile/load-hooks.lisp")']);
+async function fakeChildMount({corrupt=false}={}){
+  const mounted=new Map(),order=[],messages=[],files=Array.from({length:77},(_,i)=>({path:'stack/fixture-'+i+'.mac',content:'/* fixture '+i+' */'})),originalFiles=structuredClone(files);
+  let ticks=0,context;
+  const FS={mkdirTree(){},createLazyFile(){},open(){throw Error('No runtime execution in fixture');},ioctl(){},ErrnoError:class extends Error{},isFile:()=>true,
+    writeFile(path,body){const copy=new Uint8Array(body);if(corrupt&&path===profileLispPath)copy[0]^=1;mounted.set(path,copy);if(path===profileLispPath)order.push('hook-write');},
+    readFile(path){order.push('hook-readback');return mounted.get(path);}};
+  const self={location:{href:'http://fixture/runtime-profile/maxima-child.js'},postMessage:value=>messages.push(structuredClone(value)),addEventListener(){},importScripts(url){
+    assert.ok(url.endsWith('/maxima_thread.js'),'Fixture forbids loading a runtime program');
+    context.Module={preInit(){order.push('pre-init');},preRun:[]};
+    self.onmessage=()=>{context.Module.preInit();for(const callback of context.Module.preRun)callback();order.push('native-initialization');};
+  }};
+  context=vm.createContext({self,FS,MEMFS:{ops_table:{dir:{node:{}}}},HEAP32:new Int32Array(16),performance:{timeOrigin:100000,now:()=>++ticks},WebAssembly:{},TextEncoder,TextDecoder,URL,SharedArrayBuffer,Int32Array,Uint32Array,Uint8Array,Atomics,JSON,Reflect,Error,String,Map});
+  Object.defineProperty(context,'CTMProfile',{get:()=>self.CTMProfile});
+  vm.runInContext(derivedChild,context);
+  const buffers=[new SharedArrayBuffer(28),new SharedArrayBuffer(65536),new SharedArrayBuffer(65536)];
+  await self.onmessage({data:{type:'start',baseURL:'http://fixture/maxima-runtime/',preload:false,buffers,manifest:{files,startup:derivedStartup}}});
+  assert.deepEqual(files,originalFiles,'77 original embedded files changed');
+  return {mounted,order,messages,input:String.fromCodePoint(...new Uint32Array(buffers[1]).slice(0,Atomics.load(new Int32Array(buffers[0]),1)))};
+}
+const mountedHook=await fakeChildMount();assert.ok(mountedHook.mounted.has(profileLispPath),JSON.stringify(mountedHook.messages));assert.deepEqual(Buffer.from(mountedHook.mounted.get(profileLispPath)),Buffer.from(lisp));assert.equal(mountedHook.input,derivedStartup);assert.ok(mountedHook.order.indexOf('hook-write')<mountedHook.order.indexOf('native-initialization'));assert.ok(mountedHook.order.indexOf('hook-readback')<mountedHook.order.indexOf('native-initialization'));
+const mountProof=mountedHook.messages.find(r=>r.row?.kind==='lisp-hook-mounted').row;assert.equal(mountProof.path,profileLispPath);assert.equal(mountProof.bytes,Buffer.byteLength(lisp));assert.equal(mountProof.sha256,digest(lisp));assert.equal(mountedHook.mounted.size,78);
+const corruptHook=await fakeChildMount({corrupt:true});assert.ok(corruptHook.messages.some(r=>r.type==='error'&&r.error.includes('hook mount differs')));assert.equal(corruptHook.order.includes('native-initialization'),false);
 const rows=[],fault=Error('sentinel'),result={exports:{fixture:1}};
 const self={postMessage:r=>rows.push(r),importScripts(...urls){if(urls[0]==='bad')throw fault;return 7;}};
 const context=vm.createContext({self,performance:{now:()=>0,timeOrigin:0},WebAssembly:{instantiate:async()=>result},JSON,String,Reflect});
@@ -36,6 +63,11 @@ assert.throws(()=>assertProfileAdmission(admitted,'ecl-oz',baselineManifest),/pr
 assert.throws(()=>assertProfileAdmission(admitted,'baseline',{...baselineManifest,runtimeBuild:{...baselineManifest.runtimeBuild,manifestSha256:'f'.repeat(64)}}),/Package identity/);
 assert.throws(()=>assertProfileAdmission({...admitted,passed:false},'baseline',baselineManifest),/admission/);
 const cpu=summarizeCPU({profiles:[{target:{type:'worker'},profile:{nodes:[{id:1,callFrame:{functionName:'wasm-function[1]',url:'wasm://fixture',scriptId:'1'}}],samples:[1,1],timeDeltas:[100,200],startTime:0,endTime:300}}]});assert.equal(cpu[0].topSelfSampleIntervals[0].sampledIntervalMicroseconds,300);assert.equal(cpu[0].topSelfSampleIntervals[0].opaqueWasm,true);
+const errnoFrame={functionName:'ErrnoError',url:'http://fixture/runtime.js',scriptId:'7',lineNumber:1,columnNumber:2};
+const groupedCPU=summarizeCPU({profiles:[{target:{type:'worker'},profile:{nodes:[{id:1,callFrame:errnoFrame},{id:2,callFrame:errnoFrame},{id:3,callFrame:{...errnoFrame,columnNumber:3}}],samples:[1,2,3],timeDeltas:[100,200,50],startTime:0,endTime:350}}]})[0];
+assert.equal(groupedCPU.topSelfSampleIntervals[0].sampledIntervalMicroseconds,200);assert.equal(groupedCPU.topCallFramesBySelfSampleIntervals[0].sampledIntervalMicroseconds,300);assert.deepEqual(groupedCPU.topCallFramesBySelfSampleIntervals[0].nodeIds,[1,2]);assert.equal(groupedCPU.topCallFramesBySelfSampleIntervals.length,2);
+let processReplies=0;const processSampler=await startProcessCPU({newBrowserCDPSession:async()=>({send:async method=>{assert.equal(method,'SystemInfo.getProcessInfo');return {processInfo:[{id:1,type:'renderer',cpuTime:1+(processReplies++)/4}]};}})}),processResult=await processSampler.stop();
+assert.equal(processResult.snapshots.length,2);assert.equal(processResult.totalObservedCPUSeconds,0.25);for(const row of processResult.snapshots)assert.equal(row.epochMs,processResult.performanceTimeOriginEpochMs+row.wallMs);
 const probe=await readFile(new URL('./probe-worker.js',import.meta.url),'utf8');
 async function fakeProbe(options={}){
   const messages=[],calls=[];let assignments=0,clock=0,child;const OriginalWorker=class{addEventListener(name,listener){this.listener=listener;}emit(row){this.listener?.({data:{type:'ctm-profile',row}});}};let WorkerClass=OriginalWorker;
@@ -128,4 +160,4 @@ async function cdpFixture({failNestedStart=false,failRootAttach=false}={}){
 const pageCDP=await cdpFixture();assert.equal(pageCDP.pageSessions,1);assert.equal(pageCDP.value.complete,true);assert.equal(pageCDP.value.attachmentRoot,'page');assert.equal(pageCDP.value.profiles.length,3);assert.deepEqual(pageCDP.resumed.sort(),['w1','w2']);assert.equal(pageCDP.value.contexts.find(r=>r.target.targetId==='cas').started,true);
 const partialCDP=await cdpFixture({failNestedStart:true});assert.equal(partialCDP.value.complete,false);assert.ok(partialCDP.value.errors.some(r=>r.phase==='configure'&&r.target.targetId==='cas'));assert.deepEqual(partialCDP.resumed.sort(),['w1','w2']);assert.equal(partialCDP.value.profiles.length,2);
 const rejectedCDP=await cdpFixture({failRootAttach:true});assert.match(String(rejectedCDP.error),/page auto-attach rejected/);assert.ok(rejectedCDP.sent.some(r=>r.where==='root'&&r.method==='Profiler.stop'));
-console.log(JSON.stringify({passed:true,scope:'Synthetic trusted harness tests only; no runtime, browser, artifact program or Lisp execution',checks:['24 planned cells','nested exclusive durations','unavailable run-clock handling','duplicate/cyclic frame rejection','exact child-source anchors and bounded startup stdout','import exception/return preservation','Wasm result preservation','FS stream/exception preservation','flush marker forwarding','admission required','swapped profile rejected','manifest tamper rejected','CPU leaf summary','clean Worker untouched','first logical before grades','logical mismatch rejected before grading','wrong grade rejected','finite ordered phase timestamps','approximate phase alignment','core failure halts but optional CPU does not','30700 filesystem opens bounded and counted','early directory and failure traffic cannot consume file buckets','optional event saturation preserves Lisp and finish','bad aggregate count and duration rejected','page-root and nested CDP profiles','failed nested profiler still resumes child','rejected root attach stops profiler','instrumented fake session restores Worker','observer error records rejected','missing declared Lisp frames rejected','malformed profile JSON increments finish error counter']}));
+console.log(JSON.stringify({passed:true,scope:'Synthetic trusted harness tests only; no runtime, browser, artifact program or Lisp execution',checks:['24 planned cells','nested exclusive durations','unavailable run-clock handling','duplicate/cyclic frame rejection','exact child-source anchors and bounded startup stdout','import exception/return preservation','Wasm result preservation','FS stream/exception preservation','flush marker forwarding','admission required','swapped profile rejected','manifest tamper rejected','CPU leaf summary','clean Worker untouched','first logical before grades','logical mismatch rejected before grading','wrong grade rejected','finite ordered phase timestamps','approximate phase alignment','core failure halts but optional CPU does not','30700 filesystem opens bounded and counted','early directory and failure traffic cannot consume file buckets','optional event saturation preserves Lisp and finish','bad aggregate count and duration rejected','page-root and nested CDP profiles','failed nested profiler still resumes child','rejected root attach stops profiler','instrumented fake session restores Worker','observer error records rejected','missing declared Lisp frames rejected','malformed profile JSON increments finish error counter','one physical Lisp load command preserves original startup','exact unchanged hook mounted before native initialization','77 embedded STACK files unchanged','corrupt hook mount fails before initialization','canonical CPU call-frame aggregation retains node identities','process CPU snapshots include epoch alignment']}));

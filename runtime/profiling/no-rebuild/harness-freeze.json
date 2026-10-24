@@ -1,9 +1,67 @@
 {
-  "state": "FROZEN REPAIR SOURCE CANDIDATE; independent review and diagnostic CI required",
+  "state": "FROZEN SECOND REPAIR SOURCE CANDIDATE; independent review and diagnostic CI required",
   "diagnosticOnly": true,
   "acceptance": false,
-  "originalFreezeSha256": "e4552cb35c8460ef4eca9781d56951cca8c255079c38da96e9ee19d20a9ef78f",
-  "firstRunArtifactId": 12575428079,
+  "previousFreezeSha256": "970f2d64e36791222699e78e8aadf51fa5349706604f8f5ac8e92626077c2496",
+  "secondRunArtifactId": 12576652256,
+  "files": [
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair2/run.mjs",
+      "bytes": 18411,
+      "sha256": "582d0c1d0535f4e14f29736b566cd91c0507da485ff4b2bbfe3bc7127f80fda7",
+      "previousSha256": "37979cf435aff4bf46bd1889058f4c2ce46d2d2509c32b6a1293348fdd1e1560",
+      "unchangedFromRepair1": false
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair2/stage.mjs",
+      "bytes": 9396,
+      "sha256": "2c5da45d4990eff7fe7bad1a46d888fd210f1f32265ff8e354f056f253e73638",
+      "previousSha256": "0fb813a0815ff94ce9ddbe6ee92ccd7fcb848ee213837d5a4b8b5f564340e02a",
+      "unchangedFromRepair1": false
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair2/cdp-profile.mjs",
+      "bytes": 6237,
+      "sha256": "0fa1801bed61fe99139c43856a4e44bac6dfc7edf5d3b7c51ad3be8b019ddb3f",
+      "previousSha256": "e307f7d516e4f0b9d8fc2e2d949abbab3c828cf7e78273ba8fa634c47024f5e1",
+      "unchangedFromRepair1": false
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair2/child-hooks.js",
+      "bytes": 5353,
+      "sha256": "1fb0d4ac0962e3db5f5ec428596a945b3145549a6c3f3b91c926e1a1a1d7e92b",
+      "previousSha256": "1fb0d4ac0962e3db5f5ec428596a945b3145549a6c3f3b91c926e1a1a1d7e92b",
+      "unchangedFromRepair1": true
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair2/load-hooks.lisp",
+      "bytes": 4703,
+      "sha256": "1af2eff88202e300708d744ea0b03bb63ee6b1ccbca9d71f0f1997cc3c8c87d0",
+      "previousSha256": "1af2eff88202e300708d744ea0b03bb63ee6b1ccbca9d71f0f1997cc3c8c87d0",
+      "unchangedFromRepair1": true
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair2/probe-worker.js",
+      "bytes": 6342,
+      "sha256": "e831eef1dbba70031001dac3a45c04d47b4c57349098f8033e1f355c655d3e19",
+      "previousSha256": "e831eef1dbba70031001dac3a45c04d47b4c57349098f8033e1f355c655d3e19",
+      "unchangedFromRepair1": true
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair2/test-harness.mjs",
+      "bytes": 21971,
+      "sha256": "ff2730764f563251d3182dbeae1e44bf3a45afe1d8c369fe0a37d421daacb5a6",
+      "previousSha256": "e7dfdaf92a8ee51d0ecd0f937f81555c86dd88c6c52058b6bd98f8c994024457",
+      "unchangedFromRepair1": false
+    },
+    {
+      "path": "/workspace/work/no-rebuild-profile-repair2/HARNESS.md",
+      "bytes": 9020,
+      "sha256": "8e9637fa4e11116707060e023b6393417f2f7ea49ef72062f372233db748a803",
+      "previousSha256": "9834ea5b2a9f333b1123e5292297e1761210825c5eb84b0bd5287c6cc07b7f6c",
+      "unchangedFromRepair1": false
+    }
+  ],
   "runtimeAllowlist": [
     "run.mjs",
     "stage.mjs",
@@ -12,74 +70,12 @@
     "load-hooks.lisp",
     "probe-worker.js"
   ],
-  "files": [
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair/run.mjs",
-      "bytes": 17288,
-      "sha256": "37979cf435aff4bf46bd1889058f4c2ce46d2d2509c32b6a1293348fdd1e1560",
-      "originalSha256": "4e8c97fb18bd0767766e21282711b43154039a77ede6d1d8f7ac02f7cfb4d685",
-      "unchanged": false
-    },
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair/stage.mjs",
-      "bytes": 8071,
-      "sha256": "0fb813a0815ff94ce9ddbe6ee92ccd7fcb848ee213837d5a4b8b5f564340e02a",
-      "originalSha256": "eb150936e6e1b4a41bb1da88b90d75b0aad87c07ea21b838178e0f8d6f828a3a",
-      "unchanged": false
-    },
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair/cdp-profile.mjs",
-      "bytes": 5897,
-      "sha256": "e307f7d516e4f0b9d8fc2e2d949abbab3c828cf7e78273ba8fa634c47024f5e1",
-      "originalSha256": "dea0297a8b112e12f9f4d473138d15a0c9efaba5523737d4b9f484f68abd6ed9",
-      "unchanged": false
-    },
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair/child-hooks.js",
-      "bytes": 5353,
-      "sha256": "1fb0d4ac0962e3db5f5ec428596a945b3145549a6c3f3b91c926e1a1a1d7e92b",
-      "originalSha256": "3d794430e64d55a2b4643b29c6f071e6642e9a0b57047da1a880dba6b3f4ee4f",
-      "unchanged": false
-    },
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair/load-hooks.lisp",
-      "bytes": 4703,
-      "sha256": "1af2eff88202e300708d744ea0b03bb63ee6b1ccbca9d71f0f1997cc3c8c87d0",
-      "originalSha256": "1af2eff88202e300708d744ea0b03bb63ee6b1ccbca9d71f0f1997cc3c8c87d0",
-      "unchanged": true
-    },
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair/probe-worker.js",
-      "bytes": 6342,
-      "sha256": "e831eef1dbba70031001dac3a45c04d47b4c57349098f8033e1f355c655d3e19",
-      "originalSha256": "e96ad35e4c35d1ec129667bbf90cf227e3c2f609d4ce628a7a5c75ca3fea7bd0",
-      "unchanged": false
-    },
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair/test-harness.mjs",
-      "bytes": 16786,
-      "sha256": "e7dfdaf92a8ee51d0ecd0f937f81555c86dd88c6c52058b6bd98f8c994024457",
-      "originalSha256": "c977b76ddd1048466d2baae1134c6ea24e1dce89d4f75874b884e38d54da69d0",
-      "unchanged": false
-    },
-    {
-      "path": "/workspace/work/no-rebuild-profile-repair/HARNESS.md",
-      "bytes": 7391,
-      "sha256": "9834ea5b2a9f333b1123e5292297e1761210825c5eb84b0bd5287c6cc07b7f6c",
-      "originalSha256": "a2515a6cd29e59f5e498a7d511c9062847f50ffbb5cd36d7a0014009fa421e6e",
-      "unchanged": false
-    }
-  ],
-  "syntheticChecksPassed": 31,
-  "syntaxChecks": "All six JS/MJS source and synthetic-test modules pass node --check; unchanged Lisp source SHA matches the previous reviewed source. No browser, CAS, ECL or artifact program execution.",
-  "priorRepairFreezeSha256": "09544fc88037fced6d91f4122b2fb4b4c8c1cd28aa30dbdcee9dcce9b88dca4e",
-  "repairScope": [
-    "Separate512 successful regular-file buckets from64 directory/other/failure aggregate groups with four examples each; exact total/overflow count and time",
-    "512 optional versus1024 priority event budgets; completion marker always emitted",
-    "Page-root recursive CDP; every attached child resumes even if profiling fails",
-    "Parent phase epochs plus approximate child/Lisp clock alignment; no new CAS call",
-    "Derived child-ready startup stdout tail bounded4096 characters",
-    "Reject malformed observer lines and require finish.observed equal retained Lisp frames",
-    "Stop after first instrumented core failure; explicit skipped cells; optional CPU partial coverage alone does not stop"
+  "syntheticChecksPassed": 37,
+  "syntaxChecks": "All six JS/MJS modules parse. Trusted JavaScript mocks only; no browser, Maxima, ECL, Wasm or artifact program executed. Lisp bytes unchanged.",
+  "changes": [
+    "Mount exact unchanged Lisp file in derived preRun, verify readback, prepend one physical :lisp load line",
+    "Preserve original77 manifest.files; record injected path/bytes/SHA256",
+    "Add canonical call-frame CPU aggregation while retaining per-node summary and raw profile",
+    "Record process CPU snapshot epoch alignment and stop polling before Profiler.stop/raw serialization"
   ]
 }

@@ -61,7 +61,12 @@ export function summarizeCPU(value){
     if(samples.length!==deltas.length||nodes.size!==profile.nodes.length)return {target,complete:false,error:'Sampling arrays or node IDs are inconsistent'};
     const totals=new Map();for(let i=0;i<samples.length;i++){assert.ok(nodes.has(samples[i])&&Number.isFinite(deltas[i])&&deltas[i]>=0);const r=totals.get(samples[i])||{nodeId:samples[i],samples:0,sampledIntervalMicroseconds:0};r.samples++;r.sampledIntervalMicroseconds+=deltas[i];totals.set(samples[i],r);}
     const top=[...totals.values()].sort((a,b)=>b.sampledIntervalMicroseconds-a.sampledIntervalMicroseconds).slice(0,30).map(r=>({...r,frame:nodes.get(r.nodeId).callFrame,opaqueWasm:/wasm|wasm-function/i.test(JSON.stringify(nodes.get(r.nodeId).callFrame))}));
-    return {target,complete:true,samples:samples.length,profileStartMicroseconds:profile.startTime,profileEndMicroseconds:profile.endTime,topSelfSampleIntervals:top,scope:'Top30 sampled leaf nodes weighted by observed inter-sample intervals; includes idle/program frames and profiler overhead. Not exact function CPU time. Opaque Wasm names remain opaque.'};
+    const byFrame=new Map();for(const r of totals.values()){
+      const source=nodes.get(r.nodeId).callFrame,frame=Object.fromEntries(['functionName','url','scriptId','lineNumber','columnNumber'].map(k=>[k,source[k]??null])),key=JSON.stringify(frame);
+      const g=byFrame.get(key)||{frame,samples:0,sampledIntervalMicroseconds:0,nodeIds:[]};g.samples+=r.samples;g.sampledIntervalMicroseconds+=r.sampledIntervalMicroseconds;g.nodeIds.push(r.nodeId);byFrame.set(key,g);
+    }
+    const grouped=[...byFrame.values()].sort((a,b)=>b.sampledIntervalMicroseconds-a.sampledIntervalMicroseconds).slice(0,30).map(g=>({...g,nodeIds:g.nodeIds.slice(0,256),nodeIdCount:g.nodeIds.length,nodeIdsTruncated:g.nodeIds.length>256,opaqueWasm:/wasm|wasm-function/i.test(JSON.stringify(g.frame))}));
+    return {target,complete:true,samples:samples.length,profileStartMicroseconds:profile.startTime,profileEndMicroseconds:profile.endTime,topSelfSampleIntervals:top,topCallFramesBySelfSampleIntervals:grouped,scope:'Top30 sampled leaf nodes and canonical call-frame groups weighted by observed inter-sample intervals; groups combine the same function/url/scriptId/line/column across calling contexts. Group node-ID lists cap at256; all nodes and samples remain in the raw profile. Includes idle/program frames and profiler overhead. Not exact function CPU time. Opaque Wasm names remain opaque.'};
   });
 }
 function summarizeTrials(samples){
@@ -121,8 +126,8 @@ async function main(){
       row.phase='capturing-cpu';await save();
     }catch(error){row.error=String(error);row.stack=error.stack;row.ok=false;}
     finally{
+      if(processCPU){try{const value=await processCPU.stop();await writeFile(join(directory,'process-cpu.json'),JSON.stringify(value,null,2)+'\n');row.processCPU={path:'trials/'+id+'/process-cpu.json',totalObservedCPUSeconds:value.totalObservedCPUSeconds,performanceTimeOriginEpochMs:value.performanceTimeOriginEpochMs,stoppedBeforeProfilerSerialization:true,errors:value.errors,scope:value.scope};}catch(error){row.processCPUUnavailable=String(error);}}
       if(cpu){try{const value=await cpu.stop();await writeFile(join(directory,'cpu-profiles.json'),JSON.stringify(value)+'\n');row.cpuProfiles={path:'trials/'+id+'/cpu-profiles.json',complete:value.complete,contexts:value.contexts,errors:value.errors,hotspots:summarizeCPU(value)};}catch(error){row.cpuUnavailable=String(error);}}
-      if(processCPU){try{const value=await processCPU.stop();await writeFile(join(directory,'process-cpu.json'),JSON.stringify(value,null,2)+'\n');row.processCPU={path:'trials/'+id+'/process-cpu.json',totalObservedCPUSeconds:value.totalObservedCPUSeconds,errors:value.errors,scope:value.scope};}catch(error){row.processCPUUnavailable=String(error);}}
       if(page)await page.evaluate(()=>{window.ctmProfileWorker?.postMessage({type:'stop'});window.ctmProfileWorker?.terminate();}).catch(()=>{});
       if(browser)await browser.close().catch(error=>{row.closeError=String(error);});
       if(app){row.requests=app.requests;await app.close();}

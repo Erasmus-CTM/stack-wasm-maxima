@@ -4,6 +4,8 @@ import {join,resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 export const digest=body=>createHash('sha256').update(body).digest('hex');
 const record=(path,body)=>({path,bytes:Buffer.byteLength(body),sha256:digest(body)});
+export const profileLispPath='/ctm/no-rebuild-profile/load-hooks.lisp';
+export function profileStartup(startup){assert.equal(typeof startup,'string');return ':lisp (load "'+profileLispPath+'")\n'+startup;}
 export function assertProfileAdmission(admission,profile,manifest){
   assert.equal(admission?.schema,1);assert.equal(admission.passed,true,'Successful admission required');
   assert.deepEqual(admission.source,{runId:40108653819,runAttempt:1,head:'e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31',testedRevision:'5295b5a79bfb983f9e43dd911e6f8ab65139a930',tree:'0e543f936a385548a7ffd53d68930bd88c033922'});
@@ -17,13 +19,21 @@ export function assertProfileAdmission(admission,profile,manifest){
   return admitted;
 }
 function once(source,anchor,replacement){assert.equal(source.split(anchor).length,2,'Child source anchor must be unique: '+anchor);return source.replace(anchor,replacement);}
-export function instrumentChild(source,hooks){
+export function instrumentChild(source,hooks,lisp){
+  assert.ok(typeof lisp==='string'&&lisp.length>0,'Exact Lisp hook source required');
+  const mountedHook=record(profileLispPath,lisp);
   source=once(source,"    const ready = /^CTMMAXIMA-READY", "    CTMProfile.line(line);\n    const ready = /^CTMMAXIMA-READY");
   source=once(source,"    const preloaded = await preloadFiles(runtimeBase, data.preload === false ? null : manifest.preload);", "    const preloaded = await CTMProfile.asyncSpan('preload-fetch-decode-hash',()=>preloadFiles(runtimeBase, data.preload === false ? null : manifest.preload));");
   source=once(source,"    const compiledStack = await fetchCompiledStack(runtimeBase, manifest.compiledStack);", "    const compiledStack = await CTMProfile.asyncSpan('fas-fetch-and-verify',()=>fetchCompiledStack(runtimeBase, manifest.compiledStack));");
   source=once(source,"      preInit();", "      CTMProfile.span('emscripten-preInit',()=>preInit());");
   source=once(source,"      stages.wasmReadyMs = performance.now() - started;", "      stages.wasmReadyMs = performance.now() - started;\n      CTMProfile.emit({kind:'wasm-preRun',elapsedFromStartMs:stages.wasmReadyMs});\n      CTMProfile.installFS(FS);\n      const profileMountStart=performance.now();");
-  source=once(source,"        traceCompiledEntryReads(FS,stages,entry);\n      }", "        traceCompiledEntryReads(FS,stages,entry);\n      }\n      CTMProfile.emit({kind:'mount-stack-files',elapsedMs:performance.now()-profileMountStart});");
+  source=once(source,"        traceCompiledEntryReads(FS,stages,entry);\n      }", "        traceCompiledEntryReads(FS,stages,entry);\n      }\n      CTMProfile.emit({kind:'mount-stack-files',elapsedMs:performance.now()-profileMountStart});\n"+
+    "      const profileLispBytes=new TextEncoder().encode("+JSON.stringify(lisp)+");\n"+
+    "      FS.mkdirTree('/ctm/no-rebuild-profile');\n"+
+    "      FS.writeFile("+JSON.stringify(profileLispPath)+",profileLispBytes);\n"+
+    "      const profileLispMounted=FS.readFile("+JSON.stringify(profileLispPath)+");\n"+
+    "      if(profileLispMounted.length!==profileLispBytes.length||!profileLispMounted.every((value,index)=>value===profileLispBytes[index]))throw Error('Diagnostic Lisp hook mount differs from trusted bytes');\n"+
+    "      CTMProfile.emit({kind:'lisp-hook-mounted',..."+JSON.stringify(mountedHook)+"});");
   source=once(source,"      initialized = true;", "      initialized = true;\n      CTMProfile.emit({kind:'child-ready',elapsedFromStartMs:performance.now()-started,startupStdoutTail:stdoutTail.slice(-4096)});");
   return hooks+'\n'+source;
 }
@@ -33,7 +43,8 @@ export async function stageProfileSite({site,output,trustedRoot,admission,profil
   const child=await readFile(join(site,'runtime/maxima-child.js')),session=await readFile(join(site,'runtime/maxima-session.js'));
   assert.deepEqual(child,await readFile(join(trustedRoot,'prototype/runtime/maxima-child.js')));
   assert.deepEqual(session,await readFile(join(trustedRoot,'prototype/runtime/maxima-session.js')));
-  const hooks=await readFile(new URL('./child-hooks.js',import.meta.url),'utf8'),lisp=await readFile(new URL('./load-hooks.lisp',import.meta.url),'utf8');
+  const hooks=await readFile(new URL('./child-hooks.js',import.meta.url),'utf8'),lispBytes=await readFile(new URL('./load-hooks.lisp',import.meta.url)),lisp=lispBytes.toString('utf8');
+  assert.deepEqual(Buffer.from(lisp,'utf8'),lispBytes,'Lisp hook file must round-trip as exact UTF-8');
   const manifestNames={source:'stack-sources-timed-source.json',precompiled:'stack-sources-precompiled.json'},manifests={},identities=[];
   const actualPaths=[];
   async function walk(relative=''){for(const entry of await readdir(join(site,relative),{withFileTypes:true})){const path=relative?relative+'/'+entry.name:entry.name;if(entry.isDirectory())await walk(path);else{assert.equal(entry.isFile(),true,'Nonregular staged entry: '+path);actualPaths.push(path);}}}
@@ -55,10 +66,11 @@ export async function stageProfileSite({site,output,trustedRoot,admission,profil
   for(const asset of manifests.source.manifest.runtimeAssets){const raw=await readFile(join(site,'maxima-runtime',asset.path));assert.equal(raw.length,asset.fileBytes);assert.equal(digest(raw),asset.sha256);}
   await mkdir(resolve(output,'..'),{recursive:true});await cp(site,output,{recursive:true,errorOnExist:true,force:false});
   await mkdir(join(output,'runtime-profile'));
-  const derived=instrumentChild(child.toString('utf8'),hooks);await writeFile(join(output,'runtime-profile/maxima-child.js'),derived);
-  const changes=[{kind:'child-observers',original:record('runtime/maxima-child.js',child),derived:record('runtime-profile/maxima-child.js',derived)}];
+  const derived=instrumentChild(child.toString('utf8'),hooks,lisp);await writeFile(join(output,'runtime-profile/maxima-child.js'),derived);
+  const changes=[{kind:'child-observers',original:record('runtime/maxima-child.js',child),derived:record('runtime-profile/maxima-child.js',derived)},
+    {kind:'diagnostic-memfs-lisp-hook',original:record('load-hooks.lisp',lispBytes),mounted:record(profileLispPath,lispBytes),mountPhase:'derived child preRun before Maxima initialization',bytesVerifiedAfterWrite:true}];
   for(const [candidate,item] of Object.entries(manifests)){
-    const changed=structuredClone(item.manifest);changed.startup=':lisp '+lisp.trim()+'\n'+changed.startup;
+    const changed=structuredClone(item.manifest);changed.startup=profileStartup(changed.startup);
     const body=JSON.stringify(changed)+'\n',name='stack-sources-profile-'+candidate+'.json';await writeFile(join(output,name),body);
     assert.deepEqual(changed.files,item.manifest.files,'Embedded STACK source bytes must remain unchanged');
     item.profileName=name;changes.push({kind:'startup-prefix',candidate,original:identities.find(x=>x.path===item.name),derived:record(name,body)});
