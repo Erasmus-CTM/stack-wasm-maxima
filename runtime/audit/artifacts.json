@@ -1,20 +1,67 @@
 [
   {
-    "id": 12578335489,
-    "name": "no-rebuild-stack-profile-40139262456-1",
-    "zipBytes": 32874069,
-    "sha256": "50d5cce2d7f72fe8df2a6e66b5949132d00f6b04f8a98c1145c870848182a91d",
-    "run": 40139262456,
+    "id": 12578048686,
+    "name": "no-rebuild-stack-profile-40138617107-1",
+    "zipBytes": 34833643,
+    "sha256": "c9df2fc37d8de4b53cb1c1723226cc1ffef2ee178fcd724bd1559eb5015de64e",
+    "run": 40138617107,
     "workflow": 395414190,
-    "head": "f2fb05562e285336d8122c5f1fb0d0536e118ca1",
+    "head": "6669bb57e39783e93e5515a48a00d7af736c4a1e",
     "attempt": 1,
     "status": "completed",
-    "conclusion": "failure",
-    "files": [
-      "identity.json",
-      "admission.json",
-      "report.json",
-      "trials/03-baseline-source-instrumented/sample.json"
+    "conclusion": "success",
+    "files": [],
+    "ranges": [
+      {
+        "path": "trials/01-ecl-oz-source-instrumented/cpu-profiles.json",
+        "start": 0,
+        "end": 4194304
+      },
+      {
+        "path": "trials/01-ecl-oz-source-instrumented/cpu-profiles.json",
+        "start": 4194304,
+        "end": 8388608
+      },
+      {
+        "path": "trials/01-ecl-oz-source-instrumented/cpu-profiles.json",
+        "start": 8388608,
+        "end": 12582912
+      },
+      {
+        "path": "trials/01-ecl-oz-source-instrumented/cpu-profiles.json",
+        "start": 12582912,
+        "end": 16777216
+      },
+      {
+        "path": "trials/01-ecl-oz-source-instrumented/cpu-profiles.json",
+        "start": 16777216,
+        "end": 20971520
+      },
+      {
+        "path": "trials/01-ecl-oz-source-instrumented/cpu-profiles.json",
+        "start": 20971520,
+        "end": 25165824
+      },
+      {
+        "path": "trials/01-ecl-oz-source-instrumented/cpu-profiles.json",
+        "start": 25165824,
+        "end": 29360128
+      },
+      {
+        "path": "trials/01-ecl-oz-source-instrumented/cpu-profiles.json",
+        "start": 29360128,
+        "end": 33554432
+      },
+      {
+        "path": "trials/01-ecl-oz-source-instrumented/cpu-profiles.json",
+        "start": 33554432,
+        "end": 37748736
+      },
+      {
+        "path": "trials/01-ecl-oz-source-instrumented/cpu-profiles.json",
+        "start": 37748736,
+        "end": 41943040
+      }
     ]
   }
 ]
