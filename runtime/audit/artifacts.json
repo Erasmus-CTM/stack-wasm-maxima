@@ -9,10 +9,8 @@
     "conclusion": "failure",
     "sha256": "2308c0fc57ea1cf2083aa97685d7396b5316a286fdf69028eac4b1124bcd08c4",
     "files": [
-      "gc-mark-instrumentation/logs/module-interface/comparison.json",
-      "gc-mark-instrumentation/logs/module-interface/original-interface.json",
-      "gc-mark-instrumentation/logs/module-interface/instrumented-interface.json",
-      "gc-mark-instrumentation/logs/rebuilt-module.sha256"
+      "gc-mark-instrumentation/rebuilt-module/libecl.so",
+      "mark-stack-replay/frozen/.cache/runtime-build/artifact/runtime/libecl.so"
     ]
   }
 ]
