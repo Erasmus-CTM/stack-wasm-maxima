@@ -1,5 +1,11 @@
 name: Inspect pinned CI artifacts for independent review
 on:
+  push:
+    branches:
+      - 'audit/2026-10-artifact-inspection'
+    paths:
+      - '.github/workflows/artifact-audit.yml'
+      - 'runtime/audit/**'
   pull_request:
     paths:
       - '.github/workflows/artifact-audit.yml'
