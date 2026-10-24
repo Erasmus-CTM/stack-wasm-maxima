@@ -1,38 +1,16 @@
 [
   {
-    "id": 12554487533,
-    "name": "runtime-compression-6aa04cbf9c1db2659f530a05fac0ee24e796843b",
-    "run": 40072423683,
-    "head": "f50014dfe874c898d1803f0c1c5a480d3ba4d925",
-    "workflow": 393488033,
-    "attempt": 2,
+    "id": 12553814195,
+    "name": "milestone-three-322eaef564b20f594bc69d5ea31cf50b92ce699b",
+    "run": 40079456121,
+    "head": "35a668be94898c300392863e4e98cb895a104b1e",
+    "workflow": 393039684,
+    "attempt": 1,
     "status": "completed",
     "conclusion": "success",
-    "sha256": "485386d91c8c7ac82fa0d590d906e3f96b1cd28de1cccf121b2c5ccdad678e4e",
-    "verifySidecars": true,
+    "sha256": "d4bd87ce2581ea3261a38e07beb290d03996242d90a7802b077854cdf9d89d95",
     "files": [
-      ".cache/runtime-compression/artifact/artifact-manifest.json",
-      ".cache/runtime-compression/artifact/compression-artifact-manifest.json",
-      ".cache/runtime-compression/artifact/compression-manifest.json",
-      ".cache/runtime-compression/artifact/compression-recipe.json",
-      ".cache/runtime-compression/artifact/manifest.json",
-      ".cache/runtime-compression/node-provenance.json",
-      ".cache/runtime-compression/source-run.json",
-      "test-results/runtime-compression/acceptance.json",
-      "test-results/runtime-compression/br/browser.json",
-      "test-results/runtime-compression/br/reference/native-reference.json",
-      "test-results/runtime-compression/gzip/browser.json",
-      "test-results/runtime-compression/gzip/reference/native-reference.json",
-      "test-results/runtime-compression/http-probe.json",
-      "test-results/runtime-compression/br/reference/native.log",
-      "test-results/runtime-compression/br/reference/reference.mac",
-      "test-results/runtime-compression/gzip/reference/native.log",
-      "test-results/runtime-compression/gzip/reference/reference.mac",
-      ".cache/runtime-compression/artifact/source-manifest.json",
-      ".cache/runtime-compression/artifact/owned-build-run.json",
-      ".cache/runtime-compression/artifact/COMPRESSION-NOTICES.md",
-      ".cache/runtime-compression/artifact/compression-sizes.md",
-      ".cache/runtime-compression/artifact/NODE-TOOL-LICENSE"
+      "native-probe/browser.json"
     ]
   }
 ]
