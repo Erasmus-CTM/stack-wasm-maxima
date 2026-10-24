@@ -13,10 +13,12 @@ on:
     paths:
       - '.gitattributes'
       - 'runtime/build/**'
+      - 'runtime/diagnostics/gc-root-regression.*'
+      - '.github/workflows/precompiled-fixtures.yml'
       - '.github/workflows/runtime-build.yml'
+      - '.github/workflows/runtime-release.yml'
       - 'scripts/milestone-two/prepare-runtime.py'
-      - 'scripts/milestone-one/run.mjs'
-      - 'scripts/milestone-one/compare.py'
+      - 'scripts/milestone-one/**'
       - 'scripts/milestone-three/build-site.mjs'
       - 'prototype/runtime/maxima-session.js'
       - 'prototype/runtime/maxima-child.js'
@@ -27,8 +29,10 @@ permissions:
   contents: read
   actions: read
 concurrency:
-  group: scoped-ecl-compiler-${{ inputs.profiles && 'release-' || '' }}${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ !inputs.profiles }}
+  # Preserve each complete profile comparison. Distinct heads may run in parallel,
+  # spending additional builds instead of cancelling earlier acceptance evidence.
+  group: scoped-ecl-compiler-${{ inputs.profiles && 'release-' || '' }}${{ github.event.pull_request.number || github.ref }}-${{ github.event.pull_request.head.sha || github.sha }}
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -55,6 +59,7 @@ jobs:
           persist-credentials: false
       - name: Check owned-runtime manifest integrity
         run: |
+          node scripts/milestone-one/test-fatal-reporting.mjs
           node runtime/build/test-runtime-source.mjs
           python runtime/build/test-substitution.py
           python runtime/build/test-toolchain.py
@@ -62,6 +67,7 @@ jobs:
           python runtime/build/test-compiler-evidence.py
           python runtime/build/test-timing-evidence.py
           python runtime/build/test-source-checkout.py
+          python runtime/build/test-source-overlay.py
       - name: Record read-only upstream drift
         run: python runtime/build/check-upstream.py
       - name: Fetch exact source commits and verify their archive hashes
@@ -271,7 +277,7 @@ jobs:
     # Only when all three profiles were built (not for a single-profile release).
     if: ${{ !inputs.profiles }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 180
+    timeout-minutes: 240
     needs: build
     steps:
       - uses: actions/checkout@v4
@@ -323,8 +329,8 @@ jobs:
           CTM_TIMING_PROFILES: baseline,ecl-oz
         run: node runtime/build/measure-compiler-trials.mjs
       # Plan D8: until a reference student laptop is named, the reference is this
-      # runner with the browser limited to a quarter of one CPU (about 4x slower
-      # for Maxima's single-threaded startup).
+      # runner with Node/server/browser processes limited together to a quarter
+      # of one CPU. The quota caps aggregate CPU; the observed times are measured below.
       - name: Repeat under a CPU limit standing in for the reference laptop
         env:
           CTM_TIMING_REPETITIONS: '10'

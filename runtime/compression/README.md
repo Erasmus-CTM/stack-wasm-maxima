@@ -32,13 +32,15 @@ Pages does not deploy these sidecars or this per-file policy. Pages may apply
 its own automatic gzip independently; `runtime/build/measure-pages.mjs` records
 the public preview's actual headers and encoded body counts separately.
 
-The workflow takes an explicit successful owned-build run ID, or prefers a
-successful owned-build PR run from the current branch. It selects the uniquely
+The workflow takes an explicit successful owned-build run ID, or selects a
+successful owned-build run of the exact current head and branch. Both selection
+paths enforce that same requirement, including repository and run-attempt checks.
+It selects the uniquely
 named primary cold-build artifact, leaving the second cold rebuild distinct.
 It never substitutes deployed bytes when
 that artifact is unavailable. Preserved owned-build recipe files must match the
-current relevant tracked build inputs byte for byte, so an older artifact is
-accepted only when its exact source pins and recipe still match. The selected
+current relevant tracked build inputs byte for byte; an older-head artifact is
+rejected even if its source pins and recipe bytes still match. The selected
 run's API head SHA and actual recipe revision remain separate: the latter must
 equal the head or directly merge it, as verified through the commit API.
 

@@ -25,10 +25,23 @@ class Substitution(unittest.TestCase):
             profiles=json.loads((ROOT / 'runtime/build/compiler-profiles.json').read_text())['profiles']
             compiler = profiles[os.environ.get('CTM_ECL_COMPILER_PROFILE','baseline')]
             manifest = {'schema': 1,'compilerProfile':compiler, 'sourcePins': json.loads((ROOT / 'runtime/build/pins.json').read_text()), 'runtimeAssets': [record], 'configuration':config, 'startupAdapter':{'content':(ROOT / 'runtime/build/no-plot.mac').read_text().strip()+'\n','sha256':config['startupSha256']}}
+            manifest['sourceIntegrity'] = {'schema':1,'allVerifiedFilesUnmodified':False,
+                'overlays':[json.loads((ROOT / 'runtime/build/patches/ecl-root-scanner.json').read_bytes())],
+                'originalArchives':[{'path':'sources/'+p['name']+'.tar','sha256':p['archive']['sha256']}
+                                    for p in manifest['sourcePins']['sources'] if p['name'] in ('maxima','ecl')],
+                'beforeSha256':'0'*64,'hostSourceSha256':'1'*64,'afterSha256':'2'*64,'applicationSha256':'3'*64}
             def check(value):
                 (root / 'manifest.json').write_text(json.dumps(value))
                 return module.owned_runtime_source(root, {module.BASE + 'asset.wasm'})
             self.assertEqual(check(manifest)['records']['asset.wasm'], record)
+            old_pins={k:v for k,v in manifest['sourcePins'].items() if k!='buildPatches'}
+            old_config={k:v for k,v in config.items() if k!='targetSourceOverlaySha256'}
+            with self.assertRaises(ValueError):
+                check({**manifest,'sourcePins':old_pins,'configuration':old_config,'sourceIntegrity':None})
+            with self.assertRaises(AssertionError):
+                check({**manifest,'sourceIntegrity':None})
+            with self.assertRaises(AssertionError):
+                check({**manifest,'sourceIntegrity':{**manifest['sourceIntegrity'],'allVerifiedFilesUnmodified':True}})
             alternate=next(profile for profile in profiles.values() if profile['name']!=compiler['name'])
             optimized={**manifest,'compilerProfile':alternate}
             with self.assertRaises(ValueError):check(optimized)

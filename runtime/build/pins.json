@@ -121,5 +121,11 @@
       "bytes": 30425588,
       "sha256": "f4cb75bb036f0d0eddf6b79d9596df1aaab9ddccd6a20bf489be5abe9467e84e"
     }
+  ],
+  "buildPatches": [
+    {
+      "descriptor": "runtime/build/patches/ecl-root-scanner.json",
+      "sha256": "b1e3d49a9ff13b7a2a6d517ba585d08e4a6ea017f0c58ff00ffc5de5e8fa485d"
+    }
   ]
 }

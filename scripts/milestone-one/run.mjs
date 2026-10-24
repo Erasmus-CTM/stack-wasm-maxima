@@ -7,6 +7,7 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { chromium } from 'playwright';
 import { loadOwnedRuntime } from '../../runtime/build/runtime-source.mjs';
+import { requireCompiledEntryReads } from './result.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const out = join(root, 'test-results/milestone-one');
@@ -14,7 +15,11 @@ const cache = join(root, '.cache/maxima-runtime');
 await mkdir(out, { recursive: true });
 await mkdir(cache, { recursive: true });
 const lock = JSON.parse(await readFile(join(root, 'measurements/2026-10-21-runtime-assets.json')));
-const prepared = JSON.parse(await readFile(join(out, 'prepared.json')));
+const preparedBytes = await readFile(join(out, 'prepared.json'));
+const prepared = JSON.parse(preparedBytes);
+const compiledInputs = process.env.CTM_PRECOMPILED_PROBE_INDEX
+  ? await (await import('../../runtime/precompiled/probe-inputs.mjs')).compiledProbeInputs(
+      process.env.CTM_PRECOMPILED_PROBE_INDEX, preparedBytes) : null;
 const supplement = JSON.parse(await readFile(join(root, 'measurements/2026-10-21-runtime-dependencies.json')));
 const runtimeURLs = [...lock.groups.maximaCore, ...lock.groups.maximaOptionalModules, ...supplement.assets.map(asset => asset.url)];
 const allAssets = [...lock.assets, ...supplement.assets];
@@ -105,6 +110,7 @@ let browser;
 try {
   browser = await chromium.launch({ headless: true });
   for (const version of prepared.versions) {
+    const compiled = compiledInputs?.get(version.stackRevision);
     requestedPaths.clear(); errors.length = 0;
     const context = await browser.newContext();
     const page = await context.newPage();
@@ -115,7 +121,7 @@ try {
     try {
       await page.goto(address);
       result = await page.evaluate(({ files, batch }) => window.runMilestoneOne({ files, batch }),
-        { files: version.files, batch: (owned?.startup||'')+version.batch });
+        { files: compiled?.files || version.files, batch: (owned?.startup||'')+version.batch });
     } catch (error) { result = { ok: false, error: String(error.stack || error), stdout: '' }; }
     if (owned) result.runtimeBuild = owned.provenance;
     result.browser = browser.version();
@@ -123,7 +129,12 @@ try {
     result.sourceRevision = process.env.GITHUB_SHA || execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
     result.runtimeAdapters = ['regular-file FIONREAD', 'reuse MEMFS ENOENT error objects', 'separate interrupt control buffer', 'three injected mid-input interrupt checks'];
     result.scope = 'Direct official answer tests in a fresh worker per STACK revision; selected cases share the session';
-    result.files = version.files.map(({ content, ...record }) => record);
+    result.files = (compiled?.files || version.files).map(({ content, ...record }) => record);
+    if (compiled) {
+      result.compiledStack = compiled.compiledStack;
+      result.compiledManifestSha256 = compiled.manifestSha256;
+      requireCompiledEntryReads(result);
+    }
     result.servedAssets = [...served.values()].filter(asset => requestedPaths.has(asset.path));
     result.prefetchedAssets = [...served.values()].filter(asset => !requestedPaths.has(asset.path));
     result.serverErrors = [...errors];

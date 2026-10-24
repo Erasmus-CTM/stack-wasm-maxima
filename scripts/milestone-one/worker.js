@@ -3,6 +3,31 @@ importScripts('/maxima_thread.js');
 const upstreamStart = self.onmessage;
 const upstreamImportScripts = self.importScripts.bind(self);
 let currentBuffers;
+let fatalReported = false, stderrTail = '';
+function reportFatal(kind, error) {
+  if (fatalReported) return;
+  fatalReported = true;
+  const message = String(error?.stack || error?.message || error);
+  self.postMessage({ type: 'm1-error', error: message,
+    fatal: { kind, message, stderrTail } });
+}
+// A native abort can be caught by Maxima's JavaScript error handler, leaving
+// the worker alive but unable to finish. Preserve that cause before the batch
+// watchdog fires. Ordinary stderr, including unsupported-syscall warnings,
+// remains diagnostic output and does not itself fail the run.
+const upstreamPrintErr = Module.printErr;
+Module.printErr = function (...args) {
+  stderrTail = (stderrTail + args.map(String).join(' ') + '\n').slice(-8192);
+  if (typeof upstreamPrintErr === 'function') return upstreamPrintErr.apply(this, args);
+  console.error(...args);
+};
+const upstreamAbort = Module.onAbort;
+Module.onAbort = function (reason) {
+  reportFatal('runtime-abort', reason);
+  if (typeof upstreamAbort === 'function') return upstreamAbort.apply(this, arguments);
+};
+self.addEventListener('error', event => reportFatal('worker-error', event.error || event.message));
+self.addEventListener('unhandledrejection', event => reportFatal('unhandled-rejection', event.reason));
 function installBatchTransport(buffers) {
   const mutex = new Int32Array(buffers[0]);
   const input = new Uint32Array(buffers[1]);
@@ -56,19 +81,25 @@ self.onmessage = event => {
       return originalIoctl.call(this, stream, operation, argument);
     };
     self.postMessage({ type: 'm1-adapter', name: 'regular-file FIONREAD', operation: 21531 });
-    const originalOpen = FS.open;
-    FS.open = function (path, ...args) {
-      if (typeof path === 'string' && path.startsWith('/ctm/')) self.postMessage({ type: 'm1-fs-open', path });
-      return originalOpen.call(this, path, ...args);
-    };
     for (const directory of ['/ctm', '/ctm/tmp', '/ctm/plots', '/ctm/obj',
       '/ctm/moodle-qtype_stack-master/tmp']) FS.mkdirTree(directory);
     for (const file of files) {
       const path = '/ctm/moodle-qtype_stack-master/' + file.path;
       FS.mkdirTree(path.slice(0, path.lastIndexOf('/')));
-      FS.writeFile(path, new TextEncoder().encode(file.content));
+      if (file.encoding && file.encoding !== 'base64') throw new Error('Unknown trusted fixture file encoding');
+      FS.writeFile(path, file.encoding === 'base64'
+        ? Uint8Array.from(atob(file.content), character => character.charCodeAt(0))
+        : new TextEncoder().encode(file.content));
     }
+    // Mounting writes are not evidence that Maxima read a library entry.
+    const originalOpen = FS.open;
+    FS.open = function (path, ...args) {
+      const stream=originalOpen.call(this,path,...args);
+      const resolved=typeof stream.path==='string'?stream.path:FS.getPath(stream.node);
+      if(resolved.startsWith('/ctm/'))self.postMessage({type:'m1-fs-open',path:resolved,read:(stream.flags&3)!==1});
+      return stream;
+    };
   });
   try { upstreamStart({ data: buffers }); }
-  catch (error) { self.postMessage({ type: 'm1-error', error: String(error.stack || error) }); }
+  catch (error) { reportFatal('worker-start', error); }
 };

@@ -39,6 +39,10 @@ const bindingURL = 'data:text/javascript;base64,' + Buffer.from(bindingSource).t
 const programs = [], messages = [];
 const report = {...data, sourceRevision:sourceSha, createdAt:new Date().toISOString(), programs,
   buildSourceFiles:[], preparation:{backend:'maxima-native',worker:'native/backend-worker.js',actualWasm:true},questions:[]};
+const stackManifestBytes=await readFile(join(site,'stack-sources.json'));
+const stackManifest=JSON.parse(stackManifestBytes);
+report.preparation.stackManifestSha256=hash(stackManifestBytes);
+if(stackManifest.compiledStack)report.preparation.compiledStack=stackManifest.compiledStack;
 for(const path of ['scripts/milestone-three/compile.py','scripts/milestone-three/build-site.mjs','scripts/milestone-three/render-cards.py',
   'scripts/milestone-three/package-boards.mjs',
   'scripts/milestone-three/stage-board-mathjax.py',

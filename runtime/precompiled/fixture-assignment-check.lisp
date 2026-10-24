@@ -1,0 +1,32 @@
+; SPDX-License-Identifier: AGPL-3.0-or-later
+(in-package :maxima)
+(handler-case
+    (progn
+      (load (ext:getenv "CTM_FIXTURE_BRIDGE_FILE"))
+      (if (equal (ext:getenv "CTM_FIXTURE_MODE") "source")
+          (mfuncall '$batchload (ext:getenv "CTM_FIXTURE_SOURCE"))
+          (load (ext:getenv "CTM_FIXTURE_LISP")))
+      (dolist (value (list nil t '$emaxima '$imaxima))
+        (let ((before $display2d))
+          (unless (eq (mfuncall '$ctm_fixture_assignment value) value)
+            (error "Assignment hook returned the wrong local value"))
+          (unless (eq $display2d before) (error "Local binding was not restored"))))
+      (format t "~&CTM-ASSIGNMENT-VALID-OK|4~%")
+      (let ((before $display2d))
+        ; Maxima's own errcatch suppresses --quit-on-error for this deliberate
+        ; rejection. A Lisp catch alone does not provide that Maxima context.
+        (let ((outcome (meval '(($errcatch) (($ctm_fixture_assignment) 123456)))))
+          (unless (and (consp outcome) (consp (car outcome))
+                       (eq (caar outcome) 'mlist) (null (cdr outcome)))
+            (error "Invalid display2d value was not caught and rejected")))
+        (unless (eq $display2d before) (error "Error path changed display2d")))
+      (unless (= (mfuncall '$eval_string "6*7") 42)
+        (error "Assignment error recovery failed"))
+      (format t "~&CTM-ASSIGNMENT-BEHAVIOR-OK|valid=4|invalid=rejected|restoration=true~%")
+      (finish-output)
+      (bye 0))
+  (error (condition)
+    (let ((*print-readably* nil))
+      (format *error-output* "~&CTM-ASSIGNMENT-BEHAVIOR-FAILED|~A~%" condition)
+      (finish-output *error-output*))
+    (bye 1)))

@@ -29,6 +29,10 @@ def main():
         artifact_path = ROOT / '.cache/runtime-build/artifact/manifest.json'
         artifact = read(artifact_path)
         assert artifact['sourcePins'] == pins
+        from recipe_inputs import committed_recipe
+        revision, recipe_rows = committed_recipe(ROOT)
+        assert artifact['recipe'] == {'repository':'https://github.com/Erasmus-CTM/stack-wasm-maxima',
+                                      'revision':revision,'files':recipe_rows}
         artifact_sha = digest(artifact_path)
         delivery = read(artifact_path.parent / 'artifact-manifest.json')['files']
         delivered_paths = {row['path'] for row in delivery}
@@ -48,10 +52,12 @@ def main():
         assert artifact['compilerProfile']==profile
         assert artifact['configuration'] == config
         assert artifact['startupAdapter'] == {'content':startup(config),'sha256':config['startupSha256']}
-        assert all(row['name'] != 'gnuplot' for row in pins['sources']) and not pins.get('buildPatches')
+        assert all(row['name'] != 'gnuplot' for row in pins['sources'])
+        from source_overlay import verify_packaged
+        source_integrity = verify_packaged(artifact_path.parent, ROOT)
         assert artifact['upstreamRecipe']['verifiedFilesUnmodified'] and artifact['upstreamRecipe']['patches'] == []
-        assert artifact['upstreamRecipe']['beforeSha256'] == digest(artifact_path.parent / 'logs/source-state-before.json')
-        assert artifact['upstreamRecipe']['afterSha256'] == digest(artifact_path.parent / 'logs/source-state-after.json')
+        assert artifact['upstreamRecipe']['scope'].startswith('Only the three pinned Maxima build inputs:')
+        assert artifact['sourceIntegrity']['allVerifiedFilesUnmodified'] is False
         assert {row['path'] for row in artifact['upstreamRecipe']['verifiedInputs']} == {'wasm/Makefile','wasm/build.lisp','src/maxima.asd'}
         for row in artifact['upstreamRecipe']['verifiedInputs']:
             assert row['sha256'] == digest(artifact_path.parent / 'build-recipes/maxima' / row['path'])
@@ -166,6 +172,7 @@ def main():
         report['timingSamples'] = [{k: row[k] for k in ('candidate','repetition','mode','readyMs','calls','nativeCalls','encodedBodyBytes')} for row in timings['samples']]
         report['timingReportSha256'] = digest(OUT / 'timings.json')
         report['compilerProfile'] = profile
+        report['sourceIntegrity'] = source_integrity
         report['compilerEvidenceSha256'] = digest(artifact_path.parent / 'logs/compiler-experiment.json')
         report['configuration'] = config
         report['publicPagesEncodings'] = pages['assets']

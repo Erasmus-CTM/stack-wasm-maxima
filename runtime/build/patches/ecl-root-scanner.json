@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "id": "ecl-eager-owned-root-ranges",
+  "source": "ecl",
+  "revision": "e4bdb2e5b1e444e1773032a53650773848f4d6cd",
+  "path": "src/c/alloc_2.d",
+  "target": "wasm32-unknown-emscripten",
+  "applyAfter": "verified-original-native-ecl32",
+  "original": {
+    "gitBlob": "57f945305a16e2bd6a932d49bfa928c11ae091ff",
+    "bytes": 38136,
+    "sha256": "d7492e257e5dc9a143bb86461686b6f3e030b1d741c93c31ab645a9f74d2f5d7"
+  },
+  "derived": {
+    "bytes": 38245,
+    "sha256": "daec4a8a78be8a67114bb14f6ea13bacff5c78977b8ed652924c3a5df18ec585"
+  },
+  "patch": {
+    "path": "runtime/build/patches/ecl-root-scanner.patch",
+    "bytes": 2040,
+    "sha256": "cf1b01e1a67be3a6af8159c8f9b26f0e2741b1e0d0ee04c8b16cf45122e75dab"
+  },
+  "licence": "LGPL-2.1-or-later; original ECL file notices and LICENSE retained",
+  "scope": "Eight calls in ecl_mark_env and stacks_scanner only; range bounds, null guards, locked-cblock mark bit and previous-root-callback chain preserved."
+}
