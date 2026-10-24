@@ -185,7 +185,7 @@
         ',assume_pos:' + (positive ? 'true' : 'false') + ',assume_real:' + (real ? 'true' : 'false') +
         ',%ERR:["stack_map"],%NOTES:["stack_map"],%FEEDBACK:["stack_map"],%stmt:"ctm-at"' +
         ',_ctm_r,_ctm_v],_ctm_r:errcatch(AT' + request.test + '(' + args.join(',') + ')),' +
-        'if _ctm_r=[] then m2_emit(sconcat("CTMMAXIMA|' + id + '|",stackjson_stringify([false,"CAS evaluation failed"]))) ' +
+        'if _ctm_r=[] then m2_emit(sconcat("CTMMAXIMA|' + id + '|",stackjson_stringify([false,sconcat("CAS evaluation failed: ",errormsgtostring())]))) ' +
         'else (_ctm_v:first(_ctm_r),if not listp(_ctm_v) or length(_ctm_v)<4 then ' +
         'm2_emit(sconcat("CTMMAXIMA|' + id + '|",stackjson_stringify([false,"Malformed native answer-test result"]))) ' +
         'else if length(%ERR)>1 then ' +

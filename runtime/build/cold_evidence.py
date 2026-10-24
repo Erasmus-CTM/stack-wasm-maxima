@@ -37,6 +37,9 @@ def validate_build(root, label, expected):
         from compiler_evidence import verify_packaged
         assert manifest['compilerProfile']==expected['compilerProfile']
         verify_packaged(artifact,expected['compilerProfile'])
+        from source_overlay import verify_packaged as verify_overlay
+        from pathlib import Path
+        integrity = verify_overlay(artifact, Path(__file__).resolve().parents[2])
     assert manifest['configuration'] == expected['configuration'], 'Stale build configuration'
     assert manifest['startupAdapter'] == expected['startupAdapter'], 'Changed startup adapter'
     assert manifest['recipe'] == expected['recipe'], 'Stale or incomplete current recipe'
@@ -46,7 +49,7 @@ def validate_build(root, label, expected):
         preserved = (artifact / 'recipe' / row['path']).read_bytes()
         assert len(preserved) == row['bytes'] and digest(preserved) == row['sha256']
     source = read_json(artifact / 'source-manifest.json')
-    for key in ['sourcePins','recipe','configuration','startupAdapter','upstreamRecipe','toolchain']:
+    for key in ['sourcePins','recipe','configuration','startupAdapter','upstreamRecipe','toolchain'] + (['sourceIntegrity'] if 'compilerProfile' in expected else []):
         assert source[key] == manifest[key], 'Source-manifest identity differs: ' + key
     if 'compilerProfile' in expected:
         assert source['compilerProfile']==manifest['compilerProfile']
@@ -75,6 +78,8 @@ def validate_build(root, label, expected):
     acceptance = read_json(root / '.cache/runtime-build/validation/acceptance.json')
     assert acceptance['passed'] is True and acceptance['artifactManifestSha256'] == digest(body)
     assert acceptance['configuration'] == expected['configuration'] and acceptance['environment'] == environment
+    if 'compilerProfile' in expected:
+        assert acceptance['sourceIntegrity'] == integrity
     return {'name':label,'recipe':manifest['recipe'],'pins':manifest['sourcePins'],
             'configuration':manifest['configuration'],'assets':assets,'environment':environment,'manifestSha256':digest(body),'compilerProfile':manifest.get('compilerProfile')}
 

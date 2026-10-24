@@ -1,4 +1,11 @@
-This draft compiler experiment is described in [COMPILER-EXPERIMENTS.md](COMPILER-EXPERIMENTS.md).
+The current draft also carries the exact target-only ECL root-scanner overlay
+described in [ECL-ROOT-OVERLAY.md](ECL-ROOT-OVERLAY.md). It changes one ECL source
+file after the original native ECL32 host is installed. Original archives and
+the three Maxima build inputs remain unchanged; sourceIntegrity declares the
+derived target source explicitly. This draft has no fresh full-build parity
+acceptance and does not establish the original crash's caller or any speedup.
+
+The compiler experiment is described in [COMPILER-EXPERIMENTS.md](COMPILER-EXPERIMENTS.md).
 Its scoped ECL flags are experimental; the preceding no-gnuplot report below
 describes the parent configuration. No optimized runtime has been accepted.
 

@@ -76,20 +76,61 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: owned-runtime-${{ needs.check.outputs.profile }}-${{ github.sha }}
+          name: ${{ needs.check.outputs.profile == 'baseline' && format('owned-runtime-{0}', github.sha) || format('owned-runtime-{0}-{1}', needs.check.outputs.profile, github.sha) }}
           path: accepted
       - name: Require the accepted artifact of this profile and commit
         run: |
           python3 - <<'EOF'
-          import json, os
+          import hashlib, json, os, sys
           from pathlib import Path
+          repository = Path.cwd()
+          sys.path.insert(0, str(repository / 'runtime/build'))
+          from recipe_inputs import committed_recipe
+          from source_overlay import verify_packaged as verify_source
+          from compiler_evidence import verify_packaged as verify_compiler
           root = Path('accepted/.cache/runtime-build')
           acceptance = json.loads((root / 'validation/acceptance.json').read_text())
-          manifest = json.loads((root / 'artifact/manifest.json').read_text())
+          artifact = root / 'artifact'
+          manifest_bytes = (artifact / 'manifest.json').read_bytes()
+          manifest = json.loads(manifest_bytes)
           profiles = json.loads(Path('runtime/build/compiler-profiles.json').read_text())
           expected = profiles['profiles'][os.environ['PROFILE']]
           assert acceptance['passed'] is True, acceptance.get('failure')
           assert acceptance['compilerProfile'] == expected == manifest['compilerProfile']
+          assert acceptance['artifactManifestSha256'] == hashlib.sha256(manifest_bytes).hexdigest()
+          revision, recipe = committed_recipe(repository)
+          assert revision == os.environ['GITHUB_SHA'] == manifest['recipe']['revision']
+          assert manifest['recipe']['files'] == recipe
+          assert manifest['sourcePins'] == json.loads(Path('runtime/build/pins.json').read_text())
+          assert acceptance['configuration'] == manifest['configuration'] == json.loads(Path('runtime/build/configuration.json').read_text())
+          source_manifest = json.loads((artifact / 'source-manifest.json').read_text())
+          assert source_manifest == {key: manifest[key] for key in (
+              'schema', 'compilerProfile', 'sourcePins', 'recipe', 'toolchain', 'upstreamRecipe',
+              'sourceIntegrity', 'configuration', 'startupAdapter')}
+          delivery = json.loads((artifact / 'artifact-manifest.json').read_text())['files']
+          assert not any(p.is_symlink() for p in artifact.rglob('*'))
+          paths = {row['path'] for row in delivery}
+          assert len(paths) == len(delivery)
+          assert paths == {p.relative_to(artifact).as_posix() for p in artifact.rglob('*') if p.is_file() and p != artifact / 'artifact-manifest.json'}
+          for row in delivery:
+              path = artifact / row['path']
+              assert path.resolve().is_relative_to(artifact.resolve()) and not path.is_symlink()
+              body = path.read_bytes()
+              assert len(body) == row['bytes'] and hashlib.sha256(body).hexdigest() == row['sha256'], row['path']
+          for prefix, records in [('runtime', manifest['runtimeAssets']), ('recipe', recipe)]:
+              expected_paths = {row['path'] for row in records}
+              assert len(expected_paths) == len(records)
+              assert expected_paths == {p.relative_to(artifact / prefix).as_posix() for p in (artifact / prefix).rglob('*') if p.is_file()}
+              for row in records:
+                  body = (artifact / prefix / row['path']).read_bytes()
+                  assert len(body) == row['bytes'] and hashlib.sha256(body).hexdigest() == row['sha256'], row['path']
+          assert acceptance['sourceIntegrity'] == verify_source(artifact, repository)
+          verify_compiler(artifact, expected)
+          assert acceptance['compilerEvidenceSha256'] == hashlib.sha256((artifact / 'logs/compiler-experiment.json').read_bytes()).hexdigest()
+          # The two archive member lists below must cover the complete artifact.
+          assert {Path(path).parts[0] for path in paths} == {
+              'runtime', 'manifest.json', 'BUILD-NOTICES.md', 'SITE-NOTICES-context.md', 'LICENSES', 'sizes.md',
+              'sources', 'recipe', 'build-recipes', 'source-overlays', 'source-manifest.json', 'logs'}
           print('accepted', os.environ['PROFILE'], len(manifest['runtimeAssets']), 'runtime assets')
           EOF
       - name: Package the runtime and the source offer
@@ -101,10 +142,10 @@ jobs:
           tar -C accepted/.cache/runtime-build/artifact --sort=name --owner=0 --group=0 --numeric-owner \
             --mtime='2000-01-01 00:00Z' -czf "release/$base.tar.gz" \
             runtime manifest.json artifact-manifest.json BUILD-NOTICES.md SITE-NOTICES-context.md LICENSES sizes.md
-          # The exact source archives and build recipe (GPL source offer).
+          # Original archives, declared derived source and complete build provenance.
           tar -C accepted/.cache/runtime-build/artifact --sort=name --owner=0 --group=0 --numeric-owner \
             --mtime='2000-01-01 00:00Z' -czf "release/$base-sources.tar.gz" \
-            sources recipe build-recipes source-manifest.json
+            sources recipe build-recipes source-overlays source-manifest.json logs
           cp accepted/.cache/runtime-build/validation/acceptance.json "release/$base-acceptance.json"
           python3 - <<'EOF'
           import hashlib, json, os
@@ -131,7 +172,7 @@ jobs:
           Owned Maxima/ECL Wasm runtime, compiler profile \`$PROFILE\`, built in [this run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID) from the exact sources pinned at $GITHUB_SHA, with every acceptance gate of \`runtime-build.yml\`.
 
           - \`maxima-$TAG.tar.gz\`: the runtime files, manifest, notices and licence texts.
-          - \`maxima-$TAG-sources.tar.gz\`: the exact source archives and build recipe (source offer).
+          - \`maxima-$TAG-sources.tar.gz\`: the original source archives, declared source overlays, build recipe and provenance logs (source offer).
           - \`maxima-$TAG.json\` and \`SHA256SUMS\`: hashes; sites pin the JSON's SHA-256.
           - \`maxima-$TAG-acceptance.json\`: the acceptance report.
           EOF
