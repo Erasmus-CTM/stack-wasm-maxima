@@ -11,14 +11,10 @@
     "status": "completed",
     "conclusion": "success",
     "files": [
-      "report.json",
-      "admission.json",
-      "identity.json",
-      "source-api-provenance.json",
-      "tool-sources.json",
-      "runner-hardware.json",
-      "node-version.txt",
-      "playwright-version.txt"
+      "staged/baseline/startup-observer-derivation.json",
+      "staged/ecl-oz/startup-observer-derivation.json",
+      "trials/01-baseline-source-instrumented/sample.json",
+      "trials/02-baseline-precompiled-instrumented/sample.json"
     ]
   }
 ]
