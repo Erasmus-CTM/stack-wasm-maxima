@@ -10,27 +10,99 @@
     "status": "completed",
     "conclusion": "failure",
     "files": [
-      ".cache/native-build/boards.json",
-      ".cache/native-build/boards/_extensions/jsxgraph/_extension.yml",
-      ".cache/native-build/boards/_extensions/jsxgraph/graph-editor.js",
-      ".cache/native-build/boards/_extensions/jsxgraph/lua/jsxgraph.lua",
-      ".cache/native-build/boards/_extensions/jsxgraph/resources/css/jsxgraph.css",
-      ".cache/native-build/boards/_extensions/jsxgraph/resources/js/jsxgraphcore.js",
-      ".cache/native-build/boards/boards.html",
-      ".cache/native-build/boards/boards.qmd",
-      "test-results/board-mathjax-chromium.json",
-      "test-results/board-mathjax-firefox.json",
-      "test-results/board-mathjax-static-chromium.json",
-      "test-results/board-mathjax-static-firefox.json",
-      "test-results/board-mathjax-static-webkit.json",
-      "test-results/board-mathjax-webkit.json",
-      "test-results/milestone-three/board-functional-chromium-1280.json",
-      "test-results/milestone-three/board-functional-chromium-390.json",
-      "test-results/milestone-three/board-functional-firefox-1280.json",
-      "test-results/milestone-three/board-functional-firefox-390.json",
-      "test-results/milestone-three/board-functional-webkit-1280.json",
-      "test-results/milestone-three/board-functional-webkit-390.json",
-      "test-results/milestone-three/board-transfer-chromium.json"
+      ".cache/runtime-build/artifact/logs/environment.json",
+      ".cache/runtime-build/artifact/logs/compiler-experiment.json",
+      ".cache/runtime-build/artifact/logs/ecl-config.log",
+      ".cache/runtime-build/artifact/logs/target-info.lsp",
+      ".cache/runtime-build/artifact/logs/ecl-cross-build.log",
+      ".cache/runtime-build/artifact/logs/source-state-before.json",
+      ".cache/runtime-build/artifact/logs/source-state-after.json",
+      ".cache/runtime-build/artifact/logs/host-ecl.sha256",
+      ".cache/runtime-build/artifact/build-recipes/maxima/wasm/Makefile",
+      ".cache/runtime-build/artifact/build-recipes/maxima/wasm/build.lisp",
+      ".cache/runtime-build/artifact/build-recipes/maxima/src/maxima.asd",
+      ".cache/runtime-build/source-progress.json",
+      ".cache/runtime-build/artifact/logs/source-state-host.json",
+      ".cache/runtime-build/artifact/logs/target-source-overlay.json",
+      ".cache/runtime-build/artifact/source-overlays/ecl/descriptor.json",
+      ".cache/runtime-build/artifact/source-overlays/ecl/root-scanner.patch",
+      ".cache/runtime-build/artifact/source-overlays/ecl/src/c/alloc_2.d",
+      ".cache/runtime-build/artifact/source-overlays/ecl/LICENSE",
+      ".cache/runtime-build/artifact/source-overlays/ecl/README.txt",
+      ".cache/runtime-build/artifact/LICENSES/upstream/ecl/LICENSE",
+      ".cache/runtime-build/artifact/BUILD-NOTICES.md",
+      ".cache/runtime-build/artifact/recipe/runtime/build/source_overlay.py",
+      ".cache/runtime-build/artifact/recipe/runtime/build/source_state.py",
+      ".cache/runtime-build/artifact/recipe/runtime/build/apply-target-overlay.py",
+      ".cache/runtime-build/artifact/recipe/runtime/build/verify-source-overlay.py",
+      ".cache/runtime-build/artifact/recipe/runtime/build/verify-source-state.py",
+      ".cache/runtime-build/artifact/recipe/runtime/build/build.sh",
+      ".cache/runtime-build/artifact/recipe/runtime/build/package.py",
+      ".cache/runtime-build/artifact/recipe/runtime/build/recipe_inputs.py",
+      ".cache/runtime-build/artifact/recipe/runtime/build/patches/ecl-root-scanner.json",
+      ".cache/runtime-build/artifact/recipe/runtime/build/patches/ecl-root-scanner.patch"
+    ],
+    "ranges": [
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 0,
+        "end": 4194304
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 4194304,
+        "end": 8388608
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 8388608,
+        "end": 12582912
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 12582912,
+        "end": 16777216
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 16777216,
+        "end": 20971520
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 20971520,
+        "end": 25165824
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 25165824,
+        "end": 29360128
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 29360128,
+        "end": 33554432
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 33554432,
+        "end": 37748736
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 37748736,
+        "end": 41943040
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 41943040,
+        "end": 46137344
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 46137344,
+        "end": 49372381
+      }
     ]
   }
 ]
