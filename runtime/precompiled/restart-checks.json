@@ -13,6 +13,16 @@
   },
   "checks": [
     {
+      "name": "first-call-logical-validation",
+      "expression": "block([simp:false,assume_pos:false,assume_real:false,%ERR:[\"stack_map\"],%NOTES:[\"stack_map\"],%FEEDBACK:[\"stack_map\"],%stmt:\"ctm-native\",_ctm_s,_ctm_t,_ctm_v,_ctm_lines:[],_ctm_stream,_ctm_line,_ctm_good,_ctm_path:sconcat(maxima_tempdir,\"/ctm-restart-logical-validation.txt\")],_ctm_t:eval_string(\"(x<0) nounor ((x>0) nounand (x<2))\"),_ctm_s:eval_string(\"(x#0) nounand (x<2)\"),with_stdout(_ctm_path,_ctm_v:stack_validate([_ctm_s],false,_ctm_t,0)),_ctm_stream:openr(_ctm_path),_ctm_line:readline(_ctm_stream),while not is(_ctm_line=false) do (if slength(_ctm_line)>0 then _ctm_lines:endcons(_ctm_line,_ctm_lines),_ctm_line:readline(_ctm_stream)),close(_ctm_stream),if length(%ERR)>1 then _ctm_lines:endcons(\"Native STACK could not evaluate this expression\",_ctm_lines),_ctm_good:is(_ctm_lines=[] and length(%ERR)=1),[_ctm_good,_ctm_lines,length(%ERR),is(tr_warn_bad_function_calls=true)])",
+      "expected": [
+        true,
+        [],
+        1,
+        true
+      ]
+    },
+    {
       "name": "noun-isolation",
       "expression": "block([a,b,c],a:ATAlgEquiv(noundiff(y,x),0),b:ATAlgEquivNouns(noundiff(y,x),0),c:ATAlgEquiv(noundiff(y,x),0),[a[1],a[2],b[1],b[2],c[1],c[2],algebraic_equivalence_nounsp])",
       "expected": [
@@ -83,5 +93,5 @@
       "expected": "42"
     }
   ],
-  "basis": "Official fixtures provide the noun and plus/minus equivalence cases. Parser, policy and display controls are source-derived and cross-checked against fresh frozen observations; they are not additional official cases."
+  "basis": "Official fixtures provide the noun and plus/minus equivalence cases. The first-call compound logical-validation regression uses the native engine's stdout/error acceptance boundary and runs before warmups or grading in every fresh generation. Parser, policy, display and validation controls are source-derived; they are not additional official cases."
 }

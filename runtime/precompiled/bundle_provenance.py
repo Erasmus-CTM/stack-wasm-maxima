@@ -11,7 +11,7 @@ from parser_bootstrap import PINNED_SOURCES
 ENTRY = 'stack/maxima/stackmaxima.mac'
 PROCESS_ADAPTER = 'assignment-adapter.lisp'
 TRANSLATION_MODE = ('symbolic-assignment-hooks+packagefile+pinned-parser-declarations+'
-                    'targeted-texcolor-texcolorplain-apply-dispatch')
+                    'targeted-texcolor-texcolorplain-nounor-apply-dispatch')
 
 
 def record(body):

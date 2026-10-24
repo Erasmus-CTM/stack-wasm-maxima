@@ -13,9 +13,15 @@ new vm.Script(worker);
 assert.ok(restartChecks.checks.every(row=>!row.expression.includes('\\"')),'Maxima program data must contain plain quotes');
 assert.ok(restartChecks.checks.find(row=>row.name==='pm-structure').expression.includes('parse_string("x#pm#y")'));
 assert.deepEqual(restartChecks.checks.find(row=>row.name==='pm-display').expected,['{x '+String.fromCharCode(92)+'pm y}',' '+String.fromCharCode(92)+'pm y']);
+assert.equal(restartChecks.checks.length,10);
+assert.equal(restartChecks.checks[0].name,'first-call-logical-validation');
+assert.deepEqual(restartChecks.checks[0].expected,[true,[],1,true]);
+assert.ok(restartChecks.checks[0].expression.includes('with_stdout(_ctm_path,_ctm_v:stack_validate([_ctm_s],false,_ctm_t,0))'));
+assert.ok(restartChecks.checks[0].expression.includes('eval_string("(x#0) nounand (x<2)")'));
+assert.ok(restartChecks.checks[0].expression.includes('eval_string("(x<0) nounor ((x>0) nounand (x<2))")'));
 const digest=text=>createHash('sha256').update(text).digest('hex');
 async function execute(options={}){
-  const sessions=[],messages=[],writes=[];let clock=0;
+  const sessions=[],messages=[],writes=[],calls=[];let clock=0;
   const compiled=Boolean(options.compiled),asset={fileBytes:123,sha256:'a'.repeat(64)};
   const manifest={stackRevision:'fixture-pin',stackLibraryVersion:'fixture-version',runtimeBuild:{sourcePins:{sources:[{name:'maxima',version:'fixture-maxima'}]}},...(compiled?{compiledStack:{asset}}:{})};
   const expected={manifestSha256:digest(JSON.stringify(manifest)),stackRevision:manifest.stackRevision,stackLibraryVersion:manifest.stackLibraryVersion,maximaVersion:'fixture-maxima',compiledStack:manifest.compiledStack||null,bundleSha256:asset.sha256};
@@ -36,6 +42,7 @@ async function execute(options={}){
     }
     evaluate(expression){
       if(this.poisoned||!this.ready){if(options.oldAccepts)return 42;throw new Error('Maxima is not ready');}
+      calls.push({generation:this.index,kind:'evaluate',expression});
       if(expression.includes('stack_reset('))throw new Error('Raw reset must remain a distinct diagnostic');
       if(expression==='stackmaximaversion')return options.wrongVersion&&this.index===1?'wrong-version':manifest.stackLibraryVersion;
       if(expression==='6*7')return 42;
@@ -45,6 +52,13 @@ async function execute(options={}){
       if(expression.startsWith('block([%ERR:["stack_map"],%NOTES:')){
         const check=restartChecks.checks.find(row=>expression.includes('r:errcatch('+row.expression+')'));
         assert.ok(check,'Generated probe must preserve its exact Maxima quoting');
+        if(check.name==='first-call-logical-validation'){
+          this.logicalChecks=(this.logicalChecks||0)+1;
+          if(options.logicalWarningAt===this.index)return [true,[false,['Warning: nounor has a function or macro call which has not been translated properly.'],1,true]];
+          if(options.capturedOutputAt===this.index)return [true,[true,['unexpected captured output'],1,true]];
+          if(options.logicalErrorsAt===this.index)return [true,[true,[],2,true]];
+          if(options.warningsDisabledAt===this.index)return [true,[true,[],1,false]];
+        }
         if(options.semanticError&&this.index===1&&check.name==='pm-negative')return [false,'Fixture CAS error'];
         if(options.wrongDisplay&&this.index===1&&check.name==='pm-display')return [true,['wrong display','wrong display']];
         return [true,structuredClone(check.expected)];
@@ -62,6 +76,7 @@ async function execute(options={}){
       else throw new Error('Unexpected trusted command');
     }
     assess(request){
+      calls.push({generation:this.index,kind:'assess',request});
       if(options.failRegrade&&this.index===1)throw new Error('Fixture regrade failed');
       return {cas_valid:true,correct:options.badNegative&&this.index===1?true:request.teacher==='x^2+2*x+1'};
     }
@@ -71,7 +86,7 @@ async function execute(options={}){
   vm.runInNewContext(worker,{self,MaximaSession:Session,importScripts(){},performance:{now:()=>clock++},crypto:webcrypto,TextEncoder});
   await self.onmessage({data:{manifest:'fixture-manifest.json',expected}});
   const final=messages.filter(row=>row.type!=='progress');assert.equal(final.length,1);
-  return {result:final[0],sessions,messages,writes};
+  return {result:final[0],sessions,messages,writes,calls};
 }
 for(const compiled of [false,true]){
   const success=await execute({compiled});assert.equal(success.result.ok,true);assert.equal(success.result.phase,'complete');
@@ -80,7 +95,18 @@ for(const compiled of [false,true]){
   assert.equal(success.result.warmCalls.length,10);assert.equal(success.result.restarts.length,3);
   assert.ok(success.result.restarts.every(row=>row.childReplaced&&row.buffersReplaced.every(Boolean)&&row.namespaceCleared.every(Boolean)&&row.gc&&row.afterError===42));
   assert.ok(success.sessions.every(row=>row.terminated));assert.equal(success.writes.length,6);
-  assert.equal(success.result.checks.length,9);assert.ok(success.result.restarts.every(row=>row.checks.length===9));
+  assert.equal(success.result.checks.length,10);assert.ok(success.result.restarts.every(row=>row.checks.length===10));
+  for(let generation=0;generation<4;generation++){
+    const calls=success.calls.filter(row=>row.generation===generation);
+    const logical=calls.findIndex(row=>row.expression?.includes('r:errcatch('+restartChecks.checks[0].expression+')'));
+    assert.equal(success.sessions[generation].logicalChecks,1,'One first-call validation per fresh generation');
+    assert.ok(logical>=0);
+    assert.ok(calls.every((row,index)=>!(row.kind==='assess'||row.expression==='6*7'||
+      (row.expression?.startsWith('block([%ERR:')&&index!==logical))||index>logical),
+      'Logical validation must precede warmups, grading and the other semantic probes');
+    const result=generation===0?success.result:success.result.restarts[generation-1];
+    assert.deepEqual(result.checks.map(row=>row.name),restartChecks.checks.map(row=>row.name));
+  }
 }
 const failures=[
   [{reuseChild:true},/reused a worker/,'initialize-1'],
@@ -108,6 +134,20 @@ for(const [options,error,phase] of failures){
   assert.ok(failed.messages.some(row=>row.type==='progress'&&row.progress.phase===phase));
 }
 console.log('Generated full-session restart: 4 distinct heaps, source/compiled identity, namespace/policy checks, GC/error recovery and18 failure controls verified');
+
+for(const [options,generation] of [[{logicalWarningAt:0},0],[{logicalWarningAt:2},2],
+  [{capturedOutputAt:0},0],[{logicalErrorsAt:1},1],[{warningsDisabledAt:0},0]]){
+  const failed=await execute(options);assert.equal(failed.result.ok,false);
+  assert.match(failed.result.error,/Lifecycle value mismatch: first-call-logical-validation/);
+  assert.equal(failed.result.phase,'semantic-'+generation+':first-call-logical-validation');
+  const round=generation===0?failed.result:failed.result.restarts[generation-1];
+  assert.equal(round.checks.length,1,'A failed first-call check must stop later probes');
+  assert.equal(failed.sessions[generation].logicalChecks,1);
+  assert.ok(!failed.calls.some(row=>row.generation===generation&&(row.kind==='assess'||row.expression==='6*7')),
+    'Failure must precede warm arithmetic and grading in the affected generation');
+  assert.ok(failed.sessions.every(row=>row.terminated));
+}
+console.log('First-call logical validation runs once per generation; initial/restart warnings, captured output, STACK errors and disabled warnings all fail closed');
 
 const planStart=source.indexOf('const shortDiagnostic='),planEnd=source.indexOf('for(const path of files)',planStart);
 const planning=source.slice(planStart,planEnd)+';report.planned';

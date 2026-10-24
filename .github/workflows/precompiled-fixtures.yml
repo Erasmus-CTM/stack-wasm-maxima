@@ -52,6 +52,10 @@ jobs:
         env:
           CTM_PRECOMPILED_STACK_PIN: 10d323311b7f39fb7b092dd10ce75f7d8632f525
         run: bash runtime/precompiled/translate-and-cross-compile.sh --native-only "$PWD/.cache/precompiled-stack-10d3233/upstream-stack"
+      - name: Require fresh full-library native validation parity at both pins
+        run: |
+          python runtime/precompiled/full-entry-check.py --pin 33383047af39c204bf4442802a058f8b918b2b1b
+          python runtime/precompiled/full-entry-check.py --pin 10d323311b7f39fb7b092dd10ce75f7d8632f525
       - uses: actions/upload-artifact@v4
         if: always()
         with:

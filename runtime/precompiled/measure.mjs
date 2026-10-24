@@ -17,8 +17,9 @@ const restartChecksText=await readFile(new URL('./restart-checks.json',import.me
 const restartChecks=JSON.parse(restartChecksText);
 assert.equal(restartChecks.schema,1);
 assert.equal(restartChecks.kind,'full-session-restart');
-assert.equal(restartChecks.checks.length,9);
-assert.equal(new Set(restartChecks.checks.map(row=>row.name)).size,9);
+assert.equal(restartChecks.checks.length,10);
+assert.equal(new Set(restartChecks.checks.map(row=>row.name)).size,10);
+assert.equal(restartChecks.checks[0].name,'first-call-logical-validation');
 assert.ok(restartChecks.checks.every(row=>Object.hasOwn(row,'expected')));
 const report={schema:2,createdAt:new Date().toISOString(),sourceRevision:process.env.GITHUB_SHA||null,
   scope:'Opt-in local HTTP measurement with a fresh Chromium process/profile per candidate/repetition pair and one same-profile reload: four fresh profiles and eight cold/reload samples in the full matrix. Alternating order limits runner warming bias but does not remove it. Initial readiness includes Maxima and STACK; warm calls reuse that worker. Every trial then performs three full CAS session restarts in the same page/profile with warm caches, before the next same-profile page reload. Restart readiness is separate. lifecycleEncodedBodyBytes sums server-accounted response-body bytes across all four initializations and checks, not initial startup alone. The server records queued bodies before response finish; this total does not prove completed wire transfer or include internet traffic.',
@@ -86,10 +87,13 @@ const grade=(target,generation)=>{
 };
 try{
   session=newSession();await initialize(progress,0);
+  // First-call warnings are emitted once per CAS process. Validate the logical
+  // input before any warmup, grading or other semantic check can consume one.
+  semantics(progress,0);
   checkpoint('warm-calls');progress.warmCalls=[];
   for(let i=0;i<10;i++){const started=performance.now();progress.warmCalls.push({value:session.evaluate('6*7'),elapsedMs:performance.now()-started});}
   require(progress.warmCalls.every(row=>row.value===42),'Warm arithmetic failed');
-  grade(progress,0);semantics(progress,0);
+  grade(progress,0);
   for(let generation=1;generation<=3;generation++){
     const round={generation,kind:'full-session-restart'};progress.restarts.push(round);checkpoint('seed-old-state-'+generation);
     session.write('ctm_restart_sentinel:123456$\\nctm_restart_private(x):=x+1$\\ndeclare(ctm_restart_symbol,integer)$\\nassume(ctm_restart_symbol>0)$\\nalgebraic_equivalence_nounsp:false$\\n',60000);

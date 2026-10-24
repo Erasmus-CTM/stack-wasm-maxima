@@ -29,8 +29,12 @@ Every generation verifies its complete manifest hash, pinned Maxima/STACK versio
 and the actual compiled-entry hash/mount/read with zero source-entry reads. Restart
 checks prove old variable, private-function, property and assumption state is gone,
 that the terminated session rejects calls, and that the worker/buffers are distinct.
-Pinned library defaults and nine positive/negative noun, parser, ±, direct-call and
-display checks must succeed. Three full GC/error/arithmetic/regrading checks remain
+Pinned library defaults and ten semantic checks must succeed in all 32
+initializations (320 results). The first checks captured logical validation before
+warm calls, grading or other semantic work can consume a once-only warning. The
+previous nine noun, parser, ±, direct-call and display checks remain unchanged.
+These checks run after initialization and do not enter readiness timing.
+Three full GC/error/arithmetic/regrading checks remain
 mandatory. A bounded lifecycle watchdog retains partial progress. No library
 functions/defaults are restored, no builtin tables are resnapshotted, and no source
 fallback repairs a compiled session.
@@ -205,10 +209,10 @@ parity: the valid list `[2*x,2]` triggered an untranslated-function warning from
 a compiled `texcolor` call, contaminating the validator's captured output. Native
 replay confirmed the validation difference. This is independent of raw reset.
 
-The translation-process adapter now delegates calls to `texcolor` and
-`texcolorplain` to Maxima's standard `apply` translator, with the original
+The translation-process adapter now delegates calls to `texcolor`,
+`texcolorplain` and `nounor` to Maxima's standard `apply` translator, with the original
 operator quoted. Arguments still translate normally; ordinary function lookup
-and dynamic author aliases retain their runtime behavior. Both temporary
+and dynamic author aliases retain their runtime behavior. All three temporary
 translation properties are restored, including their original absence, after
 success or failure. No warning filtering or validation relaxation is used.
 Native fixtures must demonstrate the warning in a fresh control process and
@@ -218,3 +222,21 @@ hash-verified `stacktex.lisp`; full STACK rendering remains a browser gate.
 The exact adapter bytes are bound to each fresh bundle. These checks
 supplement the full controller, both-pin official-probe and lifecycle gates;
 they establish no precompiled speedup on their own.
+
+Fresh full-startup diagnostic run 40048884292 exposed a separate logical
+validation regression in the colour-fixed candidate. The student expression
+`(x#0) nounand (x<2)`, compared with
+`(x<0) nounor ((x>0) nounand (x<2))`, validates silently from source. The translated
+`stack_noteq_single_remove` called `nounor` through `mfunction-call`, printed an
+undefined-function warning and made the same validation invalid. Simple
+non-equality cases did not expose this branch. Direct removal and solver probes
+preserved their mathematical values but also printed the warning. The diagnostic
+used twelve fresh processes; its successful collection status did not mean parity.
+
+The scoped apply adapter covers this one additional constructor. Full native
+entry checks at both pins must compare fresh source/translated startup, direct
+calls and actual captured validation, and execute the exact new browser protocol
+expression. The browser matrix repeats the logical first-call check in every
+initialization. Warning history is never cleared and unrelated warnings remain
+enabled. These native checks supplement actual Wasm/FAS selection, full controller
+and official-probe parity; they do not establish whole-library raw reset or speedup.

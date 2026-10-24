@@ -2,29 +2,29 @@
 ; Translation-process adapter only. Pinned Maxima/STACK files are unchanged.
 (in-package :maxima)
 (load (merge-pathnames #P"display2d-bridge.lisp" *load-truename*))
-(defun ctm-color-translator-present-p (symbol)
+(defun ctm-stack-noun-translator-present-p (symbol)
   (loop for tail on (symbol-plist symbol) by #'cddr
         thereis (eq (car tail) 'translate)))
 
-(defun ctm-translate-color-call (form)
-  ;; Use Maxima's ordinary apply dispatch for these two STACK TeX constructors.
-  ;; mfunction-call warns for their self-bound symbols, contaminating captured
-  ;; validation output. A fixed noun constructor would lose author aliases.
+(defun ctm-translate-stack-noun-call (form)
+  ;; Use ordinary apply dispatch for STACK's two TeX constructors and nounor.
+  ;; mfunction-call warns for these unbound/self-bound noun symbols, contaminating
+  ;; captured validation output. Fixed noun construction would lose dispatch.
   ;; Translate arguments normally so compiled lexical locals remain available.
   ;; Quote the original operator: ordinary function definitions retain priority
   ;; over its value cell, just as in an interpreted call.
   (translate `(($apply) ((mquote) ,(caar form)) ((mlist) ,@(cdr form)))))
 
-(defun ctm-with-color-call-translation (thunk)
+(defun ctm-with-stack-noun-call-translation (thunk)
   (let ((originals
           (mapcar (lambda (symbol)
                     (list symbol (get symbol 'translate)
-                          (ctm-color-translator-present-p symbol)))
-                  '($texcolor $texcolorplain))))
+                          (ctm-stack-noun-translator-present-p symbol)))
+                  '($texcolor $texcolorplain $nounor))))
     (unwind-protect
          (progn
            (dolist (row originals)
-             (setf (get (first row) 'translate) 'ctm-translate-color-call))
+             (setf (get (first row) 'translate) 'ctm-translate-stack-noun-call))
            (funcall thunk))
       (dolist (row originals)
         (if (third row)
@@ -32,10 +32,10 @@
             (remprop (first row) 'translate)))
       (unless (every (lambda (row)
                        (and (eq (get (first row) 'translate) (second row))
-                            (eq (ctm-color-translator-present-p (first row))
+                            (eq (ctm-stack-noun-translator-present-p (first row))
                                 (third row))))
                      originals)
-        (error "Translation-process color translators were not restored")))))
+        (error "Translation-process noun translators were not restored")))))
 
 (defun ctm-props-registration-p (form)
   (and (consp form)
@@ -59,7 +59,7 @@
            (progn
              (dolist (row originals)
                (setf (get (car row) 'assign) 'ctm-stack-assignment-bridge))
-             (let ((result (ctm-with-color-call-translation
+             (let ((result (ctm-with-stack-noun-call-translation
                              (lambda () (translate-file source nil)))))
                (with-standard-io-syntax
                  (let ((*package* (find-package :maxima)) (*read-eval* nil)
