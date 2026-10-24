@@ -152,6 +152,73 @@ class CompilerEvidence(unittest.TestCase):
             self.assertEqual(len(rows),1)
             self.assertEqual(rows[0]['tokens'],[str(launcher),'-c','pass'])
 
+    @unittest.skipUnless(shutil.which('strace'),'OS tracing integration runs on the Ubuntu builder')
+    def test_recursive_parallel_make_output_sync_preserves_compile_association(self):
+        self.assertTrue(shutil.which('make'),'The build requires GNU make')
+        fixture_root=Path(__file__).resolve().parents[2]/'.cache/compiler-fixtures'
+        fixture_root.mkdir(parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=fixture_root) as tmp:
+            root=Path(tmp).resolve();sdk=root/'sources/emsdk/upstream/emscripten'
+            source=root/'sources/ecl/src/c/unicode/ucd.c'
+            anchors=['-DECL_BUILD','-I'+str(root/'sources/ecl/src/c'),'-I'+str(root/'sources/ecl/build')]
+            driver=[str(sdk/'emcc'),*anchors,'-O0','-c',str(source),'-o','unicode/ucd.o']
+            compiler=[str(sdk.parent/'bin/clang'),*anchors,'-c',str(source),'-ounicode/ucd.o','-Oz']
+            # These executable fixtures record real execve argv, not actual C
+            # compilation. File barriers force the observed cross-target race
+            # without depending on captured output, which is buffered in sync mode.
+            common='''import json, os, shlex, subprocess, sys, time
+from pathlib import Path
+def wait_for(name):
+    deadline=time.monotonic()+5
+    while not Path(name).exists():
+        if time.monotonic()>deadline: raise RuntimeError('fixture barrier timeout: '+name)
+        time.sleep(0.005)
+'''
+            for path,body in [
+                (sdk/'emcc',common+f"Path('driver-argv.json').write_text(json.dumps(sys.argv))\nPath('makeflags.txt').write_text(os.environ.get('MAKEFLAGS',''))\nPath('compiler-start').touch()\nargv={compiler!r}\nprint(' '+shlex.join(argv),flush=True)\nsubprocess.run(argv,check=True)\n"),
+                (sdk.parent/'bin/clang',common+"Path('compiler-argv.json').write_text(json.dumps(sys.argv))\n")]:
+                path.parent.mkdir(parents=True,exist_ok=True)
+                path.write_text('#!'+sys.executable+'\n'+body);path.chmod(0o755)
+            helper=root/'coordinate.py'
+            helper.write_text(common+'''if sys.argv[1]=='warning':
+    sys.stderr.write('  962 | deferred_finalizer(');sys.stderr.flush()
+    Path('warning-start').touch();wait_for('compiler-start')
+    sys.stderr.write('cl_object* x)\\n');sys.stderr.flush()
+else: wait_for('warning-start')
+''')
+            observations={};profile=profiles()['profiles']['ecl-oz']
+            ecl,maxima=traces(profile);replace=lambda body:body.replace(b'/repo',str(root).encode())
+            for sync in [False,True]:
+                case=root/('sync' if sync else 'unsynced');case.mkdir()
+                # Match the pinned upstream's explicit MAKEFLAGS recursion.
+                (case/'Makefile').write_text('.PHONY: all\nall:\n\t+$(MAKE) $(MAKEFLAGS) -f child.mk all\n')
+                python=shlex.quote(sys.executable);script=shlex.quote(str(helper))
+                (case/'child.mk').write_text('.PHONY: all warning compile\nall: warning compile\nwarning:\n\t@'+python+' '+script+' warning\ncompile:\n\t@'+python+' '+script+' wait\n\t'+shlex.join(driver)+'\n')
+                trace=case/'exec.log'
+                command=['strace','-f','-qq','-e','trace=execve','-e','signal=none','-s','1048576','-o',str(trace),'make','-j2']
+                if sync:command.append('--output-sync=target')
+                run=subprocess.run(command,cwd=case,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,check=True,timeout=20)
+                actual=commands(trace.read_bytes())
+                self.assertEqual([r['tokens'] for r in actual],[driver,compiler])
+                self.assertTrue(all(r['executed'] for r in actual))
+                self.assertEqual(json.loads((case/'driver-argv.json').read_text()),driver)
+                self.assertEqual(json.loads((case/'compiler-argv.json').read_text()),compiler)
+                flags=shlex.split((case/'makeflags.txt').read_text())
+                self.assertIn('-j2',flags);self.assertEqual('-Otarget' in flags,sync)
+                evidence=replace(ecl)+run.stdout+trace.read_bytes()
+                if sync:
+                    result=derive(replace(CONFIG),TARGET,evidence,replace(maxima),profile)
+                    ucd=[r for r in result['eclCore'] if r['input']==str(source)]
+                    self.assertEqual([r['executed'] for r in ucd],[False,True])
+                    self.assertTrue(all(r['optimization']=='-Oz' for r in ucd))
+                    self.assertNotIn(b'deferred_finalizer('+str(sdk/'emcc').encode(),run.stdout)
+                else:
+                    self.assertIn(b'deferred_finalizer('+shlex.join(driver).encode(),run.stdout)
+                    with self.assertRaisesRegex(AssertionError,'Missing raw target compile association: .*unicode/ucd.c'):
+                        derive(replace(CONFIG),TARGET,evidence,replace(maxima),profile)
+                observations[sync]=[r['tokens'] for r in actual]
+            self.assertEqual(observations[False],observations[True])
+
     def test_all_profiles_and_real_effective_flags(self):
         for profile in profiles()['profiles'].values():
             ecl,maxima = traces(profile)
