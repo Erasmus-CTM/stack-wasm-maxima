@@ -9,12 +9,32 @@
     "conclusion": "failure",
     "sha256": "bcefb37577cbe56d30086551d1192198be6427eac1206e5784074899c2ea2647",
     "files": [
-      "test-results/precompiled-stack/measure.json",
-      "test-results/precompiled-stack/controller-parity.json",
-      ".cache/precompiled-stack/stackmaxima.fas.json",
-      ".cache/precompiled-stack-10d3233/stackmaxima.fas.json",
+      ".cache/precompiled-probes/10d323311b7f39fb7b092dd10ce75f7d8632f525/maxima-runtime/stackmaxima.fas",
+      ".cache/precompiled-probes/10d323311b7f39fb7b092dd10ce75f7d8632f525/stack-sources-timed-source.json",
+      ".cache/precompiled-probes/10d323311b7f39fb7b092dd10ce75f7d8632f525/stack-sources-precompiled.json",
+      ".cache/precompiled-probes/10d323311b7f39fb7b092dd10ce75f7d8632f525/stack-sources.json",
+      ".cache/precompiled-probes/33383047af39c204bf4442802a058f8b918b2b1b/maxima-runtime/stackmaxima.fas",
+      ".cache/precompiled-probes/33383047af39c204bf4442802a058f8b918b2b1b/stack-sources-precompiled.json",
+      ".cache/precompiled-probes/33383047af39c204bf4442802a058f8b918b2b1b/stack-sources.json",
+      ".cache/precompiled-probes/33383047af39c204bf4442802a058f8b918b2b1b/stack-sources-timed-source.json",
       ".cache/precompiled-probes/index.json",
-      "runtime/precompiled/restart-checks.json"
+      "test-results/milestone-one/browser-10d3233.json",
+      "test-results/milestone-one/browser-3338304.json",
+      "test-results/milestone-one/console-10d3233.log",
+      "test-results/milestone-one/console-3338304.log",
+      "test-results/milestone-one/native-10d3233.json",
+      "test-results/milestone-one/prepared.json",
+      "test-results/milestone-one/native-3338304.json",
+      "test-results/precompiled-stack/probes-source/browser-10d3233.json",
+      "test-results/precompiled-stack/probes-source/browser-3338304.json",
+      "test-results/precompiled-stack/probes-source/comparison.json",
+      "test-results/precompiled-stack/probes-source/console-10d3233.log",
+      "test-results/precompiled-stack/probes-source/console-3338304.log",
+      "test-results/precompiled-stack/probes-source/native-10d3233.json",
+      "test-results/precompiled-stack/probes-source/native-3338304.json",
+      "test-results/precompiled-stack/probes-source/prepared.json",
+      ".cache/precompiled-stack/probes-compiled-report/latest.json",
+      ".cache/precompiled-stack/probes-compiled-report/latest.md"
     ]
   }
 ]
