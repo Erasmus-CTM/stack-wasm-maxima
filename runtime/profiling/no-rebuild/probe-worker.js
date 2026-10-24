@@ -3,10 +3,13 @@ importScripts('runtime/maxima-session.js');
 let activeSession;
 self.onmessage=async({data})=>{
   if(data.type==='stop'){activeSession?.terminate();return;}
-  const rows=[],progress={phase:'start',correctnessPassed:false,profileRows:rows};
+  const rows=[],progress={phase:'start',correctnessPassed:false,profileRows:rows,phases:[]};
   const send=()=>self.postMessage({type:'progress',progress});
   const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
   const require=(ok,message)=>{if(!ok)throw Error(message);};
+  const beginPhase=name=>{const row={name,startEpochMs:performance.timeOrigin+performance.now(),completed:false};progress.phases.push(row);return row;};
+  const endPhase=row=>{row.endEpochMs=performance.timeOrigin+performance.now();row.elapsedMs=row.endEpochMs-row.startEpochMs;};
+  const timedPhase=(name,fn)=>{const row=beginPhase(name);try{const value=fn();row.completed=true;return {value,phase:row};}finally{endPhase(row);}};
   let resolveFlush;const flushed=new Promise(resolve=>{resolveFlush=resolve;});
   try{
     const options={baseURL:new URL('./maxima-runtime/',location.href).href,stackSourceURL:new URL(data.manifest,location.href).href,
@@ -23,7 +26,8 @@ self.onmessage=async({data})=>{
         if(rows.length%16===0)send();
       });}
     };
-    try{progress.initialization=await session.init();}finally{if(data.instrumented)self.Worker=OriginalWorker;}
+    const initializationPhase=beginPhase('initialization');
+    try{progress.initialization=await session.init();initializationPhase.completed=true;}finally{endPhase(initializationPhase);if(data.instrumented)self.Worker=OriginalWorker;}
     progress.readyMs=performance.now()-start;progress.phase='first-logical-validation';send();
     require(session.manifest.stackRevision===data.expected.stackRevision,'STACK pin changed');
     require(String(progress.initialization.stackLibraryVersion)===String(data.expected.stackLibraryVersion),'STACK version changed');
@@ -35,20 +39,20 @@ self.onmessage=async({data})=>{
       require(stages.compiledStackBytes===data.expected.compiledStack.asset.fileBytes&&stages.compiledStackSha256===data.expected.compiledStack.asset.sha256,'FAS identity changed');
     }else require(stages.compiledStackMounted!==true&&stages.compiledStackBytes===undefined,'Source arm loaded FAS');
     progress.checks=[];
-    const check=row=>{const t=performance.now(),value=session.evaluate(row.expression);require(same(value,row.expected),'Semantic mismatch: '+row.name);progress.checks.push({name:row.name,result:value,elapsedMs:performance.now()-t});};
+    const check=row=>{const {value,phase}=timedPhase(row.name,()=>session.evaluate(row.expression));require(same(value,row.expected),'Semantic mismatch: '+row.name);progress.checks.push({name:row.name,result:value,elapsedMs:phase.elapsedMs});};
     require(data.checks[0].name==='first-call-logical-validation','First logical check changed');check(data.checks[0]);
     const grade=(positive,label)=>{
-      progress.phase=label;send();const t=performance.now();
-      const result=session.assess({test:'AlgEquiv',student:positive?'(x+1)^2':'x+1',teacher:positive?'x^2+2*x+1':'x+2'});
+      progress.phase=label;send();
+      const {value:result,phase}=timedPhase(label,()=>session.assess({test:'AlgEquiv',student:positive?'(x+1)^2':'x+1',teacher:positive?'x^2+2*x+1':'x+2'}));
       require(result.cas_valid===true&&result.correct===positive,'Grade mismatch: '+label);
-      return {label,positive,result,elapsedMs:performance.now()-t};
+      return {label,positive,result,elapsedMs:phase.elapsedMs};
     };
     progress.firstPositiveGrade=grade(true,'first-positive-grade');
     progress.firstNegativeGrade=grade(false,'first-negative-grade');
     progress.warmGrades=[];for(let i=0;i<10;i++)progress.warmGrades.push(grade(i%2===0,'warm-grade-'+i));
-    progress.warmCalls=[];for(let i=0;i<10;i++){const t=performance.now(),value=session.evaluate('6*7');require(value===42,'Warm arithmetic failed');progress.warmCalls.push({value,elapsedMs:performance.now()-t});}
+    progress.warmCalls=[];for(let i=0;i<10;i++){const {value,phase}=timedPhase('warm-arithmetic-'+i,()=>session.evaluate('6*7'));require(value===42,'Warm arithmetic failed');progress.warmCalls.push({value,elapsedMs:phase.elapsedMs});}
     progress.phase='remaining-semantics';send();for(const row of data.checks.slice(1))check(row);
-    progress.policy=session.evaluate('[STACKpmOPT,algebraic_equivalence_factorp,algebraic_equivalence_trigexpandp,algebraic_equivalence_nounsp,tex_plain_atoms,stackintfmt,stackfltfmt,stackfltsep,setp(FORBIDDEN_SYMBOLS_SET),is(cardinality(FORBIDDEN_SYMBOLS_SET)>0)]');
+    progress.policy=timedPhase('policy',()=>session.evaluate('[STACKpmOPT,algebraic_equivalence_factorp,algebraic_equivalence_trigexpandp,algebraic_equivalence_nounsp,tex_plain_atoms,stackintfmt,stackfltfmt,stackfltsep,setp(FORBIDDEN_SYMBOLS_SET),is(cardinality(FORBIDDEN_SYMBOLS_SET)>0)]')).value;
     require(same(progress.policy,['#pm#',true,true,true,false,'~d','~a','.',true,true]),'STACK policy changed');
     progress.correctnessPassed=true;
     if(data.instrumented){
@@ -58,6 +62,8 @@ self.onmessage=async({data})=>{
       await Promise.race([flushed,new Promise((_,reject)=>setTimeout(()=>reject(Error('Profile flush marker missing')),5000))]);
       const finish=rows.filter(r=>r.kind==='lisp-finish');require(finish.length===1,'Duplicate profile finish marker');
       require(!finish[0].dropped&&!finish[0].observerErrors&&!finish[0].jsDropped&&!finish[0].changedFunctions&&!progress.profileOverflow,'Incomplete observer coverage');
+      require(!rows.some(r=>r.kind==='observer-error'),'Observer error record present');
+      require(finish[0].observed===rows.filter(r=>r.kind==='lisp-call').length,'Observed Lisp frame count differs from completion record');
       require(rows.some(r=>r.kind==='lisp-call'&&r.operation==='maxima-load'),'No Maxima load calls observed');
     }
     progress.phase='complete';progress.ok=true;self.postMessage({type:'complete',progress});

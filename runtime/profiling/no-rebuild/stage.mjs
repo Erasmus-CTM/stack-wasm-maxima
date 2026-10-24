@@ -24,7 +24,7 @@ export function instrumentChild(source,hooks){
   source=once(source,"      preInit();", "      CTMProfile.span('emscripten-preInit',()=>preInit());");
   source=once(source,"      stages.wasmReadyMs = performance.now() - started;", "      stages.wasmReadyMs = performance.now() - started;\n      CTMProfile.emit({kind:'wasm-preRun',elapsedFromStartMs:stages.wasmReadyMs});\n      CTMProfile.installFS(FS);\n      const profileMountStart=performance.now();");
   source=once(source,"        traceCompiledEntryReads(FS,stages,entry);\n      }", "        traceCompiledEntryReads(FS,stages,entry);\n      }\n      CTMProfile.emit({kind:'mount-stack-files',elapsedMs:performance.now()-profileMountStart});");
-  source=once(source,"      initialized = true;", "      initialized = true;\n      CTMProfile.emit({kind:'child-ready',elapsedFromStartMs:performance.now()-started});");
+  source=once(source,"      initialized = true;", "      initialized = true;\n      CTMProfile.emit({kind:'child-ready',elapsedFromStartMs:performance.now()-started,startupStdoutTail:stdoutTail.slice(-4096)});");
   return hooks+'\n'+source;
 }
 export async function stageProfileSite({site,output,trustedRoot,admission,profile}){

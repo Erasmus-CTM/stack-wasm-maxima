@@ -6,11 +6,12 @@ import {pathToFileURL} from 'node:url';
 import {stageProfileSite,digest} from './stage.mjs';
 import {startCPUProfiles,startProcessCPU} from './cdp-profile.mjs';
 
-export function analyzeLoads(rows){
+export function analyzeLoads(rows,phases=[]){
   const calls=rows.filter(r=>r.kind==='lisp-call'),byId=new Map(calls.map(r=>[r.id,r]));
   assert.equal(byId.size,calls.length,'Duplicate load frame ID');
   const calibration=rows.filter(r=>r.kind==='lisp-clock-calibration');
   const cpuAdvanced=calibration.length===1&&calibration[0].runTicks>0;
+  const childClock=rows.find(r=>r.kind==='child-created'),lispClock=rows.find(r=>r.kind==='lisp-clock-start');
   const frames=calls.map(r=>{
     assert.ok(r.units>0&&r.realEnd>=r.realStart&&r.runEnd>=r.runStart);
     if(r.parent){assert.ok(byId.has(r.parent)&&r.parent<r.id,'Missing or cyclic parent load frame');assert.equal(r.depth,byId.get(r.parent).depth+1,'Wrong load depth');}else assert.equal(r.depth,0);
@@ -19,11 +20,26 @@ export function analyzeLoads(rows){
     const inclusive=(r.realEnd-r.realStart)*1000/r.units;
     const exclusive=inclusive-children.reduce((s,c)=>s+(c.realEnd-c.realStart)*1000/c.units,0);
     assert.ok(exclusive>=-1e-6,'Overlapping child frame accounting');
-    return {...r,inclusiveElapsedMs:inclusive,exclusiveElapsedMs:Math.max(0,exclusive),reportedRunClockMs:cpuAdvanced?(r.runEnd-r.runStart)*1000/r.units:null};
+    let alignment=null;
+    if(childClock&&lispClock&&lispClock.units===r.units){
+      const anchor=childClock.createdEpochMs+lispClock.childMs;
+      const startEpochMs=anchor+(r.realStart-lispClock.realTicks)*1000/r.units,endEpochMs=anchor+(r.realEnd-lispClock.realTicks)*1000/r.units;
+      alignment={startEpochMs,endEpochMs,overlaps:phases.filter(p=>Number.isFinite(p.endEpochMs)).map(p=>({phase:p.name,overlapMs:Math.max(0,Math.min(endEpochMs,p.endEpochMs)-Math.max(startEpochMs,p.startEpochMs))})).filter(p=>p.overlapMs>0).sort((a,b)=>b.overlapMs-a.overlapMs),scope:'Approximate alignment using the emitted ECL real-clock anchor and child epoch clock; anchor emission overhead and timer resolution remain.'};
+    }
+    return {...r,inclusiveElapsedMs:inclusive,exclusiveElapsedMs:Math.max(0,exclusive),reportedRunClockMs:cpuAdvanced?(r.runEnd-r.runStart)*1000/r.units:null,phaseAlignment:alignment};
   });
   const groups=new Map();for(const r of frames){const key=r.operation+'|'+r.name,g=groups.get(key)||{operation:r.operation,name:r.name,calls:0,inclusiveElapsedMs:0,exclusiveElapsedMs:0};g.calls++;g.inclusiveElapsedMs+=r.inclusiveElapsedMs;g.exclusiveElapsedMs+=r.exclusiveElapsedMs;groups.set(key,g);}
   const opens=new Map();for(const r of rows.filter(r=>r.kind==='fs-open'&&r.completed&&(r.flags&3)!==1)){const p=opens.get(r.path)||{path:r.path,opens:0,openElapsedMs:0};p.opens++;p.openElapsedMs+=r.elapsedMs;opens.set(r.path,p);}
-  return {frames,groupedByExactLoadArgument:[...groups.values()].sort((a,b)=>b.exclusiveElapsedMs-a.exclusiveElapsedMs),successfulReadOpensByResolvedPath:[...opens.values()].sort((a,b)=>b.opens-a.opens),clockCalibration:calibration,
+  const summaries=rows.filter(r=>r.kind==='fs-summary');assert.ok(summaries.length<=1,'Duplicate filesystem summary');
+  for(const summary of summaries){
+    assert.equal(summary.schema,2,'Filesystem aggregate schema changed');
+    assert.ok(summary.paths.length<=summary.pathLimit&&summary.otherGroups.length<=summary.otherLimit);
+    assert.equal(summary.totalOpenCalls,summary.unbucketedFileCalls+summary.unbucketedOtherCalls+[...summary.paths,...summary.otherGroups].reduce((s,r)=>s+r.opens,0),'Filesystem aggregate count mismatch');
+    const totalTime=summary.unbucketedFileElapsedMs+summary.unbucketedOtherElapsedMs+[...summary.paths,...summary.otherGroups].reduce((s,r)=>s+r.openElapsedMs,0);
+    assert.ok(Math.abs(summary.totalOpenElapsedMs-totalTime)<Math.max(1e-6,summary.totalOpenElapsedMs*1e-9),'Filesystem aggregate duration mismatch');
+    for(const r of summary.paths){assert.ok(r.completed&&r.kind==='regular-file','Non-file consumed reserved file bucket');if((r.flags&3)!==1){const p=opens.get(r.path)||{path:r.path,opens:0,openElapsedMs:0};p.opens+=r.opens;p.openElapsedMs+=r.openElapsedMs;opens.set(r.path,p);}}
+  }
+  return {frames,groupedByExactLoadArgument:[...groups.values()].sort((a,b)=>b.exclusiveElapsedMs-a.exclusiveElapsedMs),successfulReadOpensByResolvedPath:[...opens.values()].sort((a,b)=>b.opens-a.opens),filesystemAggregate:summaries[0]||null,clockCalibration:calibration,
     reportedRunClockStatus:cpuAdvanced?'advanced during calibration; ECL clock implementation still unvalidated as process CPU':'unavailable/nonadvancing in calibration; zero is not evidence of zero CPU',
     scope:'Nested function-cell load/compile observers only, inclusive and direct-child-subtracted elapsed durations. Compiled direct calls may bypass these wrappers. FS.open paths are resolved paths but file-open time is not full load time. Observer and clock-call overhead is included; do not sum inclusive nested durations.'};
 }
@@ -38,6 +54,7 @@ export function trialPlan(repetitions){
   }
   return rows;
 }
+export const haltForCoreFailure=row=>row.arm==='instrumented'&&row.ok!==true;
 export function summarizeCPU(value){
   return value.profiles.map(({target,profile})=>{
     const samples=profile.samples||[],deltas=profile.timeDeltas||[],nodes=new Map(profile.nodes.map(n=>[n.id,n]));
@@ -87,8 +104,8 @@ async function main(){
     try{
       app=await serveDemo({root:staged.site,compression:'gzip'});browser=await chromium.launch({headless:true});row.browser=browser.version();
       if(instrumented)try{processCPU=await startProcessCPU(browser);}catch(error){row.processCPUUnavailable=String(error);}
-      if(instrumented&&args['--cpu-profile']){try{cpu=await startCPUProfiles(browser);}catch(error){row.cpuUnavailable=String(error);}}
       page=await browser.newPage();page.on('console',message=>{const text=message.text(),key=message.type()+':'+text;row.consoleCounts[key]=(row.consoleCounts[key]||0)+1;if(row.consoleSamples.length<1000)row.consoleSamples.push({type:message.type(),text});});page.on('pageerror',error=>row.pageErrors.push(String(error)));
+      if(instrumented&&args['--cpu-profile']){try{cpu=await startCPUProfiles(page);}catch(error){row.cpuUnavailable=String(error);}}
       let latest={phase:'worker-start'},writeQueue=Promise.resolve();
       await page.exposeFunction('ctmProfileProgress',value=>{latest=value;row.progress=value;writeQueue=writeQueue.then(()=>writeFile(join(directory,'partial.json'),JSON.stringify(value,null,2)+'\n'));});
       await page.goto(app.baseURL+'no-rebuild-profile.html');
@@ -100,7 +117,7 @@ async function main(){
         worker.onerror=error=>{clearTimeout(timer);resolveTrial({...latest,ok:false,error:error.message});};worker.postMessage(input);
       }),{candidate:trial.candidate,instrumented,manifest:instrumented?manifest.profileName:manifest.name,expected,checks:checks.checks});
       await writeQueue;row.ok=row.result.ok===true&&row.result.correctnessPassed===true;
-      if(instrumented&&row.result.profileRows?.length)try{row.loads=analyzeLoads(row.result.profileRows);}catch(error){row.ok=false;row.analysisError=String(error);}
+      if(instrumented&&row.result.profileRows?.length)try{row.loads=analyzeLoads(row.result.profileRows,row.result.phases||[]);}catch(error){row.ok=false;row.analysisError=String(error);}
       row.phase='capturing-cpu';await save();
     }catch(error){row.error=String(error);row.stack=error.stack;row.ok=false;}
     finally{
@@ -112,6 +129,7 @@ async function main(){
       row.hostNodeCPU=process.cpuUsage(nodeCPU);row.wallElapsedMs=performance.now()-wallStart;row.phase='finished';row.finishedAt=new Date().toISOString();
       await writeFile(join(directory,'sample.json'),JSON.stringify(row,null,2)+'\n');report.summary=summarizeTrials(report.samples);await save();
     }
+    if(haltForCoreFailure(row)){report.halted={trial:row.id,reason:'Instrumented core correctness/load/flush coverage failed; remaining cells were not attempted. Optional CPU partial coverage alone does not halt.'};report.skipped=plan.slice(index+1);await save();break;}
   }
   report.finishedAt=new Date().toISOString();report.passed=report.samples.length===plan.length&&report.samples.every(r=>r.ok);report.cpuSamplingComplete=report.samples.filter(r=>r.arm==='instrumented').every(r=>!args['--cpu-profile']||r.cpuProfiles?.complete===true);
   await save();if(!report.passed)process.exitCode=1;

@@ -1,7 +1,7 @@
-// Legacy nested CDP sessions avoid Playwright's lack of a flattened-session send API.
-export async function startCPUProfiles(browser){
-  const cdp=await browser.newBrowserCDPSession(),contexts=[],errors=[],pendingConfigurations=new Set();
-  let sequence=0,stopping=false;
+// Page-root legacy sessions are supported; browser-root auto-attach requires flattening.
+export async function startCPUProfiles(page){
+  const cdp=await page.context().newCDPSession(page),contexts=[],errors=[],pendingConfigurations=new Set();
+  let sequence=0;
   const root={children:new Map(),send:(method,params={})=>cdp.send(method,params)};
   function attach(parent,params){
     const channel={children:new Map(),pending:new Map(),info:params.targetInfo,sessionId:params.sessionId,started:false,detached:false};
@@ -29,11 +29,16 @@ export async function startCPUProfiles(browser){
     if(method==='Target.attachedToTarget')attach(parent,params);
     if(method==='Target.receivedMessageFromTarget')parent.children.get(params.sessionId)?.receive(JSON.parse(params.message));
     if(method==='Target.detachedFromTarget'){const channel=parent.children.get(params.sessionId);if(channel)channel.detached=true;}
+    if(method==='Target.targetInfoChanged'){const channel=contexts.find(c=>c.info.targetId===params.targetInfo.targetId);if(channel)channel.info=params.targetInfo;}
   }
-  for(const method of ['Target.attachedToTarget','Target.receivedMessageFromTarget','Target.detachedFromTarget'])cdp.on(method,params=>route(root,method,params));
-  await root.send('Target.setAutoAttach',{autoAttach:true,waitForDebuggerOnStart:true,flatten:false});
+  for(const method of ['Target.attachedToTarget','Target.receivedMessageFromTarget','Target.detachedFromTarget','Target.targetInfoChanged'])cdp.on(method,params=>route(root,method,params));
+  const {targetInfo}=await cdp.send('Target.getTargetInfo');
+  await cdp.send('Profiler.enable');await cdp.send('Profiler.setSamplingInterval',{interval:1000});await cdp.send('Profiler.start');
+  contexts.push({...root,info:targetInfo,started:true,detached:false});
+  try{await root.send('Target.setAutoAttach',{autoAttach:true,waitForDebuggerOnStart:true,flatten:false});}
+  catch(error){await cdp.send('Profiler.stop').catch(()=>{});throw error;}
   return {async stop(){
-    stopping=true;await Promise.allSettled([...pendingConfigurations]);
+    await Promise.allSettled([...pendingConfigurations]);
     const profiles=[];
     await Promise.all(contexts.map(async channel=>{
       if(!channel.started)return;
@@ -43,7 +48,7 @@ export async function startCPUProfiles(browser){
     const workers=contexts.filter(x=>x.info.type==='worker'),child=workers.filter(x=>x.info.url.endsWith('/runtime-profile/maxima-child.js'));
     const complete=errors.length===0&&workers.length>=2&&child.length===1&&workers.every(x=>profiles.some(p=>p.target.targetId===x.info.targetId));
     try{await root.send('Target.setAutoAttach',{autoAttach:false,waitForDebuggerOnStart:false,flatten:false});}catch(error){errors.push({phase:'disable',error:String(error)});}
-    return {requested:true,samplingIntervalMicroseconds:1000,complete:complete&&errors.length===0,contexts:contexts.map(x=>({target:x.info,started:x.started,detached:x.detached})),profiles,errors,scope:'Sampled JS/Wasm stacks from attached contexts, including both nested workers; profiler overhead is present. Samples are not exact function CPU durations.'};
+    return {requested:true,attachmentRoot:'page',samplingIntervalMicroseconds:1000,complete:complete&&errors.length===0,contexts:contexts.map(x=>({target:x.info,started:x.started,detached:x.detached})),profiles,errors,scope:'Sampled JS/Wasm stacks from the page and attached nested workers; profiler overhead is present. Samples are not exact function CPU durations.'};
   }};
 }
 export async function startProcessCPU(browser){
