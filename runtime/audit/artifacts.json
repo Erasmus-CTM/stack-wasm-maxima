@@ -10,60 +10,74 @@
     "conclusion": null,
     "sha256": "bdac6b99381aeb6d054aec2b8d712b4c22c9f2f2d126c5ad0a122c9e191fe7b8",
     "files": [
-      ".cache/runtime-build/artifact/manifest.json",
-      ".cache/runtime-build/artifact/artifact-manifest.json",
-      ".cache/runtime-build/artifact/source-manifest.json",
-      ".cache/runtime-build/artifact/logs/environment.json",
-      ".cache/runtime-build/artifact/logs/compiler-experiment.json",
-      ".cache/runtime-build/artifact/logs/ecl-config.log",
-      ".cache/runtime-build/artifact/logs/target-info.lsp",
-      ".cache/runtime-build/artifact/logs/source-state-before.json",
-      ".cache/runtime-build/artifact/logs/source-state-after.json",
-      ".cache/runtime-build/artifact/logs/host-ecl.sha256",
-      ".cache/runtime-build/artifact/build-recipes/maxima/wasm/Makefile",
-      ".cache/runtime-build/artifact/build-recipes/maxima/wasm/build.lisp",
-      ".cache/runtime-build/artifact/build-recipes/maxima/src/maxima.asd",
-      ".cache/runtime-build/source-manifest.json",
-      ".cache/runtime-build/source-progress.json",
-      ".cache/runtime-build/validation/acceptance.json",
-      ".cache/runtime-build/validation/timings.json",
-      ".cache/runtime-build/validation/plot-diagnostic.json",
-      ".cache/runtime-build/validation/public-pages-encoding.json",
-      ".cache/runtime-build/validation/m1-owned/prepared.json",
-      ".cache/runtime-build/validation/m1-owned/comparison.json",
-      ".cache/runtime-build/validation/m1-owned/browser-10d3233.json",
-      ".cache/runtime-build/validation/m1-owned/browser-3338304.json",
-      ".cache/runtime-build/validation/m1-deployed/prepared.json",
-      ".cache/runtime-build/validation/m1-deployed/comparison.json",
-      ".cache/runtime-build/validation/m1-deployed/browser-10d3233.json",
-      ".cache/runtime-build/validation/m1-deployed/browser-3338304.json",
-      ".cache/runtime-build/plot-diagnostic/preparation/build-failure.json",
-      "test-results/milestone-three/browser.json",
-      "test-results/milestone-three/native-reference/native-reference.json",
-      "test-results/milestone-three/native-reference/native.log",
-      "test-results/milestone-three/native-reference/reference.mac",
-      "test-results/milestone-three/same-source-reference/native-reference.json",
-      "test-results/milestone-three/same-source-reference/native.log",
-      "test-results/milestone-three/same-source-reference/reference.mac",
-      ".cache/runtime-build/artifact/logs/source-state-host.json",
-      ".cache/runtime-build/artifact/logs/target-source-overlay.json",
-      ".cache/runtime-build/artifact/source-overlays/ecl/descriptor.json",
-      ".cache/runtime-build/artifact/source-overlays/ecl/root-scanner.patch",
-      ".cache/runtime-build/artifact/source-overlays/ecl/src/c/alloc_2.d",
-      ".cache/runtime-build/artifact/source-overlays/ecl/LICENSE",
-      ".cache/runtime-build/artifact/source-overlays/ecl/README.txt",
-      ".cache/runtime-build/artifact/LICENSES/upstream/ecl/LICENSE",
-      ".cache/runtime-build/artifact/BUILD-NOTICES.md",
-      ".cache/runtime-build/artifact/recipe/runtime/build/source_overlay.py",
-      ".cache/runtime-build/artifact/recipe/runtime/build/source_state.py",
-      ".cache/runtime-build/artifact/recipe/runtime/build/apply-target-overlay.py",
-      ".cache/runtime-build/artifact/recipe/runtime/build/verify-source-overlay.py",
-      ".cache/runtime-build/artifact/recipe/runtime/build/verify-source-state.py",
-      ".cache/runtime-build/artifact/recipe/runtime/build/build.sh",
-      ".cache/runtime-build/artifact/recipe/runtime/build/package.py",
-      ".cache/runtime-build/artifact/recipe/runtime/build/recipe_inputs.py",
-      ".cache/runtime-build/artifact/recipe/runtime/build/patches/ecl-root-scanner.json",
-      ".cache/runtime-build/artifact/recipe/runtime/build/patches/ecl-root-scanner.patch"
+      ".cache/runtime-build/artifact/logs/ecl-cross-build.log"
+    ],
+    "ranges": [
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 0,
+        "end": 4194304
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 4194304,
+        "end": 8388608
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 8388608,
+        "end": 12582912
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 12582912,
+        "end": 16777216
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 16777216,
+        "end": 20971520
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 20971520,
+        "end": 25165824
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 25165824,
+        "end": 29360128
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 29360128,
+        "end": 33554432
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 33554432,
+        "end": 37748736
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 37748736,
+        "end": 41943040
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 41943040,
+        "end": 46137344
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 46137344,
+        "end": 50331648
+      },
+      {
+        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
+        "start": 50331648,
+        "end": 53711845
+      }
     ]
   }
 ]
