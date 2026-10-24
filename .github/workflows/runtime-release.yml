@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 name: Release the owned Maxima runtime
 
-# AC creates a tag `runtime-v<N>` on a commit of main. This workflow builds the
+# AC starts a release in one of two ways: by pushing a tag `runtime-v<N>` on a
+# commit of main, or by running this workflow on main with the tag name (it
+# then creates the tag on that commit, only after acceptance). It builds the
 # production compiler profile (runtime/build/compiler-profiles.json) from the
 # pinned sources with every acceptance gate of runtime-build.yml, and publishes
 # the accepted artifact as a GitHub Release of that tag: the runtime, its
@@ -10,13 +12,19 @@ name: Release the owned Maxima runtime
 on:
   push:
     tags: ['runtime-v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag to create on this commit of main and release (runtime-v<N>)
+        type: string
+        required: true
 
 permissions:
   contents: read
   actions: read
 
 concurrency:
-  group: runtime-release-${{ github.ref }}
+  group: runtime-release-${{ inputs.tag || github.ref_name }}
   cancel-in-progress: false
 
 jobs:
@@ -24,15 +32,28 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       profile: ${{ steps.profile.outputs.name }}
+      tag: ${{ steps.tag.outputs.name }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: The tag points at a commit of main
+      - id: tag
+        name: The tag names a release of a commit of main
+        env:
+          TAG: ${{ inputs.tag || github.ref_name }}
+          GH_TOKEN: ${{ github.token }}
         run: |
+          [[ "$TAG" =~ ^runtime-v[0-9]+$ ]] || { echo "::error::'$TAG' is not runtime-v<N>"; exit 1; }
           git fetch -q origin main
           git merge-base --is-ancestor "$GITHUB_SHA" origin/main || {
-            echo "::error::$GITHUB_REF_NAME is not on main; release only reviewed, merged commits"; exit 1; }
+            echo "::error::$GITHUB_SHA is not on main; release only reviewed, merged commits"; exit 1; }
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            [ "$GITHUB_REF" = refs/heads/main ] || { echo "::error::run this workflow on main"; exit 1; }
+            if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null; then
+              echo "::error::tag $TAG already exists; push a new tag name"; exit 1
+            fi
+          fi
+          echo "name=$TAG" >> "$GITHUB_OUTPUT"
       - id: profile
         name: The production compiler profile
         run: echo "name=$(python3 runtime/build/compiler_profile.py --production)" >> "$GITHUB_OUTPUT"
@@ -50,7 +71,7 @@ jobs:
       contents: write
     env:
       PROFILE: ${{ needs.check.outputs.profile }}
-      TAG: ${{ github.ref_name }}
+      TAG: ${{ needs.check.outputs.tag }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
@@ -114,4 +135,13 @@ jobs:
           - \`maxima-$TAG.json\` and \`SHA256SUMS\`: hashes; sites pin the JSON's SHA-256.
           - \`maxima-$TAG-acceptance.json\`: the acceptance report.
           EOF
-          gh release create "$TAG" release/* --verify-tag --title "Maxima runtime $TAG" --notes-file notes.md
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            # A release made on the Releases page first: attach the files to it.
+            gh release upload "$TAG" release/* --clobber
+            gh release edit "$TAG" --notes-file notes.md
+          elif [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            # Creates the tag on the accepted commit of main.
+            gh release create "$TAG" release/* --target "$GITHUB_SHA" --title "Maxima runtime $TAG" --notes-file notes.md
+          else
+            gh release create "$TAG" release/* --verify-tag --title "Maxima runtime $TAG" --notes-file notes.md
+          fi
