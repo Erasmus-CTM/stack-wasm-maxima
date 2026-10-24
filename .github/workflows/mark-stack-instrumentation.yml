@@ -10,6 +10,7 @@ on:
       - 'runtime/diagnostics/run-gc-instrumentation.py'
       - 'runtime/diagnostics/target_info.py'
       - 'runtime/diagnostics/test-target-info.py'
+      - 'runtime/diagnostics/test-stage-gc-instrumented.py'
 permissions:
   contents: read
   actions: read
@@ -33,8 +34,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22.16.0'
-      - name: Check bounded target configuration comparison
-        run: python runtime/diagnostics/test-target-info.py
+      - name: Check bounded configuration and module interface comparisons
+        run: |
+          python runtime/diagnostics/test-target-info.py
+          python runtime/diagnostics/test-stage-gc-instrumented.py
       - name: Recover the exact failed baseline artifact without executing it
         env:
           GH_TOKEN: ${{ github.token }}
@@ -85,6 +88,10 @@ jobs:
           # settings. No Maxima/core/share/FAS targets are rebuilt here.
           export EMCC_VERBOSE=1
           strace -f -qq -e trace=execve -e signal=none -s 1048576 -o "$task_diag/logs/ecl-exec.log" make -f Makefile -j2 ecl-emscripten 2>&1 | tee "$task_diag/logs/ecl-cross-build.log"
+          # Preserve the rebuilt module before compiler/config/interface gates.
+          mkdir -p "$task_diag/rebuilt-module"
+          cp ecl-emscripten/libecl.so "$task_diag/rebuilt-module/libecl.so"
+          sha256sum "$task_diag/rebuilt-module/libecl.so" > "$task_diag/logs/rebuilt-module.sha256"
           cat "$task_diag/logs/ecl-exec.log" >> "$task_diag/logs/ecl-cross-build.log"
           unset EMCC_VERBOSE
           cp "$ECL_SRCDIR/build/config.log" "$task_diag/logs/ecl-config.log"
@@ -96,10 +103,11 @@ jobs:
           python runtime/diagnostics/run-gc-instrumentation.py compiler
           python runtime/diagnostics/stage-gc-instrumented.py \
             --frozen-root .cache/mark-stack-replay/frozen/.cache/runtime-build/artifact \
-            --new-module "$task_maxima/wasm/ecl-emscripten/libecl.so" \
+            --new-module "$task_diag/rebuilt-module/libecl.so" \
             --target-info "$task_diag/logs/target-info.lsp" \
             --source-ecl "$ECL_SRCDIR" \
             --patch-report "$task_diag/source-overlay/instrumentation.json" \
+            --interface-evidence "$task_diag/logs/module-interface" \
             --output "$task_diag/mixed-runtime"
       - uses: actions/checkout@v4
         with:

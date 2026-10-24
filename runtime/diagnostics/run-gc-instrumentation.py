@@ -27,6 +27,7 @@ ADDITIONS = {
     'runtime/diagnostics/run-gc-instrumentation.py',
     'runtime/diagnostics/target_info.py',
     'runtime/diagnostics/test-target-info.py',
+    'runtime/diagnostics/test-stage-gc-instrumented.py',
 }
 FROZEN_HELPER = '373e54a242d2a19d8b9d41af207da1937bcddad8ee0708c0c003ff325019514f'
 
@@ -64,7 +65,7 @@ def checkout_binding():
     require(not os.environ.get('GITHUB_SHA') or os.environ['GITHUB_SHA'] == head, 'Wrong CI checkout')
     changes = subprocess.check_output(['git', 'diff', '--name-status', BASE, 'HEAD'], cwd=ROOT, text=True)
     require(set(changes.splitlines()) == {'A\t' + path for path in ADDITIONS},
-            'Instrumentation checkout must add exactly eight diagnostic files')
+            'Instrumentation checkout must add exactly nine diagnostic files')
     require(subprocess.run(['git', 'diff', '--quiet', 'HEAD', '--'], cwd=ROOT).returncode == 0,
             'Tracked checkout changed')
     return {'diagnosticRevision': head, 'productRevision': BASE,
@@ -123,6 +124,24 @@ def verify_mixed(f):
         require(asset.resolve().is_relative_to((MIXED / 'runtime').resolve()) and not asset.is_symlink(),
                 'Mixed asset escapes staging')
         require(record(asset) == {'bytes': row['bytes'], 'sha256': row['sha256']}, 'Mixed asset bytes changed')
+    # Recompute names/kinds from the actual modules; compilation runs no code.
+    spec = importlib.util.spec_from_file_location('gc_interface_stage', ROOT / 'runtime/diagnostics/stage-gc-instrumented.py')
+    stage = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(stage)
+    original_module = f.FROZEN / f.RUNTIME / 'runtime/libecl.so'
+    instrumented_module = MIXED / 'runtime/libecl.so'
+    original_interface = stage.interface(original_module)
+    instrumented_interface = stage.interface(instrumented_module)
+    comparison = {**stage.compare_interfaces(original_interface, instrumented_interface),
+                  'comparisonComplete': True, 'originalModule': record(original_module),
+                  'instrumentedModule': record(instrumented_module)}
+    stage.enforce_interface_shape(comparison)
+    require(proof['originalInterface'] == original_interface
+            and proof['instrumentedInterface'] == instrumented_interface
+            and proof['moduleInterfaceComparison'] == comparison,
+            'Module interface evidence differs from the actual modules')
+    require(proof['originalModule'] == comparison['originalModule']
+            and proof['instrumentedModule'] == comparison['instrumentedModule'], 'Module identities changed')
     return {'proof': record(proof_path), 'manifest': record(MIXED / 'manifest.json')}
 
 
