@@ -11,12 +11,7 @@
     "status": "completed",
     "conclusion": "success",
     "files": [
-      "identity.json",
-      "admission.json",
-      "tool-sources.json",
-      "report.json",
-      "trials/01-ecl-oz-source-instrumented/sample.json",
-      "trials/02-ecl-oz-precompiled-instrumented/sample.json"
+      "staged/ecl-oz/maxima-runtime/maxima.js"
     ]
   }
 ]
