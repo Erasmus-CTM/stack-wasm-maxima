@@ -5,6 +5,7 @@ on:
     paths:
       - 'runtime/precompiled/**'
       - 'runtime/build/**'
+      - 'runtime/diagnostics/gc-root-regression.*'
       - '.github/workflows/precompiled-fixtures.yml'
 permissions:
   contents: read
@@ -24,12 +25,25 @@ jobs:
         run: |
           python runtime/precompiled/test-bundle-provenance.py
           python runtime/precompiled/test-controller-parity.py
+          python runtime/build/test-source-overlay.py
       - name: Fetch exact source commits and verify archive hashes
         run: python runtime/build/prepare-sources.py
       - name: Install native and 32-bit build prerequisites
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends build-essential gcc-multilib g++-multilib libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config
+      - name: Require pinned collector root regression at both native pointer widths
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset GH_TOKEN GITHUB_TOKEN
+          task_failed=0
+          for task_bits in 32 64; do
+            python runtime/diagnostics/gc-root-regression.py \
+              --source .cache/runtime-build/sources/ecl/src/bdwgc \
+              --output ".cache/gc-root-regression/$task_bits" --bits "$task_bits" || task_failed=1
+          done
+          exit "$task_failed"
       - uses: actions/checkout@v4
         with:
           repository: maths/moodle-qtype_stack
@@ -62,6 +76,12 @@ jobs:
           name: precompiled-native-fixtures-${{ github.sha }}
           include-hidden-files: true
           path: |
+            .cache/gc-root-regression/*/report.json
+            .cache/gc-root-regression/*/*.stdout
+            .cache/gc-root-regression/*/*.stderr
+            .cache/gc-root-regression/*/build/gc-root-regression
+            .cache/gc-root-regression/*/build/.libs/libgc.a
+            .cache/gc-root-regression/*/build/include/config.h
             .cache/precompiled-fixtures/
             .cache/precompiled-stack/logs/
             .cache/precompiled-stack/source/

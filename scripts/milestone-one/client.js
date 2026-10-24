@@ -17,13 +17,14 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 180000 }) {
     let interruptChecks = 0, injectedInterruptChecks = 0;
     let readyMs = null, stackReadyMs = null, stdout = '', commandsSent = 0, complete = false;
     const messageTrace = [];
-    function finish(ok, error) {
+    function finish(ok, error, fatal) {
       if (complete) return;
       complete = true;
       clearTimeout(timer);
       worker.terminate();
       const result = { ok, error, stdout, readyMs, totalMs: performance.now() - started,
-        commandsSent, totalCommands, stackReadyMs, interruptChecks, injectedInterruptChecks, crossOriginIsolated, messageTrace };
+        commandsSent, totalCommands, stackReadyMs, interruptChecks, injectedInterruptChecks, crossOriginIsolated, messageTrace,
+        ...(fatal ? { fatal } : {}) };
       document.getElementById('status').textContent = JSON.stringify(result, null, 2);
       resolve(result);
     }
@@ -32,8 +33,12 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 180000 }) {
       Atomics.store(mutex, 0, 1);
       Atomics.notify(mutex, 0);
     }
-    worker.onerror = event => finish(false, event.message || 'Worker error');
+    worker.onerror = event => {
+      const message = event.error?.stack || event.message || 'Worker error';
+      finish(false, message, { kind: 'worker-error', message });
+    };
     worker.onmessage = ({ data }) => {
+      if (complete) return;
       if (messageTrace.length < 1000 && data.type !== 'output') messageTrace.push(data);
       if (data.type === 'waitingForInput') {
         if (readyMs === null) readyMs = performance.now() - started;
@@ -58,7 +63,7 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 180000 }) {
       } else if (data.type === 'm1-transport-probe') {
         injectedInterruptChecks++;
       } else if (data.type === 'm1-error') {
-        finish(false, data.error);
+        finish(false, data.error, data.fatal);
       }
     };
     worker.postMessage({ files, buffers: [mutexBuffer, inputBuffer, sizeBuffer, interruptBuffer] });

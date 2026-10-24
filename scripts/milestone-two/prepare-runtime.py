@@ -52,6 +52,8 @@ def owned_runtime_source(path: Path | None, wanted: set[str], baseline_comparato
         expected = json.loads((ROOT / 'runtime/build/configuration.json').read_text())
         if profile != expected:
             raise ValueError('Unknown or changed runtime build configuration')
+        from source_overlay import verify_manifest_identity
+        verify_manifest_identity(manifest, ROOT)
         shim = (ROOT / 'runtime/build/no-plot.mac').read_bytes()
         if hashlib.sha256(shim).hexdigest() != expected['startupSha256']:
             raise ValueError('Current startup adapter hash differs')

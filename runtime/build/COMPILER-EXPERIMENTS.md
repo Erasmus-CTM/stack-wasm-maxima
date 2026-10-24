@@ -6,6 +6,11 @@ whose two cold builds and independent artifact review passed in
 Full compiler-experiment CI and independent review are pending. There is no
 measured optimization benefit and no selected replacement runtime.
 
+The current isolated draft applies the same exact target ECL root-scanner
+overlay to every profile; see [ECL-ROOT-OVERLAY.md](ECL-ROOT-OVERLAY.md). Its
+original source archives remain pinned, and the source-integrity declaration
+records the derivation. Earlier compiler evidence does not accept this overlay.
+
 The capability inventory, source pins, mathematical sources, STACK sources,
 startup adapter and Lisp optimization policy stay the same for all profiles.
 The unchanged upstream Makefile's standalone `ecl-emscripten` target receives

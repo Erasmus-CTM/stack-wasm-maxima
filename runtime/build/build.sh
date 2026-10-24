@@ -50,6 +50,9 @@ file "$ECL_TO_RUN" | tee "$WORK/logs/host-format.txt"
 grep -Eq 'ELF 32-bit.*Intel 80386' "$WORK/logs/host-format.txt"
 "$ECL_TO_RUN" --norc --eval '(unless (= (integer-length most-positive-fixnum) 29) (ext:quit 65))' --eval '(format t "CTM-HOST-ECL|~a|~a~%" (lisp-implementation-version) (integer-length most-positive-fixnum))' --eval '(ext:quit)'
 sha256sum --check "$WORK/logs/host-ecl.sha256"
+# The native compiler was built from original source. Only now derive the
+# target ECL source, preserving the unchanged upstream Maxima build inputs.
+python "$ROOT/runtime/build/apply-target-overlay.py"
 # Select runtime files only: no MathJax/browser UI copies or publication.
 # ECL discards successful subprocess stderr. OS exec tracing captures actual
 # compiler/Binaryen argv regardless of that redirection; never dump environment.
@@ -87,6 +90,7 @@ test ! -e ../src/binary-ecl/wasm32-emscripten/maxima/plot.fasb
 test ! -e maxima-ecl-combined/maxima-plot.fas
 test ! -e maxima-ecl-combined/libgnuplot.so
 cmp "$MAKE_RECIPE" "$WORK/build-recipes/maxima/wasm/Makefile"
-python "$ROOT/runtime/build/verify-source-state.py" after
+sha256sum --check "$WORK/logs/host-ecl.sha256"
+python "$ROOT/runtime/build/verify-source-state.py" after --target-overlay
 node "$ROOT/runtime/build/inspect-wasm.mjs" maxima-ecl-combined/maxima.wasm > "$WORK/logs/wasm-memory.json"
 printf 'Build completed: '; date -u +%FT%TZ

@@ -6,10 +6,11 @@ on:
     paths:
       - '.gitattributes'
       - 'runtime/build/**'
+      - 'runtime/diagnostics/gc-root-regression.*'
+      - '.github/workflows/precompiled-fixtures.yml'
       - '.github/workflows/runtime-build.yml'
       - 'scripts/milestone-two/prepare-runtime.py'
-      - 'scripts/milestone-one/run.mjs'
-      - 'scripts/milestone-one/compare.py'
+      - 'scripts/milestone-one/**'
       - 'scripts/milestone-three/build-site.mjs'
       - 'prototype/runtime/maxima-session.js'
       - 'prototype/runtime/maxima-child.js'
@@ -50,6 +51,7 @@ jobs:
           persist-credentials: false
       - name: Check owned-runtime manifest integrity
         run: |
+          node scripts/milestone-one/test-fatal-reporting.mjs
           node runtime/build/test-runtime-source.mjs
           python runtime/build/test-substitution.py
           python runtime/build/test-toolchain.py
@@ -57,6 +59,7 @@ jobs:
           python runtime/build/test-compiler-evidence.py
           python runtime/build/test-timing-evidence.py
           python runtime/build/test-source-checkout.py
+          python runtime/build/test-source-overlay.py
       - name: Record read-only upstream drift
         run: python runtime/build/check-upstream.py
       - name: Fetch exact source commits and verify their archive hashes

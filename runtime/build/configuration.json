@@ -9,5 +9,6 @@
     "plotting": false
   },
   "startupSha256": "4fb9fdab38b9676328550d00aeef492b9267aad3e10fd6ccb4e16135251d238b",
-  "upstreamRecipesUnmodified": true
+  "maximaBuildInputsUnmodified": true,
+  "targetSourceOverlaySha256": "b1e3d49a9ff13b7a2a6d517ba585d08e4a6ea017f0c58ff00ffc5de5e8fa485d"
 }

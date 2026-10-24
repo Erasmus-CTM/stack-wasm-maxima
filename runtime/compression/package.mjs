@@ -38,6 +38,7 @@ export async function compressArtifact({source,output,site,sourceRunJSON,reposit
  await assert.rejects(()=>stat(output),error=>error.code==='ENOENT','Output must be a fresh directory; previous evidence is retained');
  const owned=await loadOwnedRuntime(source,repository);
  await verifyOwnedRecipe(source,repository);
+ execFileSync('python',[join(repository,'runtime/build/verify-source-overlay.py'),source],{cwd:repository,stdio:'pipe'});
  const sourceManifest=await readFile(join(source,'artifact-manifest.json'));
  const input=JSON.parse(sourceManifest);
  const sourceFiles=await files(source);

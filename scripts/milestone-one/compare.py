@@ -38,10 +38,13 @@ try:
                         interruptChecks=result.get("interruptChecks"), injectedInterruptChecks=result.get("injectedInterruptChecks"),
                         servedAssetCount=len(result.get("servedAssets", [])),
                         sourceFileCount=len(result.get("files", [])))
-            if result.get("injectedInterruptChecks") != 3:
-                raise RuntimeError("The mid-input interrupt transport checks did not all execute")
+            for key in ("fatal", "compiledEntryErrors"):
+                if key in result:
+                    item[key] = result[key]
             if not result.get("ok"):
                 raise RuntimeError(result.get("error") or "Browser execution did not finish")
+            if result.get("injectedInterruptChecks") != 3:
+                raise RuntimeError("The mid-input interrupt transport checks did not all execute")
             version_match = re.search(r"^M1META\|([^|\r\n]+)\|([^\r\n]+)", result["stdout"], re.M)
             if not version_match or version_match[1] != version["stackLibraryVersion"]:
                 raise RuntimeError("STACK library did not reach its pinned end-of-file version declaration")

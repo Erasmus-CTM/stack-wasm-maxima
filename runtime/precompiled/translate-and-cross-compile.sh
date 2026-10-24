@@ -159,4 +159,4 @@ cp "${bundles[0]}" "$WORK/stackmaxima.fas"
 file "$WORK/stackmaxima.fas" | tee "$WORK/logs/bundle-format.txt"
 sha256sum "$WORK/stackmaxima.fas" > "$WORK/logs/stackmaxima-fas.sha256"
 python "$ROOT/runtime/precompiled/bundle_provenance.py" --stack-source "$STACK" --work "$WORK" --pin "$PIN"
-python "$ROOT/runtime/build/verify-source-state.py" after
+python "$ROOT/runtime/build/verify-source-state.py" after --target-overlay

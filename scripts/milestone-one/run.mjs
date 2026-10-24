@@ -7,6 +7,7 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { chromium } from 'playwright';
 import { loadOwnedRuntime } from '../../runtime/build/runtime-source.mjs';
+import { requireCompiledEntryReads } from './result.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const out = join(root, 'test-results/milestone-one');
@@ -132,12 +133,7 @@ try {
     if (compiled) {
       result.compiledStack = compiled.compiledStack;
       result.compiledManifestSha256 = compiled.manifestSha256;
-      if (!result.messageTrace?.some(row=>row.type==='m1-fs-open' && row.read===true && row.path==='/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.fas')) {
-        result.ok=false;result.error='Compiled entry was not opened by the real Wasm filesystem';
-      }
-      if (result.messageTrace?.some(row=>row.type==='m1-fs-open' && row.read===true && row.path==='/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac')) {
-        result.ok=false;result.error='Compiled probe unexpectedly opened the source entry';
-      }
+      requireCompiledEntryReads(result);
     }
     result.servedAssets = [...served.values()].filter(asset => requestedPaths.has(asset.path));
     result.prefetchedAssets = [...served.values()].filter(asset => !requestedPaths.has(asset.path));

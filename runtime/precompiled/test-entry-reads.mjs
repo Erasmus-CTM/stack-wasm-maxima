@@ -25,7 +25,7 @@ fs.open('../maxima/stackmaxima.mac');assert.equal(stages.compiledSourceEntryOpen
 const worker=await readFile(new URL('../../scripts/milestone-one/worker.js',import.meta.url),'utf8');
 function probe(reads=[]) {
   const messages=[],FS=filesystem(),Module={preRun:[]};
-  const self={postMessage:data=>messages.push(data),importScripts(){},onmessage(){
+  const self={postMessage:data=>messages.push(data),importScripts(){},addEventListener(){},onmessage(){
     for(const run of Module.preRun)run();
     for(const path of reads)FS.open(path);
   }};

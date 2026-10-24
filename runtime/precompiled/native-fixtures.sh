@@ -9,6 +9,7 @@ MAXIMA="$ROOT/.cache/runtime-build/sources/maxima"
 export ECL_SRCDIR="$ROOT/.cache/runtime-build/sources/ecl"
 export ECL_TO_RUN="$MAXIMA/wasm/ecl-host/bin/ecl"
 MODE=${1:-standalone}
+SOURCE_STATE_FLAGS=()
 [[ $# -le 1 && ( "$MODE" == standalone || "$MODE" == --reuse-built-native ) ]] || { echo "Invalid fixture mode" >&2; exit 64; }
 test ! -e "$WORK"
 mkdir -p "$WORK/logs"
@@ -16,6 +17,7 @@ exec > >(tee "$WORK/logs/fixtures.log") 2>&1
 export MAXIMA_PREFIX="$MAXIMA/wasm/maxima-ecl-combined"
 NATIVE="$MAXIMA_PREFIX/bin/maxima"
 if [[ "$MODE" == --reuse-built-native ]]; then
+  SOURCE_STATE_FLAGS=(--target-overlay)
   # Preserve the cold build's provenance; never bootstrap an already-built tree.
   test -x "$ECL_TO_RUN" && test -x "$NATIVE"
   sha256sum --check "$ROOT/.cache/runtime-build/logs/host-ecl.sha256"
@@ -32,7 +34,7 @@ VERIFY
     cp "$report" "$WORK/provenance/"
     sha256sum "$report" >> "$WORK/provenance/original-reports.sha256"
   done
-  python "$ROOT/runtime/build/verify-source-state.py" after
+  python "$ROOT/runtime/build/verify-source-state.py" after "${SOURCE_STATE_FLAGS[@]}"
   sha256sum --check "$WORK/provenance/original-reports.sha256"
 else
   python "$ROOT/runtime/build/verify-source-state.py" before
@@ -393,7 +395,7 @@ COLOR_SOURCE
     fi
   done
 done
-python runtime/build/verify-source-state.py after
+python runtime/build/verify-source-state.py after "${SOURCE_STATE_FLAGS[@]}"
 if [[ "$MODE" == --reuse-built-native ]]; then
   sha256sum --check "$WORK/provenance/original-reports.sha256"
   sha256sum --check "$ROOT/.cache/runtime-build/logs/host-ecl.sha256"
