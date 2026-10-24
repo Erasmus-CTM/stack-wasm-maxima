@@ -1,84 +1,76 @@
 [
   {
-    "id": 12567098921,
-    "name": "owned-runtime-ecl-oz-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
-    "run": 40108653797,
-    "workflow": 393419291,
+    "id": 12568085269,
+    "name": "precompiled-stack-probe-ecl-oz-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+    "run": 40108653819,
+    "workflow": 394101239,
     "attempt": 1,
     "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
-    "status": "in_progress",
-    "conclusion": null,
-    "sha256": "3bc5ddf977979c45a867cf0587e90e74cb2b77a0487267632d69f6cd21d22d55",
-    "zipBytes": 391603635,
+    "status": "completed",
+    "conclusion": "success",
+    "sha256": "890a9c1c6c96d915ada2c41bf85e8b3756132ea2f42d6c5d4c6d9a9357c6759d",
+    "zipBytes": 213921626,
     "files": [
-      ".cache/runtime-build/artifact/logs/ecl-cross-build.log"
-    ],
-    "ranges": [
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 0,
-        "end": 4194304
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 4194304,
-        "end": 8388608
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 8388608,
-        "end": 12582912
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 12582912,
-        "end": 16777216
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 16777216,
-        "end": 20971520
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 20971520,
-        "end": 25165824
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 25165824,
-        "end": 29360128
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 29360128,
-        "end": 33554432
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 33554432,
-        "end": 37748736
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 37748736,
-        "end": 41943040
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 41943040,
-        "end": 46137344
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 46137344,
-        "end": 50331648
-      },
-      {
-        "path": ".cache/runtime-build/artifact/logs/maxima-cross-build.log",
-        "start": 50331648,
-        "end": 53664311
-      }
+      ".cache/precompiled-probes/10d323311b7f39fb7b092dd10ce75f7d8632f525/stack-sources-timed-source.json",
+      ".cache/precompiled-probes/33383047af39c204bf4442802a058f8b918b2b1b/maxima-runtime/stackmaxima.fas",
+      ".cache/precompiled-probes/33383047af39c204bf4442802a058f8b918b2b1b/stack-sources-precompiled.json",
+      ".cache/precompiled-probes/33383047af39c204bf4442802a058f8b918b2b1b/stack-sources.json",
+      ".cache/precompiled-probes/index.json",
+      ".cache/precompiled-stack-10d3233/assignment-probe-driver.lisp",
+      ".cache/precompiled-stack-10d3233/display2d-bridge.lisp",
+      ".cache/precompiled-stack-10d3233/initialized-translate-driver.lisp",
+      ".cache/precompiled-stack-10d3233/logs/reset-probe.log",
+      ".cache/precompiled-stack-10d3233/logs/stackmaxima-source.sha256",
+      ".cache/precompiled-stack-10d3233/logs/translate-initialized.log",
+      ".cache/precompiled-stack-10d3233/reset-probe.lisp",
+      ".cache/precompiled-stack-10d3233/source-adapted/stackmaxima.LISP",
+      ".cache/precompiled-stack-10d3233/source-adapted/stackmaxima.UNLISP",
+      ".cache/precompiled-stack-10d3233/source-adapted/stackmaxima.mac",
+      ".cache/precompiled-stack-10d3233/source-initialized/display2d-bridge.c",
+      ".cache/precompiled-stack-10d3233/source-initialized/display2d-bridge.fas",
+      ".cache/precompiled-stack-10d3233/source-initialized/display2d-bridge.lisp",
+      ".cache/precompiled-stack-10d3233/source-initialized/display2d-bridge.o",
+      ".cache/precompiled-stack-10d3233/source-initialized/parser-declarations.json",
+      ".cache/precompiled-stack-10d3233/source-initialized/stackmaxima.LISP",
+      ".cache/precompiled-stack-10d3233/source-initialized/stackmaxima.lisp",
+      ".cache/precompiled-stack-10d3233/source/ctm-assignment-probe.LISP",
+      ".cache/precompiled-stack-10d3233/source/ctm-assignment-probe.UNLISP",
+      ".cache/precompiled-stack-10d3233/source/ctm-reset-probe.UNLISP",
+      ".cache/precompiled-stack-10d3233/source/stackmaxima.LISP",
+      ".cache/precompiled-stack-10d3233/source/stackmaxima.UNLISP",
+      ".cache/precompiled-stack-10d3233/stackmaxima.fas",
+      ".cache/precompiled-stack/assignment-adapter.lisp",
+      ".cache/precompiled-stack/assignment-probe-driver.lisp",
+      ".cache/precompiled-stack/display2d-bridge.lisp",
+      ".cache/precompiled-stack/initialized-translate-driver.lisp",
+      ".cache/precompiled-stack/logs/assignment-probe-status.txt",
+      ".cache/precompiled-stack/logs/assignment-probe.log",
+      ".cache/precompiled-stack/logs/reset-probe.log",
+      ".cache/precompiled-stack/logs/stackmaxima-fas.sha256",
+      ".cache/precompiled-stack/logs/stackmaxima-source.sha256",
+      ".cache/precompiled-stack/logs/translate-initialized.log",
+      ".cache/precompiled-stack/reset-probe.lisp",
+      ".cache/precompiled-stack/reset-translate-driver.lisp",
+      ".cache/precompiled-stack/site/runtime/maxima-child.js",
+      ".cache/precompiled-stack/site/runtime/maxima-session.js",
+      ".cache/precompiled-stack/source-adapted/display2d-bridge.lisp",
+      ".cache/precompiled-stack/source-initialized/display2d-bridge.data",
+      ".cache/precompiled-stack/source-initialized/display2d-bridge.eclh",
+      ".cache/precompiled-stack/source-initialized/parser-declarations.json",
+      ".cache/precompiled-stack/source-initialized/parser-declarations.mac",
+      ".cache/precompiled-stack/source-initialized/stackmaxima.LISP",
+      ".cache/precompiled-stack/source-initialized/stackmaxima.UNLISP",
+      ".cache/precompiled-stack/source-initialized/stackmaxima.mac",
+      ".cache/precompiled-stack/source/ctm-assignment-probe.UNLISP",
+      ".cache/precompiled-stack/source/ctm-assignment-probe.mac",
+      ".cache/precompiled-stack/source/ctm-reset-probe.UNLISP",
+      ".cache/precompiled-stack/source/ctm-reset-probe.mac",
+      ".cache/precompiled-stack/source/stackmaxima.mac",
+      ".cache/precompiled-stack/stackmaxima.fas",
+      ".cache/precompiled-stack/stackmaxima.fas.json",
+      ".cache/runtime-build/artifact/artifact-manifest.json",
+      ".cache/runtime-build/artifact/manifest.json",
+      ".cache/runtime-build/artifact/source-manifest.json"
     ]
   }
 ]
