@@ -11,6 +11,14 @@ def profiles():
     return json.loads((ROOT / 'runtime/build/compiler-profiles.json').read_text())
 
 
+def production_name():
+    """The profile runtime releases use; experiments still choose explicitly."""
+    name = profiles()['production']
+    if name not in profiles()['profiles']:
+        raise ValueError('Production names an unknown ECL compiler profile: ' + name)
+    return name
+
+
 def compiler_profile(name=None):
     name = name or os.environ.get('CTM_ECL_COMPILER_PROFILE', 'baseline')
     selected = profiles()['profiles'].get(name)
@@ -22,4 +30,7 @@ def compiler_profile(name=None):
 if __name__ == '__main__':
     import sys
     profile = compiler_profile()
-    print((profile['injectedEmccFlags'] or '') if len(sys.argv)>1 and sys.argv[1]=='--emcc-flags' else json.dumps(profile))
+    if len(sys.argv) > 1 and sys.argv[1] == '--production':
+        print(production_name())
+    else:
+        print((profile['injectedEmccFlags'] or '') if len(sys.argv)>1 and sys.argv[1]=='--emcc-flags' else json.dumps(profile))

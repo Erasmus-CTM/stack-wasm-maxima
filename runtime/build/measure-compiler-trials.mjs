@@ -7,13 +7,21 @@ import {chromium} from 'playwright';
 import {serveDemo} from '../../scripts/milestone-two/serve.mjs';
 import {timingWorker} from './timing-worker.mjs';
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
-const root=resolve('.cache/compiler-trials'),output=join(root,'comparison/timings.json');
+// CTM_TIMING_REPETITIONS alternating repetitions of CTM_TIMING_PROFILES (all
+// admitted profiles are still verified). CTM_TIMING_LABEL names a run made
+// under a CPU limit set from outside (the workflow's systemd CPUQuota), the
+// stand-in for plan D8's reference laptop until one is named.
+const repetitions=Number(process.env.CTM_TIMING_REPETITIONS||2);
+const timed=(process.env.CTM_TIMING_PROFILES||'baseline,ecl-oz,ecl-o2').split(',');
+const label=process.env.CTM_TIMING_LABEL||'';
+const root=resolve('.cache/compiler-trials'),output=join(root,'comparison',label?`timings-${label}.json`:'timings.json');
 const admissionBytes=await readFile(join(root,'comparison/admission.json'));
 const admission=JSON.parse(admissionBytes);
-const report={schema:1,passed:false,admissionSha256:hash(admissionBytes),samples:[],
+const report={schema:1,passed:false,admissionSha256:hash(admissionBytes),samples:[],repetitions,profiles:timed,label:label||null,
+ cpuLimit:process.env.CTM_TIMING_CPU_LIMIT||null,
  toolchain:{node:process.version,zlib:process.versions.zlib,platform:process.platform,arch:process.arch},
  runnerImage:Object.fromEntries(['ImageOS','ImageVersion','RUNNER_OS','RUNNER_ARCH'].map(k=>[k,process.env[k]||null])),
- scope:'All three accepted compiler profiles on this same runner, gzip-6 server policy, two alternating-order trials. Each trial uses a fresh browser profile followed by a reload on the same live origin/context with a new worker. Warm calls retain their worker. OS/process/filesystem warming is uncontrolled; two observations per mode are not a statistical performance claim. No profile is promoted automatically.'};
+ scope:'Accepted compiler profiles on this same runner, gzip-6 server policy, alternating-order trials (see repetitions, profiles, cpuLimit). Each trial uses a fresh browser profile followed by a reload on the same live origin/context with a new worker. Warm calls retain their worker. OS/process/filesystem warming is uncontrolled; medians over the repetitions are reported, not a statistical claim. No profile is promoted automatically.'};
 try{
  assert.equal(admission.passed,true);
  const names=['baseline','ecl-oz','ecl-o2'];assert.deepEqual(Object.keys(admission.trials),names);
@@ -32,7 +40,9 @@ try{
   await writeFile(join(demo,'compiler-timing.js'),timingWorker);
   report.trials[name]={manifestSha256:accepted.manifestSha256,compilerProfile:accepted.compilerProfile,runtimeBytes:accepted.runtimeBytes,stagedManifestSha256:hash(stagedBytes),runtimeAssets:manifest.runtimeAssets,preload:manifest.preload};
  }
- for(let repetition=1;repetition<=2;repetition++)for(const candidate of repetition===1?names:[...names].reverse()){
+ assert.ok(Number.isInteger(repetitions)&&repetitions>=1&&repetitions<=20,'CTM_TIMING_REPETITIONS must be 1-20');
+ assert.ok(timed.length&&timed.every(name=>names.includes(name)),'CTM_TIMING_PROFILES must name admitted profiles');
+ for(let repetition=1;repetition<=repetitions;repetition++)for(const candidate of repetition%2===1?timed:[...timed].reverse()){
   const app=await serveDemo({root:join(root,'demos',candidate),compression:'gzip'});let browser;
   try{
    browser=await chromium.launch({headless:true});report.browserVersion=browser.version();const page=await browser.newPage();
@@ -52,7 +62,11 @@ try{
    }
   }finally{if(browser)await browser.close();await app.close();}
  }
- assert.equal(report.samples.length,12);report.passed=true;
+ assert.equal(report.samples.length,repetitions*timed.length*2);
+ const median=values=>{const v=[...values].sort((a,b)=>a-b),m=v.length>>1;return v.length%2?v[m]:(v[m-1]+v[m])/2;};
+ report.medians=Object.fromEntries(timed.map(name=>[name,Object.fromEntries(['cold','warm-profile-reload'].map(mode=>[mode,
+  median(report.samples.filter(s=>s.candidate===name&&s.mode===mode).map(s=>s.readyMs))]))]));
+ report.passed=true;
 }catch(error){report.failure=String(error);console.error(error);}
 finally{await writeFile(output,JSON.stringify(report,null,2)+'\n');}
 if(!report.passed)process.exitCode=1;

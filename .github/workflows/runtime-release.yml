@@ -1,0 +1,188 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Release the owned Maxima runtime
+
+# AC starts a release in one of two ways: by pushing a tag `runtime-v<N>` on a
+# commit of main, or by running this workflow on main with the tag name (it
+# then creates the tag on that commit, only after acceptance). It builds the
+# production compiler profile (runtime/build/compiler-profiles.json) from the
+# pinned sources with every acceptance gate of runtime-build.yml, and publishes
+# the accepted artifact as a GitHub Release of that tag: the runtime, its
+# manifest, the exact source archives and recipe (the source offer), and the
+# licence texts. Courses and the site load a release by its pinned SHA-256.
+on:
+  push:
+    tags: ['runtime-v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag to create on this commit of main and release (runtime-v<N>)
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: runtime-release-${{ inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    outputs:
+      profile: ${{ steps.profile.outputs.name }}
+      tag: ${{ steps.tag.outputs.name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: tag
+        name: The tag names a release of a commit of main
+        env:
+          TAG: ${{ inputs.tag || github.ref_name }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [[ "$TAG" =~ ^runtime-v[0-9]+$ ]] || { echo "::error::'$TAG' is not runtime-v<N>"; exit 1; }
+          git fetch -q origin main
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main || {
+            echo "::error::$GITHUB_SHA is not on main; release only reviewed, merged commits"; exit 1; }
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            [ "$GITHUB_REF" = refs/heads/main ] || { echo "::error::run this workflow on main"; exit 1; }
+            if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null; then
+              echo "::error::tag $TAG already exists; push a new tag name"; exit 1
+            fi
+          fi
+          echo "name=$TAG" >> "$GITHUB_OUTPUT"
+      - id: profile
+        name: The production compiler profile
+        run: echo "name=$(python3 runtime/build/compiler_profile.py --production)" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: check
+    uses: ./.github/workflows/runtime-build.yml
+    with:
+      profiles: '["${{ needs.check.outputs.profile }}"]'
+
+  release:
+    needs: [check, build]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    env:
+      PROFILE: ${{ needs.check.outputs.profile }}
+      TAG: ${{ needs.check.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.check.outputs.profile == 'baseline' && format('owned-runtime-{0}', github.sha) || format('owned-runtime-{0}-{1}', needs.check.outputs.profile, github.sha) }}
+          path: accepted
+      - name: Require the accepted artifact of this profile and commit
+        run: |
+          python3 - <<'EOF'
+          import hashlib, json, os, sys
+          from pathlib import Path
+          repository = Path.cwd()
+          sys.path.insert(0, str(repository / 'runtime/build'))
+          from recipe_inputs import committed_recipe
+          from source_overlay import verify_packaged as verify_source
+          from compiler_evidence import verify_packaged as verify_compiler
+          root = Path('accepted/.cache/runtime-build')
+          acceptance = json.loads((root / 'validation/acceptance.json').read_text())
+          artifact = root / 'artifact'
+          manifest_bytes = (artifact / 'manifest.json').read_bytes()
+          manifest = json.loads(manifest_bytes)
+          profiles = json.loads(Path('runtime/build/compiler-profiles.json').read_text())
+          expected = profiles['profiles'][os.environ['PROFILE']]
+          assert acceptance['passed'] is True, acceptance.get('failure')
+          assert acceptance['compilerProfile'] == expected == manifest['compilerProfile']
+          assert acceptance['artifactManifestSha256'] == hashlib.sha256(manifest_bytes).hexdigest()
+          revision, recipe = committed_recipe(repository)
+          assert revision == os.environ['GITHUB_SHA'] == manifest['recipe']['revision']
+          assert manifest['recipe']['files'] == recipe
+          assert manifest['sourcePins'] == json.loads(Path('runtime/build/pins.json').read_text())
+          assert acceptance['configuration'] == manifest['configuration'] == json.loads(Path('runtime/build/configuration.json').read_text())
+          source_manifest = json.loads((artifact / 'source-manifest.json').read_text())
+          assert source_manifest == {key: manifest[key] for key in (
+              'schema', 'compilerProfile', 'sourcePins', 'recipe', 'toolchain', 'upstreamRecipe',
+              'sourceIntegrity', 'configuration', 'startupAdapter')}
+          delivery = json.loads((artifact / 'artifact-manifest.json').read_text())['files']
+          assert not any(p.is_symlink() for p in artifact.rglob('*'))
+          paths = {row['path'] for row in delivery}
+          assert len(paths) == len(delivery)
+          assert paths == {p.relative_to(artifact).as_posix() for p in artifact.rglob('*') if p.is_file() and p != artifact / 'artifact-manifest.json'}
+          for row in delivery:
+              path = artifact / row['path']
+              assert path.resolve().is_relative_to(artifact.resolve()) and not path.is_symlink()
+              body = path.read_bytes()
+              assert len(body) == row['bytes'] and hashlib.sha256(body).hexdigest() == row['sha256'], row['path']
+          for prefix, records in [('runtime', manifest['runtimeAssets']), ('recipe', recipe)]:
+              expected_paths = {row['path'] for row in records}
+              assert len(expected_paths) == len(records)
+              assert expected_paths == {p.relative_to(artifact / prefix).as_posix() for p in (artifact / prefix).rglob('*') if p.is_file()}
+              for row in records:
+                  body = (artifact / prefix / row['path']).read_bytes()
+                  assert len(body) == row['bytes'] and hashlib.sha256(body).hexdigest() == row['sha256'], row['path']
+          assert acceptance['sourceIntegrity'] == verify_source(artifact, repository)
+          verify_compiler(artifact, expected)
+          assert acceptance['compilerEvidenceSha256'] == hashlib.sha256((artifact / 'logs/compiler-experiment.json').read_bytes()).hexdigest()
+          # The two archive member lists below must cover the complete artifact.
+          assert {Path(path).parts[0] for path in paths} == {
+              'runtime', 'manifest.json', 'BUILD-NOTICES.md', 'SITE-NOTICES-context.md', 'LICENSES', 'sizes.md',
+              'sources', 'recipe', 'build-recipes', 'source-overlays', 'source-manifest.json', 'logs'}
+          print('accepted', os.environ['PROFILE'], len(manifest['runtimeAssets']), 'runtime assets')
+          EOF
+      - name: Package the runtime and the source offer
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          base="maxima-$TAG"
+          # Runtime with its manifest, notices and licences (what a site serves).
+          tar -C accepted/.cache/runtime-build/artifact --sort=name --owner=0 --group=0 --numeric-owner \
+            --mtime='2000-01-01 00:00Z' -czf "release/$base.tar.gz" \
+            runtime manifest.json artifact-manifest.json BUILD-NOTICES.md SITE-NOTICES-context.md LICENSES sizes.md
+          # Original archives, declared derived source and complete build provenance.
+          tar -C accepted/.cache/runtime-build/artifact --sort=name --owner=0 --group=0 --numeric-owner \
+            --mtime='2000-01-01 00:00Z' -czf "release/$base-sources.tar.gz" \
+            sources recipe build-recipes source-overlays source-manifest.json logs
+          cp accepted/.cache/runtime-build/validation/acceptance.json "release/$base-acceptance.json"
+          python3 - <<'EOF'
+          import hashlib, json, os
+          from pathlib import Path
+          tag, profile = os.environ['TAG'], os.environ['PROFILE']
+          files = sorted(p for p in Path('release').iterdir() if p.is_file())
+          manifest = json.loads(Path('accepted/.cache/runtime-build/artifact/manifest.json').read_bytes())
+          record = {
+            'schema': 1, 'tag': tag, 'commit': os.environ['GITHUB_SHA'], 'compilerProfile': profile,
+            'runtimeManifestSha256': hashlib.sha256(Path('accepted/.cache/runtime-build/artifact/manifest.json').read_bytes()).hexdigest(),
+            'sourcePins': manifest['sourcePins'],
+            'files': {p.name: {'sha256': hashlib.sha256(p.read_bytes()).hexdigest(), 'bytes': p.stat().st_size} for p in files},
+            'buildRun': f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",
+          }
+          Path(f'release/maxima-{tag}.json').write_text(json.dumps(record, indent=2) + '\n')
+          Path('release/SHA256SUMS').write_text(''.join(f"{v['sha256']}  {k}\n" for k, v in record['files'].items()))
+          EOF
+          cat release/SHA256SUMS
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cat > notes.md <<EOF
+          Owned Maxima/ECL Wasm runtime, compiler profile \`$PROFILE\`, built in [this run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID) from the exact sources pinned at $GITHUB_SHA, with every acceptance gate of \`runtime-build.yml\`.
+
+          - \`maxima-$TAG.tar.gz\`: the runtime files, manifest, notices and licence texts.
+          - \`maxima-$TAG-sources.tar.gz\`: the original source archives, declared source overlays, build recipe and provenance logs (source offer).
+          - \`maxima-$TAG.json\` and \`SHA256SUMS\`: hashes; sites pin the JSON's SHA-256.
+          - \`maxima-$TAG-acceptance.json\`: the acceptance report.
+          EOF
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            # A release made on the Releases page first: attach the files to it.
+            gh release upload "$TAG" release/* --clobber
+            gh release edit "$TAG" --notes-file notes.md
+          elif [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            # Creates the tag on the accepted commit of main.
+            gh release create "$TAG" release/* --target "$GITHUB_SHA" --title "Maxima runtime $TAG" --notes-file notes.md
+          else
+            gh release create "$TAG" release/* --verify-tag --title "Maxima runtime $TAG" --notes-file notes.md
+          fi

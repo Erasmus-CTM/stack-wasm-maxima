@@ -2,6 +2,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """Synthetic provenance failure tests; these do not establish collector correctness."""
 import copy
+import contextlib
+import importlib.util
+import io
 import difflib
 import json
 import os
@@ -9,6 +12,8 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
+import tarfile
+import textwrap
 import unittest
 from unittest.mock import patch
 import source_overlay as overlay
@@ -125,6 +130,120 @@ class OverlayEvidence(unittest.TestCase):
         save(artifact / 'source-manifest.json', manifest)
         overlay.verify_packaged(artifact, self.root)
         return artifact
+
+    def test_release_rechecks_accepted_bytes_and_packages_complete_source_offer(self):
+        # Synthetic source/runtime/compiler fixtures only; no release or real build.
+        workflow_path = '.github/workflows/runtime-release.yml'
+        workflow = (ROOT / workflow_path).read_text()
+        write(self.root / workflow_path, workflow.encode())
+        write(self.root / 'runtime/build/compiler-profiles.json',
+              (ROOT / 'runtime/build/compiler-profiles.json').read_bytes())
+        save(self.root / 'runtime/build/recipe-inputs.json',
+             {'schema':1, 'directories':['runtime/build'], 'files':[workflow_path]})
+        self.revision = commit(self.root)
+        artifact = self.package_fixture()
+        spec = importlib.util.spec_from_file_location('release_compiler_fixture', ROOT / 'runtime/build/test-compiler-evidence.py')
+        compiler_fixture = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(compiler_fixture)
+        profile = compiler_fixture.profiles()['profiles']['ecl-oz']
+        compiler = Path(self.temp.name) / 'compiler'
+        compiler.mkdir()
+        compiler_fixture.packaged(compiler, profile)
+        shutil.copytree(compiler / 'logs', artifact / 'logs', dirs_exist_ok=True)
+        binary = b'Synthetic Wasm fixture; never executed.'
+        write(artifact / 'runtime/libecl.so', binary)
+        for name in ('BUILD-NOTICES.md', 'SITE-NOTICES-context.md', 'sizes.md'):
+            write(artifact / name, b'Synthetic fixture notice.\n')
+        manifest = overlay.read(artifact / 'manifest.json')
+        manifest.update(schema=1, compilerProfile=profile,
+                        sourcePins=overlay.read(self.root / 'runtime/build/pins.json'), toolchain={},
+                        configuration=overlay.read(self.root / 'runtime/build/configuration.json'), startupAdapter={})
+        save(artifact / 'source-manifest.json', manifest)
+        manifest['runtimeAssets'] = [{'path':'libecl.so', **overlay.record(binary)}]
+        save(artifact / 'manifest.json', manifest)
+        target = self.root / 'accepted/.cache/runtime-build'
+        shutil.copytree(artifact, target / 'artifact')
+        artifact = target / 'artifact'
+        write(artifact / 'logs/artifact-manifest.json', b'Ordinary nested fixture evidence.\n')
+        acceptance_path = target / 'validation/acceptance.json'
+        acceptance = {'passed':True, 'compilerProfile':profile, 'configuration':manifest['configuration'],
+                      'artifactManifestSha256':overlay.digest((artifact / 'manifest.json').read_bytes()),
+                      'sourceIntegrity':manifest['sourceIntegrity'],
+                      'compilerEvidenceSha256':overlay.digest((artifact / 'logs/compiler-experiment.json').read_bytes())}
+        save(acceptance_path, acceptance)
+
+        def inventory():
+            save(artifact / 'artifact-manifest.json', {'schema':1,'files':[
+                {'path':path.relative_to(artifact).as_posix(), **overlay.record(path.read_bytes())}
+                for path in sorted(artifact.rglob('*')) if path.is_file() and path != artifact / 'artifact-manifest.json']})
+
+        def step(name):
+            marker = '      - name: ' + name + '\n'
+            self.assertEqual(workflow.count(marker), 1)
+            block = workflow.split(marker, 1)[1].split('\n      - name:', 1)[0]
+            return textwrap.dedent(block.split('        run: |\n', 1)[1])
+
+        shell = step('Require the accepted artifact of this profile and commit')
+        code = shell.split("python3 - <<'EOF'\n", 1)[1].split('\nEOF', 1)[0]
+        environment = {'GITHUB_SHA':self.revision, 'PROFILE':'ecl-oz', 'TAG':'runtime-v1',
+                       'GITHUB_SERVER_URL':'https://example.invalid', 'GITHUB_REPOSITORY':'fixture/repository',
+                       'GITHUB_RUN_ID':'1'}
+
+        def verify():
+            with contextlib.chdir(self.root), patch.dict(os.environ, environment), contextlib.redirect_stdout(io.StringIO()):
+                exec(compile(code, workflow_path + ':release-admission', 'exec'), {})
+
+        inventory()
+        verify()
+        delivery = overlay.read(artifact / 'artifact-manifest.json')
+        delivery['files'] = [r for r in delivery['files'] if r['path'] != 'logs/artifact-manifest.json']
+        save(artifact / 'artifact-manifest.json', delivery)
+        with self.assertRaises(AssertionError): verify()
+        inventory()
+        # Recompute delivery hashes after tampering: the acceptance-bound runtime
+        # manifest and current committed recipe must still reject these mutations.
+        for relative, replacement in [
+            ('runtime/libecl.so', b'changed executable'),
+            ('runtime/extra.fas', b'undeclared executable'),
+            ('recipe/' + workflow_path, b'changed preserved release policy'),
+            ('source-manifest.json', json.dumps({**overlay.read(artifact / 'source-manifest.json'), 'configuration':{}}).encode()),
+            ('unpackaged-evidence.txt', b'an omitted future archive member'),
+        ]:
+            with self.subTest(recomputed_delivery=relative):
+                path = artifact / relative
+                original = path.read_bytes() if path.exists() else None
+                write(path, replacement)
+                inventory()
+                with self.assertRaises(AssertionError): verify()
+                if original is None: path.unlink()
+                else: path.write_bytes(original)
+        inventory()
+        for field, value in [('passed', False), ('artifactManifestSha256','0'*64),
+                             ('compilerEvidenceSha256','0'*64), ('sourceIntegrity',{}),
+                             ('compilerProfile',compiler_fixture.profiles()['profiles']['baseline'])]:
+            with self.subTest(acceptance=field):
+                save(acceptance_path, {**acceptance, field:value})
+                with self.assertRaises(AssertionError): verify()
+        save(acceptance_path, acceptance)
+        environment['GITHUB_SHA'] = '0'*40
+        with self.assertRaises(AssertionError): verify()
+        environment['GITHUB_SHA'] = self.revision
+        verify()
+        subprocess.run(['bash', '-e', '-c', step('Package the runtime and the source offer')],
+                       cwd=self.root, env={**os.environ, **environment}, check=True, stdout=subprocess.PIPE)
+        union = set()
+        for name in ('maxima-runtime-v1.tar.gz', 'maxima-runtime-v1-sources.tar.gz'):
+            with tarfile.open(self.root / 'release' / name) as archive:
+                for row in archive.getmembers():
+                    if row.isfile():
+                        self.assertNotIn(row.name, union)
+                        union.add(row.name)
+                        self.assertEqual(archive.extractfile(row).read(), (artifact / row.name).read_bytes())
+        self.assertEqual(union, {p.relative_to(artifact).as_posix() for p in artifact.rglob('*') if p.is_file()})
+        self.assertIn('source-overlays/ecl/' + overlay.SOURCE, union)
+        self.assertIn('logs/target-source-overlay.json', union)
+        self.assertIn('logs/artifact-manifest.json', union)
+        self.assertIn('recipe/' + workflow_path, union)
 
     def test_original_host_and_truthful_target_after(self):
         proof, after, integrity = self.apply_and_verify()

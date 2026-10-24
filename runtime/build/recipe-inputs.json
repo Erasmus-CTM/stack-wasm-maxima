@@ -6,6 +6,7 @@
   "files": [
     ".gitattributes",
     ".github/workflows/runtime-build.yml",
+    ".github/workflows/runtime-release.yml",
     ".github/workflows/precompiled-fixtures.yml",
     "runtime/diagnostics/gc-root-regression.c",
     "runtime/diagnostics/gc-root-regression.py",
