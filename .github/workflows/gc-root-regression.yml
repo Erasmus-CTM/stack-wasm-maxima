@@ -1,0 +1,55 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Pinned collector root regression
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/gc-root-regression.yml'
+      - 'runtime/diagnostics/gc-root-regression.*'
+permissions:
+  contents: read
+concurrency:
+  group: gc-root-regression-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+jobs:
+  collector:
+    runs-on: ubuntu-24.04
+    # Both drivers can consume 23m20s of bounded commands/cases, before
+    # setup and artifact upload. Preserve both reports even on test failure.
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recover the original verified source pins
+        run: python runtime/build/prepare-sources.py
+      - name: Install both native C toolchains
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends build-essential gcc-multilib libc6-dev-i386
+      - name: Require all cases at both native pointer widths
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset GH_TOKEN GITHUB_TOKEN
+          task_failed=0
+          for task_bits in 32 64; do
+            python runtime/diagnostics/gc-root-regression.py \
+              --source .cache/runtime-build/sources/ecl/src/bdwgc \
+              --output ".cache/gc-root-regression/$task_bits" --bits "$task_bits" || task_failed=1
+          done
+          exit "$task_failed"
+      - name: Preserve reports and every raw case, including expected aborts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gc-root-regression-${{ github.sha }}
+          include-hidden-files: true
+          path: |
+            .cache/gc-root-regression/*/report.json
+            .cache/gc-root-regression/*/*.stdout
+            .cache/gc-root-regression/*/*.stderr
+          if-no-files-found: error
