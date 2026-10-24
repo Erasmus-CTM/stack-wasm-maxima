@@ -1,0 +1,123 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Instrument frozen collector root occupancy
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/mark-stack-instrumentation.yml'
+      - 'runtime/diagnostics/instrument-ecl-gc.py'
+      - 'runtime/diagnostics/stage-gc-instrumented.py'
+      - 'runtime/diagnostics/run-gc-instrumentation.py'
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: gc-root-instrumentation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+jobs:
+  instrument:
+    # Build one target library, then collect evidence. This job cannot admit
+    # the mixed runtime or repair the original failed production workflow.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+      - name: Recover the exact failed baseline artifact without executing it
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python runtime/diagnostics/run-gc-instrumentation.py download
+      - name: Fetch and verify the unchanged pinned build sources
+        run: python runtime/build/prepare-sources.py
+      - name: Install native and 32-bit build prerequisites
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends build-essential gcc-multilib g++-multilib libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config strace
+      - name: Build the original host, then instrument only the target ECL library
+        shell: bash
+        run: |
+          set -euo pipefail
+          export LC_ALL=C VERBOSE=1 EMSDK_KEEP_DOWNLOADS=1
+          unset EMCC_CFLAGS EMCC_DEBUG EMCC_DEBUG_SAVE EMCC_VERBOSE GH_TOKEN GITHUB_TOKEN
+          task_work="$GITHUB_WORKSPACE/.cache/runtime-build"
+          task_diag="$GITHUB_WORKSPACE/.cache/gc-mark-instrumentation"
+          task_maxima="$task_work/sources/maxima"
+          export ECL_SRCDIR="$task_work/sources/ecl"
+          export EMSDK_PATH="$task_work/sources/emsdk"
+          export ECL_TO_RUN="$task_maxima/wasm/ecl-host/bin/ecl"
+          mkdir -p "$task_diag/logs"
+          exec > >(tee "$task_diag/logs/build.log") 2>&1
+          python runtime/build/prepare-toolchain.py
+          cd "$EMSDK_PATH"
+          ./emsdk install 4.0.10
+          ./emsdk activate 4.0.10
+          set +u
+          source "$EMSDK_PATH/emsdk_env.sh"
+          set -u
+          export EMSDK_PATH="$task_work/sources/emsdk"
+          emcc --version
+          cd "$task_maxima"
+          ./bootstrap
+          cd wasm
+          # The diagnostic overlay deliberately refuses native compilation.
+          # Finish the pinned unmodified 32-bit host before applying it.
+          make -f Makefile -j2 "$ECL_TO_RUN"
+          sha256sum "$ECL_TO_RUN" > "$task_diag/logs/host-ecl.sha256"
+          file "$ECL_TO_RUN" | tee "$task_diag/logs/host-format.txt"
+          grep -Eq 'ELF 32-bit.*Intel 80386' "$task_diag/logs/host-format.txt"
+          "$ECL_TO_RUN" --norc --eval '(unless (= (integer-length most-positive-fixnum) 29) (ext:quit 65))' --eval '(ext:quit)'
+          cd "$GITHUB_WORKSPACE"
+          python runtime/diagnostics/instrument-ecl-gc.py --source "$ECL_SRCDIR" --evidence "$task_diag/source-overlay"
+          cd "$task_maxima/wasm"
+          # Preserve baseline core O0, generated-Lisp O2 and upstream link
+          # settings. No Maxima/core/share/FAS targets are rebuilt here.
+          export EMCC_VERBOSE=1
+          strace -f -qq -e trace=execve -e signal=none -s 1048576 -o "$task_diag/logs/ecl-exec.log" make -f Makefile -j2 ecl-emscripten 2>&1 | tee "$task_diag/logs/ecl-cross-build.log"
+          cat "$task_diag/logs/ecl-exec.log" >> "$task_diag/logs/ecl-cross-build.log"
+          unset EMCC_VERBOSE
+          cp "$ECL_SRCDIR/build/config.log" "$task_diag/logs/ecl-config.log"
+          cp "$ECL_SRCDIR/build/target-info.lsp" "$task_diag/logs/target-info.lsp"
+          cmp "$ECL_SRCDIR/build/target-info.lsp" ecl-emscripten/target-info.lsp
+          sha256sum --check "$task_diag/logs/host-ecl.sha256"
+          cd "$GITHUB_WORKSPACE"
+          cp "$task_work/logs/toolchain-archives.json" "$task_diag/logs/toolchain-archives.json"
+          python runtime/diagnostics/run-gc-instrumentation.py compiler
+          python runtime/diagnostics/stage-gc-instrumented.py \
+            --frozen-root .cache/mark-stack-replay/frozen/.cache/runtime-build/artifact \
+            --new-module "$task_maxima/wasm/ecl-emscripten/libecl.so" \
+            --target-info "$task_diag/logs/target-info.lsp" \
+            --source-ecl "$ECL_SRCDIR" \
+            --patch-report "$task_diag/source-overlay/instrumentation.json" \
+            --output "$task_diag/mixed-runtime"
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: 9e042dc5e57a1636be64ca5d08910c9af5ff1371
+          path: .ctm-checkers-source
+          persist-credentials: false
+      - name: Install the unchanged locked browser harness
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Collect every instrumented attempt with the original abort enabled
+        run: |
+          unset GH_TOKEN GITHUB_TOKEN
+          python runtime/diagnostics/run-gc-instrumentation.py replay
+      - name: Preserve mixed-runtime provenance, original inputs and all outcomes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gc-root-instrumentation-${{ github.sha }}
+          include-hidden-files: true
+          path: |
+            .cache/gc-mark-instrumentation/
+            .cache/mark-stack-replay/
+          if-no-files-found: error
