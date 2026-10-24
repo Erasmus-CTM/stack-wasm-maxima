@@ -1,0 +1,55 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Replay frozen GC mark-stack failure
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/mark-stack-diagnostic.yml'
+      - 'runtime/diagnostics/mark-stack-replay.py'
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: mark-stack-replay-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+jobs:
+  replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+      - name: Recover and verify the exact failed artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python runtime/diagnostics/mark-stack-replay.py download
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: 9e042dc5e57a1636be64ca5d08910c9af5ff1371
+          path: .ctm-checkers-source
+          persist-credentials: false
+      - name: Install the locked official browser harness dependencies
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Collect every declared replay, including failures
+        run: |
+          unset GH_TOKEN GITHUB_TOKEN
+          python runtime/diagnostics/mark-stack-replay.py replay
+      - name: Preserve frozen inputs and every replay outcome
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gc-mark-stack-replay-${{ github.sha }}
+          include-hidden-files: true
+          path: .cache/mark-stack-replay/
+          if-no-files-found: error
