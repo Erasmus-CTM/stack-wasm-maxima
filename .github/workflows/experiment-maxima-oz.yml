@@ -1,0 +1,386 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Explicit experiment only; no production or legacy matrix build is triggered.
+name: Validate the ECL-Oz Maxima-Oz and matching STACK candidate
+'on':
+  push:
+    branches: [experiment/e8ad-maxima-oz]
+    paths:
+      - '.github/workflows/experiment-maxima-oz.yml'
+      - 'runtime/build/**'
+      - 'runtime/precompiled/**'
+permissions:
+  contents: read
+concurrency:
+  group: experiment-maxima-oz-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: false
+jobs:
+  bundle-probe:
+    name: bundle-probe (${{ matrix.compiler-profile }})
+    if: github.repository == 'Erasmus-CTM/stack-wasm-maxima' && github.event_name == 'push' && github.ref == 'refs/heads/experiment/e8ad-maxima-oz'
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler-profile: [ecl-oz-maxima-oz]
+    env:
+      CTM_ECL_COMPILER_PROFILE: ${{ matrix.compiler-profile }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Check compiled input and parity evidence bindings
+        run: |
+          node scripts/milestone-one/test-fatal-reporting.mjs
+          python runtime/precompiled/test-bundle-provenance.py
+          python runtime/precompiled/test-controller-parity.py
+          node runtime/precompiled/test-probe-inputs.mjs
+          node runtime/precompiled/test-entry-reads.mjs
+          node runtime/precompiled/test-measure-worker.mjs
+      - name: Check exact owned-runtime inputs
+        run: |
+          node runtime/build/test-runtime-source.mjs
+          python runtime/build/test-substitution.py
+          python runtime/build/test-toolchain.py
+          python runtime/build/test-cold-evidence.py
+          python runtime/build/test-source-checkout.py
+          python runtime/build/test-source-overlay.py
+      - name: Fetch exact source commits and verify archive hashes
+        run: python runtime/build/prepare-sources.py
+      - name: Install native and 32-bit build prerequisites
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends build-essential gcc-multilib g++-multilib \
+            libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config strace
+          python runtime/precompiled/test-stack-compiler-evidence.py
+      - name: Build the explicit ECL-Oz and Maxima-Oz candidate
+        run: bash runtime/build/build.sh
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: .cache/precompiled-stack/upstream-stack
+          sparse-checkout: stack/maxima
+          persist-credentials: false
+      - name: Require native assignment, reset and parser fixture controls
+        run: bash runtime/precompiled/native-fixtures.sh --reuse-built-native
+      - name: Translate pinned STACK and cross-compile for the browser target
+        run: bash runtime/precompiled/translate-and-cross-compile.sh "$PWD/.cache/precompiled-stack/upstream-stack"
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 10d323311b7f39fb7b092dd10ce75f7d8632f525
+          path: .cache/precompiled-stack-10d3233/upstream-stack
+          sparse-checkout: stack/maxima
+          persist-credentials: false
+      - name: Translate and cross-compile the older STACK pin independently
+        env:
+          CTM_PRECOMPILED_STACK_PIN: 10d323311b7f39fb7b092dd10ce75f7d8632f525
+        run: bash runtime/precompiled/translate-and-cross-compile.sh "$PWD/.cache/precompiled-stack-10d3233/upstream-stack"
+      - name: Require fresh full-library native validation parity at both pins
+        run: |
+          python runtime/precompiled/full-entry-check.py --pin 33383047af39c204bf4442802a058f8b918b2b1b
+          python runtime/precompiled/full-entry-check.py --pin 10d323311b7f39fb7b092dd10ce75f7d8632f525
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: b34bfc8af10cd80b6130baabe88a47c9a32c0333
+          path: .cache/runtime-build/notices
+          persist-credentials: false
+      - name: Package the exact source-loaded runtime control
+        run: python runtime/build/package.py --notices .cache/runtime-build/notices
+      - name: Replay packaged runtime and both successful FAS compiler proofs
+        run: |
+          python runtime/build/verify-source-overlay.py .cache/runtime-build/artifact
+          python runtime/precompiled/stack_compiler_evidence.py \
+            --work .cache/precompiled-stack --pin 33383047af39c204bf4442802a058f8b918b2b1b \
+            --runtime-artifact .cache/runtime-build/artifact
+          python runtime/precompiled/stack_compiler_evidence.py \
+            --work .cache/precompiled-stack-10d3233 --pin 10d323311b7f39fb7b092dd10ce75f7d8632f525 \
+            --runtime-artifact .cache/runtime-build/artifact
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: c366f175aba6b62caa628bc60f57bb1167fc087b
+          path: .cache/precompiled-stack/ctm-checkers
+          persist-credentials: false
+      - name: Install pinned native packaging dependencies
+        run: python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'
+      - name: Stage the unchanged source-loaded control and opt-in compiled manifest
+        run: |
+          python scripts/milestone-two/prepare-runtime.py --output .cache/precompiled-stack/site \
+            --runtime-source .cache/runtime-build/artifact \
+            --stack-source .cache/precompiled-stack/upstream-stack \
+            --ctm-checkers-source .cache/precompiled-stack/ctm-checkers
+          python runtime/precompiled/stage-variant.py --site .cache/precompiled-stack/site \
+            --stack-source .cache/precompiled-stack/upstream-stack \
+            --bundle .cache/precompiled-stack/stackmaxima.fas \
+            --translated .cache/precompiled-stack/source-initialized/stackmaxima.lisp
+      - name: Install pinned browser dependencies
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium firefox webkit
+      - name: Measure startup and validate full session restart
+        env:
+          PRECOMPILED_SITE: .cache/precompiled-stack/site
+        run: node runtime/precompiled/measure.mjs
+      - uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b
+        with:
+          version: 1.8.27
+      - name: Install the pinned authoring dependencies
+        run: python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Erasmus-CTM/stack-sympy
+          ref: 1b1d50f69fc1e7eb39846b497657d72be325f597
+          path: .site-sources/stack-sympy
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: c366f175aba6b62caa628bc60f57bb1167fc087b
+          path: .site-sources/ctm-checkers
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Erasmus-CTM/ctm-libs
+          ref: 94687f718fd651fc2857bc5242a64e45c8fd4697
+          path: .site-sources/ctm-libs
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: .site-sources/stack
+          sparse-checkout: |
+            stack/maxima
+            stack/cas
+            stack/maximaparser
+            corsscripts
+            lang/en
+            samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: jsxgraph/jsxgraph-quarto
+          ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e
+          path: .site-sources/jsxgraph-quarto
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Erasmus-CTM/ctm-assessment
+          ref: 68fe838ca76ce7dfc4297f8ed4db1ccf1dc29a8b
+          path: .site-sources/ctm-assessment
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Erasmus-CTM/ctm-libs
+          ref: 2cdd3b47bb4722f65f168a0baf4dbd6a18bff384
+          path: .site-sources/board-ctm-libs
+          persist-credentials: false
+      - name: Stage pinned dependencies around the tracked QMD
+        run: |
+          python scripts/milestone-two/materialize.py --prepare-existing site \
+            --stack-sympy-source .site-sources/stack-sympy \
+            --ctm-checkers-source .site-sources/ctm-checkers \
+            --ctm-libs-source .site-sources/ctm-libs
+          python scripts/milestone-two/prepare-runtime.py --output site --runtime-source .cache/runtime-build/artifact \
+            --stack-source .site-sources/stack \
+            --ctm-checkers-source .site-sources/ctm-checkers
+          node scripts/milestone-two/test-frontend-pools.mjs site/_extensions/stack-sympy/stack-sympy.js
+          python scripts/milestone-three/stage-parser.py --stack-source .site-sources/stack --output site/native
+          python scripts/milestone-three/stage-feedback.py --stack-source .site-sources/stack --output site/native
+          node prototype/native/test-feedback.mjs site/native
+          python scripts/milestone-three/compile.py --stack-source .site-sources/stack \
+            --ctm-checkers-source .site-sources/ctm-checkers --output site/native/questions.json \
+            --resources site/maxima/native-questions
+      - name: Select the compiled entry before native-page preparation
+        run: |
+          python runtime/precompiled/stage-variant.py --site site \
+            --stack-source .site-sources/stack --bundle .cache/precompiled-stack/stackmaxima.fas \
+            --translated .cache/precompiled-stack/source-initialized/stackmaxima.lisp
+          cp site/stack-sources-precompiled.json site/stack-sources.json
+      - name: Prepare native variants in the actual Wasm backend
+        env:
+          CTM_COMPONENT_DEV: '1'
+          STACK_SYMPY_PYTHON: python
+          CTM_CHECKERS_SOURCE: .site-sources/ctm-checkers
+          STACK_SOURCE: .site-sources/stack
+          PYTHONPATH: .site-sources/ctm-checkers/src
+        run: |
+          python scripts/milestone-three/test-build.py
+          python scripts/milestone-three/test-reference.py
+          node scripts/milestone-three/build-site.mjs --site site --stack-source .site-sources/stack \
+            --ctm-checkers-source .site-sources/ctm-checkers --jsxgraph-source .site-sources/jsxgraph-quarto
+      - name: Render the committed Quarto page
+        env:
+          CTM_COMPONENT_DEV: '1'
+          STACK_SYMPY_PYTHON: python
+        run: |
+          export CTM_LIBS_EXTENSION="$PWD/site/_extensions/ctm-libs"
+          export CTM_CHECKERS_EXTENSION="$PWD/site/_extensions/ctm-checkers"
+          quarto render site
+      - name: Exercise both backends in the rendered comparison page
+        run: node scripts/site/smoke.mjs site/_site test-results/reviewer-site
+      - name: Prove opaque board MathJax font and accessibility closure offline
+        run: |
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser chromium
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser firefox
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser webkit
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser chromium --static-host --cors-transport --output test-results/board-mathjax-static-chromium.json
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser firefox --static-host --cors-transport --output test-results/board-mathjax-static-firefox.json
+          node scripts/milestone-three/test-board-mathjax.mjs --site site/_site --browser webkit --static-host --cors-transport --output test-results/board-mathjax-static-webkit.json
+      - name: Exercise every graphical variant on desktop and mobile static hosting
+        run: |
+          for browser in chromium firefox webkit; do
+            for width in 1280 390; do
+              node scripts/milestone-three/measure-board-weight.mjs --site site/_site --browser "$browser" \
+                --functional-only --static-host --width "$width" \
+                --output "test-results/milestone-three/board-functional-$browser-$width.json"
+            done
+          done
+      - name: Measure current board transfers across cold and same-profile warm loads
+        run: |
+          node scripts/milestone-three/measure-board-weight.mjs --site site/_site --browser chromium \
+            --static-host --width 1280 \
+            --output test-results/milestone-three/board-transfer-chromium.json
+      - name: Exercise native questions, graphical inputs and Python continuations
+        run: node scripts/milestone-three/browser.mjs site/_site test-results/milestone-three
+      - name: Install the independent native Maxima reference
+        if: ${{ !cancelled() && hashFiles('test-results/milestone-three/browser.json') != '' }}
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends maxima maxima-share
+      - name: Compare captured native programs with the independent native runtime
+        if: ${{ !cancelled() && hashFiles('test-results/milestone-three/browser.json') != '' }}
+        run: |
+          python scripts/milestone-three/native-reference.py --browser-report test-results/milestone-three/browser.json \
+            --stack-source .site-sources/stack --output test-results/milestone-three/native-reference
+      - name: Replay the same 316 programs with the same-source native ECL build
+        env:
+          MAXIMA_PREFIX: ${{ github.workspace }}/.cache/runtime-build/sources/maxima/wasm/maxima-ecl-combined
+        run: |
+          python scripts/milestone-three/native-reference.py --browser-report test-results/milestone-three/browser.json \
+            --stack-source .site-sources/stack --output test-results/milestone-three/same-source-reference \
+            --maxima "$MAXIMA_PREFIX/bin/maxima"
+      - name: Require complete compiled controller evidence and replay bindings
+        run: |
+          python runtime/precompiled/check-controller-parity.py --site site/_site \
+            --prepared .cache/native-build/prepared.json --browser test-results/milestone-three/browser.json \
+            --independent test-results/milestone-three/native-reference/native-reference.json \
+            --same-source test-results/milestone-three/same-source-reference/native-reference.json \
+            --output test-results/precompiled-stack/controller-parity.json
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: 9e042dc5e57a1636be64ca5d08910c9af5ff1371
+          path: .ctm-checkers-source
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 10d323311b7f39fb7b092dd10ce75f7d8632f525
+          path: .stack-upstream/10d323311b7f39fb7b092dd10ce75f7d8632f525
+          persist-credentials: false
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: .stack-upstream/33383047af39c204bf4442802a058f8b918b2b1b
+          persist-credentials: false
+      - name: Prepare the unchanged official probes and their independent native controls
+        run: python scripts/milestone-one/prepare.py
+      - name: Require source-loaded official probes at both pins
+        env:
+          CTM_MAXIMA_RUNTIME_SOURCE: .cache/runtime-build/artifact
+          MILESTONE_ONE_REPORT_ROOT: .cache/precompiled-stack/probes-source-report
+        run: |
+          node scripts/milestone-one/run.mjs
+          python scripts/milestone-one/compare.py
+          mkdir -p test-results/precompiled-stack/probes-source
+          cp test-results/milestone-one/* test-results/precompiled-stack/probes-source/
+          cp .cache/precompiled-stack/probes-source-report/latest.json test-results/precompiled-stack/probes-source/comparison.json
+      - name: Stage two separately bound compiled official-probe bundles
+        run: |
+          python runtime/precompiled/prepare-probes.py --prepared test-results/milestone-one/prepared.json \
+            --output .cache/precompiled-probes
+      - name: Require compiled official probes at both exact pins
+        env:
+          CTM_MAXIMA_RUNTIME_SOURCE: .cache/runtime-build/artifact
+          CTM_PRECOMPILED_PROBE_INDEX: .cache/precompiled-probes/index.json
+          MILESTONE_ONE_REPORT_ROOT: .cache/precompiled-stack/probes-compiled-report
+        run: |
+          node scripts/milestone-one/run.mjs
+          python scripts/milestone-one/compare.py
+          mkdir -p test-results/precompiled-stack/probes-compiled
+          cp test-results/milestone-one/* test-results/precompiled-stack/probes-compiled/
+          cp .cache/precompiled-stack/probes-compiled-report/latest.json test-results/precompiled-stack/probes-compiled/comparison.json
+      - name: Preserve the feasibility evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: maxima-oz-candidate-${{ matrix.compiler-profile }}-${{ github.sha }}
+          include-hidden-files: true
+          path: |
+            .cache/precompiled-stack/logs/
+            .cache/precompiled-stack/source-initialized/
+            .cache/precompiled-stack/initialized-translate-driver.lisp
+            .cache/precompiled-stack/source-adapted/
+            .cache/precompiled-stack/adapted-translate-driver.lisp
+            .cache/precompiled-stack/assignment-adapter.lisp
+            .cache/precompiled-stack/display2d-bridge.lisp
+            .cache/precompiled-fixtures/
+            .cache/precompiled-stack/source/stackmaxima.mac
+            .cache/precompiled-stack/source/stackmaxima.LISP
+            .cache/precompiled-stack/source/stackmaxima.lisp
+            .cache/precompiled-stack/source/stackmaxima.UNLISP
+            .cache/precompiled-stack/source/stackmaxima.unlisp
+            .cache/precompiled-stack/source/ctm-assignment-probe.mac
+            .cache/precompiled-stack/source/ctm-assignment-probe.LISP
+            .cache/precompiled-stack/source/ctm-assignment-probe.UNLISP
+            .cache/precompiled-stack/source/ctm-reset-probe.*
+            .cache/precompiled-stack/reset-translate-driver.lisp
+            .cache/precompiled-stack/reset-probe.lisp
+            .cache/precompiled-stack/source/ctm-stackmaxima.asd
+            .cache/precompiled-stack/translate-driver.lisp
+            .cache/precompiled-stack/assignment-probe-driver.lisp
+            .cache/precompiled-stack/stackmaxima.fas
+            .cache/precompiled-stack/stackmaxima.fas.json
+            .cache/precompiled-stack-10d3233/logs/
+            .cache/precompiled-stack-10d3233/source/
+            .cache/precompiled-stack-10d3233/source-adapted/
+            .cache/precompiled-stack-10d3233/source-initialized/
+            .cache/precompiled-stack-10d3233/*.lisp
+            .cache/precompiled-stack-10d3233/stackmaxima.fas
+            .cache/precompiled-stack-10d3233/stackmaxima.fas.json
+            .cache/precompiled-probes/
+            .cache/native-build/
+            site/native/build-manifest.json
+            site/_site/native/build-manifest.json
+            site/_site/stack-sources.json
+            site/_site/maxima/native.html
+            test-results/milestone-three/
+            test-results/milestone-one/
+            test-results/reviewer-site/
+            test-results/board-mathjax*.json
+            .cache/precompiled-stack/probes-source-report/
+            .cache/precompiled-stack/probes-compiled-report/
+            .cache/precompiled-stack/site/stack-sources.json
+            .cache/precompiled-stack/site/stack-sources-timed-source.json
+            .cache/precompiled-stack/site/stack-sources-precompiled.json
+            .cache/precompiled-stack/site/precompiled-measure-worker.js
+            .cache/precompiled-stack/site/runtime/maxima-session.js
+            .cache/precompiled-stack/site/runtime/maxima-child.js
+            runtime/precompiled/restart-checks.json
+            .cache/precompiled-stack/site/maxima-runtime/stackmaxima.fas
+            .cache/precompiled-stack/site/maxima-runtime/runtime-preload.json
+            .cache/runtime-build/artifact/
+            test-results/precompiled-stack/
+            .cache/runtime-build/logs/
+            .cache/runtime-build/source-progress.json
+          if-no-files-found: warn

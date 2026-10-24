@@ -23,6 +23,14 @@
     "prototype/runtime/maxima-child.js",
     "scripts/milestone-two/serve.mjs",
     "package.json",
-    "package-lock.json"
+    "package-lock.json",
+    ".github/workflows/experiment-maxima-oz.yml",
+    "runtime/precompiled/translate-and-cross-compile.sh",
+    "runtime/precompiled/bundle_provenance.py",
+    "runtime/precompiled/parser_bootstrap.py",
+    "runtime/precompiled/assignment-adapter.lisp",
+    "runtime/precompiled/display2d-bridge.lisp",
+    "runtime/precompiled/stack_compiler_evidence.py",
+    "runtime/precompiled/test-stack-compiler-evidence.py"
   ]
 }

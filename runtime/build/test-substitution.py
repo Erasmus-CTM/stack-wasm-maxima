@@ -22,7 +22,8 @@ class Substitution(unittest.TestCase):
             root = Path(directory)
             record = {'path': 'asset.wasm', 'bytes': 4, 'sha256': 'a' * 64}
             config = json.loads((ROOT / 'runtime/build/configuration.json').read_text())
-            profiles=json.loads((ROOT / 'runtime/build/compiler-profiles.json').read_text())['profiles']
+            catalog=json.loads((ROOT / 'runtime/build/compiler-profiles.json').read_text())
+            profiles={**catalog['profiles'], **catalog.get('experimentalProfiles', {})}
             compiler = profiles[os.environ.get('CTM_ECL_COMPILER_PROFILE','baseline')]
             manifest = {'schema': 1,'compilerProfile':compiler, 'sourcePins': json.loads((ROOT / 'runtime/build/pins.json').read_text()), 'runtimeAssets': [record], 'configuration':config, 'startupAdapter':{'content':(ROOT / 'runtime/build/no-plot.mac').read_text().strip()+'\n','sha256':config['startupSha256']}}
             manifest['sourceIntegrity'] = {'schema':1,'allVerifiedFilesUnmodified':False,
