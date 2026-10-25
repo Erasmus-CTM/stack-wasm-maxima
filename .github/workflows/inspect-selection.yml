@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        run: ['40169306303', '40169523214', '40169223514']
+        run: ['40169306303', '40169523214', '40169223514', '40169894083']
     steps:
       - uses: actions/checkout@v4
       - name: Wait for producer completion

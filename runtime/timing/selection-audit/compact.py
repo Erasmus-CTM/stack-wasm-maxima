@@ -10,7 +10,7 @@ for p in raw.rglob('*'):
  if p.name.startswith('trace-') and p.suffix=='.json':
   d=json.loads(p.read_bytes());events=d['traceEvents'];counts=collections.Counter(e['name'] for e in events)
   markers=[e for e in events if e['name']=='clock_sync']
-  wasm=[e for e in events if any(x in e['name'].lower() for x in ('wasm','compile','gc','clock_sync'))]
+  wasm=[e for e in events if e['name'] in ('Profile','ProfileChunk') or any(x in e['name'].lower() for x in ('wasm','compile','gc','clock_sync'))]
   value={'pair':d['pair'],'counts':dict(counts),'clockSync':markers,'events':wasm}
   dest=out/rel;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_text(json.dumps(value))
   print(json.dumps({'trace':str(rel),'counts':counts.most_common(30),'clockSync':markers}))
