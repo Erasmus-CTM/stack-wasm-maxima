@@ -8,7 +8,7 @@ b="""        const targetDiagnostic = question.name === 'A graphical PythonCheck
 assert s.count(a)==1;s=s.replace(a,b)
 a="            ['feedback','simplode(_ctm_lines,\" \")'], ['source','if _ctm_good then string(ev(_ctm_s,simp)) else \"\"']])"
 b="""            ['feedback','simplode(_ctm_lines," ")'], ['source','if _ctm_good then string(ev(_ctm_s,simp)) else ""'],
-            ...(targetDiagnostic ? [['diagnostic','[errormsgtostring(),string(%ERR),string(%NOTES),_ctm_validation_stage,ctm_validation_trace]']] : [])])"""
+            ...(targetDiagnostic ? [['diagnostic','if _ctm_good then false else [errormsgtostring(),string(%ERR),string(%NOTES),_ctm_validation_stage,ctm_validation_trace]']] : [])])"""
 assert s.count(a)==1;s=s.replace(a,b)
 a="        checks.push([input.name, block(['_ctm_s'"
 b="""        const observedChecks = targetDiagnostic ? learnerChecks.flatMap((check,index)=>['_ctm_validation_stage:'+quote('step-'+index),check]) : learnerChecks;
