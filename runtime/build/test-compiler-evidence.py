@@ -81,6 +81,20 @@ class CompilerEvidence(unittest.TestCase):
                     sdk_compile(input_path='../../../system/../../sources/ecl/src/c/main.o.c')]:
                 with self.assertRaises(AssertionError):derive(CONFIG,TARGET,ecl+bad,maxima,profile)
 
+    def test_deeper_sdk_cache_directory_needs_the_matching_prefix_map(self):
+        # emsdk 6.0.11 builds system libraries two directories deeper than 4.0.10.
+        deep=['-ffile-prefix-map=/repo/sources/emsdk/upstream/emscripten=/emsdk/emscripten',
+              '-ffile-prefix-map=../../../../..=/emsdk/emscripten','-fdebug-compilation-dir=/emsdk/emscripten']
+        shallow=deep[:1]+['-ffile-prefix-map=../../..=/emsdk/emscripten']+deep[2:]
+        source='../../../../../system/lib/gl/webgl2.c'
+        for profile in profiles()['profiles'].values():
+            ecl,maxima=traces(profile)
+            def sdk_compile(flags):
+                return (' /repo/sources/emsdk/upstream/bin/clang -O2 -c '+source+' '+' '.join(flags)+'\n').encode()
+            excluded=derive(CONFIG,TARGET,ecl+sdk_compile(deep),maxima,profile)['excludedNonTargetCompiles']['ecl']
+            self.assertTrue(any(row.get('canonicalSource')=='/repo/sources/emsdk/upstream/emscripten/system/lib/gl/webgl2.c' for row in excluded))
+            with self.assertRaises(AssertionError):derive(CONFIG,TARGET,ecl+sdk_compile(shallow),maxima,profile)
+
     def test_corrupted_parallel_core_print_uses_only_verified_executed_dpp_driver(self):
         for profile in profiles()['profiles'].values():
             ecl,maxima=traces(profile);lines=[]
