@@ -1,0 +1,131 @@
+name: Select the flattened v3 runtime without rebuilding
+on:
+  push:
+    branches: [evidence/maxima-oz-production]
+    paths:
+      - .github/workflows/v3-selection.yml
+      - runtime/timing/v3-selection/**
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: v3-selection-${{ github.sha }}
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    outputs:
+      ready: ${{ steps.binding.outputs.ready }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node runtime/timing/v3-selection/test-runner.mjs
+      - run: python3 -m py_compile runtime/timing/v3-selection/prepare.py runtime/timing/v3-selection/verify-new.py runtime/timing/v3-selection/derive.py
+      - id: binding
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          b=json.loads(Path('runtime/timing/v3-selection/candidate-binding.json').read_text())
+          assert b['schema']==1
+          print('ready='+('true' if b['ready'] is True else 'false'))
+          PY
+  compare:
+    needs: check
+    if: needs.check.outputs.ready == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/playwright
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31
+          path: old-trusted
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: 58cf269f303898a7b679d9d164346fbb9384b781
+          path: frozen-candidate-trusted
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: 8ee71f5d6489a8f87d7b21aff8310664c53239ad
+          path: current-trusted
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: benchmark
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: stack-source
+          sparse-checkout: stack/maxima
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: c366f175aba6b62caa628bc60f57bb1167fc087b
+          path: checker-source
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Independently admit the accepted control and flattened candidate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python benchmark/runtime/timing/v3-selection/prepare.py \
+            --old-trusted-root "$PWD/old-trusted" --frozen-candidate-root "$PWD/frozen-candidate-trusted" \
+            --current-trusted-root "$PWD/current-trusted" --benchmark-root "$PWD/benchmark" \
+            --stack-source "$PWD/stack-source" --checkers-source "$PWD/checker-source" \
+            --work-root "$PWD/.cache/v3-selection"
+      - name: Install the pinned Chromium harness
+        run: |
+          cmp old-trusted/package-lock.json current-trusted/package-lock.json
+          npm ci --prefix old-trusted --ignore-scripts --no-audit --no-fund
+          old-trusted/node_modules/.bin/playwright install --with-deps chromium
+          mkdir -p .cache/v3-selection/tools
+          cp benchmark/runtime/timing/v3-selection/*.mjs benchmark/runtime/timing/v3-selection/*.js \
+            benchmark/runtime/timing/v3-selection/*.jsfrag benchmark/runtime/timing/v3-selection/candidate-binding.json .cache/v3-selection/tools/
+          ln -s "$PWD/old-trusted/node_modules" .cache/v3-selection/tools/node_modules
+      - name: Retain runner hardware outside the timed calls
+        run: |
+          node --input-type=module <<'JS'
+          import os from 'node:os';
+          import {writeFileSync} from 'node:fs';
+          writeFileSync('.cache/v3-selection/evidence/runner-hardware.json',JSON.stringify({platform:os.platform(),release:os.release(),arch:os.arch(),cpuModels:[...new Set(os.cpus().map(c=>c.model))],logicalCPUCount:os.cpus().length,totalMemoryBytes:os.totalmem(),availableParallelism:os.availableParallelism()},null,2)+'\n');
+          JS
+      - name: Ten balanced cold and reload repetitions at full speed
+        timeout-minutes: 160
+        run: |
+          node .cache/v3-selection/tools/run.mjs --old-trusted-root "$PWD/old-trusted" \
+            --candidate-trusted-root "$PWD/current-trusted" --profiles-root "$PWD/.cache/v3-selection/profiles" \
+            --admission "$PWD/.cache/v3-selection/evidence/admission.json" \
+            --output "$PWD/.cache/v3-selection/evidence" --repetitions 10
+      - name: Repeat on the aggregate CPUQuota=25% reference
+        timeout-minutes: 160
+        env:
+          CTM_TIMING_CPU_LIMIT: systemd CPUQuota=25%
+        run: |
+          sudo -E systemd-run --scope --quiet -p CPUQuota=25% --uid="$(id -u)" --gid="$(id -g)" \
+            -- "$(command -v node)" .cache/v3-selection/tools/run.mjs --old-trusted-root "$PWD/old-trusted" \
+            --candidate-trusted-root "$PWD/current-trusted" --profiles-root "$PWD/.cache/v3-selection/profiles" \
+            --admission "$PWD/.cache/v3-selection/evidence/admission.json" \
+            --output "$PWD/.cache/v3-selection/evidence/cpu-quarter" --repetitions 10
+      - name: Verify all eighty samples and derive raw-sample statistics
+        run: python benchmark/runtime/timing/v3-selection/derive.py .cache/v3-selection/evidence .cache/v3-selection/evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v3-source-selection-${{ github.sha }}
+          include-hidden-files: true
+          path: .cache/v3-selection/evidence/

@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "ready": false,
+  "source": {
+    "runId": 40234019825,
+    "runAttempt": 1,
+    "head": "c4bdb88e65211bfd1bd49c3b5d6531c99cc2227b",
+    "testedRevision": "8ee71f5d6489a8f87d7b21aff8310664c53239ad",
+    "trustedRevision": "8ee71f5d6489a8f87d7b21aff8310664c53239ad",
+    "tree": "d9dbd83af48275d88aba18e0864e1abbdf184f70",
+    "recipeFiles": 111,
+    "buildJobId": 121291880510
+  },
+  "artifact": null,
+  "independentReview": null
+}
