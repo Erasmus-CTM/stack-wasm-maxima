@@ -143,7 +143,7 @@ jobs:
         python scripts/milestone-three/compile.py --stack-source .site-sources/stack \
           --ctm-checkers-source .site-sources/ctm-checkers --output site/native/questions.json \
           --resources site/maxima/native-questions
-    - name: Observe the CAS condition only after an invalid validation result
+    - name: Require the original unmodified source engine
       run: python benchmark/runtime/timing/source-ui/diagnose.py
     - name: Prepare native variants in the actual Wasm backend
       env:
@@ -179,6 +179,13 @@ jobs:
       run: |
         python scripts/milestone-three/native-reference.py --browser-report test-results/milestone-three/browser.json \
           --stack-source .site-sources/stack --output test-results/milestone-three/native-reference
+    - name: Repeat the original source UI and native316 comparisons twice more
+      run: |
+        for repetition in 2 3; do
+          node scripts/milestone-three/browser.mjs site/_site "test-results/milestone-three/repetition-$repetition"
+          python scripts/milestone-three/native-reference.py --browser-report "test-results/milestone-three/repetition-$repetition/browser.json" \
+            --stack-source .site-sources/stack --output "test-results/milestone-three/repetition-$repetition/native-reference"
+        done
     - name: Retain source UI evidence including failures
       if: always()
       uses: actions/upload-artifact@v4
