@@ -9,6 +9,8 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
+# Fixtures use the released pins, whatever toolchain the calling job selects.
+os.environ.pop('CTM_EMSDK', None)
 spec = importlib.util.spec_from_file_location('prepare_runtime', ROOT / 'scripts/milestone-two/prepare-runtime.py')
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)

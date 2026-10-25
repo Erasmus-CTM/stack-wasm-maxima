@@ -4,12 +4,15 @@
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
+# The fixture pins describe only toolchain archives, whatever toolchain the calling job selects.
+os.environ.pop('CTM_EMSDK', None)
 spec = importlib.util.spec_from_file_location('prepare_toolchain', ROOT / 'runtime/build/prepare-toolchain.py')
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
