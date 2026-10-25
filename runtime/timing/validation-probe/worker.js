@@ -5,10 +5,11 @@ self.onmessage=async({data})=>{
   session=new MaximaSession({baseURL:new URL('./maxima-runtime/',location.href).href,stackSourceURL:new URL('probe-sources.json',location.href).href});
   report.initialization=await session.init();
   if(data.experiment==='postmortem-control'){
-   const frames="?eval(?read\\-from\\-string(sconcat(\"(let ((*print-level* 4) (*print-length* 8) (*print-readably* nil) (ar maxima::*mlambda-call-stack*)) (with-output-to-string (stream) (format stream \",ascii(34),\"active=~D capacity=~D~%\",ascii(34),\" (fill-pointer ar) (array-total-size ar)) (dotimes (i (min 300 (array-total-size ar))) (let ((text (prin1-to-string (aref ar i)))) (format stream \",ascii(34),\"~D ~A~%\",ascii(34),\" i (subseq text 0 (min 1024 (length text))))))))\")))";
-   report.frames=session.evaluate('block([r],ctm_post_inner():=?car(?subr),ctm_post_outer():=ctm_post_inner(),r:errcatch(ctm_post_outer()),'+frames+')');
+   report.caught=session.evaluate('block([simp:true,r],ctm_post_deep(n):=if is(n=0) then ?car(?subr) else ctm_post_deep(n-1),r:errcatch(ctm_post_deep(20)),[is(r=[])])');
+   session.write(':lisp (setf maxima::$ctm_postmortem_snapshot '+data.snapshotLisp+')\n',60000);
+   report.frames=session.evaluate('ctm_postmortem_snapshot');
    report.after=session.evaluate('6*7');
-   report.ok=typeof report.frames==='string'&&report.frames.includes('$CTM_POST_INNER')&&report.after===42;
+   report.ok=typeof report.frames==='string'&&report.frames.includes('$CTM_POST_DEEP')&&report.after===42;
   }else if(data.experiment==='hook-control'){
    session.write(':lisp (defun maxima::$ctm_injected_car_fault (x) (car x))\n',60000);
    report.injected=session.evaluate('block([r],r:errcatch(ctm_injected_car_fault(?subr)),[is(length(r)=0),ctm_validation_trace])');

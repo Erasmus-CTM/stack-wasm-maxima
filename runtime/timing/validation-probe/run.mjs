@@ -4,6 +4,7 @@ import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {serveDemo} from '../../../scripts/milestone-two/serve.mjs';
+const snapshotLisp=JSON.parse(await readFile('runtime/timing/validation-probe/postmortem-expression.json')).lisp;
 const root=resolve('.'),out=join(root,'validation-probe'),stage=join(out,'site');await mkdir(out,{recursive:true});
 await cp('input/.cache/precompiled-stack/site',stage,{recursive:true});
 const manifest=JSON.parse(await readFile(join(stage,'stack-sources-timed-source.json')));assert.equal(manifest.compiledStack,undefined);
@@ -22,7 +23,7 @@ try{
  browser=await chromium.launch({headless:true});
  for(const experiment of (process.env.CTM_VALIDATION_PROBE_EXPERIMENTS || 'hook-control,repeated-target,forced-gc').split(',')){
   const page=await browser.newPage();await page.goto(app.baseURL+'probe.html');
-  const result=await page.evaluate(data=>new Promise(resolve=>{const worker=new Worker('probe-worker.js');const timer=setTimeout(()=>{worker.terminate();resolve({error:'600-second watchdog'})},600000);worker.onerror=e=>{clearTimeout(timer);worker.terminate();resolve({error:e.message})};worker.onmessage=({data})=>{clearTimeout(timer);worker.terminate();resolve(data)};worker.postMessage(data)}),{experiment,history});
+  const result=await page.evaluate(data=>new Promise(resolve=>{const worker=new Worker('probe-worker.js');const timer=setTimeout(()=>{worker.terminate();resolve({error:'600-second watchdog'})},600000);worker.onerror=e=>{clearTimeout(timer);worker.terminate();resolve({error:e.message})};worker.onmessage=({data})=>{clearTimeout(timer);worker.terminate();resolve(data)};worker.postMessage(data)}),{experiment,history,snapshotLisp});
   report.samples.push(result);await writeFile(join(out,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({experiment,ok:result.ok,error:result.error,failureIndex:result.failureIndex,trace:result.trace,hook:result.injected?.[1]?.slice(0,500)}));await page.close();
  }
 }finally{await browser?.close();await app.close();}
