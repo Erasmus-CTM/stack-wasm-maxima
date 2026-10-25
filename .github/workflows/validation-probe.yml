@@ -26,9 +26,9 @@ jobs:
         run: |
           npm ci --ignore-scripts --no-audit --no-fund
           npx playwright install --with-deps chromium
-      - name: Check the corrected Boolean control on a fresh source worker
+      - name: Check the error hook and retained Maxima frame controls
         env:
-          CTM_VALIDATION_PROBE_EXPERIMENTS: hook-control
+          CTM_VALIDATION_PROBE_EXPERIMENTS: hook-control,postmortem-control
         run: node runtime/timing/validation-probe/run.mjs
       - uses: actions/upload-artifact@v4
         if: always()

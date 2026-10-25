@@ -4,7 +4,12 @@ self.onmessage=async({data})=>{
  try{
   session=new MaximaSession({baseURL:new URL('./maxima-runtime/',location.href).href,stackSourceURL:new URL('probe-sources.json',location.href).href});
   report.initialization=await session.init();
-  if(data.experiment==='hook-control'){
+  if(data.experiment==='postmortem-control'){
+   const frames=String.raw`block([?\*print\-level\*:4,?\*print\-length\*:12,?\*print\-readably\*:false],makelist(?format(false,"~S",?aref(?\*mlambda\-call\-stack\*,_ctm_i)),_ctm_i,0,ev(min(299,?array\-total\-size(?\*mlambda\-call\-stack\*)-1),simp)))`;
+   report.frames=session.evaluate('block([r],ctm_post_inner():=?car(?subr),ctm_post_outer():=ctm_post_inner(),r:errcatch(ctm_post_outer()),'+frames+')');
+   report.after=session.evaluate('6*7');
+   report.ok=Array.isArray(report.frames)&&report.frames.some(r=>r.includes('$CTM_POST_INNER'))&&report.after===42;
+  }else if(data.experiment==='hook-control'){
    session.write(':lisp (defun maxima::$ctm_injected_car_fault (x) (car x))\n',60000);
    report.injected=session.evaluate('block([r],r:errcatch(ctm_injected_car_fault(?subr)),[is(length(r)=0),ctm_validation_trace])');
    report.after=session.evaluate('6*7');
