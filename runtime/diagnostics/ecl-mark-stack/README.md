@@ -79,7 +79,7 @@ The same abort occurs in ECL alone built for `wasm32-unknown-emscripten`.
 `-O0` with Binaryen's `--spill-pointers` pass, which writes pointer locals to
 the shadow stack that BDWGC scans eagerly.
 
-Build used (25 October 2026): the pinned fork with `root-occupancy.patch`, a
+Build used (25 October 2026): the pinned fork with `upstream-bundle/root-occupancy.patch`, a
 diagnostic-only line that prints the free mark stack slots just before
 `GC_push_other_roots` and changes nothing else. emsdk 4.0.10 and a 32-bit host
 ECL built from the same commit, configured exactly as the Maxima port's
@@ -93,12 +93,12 @@ emconfigure ./configure --host=wasm32-unknown-emscripten --build=x86_64-pc-linux
   --with-cross-config=$PWD/src/util/wasm32-unknown-emscripten.cross_config \
   --with-tcp=no --with-cmp=no --with-bytecmp=builtin --with-asdf=no
 emmake make && cp build/libecl.so build/bin/
-sh run-wasm.sh build/bin 200 440
+sh upstream-bundle/run-wasm.sh build/bin 200 440
 ```
 
 The wasm ECL has no C compiler, and `deep-bc.lisp` exhausts ECL's 32 MB C stack
 limit (about 440 levels, roughly 70 KB per level) before it fills the mark
-stack. `deep-wasm.lisp` recurses through `map` instead and leaves about 16
+stack. `upstream-bundle/deep-wasm.lisp` recurses through `map` instead and leaves about 16
 pointers per level. Under Node 22 it aborted at depths 234, 268, 302, 336,
 370, 404 and 438 out of 200–440. That is exactly every 34 levels, repeatably,
 since wasm has no address randomisation. The other 234 depths returned the

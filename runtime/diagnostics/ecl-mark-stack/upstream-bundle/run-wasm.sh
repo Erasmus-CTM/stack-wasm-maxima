@@ -1,5 +1,4 @@
 #!/bin/sh
-# SPDX-License-Identifier: AGPL-3.0-or-later
 # Usage: run-wasm.sh BUILD_BIN_DIR FIRST LAST
 # BUILD_BIN_DIR holds ecl.js, ecl.wasm and libecl.so from an Emscripten build
 # of ECL (see README). Runs one Node process per depth of deep-wasm.lisp and

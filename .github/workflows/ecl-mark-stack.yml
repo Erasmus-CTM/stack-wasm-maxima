@@ -9,11 +9,10 @@ on:
 permissions:
   contents: read
 env:
-  ECL_REPOSITORY: https://gitlab.com/embeddable-common-lisp/ecl.git
-  # Upstream develop when the reproducer was written.
-  ECL_COMMIT: ff5c6abbe73e3b3e95608e32721ce0be232c1987
+  # Every file this workflow runs lives in this one folder.
+  BUNDLE: runtime/diagnostics/ecl-mark-stack/upstream-bundle
 jobs:
-  sweep:
+  native:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     strategy:
@@ -32,10 +31,16 @@ jobs:
             configure: --disable-threads
             expect: none
     env:
-      DIAG: runtime/diagnostics/ecl-mark-stack
+      ECL_REPOSITORY: https://gitlab.com/embeddable-common-lisp/ecl.git
+      # Upstream develop when the reproducer was written.
+      ECL_COMMIT: ff5c6abbe73e3b3e95608e32721ce0be232c1987
       OUT: test-results/ecl-mark-stack
     steps:
       - uses: actions/checkout@v4
+      - name: Show the files used
+        run: |
+          mkdir -p "$OUT"
+          (cd "$BUNDLE" && sha256sum *) | tee "$OUT/bundle-sha256.txt"
       - name: Install 32-bit toolchain
         if: matrix.bits == 32
         run: sudo apt-get update && sudo apt-get install -y gcc-multilib
@@ -47,17 +52,15 @@ jobs:
           test "$(git -C ecl rev-parse HEAD)" = "$ECL_COMMIT"
       - name: Apply eager root scanning
         if: matrix.variant == 'eager'
-        run: git -C ecl apply "$GITHUB_WORKSPACE/$DIAG/eager-root-scanning.patch"
+        run: git -C ecl apply "$GITHUB_WORKSPACE/$BUNDLE/eager-root-scanning.patch"
       - name: Build ECL
         run: |
-          mkdir -p "$OUT"
           flags=
           [ "${{ matrix.bits }}" = 32 ] && flags='ABI=32 CFLAGS=-m32 LDFLAGS=-m32'
           cd ecl
           env $flags ./configure --prefix="$RUNNER_TEMP/ecl" ${{ matrix.configure }} > "$GITHUB_WORKSPACE/$OUT/configure.log" 2>&1
           make -j4 > "$GITHUB_WORKSPACE/$OUT/make.log" 2>&1
           make install > "$GITHUB_WORKSPACE/$OUT/install.log" 2>&1
-          "$RUNNER_TEMP/ecl/bin/ecl" --norc --eval '(format t "~a ~a ~a~%" (lisp-implementation-version) (ext:lisp-implementation-vcs-id) (find :threads *features*))' --eval '(ext:quit)' | tee "$GITHUB_WORKSPACE/$OUT/version.txt"
       - name: Report system for the ECL issue template
         run: |
           {
@@ -65,27 +68,12 @@ jobs:
             gcc --version | head -n 1
             "$RUNNER_TEMP/ecl/bin/ecl" --norc --eval '(format t "~&~@{~12@A ~S~%~}" :version (lisp-implementation-version) :vcs-id (ext:lisp-implementation-vcs-id) :os (software-type) :os-version (software-version) :machine-type (machine-type) :features *features*)' --eval '(ext:quit)'
           } | tee "$OUT/system.txt"
-      - name: Sweep recursion depths
-        run: |
-          ecl="$RUNNER_TEMP/ecl/bin/ecl"
-          set +e
-          NOASLR=1 sh "$DIAG/run.sh" "$ecl" compiled 3600 4700 > "$OUT/compiled.txt"; compiled=$?
-          NOASLR=1 sh "$DIAG/run.sh" "$ecl" interpreted 700 1500 > "$OUT/interpreted.txt"; interpreted=$?
-          set -e
-          tail -n 20 "$OUT/compiled.txt" "$OUT/interpreted.txt"
-          for status in $compiled $interpreted; do
-            [ "$status" -le 1 ] || exit 1
-            if [ "${{ matrix.expect }}" = abort ]; then [ "$status" -eq 1 ] || exit 1
-            else [ "$status" -eq 0 ] || exit 1; fi
-          done
-      - name: Run the attached upstream bundle unchanged
+      - name: Run sweep.sh
         run: |
           set -o pipefail
-          ecl="$RUNNER_TEMP/ecl/bin/ecl"
-          cp -r "$DIAG/upstream-bundle" "$RUNNER_TEMP/bundle"
-          (cd "$RUNNER_TEMP/bundle" && sha256sum deep.lisp sweep.sh occupancy.gdb eager-root-scanning.patch) | tee "$OUT/bundle-sha256.txt"
-          (cd "$RUNNER_TEMP/bundle" && setarch -R sh sweep.sh "$ecl" 3600 4700) 2>&1 | tee "$OUT/bundle-sweep.txt"
-          aborts=$(grep -c '^N=' "$OUT/bundle-sweep.txt" || true)
+          cp -r "$BUNDLE" "$RUNNER_TEMP/bundle"
+          (cd "$RUNNER_TEMP/bundle" && setarch -R sh sweep.sh "$RUNNER_TEMP/ecl/bin/ecl" 3600 4700) 2>&1 | tee "$OUT/sweep.txt"
+          aborts=$(grep -c '^N=' "$OUT/sweep.txt" || true)
           echo "sweep.sh reported $aborts aborting depths"
           if [ "${{ matrix.expect }}" = abort ]; then [ "$aborts" -gt 0 ]; else [ "$aborts" -eq 0 ]; fi
       - uses: actions/upload-artifact@v4
@@ -102,22 +90,24 @@ jobs:
       matrix:
         variant: [original, eager]
     env:
-      DIAG: runtime/diagnostics/ecl-mark-stack
-      OUT: test-results/ecl-mark-stack-wasm
       # The Emscripten fork and emsdk pinned by the Maxima runtime build.
       FORK_REPOSITORY: https://gitlab.com/mgerbershagen/ecl.git
       FORK_COMMIT: e4bdb2e5b1e444e1773032a53650773848f4d6cd
       EMSDK_VERSION: 4.0.10
+      OUT: test-results/ecl-mark-stack-wasm
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Show the files used
+        run: |
+          mkdir -p "$OUT"
+          (cd "$BUNDLE" && sha256sum *) | tee "$OUT/bundle-sha256.txt"
       - name: Install 32-bit toolchain
         run: sudo apt-get update && sudo apt-get install -y gcc-multilib
       - name: Fetch ECL fork and emsdk
         run: |
-          mkdir -p "$OUT"
           git init -q ecl
           git -C ecl fetch -q --depth 1 "$FORK_REPOSITORY" "$FORK_COMMIT"
           git -C ecl checkout -q FETCH_HEAD
@@ -137,9 +127,9 @@ jobs:
           file "$RUNNER_TEMP/ecl-host/bin/ecl"
       - name: Apply diagnostic print and variant patch
         run: |
-          git -C ecl apply "$GITHUB_WORKSPACE/$DIAG/root-occupancy.patch"
+          git -C ecl apply "$GITHUB_WORKSPACE/$BUNDLE/root-occupancy.patch"
           if [ "${{ matrix.variant }}" = eager ]; then
-            git -C ecl apply "$GITHUB_WORKSPACE/runtime/build/patches/ecl-root-scanner.patch"
+            git -C ecl apply "$GITHUB_WORKSPACE/$BUNDLE/eager-root-scanning-fork.patch"
           fi
           git -C ecl diff --stat
       - name: Build ECL for Emscripten
@@ -158,12 +148,12 @@ jobs:
           emmake make -j4 > "$GITHUB_WORKSPACE/$OUT/wasm-make.log" 2>&1
           cp build/libecl.so build/bin/
           ls -l build/bin
-      - name: Sweep recursion depths under Node
+      - name: Run run-wasm.sh under Node
         run: |
           node --version
           echo "stack limit: soft $(ulimit -s), hard $(ulimit -Hs)"
           set +e
-          sh "$DIAG/run-wasm.sh" ecl/build/bin 200 440 | tee "$OUT/wasm-sweep.txt"
+          sh "$BUNDLE/run-wasm.sh" ecl/build/bin 200 440 | tee "$OUT/wasm-sweep.txt"
           status=${PIPESTATUS[0]}
           set -e
           [ "$status" -le 1 ] || exit 1
