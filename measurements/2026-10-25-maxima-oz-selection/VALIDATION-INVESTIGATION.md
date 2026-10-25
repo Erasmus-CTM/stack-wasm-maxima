@@ -1,6 +1,8 @@
 # Source validation failure: competing explanations
 
-Status: unresolved, compiler promotion blocked. The displayed PythonChecker question name is a workload location; failure precedes the Python callback.
+Status: root cause established by direct experiment (see `gc-root-cause/README.md`): a collector-invisible pointer left by Binaryen's incomplete `--spill-pointers` pass. The candidate profile now flattens before spilling; promotion still requires the full gates at the final head. The displayed PythonChecker question name is a workload location; failure precedes the Python callback.
+
+The competing explanations below are retained as recorded before that experiment. Hypothesis 4 (native runtime/collector) is the confirmed one; 1 (catch-all boundary) concealed the fault and is repaired separately; 2, 3 and 5 are not the cause.
 
 Observed: a fresh integration binary fails [1,1] validation against [2,2] in two independent unmodified full UI executions. Original candidate and control passed three full UI repetitions each. Exact CAS-history-only replay passed on all three binaries, so it does not reproduce the complete execution environment. Instrumenting earlier validations also changed the outcome and cannot establish a fix.
 

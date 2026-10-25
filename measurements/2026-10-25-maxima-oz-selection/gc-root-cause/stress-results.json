@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "diagnosticOnly": true,
+  "date": "2026-10-25",
+  "program": "Exact captured diagnostic validation of A graphical PythonChecker: [1,1] against teacher [2,2] (caught-condition.json expression)",
+  "programSha256": "83cd8e43c1cc99b4a7b6157ffe59baba811eea713cde191f35f8df4d682bee0d",
+  "builds": "Local cold builds of f400bca264e8161f250f1a8cd8831f282e29b941 with the pinned recipe (profiles ecl-oz-maxima-oz and ecl-oz); headless Chromium 1243; one fresh worker per run.",
+  "native": {
+    "maxima": "Native ECL e4bdb2e5 (--disable-threads) + Maxima 813903d33 + STACK 33383047",
+    "divisor": 2000,
+    "iterations": 3000,
+    "failures": {
+      "withReArmingFinalizer": 0,
+      "withoutFinalizer": 0
+    },
+    "finalizerRuns": 6362
+  },
+  "runs": [
+    {
+      "label": "candidate",
+      "runtime": "ecl-oz-maxima-oz",
+      "variant": "as built",
+      "GC_FREE_SPACE_DIVISOR": 1000,
+      "iterations": 150,
+      "collections": null,
+      "failures": 2,
+      "observed": [
+        {
+          "iteration": 25,
+          "message": "In function BOUNDP, the value of the only argument is\n  (MLIST SIMP)\nwhich is not of the expected type SYMBOL"
+        },
+        {
+          "iteration": 146,
+          "message": "In function CAR, the value of the first argument is\n  #\\,\nwhich is not of the expected type LIST"
+        }
+      ],
+      "requested": null
+    },
+    {
+      "label": "candidate-finalizer-disabled",
+      "runtime": "ecl-oz-maxima-oz",
+      "variant": "interrupt finalizer re-arm disabled",
+      "GC_FREE_SPACE_DIVISOR": 1000,
+      "iterations": 300,
+      "collections": null,
+      "failures": 5,
+      "observed": [
+        {
+          "iteration": 218,
+          "message": "assignment: cannot assign to (false)\n"
+        },
+        {
+          "iteration": 231,
+          "message": "In function CAR, the value of the first argument is\n  $EX\nwhich is not of the expected type LIST"
+        },
+        {
+          "iteration": 232,
+          "message": "In function BOUNDP, the value of the only argument is\n  ($IS\n   (11 \"/ctm/moodle-qtype_stack-master/stack/maxima/stackstrings.mac\" SRC\n    $IS_STACKMAP 11))\nwhich is not of the expected type SYMBOL"
+        },
+        {
+          "iteration": 298,
+          "message": "In function BOUNDP, the value of the only argument is\n  (MCOND\n   (812 \"/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac\" SRC\n    $STACK_DISP_SUB_SCRIPT 811))\nwhich is not of the expected type SYMBOL"
+        },
+        {
+          "iteration": 299,
+          "message": "In function CAR, the value of the first argument is\n  1\nwhich is not of the expected type LIST"
+        }
+      ],
+      "requested": null
+    },
+    {
+      "label": "candidate-counted",
+      "runtime": "ecl-oz-maxima-oz",
+      "variant": "as built",
+      "GC_FREE_SPACE_DIVISOR": 1000,
+      "iterations": 300,
+      "collections": 3715,
+      "failures": 4,
+      "observed": [
+        {
+          "iteration": 160,
+          "message": "table index is out of bounds"
+        },
+        {
+          "iteration": 231,
+          "message": "assignment: cannot assign to (false)\n"
+        },
+        {
+          "iteration": 293,
+          "message": "memory access out of bounds"
+        },
+        {
+          "iteration": 295,
+          "message": "In function CAR, the value of the first argument is\n  \"ctm-native\"\nwhich is not of the expected type LIST"
+        }
+      ],
+      "requested": null
+    },
+    {
+      "label": "candidate-flatten-spill",
+      "runtime": "ecl-oz-maxima-oz",
+      "variant": "--flatten --spill-pointers post-processed",
+      "GC_FREE_SPACE_DIVISOR": 1000,
+      "iterations": 600,
+      "collections": 6483,
+      "failures": 0,
+      "observed": [],
+      "requested": [
+        "/maxima-runtime/runtime-preload.json",
+        "/maxima-runtime/maxima_thread.js",
+        "/maxima-runtime/maxima.js",
+        "/maxima-runtime/share_files.js",
+        "/maxima-runtime/maxima.wasm",
+        "/maxima-runtime/libecl.so"
+      ]
+    },
+    {
+      "label": "production",
+      "runtime": "ecl-oz",
+      "variant": "as built",
+      "GC_FREE_SPACE_DIVISOR": 1000,
+      "iterations": 300,
+      "collections": null,
+      "failures": 0,
+      "observed": [],
+      "requested": null
+    },
+    {
+      "label": "production-counted",
+      "runtime": "ecl-oz",
+      "variant": "as built",
+      "GC_FREE_SPACE_DIVISOR": 1000,
+      "iterations": 300,
+      "collections": 3028,
+      "failures": 0,
+      "observed": [],
+      "requested": null
+    },
+    {
+      "label": "production-div5000",
+      "runtime": "ecl-oz",
+      "variant": "as built",
+      "GC_FREE_SPACE_DIVISOR": 5000,
+      "iterations": 600,
+      "collections": 11032,
+      "failures": 0,
+      "observed": [],
+      "requested": [
+        "/maxima-runtime/runtime-preload.json",
+        "/maxima-runtime/maxima_thread.js",
+        "/maxima-runtime/maxima.js",
+        "/maxima-runtime/share_files.js",
+        "/maxima-runtime/maxima.wasm",
+        "/maxima-runtime/libecl.so"
+      ]
+    }
+  ]
+}
