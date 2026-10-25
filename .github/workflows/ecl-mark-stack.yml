@@ -58,6 +58,13 @@ jobs:
           make -j4 > "$GITHUB_WORKSPACE/$OUT/make.log" 2>&1
           make install > "$GITHUB_WORKSPACE/$OUT/install.log" 2>&1
           "$RUNNER_TEMP/ecl/bin/ecl" --norc --eval '(format t "~a ~a ~a~%" (lisp-implementation-version) (ext:lisp-implementation-vcs-id) (find :threads *features*))' --eval '(ext:quit)' | tee "$GITHUB_WORKSPACE/$OUT/version.txt"
+      - name: Report system for the ECL issue template
+        run: |
+          {
+            uname -a
+            gcc --version | head -n 1
+            "$RUNNER_TEMP/ecl/bin/ecl" --norc --eval '(format t "~&~@{~12@A ~S~%~}" :version (lisp-implementation-version) :vcs-id (ext:lisp-implementation-vcs-id) :os (software-type) :os-version (software-version) :machine-type (machine-type) :features *features*)' --eval '(ext:quit)'
+          } | tee "$OUT/system.txt"
       - name: Sweep recursion depths
         run: |
           ecl="$RUNNER_TEMP/ecl/bin/ecl"
