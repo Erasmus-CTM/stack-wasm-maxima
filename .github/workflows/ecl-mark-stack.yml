@@ -1,0 +1,79 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: ECL-only mark stack overflow reproducer
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - runtime/diagnostics/ecl-mark-stack/**
+      - .github/workflows/ecl-mark-stack.yml
+permissions:
+  contents: read
+env:
+  ECL_REPOSITORY: https://gitlab.com/embeddable-common-lisp/ecl.git
+  # Upstream develop when the reproducer was written.
+  ECL_COMMIT: ff5c6abbe73e3b3e95608e32721ce0be232c1987
+jobs:
+  sweep:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        bits: [64, 32]
+        variant: [original, threads, eager]
+        include:
+          - variant: original
+            configure: --disable-threads
+            expect: abort
+          - variant: threads
+            configure: --enable-threads
+            expect: none
+          - variant: eager
+            configure: --disable-threads
+            expect: none
+    env:
+      DIAG: runtime/diagnostics/ecl-mark-stack
+      OUT: test-results/ecl-mark-stack
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install 32-bit toolchain
+        if: matrix.bits == 32
+        run: sudo apt-get update && sudo apt-get install -y gcc-multilib
+      - name: Fetch ECL
+        run: |
+          git init -q ecl
+          git -C ecl fetch -q --depth 1 "$ECL_REPOSITORY" "$ECL_COMMIT"
+          git -C ecl checkout -q FETCH_HEAD
+          test "$(git -C ecl rev-parse HEAD)" = "$ECL_COMMIT"
+      - name: Apply eager root scanning
+        if: matrix.variant == 'eager'
+        run: git -C ecl apply "$GITHUB_WORKSPACE/$DIAG/eager-root-scanning.patch"
+      - name: Build ECL
+        run: |
+          mkdir -p "$OUT"
+          flags=
+          [ "${{ matrix.bits }}" = 32 ] && flags='ABI=32 CFLAGS=-m32 LDFLAGS=-m32'
+          cd ecl
+          env $flags ./configure --prefix="$RUNNER_TEMP/ecl" ${{ matrix.configure }} > "$GITHUB_WORKSPACE/$OUT/configure.log" 2>&1
+          make -j4 > "$GITHUB_WORKSPACE/$OUT/make.log" 2>&1
+          make install > "$GITHUB_WORKSPACE/$OUT/install.log" 2>&1
+          "$RUNNER_TEMP/ecl/bin/ecl" --norc --eval '(format t "~a ~a ~a~%" (lisp-implementation-version) (ext:lisp-implementation-vcs-id) (find :threads *features*))' --eval '(ext:quit)' | tee "$GITHUB_WORKSPACE/$OUT/version.txt"
+      - name: Sweep recursion depths
+        run: |
+          ecl="$RUNNER_TEMP/ecl/bin/ecl"
+          set +e
+          NOASLR=1 sh "$DIAG/run.sh" "$ecl" compiled 3600 4700 > "$OUT/compiled.txt"; compiled=$?
+          NOASLR=1 sh "$DIAG/run.sh" "$ecl" interpreted 700 1500 > "$OUT/interpreted.txt"; interpreted=$?
+          set -e
+          tail -n 20 "$OUT/compiled.txt" "$OUT/interpreted.txt"
+          for status in $compiled $interpreted; do
+            [ "$status" -le 1 ] || exit 1
+            if [ "${{ matrix.expect }}" = abort ]; then [ "$status" -eq 1 ] || exit 1
+            else [ "$status" -eq 0 ] || exit 1; fi
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ecl-mark-stack-${{ matrix.variant }}-${{ matrix.bits }}-${{ github.run_id }}
+          path: test-results/ecl-mark-stack/
+          if-no-files-found: error
