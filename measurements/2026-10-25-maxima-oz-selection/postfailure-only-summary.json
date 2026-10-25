@@ -1,0 +1,99 @@
+{
+  "runId": 40181246819,
+  "head": "37e8bae1e44830e32ab62226f1bd40a3557ee572",
+  "artifactId": 12593873369,
+  "artifactSha256": "4036b0b7591a01be1e28a81533d3654d34d404b32de38da983d0051f3342aada",
+  "scope": "No startup or CAS program modifications; engine adds JS guard that only makes additional CAS calls after an original generic-invalid exact-case result. No triggers in5workers. This does not identify or fix earlier faults.",
+  "samples": [
+    {
+      "report": "test-results/milestone-three/browser.json",
+      "passed": true,
+      "programs": 316,
+      "native": {
+        "programs": 316,
+        "passed": 316,
+        "different": 0,
+        "exact": 307,
+        "presentationEquivalent": 9,
+        "unaccepted": 0,
+        "rawDifferenceFields": 12,
+        "acceptedPresentationFields": 12,
+        "unacceptedDifferenceFields": 0
+      },
+      "postmortemTriggers": 0,
+      "prefixExpressionDifferences": []
+    },
+    {
+      "report": "test-results/milestone-three/repetition-2/browser.json",
+      "passed": true,
+      "programs": 316,
+      "native": {
+        "programs": 316,
+        "passed": 316,
+        "different": 0,
+        "exact": 307,
+        "presentationEquivalent": 9,
+        "unaccepted": 0,
+        "rawDifferenceFields": 12,
+        "acceptedPresentationFields": 12,
+        "unacceptedDifferenceFields": 0
+      },
+      "postmortemTriggers": 0,
+      "prefixExpressionDifferences": []
+    },
+    {
+      "report": "test-results/milestone-three/repetition-3/browser.json",
+      "passed": true,
+      "programs": 316,
+      "native": {
+        "programs": 316,
+        "passed": 316,
+        "different": 0,
+        "exact": 307,
+        "presentationEquivalent": 9,
+        "unaccepted": 0,
+        "rawDifferenceFields": 12,
+        "acceptedPresentationFields": 12,
+        "unacceptedDifferenceFields": 0
+      },
+      "postmortemTriggers": 0,
+      "prefixExpressionDifferences": []
+    },
+    {
+      "report": "test-results/milestone-three/repetition-4/browser.json",
+      "passed": true,
+      "programs": 316,
+      "native": {
+        "programs": 316,
+        "passed": 316,
+        "different": 0,
+        "exact": 307,
+        "presentationEquivalent": 9,
+        "unaccepted": 0,
+        "rawDifferenceFields": 12,
+        "acceptedPresentationFields": 12,
+        "unacceptedDifferenceFields": 0
+      },
+      "postmortemTriggers": 0,
+      "prefixExpressionDifferences": []
+    },
+    {
+      "report": "test-results/milestone-three/repetition-5/browser.json",
+      "passed": true,
+      "programs": 316,
+      "native": {
+        "programs": 316,
+        "passed": 316,
+        "different": 0,
+        "exact": 307,
+        "presentationEquivalent": 9,
+        "unaccepted": 0,
+        "rawDifferenceFields": 12,
+        "acceptedPresentationFields": 12,
+        "unacceptedDifferenceFields": 0
+      },
+      "postmortemTriggers": 0,
+      "prefixExpressionDifferences": []
+    }
+  ]
+}

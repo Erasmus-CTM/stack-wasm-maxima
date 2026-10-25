@@ -73,6 +73,12 @@ jobs:
           python runtime/build/test-compiler-evidence.py
           python runtime/build/test-timing-evidence.py
           python runtime/precompiled/test-stack-compiler-evidence.py
+          python runtime/build/test-stack-acceptance.py
+          python runtime/precompiled/test-bundle-provenance.py
+          python runtime/precompiled/test-controller-parity.py
+          node runtime/precompiled/test-probe-inputs.mjs
+          node runtime/precompiled/test-entry-reads.mjs
+          node runtime/precompiled/test-measure-worker.mjs
           python runtime/build/test-source-checkout.py
           python runtime/build/test-source-overlay.py
       - name: Record read-only upstream drift
@@ -87,6 +93,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends build-essential gcc-multilib g++-multilib \
             libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config strace
+          python runtime/precompiled/test-stack-compiler-evidence.py
       - name: Build without external gnuplot or restored compiler caches
         id: build
         run: bash runtime/build/build.sh
@@ -564,8 +571,18 @@ jobs:
           name: ${{ matrix.profile == 'baseline' && format('owned-runtime-{0}', github.sha) || format('owned-runtime-{0}-{1}', matrix.profile, github.sha) }}
           include-hidden-files: true
           path: |
-            .cache/precompiled-stack/
-            .cache/precompiled-stack-10d3233/
+            .cache/precompiled-stack/logs/
+            .cache/precompiled-stack/source-initialized/
+            .cache/precompiled-stack/source-adapted/
+            .cache/precompiled-stack/*.lisp
+            .cache/precompiled-stack/stackmaxima.fas
+            .cache/precompiled-stack/stackmaxima.fas.json
+            .cache/precompiled-stack-10d3233/logs/
+            .cache/precompiled-stack-10d3233/source-initialized/
+            .cache/precompiled-stack-10d3233/source-adapted/
+            .cache/precompiled-stack-10d3233/*.lisp
+            .cache/precompiled-stack-10d3233/stackmaxima.fas
+            .cache/precompiled-stack-10d3233/stackmaxima.fas.json
             .cache/precompiled-probes/
             .cache/precompiled-fixtures/
             test-results/precompiled-stack/
@@ -637,7 +654,7 @@ jobs:
           for profile in baseline ecl-oz ecl-o2; do
             python scripts/milestone-two/prepare-runtime.py --stack-source .site-sources/stack --ctm-checkers-source .site-sources/ctm-checkers --runtime-source ".cache/compiler-trials/$profile/.cache/runtime-build/artifact" --compiler-profile "$profile" --output ".cache/compiler-trials/demos/$profile"
           done
-      - name: Compare baseline and the production profile on this same runner
+      - name: Compare the explicit baseline and ecl-oz controls on this same runner
         env:
           CTM_TIMING_REPETITIONS: '10'
           CTM_TIMING_PROFILES: baseline,ecl-oz
@@ -668,7 +685,7 @@ jobs:
               for(const [p,m] of Object.entries(r.medians))out.push(`| ${name} | ${p} | ${(m.cold/1000).toFixed(1)} | ${(m["warm-profile-reload"]/1000).toFixed(1)} |`);
               if(file.includes("cpu-quarter"))target=r.medians["ecl-oz"]?.cold;
             }
-            out.push("",target==null?"D8: no reference measurement.":`D8: production profile cold start on the reference ${(target/1000).toFixed(1)} s against the 20 s target: ${target<=20000?"met":"not met"}.`);
+            out.push("",target==null?"D8: no reference measurement.":`D8: ecl-oz comparator cold start on the reference ${(target/1000).toFixed(1)} s against the 20 s target: ${target<=20000?"met":"not met"}.`);
             fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,out.join("\n")+"\n");console.log(out.join("\n"));'
       - name: Preserve comparison and failed-trial evidence
         if: always()
