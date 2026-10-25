@@ -9,11 +9,24 @@ for condition,path in [('unrestricted',args.root/'report.json'),('CPUQuota=25%',
  body=path.read_bytes();report=json.loads(body)
  assert report['passed'] is True and report['repetitions']==10 and len(report['samples'])==40
  assert report['plannedMeasurements']==40 and all(s['ok'] for s in report['samples'])
+ assert report['cpuLimit']==('unrestricted' if condition=='unrestricted' else 'systemd CPUQuota=25%')
+ assert len(report['plan'])==20
+ for repetition in range(1,11):
+  pairs=[p for p in report['plan'] if p['repetition']==repetition]
+  expected=['ecl-oz','ecl-oz-maxima-oz']
+  assert [p['profile'] for p in pairs]==(expected if repetition%2 else expected[::-1])
+  assert all(p['candidate']=='source' and p['modes']==['cold','warm-profile-reload'] for p in pairs)
  assert not report['skipped'] and not report.get('pairFailures') and not report['lateTelemetryFailed']
  sources.append({'condition':condition,'path':str(path),'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest(),'benchmark':report['benchmark'],'browser':report['browser'],'admission':report['admission']})
  for sample in report['samples']:
   assert sample['candidate']=='source' and sample['startupGuardPassed'] and sample['termination']['ok']
+  if sample['mode']=='warm-profile-reload':
+   assert sample['precedingCold']['passed'] is True and sample['precedingCold']['terminationAcknowledged'] is True
   rows.append({'condition':condition,**sample})
+assert sources[0]['benchmark']==sources[1]['benchmark']
+assert sources[0]['browser']==sources[1]['browser']
+assert sources[0]['admission']['sha256']==sources[1]['admission']['sha256']
+assert len({r['runId'] for r in rows})==80
 summary=[]
 for condition in ('unrestricted','CPUQuota=25%'):
  for mode in ('cold','warm-profile-reload'):
