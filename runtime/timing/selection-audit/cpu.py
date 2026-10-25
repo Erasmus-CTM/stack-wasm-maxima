@@ -26,10 +26,10 @@ def summarize(events, raw, calibration=None):
  for e in events:
   if e['name'] not in ('Profile','ProfileChunk'):continue
   if (e['name']=='Profile' and not preview) or (e['name']=='ProfileChunk' and len(preview)<3):preview.append(str(e)[:5000])
-  key=(e['pid'],e['tid'],e.get('id'))
+  key=(e['pid'],e.get('id'))
   p=profiles.setdefault(key,{'nodes':{},'samples':[],'deltas':[]})
   data=e.get('args',{}).get('data',{})
-  if e['name']=='Profile':p['startTime']=data.get('startTime',e['ts'])
+  if e['name']=='Profile':p['startTime']=data.get('startTime',e['ts']);p['ownerTid']=e['tid']
   cpu=data.get('cpuProfile',{})
   for node in cpu.get('nodes',[]):p['nodes'][node['id']]=node
   p['samples'].extend(cpu.get('samples',[]));p['deltas'].extend(data.get('timeDeltas',[]))
@@ -46,6 +46,6 @@ def summarize(events, raw, calibration=None):
      node=p['nodes'][nodeid];frame=node.get('callFrame',{});name=(frame.get('functionName',''),frame.get('url',''))
      groups[name]['sampledMs']+=overlap;groups[name]['samples']+=1;count+=1;total+=overlap
     t=end
-   if count:contexts.append({'pid':key[0],'tid':key[1],'id':key[2],'selectedSamples':count,'sampledMs':total,'nodes':len(p['nodes'])})
+   if count:contexts.append({'pid':key[0],'tid':p['ownerTid'],'id':key[1],'selectedSamples':count,'sampledMs':total,'nodes':len(p['nodes'])})
   result.append({**w,'contexts':contexts,'leafFrames':sorted([{'functionName':k[0],'url':k[1],**v} for k,v in groups.items()],key=lambda v:-v['sampledMs'])[:80]})
  return {'schema':1,'diagnosticOnly':True,'method':'Chrome Profile/ProfileChunk startTime plus cumulative timeDeltas, calibrated to one recorded epoch clock_sync marker. Each delta interval is clipped to the measured first-positive-grade wall window. Leaf-frame weights are sampled wall intervals per CPU context, not additive CPU time across threads. Instrumented n3 only.','profiles':[{'key':k,'startTime':p.get('startTime'),'samples':len(p['samples']),'deltas':len(p['deltas']),'nodes':len(p['nodes'])} for k,p in profiles.items()],'calibration':calibration,'retainedClockMarkers':markers,'profileFormatPreview':preview,'windows':result}
