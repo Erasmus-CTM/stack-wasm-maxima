@@ -146,14 +146,17 @@ jobs:
             --with-cross-config="$PWD/src/util/wasm32-unknown-emscripten.cross_config" \
             --with-tcp=no --with-cmp=no --with-bytecmp=builtin --with-asdf=no > "$GITHUB_WORKSPACE/$OUT/wasm-configure.log" 2>&1
           emmake make -j4 > "$GITHUB_WORKSPACE/$OUT/wasm-make.log" 2>&1
-          cp build/libecl.so build/bin/
-          ls -l build/bin
+          # Run from outside the checkout: the repository's package.json
+          # declares ES modules, which would make Node misread ecl.js.
+          mkdir "$RUNNER_TEMP/ecl-wasm"
+          cp build/bin/ecl.js build/bin/ecl.wasm build/libecl.so "$RUNNER_TEMP/ecl-wasm/"
+          ls -l "$RUNNER_TEMP/ecl-wasm"
       - name: Run run-wasm.sh under Node
         run: |
           node --version
           echo "stack limit: soft $(ulimit -s), hard $(ulimit -Hs)"
           set +e
-          sh "$BUNDLE/run-wasm.sh" ecl/build/bin 200 440 | tee "$OUT/wasm-sweep.txt"
+          sh "$BUNDLE/run-wasm.sh" "$RUNNER_TEMP/ecl-wasm" 200 440 | tee "$OUT/wasm-sweep.txt"
           status=${PIPESTATUS[0]}
           set -e
           [ "$status" -le 1 ] || exit 1
