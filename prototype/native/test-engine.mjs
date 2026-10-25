@@ -46,7 +46,9 @@ let queued=[valid,paused,done], pythonCalls=0;
 const engine = new Engine({session:{manifest:{stackRevision:'test-stack-pin',stackLibraryVersion:'test-version',tests:{AlgEquiv:[false,true,false]}},evaluate: expression => {
   expressions.push(expression);
   assert.ok(queued.length,'Unexpected additional native call');
-  return structuredClone(queued.shift());
+  const next = queued.shift();
+  if (next instanceof Error) throw next;
+  return structuredClone(next);
 }},onEvent:event=>events.push(event),pythonCheck:async request=>{
   pythonCalls++;
   assert.equal(request.options,'{"checker":"graph"}');
@@ -109,6 +111,22 @@ await assert.rejects(engine.validate(question,{...variant,env:{...variant.env,un
 await assert.rejects(engine.validate({...question,name:'Different question'},variant,answers),/does not match/);
 await assert.rejects(engine.validate(question,{...variant,seed:2},answers),/does not match/);
 await assert.rejects(engine.validate(question,{...variant,env:{a:'3'}},answers),/does not match/);
+
+// Only learner-domain errors become invalid; other Lisp errors fail the
+// native program so the session poisons. Real Maxima behaviour is exercised
+// by scripts/milestone-three/test-validation-boundary.py.
+const validation = engine.validationExpression(question,variant,{ans1:{raw:'[1,2]',source:'[1,2]'}});
+assert.ok(validation.includes('_ctm_r:ctm_classified_errcatch(block([],'),'Validation must classify caught conditions');
+assert.ok(!/_ctm_r:errcatch\(/.test(validation),'A plain catch-all would report internal faults as learner-invalid');
+assert.ok(validation.includes('if _ctm_r[1]="internal" then error("'+Engine.INTERNAL_FAULT+': ",errormsgtostring())'));
+queued=[new Error(Engine.INTERNAL_FAULT+': In function CAR')];
+await assert.rejects(engine.validate(question,variant,answers),new RegExp(Engine.INTERNAL_FAULT),
+  'An internal CAS fault must fail validation instead of returning invalid');
+const callsBeforeFault = expressions.length, pythonBeforeFault = pythonCalls;
+queued=[new Error(Engine.INTERNAL_FAULT+': In function CAR')];
+await assert.rejects(engine.grade(question,variant,answers),new RegExp(Engine.INTERNAL_FAULT));
+assert.equal(expressions.length,callsBeforeFault + 1,'Grading must stop at the failed validation program');
+assert.equal(pythonCalls,pythonBeforeFault,'An internal CAS fault must never reach the Python checker');
 
 queued=[valid,paused];
 engine.pythonCheck=async()=>({valid:false,correct:false,feedback:'Malformed graph state'});

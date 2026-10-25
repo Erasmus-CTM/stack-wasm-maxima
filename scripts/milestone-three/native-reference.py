@@ -21,6 +21,7 @@ import tempfile
 import time
 
 STACK_SHA = "33383047af39c204bf4442802a058f8b918b2b1b"
+CLASSIFIER = Path(__file__).resolve().parents[2] / "prototype/native/classified-errcatch.lisp"
 MARKER = re.compile(r"^\s*CTMNATIVE-REFERENCE\|([0-9]+)\|(.+?)\s*$")
 VERSION = re.compile(r"^\s*CTMNATIVE-VERSION\|([^|]+)\|([0-9]+)\s*$")
 PRESENTATION_POLICY = {
@@ -239,6 +240,8 @@ def make_batch(source: Path, home: Path, programs: list[dict]) -> str:
     loader = home / "moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac"
     lines = ["display2d:false$", f"maxima_userdir:{literal(str(home))}$",
              f"load({literal(str(loader))})$", "display2d:false$", "linel:1000000$",
+             # The same validation error classifier the Wasm startup defines.
+             f"load({literal(str(CLASSIFIER))})$",
              'm3_emit(s):=printf(true,"~%~a~%",s)$',
              'm3_emit(sconcat("CTMNATIVE-VERSION|",MAXIMA_VERSION_STR,"|",stackmaximaversion))$']
     for index, row in enumerate(programs):

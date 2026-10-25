@@ -1,0 +1,1 @@
+(defmspec $ctm_classified_errcatch (form) (let ((kind "learner")) (let ((result (errcatch (handler-bind ((error (lambda (condition) (setq kind (if (typep condition '(or maxima-$error arithmetic-error)) "learner" "internal"))))) (mevaln (cdr form)))))) (if result (list '(mlist) "ok" (car result)) (list '(mlist) kind)))))
