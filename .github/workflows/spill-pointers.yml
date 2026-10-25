@@ -1,0 +1,52 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Reproduce the Binaryen spill-pointers value-stack gap
+'on':
+  workflow_dispatch:
+  push:
+    branches: [claude/peaceful-cray-p1sz3o]
+    paths:
+      - .github/workflows/spill-pointers.yml
+      - runtime/diagnostics/spill-pointers/**
+permissions:
+  contents: read
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk:
+          - {version: 4.0.10, commit: 62a853cd3b3134398ce85cde8bb5cbb2ef0194cb}
+          - {version: 6.0.13, commit: 35659964bc2762fffec0d257997fb61475f765b7}
+        gc:
+          - {name: ecl-bundled-8.2.8, repository: 'https://gitlab.com/mgerbershagen/ecl.git', commit: e4bdb2e5b1e444e1773032a53650773848f4d6cd, path: src/bdwgc}
+          - {name: bdwgc-8.2.12, repository: 'https://github.com/ivmai/bdwgc.git', commit: 4fab5386df64466b2b61fc7209bef033cad1e6cc, path: .}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install the pinned Emscripten SDK
+        run: |
+          git clone --quiet https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
+          git -C "$RUNNER_TEMP/emsdk" checkout --quiet "${{ matrix.sdk.commit }}"
+          "$RUNNER_TEMP/emsdk/emsdk" install "${{ matrix.sdk.version }}"
+          "$RUNNER_TEMP/emsdk/emsdk" activate "${{ matrix.sdk.version }}"
+      - name: Fetch the pinned collector source
+        run: |
+          git clone --quiet --filter=blob:none --no-checkout "${{ matrix.gc.repository }}" "$RUNNER_TEMP/gc"
+          git -C "$RUNNER_TEMP/gc" checkout --quiet "${{ matrix.gc.commit }}"
+          test -f "$RUNNER_TEMP/gc/${{ matrix.gc.path }}/extra/gc.c"
+      - name: Build and run every case
+        run: |
+          python3 runtime/diagnostics/spill-pointers/run.py --emsdk "$RUNNER_TEMP/emsdk" \
+            --gc "$RUNNER_TEMP/gc/${{ matrix.gc.path }}" --output "$RUNNER_TEMP/out"
+      - name: Retain the report and disassembly
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spill-pointers-${{ matrix.sdk.version }}-${{ matrix.gc.name }}
+          path: |
+            ${{ runner.temp }}/out/report.json
+            ${{ runner.temp }}/out/O2-spill-names.wat
+          if-no-files-found: warn
