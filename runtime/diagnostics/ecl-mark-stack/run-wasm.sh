@@ -25,6 +25,7 @@ while [ "$d" -le "$last" ]; do
     --eval '(ext:quit)' >"$log" 2>&1
   if grep -q 'Unexpected mark stack overflow' "$log"; then
     echo "depth $d: Unexpected mark stack overflow ($(grep CTM-ROOTS "$log" | tail -n 1))"
+    [ "$aborts" -eq 0 ] && grep -E '^Unexpected|^RuntimeError|^ +at libecl' "$log" | head -n 12
     aborts=$((aborts + 1))
   elif ! grep -q CTM-OK "$log"; then
     echo "depth $d: did not complete"

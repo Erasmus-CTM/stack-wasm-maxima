@@ -94,3 +94,83 @@ jobs:
           name: ecl-mark-stack-${{ matrix.variant }}-${{ matrix.bits }}-${{ github.run_id }}
           path: test-results/ecl-mark-stack/
           if-no-files-found: error
+  wasm:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [original, eager]
+    env:
+      DIAG: runtime/diagnostics/ecl-mark-stack
+      OUT: test-results/ecl-mark-stack-wasm
+      # The Emscripten fork and emsdk pinned by the Maxima runtime build.
+      FORK_REPOSITORY: https://gitlab.com/mgerbershagen/ecl.git
+      FORK_COMMIT: e4bdb2e5b1e444e1773032a53650773848f4d6cd
+      EMSDK_VERSION: 4.0.10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install 32-bit toolchain
+        run: sudo apt-get update && sudo apt-get install -y gcc-multilib
+      - name: Fetch ECL fork and emsdk
+        run: |
+          mkdir -p "$OUT"
+          git init -q ecl
+          git -C ecl fetch -q --depth 1 "$FORK_REPOSITORY" "$FORK_COMMIT"
+          git -C ecl checkout -q FETCH_HEAD
+          test "$(git -C ecl rev-parse HEAD)" = "$FORK_COMMIT"
+          git clone -q --depth 1 https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
+          "$RUNNER_TEMP/emsdk/emsdk" install "$EMSDK_VERSION" > "$OUT/emsdk.log" 2>&1
+          "$RUNNER_TEMP/emsdk/emsdk" activate "$EMSDK_VERSION" >> "$OUT/emsdk.log" 2>&1
+      - name: Build 32-bit host ECL
+        run: |
+          # Same configuration as the host target in Maxima's wasm/Makefile.
+          cp -r ecl "$RUNNER_TEMP/ecl-host-src"
+          cd "$RUNNER_TEMP/ecl-host-src"
+          ./configure ABI=32 CFLAGS="-g -m32 -O2 -DECL_C_COMPATIBLE_VARIADIC_DISPATCH" LDFLAGS="-g -m32 -O2" \
+            --prefix="$RUNNER_TEMP/ecl-host" --disable-threads > "$GITHUB_WORKSPACE/$OUT/host-configure.log" 2>&1
+          make -j4 > "$GITHUB_WORKSPACE/$OUT/host-make.log" 2>&1
+          make install > "$GITHUB_WORKSPACE/$OUT/host-install.log" 2>&1
+          file "$RUNNER_TEMP/ecl-host/bin/ecl"
+      - name: Apply diagnostic print and variant patch
+        run: |
+          git -C ecl apply "$GITHUB_WORKSPACE/$DIAG/root-occupancy.patch"
+          if [ "${{ matrix.variant }}" = eager ]; then
+            git -C ecl apply "$GITHUB_WORKSPACE/runtime/build/patches/ecl-root-scanner.patch"
+          fi
+          git -C ecl diff --stat
+      - name: Build ECL for Emscripten
+        run: |
+          set +u
+          . "$RUNNER_TEMP/emsdk/emsdk_env.sh" > /dev/null 2>&1
+          emcc --version | head -n 1 | tee "$OUT/emcc-version.txt"
+          cd ecl
+          # Flags from the ecl-emscripten target in Maxima's wasm/Makefile,
+          # plus --profiling-funcs for function names in traces.
+          ECL_TO_RUN="$RUNNER_TEMP/ecl-host/bin/ecl" CFLAGS="-O0 -DECLDIR='' -Wno-macro-redefined" \
+          LDFLAGS="-sINITIAL_MEMORY=134217728 -sALLOW_MEMORY_GROWTH -sSTACK_OVERFLOW_CHECK=0 -sEXPORTED_RUNTIME_METHODS=dynCall --profiling-funcs" \
+          emconfigure ./configure --host=wasm32-unknown-emscripten --build=x86_64-pc-linux-gnu \
+            --with-cross-config="$PWD/src/util/wasm32-unknown-emscripten.cross_config" \
+            --with-tcp=no --with-cmp=no --with-bytecmp=builtin --with-asdf=no > "$GITHUB_WORKSPACE/$OUT/wasm-configure.log" 2>&1
+          emmake make -j4 > "$GITHUB_WORKSPACE/$OUT/wasm-make.log" 2>&1
+          cp build/libecl.so build/bin/
+          ls -l build/bin
+      - name: Sweep recursion depths under Node
+        run: |
+          node --version
+          echo "stack limit: soft $(ulimit -s), hard $(ulimit -Hs)"
+          set +e
+          sh "$DIAG/run-wasm.sh" ecl/build/bin 200 440 | tee "$OUT/wasm-sweep.txt"
+          status=${PIPESTATUS[0]}
+          set -e
+          [ "$status" -le 1 ] || exit 1
+          if [ "${{ matrix.variant }}" = original ]; then [ "$status" -eq 1 ]; else [ "$status" -eq 0 ]; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ecl-mark-stack-wasm-${{ matrix.variant }}-${{ github.run_id }}
+          path: test-results/ecl-mark-stack-wasm/
+          if-no-files-found: error
