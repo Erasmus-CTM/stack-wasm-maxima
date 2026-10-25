@@ -1,6 +1,7 @@
 """Preserve original sample bytes and derive phase-aligned trace diagnostics."""
 from pathlib import Path
 import json,shutil,hashlib,collections
+from cpu import summarize
 raw=Path('raw');out=Path('compact');out.mkdir(exist_ok=True)
 inventory=[]
 for p in raw.rglob('*'):
@@ -10,7 +11,11 @@ for p in raw.rglob('*'):
  if p.name.startswith('trace-') and p.suffix=='.json':
   d=json.loads(p.read_bytes());events=d['traceEvents'];counts=collections.Counter(e['name'] for e in events)
   markers=[e for e in events if e['name']=='clock_sync']
-  wasm=[e for e in events if e['name'] in ('Profile','ProfileChunk') or any(x in e['name'].lower() for x in ('wasm','compile','gc','clock_sync'))]
+  wasm=[e for e in events if any(x in e['name'].lower() for x in ('wasm','compile','gc','clock_sync'))]
+  if any(e['name']=='ProfileChunk' for e in events):
+   summary=summarize(events,raw)
+   (out/(p.stem+'-cpu-summary.json')).write_text(json.dumps(summary,indent=2)+'\n')
+   print(json.dumps({'cpuTrace':str(rel),'windows':[(w['sample'],w['contexts'],w['leafFrames'][:5]) for w in summary['windows']]}))
   value={'pair':d['pair'],'counts':dict(counts),'clockSync':markers,'events':wasm}
   dest=out/rel;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_text(json.dumps(value))
   print(json.dumps({'trace':str(rel),'counts':counts.most_common(30),'clockSync':markers}))
