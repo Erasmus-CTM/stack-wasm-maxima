@@ -1,6 +1,6 @@
 # Compiler selection evidence — 25 October 2026
 
-**Promotion remains blocked by the fresh-build source validation failure.** Timing success does not waive source/native parity. See [source-parity-blocker.json](source-parity-blocker.json) and [caught-condition.json](caught-condition.json).
+**The original source-validation blocker has a collector repair.** See [gc-root-cause/README.md](gc-root-cause/README.md) and the [standalone reproducer](../../runtime/diagnostics/spill-pointers/README.md). Final-head CI and refreshed timings of the flattened artifact remain merge gates. The measurements below describe the original Oz candidate before that repair; they are retained as the initial selection evidence.
 
 [Selection run 40169223514](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40169223514) compared admitted binaries without rebuilding, on one runner, with source-loaded STACK. Each condition and mode has ten repetitions per profile, balanced AB/BA five times each. All 80 samples passed the timing workload gates. Cold and warm-profile reload both use fresh workers; reload does not retain a CAS session.
 
@@ -23,4 +23,4 @@ The aggregate Node/server/browser CPUQuota=25% reference misses the aspirational
 
 The first-positive gain is principally a real first-use JavaScript filesystem exception cost removed by final-link optimization; it is not evidence of a tenfold algebra or warmed-grading improvement. See [FIRST-GRADE.md](FIRST-GRADE.md) for narrow CPU profiles, loader observations, delivered glue hashes and the pinned Emscripten mechanism.
 
-The timing artifacts predate the fresh integration build. That build passed the candidate compiled suite but failed the final source controller. An unmodified no-rebuild full UI run reproduced the same failure on repetition two. It occurs before the Python callback. Diagnosis remains open; neither a passing rerun nor changing session lifetime alone establishes a repair.
+The timing artifacts predate the fresh integration build. That build passed the candidate compiled suite but failed the final source controller. An unmodified no-rebuild full UI run reproduced the same failure on repetition two. It occurs before the Python callback. The collector gap is now reproduced independently and repaired by flattening before spilling; see the linked root-cause evidence. The original failures and diagnostic limitations remain historical evidence. The promotion still requires complete final-head acceptance and refreshed measurements of the repaired artifact.

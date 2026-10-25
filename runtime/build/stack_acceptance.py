@@ -58,11 +58,22 @@ def verify(artifact, revision):
     stress = {}
     for name, path in (('compiled', base + 'gc-stress.json'), ('source', 'test-results/milestone-three/gc-stress.json')):
         gc = read(path)
+        report_path = base + 'browser.json' if name == 'compiled' else 'test-results/milestone-three/browser.json'
+        captured = read(report_path)
+        assert captured['sourceRevision'] == gc['sourceRevision'] == revision, path
+        assert gc['browserReportSha256'] == records[report_path]['sha256'], path
+        assert gc['stackManifestSha256'] == captured['runtime']['manifestSha256'], path
+        assert gc['runtimeManifestSha256'] == hashlib.sha256((artifact / 'manifest.json').read_bytes()).hexdigest(), path
+        assert gc['stackRevision'] == captured['runtime']['stackRevision'] == browser['runtime']['stackRevision'], path
         assert gc['ok'] is True and gc['deviations'] == [], path
         assert gc['divisor'] >= 1000 and gc['iterations'] >= 400 and gc['targetPrograms'] >= 1, path
         assert gc['replayPrograms'] == 316 and gc['rounds'] >= 1 and gc['gcStats'][1] >= gc['iterations'], path
         stress[name] = {'collections': gc['gcStats'][1], 'iterations': gc['iterations'], 'replayPrograms': gc['replayPrograms']}
     for kind in ('independent', 'same-source'):
-        assert read(base + 'validation-boundary-' + kind + '.json')['passed'] is True, kind
+        boundary = read(base + 'validation-boundary-' + kind + '.json')
+        assert boundary['passed'] is True and boundary['sourceRevision'] == revision, kind
+        assert boundary['stackRevision'] == browser['runtime']['stackRevision'], kind
+        for field, relative in [('classifierSha256', 'prototype/native/classified-errcatch.lisp'), ('engineSha256', 'prototype/native/engine.js')]:
+            assert boundary[field] == hashlib.sha256((ROOT / relative).read_bytes()).hexdigest(), kind
     return {'passed': True, 'sourceRevision': revision, 'compilerProofs': proofs,
             'controllerPrograms': 316, 'restarts': 24, 'gcStress': stress, 'reports': records}

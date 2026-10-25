@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """Reject incomplete or mixed-head STACK evidence before release acceptance."""
 import copy
+import hashlib
 import json
 from pathlib import Path
 from types import SimpleNamespace
@@ -14,7 +15,9 @@ PINS = ['3338304' + 'a' * 33, '10d3233' + 'b' * 33]
 
 class StackAcceptance(unittest.TestCase):
     def test_missing_mixed_head_and_incomplete_gates_fail_closed(self):
-        reports = {'runtime/build/pins.json': {'stack': PINS}}
+        reports = {'runtime/build/pins.json': {'stack': PINS}, 'artifact/manifest.json': {'runtime': 'under-test'}}
+        digest = lambda body: hashlib.sha256(body).hexdigest()
+        engine_body, classifier = b'engine under test', b'classifier under test'
         for pin in PINS:
             reports['.cache/precompiled-fixtures/full-entry-' + pin + '/report.json'] = {
                 'sourceRevision': 'head', 'stackRevision': pin, 'acceptance': True,
@@ -38,14 +41,22 @@ class StackAcceptance(unittest.TestCase):
             for width in (1280, 390):
                 reports[base + f'board-functional-{engine}-{width}.json'] = {'passed': True}
         reports[base + 'board-transfer-chromium.json'] = {'passed': True}
-        stress = {'ok': True, 'deviations': [], 'divisor': 1000, 'iterations': 400, 'rounds': 1,
+        for path in (base + 'browser.json', 'test-results/milestone-three/browser.json'):
+            reports[path] = {'sourceRevision': 'head', 'runtime': {'manifestSha256': path, 'stackRevision': PINS[0]}}
+        stress = {'sourceRevision':'head', 'runtimeManifestSha256':digest(json.dumps(reports['artifact/manifest.json']).encode()),
+                  'stackRevision':PINS[0], 'ok': True, 'deviations': [], 'divisor': 1000, 'iterations': 400, 'rounds': 1,
                   'targetPrograms': 1, 'replayPrograms': 316, 'gcStats': [1, 5000, True]}
-        reports[base + 'gc-stress.json'] = stress
-        reports['test-results/milestone-three/gc-stress.json'] = copy.deepcopy(stress)
+        for prefix in (base, 'test-results/milestone-three/'):
+            reports[prefix + 'gc-stress.json'] = {**stress, 'browserReportSha256':digest(json.dumps(reports[prefix+'browser.json']).encode()),
+                'stackManifestSha256':reports[prefix+'browser.json']['runtime']['manifestSha256']}
         for kind in ('independent', 'same-source'):
-            reports[base + 'validation-boundary-' + kind + '.json'] = {'passed': True}
+            reports[base + 'validation-boundary-' + kind + '.json'] = {'passed': True, 'sourceRevision':'head', 'stackRevision':PINS[0],
+                'classifierSha256':digest(classifier), 'engineSha256':digest(engine_body)}
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
+            (root/'prototype/native').mkdir(parents=True)
+            (root/'prototype/native/engine.js').write_bytes(engine_body)
+            (root/'prototype/native/classified-errcatch.lisp').write_bytes(classifier)
             binary = root / '.cache/precompiled-stack/stackmaxima.fas'
             binary.parent.mkdir(parents=True); binary.write_bytes(b'bound by compiler checker')
             def emit(values):
@@ -77,7 +88,13 @@ class StackAcceptance(unittest.TestCase):
                     ('test-results/milestone-three/gc-stress.json', 'iterations', 50),
                     ('test-results/milestone-three/gc-stress.json', 'gcStats', [1, 10, True]),
                     (base + 'gc-stress.json', 'replayPrograms', 1),
-                    (base + 'validation-boundary-same-source.json', 'passed', False)]
+                    (base + 'validation-boundary-same-source.json', 'passed', False),
+                    (base + 'validation-boundary-independent.json', 'sourceRevision', 'other-head'),
+                    (base + 'validation-boundary-independent.json', 'engineSha256', '0'*64),
+                    (base + 'gc-stress.json', 'sourceRevision', 'other-head'),
+                    (base + 'gc-stress.json', 'browserReportSha256', '0'*64),
+                    (base + 'gc-stress.json', 'runtimeManifestSha256', '0'*64),
+                    (base + 'gc-stress.json', 'stackManifestSha256', '0'*64)]
                 for name, key, value in cases:
                     with self.subTest(report=name, key=key):
                         mutated = copy.deepcopy(reports); mutated[name][key] = value; emit(mutated)

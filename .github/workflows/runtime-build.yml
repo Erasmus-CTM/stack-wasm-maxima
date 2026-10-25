@@ -74,6 +74,7 @@ jobs:
           python runtime/build/test-timing-evidence.py
           python runtime/precompiled/test-stack-compiler-evidence.py
           python runtime/build/test-stack-acceptance.py
+          python scripts/milestone-one/test-prepare.py
           python runtime/precompiled/test-bundle-provenance.py
           python runtime/precompiled/test-controller-parity.py
           node runtime/precompiled/test-probe-inputs.mjs

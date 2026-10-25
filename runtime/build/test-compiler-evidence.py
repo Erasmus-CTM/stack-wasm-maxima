@@ -73,9 +73,11 @@ def packaged(root, profile):
 class CompilerEvidence(unittest.TestCase):
     def test_explicit_maxima_oz_does_not_expand_the_standard_comparison(self):
         catalog=profiles()
-        self.assertEqual(set(catalog['profiles']), {'baseline','ecl-oz','ecl-o2'})
-        self.assertEqual(catalog['production'], 'ecl-oz')
-        for profile in catalog['profiles'].values():
+        self.assertEqual(set(catalog['profiles']), {'baseline','ecl-oz','ecl-o2','ecl-oz-maxima-oz'})
+        self.assertNotIn('ecl-oz-maxima-oz', catalog.get('experimentalProfiles', {}))
+        self.assertEqual(catalog['production'], 'ecl-oz-maxima-oz')
+        for name in ('baseline','ecl-oz','ecl-o2'):
+            profile=catalog['profiles'][name]
             self.assertNotIn('maximaInjectedEmccFlags',profile)
             self.assertEqual(profile['maximaGeneratedOptimization'],'-O2')
         profile=compiler_profile('ecl-oz-maxima-oz')
@@ -115,7 +117,8 @@ class CompilerEvidence(unittest.TestCase):
         lines[index]=lines[index].replace(sequence,'--spill-pointers')
         with self.assertRaises(AssertionError):derive(CONFIG,TARGET,ecl,('\n'.join(lines)+'\n').encode(),profile)
         # Standard profiles keep exactly the upstream pass and setting.
-        for standard in profiles()['profiles'].values():
+        for name in ('baseline','ecl-oz','ecl-o2'):
+            standard=profiles()['profiles'][name]
             self.assertNotIn('gcSpillPasses',standard)
 
     def test_relative_sdk_source_requires_both_exact_root_anchors(self):
@@ -279,7 +282,7 @@ else: wait_for('warning-start')
             observed = derive(CONFIG,TARGET,ecl,maxima,profile)
             self.assertEqual(observed['rawConfigureOptimization'],'-O0')
             self.assertEqual(observed['eclCore'][0]['optimization'],profile['eclCoreOptimization'])
-            self.assertEqual(observed['maximaGeneratedUnits'][0]['optimization'],'-O2')
+            self.assertEqual(observed['maximaGeneratedUnits'][0]['optimization'],profile['maximaGeneratedOptimization'])
 
     def test_missing_wrong_and_leaked_effective_flags(self):
         profile = profiles()['profiles']['ecl-oz'];ecl,maxima = traces(profile)

@@ -5,6 +5,7 @@
 // Before the complete GC pass list, the exact [1,1] validation failed here in
 // about 1.4% of iterations. Diagnostic copy only: shipped files are unchanged.
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {cp, mkdir, readFile, rm, writeFile} from 'node:fs/promises';
 import {join, resolve} from 'node:path';
 import {chromium} from 'playwright';
@@ -17,7 +18,18 @@ const output = resolve(args.output || 'test-results/milestone-three/gc-stress.js
 const divisor = String(args.divisor || 1000);
 const iterations = Number(args.iterations || 400), rounds = Number(args.rounds || 1);
 const root = resolve('.cache/gc-stress');
-const captured = JSON.parse(await readFile(args['browser-report'] || 'test-results/milestone-three/browser.json', 'utf8')).programs;
+const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+const captureBytes = await readFile(args['browser-report'] || 'test-results/milestone-three/browser.json');
+const capture = JSON.parse(captureBytes), captured = capture.programs;
+if (process.env.GITHUB_SHA) assert.equal(capture.sourceRevision, process.env.GITHUB_SHA, 'Captured programs belong to another commit');
+const manifestBytes = await readFile(join(site, 'stack-sources.json')), manifest = JSON.parse(manifestBytes);
+assert.equal(digest(manifestBytes), capture.runtime.manifestSha256, 'Stress site differs from the captured controller');
+assert.ok(manifest.runtimeBuild?.manifestSha256, 'Missing owned runtime identity');
+for (const asset of [...manifest.runtimeAssets, ...(manifest.compiledStack ? [manifest.compiledStack.asset] : [])]) {
+  const bytes = await readFile(join(site, 'maxima-runtime', asset.path));
+  assert.equal(bytes.length, asset.fileBytes, asset.path);
+  assert.equal(digest(bytes), asset.sha256, asset.path);
+}
 assert.ok(Array.isArray(captured) && captured.length > 0, 'Missing captured native programs');
 const target = captured.filter(row => row.operation === 'validate' && row.question === 'A graphical PythonChecker' &&
   row.expression.includes('_ctm_s:eval_string("[1,1]")') && row.expression.includes('_ctm_t:eval_string("[2,2]")'));
@@ -74,7 +86,10 @@ try {
     worker.onerror = event => done({ok:false, error:event.message, deviations:[]});
     worker.postMessage(data);
   }), {target, captured, iterations, rounds});
-  report = {schema: 1, diagnosticOnly: true, divisor: Number(divisor), iterations, rounds,
+  report = {schema: 1, diagnosticOnly: true, sourceRevision:capture.sourceRevision,
+    browserReportSha256:digest(captureBytes), stackManifestSha256:digest(manifestBytes),
+    runtimeManifestSha256:manifest.runtimeBuild.manifestSha256, stackRevision:manifest.stackRevision,
+    divisor: Number(divisor), iterations, rounds,
     targetPrograms: target.length, replayPrograms: captured.length, ...result,
     scope: 'Exact captured programs and results, one fresh worker with GC_FREE_SPACE_DIVISOR set before ECL starts. ' +
       'A deviation is a wrong CAS result under frequent collection. Passing bounds, but cannot exclude, rarer root faults.'};

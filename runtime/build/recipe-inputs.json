@@ -25,6 +25,13 @@
     "scripts/milestone-two/serve.mjs",
     "package.json",
     "package-lock.json",
-    ".github/workflows/runtime-production.yml"
+    ".github/workflows/runtime-production.yml",
+    "prototype/native/engine.js",
+    "prototype/native/classified-errcatch.lisp",
+    "scripts/milestone-three/gc-stress.mjs",
+    "scripts/milestone-three/test-validation-boundary.py",
+    "scripts/milestone-three/native-reference.py",
+    "scripts/milestone-one/prepare.py",
+    "scripts/milestone-one/test-prepare.py"
   ]
 }

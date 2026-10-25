@@ -1,3 +1,7 @@
+# Production selection and historical compiler experiments
+
+The runtime-v3 proposal registers `ecl-oz-maxima-oz` as production, retaining explicit legacy comparator choices. See [selection results](../../measurements/2026-10-25-maxima-oz-selection/README.md), the [collector repair](../../measurements/2026-10-25-maxima-oz-selection/gc-root-cause/README.md), and [release acceptance](PRODUCTION-ACCEPTANCE.md). The original experimental notes below describe earlier revisions.
+
 # Scoped ECL compiler experiments â€” local draft
 
 This experiment is stacked on [PR9](https://github.com/Erasmus-CTM/stack-wasm-maxima/pull/9),

@@ -31,3 +31,5 @@ the 79-asset runtime closure are unchanged. The acceptance JSON adds
 `stackAcceptance` for this profile. `runtime/release.json` continues to select
 the site's release independently; AC publishes runtime-v3 after merging, then
 the site pin changes in a separate PR.
+
+Collector safety additionally requires the profile-selected flatten/spill/local-cleanup pass sequence on every ECL, Maxima and STACK target. Both controller modes replay all 316 programs and 400 repetitions of the original validation under frequent collection. Stress reports bind the exact runtime manifest, captured browser report, STACK manifest and source revision. Native boundary checks bind the classifier and generated engine and distinguish expected domain invalidity from internal Lisp faults.

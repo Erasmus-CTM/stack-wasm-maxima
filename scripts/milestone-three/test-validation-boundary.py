@@ -11,6 +11,8 @@ admitted Lisp call; production admission never permits '?'.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import os
 import importlib.util
 import json
 from pathlib import Path
@@ -86,7 +88,11 @@ def main() -> int:
     assert observed["numericDomain"] == [True, {"ans": invalid}], observed["numericDomain"]
     assert observed["internal"][0] is False and observed["internal"][1].startswith(generated["fault"]), observed["internal"]
     assert observed["after"] == observed["list"], "A caught internal fault must not alter later validation"
-    report = {"schema": 1, "passed": True, "maxima": subprocess.check_output([executable, "--version"], text=True).strip(),
+    report = {"schema": 1, "passed": True,
+              "sourceRevision": os.environ.get("GITHUB_SHA") or subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+              "stackRevision": reference.STACK_SHA,
+              "classifierSha256": hashlib.sha256(reference.CLASSIFIER.read_bytes()).hexdigest(),
+              "engineSha256": hashlib.sha256((ROOT / "prototype/native/engine.js").read_bytes()).hexdigest(), "maxima": subprocess.check_output([executable, "--version"], text=True).strip(),
               "observed": observed,
               "scope": "Engine-generated validation programs in one native Maxima process with pinned STACK source. "
                        "Domain error stays learner-invalid; a Lisp error fails the program as an internal fault."}
