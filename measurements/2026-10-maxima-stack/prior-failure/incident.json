@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "title": "Intermittent draw.lisp load failure during old ECL-Oz / Maxima-O2 entry-FAS startup",
+  "status": "UNRESOLVED; do not mark fixed after a later successful run",
+  "benchmark": {
+    "run": 40143072180,
+    "head": "8f1c9d32f467ec8c264771307d259a268ea23448",
+    "artifact": 12580575852,
+    "zipSha256": "0ba0cfc2e61ea13ad133040fa1b2c2b80e3eca5dd38d8ea05d8d7917d37c98f0",
+    "attempted": 36,
+    "correctnessPassed": 35,
+    "failedCase": "17-ecl-oz-precompiled-cold",
+    "followingReload": "Correctness-valid but cache-qualified because cold initialization failed"
+  },
+  "runtime": {
+    "producerRun": 40108653819,
+    "artifact": 12568085269,
+    "profile": "ecl-oz",
+    "MaximaFlags": "-O2",
+    "STACKloader": "entry FAS",
+    "fasSha256": "70123f857618d68d92896a541ae602fd0ed7f0bde0d1bff7ba1d630c0540df31"
+  },
+  "observed": {
+    "firstFatal": {
+      "reason": "Fatal startup diagnostic",
+      "line": "loadfile: failed to load /share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+      "lineNumber": 25
+    },
+    "beginCount": 1,
+    "endCount": 0,
+    "readyCount": 0,
+    "stdoutTailTruncated": false,
+    "initializationMs": 15743.324951171875,
+    "termination": {
+      "type": "stopped",
+      "runId": "6b901061-cb38-4b5c-967e-764dde98065f",
+      "stopped": true,
+      "rejected": true,
+      "error": null,
+      "ok": true
+    },
+    "pageErrors": [],
+    "fatalConsoleCount": 0,
+    "TRACEenabled": false,
+    "CPUprofilingEnabled": false,
+    "garbageCollectorAbortObserved": false
+  },
+  "loaderSource": {
+    "repository": "https://gitlab.com/mgerbershagen/maxima.git",
+    "commit": "813903d33f5ccca09cbe3086dbfe5e228521da52",
+    "archiveSha256": "05192416af11303dc5974fe02d0e5a894df813593af8a57d37e51897707dab42",
+    "loadfile": "src/suprv1.lisp:178",
+    "errset": "src/generr.lisp:19",
+    "draw": "share/draw/draw.lisp:4",
+    "inference": "The generic loadfile diagnostic implies a caught Common Lisp ERROR condition. Its original type/report is discarded with ERRSET NIL. The message does not identify which nested draw load/compile operation failed."
+  },
+  "review": {
+    "index": "/workspace/work/full-timing-table-guarded-actual-review/failed-attempt-1/review-index.json",
+    "sha256": "2412053586e3e3b225fb60b1cd4cdea6f2f711b6b8e9b5b596ac8ebd7e377344"
+  },
+  "reportingIssue": {
+    "rawKnownWarnings": 17,
+    "compactSummaryKnownWarnings": 19,
+    "cause": "Late console events mutated live counters after raw sample serialization.",
+    "reporterRepairHead": "041686594f674886551efd95e78b2e0af92bd657",
+    "notTheRuntimeFailureFix": true
+  },
+  "boundedDiagnostic": {
+    "run": 40147171718,
+    "head": "2c4344b1ddf9537aa23ca3d9c22ead0fe1f739cb",
+    "artifact": 12580804730,
+    "alteration": "Scoped ERRSET T plus handler condition observer around the single original root-load command; no runtime rebuild or function-cell interposition.",
+    "reportedCasesPassed": 12,
+    "reportedConditions": 0,
+    "rawIndependentReviewPending": false,
+    "resultScope": "Non-reproduction under altered startup; not a fix, baseline failure rate estimate, or cause proof.",
+    "reviewSha256": "39502a081830107a0720effefeaee24d45f710addd92995efb16c415a6024807",
+    "liveErrorLoggingBranchExercised": false
+  },
+  "separateIssues": [
+    "Original Unexpected mark stack overflow abort / ECL issue860 is separate evidence; this draw sample does not prove a GC cause.",
+    "Production startup root-return proof and raw whole-library reset/F11 remain outside these benchmark guards."
+  ],
+  "productionDefaultsChanged": false
+}

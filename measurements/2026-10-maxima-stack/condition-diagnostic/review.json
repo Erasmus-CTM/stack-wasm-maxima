@@ -1,0 +1,359 @@
+{
+  "schema": 1,
+  "reviewer": "Independent Astra xHigh; no source authorship",
+  "reviewedAt": "2026-10-25T00:54:59.376751+00:00",
+  "verdict": "SCOPED ACTUAL DIAGNOSTIC CLEAR:12 successful altered-startup replays; non-reproduction only",
+  "producer": {
+    "repository": "Erasmus-CTM/stack-wasm-maxima",
+    "runId": 40147171718,
+    "workflowId": 395535974,
+    "jobId": 121030879457,
+    "attempt": 1,
+    "head": "2c4344b1ddf9537aa23ca3d9c22ead0fe1f739cb",
+    "tree": "6f1c1af48fee1b1536fc06d67a169439a6ee9b2a",
+    "status": "completed",
+    "conclusion": "success",
+    "artifact": {
+      "id": 12580804730,
+      "name": "oz-fas-load-condition-2c4344b1ddf9537aa23ca3d9c22ead0fe1f739cb-1",
+      "size_in_bytes": 23980178,
+      "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12580804730",
+      "archive_download_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12580804730/zip",
+      "expired": false,
+      "created_at": "2026-10-25T00:44:26Z",
+      "expires_at": "2027-01-23T00:33:39Z",
+      "updated_at": "2026-10-25T00:44:26Z",
+      "digest": "sha256:e3a1b6c5ef23b8b99a6a17f536bc03591d23303503d795e7203f2ae4781d9b56",
+      "workflow_run": {
+        "id": 40147171718,
+        "repository_id": 1428812079,
+        "head_repository_id": 1428812079,
+        "head_branch": "profiling/e8ad-oz-fas-load-condition",
+        "head_sha": "2c4344b1ddf9537aa23ca3d9c22ead0fe1f739cb"
+      }
+    }
+  },
+  "provenance": {
+    "sourceReview": {
+      "path": "/workspace/work/oz-fas-load-condition-independent-source-review.json",
+      "bytes": 17240,
+      "sha256": "eb1198e2a90736674569d103adc399498f110a14bcbc432cf8e3a19fff1bc63e"
+    },
+    "producerApi": {
+      "path": "/workspace/work/oz-fas-load-condition-independent-producer-api.json",
+      "bytes": 21679,
+      "sha256": "7f17f0cfd96a30bad9ebea4607c945303988eaee82683e16e8d9f0283a39dee5"
+    },
+    "initialAuditApi": {
+      "path": "/workspace/work/oz-fas-load-condition-independent-audit-api.json",
+      "bytes": 33640,
+      "sha256": "4aa5dbbde0caf5ee2fc6e74d0fe9e4d786aabc1dbc884eb467c505c5475b0264"
+    },
+    "remainingAuditApi": {
+      "path": "/workspace/work/oz-fas-load-condition-independent-remaining-audit-api.json",
+      "bytes": 34132,
+      "sha256": "9a26a72cbc9017fa0e9d245d8403b605e97b33cb385943277868347ed36de4b0"
+    },
+    "audits": [
+      {
+        "run": 40148087096,
+        "job": 121033638420,
+        "head": "d6030730cbce9ff7e45814676ef850f95f15b51d",
+        "tree": "23bfd4b6842b53d42961a195c4861d56ff1ba774",
+        "status": "completed",
+        "conclusion": "success",
+        "completeMarkers": 1,
+        "completeLogRecoveryOwner": "root"
+      },
+      {
+        "run": 40148195288,
+        "job": 121033968560,
+        "head": "9807130a09a6384f4a50e2ed1a14ae5d9fde70ee",
+        "tree": "73e2f07b815d4965c420bb8db9f332e45bfbacdf",
+        "status": "completed",
+        "conclusion": "success",
+        "completeMarkers": 1,
+        "completeLogRecoveryOwner": "root"
+      }
+    ],
+    "auditHelperSha256": "5e6c83c7c6acc52dc6337a0a4acba27e7c8b3e6fbd3dcc780a243ca6eecdb26e",
+    "independentlyDecodedAndHashCompared": true,
+    "logicalFiles": 39,
+    "decodedBytes": 3280209,
+    "identicalFullInventoryFiles": 282,
+    "sameZipBeforeAfterMetadataAndDigestVerifiedByPinnedHelper": true,
+    "auditLogBoundary": "Parent recovered complete logs and reported one COMPLETE for each audit. Reviewer independently checked API/helper/workflow/spec identities, every payload decode/hash, and identical full inventories.",
+    "recordClosures": [
+      {
+        "records": {
+          "path": "/workspace/work/oz-fas-load-condition-actual-initial-records.json",
+          "bytes": 264313,
+          "sha256": "e38763cbdbe3264dac99ca5c5311f0daf521ecd4501750b9c37e1b4f9f2c9e85"
+        },
+        "payloads": 12,
+        "decodedBytes": 728607
+      },
+      {
+        "records": {
+          "path": "/workspace/work/oz-fas-load-condition-actual-remaining-records.json",
+          "bytes": 802067,
+          "sha256": "56cf51f4b39b5838c10afa05b26f4f4b82f19f01ba043cd5d50060b5ab88b801"
+        },
+        "payloads": 27,
+        "decodedBytes": 2551602
+      }
+    ]
+  },
+  "exactInputsAndDerivation": {
+    "acceptedOldOzArtifact": {
+      "source": {
+        "runId": 40108653819,
+        "runAttempt": 1,
+        "workflowId": 394101239,
+        "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+        "testedRevision": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+        "trustedRevision": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+        "tree": "0e543f936a385548a7ffd53d68930bd88c033922",
+        "recipeFiles": 71,
+        "jobs": [
+          {
+            "id": 120915544152,
+            "name": "bundle-probe (ecl-oz)"
+          },
+          {
+            "id": 120915544199,
+            "name": "bundle-probe (baseline)"
+          }
+        ]
+      },
+      "artifact": {
+        "id": 12568085269,
+        "name": "precompiled-stack-probe-ecl-oz-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+        "zipBytes": 213921626,
+        "zipSha256": "890a9c1c6c96d915ada2c41bf85e8b3756132ea2f42d6c5d4c6d9a9357c6759d",
+        "zipFileCount": 3404,
+        "packageFileCount": 223,
+        "archivedPreload": false
+      },
+      "independentReview": {
+        "path": "reviews/ecl-oz.json",
+        "sha256": "0a1b39fb99372d10c58a2d4bd0071bd53dda7f39d74ffa9a282c3770495801ce"
+      }
+    },
+    "wholeAdmittedProfileExactlyEqualsPriorVerifiedData": {
+      "equal": true,
+      "priorAdmission": {
+        "path": "/workspace/work/compiler-audit-evidence/12580575852/admission.json",
+        "bytes": 231798,
+        "sha256": "6873d8ec59d1475aef6d9bd6b4d4714278d8a788d4dbb114e356822eacacf5d4"
+      }
+    },
+    "toolSourcesMatchExactActivatedPublication": 20,
+    "originalStagedFiles": 87,
+    "originalRuntimeAssetsPreserved": 79,
+    "actualStagedFiles": 90,
+    "declaredReplacement": "runtime/maxima-child.js only among original87 files",
+    "addedFiles": [
+      "stack-sources-condition-precompiled.json",
+      "clean-probe-worker.js",
+      "clean-timing.html"
+    ],
+    "actualChild": {
+      "bytes": 18465,
+      "sha256": "8bb312bd62f915ee717c55e12d2158fac39b5f82424f10610d75126b4d9dc8eb"
+    },
+    "childAndProofReproducedFromTrustedSourceAsData": true,
+    "originalStartupManifest": {
+      "bytes": 989242,
+      "sha256": "432a745dcc66b1f4e0593704b79c444813b9105d38ec77003d63bd11802f696f"
+    },
+    "derivedStartupManifest": {
+      "bytes": 987551,
+      "sha256": "4818d2eed5e74376e924dbef0c620f19d3e46128936483ef5a51b0dd59769af2"
+    },
+    "exactSerializedDerivedManifestReproduced": true,
+    "rootCommandChange": {
+      "original": {
+        "bytes": 1856,
+        "sha256": "99e6281fa6c5bd4d838a4e5fea5643934b232cc0d6b0674f4325fe49cb5825ac"
+      },
+      "derived": {
+        "bytes": 1957,
+        "sha256": "c233a46ec5ccbced4b45a96657dbf832794d1fa51b113eec56b267525018e180"
+      },
+      "originalRootCommand": "load(\"/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac\")$",
+      "diagnosticRootCommand": ":lisp (progn (load \"/ctm/load-condition/observer.lisp\") (funcall (find-symbol \"RUN\" \"CTM-LOAD-CONDITION\") \"/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac\"))",
+      "scope": "One original root-load line is replaced with one diagnostic Lisp form. Dynamic ERRSET T changes error propagation; original surrounding startup commands remain exact."
+    },
+    "allOtherManifestFieldsEqual": true,
+    "embeddedStackFilesIndividuallyHashedAndPreserved": 77,
+    "matchingFasDescriptorPreserved": true,
+    "helper": {
+      "path": "/ctm/load-condition/observer.lisp",
+      "bytes": 2520,
+      "sha256": "f5440a2d043f9884537431a0f55d8e5e1a4fa11a6cf3a9c98a5c68c99022f58d",
+      "bytesVerifiedAfterWrite": true
+    }
+  },
+  "actualOutcomes": {
+    "plannedCases": 12,
+    "attempted": 12,
+    "successful": 12,
+    "freshColdOldOzOwnFasOnly": true,
+    "uniqueSessionTokens": 12,
+    "armedMarkers": 12,
+    "capturedErrorConditions": 0,
+    "conditionCaptureErrors": 0,
+    "conditionLoggerFailures": 0,
+    "conditionOverflow": 0,
+    "immediateAndFinalZeroCaptureAgreement": true,
+    "startupGuardReceipts": 12,
+    "startupTailCharactersEach": 1002,
+    "startupTailLinesEach": 34,
+    "startupTailsUntruncated": true,
+    "distinctStartupTailSha256": [
+      "c5dec7544c1e30a2c5e17f513a29cbeaad58ec0ae6157e3cb94aa962d7de0f18"
+    ],
+    "recognizedStartupFatals": 0,
+    "lateConsoleOrPageEvents": 0,
+    "reportedVsRawSamplesAndPartialValuesAgree": true,
+    "skipped": 0,
+    "retries": 0,
+    "setupCleanupFailures": 0,
+    "wholeDiagnosticPassed": true,
+    "acceptance": false,
+    "performanceAcceptance": false,
+    "fullComparisonComplete": false,
+    "noOriginalCauseEstablished": true,
+    "noRuntimeFixEstablished": true
+  },
+  "actualControls": {
+    "matchingFasOpensEach": 1,
+    "sourceEntryOpensEach": 0,
+    "firstLogicalEach": [
+      true,
+      [],
+      1,
+      true
+    ],
+    "firstLogicalBeforeGradesAndWarmup": true,
+    "policyEach": [
+      "#pm#",
+      true,
+      true,
+      true,
+      false,
+      "~d",
+      "~a",
+      ".",
+      true,
+      true
+    ],
+    "freshBuffersEach": [
+      32,
+      2097152,
+      1048576
+    ],
+    "initialCountersEach": 0,
+    "terminationAndSubsequentCallRejectionEach": true,
+    "totals": {
+      "typed": 120,
+      "grades": 144,
+      "warmArithmetic": 120,
+      "native": 36,
+      "gc": 1200,
+      "plots": 48,
+      "phases": 444
+    },
+    "requestCountEach": 14,
+    "requestsStatus200AndInventoryHashBound": true,
+    "requestMethods": "GET plus one legitimate zero-body HEAD for maxima-solve.fas per case",
+    "unexpectedPlotAssetRequests": 0,
+    "phaseAndCompactTimingMathRecomputed": true
+  },
+  "warnings": {
+    "consoleTotals": {
+      "error:warning: unsupported syscall: __syscall_prlimit64\n": 12,
+      "error:warning: unsupported syscall: __syscall_getrusage\n": 3732,
+      "log:LazyFiles on gzip forces download of the whole file when length is accessed": 12
+    },
+    "startupWarningsRetained": [
+      "The function was totally undefined. Maybe you want to quote it.warning: encountered undefined variable %_ce_rem in translation.",
+      "Warning: mminusbp134 has a function or macro call which has not been translated properly.",
+      "Warning: stack_randseed has a function or macro call which has not been translated properly.",
+      "define: warning: redefining the built-in operator intervalp",
+      "fundef: no such function: texnumformat"
+    ],
+    "fatalConsole": 0,
+    "pageErrors": 0,
+    "blanketWarningFreeClaim": false
+  },
+  "hardware": {
+    "schema": 1,
+    "observedBeforeMeasurement": true,
+    "platform": "linux",
+    "release": "6.17.0-1022-azure",
+    "arch": "x64",
+    "logicalCPUCount": 4,
+    "cpuModels": [
+      "AMD EPYC 7763 64-Core Processor"
+    ],
+    "availableParallelism": 4,
+    "totalMemoryBytes": 16766406656,
+    "scope": "Untimed host metadata only; no CPU sampler, causal attribution or cross-run timing normalization."
+  },
+  "software": {
+    "node": "v22.23.3",
+    "playwright": "Version 1.56.1",
+    "browser": "141.0.7390.37"
+  },
+  "retainedEvidence": {
+    "dataReview": {
+      "path": "/workspace/work/oz-fas-load-condition-independent-data-review.json",
+      "bytes": 15066,
+      "sha256": "e5e13aeb789243f72a5d0911240a9388bfca1070b084dd1822afe33464dc9473"
+    },
+    "initialReview": {
+      "path": "/workspace/work/oz-fas-load-condition-independent-initial-review.json",
+      "bytes": 4914,
+      "sha256": "e5d09bdf9837f460d083083504bc385129cfaabf7046ed4d575f8d69e30d5766"
+    },
+    "derivationReview": {
+      "path": "/workspace/work/oz-fas-load-condition-independent-derivation-review.json",
+      "bytes": 1640,
+      "sha256": "af0830d7ddd1f9fbba65f7236486489a7c9d7da1427b7a1988862008aa805fb8"
+    },
+    "reviewChecker": {
+      "path": "/workspace/work/review-oz-fas-load-condition-data.py",
+      "bytes": 16833,
+      "sha256": "602a50d2897f758168c37f7f434d84bb6de27b60da441323b879ef82eeb783a6"
+    },
+    "completedJobLog": {
+      "path": "/workspace/work/oz-fas-load-condition-run.log",
+      "bytes": 65017,
+      "sha256": "0cd20f4105a57303c3cf3560ab31a0d2478748230ac0b391daaf670b9c9253fc"
+    },
+    "preservedOriginalFailedMatrixReview": {
+      "path": "/workspace/work/full-timing-table-guarded-actual-review/failed-attempt-1/review-index.json",
+      "bytes": 12374,
+      "sha256": "2412053586e3e3b225fb60b1cd4cdea6f2f711b6b8e9b5b596ac8ebd7e377344"
+    }
+  },
+  "limits": [
+    "ERRSET T is an explicit behavior change. No captured ERROR in these12 altered replays is non-reproduction, not a fix or proof of the original cause.",
+    "Original35/36 matrix failure remains failed; this diagnostic is not acceptance, a replacement clean performance comparison, or a production/default promotion.",
+    "No failures occurred, so stop-on-failure/setup/cleanup/skipped branches were not exercised by this actual run; those branches have source/synthetic-test coverage only.",
+    "The ERROR-condition handler does not capture arbitrary warnings, non-error conditions, every possible failure or collector causes. The shared guard is not a same-evaluation root-return proof.",
+    "Known syscall and retained startup warnings remain present; no blanket warning-free claim.",
+    "No CPU profiling or CPU duration; host hardware metadata does not normalize different runs. Raw elapsed values retained only as diagnostic context.",
+    "Zero real ERROR conditions occurred: positive runtime condition rendering/immediate delivery/propagation paths remain unexercised by this run. Their source and synthetic coverage is not actual-error evidence.",
+    "The twelve replays share one GHA worker; the4 available logical CPUs are not the64 cores in the model marketing string. Hardware metadata supplies context only.",
+    "No comparison against the earlier failed condition can establish identity because that earlier generic loadfile failure did not retain the underlying ERROR object."
+  ],
+  "notPerformed": [
+    "Artifact/browser/Maxima/ECL/Lisp/Wasm/native/compiler execution on the local reviewer",
+    "GitHub mutations or new CI runs",
+    "New ECL/collector research"
+  ],
+  "openEvidenceFindings": []
+}

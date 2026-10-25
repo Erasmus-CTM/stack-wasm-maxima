@@ -1,0 +1,514 @@
+{
+  "schema": "independent-baseline-no-cpu-trace-pilot-actual-review-v1",
+  "verdict": "SCOPED CLEAR",
+  "reviewedAtUTC": "2026-10-24T23:46:54.668193+00:00",
+  "scope": "Actual successful baseline source and matching entry-FAS two-cell instrumented TRACE pilot with CPU observers disabled; no full-matrix or performance acceptance.",
+  "producer": {
+    "run": 40143548841,
+    "workflow": 395508358,
+    "job": 121020076533,
+    "attempt": 1,
+    "head": "61abc65d4c4ac4f03122d5df161d9140e88fb5f1",
+    "tree": "a1983117e7ed3c9f75f0ba5ad11523364e3ab332",
+    "branch": "profiling/e8ad-baseline-trace-no-cpu",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "artifact": {
+    "id": 12579452850,
+    "name": "baseline-trace-no-cpu-40143548841-1",
+    "zipBytes": 26443358,
+    "sha256": "e03d7b00bc9d58aa28d7dbc7e52580d24bdc16ac854158070c2bb9dfbc81c6c9",
+    "inventoryFiles": 234,
+    "recoveredLogicalPayloads": 12,
+    "recoveredDecodedBytes": 3001959
+  },
+  "provenanceChecks": {
+    "bothAuditCompletedSuccess": true,
+    "auditHelperSha256": "5e6c83c7c6acc52dc6337a0a4acba27e7c8b3e6fbd3dcc780a243ca6eecdb26e",
+    "auditRunJobHeadTreeWorkflowSpecIndependentlyFetched": true,
+    "all12PayloadsIndependentlyBase64GzipDecodedAndHashVerified": true,
+    "bothCompleteInventoriesIdentical": true,
+    "wholeZipFinalMetadataDigestSameAcrossAudits": true,
+    "sourceToolFilesBoundToExactReviewedPublication": 20,
+    "profilingIdentitySeparateFromOriginalProducer": true,
+    "originalProducer": "40108653819 / e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31 / tested5295b5a79bfb983f9e43dd911e6f8ab65139a930 / tree0e543f936a385548a7ffd53d68930bd88c033922",
+    "originalArtifacts": {
+      "baseline": 12567788724,
+      "ecl-oz": 12568085269
+    },
+    "originalRuntimeAssetRowsPerProfile": 79,
+    "originalStagedFilesPerProfile": 87,
+    "derivedStartupManifestsIndependentlyRegenerated": 4,
+    "originalEmbeddedSourceFilesPerManifest": 77,
+    "originalRuntimeFasAndSessionBytesPreserved": true,
+    "composedInstrumentedChild": {
+      "bytes": 25124,
+      "sha256": "b1c39e58e3d8a63b272c4047f55e827bb9350e029e51cb0fc366a66491719c07"
+    },
+    "lispHook": {
+      "bytes": 1279,
+      "sha256": "ce21365c8389e304c0deca3ea5e67cf71ebfe4359eaf38deeaf15b46c54a840e"
+    },
+    "auditLogBoundary": "Parent owned complete job-log GET/recovery and reported one COMPLETE each; reviewer independently verified all audit identities, helper/workflow/spec and decoded payloads."
+  },
+  "trials": [
+    {
+      "id": "01-baseline-source-instrumented",
+      "sample": {
+        "path": "/workspace/work/compiler-audit-evidence/12579452850/trials/01-baseline-source-instrumented/sample.json",
+        "bytes": 585834,
+        "sha256": "3d972ad4464ee875c89301e6bec1cd70ad10575cc57f27b701ad5dc33ae239a0"
+      },
+      "traceFrames": 81,
+      "allCoverageLossCounters": {
+        "openFrames": 0,
+        "dropped": 0,
+        "observerErrors": 0,
+        "jsDropped": 0,
+        "ordinaryEventsDropped": 0,
+        "fsUnbucketedOpenCalls": 0
+      },
+      "restored": true,
+      "drawLoadReturned": {
+        "argument": "draw",
+        "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+        "inclusiveElapsedMs": 5234.994999999995,
+        "exclusiveElapsedMs": 3380.390000000014
+      },
+      "metrics": {
+        "readyMs": 40920.26000000001,
+        "stackLoadMs": 33839.890000000014,
+        "wasmReadyMs": 851.5750000000116,
+        "preStackAfterWasmMs": 6185.02999999997,
+        "firstLogicalMs": 1712.324951171875,
+        "firstPositiveGradeMs": 1434.530029296875,
+        "firstNegativeGradeMs": 23.35009765625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 44067.11498046876
+      },
+      "correctness": {
+        "typedChecks": 10,
+        "grades": 12,
+        "warmArithmetic": 10,
+        "nativeReplayCalls": 3,
+        "fullGCChecks": 100,
+        "plotPolicyControls": 4,
+        "policy": true,
+        "firstLogical": [
+          true,
+          [],
+          1,
+          true
+        ],
+        "freshSession": {
+          "childPresent": true,
+          "buffersDistinct": true,
+          "bufferBytes": [
+            32,
+            2097152,
+            1048576
+          ],
+          "initialSequence": 0,
+          "initialNativeCalls": 0,
+          "initialRequest": 0,
+          "initialResponse": 0
+        },
+        "termination": {
+          "poisoned": true,
+          "readyCleared": true,
+          "rejected": true,
+          "ok": true
+        }
+      },
+      "filesystem": {
+        "totalOpens": 30175,
+        "totalOpenElapsedMs": 18528.810000004014,
+        "regularFileBuckets": 199,
+        "otherBuckets": 6,
+        "failureOpens": 20417,
+        "failureElapsedMs": 18500.780000004044,
+        "failures": [
+          {
+            "kind": "failure",
+            "flags": 622592,
+            "completed": false,
+            "errorCode": 54,
+            "opens": 9332,
+            "openElapsedMs": 7164.440000002505,
+            "examples": [
+              {
+                "path": "/share/info/maxima-index.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/share/info/maxima-index-html.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/ctm/no-rebuild-profile/load-hooks.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/MYTOPIC.info",
+                "truncated": false
+              }
+            ]
+          },
+          {
+            "kind": "failure",
+            "flags": 622592,
+            "completed": false,
+            "errorCode": 44,
+            "opens": 11085,
+            "openElapsedMs": 11336.340000001539,
+            "examples": [
+              {
+                "path": "/home/web_user/.maxima/maxima-init.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/home/web_user/.maxima/maxima-init.mac",
+                "truncated": false
+              },
+              {
+                "path": "/share/locale/en_US@posix.UTF-8/LC_MESSAGES/maxima.mo",
+                "truncated": false
+              },
+              {
+                "path": "/share/locale/en_US@posix/LC_MESSAGES/maxima.mo",
+                "truncated": false
+              }
+            ]
+          }
+        ],
+        "overflowCalls": 0
+      },
+      "consoleCounts": {
+        "error:warning: unsupported syscall: __syscall_prlimit64\n": 1,
+        "error:warning: unsupported syscall: __syscall_getrusage\n": 315,
+        "log:LazyFiles on gzip forces download of the whole file when length is accessed": 1
+      },
+      "startupDiagnosticLines": [
+        "warning: encountered undefined variable %_ce_rem in translation.",
+        "define: warning: redefining the built-in operator intervalp",
+        "define: warning: redefining the built-in function texnumformat"
+      ],
+      "startupGuard": {
+        "schema": 1,
+        "kind": "ctm-startup-stdout-guard",
+        "state": "ready",
+        "failed": false,
+        "emitted": true,
+        "completedLines": 190,
+        "stdoutCharacters": 10395,
+        "beginCount": 1,
+        "endCount": 1,
+        "readyCount": 1,
+        "firstFatal": null,
+        "passed": true,
+        "reason": null,
+        "stdoutTailTruncated": false,
+        "stderrScope": "Browser console retained separately; no stderr stream interposition",
+        "completionScope": "Existing LOAD-BEGIN/LOAD-END/READY markers; no same-evaluation root-return sentinel"
+      },
+      "pageErrors": [],
+      "cpuObservation": {
+        "sampling": false,
+        "processPolling": false,
+        "hostNodeCPU": false,
+        "reason": "Explicit baseline TRACE pilot disables all CPU observation"
+      },
+      "hostNodeCPU": {
+        "enabled": false,
+        "reason": "Explicit baseline TRACE pilot disables all CPU observation"
+      },
+      "browser": "141.0.7390.37"
+    },
+    {
+      "id": "02-baseline-precompiled-instrumented",
+      "sample": {
+        "path": "/workspace/work/compiler-audit-evidence/12579452850/trials/02-baseline-precompiled-instrumented/sample.json",
+        "bytes": 488784,
+        "sha256": "b446eabea335ef16e522604229bb8bee635af3d1aacf2bdc05a8e47f752a64b2"
+      },
+      "traceFrames": 53,
+      "allCoverageLossCounters": {
+        "openFrames": 0,
+        "dropped": 0,
+        "observerErrors": 0,
+        "jsDropped": 0,
+        "ordinaryEventsDropped": 0,
+        "fsUnbucketedOpenCalls": 0
+      },
+      "restored": true,
+      "drawLoadReturned": {
+        "argument": "draw",
+        "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+        "inclusiveElapsedMs": 5230.864999999991,
+        "exclusiveElapsedMs": 3320.2299999999814
+      },
+      "metrics": {
+        "readyMs": 38584.42999999999,
+        "stackLoadMs": 31381.109999999986,
+        "wasmReadyMs": 1047.914999999979,
+        "preStackAfterWasmMs": 6114.934999999998,
+        "firstLogicalMs": 1636.070068359375,
+        "firstPositiveGradeMs": 1246.64013671875,
+        "firstNegativeGradeMs": 24.35498046875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 41467.14020507812
+      },
+      "correctness": {
+        "typedChecks": 10,
+        "grades": 12,
+        "warmArithmetic": 10,
+        "nativeReplayCalls": 3,
+        "fullGCChecks": 100,
+        "plotPolicyControls": 4,
+        "policy": true,
+        "firstLogical": [
+          true,
+          [],
+          1,
+          true
+        ],
+        "freshSession": {
+          "childPresent": true,
+          "buffersDistinct": true,
+          "bufferBytes": [
+            32,
+            2097152,
+            1048576
+          ],
+          "initialSequence": 0,
+          "initialNativeCalls": 0,
+          "initialRequest": 0,
+          "initialResponse": 0
+        },
+        "termination": {
+          "poisoned": true,
+          "readyCleared": true,
+          "rejected": true,
+          "ok": true
+        }
+      },
+      "filesystem": {
+        "totalOpens": 30118,
+        "totalOpenElapsedMs": 16985.835000000196,
+        "regularFileBuckets": 200,
+        "otherBuckets": 6,
+        "failureOpens": 20363,
+        "failureElapsedMs": 16956.344999998866,
+        "failures": [
+          {
+            "kind": "failure",
+            "flags": 622592,
+            "completed": false,
+            "errorCode": 54,
+            "opens": 9330,
+            "openElapsedMs": 6844.265000000421,
+            "examples": [
+              {
+                "path": "/share/info/maxima-index.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/share/info/maxima-index-html.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/ctm/no-rebuild-profile/load-hooks.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/MYTOPIC.info",
+                "truncated": false
+              }
+            ]
+          },
+          {
+            "kind": "failure",
+            "flags": 622592,
+            "completed": false,
+            "errorCode": 44,
+            "opens": 11033,
+            "openElapsedMs": 10112.079999998445,
+            "examples": [
+              {
+                "path": "/home/web_user/.maxima/maxima-init.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/home/web_user/.maxima/maxima-init.mac",
+                "truncated": false
+              },
+              {
+                "path": "/share/locale/en_US@posix.UTF-8/LC_MESSAGES/maxima.mo",
+                "truncated": false
+              },
+              {
+                "path": "/share/locale/en_US@posix/LC_MESSAGES/maxima.mo",
+                "truncated": false
+              }
+            ]
+          }
+        ],
+        "overflowCalls": 0
+      },
+      "consoleCounts": {
+        "error:warning: unsupported syscall: __syscall_prlimit64\n": 1,
+        "error:warning: unsupported syscall: __syscall_getrusage\n": 315,
+        "log:LazyFiles on gzip forces download of the whole file when length is accessed": 1
+      },
+      "startupDiagnosticLines": [
+        "Warning: stack_randseed has a function or macro call which has not been translated properly.",
+        "Warning: mminusbp134 has a function or macro call which has not been translated properly.",
+        "The function was totally undefined. Maybe you want to quote it.warning: encountered undefined variable %_ce_rem in translation.",
+        "define: warning: redefining the built-in operator intervalp",
+        "fundef: no such function: texnumformat"
+      ],
+      "startupGuard": {
+        "schema": 1,
+        "kind": "ctm-startup-stdout-guard",
+        "state": "ready",
+        "failed": false,
+        "emitted": true,
+        "completedLines": 139,
+        "stdoutCharacters": 7551,
+        "beginCount": 1,
+        "endCount": 1,
+        "readyCount": 1,
+        "firstFatal": null,
+        "passed": true,
+        "reason": null,
+        "stdoutTailTruncated": false,
+        "stderrScope": "Browser console retained separately; no stderr stream interposition",
+        "completionScope": "Existing LOAD-BEGIN/LOAD-END/READY markers; no same-evaluation root-return sentinel"
+      },
+      "pageErrors": [],
+      "cpuObservation": {
+        "sampling": false,
+        "processPolling": false,
+        "hostNodeCPU": false,
+        "reason": "Explicit baseline TRACE pilot disables all CPU observation"
+      },
+      "hostNodeCPU": {
+        "enabled": false,
+        "reason": "Explicit baseline TRACE pilot disables all CPU observation"
+      },
+      "browser": "141.0.7390.37"
+    }
+  ],
+  "independentRecomputations": [
+    "Raw TRACE IDs/parent/depth/nesting and entry-return equality; counts derived from actual data without81/53 assumptions.",
+    "Inclusive and direct-child-exclusive intervals, root/exclusive sums, exact-name/resolved-path groups and epoch/phase intersections.",
+    "Filesystem aggregate counts/durations, regular-file/read summaries, grouped expected failures and zero unbucketed calls/events.",
+    "Complete untruncated startup stdout marker sequence and exact reviewed fatal matcher;190 lines/10395 characters source,139 lines/7551 characters FAS.",
+    "First logical typed result [true,[],1,true],10 typed checks,12 grades,10 arithmetic calls and STACK policy per cell.",
+    "Exact3 native replay values selected from accepted316 baseline capture;100 GC/live-object checks, caught error recovery and4 plotting controls per cell.",
+    "Fresh child/buffer sizes and zero counters, exact FAS one read/no source fallback; termination poison/ready clearing/rejected post-termination call.",
+    "Two raw sample/report equalities, n1 summary metrics and top-load rows; absent control/Oz groups have zero trials/null medians and pairedOverhead empty."
+  ],
+  "cpuObservationAbsence": {
+    "reportRequestedSampling": false,
+    "samplingPolicy": false,
+    "processPollingPolicy": false,
+    "hostNodeCpuPolicy": false,
+    "sampleCpuProfilesFieldsAbsent": true,
+    "sampleProcessCpuFieldsAbsent": true,
+    "cpuProfileAndProcessCpuFilesAbsentFromCompleteInventory": true,
+    "hostNodeCpuRowsExplicitlyDisabled": true,
+    "frozenSourceFactoryGuardsVerified": true,
+    "scope": "Known harness CPU observers are disabled; this is not a claim that the runtime/OS consumed no CPU."
+  },
+  "hardware": {
+    "schema": 1,
+    "observedBeforeMeasurement": true,
+    "platform": "linux",
+    "release": "6.17.0-1022-azure",
+    "arch": "x64",
+    "logicalCPUCount": 4,
+    "cpuModels": [
+      "AMD EPYC 9V45 96-Core Processor"
+    ],
+    "availableParallelism": 4,
+    "totalMemoryBytes": 16766414848,
+    "scope": "Untimed host metadata only; no CPU sampler/poller. Cross-run absolute timing comparisons remain unsupported."
+  },
+  "nodeVersion": "v22.23.3",
+  "playwrightVersion": "Version 1.56.1",
+  "interpretation": {
+    "boundedPilotPassed": true,
+    "fullComparisonComplete": false,
+    "acceptance": false,
+    "instrumentedOnly": true,
+    "repetitionsPerArm": 1,
+    "cleanControlTrials": 0,
+    "cpuCauseInference": false,
+    "speedupClaim": false,
+    "performanceRankingAcrossJobs": false,
+    "collectorDiagnosis": false
+  },
+  "limitations": [
+    "Two instrumented n1 trials only; no clean controls or statistical performance acceptance.",
+    "Passing cannot establish that CPU observers caused the earlier failure. Different jobs/workers cannot be ranked by these absolute elapsed values.",
+    "MAXIMA::$LOAD TRACE printing, JS processing, stage/FS and stdout guard overhead remain; these elapsed intervals are not CPU durations. Direct compiled calls may bypass tracing; CL:LOAD/compiler cost is not separately measured.",
+    "Filesystem values are FS.open elapsed time only, grouped with bounded examples; they are not a reclaimable CPU estimate.",
+    "Native3 replay and GC/error/plot controls occur after measured first-use/warm blocks.",
+    "Known syscall warnings and bounded startup diagnostic lines remain explicit; no blanket warning-free or all-startup-errors-absent statement.",
+    "The stdout guard checks existing marker order and matched diagnostic absence, not a same-evaluation root-return sentinel.",
+    "No artifact program was imported or executed during review.",
+    "Known compiled startup diagnostics include undefined stack_randseed/mminusbp134 and fundef: no such function: texnumformat; source and compiled warnings are retained exactly. They are not matched fatal startup diagnostics under the reviewed bounded guard, and no global cleanliness claim follows.",
+    "Hardware reports4 available logical CPUs and16,766,414,848 memory bytes on an AMD EPYC9V45-labeled GHA runner; the96-Core model string does not mean96 assigned CPUs.",
+    "Observed FS.open failure elapsed time includes instrumentation and the whole observed interval. It is not additive to nested load timing or a proven recoverable CPU cost.",
+    "Successful2-cell baseline diagnostic does not retroactively clear the earlier failed baseline TRACE run or replace the independently pending guarded36 timing table."
+  ],
+  "artifactProgramExecution": false,
+  "reviewerGitHubWrites": false,
+  "receipts": {
+    "sourceReview": {
+      "path": "/workspace/work/baseline-trace-no-cpu-pilot-independent-source-review.json",
+      "bytes": 11617,
+      "sha256": "295de14addaa3ba07038819dd7807ac451a6b0106c2be187c21a7efba2110360"
+    },
+    "reviewPlan": {
+      "path": "/workspace/work/baseline-trace-no-cpu-pilot-actual-review-plan.json",
+      "bytes": 4798,
+      "sha256": "436665f9a5d864831c542ae13f3136b4647cadda2834ecf3e2e0230f1e9f7dcd"
+    },
+    "dataReview": {
+      "path": "/workspace/work/baseline-trace-no-cpu-pilot-independent-data-review.json",
+      "bytes": 33439,
+      "sha256": "446394641f312167a94e404225965f9d0239357b75f2d5d3341e3adcee75ed65"
+    },
+    "dataChecker": {
+      "path": "/workspace/work/review-baseline-trace-no-cpu-data.py",
+      "bytes": 22004,
+      "sha256": "5792fe2db11d421e034ad4a4f22c313aac665e6f58c13fdaadbefc16754e5261"
+    },
+    "payloadClosure": {
+      "path": "/workspace/work/baseline-trace-no-cpu-independent-payload-closure.json",
+      "bytes": 2611,
+      "sha256": "f61d5145541da76363b599ee6da24e8df49a7d2f7aeadc68f5e4ea4b41b07839"
+    },
+    "auditAPI": {
+      "path": "/workspace/work/baseline-trace-no-cpu-independent-audit-api.json",
+      "bytes": 67007,
+      "sha256": "61e6914b7cbd3701cc407e763b3db525d9d3679ee104e2879da3e003db6ce8bb"
+    },
+    "producerAPI": {
+      "path": "/workspace/work/baseline-trace-no-cpu-independent-producer-api.json",
+      "bytes": 18909,
+      "sha256": "7b3c25fca70c75eb1f1f4668e5e0fd72e766a2b1817046fd76ce49ac1718e42f"
+    },
+    "derivedManifestClosure": {
+      "path": "/workspace/work/baseline-trace-no-cpu-independent-derived-manifests.json",
+      "bytes": 1226,
+      "sha256": "c9e3593c56169d9d2f20759800e172515c43984256ea25f0e1caf9a388fde3bc"
+    },
+    "startupAndOriginalSourceChecks": {
+      "path": "/workspace/work/baseline-trace-no-cpu-independent-startup-source-checks.json",
+      "bytes": 984,
+      "sha256": "325b1a93ea74a9a39d28a089bc9b1a423465f6c75293aad945cc3e04971783ef"
+    }
+  }
+}

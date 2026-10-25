@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "verdict": "CLEAR arithmetic and stated instrumented/no-CPU scope",
+  "scope": "Independent phase-interval math only; parent/current-Oz owns whole operational pilot acceptance and API closure.",
+  "artifact": 12579452850,
+  "input": {
+    "path": "/workspace/work/baseline-trace-exclusive-loads-by-phase.json",
+    "bytes": 34133,
+    "sha256": "b2118fbd836bebf5056c74339b7c858390f79fbe048c12f6e29fc09210e335c7"
+  },
+  "sourceReview": {
+    "path": "/workspace/work/baseline-trace-no-cpu-pilot-independent-source-review.json",
+    "bytes": 11617,
+    "sha256": "295de14addaa3ba07038819dd7807ac451a6b0106c2be187c21a7efba2110360"
+  },
+  "actualRecordFiles": [
+    {
+      "path": "/workspace/work/baseline-trace-no-cpu-actual-initial-records.json",
+      "bytes": 348639,
+      "sha256": "44f7da6ebcea6d03a168f7a50a199a2ca0e3aacd91d915bfcf7d1fae06f34d46"
+    },
+    {
+      "path": "/workspace/work/baseline-trace-no-cpu-actual-remaining-records.json",
+      "bytes": 147154,
+      "sha256": "d2ccec08ee8b199081cd49091516a83368475b5b33e320dccce9da7d11bc341d"
+    }
+  ],
+  "checker": {
+    "path": "/workspace/work/baseline-trace-phase-math-independent.py",
+    "bytes": 10130,
+    "sha256": "97721b6c4dc344c206adb1cf5107b1b96f3dd0aedc81782b64a9c82c6836b407"
+  },
+  "trials": [
+    {
+      "candidate": "source",
+      "arm": "instrumented",
+      "repetitions": 1,
+      "sample": {
+        "path": "/workspace/work/compiler-audit-evidence/12579452850/trials/01-baseline-source-instrumented/sample.json",
+        "bytes": 585834,
+        "sha256": "3d972ad4464ee875c89301e6bec1cd70ad10575cc57f27b701ad5dc33ae239a0"
+      },
+      "frames": 81,
+      "rawEnterReturnPairs": 81,
+      "unclosedOrDroppedTraceFrames": 0,
+      "phaseRows": 37,
+      "exactPhaseGroupsMatch": true,
+      "method": "Independent all-boundary sweep; deepest active frame owns each interval, using exact rational representations of captured epoch doubles. Direct-child subtraction checked only afterward.",
+      "frameExclusiveVsRecordedMaximumRoundingDifferenceMs": 0.0004882813082076609,
+      "allPhaseTracedUnionMs": 37837.550048828125,
+      "tracedIntervalsOutsideNamedPhasesMs": 0.0,
+      "initialization": {
+        "elapsedMs": 40920.22998046875,
+        "tracedLoadIntervalUnionMs": 37730.940185546875,
+        "outsideTracedLoadsMs": 3189.289794921875,
+        "defsystem": {
+          "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+          "frameInvocationsDuringInitialization": 2,
+          "exclusiveWallMs": 11133.4599609375
+        },
+        "draw": {
+          "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+          "frameInvocationsDuringInitialization": 1,
+          "exclusiveWallMs": 3380.389892578125
+        },
+        "compiledOrSourceEntry": {
+          "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac",
+          "frameInvocationsDuringInitialization": 1,
+          "exclusiveWallMs": 573.844970703125
+        }
+      },
+      "nonzeroPhases": [
+        {
+          "phase": "initialization",
+          "elapsedMs": 40920.22998046875,
+          "tracedLoadIntervalUnionMs": 37730.940185546875,
+          "outsideTracedLoadsMs": 3189.289794921875,
+          "nonzeroPathGroups": 69
+        },
+        {
+          "phase": "first-positive-grade",
+          "elapsedMs": 1434.530029296875,
+          "tracedLoadIntervalUnionMs": 106.60986328125,
+          "outsideTracedLoadsMs": 1327.920166015625,
+          "nonzeroPathGroups": 1
+        }
+      ],
+      "instrumentation": {
+        "cpuSamplingEnabled": false,
+        "processCpuSamplingEnabled": false,
+        "hostNodeCpuEnabled": false,
+        "traceAndFilesystemObserversRetained": true,
+        "actualCpuObservation": {
+          "sampling": false,
+          "processPolling": false,
+          "hostNodeCPU": false,
+          "reason": "Explicit baseline TRACE pilot disables all CPU observation"
+        }
+      }
+    },
+    {
+      "candidate": "precompiled",
+      "arm": "instrumented",
+      "repetitions": 1,
+      "sample": {
+        "path": "/workspace/work/compiler-audit-evidence/12579452850/trials/02-baseline-precompiled-instrumented/sample.json",
+        "bytes": 488784,
+        "sha256": "b446eabea335ef16e522604229bb8bee635af3d1aacf2bdc05a8e47f752a64b2"
+      },
+      "frames": 53,
+      "rawEnterReturnPairs": 53,
+      "unclosedOrDroppedTraceFrames": 0,
+      "phaseRows": 37,
+      "exactPhaseGroupsMatch": true,
+      "method": "Independent all-boundary sweep; deepest active frame owns each interval, using exact rational representations of captured epoch doubles. Direct-child subtraction checked only afterward.",
+      "frameExclusiveVsRecordedMaximumRoundingDifferenceMs": 0.0006250000442378223,
+      "allPhaseTracedUnionMs": 35305.219482421875,
+      "tracedIntervalsOutsideNamedPhasesMs": 0.0,
+      "initialization": {
+        "elapsedMs": 38584.39990234375,
+        "tracedLoadIntervalUnionMs": 35204.74951171875,
+        "outsideTracedLoadsMs": 3379.650390625,
+        "defsystem": {
+          "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+          "frameInvocationsDuringInitialization": 2,
+          "exclusiveWallMs": 10561.019775390625
+        },
+        "draw": {
+          "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+          "frameInvocationsDuringInitialization": 1,
+          "exclusiveWallMs": 3320.230224609375
+        },
+        "compiledOrSourceEntry": {
+          "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.fas",
+          "frameInvocationsDuringInitialization": 1,
+          "exclusiveWallMs": 4030.375
+        }
+      },
+      "nonzeroPhases": [
+        {
+          "phase": "initialization",
+          "elapsedMs": 38584.39990234375,
+          "tracedLoadIntervalUnionMs": 35204.74951171875,
+          "outsideTracedLoadsMs": 3379.650390625,
+          "nonzeroPathGroups": 44
+        },
+        {
+          "phase": "first-positive-grade",
+          "elapsedMs": 1246.64013671875,
+          "tracedLoadIntervalUnionMs": 100.469970703125,
+          "outsideTracedLoadsMs": 1146.170166015625,
+          "nonzeroPathGroups": 1
+        }
+      ],
+      "instrumentation": {
+        "cpuSamplingEnabled": false,
+        "processCpuSamplingEnabled": false,
+        "hostNodeCpuEnabled": false,
+        "traceAndFilesystemObserversRetained": true,
+        "actualCpuObservation": {
+          "sampling": false,
+          "processPolling": false,
+          "hostNodeCPU": false,
+          "reason": "Explicit baseline TRACE pilot disables all CPU observation"
+        }
+      }
+    }
+  ],
+  "all74PhaseRowsAndPathGroupsExactlyMatch": true,
+  "labelingFindings": [],
+  "limits": [
+    "n=1 baseline source and matching entry-FAS samples, with TRACE and filesystem observers retained. Both CPU sampling/polling paths and host Node CPU counters were disabled in actual raw records.",
+    "These are elapsed wall intervals, not CPU time, pure parse/load self-cost or removable time. Summing exclusive frames yields the union of active traced MAXIMA::$LOAD intervals without double-counting nesting.",
+    "Initialization includes runtime/preload setup. Defsystem combines two invocations per startup; compiled-entry time excludes nested traced LOAD intervals only.",
+    "No clean speedup, causal attribution for the earlier failed baseline run, CPU-saving estimate, cross-run/cross-worker ranking or production change follows from these samples.",
+    "No artifact program, runtime, browser, CAS, native/compiler code or new diagnostic experiment executed."
+  ],
+  "artifactProgramsExecuted": false,
+  "blockingMathFindings": []
+}

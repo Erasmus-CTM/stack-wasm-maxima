@@ -1,0 +1,1018 @@
+{
+  "id": "07-ecl-oz-source-cold",
+  "pair": 7,
+  "repetition": 2,
+  "profile": "ecl-oz",
+  "candidate": "source",
+  "modes": [
+    "cold",
+    "warm-profile-reload"
+  ],
+  "mode": "cold",
+  "precedingCold": null,
+  "runId": "55d28ed2-8bc5-4779-b3f2-bf0a89e50132",
+  "startedAt": "2026-10-25T00:35:37.820Z",
+  "ok": true,
+  "consoleCounts": {
+    "error:warning: unsupported syscall: __syscall_prlimit64\n": 1,
+    "error:warning: unsupported syscall: __syscall_getrusage\n": 313,
+    "log:LazyFiles on gzip forces download of the whole file when length is accessed": 1
+  },
+  "fatalConsoleCount": 0,
+  "fatalConsoleSamples": [],
+  "pageErrors": [],
+  "result": {
+    "phase": "complete",
+    "ok": true,
+    "correctnessPassed": true,
+    "runId": "55d28ed2-8bc5-4779-b3f2-bf0a89e50132",
+    "phases": [
+      {
+        "name": "initialization",
+        "startEpochMs": 1792888537879.69,
+        "completed": true,
+        "endEpochMs": 1792888556305.975,
+        "elapsedMs": 18426.28515625
+      },
+      {
+        "name": "first-call-logical-validation",
+        "startEpochMs": 1792888556306.215,
+        "completed": true,
+        "endEpochMs": 1792888558195.32,
+        "elapsedMs": 1889.10498046875
+      },
+      {
+        "name": "first-positive-grade",
+        "startEpochMs": 1792888558195.46,
+        "completed": true,
+        "endEpochMs": 1792888560689.58,
+        "elapsedMs": 2494.1201171875
+      },
+      {
+        "name": "first-negative-grade",
+        "startEpochMs": 1792888560689.645,
+        "completed": true,
+        "endEpochMs": 1792888560716.335,
+        "elapsedMs": 26.68994140625
+      },
+      {
+        "name": "warm-grade-0",
+        "startEpochMs": 1792888560716.4001,
+        "completed": true,
+        "endEpochMs": 1792888560789.7,
+        "elapsedMs": 73.2998046875
+      },
+      {
+        "name": "warm-grade-1",
+        "startEpochMs": 1792888560789.7651,
+        "completed": true,
+        "endEpochMs": 1792888560817.24,
+        "elapsedMs": 27.474853515625
+      },
+      {
+        "name": "warm-grade-2",
+        "startEpochMs": 1792888560817.2952,
+        "completed": true,
+        "endEpochMs": 1792888560890.885,
+        "elapsedMs": 73.58984375
+      },
+      {
+        "name": "warm-grade-3",
+        "startEpochMs": 1792888560890.945,
+        "completed": true,
+        "endEpochMs": 1792888560918.0051,
+        "elapsedMs": 27.06005859375
+      },
+      {
+        "name": "warm-grade-4",
+        "startEpochMs": 1792888560918.0552,
+        "completed": true,
+        "endEpochMs": 1792888560989.54,
+        "elapsedMs": 71.48486328125
+      },
+      {
+        "name": "warm-grade-5",
+        "startEpochMs": 1792888560989.605,
+        "completed": true,
+        "endEpochMs": 1792888561015.565,
+        "elapsedMs": 25.9599609375
+      },
+      {
+        "name": "warm-grade-6",
+        "startEpochMs": 1792888561015.6501,
+        "completed": true,
+        "endEpochMs": 1792888561087.59,
+        "elapsedMs": 71.93994140625
+      },
+      {
+        "name": "warm-grade-7",
+        "startEpochMs": 1792888561087.655,
+        "completed": true,
+        "endEpochMs": 1792888561115.7852,
+        "elapsedMs": 28.130126953125
+      },
+      {
+        "name": "warm-grade-8",
+        "startEpochMs": 1792888561115.855,
+        "completed": true,
+        "endEpochMs": 1792888561187.985,
+        "elapsedMs": 72.130126953125
+      },
+      {
+        "name": "warm-grade-9",
+        "startEpochMs": 1792888561188.08,
+        "completed": true,
+        "endEpochMs": 1792888561213.845,
+        "elapsedMs": 25.764892578125
+      },
+      {
+        "name": "warm-arithmetic-0",
+        "startEpochMs": 1792888561213.9102,
+        "completed": true,
+        "endEpochMs": 1792888561220.22,
+        "elapsedMs": 6.309814453125
+      },
+      {
+        "name": "warm-arithmetic-1",
+        "startEpochMs": 1792888561220.2751,
+        "completed": true,
+        "endEpochMs": 1792888561226.8,
+        "elapsedMs": 6.52490234375
+      },
+      {
+        "name": "warm-arithmetic-2",
+        "startEpochMs": 1792888561226.845,
+        "completed": true,
+        "endEpochMs": 1792888561233.53,
+        "elapsedMs": 6.68505859375
+      },
+      {
+        "name": "warm-arithmetic-3",
+        "startEpochMs": 1792888561233.58,
+        "completed": true,
+        "endEpochMs": 1792888561240.71,
+        "elapsedMs": 7.1298828125
+      },
+      {
+        "name": "warm-arithmetic-4",
+        "startEpochMs": 1792888561240.7551,
+        "completed": true,
+        "endEpochMs": 1792888561247.69,
+        "elapsedMs": 6.934814453125
+      },
+      {
+        "name": "warm-arithmetic-5",
+        "startEpochMs": 1792888561247.73,
+        "completed": true,
+        "endEpochMs": 1792888561254.155,
+        "elapsedMs": 6.425048828125
+      },
+      {
+        "name": "warm-arithmetic-6",
+        "startEpochMs": 1792888561254.2,
+        "completed": true,
+        "endEpochMs": 1792888561262.07,
+        "elapsedMs": 7.8701171875
+      },
+      {
+        "name": "warm-arithmetic-7",
+        "startEpochMs": 1792888561262.155,
+        "completed": true,
+        "endEpochMs": 1792888561268.77,
+        "elapsedMs": 6.614990234375
+      },
+      {
+        "name": "warm-arithmetic-8",
+        "startEpochMs": 1792888561268.82,
+        "completed": true,
+        "endEpochMs": 1792888561274.85,
+        "elapsedMs": 6.030029296875
+      },
+      {
+        "name": "warm-arithmetic-9",
+        "startEpochMs": 1792888561274.895,
+        "completed": true,
+        "endEpochMs": 1792888561281.465,
+        "elapsedMs": 6.570068359375
+      },
+      {
+        "name": "noun-isolation",
+        "startEpochMs": 1792888561281.5151,
+        "completed": true,
+        "endEpochMs": 1792888561354.735,
+        "elapsedMs": 73.219970703125
+      },
+      {
+        "name": "direct-noun-equivalence",
+        "startEpochMs": 1792888561354.83,
+        "completed": true,
+        "endEpochMs": 1792888561368.4202,
+        "elapsedMs": 13.590087890625
+      },
+      {
+        "name": "pm-structure",
+        "startEpochMs": 1792888561368.51,
+        "completed": true,
+        "endEpochMs": 1792888561378.955,
+        "elapsedMs": 10.445068359375
+      },
+      {
+        "name": "pm-replacement",
+        "startEpochMs": 1792888561379.02,
+        "completed": true,
+        "endEpochMs": 1792888561387.925,
+        "elapsedMs": 8.905029296875
+      },
+      {
+        "name": "pm-display",
+        "startEpochMs": 1792888561387.995,
+        "completed": true,
+        "endEpochMs": 1792888561405.3052,
+        "elapsedMs": 17.31005859375
+      },
+      {
+        "name": "pm-unary-rewrite",
+        "startEpochMs": 1792888561405.415,
+        "completed": true,
+        "endEpochMs": 1792888561412.745,
+        "elapsedMs": 7.330078125
+      },
+      {
+        "name": "pm-positive",
+        "startEpochMs": 1792888561412.82,
+        "completed": true,
+        "endEpochMs": 1792888561854.195,
+        "elapsedMs": 441.375
+      },
+      {
+        "name": "pm-negative",
+        "startEpochMs": 1792888561854.3052,
+        "completed": true,
+        "endEpochMs": 1792888562318.01,
+        "elapsedMs": 463.704833984375
+      },
+      {
+        "name": "number-display",
+        "startEpochMs": 1792888562318.155,
+        "completed": true,
+        "endEpochMs": 1792888562325.7551,
+        "elapsedMs": 7.60009765625
+      },
+      {
+        "name": "policy",
+        "startEpochMs": 1792888562325.84,
+        "completed": true,
+        "endEpochMs": 1792888562343.165,
+        "elapsedMs": 17.324951171875
+      },
+      {
+        "name": "native-prepare",
+        "startEpochMs": 1792888562343.2852,
+        "completed": true,
+        "endEpochMs": 1792888562694.99,
+        "elapsedMs": 351.704833984375
+      },
+      {
+        "name": "native-validate",
+        "startEpochMs": 1792888562695.165,
+        "completed": true,
+        "endEpochMs": 1792888562764.7952,
+        "elapsedMs": 69.630126953125
+      },
+      {
+        "name": "native-prt",
+        "startEpochMs": 1792888562764.935,
+        "completed": true,
+        "endEpochMs": 1792888562972.7651,
+        "elapsedMs": 207.830078125
+      }
+    ],
+    "initialization": {
+      "elapsedMs": 18426.074999999953,
+      "maximaVersion": "branch_5_49_base_90_g813903d33",
+      "stages": {
+        "preloadMs": 329.34499999997206,
+        "preloadedFiles": 67,
+        "wasmReadyMs": 1182.6049999999814,
+        "stackLoadStartedMs": 4724.395000000019,
+        "stackLoadEndedMs": 18376.209999999963,
+        "stackLoadMs": 13651.814999999944,
+        "readyMs": 18380.494999999995
+      },
+      "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+      "stackLibraryVersion": "2026101500"
+    },
+    "readyMs": 18426.280000000028,
+    "startupGuard": {
+      "receiptCount": 1,
+      "parseErrors": [],
+      "receipt": {
+        "schema": 1,
+        "kind": "ctm-startup-stdout-guard",
+        "state": "ready",
+        "failed": false,
+        "emitted": true,
+        "completedLines": 26,
+        "stdoutCharacters": 624,
+        "beginCount": 1,
+        "endCount": 1,
+        "readyCount": 1,
+        "firstFatal": null,
+        "passed": true,
+        "reason": null,
+        "stdoutTail": "\nMaxima branch_5_49_base_90_g813903d33 https://maxima.sourceforge.io\nusing Lisp ECL 26.3.27\nDistributed under the GNU Public License. See the file COPYING.\nDedicated to the memory of William Schelter.\nThe function bug_report() provides bug reporting information.\n\n(%i1) \nNIL\n(%i1) \n(%i2) \n(%i3) \n(%i4) \nCTMSTACK-LOAD-BEGIN\n\n(%i5) warning: encountered undefined variable %_ce_rem in translation.\ndefine: warning: redefining the built-in operator intervalp\ndefine: warning: redefining the built-in function texnumformat\n\n(%i1) \nCTMSTACK-LOAD-END\n\n(%i2) \n(%i3) \n(%i4) \nCTMMAXIMA-READY|2026101500|branch_5_49_base_90_g813903d33\n",
+        "stdoutTailTruncated": false,
+        "stderrScope": "Browser console retained separately; no stderr stream interposition",
+        "completionScope": "Existing LOAD-BEGIN/LOAD-END/READY markers; no same-evaluation root-return sentinel"
+      },
+      "passed": true
+    },
+    "freshSession": {
+      "newSessionHadNoChildOrBuffers": true,
+      "childPresent": true,
+      "buffersDistinct": true,
+      "bufferBytes": [
+        32,
+        2097152,
+        1048576
+      ],
+      "initialSequence": 0,
+      "initialNativeCalls": 0,
+      "initialRequest": 0,
+      "initialResponse": 0
+    },
+    "checks": [
+      {
+        "name": "first-call-logical-validation",
+        "result": [
+          true,
+          [],
+          1,
+          true
+        ],
+        "elapsedMs": 1889.10498046875
+      },
+      {
+        "name": "noun-isolation",
+        "result": [
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true
+        ],
+        "elapsedMs": 73.219970703125
+      },
+      {
+        "name": "direct-noun-equivalence",
+        "result": true,
+        "elapsedMs": 13.590087890625
+      },
+      {
+        "name": "pm-structure",
+        "result": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "elapsedMs": 10.445068359375
+      },
+      {
+        "name": "pm-replacement",
+        "result": [
+          true,
+          true
+        ],
+        "elapsedMs": 8.905029296875
+      },
+      {
+        "name": "pm-display",
+        "result": [
+          "{x \\pm y}",
+          " \\pm y"
+        ],
+        "elapsedMs": 17.31005859375
+      },
+      {
+        "name": "pm-unary-rewrite",
+        "result": true,
+        "elapsedMs": 7.330078125
+      },
+      {
+        "name": "pm-positive",
+        "result": [
+          true,
+          true
+        ],
+        "elapsedMs": 441.375
+      },
+      {
+        "name": "pm-negative",
+        "result": [
+          true,
+          false
+        ],
+        "elapsedMs": 463.704833984375
+      },
+      {
+        "name": "number-display",
+        "result": "42",
+        "elapsedMs": 7.60009765625
+      }
+    ],
+    "firstPositiveGrade": {
+      "positive": true,
+      "result": {
+        "cas_valid": true,
+        "correct": true,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 2493.405000000028
+      },
+      "elapsedMs": 2494.1201171875
+    },
+    "firstNegativeGrade": {
+      "positive": false,
+      "result": {
+        "cas_valid": true,
+        "correct": false,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 26.65500000002794
+      },
+      "elapsedMs": 26.68994140625
+    },
+    "warmGrades": [
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 73.25
+        },
+        "elapsedMs": 73.2998046875
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 27.43500000005588
+        },
+        "elapsedMs": 27.474853515625
+      },
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 73.55500000005122
+        },
+        "elapsedMs": 73.58984375
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 27.03000000002794
+        },
+        "elapsedMs": 27.06005859375
+      },
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 71.45999999996275
+        },
+        "elapsedMs": 71.48486328125
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 25.90999999991618
+        },
+        "elapsedMs": 25.9599609375
+      },
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 71.88000000000466
+        },
+        "elapsedMs": 71.93994140625
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 28.10500000009779
+        },
+        "elapsedMs": 28.130126953125
+      },
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 72.10999999998603
+        },
+        "elapsedMs": 72.130126953125
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 25.71999999997206
+        },
+        "elapsedMs": 25.764892578125
+      }
+    ],
+    "warmCalls": [
+      {
+        "value": 42,
+        "elapsedMs": 6.309814453125
+      },
+      {
+        "value": 42,
+        "elapsedMs": 6.52490234375
+      },
+      {
+        "value": 42,
+        "elapsedMs": 6.68505859375
+      },
+      {
+        "value": 42,
+        "elapsedMs": 7.1298828125
+      },
+      {
+        "value": 42,
+        "elapsedMs": 6.934814453125
+      },
+      {
+        "value": 42,
+        "elapsedMs": 6.425048828125
+      },
+      {
+        "value": 42,
+        "elapsedMs": 7.8701171875
+      },
+      {
+        "value": 42,
+        "elapsedMs": 6.614990234375
+      },
+      {
+        "value": 42,
+        "elapsedMs": 6.030029296875
+      },
+      {
+        "value": 42,
+        "elapsedMs": 6.570068359375
+      }
+    ],
+    "policy": [
+      "#pm#",
+      true,
+      true,
+      true,
+      false,
+      "~d",
+      "~a",
+      ".",
+      true,
+      true
+    ],
+    "nativeCalls": [
+      {
+        "operation": "prepare",
+        "result": {
+          "seed": 1,
+          "env": {
+            "n": "3",
+            "m": "6",
+            "ta": "(x+6)/(x+3)"
+          },
+          "teachers": {
+            "ans": {
+              "source": "(x+6)/(x+3)",
+              "latex": "\\frac{x+6}{x+3}",
+              "type": "scalar",
+              "shape": null
+            }
+          },
+          "tokenValues": {
+            "t0": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t1": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t2": {
+              "format": "latex",
+              "value": "6",
+              "string": false,
+              "wrap": false
+            },
+            "t3": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t4": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t5": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t6": {
+              "format": "latex",
+              "value": "\\frac{x+6}{x+3}",
+              "string": false,
+              "wrap": false
+            }
+          },
+          "qtests": [
+            {
+              "testcase": "1",
+              "answers": {
+                "ans": "(x+6)/(x+3)"
+              }
+            },
+            {
+              "testcase": "2",
+              "answers": {
+                "ans": "((x+3)*(x+6))/(x+3)^2"
+              }
+            },
+            {
+              "testcase": "3",
+              "answers": {
+                "ans": "(x+3)/(x+6)"
+              }
+            }
+          ]
+        },
+        "elapsedMs": 351.704833984375
+      },
+      {
+        "operation": "validate",
+        "result": {
+          "ans": {
+            "valid": true,
+            "latex": "\\frac{x+6}{x+3}",
+            "feedback": "",
+            "source": "(x+6)/(x+3)"
+          }
+        },
+        "elapsedMs": 69.630126953125
+      },
+      {
+        "operation": "prt",
+        "result": {
+          "kind": "done",
+          "score": 1,
+          "notes": [
+            "prt1-0-T"
+          ],
+          "feedback": [
+            {
+              "template": "<p>Correct on the stated domain.</p>",
+              "tokens": {}
+            }
+          ],
+          "path": [
+            {
+              "node": "0",
+              "branch": "true",
+              "note": "prt1-0-T"
+            }
+          ],
+          "events": [
+            {
+              "event": "native-at",
+              "prt": "prt1",
+              "node": "0",
+              "test": "AlgEquiv",
+              "cas_valid": true,
+              "correct": true,
+              "answerNote": "",
+              "nativeFeedback": ""
+            }
+          ]
+        },
+        "elapsedMs": 207.830078125
+      }
+    ],
+    "smoke": {
+      "retained": 1000,
+      "gcCalls": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "caughtError": "CTM deliberate caught CAS error",
+      "afterError": 42,
+      "plotting": [
+        {
+          "expression": "plot2d(x,[x,0,1])",
+          "diagnostic": "CTM plotting unavailable; use JSXGraph.",
+          "afterError": 42
+        },
+        {
+          "expression": "plot(x,[x,0,1])",
+          "diagnostic": "CTM plotting unavailable; use JSXGraph.",
+          "afterError": 42
+        },
+        {
+          "expression": "get_plot_option(plot_format)",
+          "diagnostic": "CTM plotting unavailable; use JSXGraph.",
+          "afterError": 42
+        },
+        {
+          "expression": "gnuplot_close()",
+          "diagnostic": "CTM plotting unavailable; use JSXGraph.",
+          "afterError": 42
+        }
+      ]
+    }
+  },
+  "termination": {
+    "type": "stopped",
+    "runId": "55d28ed2-8bc5-4779-b3f2-bf0a89e50132",
+    "stopped": true,
+    "rejected": true,
+    "error": null,
+    "ok": true
+  },
+  "requests": [
+    {
+      "pathname": "/clean-timing.html",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "identity",
+      "encodedBodyBytes": 84,
+      "decodedFileBytes": 84,
+      "sha256": "d7ea306b9e58985ac240bd5eaf29881d922f6a47bfcb566e007f1925abcac4af"
+    },
+    {
+      "pathname": "/clean-probe-worker.js",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 3526,
+      "decodedFileBytes": 9899,
+      "sha256": "c519a7b6cdda56b97186bcfa6600813050ad30fa5c770620cb3f6a8686ae191c"
+    },
+    {
+      "pathname": "/runtime/maxima-session.js",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 4094,
+      "decodedFileBytes": 14344,
+      "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+    },
+    {
+      "pathname": "/stack-sources-timed-source.json",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 224193,
+      "decodedFileBytes": 987388,
+      "sha256": "a215b6dc1f39cb831ad24c5bf4ec570ad3f7434d939b1dee28f88c05f13ebd59"
+    },
+    {
+      "pathname": "/runtime/maxima-child.js",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 4724,
+      "decodedFileBytes": 14744,
+      "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+    },
+    {
+      "pathname": "/maxima-runtime/runtime-preload.json",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 830939,
+      "decodedFileBytes": 3470156,
+      "sha256": "6f39b23c5e2944aceeb5496f9f4cb34d881dcc598516e1c1e72d08ff197f2f2e"
+    },
+    {
+      "pathname": "/maxima-runtime/maxima_thread.js",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 874,
+      "decodedFileBytes": 3229,
+      "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db"
+    },
+    {
+      "pathname": "/maxima-runtime/maxima.js",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 236381,
+      "decodedFileBytes": 1239434,
+      "sha256": "385763ca1038fac02e8f7d247a8d808997238b03ba1919ce2f4dcec482fdb101"
+    },
+    {
+      "pathname": "/maxima-runtime/share_files.js",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 27843,
+      "decodedFileBytes": 528107,
+      "sha256": "e07cdd6ef8eac3ee63869a1f9c0e5cb3ec30f7f538f3dadd764e248e404a6057"
+    },
+    {
+      "pathname": "/maxima-runtime/maxima.wasm",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 5165309,
+      "decodedFileBytes": 23626720,
+      "sha256": "7e1fe0312636f27e99bba66badf022ecab98e57abfb306d8983441d6eb321b7a"
+    },
+    {
+      "pathname": "/maxima-runtime/libecl.so",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 1542310,
+      "decodedFileBytes": 5282281,
+      "sha256": "b117bcb06f8a3d828bb7d14ad09d9b9877a24918ec117346c0aa8ad88641c479"
+    },
+    {
+      "pathname": "/maxima-runtime/maxima-solve.fas",
+      "method": "HEAD",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 0,
+      "decodedFileBytes": 1373890,
+      "sha256": "68d3abf280b6dc930a712bb6ee33772a3bb62def924d5455860b62597ce028c7"
+    },
+    {
+      "pathname": "/maxima-runtime/maxima-solve.fas",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 254123,
+      "decodedFileBytes": 1373890,
+      "sha256": "68d3abf280b6dc930a712bb6ee33772a3bb62def924d5455860b62597ce028c7"
+    }
+  ],
+  "finishedAt": "2026-10-25T00:36:21.477Z"
+}

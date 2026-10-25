@@ -1,0 +1,197 @@
+{
+  "schema": 1,
+  "verdict": "CLEAR arithmetic and corrected metadata",
+  "artifact": 12578048686,
+  "input": {
+    "path": "/workspace/work/oz-trace-exclusive-loads-by-phase.json",
+    "bytes": 33329,
+    "sha256": "0a31caa3c3da3e45613f121f01fcb74a63773940cb49328ed56629aecbe9cb95"
+  },
+  "priorActualReview": {
+    "path": "/workspace/work/no-rebuild-trace-pilot-independent-review.json",
+    "bytes": 29276,
+    "sha256": "d14b9a08e829e6a7d2ee6c909848f818646dddb789dfe521066334f8eff4c6c0"
+  },
+  "checker": {
+    "path": "/workspace/work/oz-trace-phase-math-independent.py",
+    "bytes": 9592,
+    "sha256": "95822420646c6874fd064b34c38d972da824e35565bee104be15a22b99252c67"
+  },
+  "trials": [
+    {
+      "candidate": "source",
+      "arm": "instrumented",
+      "repetitions": 1,
+      "sample": {
+        "path": "/workspace/work/compiler-audit-evidence/12578048686/trials/01-ecl-oz-source-instrumented/sample.json",
+        "bytes": 647121,
+        "sha256": "c4a5ce484f5bba3256d5eb3239427c36c7d100c8afd44179731dd76787fe7217"
+      },
+      "frames": 81,
+      "rawEnterReturnPairs": 81,
+      "unclosedOrDroppedTraceFrames": 0,
+      "phaseRows": 34,
+      "exactPhaseGroupsMatch": true,
+      "method": "Independent all-boundary sweep; deepest active frame owns each interval, using exact rational representations of captured epoch doubles. Direct-child subtraction checked only afterward.",
+      "frameExclusiveVsRecordedMaximumRoundingDifferenceMs": 0.00041992185288108885,
+      "allPhaseTracedUnionMs": 17370.059326171875,
+      "tracedIntervalsOutsideNamedPhasesMs": 0.0,
+      "initialization": {
+        "elapsedMs": 20009.664794921875,
+        "tracedLoadIntervalUnionMs": 17266.62939453125,
+        "outsideTracedLoadsMs": 2743.035400390625,
+        "defsystem": {
+          "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+          "frameInvocationsDuringInitialization": 2,
+          "exclusiveWallMs": 3240.48486328125
+        },
+        "draw": {
+          "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+          "frameInvocationsDuringInitialization": 1,
+          "exclusiveWallMs": 1740.6552734375
+        }
+      },
+      "nonzeroPhases": [
+        {
+          "phase": "initialization",
+          "elapsedMs": 20009.664794921875,
+          "tracedLoadIntervalUnionMs": 17266.62939453125,
+          "outsideTracedLoadsMs": 2743.035400390625,
+          "nonzeroPathGroups": 69
+        },
+        {
+          "phase": "first-positive-grade",
+          "elapsedMs": 1952.704833984375,
+          "tracedLoadIntervalUnionMs": 103.429931640625,
+          "outsideTracedLoadsMs": 1849.27490234375,
+          "nonzeroPathGroups": 1
+        }
+      ],
+      "instrumentation": {
+        "cpuProfilesPresentAndComplete": true,
+        "cpuProfileContexts": 3,
+        "processCpuSamplingRecorded": true,
+        "hostNodeCpuRecorded": true
+      }
+    },
+    {
+      "candidate": "precompiled",
+      "arm": "instrumented",
+      "repetitions": 1,
+      "sample": {
+        "path": "/workspace/work/compiler-audit-evidence/12578048686/trials/02-ecl-oz-precompiled-instrumented/sample.json",
+        "bytes": 548856,
+        "sha256": "78a97cc1f456f4fafb602eadc7bebfc8c699ff057dbe361f68f3e48e4cc9fae8"
+      },
+      "frames": 53,
+      "rawEnterReturnPairs": 53,
+      "unclosedOrDroppedTraceFrames": 0,
+      "phaseRows": 34,
+      "exactPhaseGroupsMatch": true,
+      "method": "Independent all-boundary sweep; deepest active frame owns each interval, using exact rational representations of captured epoch doubles. Direct-child subtraction checked only afterward.",
+      "frameExclusiveVsRecordedMaximumRoundingDifferenceMs": 0.000449218787252903,
+      "allPhaseTracedUnionMs": 17262.505126953125,
+      "tracedIntervalsOutsideNamedPhasesMs": 0.0,
+      "initialization": {
+        "elapsedMs": 20637.31494140625,
+        "tracedLoadIntervalUnionMs": 17165.0751953125,
+        "outsideTracedLoadsMs": 3472.23974609375,
+        "defsystem": {
+          "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+          "frameInvocationsDuringInitialization": 2,
+          "exclusiveWallMs": 4309.64013671875
+        },
+        "draw": {
+          "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+          "frameInvocationsDuringInitialization": 1,
+          "exclusiveWallMs": 1860.98974609375
+        }
+      },
+      "nonzeroPhases": [
+        {
+          "phase": "initialization",
+          "elapsedMs": 20637.31494140625,
+          "tracedLoadIntervalUnionMs": 17165.0751953125,
+          "outsideTracedLoadsMs": 3472.23974609375,
+          "nonzeroPathGroups": 44
+        },
+        {
+          "phase": "first-positive-grade",
+          "elapsedMs": 1917.7451171875,
+          "tracedLoadIntervalUnionMs": 97.429931640625,
+          "outsideTracedLoadsMs": 1820.315185546875,
+          "nonzeroPathGroups": 1
+        }
+      ],
+      "instrumentation": {
+        "cpuProfilesPresentAndComplete": true,
+        "cpuProfileContexts": 3,
+        "processCpuSamplingRecorded": true,
+        "hostNodeCpuRecorded": true
+      }
+    }
+  ],
+  "limits": [
+    "n=1 instrumented source and matching FAS samples of ECL-Oz/Maxima-O2; trace printing/handling, filesystem observation and CPU profiling/sampling overhead remain.",
+    "Aligned epoch doubles introduce submillisecond rounding; each independent frame exclusive differs from recorded child-clock exclusive by less than0.01ms.",
+    "Resolved-path groups may combine several invocations; defsystem is not a single-call timer.",
+    "No new runtime execution, CPU analysis, rebuild, GitHub mutation, GC localization or performance experiment performed."
+  ],
+  "artifactProgramsExecuted": false,
+  "blockingMathFindings": [],
+  "resolvedLabelingFindings": [
+    {
+      "severity": "clarification",
+      "field": "trials[].arm",
+      "finding": "Values source/precompiled identify the loader candidate. The actual raw arm is instrumented. Prefer candidate: source/precompiled and arm: instrumented, or explicitly define arm as loader label.",
+      "status": "Resolved by explicit candidate/arm/sampling fields and per-trial scope"
+    },
+    {
+      "severity": "clarification",
+      "field": "tracedLoadExclusiveMs",
+      "finding": "Summing per-frame exclusive intervals across all frames equals the union of time during which any traced MAXIMA::$LOAD was active. It excludes double-counting nested LOAD calls; it is not exclusive of other Lisp/C/Wasm/GC/wait/profiler work.",
+      "status": "Resolved by explicit candidate/arm/sampling fields and per-trial scope"
+    },
+    {
+      "severity": "clarification",
+      "field": "phase initialization",
+      "finding": "This denominator is the whole initialization phase, including preload/runtime setup and startup; it is not only STACK root-load duration.",
+      "status": "Resolved by explicit candidate/arm/sampling fields and per-trial scope"
+    },
+    {
+      "severity": "required caveat",
+      "field": "CPU and savings interpretation",
+      "finding": "These are instrumented elapsed wall intervals. The two pilot samples did have CPU profiling/process sampling enabled. This analysis makes no CPU-time attribution or removable-time/savings claim; no-CPU must not describe the capture configuration.",
+      "status": "Resolved by explicit candidate/arm/sampling fields and per-trial scope"
+    }
+  ],
+  "metadataRebinding": {
+    "passed": true,
+    "correctedInput": {
+      "path": "/workspace/work/oz-trace-exclusive-loads-by-phase.json",
+      "bytes": 33329,
+      "sha256": "0a31caa3c3da3e45613f121f01fcb74a63773940cb49328ed56629aecbe9cb95"
+    },
+    "priorInputReconstructedExactly": {
+      "path": "/workspace/work/oz-trace-exclusive-loads-by-phase.original.json",
+      "bytes": 32671,
+      "sha256": "c8e10ab0083b4ad285343d625672c887cd77d86dd56b82fa41e39ece22368362"
+    },
+    "priorIndependentProof": {
+      "path": "/workspace/work/oz-trace-exclusive-loads-by-phase-independent-review.before-label-correction.json",
+      "bytes": 7158,
+      "sha256": "0f41a62ce9e6024f08c08c06d9319e262f7a0cf435fb82e5ba8a65c0087758f1"
+    },
+    "oldFullDocumentSha256Verified": true,
+    "onlyTrialMetadataChanged": true,
+    "numericProjectionExactlyEqual": true,
+    "all68NumericPhaseRowsAndEveryPathGroupUnchanged": true,
+    "numericRecomputationReusedWithoutRerun": true,
+    "metadataBindingChecker": {
+      "path": "/workspace/work/oz-trace-phase-metadata-rebind.py",
+      "bytes": 3004,
+      "sha256": "c24699f9dc69e6b7756d5e44e7e9da06050051751e18cf69369d3dec97ca3f68"
+    },
+    "artifactProgramsExecuted": false
+  }
+}

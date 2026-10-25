@@ -1,0 +1,321 @@
+{
+  "schema": "independent-maxima-oz-native-review-v1",
+  "reviewer": "astra_xhigh_current_oz; independent source reviewer and data-only evidence reviewer; no candidate source authorship",
+  "verdict": "CLEAR",
+  "scope": "Native translated-entry fixture evidence, 657 actual ZIP payloads; separate from compiler/FAS/official/controller/graphics/316 native replay scopes.",
+  "reviewedAtUTC": "2026-10-24T23:26:00.734922+00:00",
+  "artifact": {
+    "id": 12578753698,
+    "name": "maxima-oz-candidate-ecl-oz-maxima-oz-58cf269f303898a7b679d9d164346fbb9384b781",
+    "zipBytes": 214091662,
+    "sha256": "08dfcd8686e1be8da91b19c850c9668bd96e3e224df513192d3e0de023dfce74",
+    "inventoryFiles": 3420,
+    "packageFilesIncludingDeliveryManifest": 233,
+    "packageListedFiles": 232,
+    "recipeFiles": 80,
+    "runtimeAssets": 79
+  },
+  "producer": {
+    "repository": "Erasmus-CTM/stack-wasm-maxima",
+    "run": 40136606442,
+    "workflow": 395458321,
+    "attempt": 1,
+    "job": 120999345248,
+    "profile": "ecl-oz-maxima-oz",
+    "status": "completed",
+    "conclusion": "success",
+    "publicHead": "58cf269f303898a7b679d9d164346fbb9384b781",
+    "testedRevision": "58cf269f303898a7b679d9d164346fbb9384b781",
+    "tree": "3cf2954ebe3ab81990e47b37106d0e07b12b544d",
+    "parent": "51fdadd606c668371f5d50d0b853ecafe47883fc",
+    "trustedLocalHead": "1c3adea2081abe58820c1d84b062fdfb8084cb97",
+    "trustedLocalSameTree": true
+  },
+  "actualChecks": {
+    "strictCheckerPassed": true,
+    "payloadFiles": 657,
+    "payloadDecodedBytes": 13575091,
+    "independentBase64GzipDecode": true,
+    "allPayloadShaSizeAndDiskMatchesInventory": true,
+    "allFourCompleteInventoriesIdenticalToInitial": true,
+    "allFourCompletedSuccessfulProvenancesSameZip": true,
+    "exactDisjointUnionMatchesFreshInventorySelection": true,
+    "nativeSemanticCheckerByteIdenticalToPriorReviewedBody": true,
+    "recipeSourceGitBlobBindings": 80,
+    "packageDeliveryAndRuntimeInventoryClosure": true,
+    "sharedDependenciesChecked": 6,
+    "freshNativeProcesses": 28,
+    "casesPerPinPerMode": 7,
+    "modes": [
+      "source",
+      "translated-entry"
+    ],
+    "stackPins": [
+      {
+        "pin": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "sourceTree": "3cf2954ebe3ab81990e47b37106d0e07b12b544d",
+        "observations": 14,
+        "originalCASFiles": 77,
+        "report": {
+          "bytes": 301477,
+          "sha256": "6d0eda305b373525f043f3bac15996a91bf7d3426ab2ba6fde3d2abe29257d57"
+        }
+      },
+      {
+        "pin": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+        "sourceTree": "3cf2954ebe3ab81990e47b37106d0e07b12b544d",
+        "observations": 14,
+        "originalCASFiles": 77,
+        "report": {
+          "bytes": 304972,
+          "sha256": "3b57c0adedfeac6e5639091cc0d99fd11c2f58ca653d5e79e868ef0498e17db0"
+        }
+      }
+    ],
+    "typedFirstLogical": [
+      true,
+      [],
+      1,
+      true
+    ],
+    "typedCaptureErrorFeedbackAndBindingParity": true,
+    "fixtureArms": [
+      "assignment-control",
+      "assignment-bridge",
+      "reset-control",
+      "reset-package",
+      "parser-control",
+      "parser-bootstrap",
+      "color-control",
+      "color-apply"
+    ],
+    "authenticatedEmptyHomeFiles": 88,
+    "authenticatedHomeCASCopies": 2156,
+    "homeInventoryFilesAccounted": 2244,
+    "nativeSubtreeInventoryFiles": 2901
+  },
+  "auditBatches": [
+    {
+      "part": 1,
+      "audit": {
+        "run": 40142234496,
+        "job": 121016186439,
+        "head": "0f4c5faaa9f6c167b2000c6727e5b61ec2ea0e73",
+        "tree": "722746ec908b0aeb02011c8650007c9917483475",
+        "conclusion": "success",
+        "complete": true,
+        "completeMarkers": 1
+      },
+      "payloads": 22,
+      "decodedBytes": 3839786,
+      "records": {
+        "path": "/workspace/work/maxima-oz-native-part1-records.json",
+        "bytes": 1973390,
+        "sha256": "d64d9a812912fb7a0ed414a38a81bb405736f187628779dc7eef3698300c7fe7"
+      },
+      "selection": {
+        "path": "/workspace/work/maxima-oz-native-audit-part1-spec.json",
+        "bytes": 3310,
+        "sha256": "e9c395caf47ca06e5d4946a1c2308bbc80ef4f3478e3f32921b722ef6671e1d1"
+      },
+      "receipt": {
+        "path": "/workspace/work/maxima-oz-native-part1-audit-result.json",
+        "bytes": 961,
+        "sha256": "feca624493438ab504153dd28fb4dc1c9627982e00e430279bdc4878bcb385a9"
+      }
+    },
+    {
+      "part": 2,
+      "audit": {
+        "run": 40142249906,
+        "job": 121016231702,
+        "head": "da74fb41d84427d50daa7c3b8a753d35798129e1",
+        "tree": "38f3781dd920893b68af285d81e671cb69a1a78d",
+        "conclusion": "success",
+        "complete": true,
+        "completeMarkers": 1
+      },
+      "payloads": 27,
+      "decodedBytes": 3839982,
+      "records": {
+        "path": "/workspace/work/maxima-oz-native-part2-records.json",
+        "bytes": 1493300,
+        "sha256": "455ae802add18455b6c082e62e91b7756648bf8ea222a99e7ac6be9cc199b9e2"
+      },
+      "selection": {
+        "path": "/workspace/work/maxima-oz-native-audit-part2-spec.json",
+        "bytes": 3906,
+        "sha256": "e021421f1c76ec35b54a1a9754f6383daa62a09bd9021057bbaf8d65e2796764"
+      },
+      "receipt": {
+        "path": "/workspace/work/maxima-oz-native-part2-audit-result.json",
+        "bytes": 961,
+        "sha256": "29a07304e5ddb03f00272017fca9ff40a166603a33f21b18499f46bf4411e46a"
+      }
+    },
+    {
+      "part": 3,
+      "audit": {
+        "run": 40142289469,
+        "job": 121016354323,
+        "head": "693107f494b9c71cf47855ed6ae1d8e533c27557",
+        "tree": "b547fd9ea476e777ce0eac42d26bf1739361112d",
+        "conclusion": "success",
+        "complete": true,
+        "completeMarkers": 1
+      },
+      "payloads": 27,
+      "decodedBytes": 3836947,
+      "records": {
+        "path": "/workspace/work/maxima-oz-native-part3-records.json",
+        "bytes": 1769060,
+        "sha256": "ee2471ae2fb401eccdd624697a5eafd2936463fc6f90564b361d7666b86ddf06"
+      },
+      "selection": {
+        "path": "/workspace/work/maxima-oz-native-audit-part3-spec.json",
+        "bytes": 3938,
+        "sha256": "763cf42825ad96e208d17ea4b95227d4e45e8084edccad3aa90929fe42a1d874"
+      },
+      "receipt": {
+        "path": "/workspace/work/maxima-oz-native-part3-audit-result.json",
+        "bytes": 961,
+        "sha256": "f98f05cf0eeb62da54f930f4e61608235786263d2094d12c8799a4c1e312f5f1"
+      }
+    },
+    {
+      "part": 4,
+      "audit": {
+        "run": 40142307403,
+        "job": 121016403543,
+        "head": "1998b87302f5e652de20ad836a29570c23eefa93",
+        "tree": "d59a35096ab4a71f67a110bec94df5d0d248977b",
+        "conclusion": "success",
+        "complete": true,
+        "completeMarkers": 1
+      },
+      "payloads": 581,
+      "decodedBytes": 2058376,
+      "records": {
+        "path": "/workspace/work/maxima-oz-native-part4-records.json",
+        "bytes": 1883653,
+        "sha256": "af9093665104ae4f0feaddc9b38bc24f6ac4bcd29aaa72899d78f67e78567320"
+      },
+      "selection": {
+        "path": "/workspace/work/maxima-oz-native-audit-part4-spec.json",
+        "bytes": 73979,
+        "sha256": "e4d9eaa7082bbf250a5c0dea389bc48441af845d31c7613cf8c0ed8f62b14e08"
+      },
+      "receipt": {
+        "path": "/workspace/work/maxima-oz-native-part4-audit-result.json",
+        "bytes": 963,
+        "sha256": "4c6b405a1a3f147fc6ea0ae5075b129feb823cf606878aa6fefb484f493f1e72"
+      }
+    }
+  ],
+  "auditAcquisitionBoundary": "Parent owned complete job-log GET and recovery and attested exactly one COMPLETE per successful audit. This reviewer independently GET-verified every audit run/job/head/tree, pinned helper bytes, workflow and exact published specs, then independently redecoded every payload. No duplicated parent-owned log GET.",
+  "finalArtifactClosure": "Independent final producer-artifact API response confirms immutable artifact ID, exact name, ZIP bytes/digest, source head/run and unexpired state; all four whole-ZIP inspections occurred with completed/success metadata.",
+  "warnings": {
+    "startupStderr": "Both missing-help-index warnings retained identically in all 28 processes; no blanket warning-free claim.",
+    "scopedWarningState": "nounor warning flags remain false; compiled histories retain MMINUSBP134 and STACK_RANDSEED undefined warnings before/after. Global NIL is not claimed.",
+    "colorControls": "Expected untranslated-warning text is retained and checked exactly; no blanket warning-free statement."
+  },
+  "nativeHostBinding": {
+    "application": {
+      "bytes": 54139,
+      "sha256": "f70e4959fceb503df46cabf78cf0bde80f0cd9da3292551fc3f648b86512d32e"
+    },
+    "installationRecords": 265,
+    "scope": "Hash/report binding to original32-bit host; raw host executable/install bytes are absent from these artifacts."
+  },
+  "nativeExecutableRecordedHashes": {
+    "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/wasm/ecl-host/bin/ecl": "ec8abdb7f1f8afc3797d6dc41dce0d7bf6eb1282e7cd24120409ad58a652425d",
+    "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/wasm/maxima-ecl-combined/bin/maxima": "88e4bb3c289a8e5c5e2da83dcbdb811cf78a1785b993d592bc7bfe94310a5e8d"
+  },
+  "limitations": [
+    "This scope validates archived native translated-entry Lisp evidence; it does not independently clear FAS, Wasm, the runtime compiler, controller/graphics/316 programs or performance.",
+    "Raw native host/install executable bytes are absent; host provenance is a 265-row hash/report binding to the original 32-bit host, not re-execution or byte recovery.",
+    "Canonical local ECL/Maxima source archives are explicitly derived validation copies checked against pinned source manifests, not recovered artifact payloads.",
+    "Raw whole-library reset/F11 remains outside acceptance; fixture reset checks do not establish raw whole-library reset support.",
+    "Recorded startup and compiled-history warnings remain; no silent global warnings claim.",
+    "No artifact programs, Lisp, Wasm, compiler, browser or native runtime were executed by this review."
+  ],
+  "noGitHubWrites": true,
+  "noArtifactProgramExecution": true,
+  "receipts": {
+    "strictResult": {
+      "path": "/workspace/work/maxima-oz-native-independent-review.json",
+      "bytes": 2172,
+      "sha256": "b1f8a6cd4c32299b62b029db8d764160ddf5f863b3591d250315437b1f4ac88b"
+    },
+    "strictChecker": {
+      "path": "/workspace/work/maxima-oz-native-independent-review.py",
+      "bytes": 27750,
+      "sha256": "67a0cc41276244847cf1cae62d2077f7cc83104835f9dcf428cc8317de67759c"
+    },
+    "reviewSpec": {
+      "path": "/workspace/work/maxima-oz-native-review-spec.json",
+      "bytes": 3719,
+      "sha256": "3e2c504ef1b54ef00d5c2c4d5943fc12b52399e2c4089d3f988815e6444f4482"
+    },
+    "selectionPlan": {
+      "path": "/workspace/work/maxima-oz-native-scope-plan.json",
+      "bytes": 83170,
+      "sha256": "13e11dbe56f720a7025c9fbafd1dd08ad83c138cf7f4650cda54816d364e5c0c"
+    },
+    "testedSource": {
+      "path": "/workspace/work/maxima-oz-native-tested-source.json",
+      "bytes": 10119,
+      "sha256": "be23f4d249baaf0bf89c5386a67f14a5535a57e5fbb4bc305e1236187e1adac3"
+    },
+    "initialRecords": {
+      "path": "/workspace/work/maxima-oz-actual-initial-records.json",
+      "bytes": 1121870,
+      "sha256": "744db4364e2c03f4e89cc39f07b68f72ae501291e20076c2e6a4dff7337a3bfe"
+    },
+    "sharedDependencies": {
+      "path": "/workspace/work/maxima-oz-native-shared-dependencies.json",
+      "bytes": 1332,
+      "sha256": "0b4ebfff8e5b16ec74943e2377719f0d516fa6283f36f8094f5c8db9bf956883"
+    },
+    "producerRunAPI": {
+      "path": "/workspace/work/maxima-oz-native-workflow-final.json",
+      "bytes": 14490,
+      "sha256": "e143c3065f16dd95f81961688a2063e05033806d217b532f944986f19a3bd714"
+    },
+    "producerJobAPI": {
+      "path": "/workspace/work/maxima-oz-native-job-final.json",
+      "bytes": 19457,
+      "sha256": "8a4d9c8236fe56f74bc590712f86167cc0a065eca1a894f3f07cf684d785593d"
+    },
+    "sourceCommitAPI": {
+      "path": "/workspace/work/maxima-oz-native-source-api-final.json",
+      "bytes": 1433,
+      "sha256": "9253fe437817323d254c9bbac1f24ae37b6c1bbc3a2b1e3ae0f7e4dd8450e3f0"
+    },
+    "finalArtifactAPI": {
+      "path": "/workspace/work/maxima-oz-native-final-artifact-api.json",
+      "bytes": 922,
+      "sha256": "6f0df0edd7cfb540ad128bffaa71dde82ad931cdf087e3825acc6c3b9cf9a187"
+    },
+    "auditRunJobCommitAPI": {
+      "path": "/workspace/work/maxima-oz-native-independent-audit-api.json",
+      "bytes": 78691,
+      "sha256": "d25cf120ba8ddb61f969c3945c41e2ff8cf04492f1a237a1ea853794306d4797"
+    },
+    "auditHelperWorkflowProof": {
+      "path": "/workspace/work/maxima-oz-native-independent-audit-helper.json",
+      "bytes": 1087,
+      "sha256": "7e58806bc5e7081d627a15fe37e6271554fd9709d6e935bdbb7925180a69a115"
+    },
+    "publishedAuditSpecs": {
+      "path": "/workspace/work/maxima-oz-native-published-audit-specs.json",
+      "bytes": 88156,
+      "sha256": "aa6b8254c1b11a1308df3667c61b2f8869c9ff85f199816a461ca82033424eff"
+    },
+    "transportPlan": {
+      "path": "/workspace/work/maxima-oz-native-audit-transport-plan.json",
+      "bytes": 1915,
+      "sha256": "cd5e18887384b4641a65155c2e7bb202f61d6b781224d17819a0e6a2a0edec4f"
+    }
+  }
+}

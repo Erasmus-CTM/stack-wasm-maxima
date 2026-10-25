@@ -1,0 +1,898 @@
+{
+  "artifact": 12578048686,
+  "sourceReviewSha256": "d14b9a08e829e6a7d2ee6c909848f818646dddb789dfe521066334f8eff4c6c0",
+  "trials": [
+    {
+      "traceFrames": 81,
+      "phaseRows": [
+        {
+          "phase": "initialization",
+          "elapsedMs": 20009.664794921875,
+          "tracedLoadExclusiveMs": 17266.62939453125,
+          "loads": [
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+              "exclusiveWallMs": 3240.48486328125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+              "exclusiveWallMs": 1740.6552734375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp",
+              "exclusiveWallMs": 1103.97998046875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp",
+              "exclusiveWallMs": 892.659912109375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/load-linearalgebra-lisp-files.lisp",
+              "exclusiveWallMs": 835.85498046875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac",
+              "exclusiveWallMs": 817.814453125
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/geometry.mac",
+              "exclusiveWallMs": 745.514892578125
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.mac",
+              "exclusiveWallMs": 707.245361328125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac",
+              "exclusiveWallMs": 538.99951171875
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/assessment.mac",
+              "exclusiveWallMs": 426.454833984375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stats/stats.mac",
+              "exclusiveWallMs": 244.955322265625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve.mac",
+              "exclusiveWallMs": 231.31005859375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stats/numstats.lisp",
+              "exclusiveWallMs": 195.52490234375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stats/inference_result.lisp",
+              "exclusiveWallMs": 193.68994140625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp",
+              "exclusiveWallMs": 193.215087890625
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/noun_simp.mac",
+              "exclusiveWallMs": 189.925048828125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp",
+              "exclusiveWallMs": 189.625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp",
+              "exclusiveWallMs": 164.855224609375
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/intervals.mac",
+              "exclusiveWallMs": 162.715087890625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac",
+              "exclusiveWallMs": 157.98486328125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve_extra.lisp",
+              "exclusiveWallMs": 156.669921875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp",
+              "exclusiveWallMs": 155.275146484375
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/maximasrccompiled.mac",
+              "exclusiveWallMs": 151.840087890625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/simplifying.lisp",
+              "exclusiveWallMs": 148.510009765625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb1.lisp",
+              "exclusiveWallMs": 147.93994140625
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/validator.mac",
+              "exclusiveWallMs": 130.6650390625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac",
+              "exclusiveWallMs": 128.445068359375
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/stackunits.mac",
+              "exclusiveWallMs": 128.35009765625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/maxima-lbfgs.lisp",
+              "exclusiveWallMs": 127.920166015625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.mac",
+              "exclusiveWallMs": 126.324951171875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb2.lisp",
+              "exclusiveWallMs": 126.02978515625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.lisp",
+              "exclusiveWallMs": 125.255126953125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcstep.lisp",
+              "exclusiveWallMs": 123.800048828125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-ddot.lisp",
+              "exclusiveWallMs": 123.39013671875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-daxpy.lisp",
+              "exclusiveWallMs": 123.375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcsrch.lisp",
+              "exclusiveWallMs": 121.5
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/proof.mac",
+              "exclusiveWallMs": 117.409912109375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp",
+              "exclusiveWallMs": 116.1201171875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp",
+              "exclusiveWallMs": 114.815185546875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linearalgebra.mac",
+              "exclusiveWallMs": 100.41015625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/lrats.mac",
+              "exclusiveWallMs": 100.125
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/chemistry.mac",
+              "exclusiveWallMs": 92.014892578125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/macro/packg.mac",
+              "exclusiveWallMs": 90.85009765625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/diag.mac",
+              "exclusiveWallMs": 89.119873046875
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/numericaltest.mac",
+              "exclusiveWallMs": 87.800048828125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp",
+              "exclusiveWallMs": 82.56005859375
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/stackstrings.mac",
+              "exclusiveWallMs": 75.934814453125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/macro/basic.mac",
+              "exclusiveWallMs": 75.7998046875
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/utils.mac",
+              "exclusiveWallMs": 74.43994140625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.lisp",
+              "exclusiveWallMs": 73.169921875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/trigtools/trigtools.mac",
+              "exclusiveWallMs": 72.925048828125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.mac",
+              "exclusiveWallMs": 72.89990234375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp",
+              "exclusiveWallMs": 70.68994140625
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/inequalities.mac",
+              "exclusiveWallMs": 69.875
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/linearalgebra_core.mac",
+              "exclusiveWallMs": 68.179931640625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp",
+              "exclusiveWallMs": 51.369873046875
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/stack_logic.lisp",
+              "exclusiveWallMs": 47.429931640625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp",
+              "exclusiveWallMs": 46.40478515625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp",
+              "exclusiveWallMs": 46.1748046875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp",
+              "exclusiveWallMs": 46.10009765625
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac",
+              "exclusiveWallMs": 45.230224609375
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/fboundp.mac",
+              "exclusiveWallMs": 31.695068359375
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/to_poly_solve_extra_5.38.1.lisp",
+              "exclusiveWallMs": 31.184814453125
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/noun_arith.lisp",
+              "exclusiveWallMs": 30.510009765625
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/stacktex.lisp",
+              "exclusiveWallMs": 29.824951171875
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/trigrat.lisp",
+              "exclusiveWallMs": 27.405029296875
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/Ksimplifier.lisp",
+              "exclusiveWallMs": 25.275146484375
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/local.mac",
+              "exclusiveWallMs": 22.3349609375
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/errortostring.lisp",
+              "exclusiveWallMs": 21.794921875
+            }
+          ]
+        },
+        {
+          "phase": "first-call-logical-validation",
+          "elapsedMs": 1569.135009765625,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "first-positive-grade",
+          "elapsedMs": 1952.704833984375,
+          "tracedLoadExclusiveMs": 103.429931640625,
+          "loads": [
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac",
+              "exclusiveWallMs": 103.429931640625
+            }
+          ]
+        },
+        {
+          "phase": "first-negative-grade",
+          "elapsedMs": 28.614990234375,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-0",
+          "elapsedMs": 67.0400390625,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-1",
+          "elapsedMs": 27.58984375,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-2",
+          "elapsedMs": 61.780029296875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-3",
+          "elapsedMs": 27.815185546875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-4",
+          "elapsedMs": 66.130126953125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-5",
+          "elapsedMs": 22.56005859375,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-6",
+          "elapsedMs": 63.114990234375,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-7",
+          "elapsedMs": 21.60498046875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-8",
+          "elapsedMs": 60.18017578125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-9",
+          "elapsedMs": 22.75,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-0",
+          "elapsedMs": 4.889892578125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-1",
+          "elapsedMs": 5,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-2",
+          "elapsedMs": 4.684814453125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-3",
+          "elapsedMs": 4.6298828125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-4",
+          "elapsedMs": 5.0849609375,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-5",
+          "elapsedMs": 4.875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-6",
+          "elapsedMs": 4.75,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-7",
+          "elapsedMs": 4.639892578125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-8",
+          "elapsedMs": 4.41015625,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-9",
+          "elapsedMs": 4.85498046875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "noun-isolation",
+          "elapsedMs": 58.780029296875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "direct-noun-equivalence",
+          "elapsedMs": 11.175048828125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "pm-structure",
+          "elapsedMs": 7.18017578125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "pm-replacement",
+          "elapsedMs": 6.85009765625,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "pm-display",
+          "elapsedMs": 13.60498046875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "pm-unary-rewrite",
+          "elapsedMs": 5.41015625,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "pm-positive",
+          "elapsedMs": 377.175048828125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "pm-negative",
+          "elapsedMs": 376.369873046875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "number-display",
+          "elapsedMs": 6.364990234375,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "policy",
+          "elapsedMs": 13.425048828125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        }
+      ],
+      "scope": "Instrumented n1 per candidate; exclusive wall intervals split at real parent-phase boundaries after subtracting direct child intervals. Sum represents the union of traced LOAD activity. Includes TRACE/FS/CDP and process-sampling overhead; CPU sampling was enabled, but these intervals do not establish CPU time, clean speedup, removable time, or cross-run ranking. Defsystem aggregates two invocations per startup; initialization includes runtime/preload setup.",
+      "candidate": "source",
+      "arm": "instrumented",
+      "cpuSamplingEnabled": true,
+      "processCpuSamplingEnabled": true
+    },
+    {
+      "traceFrames": 53,
+      "phaseRows": [
+        {
+          "phase": "initialization",
+          "elapsedMs": 20637.31494140625,
+          "tracedLoadExclusiveMs": 17165.0751953125,
+          "loads": [
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+              "exclusiveWallMs": 4309.64013671875
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.fas",
+              "exclusiveWallMs": 3364.41455078125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+              "exclusiveWallMs": 1860.98974609375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp",
+              "exclusiveWallMs": 1126.405029296875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/load-linearalgebra-lisp-files.lisp",
+              "exclusiveWallMs": 1048.155029296875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac",
+              "exclusiveWallMs": 764.360107421875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac",
+              "exclusiveWallMs": 522.60986328125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp",
+              "exclusiveWallMs": 302.76025390625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stats/stats.mac",
+              "exclusiveWallMs": 248.2451171875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve.mac",
+              "exclusiveWallMs": 196.52490234375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp",
+              "exclusiveWallMs": 182.77490234375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp",
+              "exclusiveWallMs": 175.02001953125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp",
+              "exclusiveWallMs": 163.4501953125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stats/inference_result.lisp",
+              "exclusiveWallMs": 149.93505859375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve_extra.lisp",
+              "exclusiveWallMs": 143.27001953125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp",
+              "exclusiveWallMs": 141.46484375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/simplifying.lisp",
+              "exclusiveWallMs": 137.014892578125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.lisp",
+              "exclusiveWallMs": 127.2900390625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcsrch.lisp",
+              "exclusiveWallMs": 126.090087890625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-daxpy.lisp",
+              "exclusiveWallMs": 124.60498046875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb2.lisp",
+              "exclusiveWallMs": 124.2548828125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcstep.lisp",
+              "exclusiveWallMs": 124.099853515625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.mac",
+              "exclusiveWallMs": 122.645263671875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-ddot.lisp",
+              "exclusiveWallMs": 121.60498046875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/maxima-lbfgs.lisp",
+              "exclusiveWallMs": 120.945068359375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb1.lisp",
+              "exclusiveWallMs": 120.554931640625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp",
+              "exclusiveWallMs": 110.60009765625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp",
+              "exclusiveWallMs": 109.625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stats/numstats.lisp",
+              "exclusiveWallMs": 108.474853515625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/lrats.mac",
+              "exclusiveWallMs": 83.97021484375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp",
+              "exclusiveWallMs": 80.264892578125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac",
+              "exclusiveWallMs": 80.264892578125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp",
+              "exclusiveWallMs": 77.7001953125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/macro/packg.mac",
+              "exclusiveWallMs": 75.27001953125
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/macro/basic.mac",
+              "exclusiveWallMs": 74.364990234375
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.lisp",
+              "exclusiveWallMs": 67.919921875
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp",
+              "exclusiveWallMs": 65.644775390625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp",
+              "exclusiveWallMs": 59.41015625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp",
+              "exclusiveWallMs": 53.840087890625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp",
+              "exclusiveWallMs": 50.954833984375
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac",
+              "exclusiveWallMs": 32.295166015625
+            },
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac",
+              "exclusiveWallMs": 30.22509765625
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/to_poly_solve_extra_5.38.1.lisp",
+              "exclusiveWallMs": 28.18505859375
+            },
+            {
+              "resolvedPath": "/ctm/moodle-qtype_stack-master/stack/maxima/noun_arith.lisp",
+              "exclusiveWallMs": 26.940185546875
+            }
+          ]
+        },
+        {
+          "phase": "first-call-logical-validation",
+          "elapsedMs": 1627.690185546875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "first-positive-grade",
+          "elapsedMs": 1917.7451171875,
+          "tracedLoadExclusiveMs": 97.429931640625,
+          "loads": [
+            {
+              "resolvedPath": "/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac",
+              "exclusiveWallMs": 97.429931640625
+            }
+          ]
+        },
+        {
+          "phase": "first-negative-grade",
+          "elapsedMs": 53.60498046875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-0",
+          "elapsedMs": 63.905029296875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-1",
+          "elapsedMs": 25.22998046875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-2",
+          "elapsedMs": 61.72998046875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-3",
+          "elapsedMs": 21.695068359375,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-4",
+          "elapsedMs": 58.8349609375,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-5",
+          "elapsedMs": 22.974853515625,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-6",
+          "elapsedMs": 60.85986328125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-7",
+          "elapsedMs": 24.56494140625,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-8",
+          "elapsedMs": 60.505126953125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-grade-9",
+          "elapsedMs": 21.39013671875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-0",
+          "elapsedMs": 5.56005859375,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-1",
+          "elapsedMs": 4.875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-2",
+          "elapsedMs": 5.26513671875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-3",
+          "elapsedMs": 4.949951171875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-4",
+          "elapsedMs": 6.364990234375,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-5",
+          "elapsedMs": 4.85009765625,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-6",
+          "elapsedMs": 4.695068359375,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-7",
+          "elapsedMs": 5.205078125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-8",
+          "elapsedMs": 4.760009765625,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "warm-arithmetic-9",
+          "elapsedMs": 4.800048828125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "noun-isolation",
+          "elapsedMs": 59.914794921875,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "direct-noun-equivalence",
+          "elapsedMs": 11.139892578125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "pm-structure",
+          "elapsedMs": 7.719970703125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "pm-replacement",
+          "elapsedMs": 7.06494140625,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "pm-display",
+          "elapsedMs": 14.625,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "pm-unary-rewrite",
+          "elapsedMs": 5.73486328125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "pm-positive",
+          "elapsedMs": 369.820068359375,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "pm-negative",
+          "elapsedMs": 379.215087890625,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "number-display",
+          "elapsedMs": 6.630126953125,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        },
+        {
+          "phase": "policy",
+          "elapsedMs": 13.9599609375,
+          "tracedLoadExclusiveMs": 0.0,
+          "loads": []
+        }
+      ],
+      "scope": "Instrumented n1 per candidate; exclusive wall intervals split at real parent-phase boundaries after subtracting direct child intervals. Sum represents the union of traced LOAD activity. Includes TRACE/FS/CDP and process-sampling overhead; CPU sampling was enabled, but these intervals do not establish CPU time, clean speedup, removable time, or cross-run ranking. Defsystem aggregates two invocations per startup; initialization includes runtime/preload setup.",
+      "candidate": "precompiled",
+      "arm": "instrumented",
+      "cpuSamplingEnabled": true,
+      "processCpuSamplingEnabled": true
+    }
+  ]
+}

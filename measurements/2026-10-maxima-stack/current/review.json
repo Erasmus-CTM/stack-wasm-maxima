@@ -1,0 +1,301 @@
+{
+  "schema": 1,
+  "verdict": "CLEAR for this complete guarded36 same-runner benchmark capture",
+  "evidenceReviewCompleted": true,
+  "fullComparisonAccepted": true,
+  "productionPromotion": false,
+  "benchmark": {
+    "run": 40146439788,
+    "workflow": 395505120,
+    "job": 121028680137,
+    "head": "041686594f674886551efd95e78b2e0af92bd657",
+    "tree": "cccf7bd2b2835b451b1a08561e2f1ced61bbf763",
+    "attempt": 1,
+    "requiredStatus": "completed",
+    "requiredConclusion": "success",
+    "observedAtPreparation": {
+      "status": "in_progress",
+      "conclusion": null
+    },
+    "observedAtActualBinding": {
+      "status": "completed",
+      "conclusion": "success"
+    }
+  },
+  "artifact": {
+    "id": 12582275725,
+    "name": "full-six-cell-guarded-041686594f674886551efd95e78b2e0af92bd657-1",
+    "zipBytes": 71887669,
+    "sha256": "35fe76992f94eed2e97084c26c336ff59c11864c2627eefa268674be01e7d344",
+    "run": 40146439788,
+    "workflow": 395505120,
+    "head": "041686594f674886551efd95e78b2e0af92bd657",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "actualCounts": {
+    "attempts": 36,
+    "successfulSamples": 36,
+    "failedSamples": 0,
+    "confirmedTerminations": 36,
+    "typedChecks": 360,
+    "firstGrades": 72,
+    "warmGrades": 360,
+    "warmArithmetic": 360,
+    "nativePrograms": 108,
+    "fullGcAcknowledgments": 3600,
+    "caughtErrorRecoveries": 36,
+    "plotNegativeRecoveries": 144,
+    "passedStartupReceipts": 36,
+    "failedStartupReceipts": 0,
+    "hashedRequestRecords": 261,
+    "payloadFiles": 58,
+    "payloadBytes": 5612442,
+    "fullInventoryFiles": 797,
+    "publicationTools": 25,
+    "summaryRows": 12,
+    "reviewerDerivedPairs": 54,
+    "pairedGroups": 18,
+    "rawCompactSnapshotsExactlyEqual": 36,
+    "lateTelemetryRows": 36,
+    "lateFatalEvents": 0,
+    "latePageErrors": 0,
+    "warningCountDiscrepancies": 0,
+    "progressEvents": 72
+  },
+  "bindingVerification": {
+    "path": "/workspace/work/full-timing-table-guarded-rerun-review/binding-result.json",
+    "bytes": 3923,
+    "sha256": "1f4c3c0bbcc7b7f6369590ce7c252523aa4fb9a625ff50e1dce05db1ce525e50"
+  },
+  "rawSampleVerification": {
+    "path": "/workspace/work/full-timing-table-guarded-rerun-review/sample-result.json",
+    "bytes": 113432,
+    "sha256": "1b1bed7204ffa222670c2d8bde31b245b2a61a1ec3c696caf071bcfa82fa65aa"
+  },
+  "telemetryVerification": {
+    "path": "/workspace/work/full-timing-table-guarded-rerun-review/telemetry-result.json",
+    "bytes": 18378,
+    "sha256": "8d8e3cb95d48a1db5ada1ef8f83fb3912733c9b973af0d0ef0719b574b278554"
+  },
+  "acceptedTimings": {
+    "path": "/workspace/work/full-timing-table-guarded-rerun-review/accepted-timings.json",
+    "bytes": 72583,
+    "sha256": "638d23faf2f274c3452919a79dbfbf7174c7f97ad110da3b2fa9ff30fdf9505e"
+  },
+  "verifiedCsv": {
+    "path": "/workspace/work/full-timing-table-rerun-PENDING-REVIEW.csv",
+    "bytes": 1926,
+    "sha256": "5bb5ca94e0c2ddcc26db098aa4ec1c0c725e94ff411fd50f16b48cfb764b08bf"
+  },
+  "profileSourceBindings": {
+    "baseline": {
+      "artifactId": 12567788724,
+      "sourceZipInventoryRows": 3404,
+      "packageRowsExcludingSelf": 223,
+      "recipeFiles": 71,
+      "runtimeAssets": 79,
+      "retainedOriginalAdmissionInputsMatched": 135,
+      "siteOriginalFiles": 87,
+      "siteStagedFiles": 89,
+      "archivedPreload": false,
+      "sourceManifestCount": 3,
+      "nativePrograms": 3,
+      "sharedDerivedChildSha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068",
+      "rawObserverProof": {
+        "path": "/workspace/work/compiler-audit-evidence/12582275725/staged/baseline-startup-observer-derivation.json",
+        "bytes": 1782,
+        "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+      },
+      "matchingFas": {
+        "bytes": 2626498,
+        "sha256": "dfa05fc4652d4b94c4d59d8a3dc7f18e590992cb72d97e590ec0e9f1baa41755"
+      }
+    },
+    "ecl-oz": {
+      "artifactId": 12568085269,
+      "sourceZipInventoryRows": 3404,
+      "packageRowsExcludingSelf": 223,
+      "recipeFiles": 71,
+      "runtimeAssets": 79,
+      "retainedOriginalAdmissionInputsMatched": 135,
+      "siteOriginalFiles": 87,
+      "siteStagedFiles": 89,
+      "archivedPreload": false,
+      "sourceManifestCount": 3,
+      "nativePrograms": 3,
+      "sharedDerivedChildSha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068",
+      "rawObserverProof": {
+        "path": "/workspace/work/compiler-audit-evidence/12582275725/staged/ecl-oz-startup-observer-derivation.json",
+        "bytes": 1782,
+        "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+      },
+      "matchingFas": {
+        "bytes": 2626498,
+        "sha256": "70123f857618d68d92896a541ae602fd0ed7f0bde0d1bff7ba1d630c0540df31"
+      }
+    },
+    "ecl-oz-maxima-oz": {
+      "artifactId": 12578753698,
+      "sourceZipInventoryRows": 3420,
+      "packageRowsExcludingSelf": 232,
+      "recipeFiles": 80,
+      "runtimeAssets": 79,
+      "retainedOriginalAdmissionInputsMatched": 142,
+      "siteOriginalFiles": 87,
+      "siteStagedFiles": 89,
+      "archivedPreload": true,
+      "sourceManifestCount": 3,
+      "nativePrograms": 3,
+      "sharedDerivedChildSha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068",
+      "rawObserverProof": {
+        "path": "/workspace/work/compiler-audit-evidence/12582275725/staged/ecl-oz-maxima-oz-startup-observer-derivation.json",
+        "bytes": 1782,
+        "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+      },
+      "matchingFas": {
+        "bytes": 2554359,
+        "sha256": "2ae1af2ccd5de6ea174536a93a44c5cb8d46d8e4fbbeb49c8d4e6306bafb441f"
+      }
+    }
+  },
+  "sourceReview": {
+    "path": "/workspace/work/guarded-six-reporter-repair-independent-source-review.json",
+    "bytes": 7125,
+    "sha256": "67c23fe267e6e698bfeb06460c1bbfe68a1da393cfcb2a01ba7e6df3a9f96424"
+  },
+  "publicationTreeReview": {
+    "path": "/workspace/work/guarded-six-reporter-repair-independent-publication-api.json",
+    "bytes": 159279,
+    "sha256": "a156bf50e7d1d53ce6d9096bbc9b7df216a7ec1bb544bdb0e5cae18a62da9dd5"
+  },
+  "sourceFreeze": {
+    "path": "/workspace/work/full-timing-table-guarded-repair1/integration-freeze.json",
+    "bytes": 11649,
+    "sha256": "4de5ee1c440fa17693fe1af7ac13ecf80cdb38bbe2fed1079f1e4ddb3da02432"
+  },
+  "sourceContext": {
+    "path": "/workspace/work/full-timing-table-guarded-rerun-review/context.json",
+    "bytes": 14115,
+    "sha256": "5a170191bccbb5b30cbbf2bb242e3747dc6192bf8c23eccf4d15aa93e85791a8"
+  },
+  "apiEvidence": [
+    {
+      "path": "/workspace/work/full-timing-table-guarded-rerun-review/api-provenance.json",
+      "bytes": 22333,
+      "sha256": "99c58bbfdaafbd26cbf6aa7d1b64e7c65d47db8f0fb7a5cc735212a911a3c3f1"
+    },
+    {
+      "path": "/workspace/work/full-timing-table-guarded-rerun-review/audit-api-provenance.json",
+      "bytes": 64167,
+      "sha256": "fd511a3a0bdc3f52c585740652df4054b9965ff3a6771f76bf22302e1b21e8bc"
+    }
+  ],
+  "audits": [
+    {
+      "name": "initial",
+      "run": 40148699427,
+      "job": 121035464575,
+      "head": "0b504f105c39111083c57e35835376e01f29eb59",
+      "tree": "3149c658df4fbadf3b6de391ac1767bc992e708c",
+      "status": "completed",
+      "conclusion": "success",
+      "sourceWorkflowConclusion": "success",
+      "helperSha256": "5e6c83c7c6acc52dc6337a0a4acba27e7c8b3e6fbd3dcc780a243ca6eecdb26e",
+      "workflowSha256": "468af0f6a0b7b5159fd4c8c7acc46b5db0c792411054148daa08b20745e6575c",
+      "specSha256": "fd54bc8e496f9e6a511b4daff7af33087d82b308a53f436681aef9939dee865f",
+      "records": {
+        "path": "/workspace/work/full-timing-table-rerun-initial-records.json",
+        "bytes": 229828,
+        "sha256": "1572c264b639dfa8e779f8ef432ecc2d73d96d58982e5949a0a928e8e9b8494d"
+      },
+      "completeMarker": "Exactly one COMPLETE confirmed by parent recovery; decoded records omit log framing."
+    },
+    {
+      "name": "remaining",
+      "run": 40148809932,
+      "job": 121035796776,
+      "head": "ef10b7914004c89745d569000777dcaa50a54364",
+      "tree": "0842d3f85ddb223b4a02fcdc892790b7312cee8d",
+      "status": "completed",
+      "conclusion": "success",
+      "sourceWorkflowConclusion": "success",
+      "helperSha256": "5e6c83c7c6acc52dc6337a0a4acba27e7c8b3e6fbd3dcc780a243ca6eecdb26e",
+      "workflowSha256": "468af0f6a0b7b5159fd4c8c7acc46b5db0c792411054148daa08b20745e6575c",
+      "specSha256": "bf0f046c808f5e9c7eeb3fce54abbfd6ad6e63ac174232d6b364f80baddc15c8",
+      "records": {
+        "path": "/workspace/work/full-timing-table-rerun-remaining-records.json",
+        "bytes": 1014893,
+        "sha256": "4a2b381b3dd0a3d0dd32dc1a5a92a4a610a38703f5c4310b007739e1793a485d"
+      },
+      "completeMarker": "Exactly one COMPLETE confirmed by parent recovery; decoded records omit log framing."
+    }
+  ],
+  "priorFailedCapture": {
+    "run": 40143072180,
+    "artifact": 12580575852,
+    "review": {
+      "path": "/workspace/work/full-timing-table-guarded-actual-review/failed-attempt-1/review-index.json",
+      "bytes": 12374,
+      "sha256": "2412053586e3e3b225fb60b1cd4cdea6f2f711b6b8e9b5b596ac8ebd7e377344"
+    },
+    "fullComparisonAccepted": false,
+    "runtimeFailureFixedByReporterRepair": false,
+    "preserveReloadQualification": true,
+    "preserveWarningCountDiscrepancy": true,
+    "remainingConclusion": "The earlier explicit draw.lisp loadfile failure remains real, unresolved and unaccepted. Reporter repair fixes snapshot/late-event accounting only; this36/36 capture is non-reproduction of that failure, not proof of a runtime fix."
+  },
+  "hardware": {
+    "schema": 1,
+    "observedBeforeMeasurement": true,
+    "platform": "linux",
+    "release": "6.17.0-1022-azure",
+    "arch": "x64",
+    "logicalCPUCount": 4,
+    "cpuModels": [
+      "AMD EPYC 7763 64-Core Processor"
+    ],
+    "availableParallelism": 4,
+    "totalMemoryBytes": 16766414848,
+    "scope": "Untimed host metadata, not CPU sampling or cross-run timing normalization."
+  },
+  "hardwareStepOrderedBeforeMeasurement": true,
+  "checkers": [
+    {
+      "path": "/workspace/work/full-timing-table-guarded-rerun-review/check-bindings.py",
+      "bytes": 12552,
+      "sha256": "0f839d8d5080656be8d53a840212606b3b4a5218ed17c208adc9355b35104627"
+    },
+    {
+      "path": "/workspace/work/full-timing-table-guarded-rerun-review/check-samples.py",
+      "bytes": 13214,
+      "sha256": "bf18751a2d4ec446dda336f9e0d805774f38830f0c8b9167444c3c8f35c9a3d0"
+    },
+    {
+      "path": "/workspace/work/full-timing-table-guarded-rerun-review/check-telemetry.py",
+      "bytes": 6961,
+      "sha256": "2f6918b52d09d097aa04e26069106eda63a014956fa4c56890225cda99e02e6f"
+    },
+    {
+      "path": "/workspace/work/full-timing-table-guarded-rerun-review/close-review.py",
+      "bytes": 10531,
+      "sha256": "5eb3263e463245a9f84bf1fae18f5a480a0d1ec4f13636247e44871ba0d60ff8"
+    }
+  ],
+  "limitations": [
+    "The source/FAS matrix is guarded: one identical derived stdout observer runs in all six cells and every restart. Runtime binaries, FAS, original startup and session bytes are unchanged. Shared observer overhead is present; these are not pristine-wrapper timings.",
+    "No TRACE, CPU profiler, FS observer, CPU quota or errno-stack intervention was used. Hardware metadata is untimed and does not normalize different runners.",
+    "n3 descriptive medians and54 reviewer-derived pairs describe this capture only. Rotating order limits but does not remove runner/cache variation; small FAS differences are not a robust general speedup conclusion.",
+    "A cold row is a fresh browser/profile within this job, not proof of an empty host OS cache. Each reload follows an acknowledged successful cold termination and uses a fresh worker/session/buffers in the same browser profile.",
+    "All36 late telemetry windows are empty. Their scope is callback receipt after immutable snapshot until the next active sample or browser close, not exact runtime event emission time.",
+    "The startup guard rejects selected sticky fatal lines and enforces BEGIN/END/READY order. It cannot prove root-load return within the same evaluation; known caught texnumformat diagnostics are retained and do not fail healthy startup.",
+    "The prior35/36 capture remains failed, including its incomplete-cold reload qualification and17-versus19 warning discrepancy. Neither the green rerun nor a separate altered-ERRSET diagnostic demonstrates the underlying intermittent draw failure has been fixed.",
+    "Server request hashing and encoded-body accounting are not wire-byte or CPU-time measurements. Combined readiness/logical/positive is a synthetic sum, not complete UI latency.",
+    "Native reference installation records and original producer acceptance retain their earlier scope limits; this benchmark checks three selected native programs per sample, not the complete reference suite on every trial.",
+    "Audit log COMPLETE framing is parent recovery evidence; this review independently redecoded58 payloads, matched the full797-entry inventory and verified exact API/helper/workflow/spec identities.",
+    "The producer report intentionally retains diagnosticOnly=true and acceptance=false to avoid production promotion. Independent fullComparisonAccepted=true means this benchmark capture is complete and verified, not a production/default change."
+  ],
+  "artifactProgramsExecuted": false,
+  "githubMutationsPerformed": false
+}

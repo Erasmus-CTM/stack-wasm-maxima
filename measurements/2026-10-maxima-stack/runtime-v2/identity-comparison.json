@@ -1,0 +1,129 @@
+{
+  "scope": "Identity comparison only, not runtime-v2 release acceptance, semantic equivalence or direct release timing. Compare measured ECL-Oz control12568085269 versus owned source artifact12576968821 from the producer PR26 declares for runtime-v2; released tar/record content is not inspected here.",
+  "sameAssetCount": 69,
+  "assetCount": 79,
+  "differentAssets": [
+    {
+      "path": "libecl.so",
+      "timed": {
+        "bytes": 5282281,
+        "sha256": "b117bcb06f8a3d828bb7d14ad09d9b9877a24918ec117346c0aa8ad88641c479"
+      },
+      "runtimeV2SourceProducer": {
+        "bytes": 5282281,
+        "sha256": "9e395ba092e61028dd31b0ae4e5621f6c8fb0957aa17fae61a0eebec994ea448"
+      }
+    },
+    {
+      "path": "maxima-integration.fas",
+      "timed": {
+        "bytes": 2156780,
+        "sha256": "c58c600b979ba22db4638ef5f5d6f2b8771a0fb9266e96384a74bc189f8f7bc5"
+      },
+      "runtimeV2SourceProducer": {
+        "bytes": 2156780,
+        "sha256": "6b271f2ca82f9570413f1ee2ab24e2211b05ef1a4f285d0d7488116c47568330"
+      }
+    },
+    {
+      "path": "maxima-limits.fas",
+      "timed": {
+        "bytes": 985432,
+        "sha256": "ef7459bb48a3c47265e7a9cf4e4a3526e3b1cd71b44ae367807aaf1ad506fe7e"
+      },
+      "runtimeV2SourceProducer": {
+        "bytes": 985432,
+        "sha256": "aa07e530806b3e61c459f1eb002f34a0721bf0ddac06369382c0667c71579e19"
+      }
+    },
+    {
+      "path": "maxima-matrix-algebra.fas",
+      "timed": {
+        "bytes": 646307,
+        "sha256": "943e015f66b6a10a1220737340584f8f6a9b06ed5bc9621a3d9badf296465202"
+      },
+      "runtimeV2SourceProducer": {
+        "bytes": 646307,
+        "sha256": "f9cab3aac366e1c235382a58897b12c8370dce840755d8e72a6381ab0c98175e"
+      }
+    },
+    {
+      "path": "maxima-number-theory.fas",
+      "timed": {
+        "bytes": 1429245,
+        "sha256": "141835855ccfc31528707731469983592de3c6f74d808b9eb772f313c570a89d"
+      },
+      "runtimeV2SourceProducer": {
+        "bytes": 1429245,
+        "sha256": "742ae9097d7546fd91eed43bf4e1d000d81867ade981de0b4a4d0e9c21f9df19"
+      }
+    },
+    {
+      "path": "maxima-poisson-series.fas",
+      "timed": {
+        "bytes": 217615,
+        "sha256": "a47a0a76b96bce6f8a89bca029fd1fc20f7ca76a92e2b730da8bdf2056d449ae"
+      },
+      "runtimeV2SourceProducer": {
+        "bytes": 217615,
+        "sha256": "1d95c8dcc70da9c729d6e637e52a9fb97b9fa3306b188c0b96ab67532075e16f"
+      }
+    },
+    {
+      "path": "maxima-quadpack.fas",
+      "timed": {
+        "bytes": 3718080,
+        "sha256": "70d765abf92a5f396f434baae0d90efc25b35ef590d10db9852ee0e63e039528"
+      },
+      "runtimeV2SourceProducer": {
+        "bytes": 3718080,
+        "sha256": "605b3b25fa078a522c802021e827993c8f9a422f95ea99d5ac000c9aad919d97"
+      }
+    },
+    {
+      "path": "maxima-slatec.fas",
+      "timed": {
+        "bytes": 6190337,
+        "sha256": "94b0f90c5e4ecaaf1bc421e02491fe5d3a1750af38d539bd459a9bfc70fa12e6"
+      },
+      "runtimeV2SourceProducer": {
+        "bytes": 6190337,
+        "sha256": "ec9837516050aa717964e0fc3211773147584814cdfed6f8e1cf82df0f92aeb2"
+      }
+    },
+    {
+      "path": "maxima-solve.fas",
+      "timed": {
+        "bytes": 1373890,
+        "sha256": "68d3abf280b6dc930a712bb6ee33772a3bb62def924d5455860b62597ce028c7"
+      },
+      "runtimeV2SourceProducer": {
+        "bytes": 1373890,
+        "sha256": "0be8fe4a62f79f643579a90a403e759cab449eefdbe7cf0f7fd6afa5f03bc771"
+      }
+    },
+    {
+      "path": "maxima.wasm",
+      "timed": {
+        "bytes": 23626720,
+        "sha256": "7e1fe0312636f27e99bba66badf022ecab98e57abfb306d8983441d6eb321b7a"
+      },
+      "runtimeV2SourceProducer": {
+        "bytes": 23626720,
+        "sha256": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511"
+      }
+    }
+  ],
+  "compilerProfileEqual": true,
+  "recipeEqual": false,
+  "upstreamPinsEqual": true,
+  "runtimeV2DirectlyTimed": false,
+  "runtimeV2ProducerRun": 40132538310,
+  "runtimeV2ProducerHead": "51fdadd606c668371f5d50d0b853ecafe47883fc",
+  "timedProducerRun": 40108653819,
+  "recipeFilesEqual": true,
+  "recipeRevisionEqual": false,
+  "sourceProducerAssetsOnly": true,
+  "releaseTarBytesOrRecordContentVerified": false,
+  "differentByteCausesKnown": false
+}

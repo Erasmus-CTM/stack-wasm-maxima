@@ -1,0 +1,187 @@
+{
+  "id": "17-ecl-oz-precompiled-cold",
+  "pair": 17,
+  "repetition": 3,
+  "profile": "ecl-oz",
+  "candidate": "precompiled",
+  "modes": [
+    "cold",
+    "warm-profile-reload"
+  ],
+  "mode": "cold",
+  "runId": "6b901061-cb38-4b5c-967e-764dde98065f",
+  "startedAt": "2026-10-25T00:01:54.028Z",
+  "ok": false,
+  "consoleCounts": {
+    "error:warning: unsupported syscall: __syscall_prlimit64\n": 1,
+    "error:warning: unsupported syscall: __syscall_getrusage\n": 16
+  },
+  "fatalConsoleCount": 0,
+  "fatalConsoleSamples": [],
+  "pageErrors": [],
+  "result": {
+    "phase": "initialization",
+    "ok": false,
+    "correctnessPassed": false,
+    "runId": "6b901061-cb38-4b5c-967e-764dde98065f",
+    "phases": [
+      {
+        "name": "initialization",
+        "startEpochMs": 1792886514088.465,
+        "completed": false,
+        "endEpochMs": 1792886529831.79,
+        "elapsedMs": 15743.324951171875
+      }
+    ],
+    "error": "Error: Benchmark startup guard: Fatal startup diagnostic",
+    "stack": "Error: Benchmark startup guard: Fatal startup diagnostic\n    at child.onmessage (http://127.0.0.1:39057/runtime/maxima-session.js:86:20)",
+    "failedSessionTerminated": true,
+    "startupGuard": {
+      "receiptCount": 1,
+      "parseErrors": [],
+      "receipt": {
+        "schema": 1,
+        "kind": "ctm-startup-stdout-guard",
+        "state": "loading",
+        "failed": true,
+        "emitted": true,
+        "completedLines": 25,
+        "stdoutCharacters": 898,
+        "beginCount": 1,
+        "endCount": 0,
+        "readyCount": 0,
+        "firstFatal": {
+          "reason": "Fatal startup diagnostic",
+          "line": "loadfile: failed to load /share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+          "lineNumber": 25
+        },
+        "passed": false,
+        "reason": "Fatal startup diagnostic",
+        "stdoutTail": "\nMaxima branch_5_49_base_90_g813903d33 https://maxima.sourceforge.io\nusing Lisp ECL 26.3.27\nDistributed under the GNU Public License. See the file COPYING.\nDedicated to the memory of William Schelter.\nThe function bug_report() provides bug reporting information.\n\n(%i1) \nNIL\n(%i1) \n(%i2) \n(%i3) \n(%i4) \nCTMSTACK-LOAD-BEGIN\n\n(%i5) \nWarning: stack_randseed has a function or macro call which has not been translated properly.\nThe function was totally undefined. Maybe you want to quote it.\nWarning: mminusbp134 has a function or macro call which has not been translated properly.\nThe function was totally undefined. Maybe you want to quote it.warning: encountered undefined variable %_ce_rem in translation.\ndefine: warning: redefining the built-in operator intervalp\n\nfundef: no such function: texnumformat\n\nloadfile: failed to load /share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp\n",
+        "stdoutTailTruncated": false,
+        "stderrScope": "Browser console retained separately; no stderr stream interposition",
+        "completionScope": "Existing LOAD-BEGIN/LOAD-END/READY markers; no same-evaluation root-return sentinel"
+      },
+      "passed": false
+    }
+  },
+  "termination": {
+    "type": "stopped",
+    "runId": "6b901061-cb38-4b5c-967e-764dde98065f",
+    "stopped": true,
+    "rejected": true,
+    "error": null,
+    "ok": true
+  },
+  "requests": [
+    {
+      "pathname": "/clean-timing.html",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "identity",
+      "encodedBodyBytes": 84,
+      "decodedFileBytes": 84,
+      "sha256": "d7ea306b9e58985ac240bd5eaf29881d922f6a47bfcb566e007f1925abcac4af"
+    },
+    {
+      "pathname": "/clean-probe-worker.js",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 3526,
+      "decodedFileBytes": 9899,
+      "sha256": "c519a7b6cdda56b97186bcfa6600813050ad30fa5c770620cb3f6a8686ae191c"
+    },
+    {
+      "pathname": "/runtime/maxima-session.js",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 4094,
+      "decodedFileBytes": 14344,
+      "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+    },
+    {
+      "pathname": "/stack-sources-precompiled.json",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 225061,
+      "decodedFileBytes": 989242,
+      "sha256": "432a745dcc66b1f4e0593704b79c444813b9105d38ec77003d63bd11802f696f"
+    },
+    {
+      "pathname": "/runtime/maxima-child.js",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 4724,
+      "decodedFileBytes": 14744,
+      "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+    },
+    {
+      "pathname": "/maxima-runtime/runtime-preload.json",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 830939,
+      "decodedFileBytes": 3470156,
+      "sha256": "6f39b23c5e2944aceeb5496f9f4cb34d881dcc598516e1c1e72d08ff197f2f2e"
+    },
+    {
+      "pathname": "/maxima-runtime/stackmaxima.fas",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 508957,
+      "decodedFileBytes": 2626498,
+      "sha256": "70123f857618d68d92896a541ae602fd0ed7f0bde0d1bff7ba1d630c0540df31"
+    },
+    {
+      "pathname": "/maxima-runtime/maxima_thread.js",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 874,
+      "decodedFileBytes": 3229,
+      "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db"
+    },
+    {
+      "pathname": "/maxima-runtime/maxima.js",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 236381,
+      "decodedFileBytes": 1239434,
+      "sha256": "385763ca1038fac02e8f7d247a8d808997238b03ba1919ce2f4dcec482fdb101"
+    },
+    {
+      "pathname": "/maxima-runtime/share_files.js",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 27843,
+      "decodedFileBytes": 528107,
+      "sha256": "e07cdd6ef8eac3ee63869a1f9c0e5cb3ec30f7f538f3dadd764e248e404a6057"
+    },
+    {
+      "pathname": "/maxima-runtime/maxima.wasm",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 5165309,
+      "decodedFileBytes": 23626720,
+      "sha256": "7e1fe0312636f27e99bba66badf022ecab98e57abfb306d8983441d6eb321b7a"
+    },
+    {
+      "pathname": "/maxima-runtime/libecl.so",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "gzip",
+      "encodedBodyBytes": 1542310,
+      "decodedFileBytes": 5282281,
+      "sha256": "b117bcb06f8a3d828bb7d14ad09d9b9877a24918ec117346c0aa8ad88641c479"
+    }
+  ],
+  "finishedAt": "2026-10-25T00:02:09.837Z"
+}

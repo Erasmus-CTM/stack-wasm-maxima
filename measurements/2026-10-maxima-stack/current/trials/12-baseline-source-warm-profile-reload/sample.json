@@ -1,0 +1,914 @@
+{
+  "id": "12-baseline-source-warm-profile-reload",
+  "pair": 12,
+  "repetition": 2,
+  "profile": "baseline",
+  "candidate": "source",
+  "modes": [
+    "cold",
+    "warm-profile-reload"
+  ],
+  "mode": "warm-profile-reload",
+  "precedingCold": {
+    "id": "12-baseline-source-cold",
+    "passed": true,
+    "terminationAcknowledged": true
+  },
+  "runId": "bfede934-9dd2-4003-82c8-f5882db84e32",
+  "startedAt": "2026-10-25T00:44:34.065Z",
+  "ok": true,
+  "consoleCounts": {
+    "error:warning: unsupported syscall: __syscall_prlimit64\n": 1,
+    "error:warning: unsupported syscall: __syscall_getrusage\n": 313,
+    "log:LazyFiles on gzip forces download of the whole file when length is accessed": 1
+  },
+  "fatalConsoleCount": 0,
+  "fatalConsoleSamples": [],
+  "pageErrors": [],
+  "result": {
+    "phase": "complete",
+    "ok": true,
+    "correctnessPassed": true,
+    "runId": "bfede934-9dd2-4003-82c8-f5882db84e32",
+    "phases": [
+      {
+        "name": "initialization",
+        "startEpochMs": 1792889074087.925,
+        "completed": true,
+        "endEpochMs": 1792889111627.86,
+        "elapsedMs": 37539.93505859375
+      },
+      {
+        "name": "first-call-logical-validation",
+        "startEpochMs": 1792889111628.0552,
+        "completed": true,
+        "endEpochMs": 1792889114538.8152,
+        "elapsedMs": 2910.760009765625
+      },
+      {
+        "name": "first-positive-grade",
+        "startEpochMs": 1792889114538.96,
+        "completed": true,
+        "endEpochMs": 1792889117035.225,
+        "elapsedMs": 2496.26513671875
+      },
+      {
+        "name": "first-negative-grade",
+        "startEpochMs": 1792889117035.2852,
+        "completed": true,
+        "endEpochMs": 1792889117069.495,
+        "elapsedMs": 34.2099609375
+      },
+      {
+        "name": "warm-grade-0",
+        "startEpochMs": 1792889117069.56,
+        "completed": true,
+        "endEpochMs": 1792889117169.06,
+        "elapsedMs": 99.5
+      },
+      {
+        "name": "warm-grade-1",
+        "startEpochMs": 1792889117169.145,
+        "completed": true,
+        "endEpochMs": 1792889117203.6602,
+        "elapsedMs": 34.51513671875
+      },
+      {
+        "name": "warm-grade-2",
+        "startEpochMs": 1792889117203.705,
+        "completed": true,
+        "endEpochMs": 1792889117302.8,
+        "elapsedMs": 99.094970703125
+      },
+      {
+        "name": "warm-grade-3",
+        "startEpochMs": 1792889117302.875,
+        "completed": true,
+        "endEpochMs": 1792889117339.365,
+        "elapsedMs": 36.489990234375
+      },
+      {
+        "name": "warm-grade-4",
+        "startEpochMs": 1792889117339.435,
+        "completed": true,
+        "endEpochMs": 1792889117437.09,
+        "elapsedMs": 97.655029296875
+      },
+      {
+        "name": "warm-grade-5",
+        "startEpochMs": 1792889117437.1802,
+        "completed": true,
+        "endEpochMs": 1792889117471.465,
+        "elapsedMs": 34.284912109375
+      },
+      {
+        "name": "warm-grade-6",
+        "startEpochMs": 1792889117471.5352,
+        "completed": true,
+        "endEpochMs": 1792889117568.86,
+        "elapsedMs": 97.324951171875
+      },
+      {
+        "name": "warm-grade-7",
+        "startEpochMs": 1792889117568.9402,
+        "completed": true,
+        "endEpochMs": 1792889117604.2002,
+        "elapsedMs": 35.260009765625
+      },
+      {
+        "name": "warm-grade-8",
+        "startEpochMs": 1792889117604.26,
+        "completed": true,
+        "endEpochMs": 1792889117766.3901,
+        "elapsedMs": 162.130126953125
+      },
+      {
+        "name": "warm-grade-9",
+        "startEpochMs": 1792889117766.5051,
+        "completed": true,
+        "endEpochMs": 1792889117800.2952,
+        "elapsedMs": 33.7900390625
+      },
+      {
+        "name": "warm-arithmetic-0",
+        "startEpochMs": 1792889117800.3801,
+        "completed": true,
+        "endEpochMs": 1792889117808.82,
+        "elapsedMs": 8.43994140625
+      },
+      {
+        "name": "warm-arithmetic-1",
+        "startEpochMs": 1792889117808.885,
+        "completed": true,
+        "endEpochMs": 1792889117819.2852,
+        "elapsedMs": 10.400146484375
+      },
+      {
+        "name": "warm-arithmetic-2",
+        "startEpochMs": 1792889117819.34,
+        "completed": true,
+        "endEpochMs": 1792889117828.0352,
+        "elapsedMs": 8.695068359375
+      },
+      {
+        "name": "warm-arithmetic-3",
+        "startEpochMs": 1792889117828.085,
+        "completed": true,
+        "endEpochMs": 1792889117837.9202,
+        "elapsedMs": 9.835205078125
+      },
+      {
+        "name": "warm-arithmetic-4",
+        "startEpochMs": 1792889117837.97,
+        "completed": true,
+        "endEpochMs": 1792889117846.99,
+        "elapsedMs": 9.02001953125
+      },
+      {
+        "name": "warm-arithmetic-5",
+        "startEpochMs": 1792889117847.04,
+        "completed": true,
+        "endEpochMs": 1792889117855.59,
+        "elapsedMs": 8.550048828125
+      },
+      {
+        "name": "warm-arithmetic-6",
+        "startEpochMs": 1792889117855.6501,
+        "completed": true,
+        "endEpochMs": 1792889117865.62,
+        "elapsedMs": 9.969970703125
+      },
+      {
+        "name": "warm-arithmetic-7",
+        "startEpochMs": 1792889117865.6902,
+        "completed": true,
+        "endEpochMs": 1792889117874.7751,
+        "elapsedMs": 9.0849609375
+      },
+      {
+        "name": "warm-arithmetic-8",
+        "startEpochMs": 1792889117874.83,
+        "completed": true,
+        "endEpochMs": 1792889117883.6501,
+        "elapsedMs": 8.820068359375
+      },
+      {
+        "name": "warm-arithmetic-9",
+        "startEpochMs": 1792889117883.705,
+        "completed": true,
+        "endEpochMs": 1792889117892.435,
+        "elapsedMs": 8.72998046875
+      },
+      {
+        "name": "noun-isolation",
+        "startEpochMs": 1792889117892.485,
+        "completed": true,
+        "endEpochMs": 1792889117975.33,
+        "elapsedMs": 82.844970703125
+      },
+      {
+        "name": "direct-noun-equivalence",
+        "startEpochMs": 1792889117975.395,
+        "completed": true,
+        "endEpochMs": 1792889117994.1702,
+        "elapsedMs": 18.775146484375
+      },
+      {
+        "name": "pm-structure",
+        "startEpochMs": 1792889117994.245,
+        "completed": true,
+        "endEpochMs": 1792889118014.705,
+        "elapsedMs": 20.4599609375
+      },
+      {
+        "name": "pm-replacement",
+        "startEpochMs": 1792889118014.8,
+        "completed": true,
+        "endEpochMs": 1792889118028.48,
+        "elapsedMs": 13.679931640625
+      },
+      {
+        "name": "pm-display",
+        "startEpochMs": 1792889118028.56,
+        "completed": true,
+        "endEpochMs": 1792889118050.23,
+        "elapsedMs": 21.669921875
+      },
+      {
+        "name": "pm-unary-rewrite",
+        "startEpochMs": 1792889118050.33,
+        "completed": true,
+        "endEpochMs": 1792889118060.23,
+        "elapsedMs": 9.89990234375
+      },
+      {
+        "name": "pm-positive",
+        "startEpochMs": 1792889118060.31,
+        "completed": true,
+        "endEpochMs": 1792889118675.365,
+        "elapsedMs": 615.054931640625
+      },
+      {
+        "name": "pm-negative",
+        "startEpochMs": 1792889118675.485,
+        "completed": true,
+        "endEpochMs": 1792889119388.4202,
+        "elapsedMs": 712.93505859375
+      },
+      {
+        "name": "number-display",
+        "startEpochMs": 1792889119388.5552,
+        "completed": true,
+        "endEpochMs": 1792889119399.84,
+        "elapsedMs": 11.284912109375
+      },
+      {
+        "name": "policy",
+        "startEpochMs": 1792889119399.935,
+        "completed": true,
+        "endEpochMs": 1792889119421.745,
+        "elapsedMs": 21.81005859375
+      },
+      {
+        "name": "native-prepare",
+        "startEpochMs": 1792889119421.845,
+        "completed": true,
+        "endEpochMs": 1792889119921.6602,
+        "elapsedMs": 499.815185546875
+      },
+      {
+        "name": "native-validate",
+        "startEpochMs": 1792889119921.8,
+        "completed": true,
+        "endEpochMs": 1792889120015.2952,
+        "elapsedMs": 93.4951171875
+      },
+      {
+        "name": "native-prt",
+        "startEpochMs": 1792889120015.405,
+        "completed": true,
+        "endEpochMs": 1792889120244.7952,
+        "elapsedMs": 229.39013671875
+      }
+    ],
+    "initialization": {
+      "elapsedMs": 37539.67500000005,
+      "maximaVersion": "branch_5_49_base_90_g813903d33",
+      "stages": {
+        "preloadMs": 249.67500000004657,
+        "preloadedFiles": 67,
+        "wasmReadyMs": 717.5800000000745,
+        "stackLoadStartedMs": 8269.245000000112,
+        "stackLoadEndedMs": 37516.41500000004,
+        "stackLoadMs": 29247.169999999925,
+        "readyMs": 37522.59499999997
+      },
+      "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+      "stackLibraryVersion": "2026101500"
+    },
+    "readyMs": 37539.92500000005,
+    "startupGuard": {
+      "receiptCount": 1,
+      "parseErrors": [],
+      "receipt": {
+        "schema": 1,
+        "kind": "ctm-startup-stdout-guard",
+        "state": "ready",
+        "failed": false,
+        "emitted": true,
+        "completedLines": 26,
+        "stdoutCharacters": 624,
+        "beginCount": 1,
+        "endCount": 1,
+        "readyCount": 1,
+        "firstFatal": null,
+        "passed": true,
+        "reason": null,
+        "stdoutTail": "\nMaxima branch_5_49_base_90_g813903d33 https://maxima.sourceforge.io\nusing Lisp ECL 26.3.27\nDistributed under the GNU Public License. See the file COPYING.\nDedicated to the memory of William Schelter.\nThe function bug_report() provides bug reporting information.\n\n(%i1) \nNIL\n(%i1) \n(%i2) \n(%i3) \n(%i4) \nCTMSTACK-LOAD-BEGIN\n\n(%i5) warning: encountered undefined variable %_ce_rem in translation.\ndefine: warning: redefining the built-in operator intervalp\ndefine: warning: redefining the built-in function texnumformat\n\n(%i1) \nCTMSTACK-LOAD-END\n\n(%i2) \n(%i3) \n(%i4) \nCTMMAXIMA-READY|2026101500|branch_5_49_base_90_g813903d33\n",
+        "stdoutTailTruncated": false,
+        "stderrScope": "Browser console retained separately; no stderr stream interposition",
+        "completionScope": "Existing LOAD-BEGIN/LOAD-END/READY markers; no same-evaluation root-return sentinel"
+      },
+      "passed": true
+    },
+    "freshSession": {
+      "newSessionHadNoChildOrBuffers": true,
+      "childPresent": true,
+      "buffersDistinct": true,
+      "bufferBytes": [
+        32,
+        2097152,
+        1048576
+      ],
+      "initialSequence": 0,
+      "initialNativeCalls": 0,
+      "initialRequest": 0,
+      "initialResponse": 0
+    },
+    "checks": [
+      {
+        "name": "first-call-logical-validation",
+        "result": [
+          true,
+          [],
+          1,
+          true
+        ],
+        "elapsedMs": 2910.760009765625
+      },
+      {
+        "name": "noun-isolation",
+        "result": [
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true
+        ],
+        "elapsedMs": 82.844970703125
+      },
+      {
+        "name": "direct-noun-equivalence",
+        "result": true,
+        "elapsedMs": 18.775146484375
+      },
+      {
+        "name": "pm-structure",
+        "result": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "elapsedMs": 20.4599609375
+      },
+      {
+        "name": "pm-replacement",
+        "result": [
+          true,
+          true
+        ],
+        "elapsedMs": 13.679931640625
+      },
+      {
+        "name": "pm-display",
+        "result": [
+          "{x \\pm y}",
+          " \\pm y"
+        ],
+        "elapsedMs": 21.669921875
+      },
+      {
+        "name": "pm-unary-rewrite",
+        "result": true,
+        "elapsedMs": 9.89990234375
+      },
+      {
+        "name": "pm-positive",
+        "result": [
+          true,
+          true
+        ],
+        "elapsedMs": 615.054931640625
+      },
+      {
+        "name": "pm-negative",
+        "result": [
+          true,
+          false
+        ],
+        "elapsedMs": 712.93505859375
+      },
+      {
+        "name": "number-display",
+        "result": "42",
+        "elapsedMs": 11.284912109375
+      }
+    ],
+    "firstPositiveGrade": {
+      "positive": true,
+      "result": {
+        "cas_valid": true,
+        "correct": true,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 2495.6400000001304
+      },
+      "elapsedMs": 2496.26513671875
+    },
+    "firstNegativeGrade": {
+      "positive": false,
+      "result": {
+        "cas_valid": true,
+        "correct": false,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 34.15999999991618
+      },
+      "elapsedMs": 34.2099609375
+    },
+    "warmGrades": [
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 99.42500000004657
+        },
+        "elapsedMs": 99.5
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 34.449999999953434
+        },
+        "elapsedMs": 34.51513671875
+      },
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 99.05000000004657
+        },
+        "elapsedMs": 99.094970703125
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 36.449999999953434
+        },
+        "elapsedMs": 36.489990234375
+      },
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 97.625
+        },
+        "elapsedMs": 97.655029296875
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 34.24500000011176
+        },
+        "elapsedMs": 34.284912109375
+      },
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 97.27000000001863
+        },
+        "elapsedMs": 97.324951171875
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 35.22999999998137
+        },
+        "elapsedMs": 35.260009765625
+      },
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 162.10499999998137
+        },
+        "elapsedMs": 162.130126953125
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 33.76000000000931
+        },
+        "elapsedMs": 33.7900390625
+      }
+    ],
+    "warmCalls": [
+      {
+        "value": 42,
+        "elapsedMs": 8.43994140625
+      },
+      {
+        "value": 42,
+        "elapsedMs": 10.400146484375
+      },
+      {
+        "value": 42,
+        "elapsedMs": 8.695068359375
+      },
+      {
+        "value": 42,
+        "elapsedMs": 9.835205078125
+      },
+      {
+        "value": 42,
+        "elapsedMs": 9.02001953125
+      },
+      {
+        "value": 42,
+        "elapsedMs": 8.550048828125
+      },
+      {
+        "value": 42,
+        "elapsedMs": 9.969970703125
+      },
+      {
+        "value": 42,
+        "elapsedMs": 9.0849609375
+      },
+      {
+        "value": 42,
+        "elapsedMs": 8.820068359375
+      },
+      {
+        "value": 42,
+        "elapsedMs": 8.72998046875
+      }
+    ],
+    "policy": [
+      "#pm#",
+      true,
+      true,
+      true,
+      false,
+      "~d",
+      "~a",
+      ".",
+      true,
+      true
+    ],
+    "nativeCalls": [
+      {
+        "operation": "prepare",
+        "result": {
+          "seed": 1,
+          "env": {
+            "n": "3",
+            "m": "6",
+            "ta": "(x+6)/(x+3)"
+          },
+          "teachers": {
+            "ans": {
+              "source": "(x+6)/(x+3)",
+              "latex": "\\frac{x+6}{x+3}",
+              "type": "scalar",
+              "shape": null
+            }
+          },
+          "tokenValues": {
+            "t0": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t1": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t2": {
+              "format": "latex",
+              "value": "6",
+              "string": false,
+              "wrap": false
+            },
+            "t3": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t4": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t5": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t6": {
+              "format": "latex",
+              "value": "\\frac{x+6}{x+3}",
+              "string": false,
+              "wrap": false
+            }
+          },
+          "qtests": [
+            {
+              "testcase": "1",
+              "answers": {
+                "ans": "(x+6)/(x+3)"
+              }
+            },
+            {
+              "testcase": "2",
+              "answers": {
+                "ans": "((x+3)*(x+6))/(x+3)^2"
+              }
+            },
+            {
+              "testcase": "3",
+              "answers": {
+                "ans": "(x+3)/(x+6)"
+              }
+            }
+          ]
+        },
+        "elapsedMs": 499.815185546875
+      },
+      {
+        "operation": "validate",
+        "result": {
+          "ans": {
+            "valid": true,
+            "latex": "\\frac{x+6}{x+3}",
+            "feedback": "",
+            "source": "(x+6)/(x+3)"
+          }
+        },
+        "elapsedMs": 93.4951171875
+      },
+      {
+        "operation": "prt",
+        "result": {
+          "kind": "done",
+          "score": 1,
+          "notes": [
+            "prt1-0-T"
+          ],
+          "feedback": [
+            {
+              "template": "<p>Correct on the stated domain.</p>",
+              "tokens": {}
+            }
+          ],
+          "path": [
+            {
+              "node": "0",
+              "branch": "true",
+              "note": "prt1-0-T"
+            }
+          ],
+          "events": [
+            {
+              "event": "native-at",
+              "prt": "prt1",
+              "node": "0",
+              "test": "AlgEquiv",
+              "cas_valid": true,
+              "correct": true,
+              "answerNote": "",
+              "nativeFeedback": ""
+            }
+          ]
+        },
+        "elapsedMs": 229.39013671875
+      }
+    ],
+    "smoke": {
+      "retained": 1000,
+      "gcCalls": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "caughtError": "CTM deliberate caught CAS error",
+      "afterError": 42,
+      "plotting": [
+        {
+          "expression": "plot2d(x,[x,0,1])",
+          "diagnostic": "CTM plotting unavailable; use JSXGraph.",
+          "afterError": 42
+        },
+        {
+          "expression": "plot(x,[x,0,1])",
+          "diagnostic": "CTM plotting unavailable; use JSXGraph.",
+          "afterError": 42
+        },
+        {
+          "expression": "get_plot_option(plot_format)",
+          "diagnostic": "CTM plotting unavailable; use JSXGraph.",
+          "afterError": 42
+        },
+        {
+          "expression": "gnuplot_close()",
+          "diagnostic": "CTM plotting unavailable; use JSXGraph.",
+          "afterError": 42
+        }
+      ]
+    }
+  },
+  "termination": {
+    "type": "stopped",
+    "runId": "bfede934-9dd2-4003-82c8-f5882db84e32",
+    "stopped": true,
+    "rejected": true,
+    "error": null,
+    "ok": true
+  },
+  "requests": [
+    {
+      "pathname": "/clean-timing.html",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "identity",
+      "encodedBodyBytes": 84,
+      "decodedFileBytes": 84,
+      "sha256": "d7ea306b9e58985ac240bd5eaf29881d922f6a47bfcb566e007f1925abcac4af"
+    }
+  ],
+  "finishedAt": "2026-10-25T00:45:50.125Z"
+}

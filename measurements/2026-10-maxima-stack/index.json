@@ -1,0 +1,355 @@
+{
+  "schema": 1,
+  "scope": "Accepted current guarded36 descriptive timing capture, plus explicitly separate prior failed and diagnostic evidence. No production/default change or general error-free runtime guarantee.",
+  "current": {
+    "run": 40146439788,
+    "workflow": 395505120,
+    "job": 121028680137,
+    "head": "041686594f674886551efd95e78b2e0af92bd657",
+    "tree": "cccf7bd2b2835b451b1a08561e2f1ced61bbf763",
+    "artifact": 12582275725,
+    "zipBytes": 71887669,
+    "zipSha256": "35fe76992f94eed2e97084c26c336ff59c11864c2627eefa268674be01e7d344",
+    "samples": 36,
+    "nPerProfileLoaderMode": 3,
+    "reviewSha256": "886504ea37fa5d8bbabc93efa29f78d5caf74f9d50ffb955bb45f843c77b2fd2",
+    "controls": {
+      "typed": 360,
+      "nativePrograms": 108,
+      "forcedGc": 3600,
+      "caughtErrorRecoveries": 36,
+      "plotNegativeRecoveries": 144
+    }
+  },
+  "timingScope": "Unthrottled same-runner guarded wall-time medians. CAS readiness and specified first calls, not end-to-end student UI latency. Combined value is the median of each trial sum. Reload uses fresh CAS within the same browser profile.",
+  "knownFailure": {
+    "status": "UNRESOLVED",
+    "run": 40143072180,
+    "artifact": 12580575852,
+    "case": "17-ecl-oz-precompiled-cold",
+    "passed": 35,
+    "attempted": 36,
+    "warningSnapshotRace": "Fixed in reporter04168659; did not fix draw failure.",
+    "followingReload": "Cache-qualified after unsuccessful cold initialization.",
+    "diagnostic": "Altered-ERRSET run40147171718 passed12 with zero conditions; non-reproduction is not a fix/cause proof; live-error callback path not exercised."
+  },
+  "runtimeV2": "Not directly timed. PR26 remains separate; compare source-producer identities only.",
+  "productionDefaultsChanged": false,
+  "files": [
+    {
+      "path": "timings.csv",
+      "bytes": 1926,
+      "sha256": "5bb5ca94e0c2ddcc26db098aa4ec1c0c725e94ff411fd50f16b48cfb764b08bf"
+    },
+    {
+      "path": "current/report.json",
+      "bytes": 97642,
+      "sha256": "f927fa3930cc35653a3801c3dc981820c5b92f4859174441c028d7c2c35ed928"
+    },
+    {
+      "path": "current/review.json",
+      "bytes": 13534,
+      "sha256": "886504ea37fa5d8bbabc93efa29f78d5caf74f9d50ffb955bb45f843c77b2fd2"
+    },
+    {
+      "path": "current/accepted-timings.json",
+      "bytes": 72583,
+      "sha256": "638d23faf2f274c3452919a79dbfbf7174c7f97ad110da3b2fa9ff30fdf9505e"
+    },
+    {
+      "path": "current/hardware.json",
+      "bytes": 366,
+      "sha256": "fdda18d39804e0368e91a02883d4a06c3d7d32f3c1aaf46c2b86c08c3e41a973"
+    },
+    {
+      "path": "current/bindings.json",
+      "bytes": 3653,
+      "sha256": "276a1b7cc6f409e81d606811b4fc3cac4006be351e5cd54184d0182ea3c92e48"
+    },
+    {
+      "path": "prior-failure/partial-timings.csv",
+      "bytes": 2074,
+      "sha256": "9fbc44088edde0f53079601f475e06fef3362604d3d8f37b05864e5908497256"
+    },
+    {
+      "path": "prior-failure/report.json",
+      "bytes": 78876,
+      "sha256": "dd87c8171dc1e63fe7cbf565758e6214ace08cb6ac18375e12e73d663367c659"
+    },
+    {
+      "path": "prior-failure/review.json",
+      "bytes": 12374,
+      "sha256": "2412053586e3e3b225fb60b1cd4cdea6f2f711b6b8e9b5b596ac8ebd7e377344"
+    },
+    {
+      "path": "prior-failure/sample.json",
+      "bytes": 6792,
+      "sha256": "7bc509d2d3f072df95086930fa79bbd811b068a261e9b07298b4d9a159a3d5d2"
+    },
+    {
+      "path": "prior-failure/incident.json",
+      "bytes": 3611,
+      "sha256": "e195878482e63132db59a9524bf7eefb088892c47d9c39a26f8c0ae2ea4b84cf"
+    },
+    {
+      "path": "condition-diagnostic/report.json",
+      "bytes": 43298,
+      "sha256": "f4ba8b90738a599849dd22d26d2a54bec3489e9e527908bef2367f498f633102"
+    },
+    {
+      "path": "condition-diagnostic/review.json",
+      "bytes": 14367,
+      "sha256": "39502a081830107a0720effefeaee24d45f710addd92995efb16c415a6024807"
+    },
+    {
+      "path": "filesystem-ab/timings.csv",
+      "bytes": 1308,
+      "sha256": "bdac38048147229fb8cfb99b9710a20257a2aacce5b017a75bd9f05fce9c7c52"
+    },
+    {
+      "path": "filesystem-ab/report.json",
+      "bytes": 74344,
+      "sha256": "80829168fbc6a2d013139ee885efb49d4c52b816d7b2ac1b48ff5b8c38e3564d"
+    },
+    {
+      "path": "filesystem-ab/review.json",
+      "bytes": 14586,
+      "sha256": "2bd2394fdf9101fa299c21a9d5e7d82bf2fc52558b3ee47789de6ad4e0107695"
+    },
+    {
+      "path": "profiling/oz-loads-by-phase.json",
+      "bytes": 33329,
+      "sha256": "0a31caa3c3da3e45613f121f01fcb74a63773940cb49328ed56629aecbe9cb95"
+    },
+    {
+      "path": "profiling/oz-phase-review.json",
+      "bytes": 8748,
+      "sha256": "93ae94c8a47c26f5714e4250c01eccc8d3fa60eb04db06d78ff076a7f7581c6e"
+    },
+    {
+      "path": "profiling/baseline-loads-by-phase.json",
+      "bytes": 34133,
+      "sha256": "b2118fbd836bebf5056c74339b7c858390f79fbe048c12f6e29fc09210e335c7"
+    },
+    {
+      "path": "profiling/baseline-phase-review.json",
+      "bytes": 7795,
+      "sha256": "c5e702144209c269cb13991a56a452de9c9c18b185655c4be6a268907c52ca3c"
+    },
+    {
+      "path": "profiling/oz-pilot-review.json",
+      "bytes": 29276,
+      "sha256": "d14b9a08e829e6a7d2ee6c909848f818646dddb789dfe521066334f8eff4c6c0"
+    },
+    {
+      "path": "profiling/baseline-pilot-review.json",
+      "bytes": 20442,
+      "sha256": "93126b6c40c446a6a37cc6fb09b0d343fe7b82ff0964d5f95321b9cb17dfc9a6"
+    },
+    {
+      "path": "runtime-v2/identity-comparison.json",
+      "bytes": 4228,
+      "sha256": "a511fc0d1a714c0e0e0659940936c8b0bc56bd8fdadf0780593fe6eb679c5386"
+    },
+    {
+      "path": "runtime-v2/identity-review.json",
+      "bytes": 10079,
+      "sha256": "16440574eb0dcbec3bb4406b33f909b92833a84fe5ce08fa57848008ba7b076c"
+    },
+    {
+      "path": "source-reviews/maxima-oz-compiler-bundle.json",
+      "bytes": 23065,
+      "sha256": "5c3151393e107aaebd927ee5b43e14ddc7c044fc9fe4427e4069019653426bd1"
+    },
+    {
+      "path": "source-reviews/maxima-oz-native.json",
+      "bytes": 13337,
+      "sha256": "89ab99ac793b3796852b1fea19d2c9decfe6dbc22ac6db39cae52c30257e984b"
+    },
+    {
+      "path": "source-reviews/maxima-oz-controller-graphics.json",
+      "bytes": 12329,
+      "sha256": "642b021c5f9b481cd3dbc62d2548b727046c9fc020aa51f0401d01435e75df01"
+    },
+    {
+      "path": "current/trials/01-baseline-source-cold/sample.json",
+      "bytes": 25947,
+      "sha256": "f287c7bffb7aea2ddf117a1a9d208a813a9f1b7e821206391c02bc1b1a748aad"
+    },
+    {
+      "path": "current/trials/01-baseline-source-warm-profile-reload/sample.json",
+      "bytes": 22576,
+      "sha256": "fc4937944a4ccad724490d5b3fe36174651717506c3ab0e40faf34562236dd51"
+    },
+    {
+      "path": "current/trials/02-baseline-precompiled-cold/sample.json",
+      "bytes": 26850,
+      "sha256": "84aef2a8993a6d20beffec631185b935c37a326abe4b22afacc72af17af9376e"
+    },
+    {
+      "path": "current/trials/02-baseline-precompiled-warm-profile-reload/sample.json",
+      "bytes": 23187,
+      "sha256": "bf9f6b588afeea1a66863cfffdd784c5ba48ae26f126c6aab7a3e9ec03607940"
+    },
+    {
+      "path": "current/trials/03-ecl-oz-precompiled-cold/sample.json",
+      "bytes": 26836,
+      "sha256": "b1b511601df4f14bab57b9c4e05df9b1f2c1ca2b4e3672e0a6591bae4f7e395d"
+    },
+    {
+      "path": "current/trials/03-ecl-oz-precompiled-warm-profile-reload/sample.json",
+      "bytes": 23182,
+      "sha256": "c1cc90ef69b4bf941a2498f430ca10108ddeb419d18139a5e9c4ef5caeb7a2f0"
+    },
+    {
+      "path": "current/trials/04-ecl-oz-source-cold/sample.json",
+      "bytes": 25983,
+      "sha256": "f653c45448c46528f0d25bec843f89ad02b8d7cf53f689e645a0d5a2184cb5f8"
+    },
+    {
+      "path": "current/trials/04-ecl-oz-source-warm-profile-reload/sample.json",
+      "bytes": 22580,
+      "sha256": "89f8620915575238a3d3f03e10bd58a21d019d39cbe36e45d21dee9a749146d3"
+    },
+    {
+      "path": "current/trials/05-ecl-oz-maxima-oz-source-cold/sample.json",
+      "bytes": 25821,
+      "sha256": "a8fc6c7ada585b07d5ca5794a50e2dfdf078b77ac52a981d7441b96287f8c99d"
+    },
+    {
+      "path": "current/trials/05-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+      "bytes": 22496,
+      "sha256": "7241f90f88c5490153b82df40fd82ad314048efaf6249b2220fa44631262e345"
+    },
+    {
+      "path": "current/trials/06-ecl-oz-maxima-oz-precompiled-cold/sample.json",
+      "bytes": 26696,
+      "sha256": "4977e7cd33d96bb24fcf1bfcccb2923a2db05b8d3ab16aae49196bae70a9642b"
+    },
+    {
+      "path": "current/trials/06-ecl-oz-maxima-oz-precompiled-warm-profile-reload/sample.json",
+      "bytes": 23078,
+      "sha256": "8502eabb290546faefe7a0cbdaead7dbc07e23ed406c1213e40fbcec63557e9d"
+    },
+    {
+      "path": "current/trials/07-ecl-oz-source-cold/sample.json",
+      "bytes": 25939,
+      "sha256": "894a204cbae6d6cc815db2a04f692817bbb06abad6b2bdddf67042b9f247a966"
+    },
+    {
+      "path": "current/trials/07-ecl-oz-source-warm-profile-reload/sample.json",
+      "bytes": 22563,
+      "sha256": "1dbffdff52ab0c8a9ba6fc818277bae76e46a3ac7085977c1fc79055f10a4af8"
+    },
+    {
+      "path": "current/trials/08-ecl-oz-precompiled-cold/sample.json",
+      "bytes": 26827,
+      "sha256": "ac9f62436fa908799c0615501952734b9f5cb7b2a43a8a3dd993990ca3ca181d"
+    },
+    {
+      "path": "current/trials/08-ecl-oz-precompiled-warm-profile-reload/sample.json",
+      "bytes": 23185,
+      "sha256": "e42219ef92fc30d7ba3d0fe4a0ef178dfa825f7db94da060d07d12b6e187b0e6"
+    },
+    {
+      "path": "current/trials/09-ecl-oz-maxima-oz-precompiled-cold/sample.json",
+      "bytes": 26701,
+      "sha256": "851aabaf0a6ab92bd35262c37d32e5541653343748dab168de3f073536f01dca"
+    },
+    {
+      "path": "current/trials/09-ecl-oz-maxima-oz-precompiled-warm-profile-reload/sample.json",
+      "bytes": 23116,
+      "sha256": "59c7615c2dbdb3ddb4633fa24868bd5b63a6fac935c9c480020e3df581744ce8"
+    },
+    {
+      "path": "current/trials/10-ecl-oz-maxima-oz-source-cold/sample.json",
+      "bytes": 25787,
+      "sha256": "2013f66efb9b78cbec9a370b168d1639a5c840cae94691485c3703bd12936a70"
+    },
+    {
+      "path": "current/trials/10-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+      "bytes": 22486,
+      "sha256": "f62d68a718a91dfc78a7de4833efeeb4b687df5c6038e182fb20a550fed9df08"
+    },
+    {
+      "path": "current/trials/11-baseline-precompiled-cold/sample.json",
+      "bytes": 26884,
+      "sha256": "3da334f1c86a717062857e9ddc9e376d794afe191d8d8039f071930f82309c6a"
+    },
+    {
+      "path": "current/trials/11-baseline-precompiled-warm-profile-reload/sample.json",
+      "bytes": 23276,
+      "sha256": "7bf64214d3ee17ba9840f134c476e2a5cf7d522f80456cd63d99eccb9b3d5934"
+    },
+    {
+      "path": "current/trials/12-baseline-source-cold/sample.json",
+      "bytes": 25991,
+      "sha256": "eb2a4740f28cc8084158b194f76e4be42c58fe6a9b985c48d3e03684184d11c0"
+    },
+    {
+      "path": "current/trials/12-baseline-source-warm-profile-reload/sample.json",
+      "bytes": 22611,
+      "sha256": "ceb7c4d0ac88238a415400e2143eaa599563fd7dd96e50c1fa66316f4da7f4b9"
+    },
+    {
+      "path": "current/trials/13-ecl-oz-maxima-oz-source-cold/sample.json",
+      "bytes": 25833,
+      "sha256": "5b8531df297ad5f81eeba7cbfa4f339563c91cb73a4fb0dad57d5ee3be6e4b61"
+    },
+    {
+      "path": "current/trials/13-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+      "bytes": 22448,
+      "sha256": "7897fe948c5447408cdf9597f2ae93598e419eeaf554eb8468ee3a5c38cf04a0"
+    },
+    {
+      "path": "current/trials/14-ecl-oz-maxima-oz-precompiled-cold/sample.json",
+      "bytes": 26779,
+      "sha256": "1cdbfb8e5c9317b2a1d26f322be6ecb1249bf9d408ba8d835e08cc1595b37e60"
+    },
+    {
+      "path": "current/trials/14-ecl-oz-maxima-oz-precompiled-warm-profile-reload/sample.json",
+      "bytes": 23135,
+      "sha256": "cc1a139ea51bc89cee0709a2a83be2596d5e026601c654f35dc5286d53d4ff3a"
+    },
+    {
+      "path": "current/trials/15-baseline-source-cold/sample.json",
+      "bytes": 25951,
+      "sha256": "03b713a8b0b290a5ac33698fd9fafde118134ef4e6a69e7d6644155ae455dd2e"
+    },
+    {
+      "path": "current/trials/15-baseline-source-warm-profile-reload/sample.json",
+      "bytes": 22604,
+      "sha256": "e379c22295622c2b8763e4038a5a5440b3db58e6c398f1bfee3b3f2bf5a33af8"
+    },
+    {
+      "path": "current/trials/16-baseline-precompiled-cold/sample.json",
+      "bytes": 26889,
+      "sha256": "b42f1501068695029d4b6dff1e373e3b44464660df6ab0794581b505cd1fc1ec"
+    },
+    {
+      "path": "current/trials/16-baseline-precompiled-warm-profile-reload/sample.json",
+      "bytes": 23212,
+      "sha256": "8fe57dfb84dc596af87b64696688a98f94b349f39f6736425272f1c60af40d63"
+    },
+    {
+      "path": "current/trials/17-ecl-oz-precompiled-cold/sample.json",
+      "bytes": 26834,
+      "sha256": "461cec72f56b621ac116bbdca233026636a7553b59c71285e7851c761a76a63e"
+    },
+    {
+      "path": "current/trials/17-ecl-oz-precompiled-warm-profile-reload/sample.json",
+      "bytes": 23200,
+      "sha256": "b8ef052da2e5ceeb1dd810bfaafe37fcce2c519942ecebbbd52be51d1f2893ac"
+    },
+    {
+      "path": "current/trials/18-ecl-oz-source-cold/sample.json",
+      "bytes": 25959,
+      "sha256": "887442c9c5c8f98b614afc062eb73bf080fec5de8da2266dfb2ab899fb2e059d"
+    },
+    {
+      "path": "current/trials/18-ecl-oz-source-warm-profile-reload/sample.json",
+      "bytes": 22559,
+      "sha256": "7aa36c5adbcd176ad25e41eb24d95d8710a9f44eb3eb1aa4da2eac9511aa202d"
+    }
+  ]
+}

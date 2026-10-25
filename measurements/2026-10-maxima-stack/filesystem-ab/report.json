@@ -1,0 +1,2220 @@
+{
+  "schema": 1,
+  "diagnosticOnly": true,
+  "acceptance": false,
+  "passed": true,
+  "startedAt": "2026-10-24T23:14:11.439Z",
+  "runtimeProfile": "ecl-oz",
+  "repetitions": 3,
+  "plan": [
+    {
+      "pair": 1,
+      "repetition": 1,
+      "arm": "control",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 2,
+      "repetition": 1,
+      "arm": "control",
+      "candidate": "precompiled",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 3,
+      "repetition": 1,
+      "arm": "errno-stack-suppressed",
+      "candidate": "precompiled",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 4,
+      "repetition": 1,
+      "arm": "errno-stack-suppressed",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 5,
+      "repetition": 2,
+      "arm": "errno-stack-suppressed",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 6,
+      "repetition": 2,
+      "arm": "errno-stack-suppressed",
+      "candidate": "precompiled",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 7,
+      "repetition": 2,
+      "arm": "control",
+      "candidate": "precompiled",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 8,
+      "repetition": 2,
+      "arm": "control",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 9,
+      "repetition": 3,
+      "arm": "control",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 10,
+      "repetition": 3,
+      "arm": "control",
+      "candidate": "precompiled",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 11,
+      "repetition": 3,
+      "arm": "errno-stack-suppressed",
+      "candidate": "precompiled",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 12,
+      "repetition": 3,
+      "arm": "errno-stack-suppressed",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    }
+  ],
+  "plannedMeasurements": 24,
+  "watchdogMs": 300000,
+  "staging": {
+    "control": {
+      "arm": "control",
+      "kind": "accepted-original-runtime-with-observer",
+      "source": {
+        "runId": 40108653819,
+        "runAttempt": 1,
+        "workflowId": 394101239,
+        "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+        "testedRevision": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+        "trustedRevision": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+        "tree": "0e543f936a385548a7ffd53d68930bd88c033922",
+        "recipeFiles": 71,
+        "jobs": [
+          {
+            "id": 120915544152,
+            "name": "bundle-probe (ecl-oz)"
+          },
+          {
+            "id": 120915544199,
+            "name": "bundle-probe (baseline)"
+          }
+        ]
+      },
+      "artifact": {
+        "id": 12568085269,
+        "node_id": "MDg6QXJ0aWZhY3QxMjU2ODA4NTI2OQ==",
+        "name": "precompiled-stack-probe-ecl-oz-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+        "size_in_bytes": 213921626,
+        "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12568085269",
+        "archive_download_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12568085269/zip",
+        "expired": false,
+        "digest": "sha256:890a9c1c6c96d915ada2c41bf85e8b3756132ea2f42d6c5d4c6d9a9357c6759d",
+        "created_at": "2026-10-24T16:55:52Z",
+        "updated_at": "2026-10-24T16:55:52Z",
+        "expires_at": "2027-01-22T15:48:29Z",
+        "workflow_run": {
+          "id": 40108653819,
+          "repository_id": 1428812079,
+          "head_repository_id": 1428812079,
+          "head_branch": "runtime/2026-10-precompiled-stack",
+          "head_sha": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31"
+        }
+      },
+      "originalPackageManifest": {
+        "bytes": 52520,
+        "sha256": "f7b1fc526776e585532d859d89cbdd0797a8290366b5b8970cb790a4cc4fd17c"
+      },
+      "runtimeManifest": {
+        "bytes": 52520,
+        "sha256": "f7b1fc526776e585532d859d89cbdd0797a8290366b5b8970cb790a4cc4fd17c"
+      },
+      "compilerProfile": {
+        "name": "ecl-oz",
+        "injectedEmccFlags": "-Oz",
+        "eclCoreOptimization": "-Oz",
+        "eclGeneratedLispOptimization": "-Oz",
+        "maximaGeneratedOptimization": "-O2"
+      },
+      "manifestFiles": {
+        "source": {
+          "path": "stack-sources-timed-source.json",
+          "bytes": 987388,
+          "sha256": "a215b6dc1f39cb831ad24c5bf4ec570ad3f7434d939b1dee28f88c05f13ebd59",
+          "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+          "stackLibraryVersion": "2026101500",
+          "compiledStack": null
+        },
+        "precompiled": {
+          "path": "stack-sources-precompiled.json",
+          "bytes": 989242,
+          "sha256": "432a745dcc66b1f4e0593704b79c444813b9105d38ec77003d63bd11802f696f",
+          "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+          "stackLibraryVersion": "2026101500",
+          "compiledStack": {
+            "schema": 1,
+            "mode": "entry-fas",
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "sourcePath": "stack/maxima/stackmaxima.mac",
+            "sourceSha256": "7dce85b0c4949944e1963e87b07310356ef93b93d99c1f318f1db1df3cc8d359",
+            "translatedLispSha256": "b79b5baebb2c0119d6f508308d6430a0e78bb8b604ef6ccbc54f41dcbf845a34",
+            "bundleProvenanceSha256": "b21d9318422a20a7dad7167bf2a56ed9fd8f834e865a64f6f86688e01d60db96",
+            "translationAdapter": {
+              "mode": "symbolic-assignment-hooks+packagefile+pinned-parser-declarations+targeted-texcolor-texcolorplain-nounor-apply-dispatch",
+              "path": "display2d-bridge.lisp",
+              "fileBytes": 761,
+              "sha256": "a35a207a820e61db53e1454719fa44c1ffcb81bcd8d653c1ce7c334cbd9f1479",
+              "processAdapter": {
+                "path": "assignment-adapter.lisp",
+                "fileBytes": 4525,
+                "sha256": "c7cfb8d6645d9d8cd0896b4f90781001a794ea927c6d8436cbf8db717427c695"
+              },
+              "parserBootstrap": {
+                "schema": 1,
+                "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+                "scope": "Translation-process parser declarations only; target dependency loads and upstream files are unchanged",
+                "source": {
+                  "path": "stack/maxima/assessment.mac",
+                  "bytes": 116032,
+                  "sha256": "d45f18db6bbb0b85fee9e2724276cfa1f92998f9d1db3c4115b5ab05835f9978",
+                  "start": 54055,
+                  "end": 54253
+                },
+                "file": {
+                  "path": "parser-declarations.mac",
+                  "bytes": 198,
+                  "sha256": "9b815714cb1c2c9720078412242d1ecf1b398a3772f2df2fc109734227738b9c"
+                }
+              },
+              "parserBootstrapMetadataSha256": "458e7e04888fcd24ae0b663d680835cb94e30737f79668a7051daaa2db43e6aa"
+            },
+            "originalLoaderSha256": "9f16f2addeaf1bf13a5364b86a9d6dc424dea94fb50deb9d640f79deb8cba7d9",
+            "overlayLoaderSha256": "0e0f3e76f73c3cdb383ecaeafbc2a7bf0586ac910d8e790f5652fd5625d570f8",
+            "asset": {
+              "path": "stackmaxima.fas",
+              "fileBytes": 2626498,
+              "sha256": "70123f857618d68d92896a541ae602fd0ed7f0bde0d1bff7ba1d630c0540df31"
+            }
+          }
+        }
+      },
+      "stagedFilesVerified": 87,
+      "runtimeAssetsVerified": 79,
+      "embeddedStackFilesPerManifest": 77,
+      "worker": {
+        "path": "clean-probe-worker.js",
+        "bytes": 11935,
+        "sha256": "0b54262568824dedb06bbf40b96f535736c6dce6d5003020ef79ead76ab9daca"
+      },
+      "acceptedUnchangedRuntimeAssets": true,
+      "diagnosticRuntimeAssetsModified": false,
+      "originalChildUnchanged": false,
+      "sharedStartupObserver": {
+        "original": {
+          "bytes": 12159,
+          "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+        },
+        "derived": {
+          "bytes": 14744,
+          "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+        },
+        "proof": {
+          "bytes": 1782,
+          "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+        }
+      }
+    },
+    "errno-stack-suppressed": {
+      "arm": "errno-stack-suppressed",
+      "kind": "derived-diagnostic-with-observer",
+      "source": {
+        "runId": 40108653819,
+        "runAttempt": 1,
+        "workflowId": 394101239,
+        "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+        "testedRevision": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+        "trustedRevision": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+        "tree": "0e543f936a385548a7ffd53d68930bd88c033922",
+        "recipeFiles": 71,
+        "jobs": [
+          {
+            "id": 120915544152,
+            "name": "bundle-probe (ecl-oz)"
+          },
+          {
+            "id": 120915544199,
+            "name": "bundle-probe (baseline)"
+          }
+        ]
+      },
+      "artifact": {
+        "id": 12568085269,
+        "node_id": "MDg6QXJ0aWZhY3QxMjU2ODA4NTI2OQ==",
+        "name": "precompiled-stack-probe-ecl-oz-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+        "size_in_bytes": 213921626,
+        "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12568085269",
+        "archive_download_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12568085269/zip",
+        "expired": false,
+        "digest": "sha256:890a9c1c6c96d915ada2c41bf85e8b3756132ea2f42d6c5d4c6d9a9357c6759d",
+        "created_at": "2026-10-24T16:55:52Z",
+        "updated_at": "2026-10-24T16:55:52Z",
+        "expires_at": "2027-01-22T15:48:29Z",
+        "workflow_run": {
+          "id": 40108653819,
+          "repository_id": 1428812079,
+          "head_repository_id": 1428812079,
+          "head_branch": "runtime/2026-10-precompiled-stack",
+          "head_sha": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31"
+        }
+      },
+      "originalPackageManifest": {
+        "bytes": 52520,
+        "sha256": "f7b1fc526776e585532d859d89cbdd0797a8290366b5b8970cb790a4cc4fd17c"
+      },
+      "runtimeManifest": {
+        "bytes": 33541,
+        "sha256": "5f49aebb6379ec4f73cee8f0b79886c420843f325a10b600aaadbb2461bb4776"
+      },
+      "compilerProfile": {
+        "name": "ecl-oz",
+        "injectedEmccFlags": "-Oz",
+        "eclCoreOptimization": "-Oz",
+        "eclGeneratedLispOptimization": "-Oz",
+        "maximaGeneratedOptimization": "-O2"
+      },
+      "manifestFiles": {
+        "source": {
+          "path": "stack-sources-timed-source.json",
+          "bytes": 1001531,
+          "sha256": "299852250dd99863233048103f2ab07e3c34995167f3e4db4e59dc8ae3bf5c03",
+          "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+          "stackLibraryVersion": "2026101500",
+          "compiledStack": null
+        },
+        "precompiled": {
+          "path": "stack-sources-precompiled.json",
+          "bytes": 1003687,
+          "sha256": "43c89f15a2d80b6b26462a70d0f5949497b787e6d6fe5dda4cc8edde9c1a0c92",
+          "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+          "stackLibraryVersion": "2026101500",
+          "compiledStack": {
+            "schema": 1,
+            "mode": "entry-fas",
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "sourcePath": "stack/maxima/stackmaxima.mac",
+            "sourceSha256": "7dce85b0c4949944e1963e87b07310356ef93b93d99c1f318f1db1df3cc8d359",
+            "translatedLispSha256": "b79b5baebb2c0119d6f508308d6430a0e78bb8b604ef6ccbc54f41dcbf845a34",
+            "bundleProvenanceSha256": "b21d9318422a20a7dad7167bf2a56ed9fd8f834e865a64f6f86688e01d60db96",
+            "translationAdapter": {
+              "mode": "symbolic-assignment-hooks+packagefile+pinned-parser-declarations+targeted-texcolor-texcolorplain-nounor-apply-dispatch",
+              "path": "display2d-bridge.lisp",
+              "fileBytes": 761,
+              "sha256": "a35a207a820e61db53e1454719fa44c1ffcb81bcd8d653c1ce7c334cbd9f1479",
+              "processAdapter": {
+                "path": "assignment-adapter.lisp",
+                "fileBytes": 4525,
+                "sha256": "c7cfb8d6645d9d8cd0896b4f90781001a794ea927c6d8436cbf8db717427c695"
+              },
+              "parserBootstrap": {
+                "schema": 1,
+                "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+                "scope": "Translation-process parser declarations only; target dependency loads and upstream files are unchanged",
+                "source": {
+                  "path": "stack/maxima/assessment.mac",
+                  "bytes": 116032,
+                  "sha256": "d45f18db6bbb0b85fee9e2724276cfa1f92998f9d1db3c4115b5ab05835f9978",
+                  "start": 54055,
+                  "end": 54253
+                },
+                "file": {
+                  "path": "parser-declarations.mac",
+                  "bytes": 198,
+                  "sha256": "9b815714cb1c2c9720078412242d1ecf1b398a3772f2df2fc109734227738b9c"
+                }
+              },
+              "parserBootstrapMetadataSha256": "458e7e04888fcd24ae0b663d680835cb94e30737f79668a7051daaa2db43e6aa"
+            },
+            "originalLoaderSha256": "9f16f2addeaf1bf13a5364b86a9d6dc424dea94fb50deb9d640f79deb8cba7d9",
+            "overlayLoaderSha256": "0e0f3e76f73c3cdb383ecaeafbc2a7bf0586ac910d8e790f5652fd5625d570f8",
+            "asset": {
+              "path": "stackmaxima.fas",
+              "fileBytes": 2626498,
+              "sha256": "70123f857618d68d92896a541ae602fd0ed7f0bde0d1bff7ba1d630c0540df31"
+            }
+          }
+        }
+      },
+      "stagedFilesVerified": 87,
+      "runtimeAssetsVerified": 79,
+      "embeddedStackFilesPerManifest": 77,
+      "worker": {
+        "path": "clean-probe-worker.js",
+        "bytes": 11935,
+        "sha256": "0b54262568824dedb06bbf40b96f535736c6dce6d5003020ef79ead76ab9daca"
+      },
+      "acceptedUnchangedRuntimeAssets": false,
+      "diagnosticRuntimeAssetsModified": true,
+      "originalChildUnchanged": false,
+      "sharedStartupObserver": {
+        "original": {
+          "bytes": 12159,
+          "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+        },
+        "derived": {
+          "bytes": 14744,
+          "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+        },
+        "proof": {
+          "bytes": 1782,
+          "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+        }
+      }
+    }
+  },
+  "samples": [
+    {
+      "id": "01-control-source-cold",
+      "arm": "control",
+      "candidate": "source",
+      "repetition": 1,
+      "mode": "cold",
+      "pair": 1,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/01-control-source-cold/sample.json",
+      "runId": "da1fdaf0-8083-4f9b-a20f-91445f007c51",
+      "timings": {
+        "readyMs": 12099.984999999986,
+        "stackLoadMs": 8491.130000000005,
+        "wasmReadyMs": 844.8449999999721,
+        "firstLogicalMs": 1180.800048828125,
+        "firstPositiveGradeMs": 1427.47021484375,
+        "firstNegativeGradeMs": 16.97998046875,
+        "warmGradeMedianMs": 28.4649658203125,
+        "warmArithmeticMedianMs": 3.842529296875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14708.255263671861
+      },
+      "experiment": {
+        "arm": "control",
+        "receiptCount": 0,
+        "parseErrors": [],
+        "receipt": null,
+        "comparisonEligible": true,
+        "status": "control-original-runtime"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "da1fdaf0-8083-4f9b-a20f-91445f007c51",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "01-control-source-warm-profile-reload",
+      "arm": "control",
+      "candidate": "source",
+      "repetition": 1,
+      "mode": "warm-profile-reload",
+      "pair": 1,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/01-control-source-warm-profile-reload/sample.json",
+      "runId": "fef2f4a0-1783-40fb-af96-4ea6c6ea7624",
+      "timings": {
+        "readyMs": 12308.299999999988,
+        "stackLoadMs": 8287.275000000023,
+        "wasmReadyMs": 442.4550000000163,
+        "firstLogicalMs": 1037.724853515625,
+        "firstPositiveGradeMs": 1449.050048828125,
+        "firstNegativeGradeMs": 16.330078125,
+        "warmGradeMedianMs": 28.8499755859375,
+        "warmArithmeticMedianMs": 3.9874267578125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14795.074902343738
+      },
+      "experiment": {
+        "arm": "control",
+        "receiptCount": 0,
+        "parseErrors": [],
+        "receipt": null,
+        "comparisonEligible": true,
+        "status": "control-original-runtime"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "fef2f4a0-1783-40fb-af96-4ea6c6ea7624",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "02-control-precompiled-cold",
+      "arm": "control",
+      "candidate": "precompiled",
+      "repetition": 1,
+      "mode": "cold",
+      "pair": 2,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/02-control-precompiled-cold/sample.json",
+      "runId": "7c73f8a1-7faf-4a86-bef9-f22d8f540ca6",
+      "timings": {
+        "readyMs": 13751.875,
+        "stackLoadMs": 9537.46000000008,
+        "wasmReadyMs": 876.4399999999441,
+        "firstLogicalMs": 1109.905029296875,
+        "firstPositiveGradeMs": 2890.52490234375,
+        "firstNegativeGradeMs": 14.775146484375,
+        "warmGradeMedianMs": 27.5325927734375,
+        "warmArithmeticMedianMs": 4.1448974609375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 17752.304931640625
+      },
+      "experiment": {
+        "arm": "control",
+        "receiptCount": 0,
+        "parseErrors": [],
+        "receipt": null,
+        "comparisonEligible": true,
+        "status": "control-original-runtime"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "7c73f8a1-7faf-4a86-bef9-f22d8f540ca6",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "02-control-precompiled-warm-profile-reload",
+      "arm": "control",
+      "candidate": "precompiled",
+      "repetition": 1,
+      "mode": "warm-profile-reload",
+      "pair": 2,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/02-control-precompiled-warm-profile-reload/sample.json",
+      "runId": "e633a69d-6547-4e7d-897a-b2637c55c94d",
+      "timings": {
+        "readyMs": 13018.93499999994,
+        "stackLoadMs": 9171.744999999995,
+        "wasmReadyMs": 456,
+        "firstLogicalMs": 1032.074951171875,
+        "firstPositiveGradeMs": 1380.179931640625,
+        "firstNegativeGradeMs": 15.2451171875,
+        "warmGradeMedianMs": 27.482421875,
+        "warmArithmeticMedianMs": 4.2225341796875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 15431.18988281244
+      },
+      "experiment": {
+        "arm": "control",
+        "receiptCount": 0,
+        "parseErrors": [],
+        "receipt": null,
+        "comparisonEligible": true,
+        "status": "control-original-runtime"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "e633a69d-6547-4e7d-897a-b2637c55c94d",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "03-errno-stack-suppressed-precompiled-cold",
+      "arm": "errno-stack-suppressed",
+      "candidate": "precompiled",
+      "repetition": 1,
+      "mode": "cold",
+      "pair": 3,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/03-errno-stack-suppressed-precompiled-cold/sample.json",
+      "runId": "194778f1-94c8-49f6-9907-21f81e5b9590",
+      "timings": {
+        "readyMs": 13798.715000000084,
+        "stackLoadMs": 9459.285000000033,
+        "wasmReadyMs": 898.8449999999721,
+        "firstLogicalMs": 1168.025146484375,
+        "firstPositiveGradeMs": 1421.719970703125,
+        "firstNegativeGradeMs": 15.449951171875,
+        "warmGradeMedianMs": 33.179931640625,
+        "warmArithmeticMedianMs": 4.429931640625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16388.460117187584
+      },
+      "experiment": {
+        "arm": "errno-stack-suppressed",
+        "receiptCount": 1,
+        "parseErrors": [],
+        "receipt": {
+          "schema": 1,
+          "kind": "ctm-errno-stack-capability",
+          "errno": 44,
+          "assignedErrno": 44,
+          "code": "ENOENT",
+          "supported": true,
+          "didSuppress": true,
+          "descriptorRestored": true,
+          "originalStackTraceLimit": 10,
+          "capability": {
+            "ownData": true,
+            "writable": true,
+            "finiteNumeric": true,
+            "messageIsString": true
+          },
+          "stack": {
+            "type": "string",
+            "lineCount": 1,
+            "frameCount": 0
+          },
+          "fallbackReason": null
+        },
+        "comparisonEligible": true,
+        "status": "applied"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "194778f1-94c8-49f6-9907-21f81e5b9590",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "03-errno-stack-suppressed-precompiled-warm-profile-reload",
+      "arm": "errno-stack-suppressed",
+      "candidate": "precompiled",
+      "repetition": 1,
+      "mode": "warm-profile-reload",
+      "pair": 3,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/03-errno-stack-suppressed-precompiled-warm-profile-reload/sample.json",
+      "runId": "81199676-8781-4694-97f9-ebc0137cdaa7",
+      "timings": {
+        "readyMs": 13736.119999999995,
+        "stackLoadMs": 9513.849999999977,
+        "wasmReadyMs": 533.8000000000466,
+        "firstLogicalMs": 1060.72509765625,
+        "firstPositiveGradeMs": 1404.320068359375,
+        "firstNegativeGradeMs": 15.005126953125,
+        "warmGradeMedianMs": 28.4674072265625,
+        "warmArithmeticMedianMs": 4.1573486328125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16201.16516601562
+      },
+      "experiment": {
+        "arm": "errno-stack-suppressed",
+        "receiptCount": 1,
+        "parseErrors": [],
+        "receipt": {
+          "schema": 1,
+          "kind": "ctm-errno-stack-capability",
+          "errno": 44,
+          "assignedErrno": 44,
+          "code": "ENOENT",
+          "supported": true,
+          "didSuppress": true,
+          "descriptorRestored": true,
+          "originalStackTraceLimit": 10,
+          "capability": {
+            "ownData": true,
+            "writable": true,
+            "finiteNumeric": true,
+            "messageIsString": true
+          },
+          "stack": {
+            "type": "string",
+            "lineCount": 1,
+            "frameCount": 0
+          },
+          "fallbackReason": null
+        },
+        "comparisonEligible": true,
+        "status": "applied"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "81199676-8781-4694-97f9-ebc0137cdaa7",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "04-errno-stack-suppressed-source-cold",
+      "arm": "errno-stack-suppressed",
+      "candidate": "source",
+      "repetition": 1,
+      "mode": "cold",
+      "pair": 4,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/04-errno-stack-suppressed-source-cold/sample.json",
+      "runId": "e5ed9efe-1995-45c7-9c73-125478500c34",
+      "timings": {
+        "readyMs": 12064.51000000001,
+        "stackLoadMs": 8453.380000000005,
+        "wasmReadyMs": 834.7249999999767,
+        "firstLogicalMs": 1106.739990234375,
+        "firstPositiveGradeMs": 1356.215087890625,
+        "firstNegativeGradeMs": 15.494873046875,
+        "warmGradeMedianMs": 29.092529296875,
+        "warmArithmeticMedianMs": 4.219970703125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14527.46507812501
+      },
+      "experiment": {
+        "arm": "errno-stack-suppressed",
+        "receiptCount": 1,
+        "parseErrors": [],
+        "receipt": {
+          "schema": 1,
+          "kind": "ctm-errno-stack-capability",
+          "errno": 44,
+          "assignedErrno": 44,
+          "code": "ENOENT",
+          "supported": true,
+          "didSuppress": true,
+          "descriptorRestored": true,
+          "originalStackTraceLimit": 10,
+          "capability": {
+            "ownData": true,
+            "writable": true,
+            "finiteNumeric": true,
+            "messageIsString": true
+          },
+          "stack": {
+            "type": "string",
+            "lineCount": 1,
+            "frameCount": 0
+          },
+          "fallbackReason": null
+        },
+        "comparisonEligible": true,
+        "status": "applied"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "e5ed9efe-1995-45c7-9c73-125478500c34",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "04-errno-stack-suppressed-source-warm-profile-reload",
+      "arm": "errno-stack-suppressed",
+      "candidate": "source",
+      "repetition": 1,
+      "mode": "warm-profile-reload",
+      "pair": 4,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/04-errno-stack-suppressed-source-warm-profile-reload/sample.json",
+      "runId": "8dda49e3-0619-4dff-9336-957f8c7ae5d5",
+      "timings": {
+        "readyMs": 11459.255000000005,
+        "stackLoadMs": 8108.135000000009,
+        "wasmReadyMs": 441.46000000007916,
+        "firstLogicalMs": 1021.43994140625,
+        "firstPositiveGradeMs": 1393.005126953125,
+        "firstNegativeGradeMs": 15.2451171875,
+        "warmGradeMedianMs": 27.5799560546875,
+        "warmArithmeticMedianMs": 3.9375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 13873.70006835938
+      },
+      "experiment": {
+        "arm": "errno-stack-suppressed",
+        "receiptCount": 1,
+        "parseErrors": [],
+        "receipt": {
+          "schema": 1,
+          "kind": "ctm-errno-stack-capability",
+          "errno": 44,
+          "assignedErrno": 44,
+          "code": "ENOENT",
+          "supported": true,
+          "didSuppress": true,
+          "descriptorRestored": true,
+          "originalStackTraceLimit": 10,
+          "capability": {
+            "ownData": true,
+            "writable": true,
+            "finiteNumeric": true,
+            "messageIsString": true
+          },
+          "stack": {
+            "type": "string",
+            "lineCount": 1,
+            "frameCount": 0
+          },
+          "fallbackReason": null
+        },
+        "comparisonEligible": true,
+        "status": "applied"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "8dda49e3-0619-4dff-9336-957f8c7ae5d5",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "05-errno-stack-suppressed-source-cold",
+      "arm": "errno-stack-suppressed",
+      "candidate": "source",
+      "repetition": 2,
+      "mode": "cold",
+      "pair": 5,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/05-errno-stack-suppressed-source-cold/sample.json",
+      "runId": "4ec022b2-f9d8-4b98-b994-d4e7b0cc926e",
+      "timings": {
+        "readyMs": 11814.530000000028,
+        "stackLoadMs": 8133.0449999999255,
+        "wasmReadyMs": 854.5849999999627,
+        "firstLogicalMs": 1071.655029296875,
+        "firstPositiveGradeMs": 1380.705078125,
+        "firstNegativeGradeMs": 14.72509765625,
+        "warmGradeMedianMs": 27.33740234375,
+        "warmArithmeticMedianMs": 4.0074462890625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14266.890107421903
+      },
+      "experiment": {
+        "arm": "errno-stack-suppressed",
+        "receiptCount": 1,
+        "parseErrors": [],
+        "receipt": {
+          "schema": 1,
+          "kind": "ctm-errno-stack-capability",
+          "errno": 44,
+          "assignedErrno": 44,
+          "code": "ENOENT",
+          "supported": true,
+          "didSuppress": true,
+          "descriptorRestored": true,
+          "originalStackTraceLimit": 10,
+          "capability": {
+            "ownData": true,
+            "writable": true,
+            "finiteNumeric": true,
+            "messageIsString": true
+          },
+          "stack": {
+            "type": "string",
+            "lineCount": 1,
+            "frameCount": 0
+          },
+          "fallbackReason": null
+        },
+        "comparisonEligible": true,
+        "status": "applied"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "4ec022b2-f9d8-4b98-b994-d4e7b0cc926e",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "05-errno-stack-suppressed-source-warm-profile-reload",
+      "arm": "errno-stack-suppressed",
+      "candidate": "source",
+      "repetition": 2,
+      "mode": "warm-profile-reload",
+      "pair": 5,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/05-errno-stack-suppressed-source-warm-profile-reload/sample.json",
+      "runId": "13794042-53a3-4947-a1bf-8282f8f1fdf0",
+      "timings": {
+        "readyMs": 11468.695000000065,
+        "stackLoadMs": 7597.310000000056,
+        "wasmReadyMs": 419.5999999999767,
+        "firstLogicalMs": 1040.02001953125,
+        "firstPositiveGradeMs": 1355.425048828125,
+        "firstNegativeGradeMs": 15.18505859375,
+        "warmGradeMedianMs": 27.6773681640625,
+        "warmArithmeticMedianMs": 4.2425537109375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 13864.14006835944
+      },
+      "experiment": {
+        "arm": "errno-stack-suppressed",
+        "receiptCount": 1,
+        "parseErrors": [],
+        "receipt": {
+          "schema": 1,
+          "kind": "ctm-errno-stack-capability",
+          "errno": 44,
+          "assignedErrno": 44,
+          "code": "ENOENT",
+          "supported": true,
+          "didSuppress": true,
+          "descriptorRestored": true,
+          "originalStackTraceLimit": 10,
+          "capability": {
+            "ownData": true,
+            "writable": true,
+            "finiteNumeric": true,
+            "messageIsString": true
+          },
+          "stack": {
+            "type": "string",
+            "lineCount": 1,
+            "frameCount": 0
+          },
+          "fallbackReason": null
+        },
+        "comparisonEligible": true,
+        "status": "applied"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "13794042-53a3-4947-a1bf-8282f8f1fdf0",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "06-errno-stack-suppressed-precompiled-cold",
+      "arm": "errno-stack-suppressed",
+      "candidate": "precompiled",
+      "repetition": 2,
+      "mode": "cold",
+      "pair": 6,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/06-errno-stack-suppressed-precompiled-cold/sample.json",
+      "runId": "47c29ae7-3a62-4b25-b120-b8f72a5edba0",
+      "timings": {
+        "readyMs": 12874.93499999994,
+        "stackLoadMs": 8780.75,
+        "wasmReadyMs": 836.5,
+        "firstLogicalMs": 1081.534912109375,
+        "firstPositiveGradeMs": 1301.56494140625,
+        "firstNegativeGradeMs": 14.835205078125,
+        "warmGradeMedianMs": 28.2200927734375,
+        "warmArithmeticMedianMs": 4.4324951171875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 15258.034853515564
+      },
+      "experiment": {
+        "arm": "errno-stack-suppressed",
+        "receiptCount": 1,
+        "parseErrors": [],
+        "receipt": {
+          "schema": 1,
+          "kind": "ctm-errno-stack-capability",
+          "errno": 44,
+          "assignedErrno": 44,
+          "code": "ENOENT",
+          "supported": true,
+          "didSuppress": true,
+          "descriptorRestored": true,
+          "originalStackTraceLimit": 10,
+          "capability": {
+            "ownData": true,
+            "writable": true,
+            "finiteNumeric": true,
+            "messageIsString": true
+          },
+          "stack": {
+            "type": "string",
+            "lineCount": 1,
+            "frameCount": 0
+          },
+          "fallbackReason": null
+        },
+        "comparisonEligible": true,
+        "status": "applied"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "47c29ae7-3a62-4b25-b120-b8f72a5edba0",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "06-errno-stack-suppressed-precompiled-warm-profile-reload",
+      "arm": "errno-stack-suppressed",
+      "candidate": "precompiled",
+      "repetition": 2,
+      "mode": "warm-profile-reload",
+      "pair": 6,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/06-errno-stack-suppressed-precompiled-warm-profile-reload/sample.json",
+      "runId": "7e8e072f-82ed-4169-acee-ed8a184b57d6",
+      "timings": {
+        "readyMs": 12370.169999999925,
+        "stackLoadMs": 8420.36499999999,
+        "wasmReadyMs": 435.0799999999581,
+        "firstLogicalMs": 943.695068359375,
+        "firstPositiveGradeMs": 1294.18994140625,
+        "firstNegativeGradeMs": 13.7998046875,
+        "warmGradeMedianMs": 25.159912109375,
+        "warmArithmeticMedianMs": 3.347412109375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14608.05500976555
+      },
+      "experiment": {
+        "arm": "errno-stack-suppressed",
+        "receiptCount": 1,
+        "parseErrors": [],
+        "receipt": {
+          "schema": 1,
+          "kind": "ctm-errno-stack-capability",
+          "errno": 44,
+          "assignedErrno": 44,
+          "code": "ENOENT",
+          "supported": true,
+          "didSuppress": true,
+          "descriptorRestored": true,
+          "originalStackTraceLimit": 10,
+          "capability": {
+            "ownData": true,
+            "writable": true,
+            "finiteNumeric": true,
+            "messageIsString": true
+          },
+          "stack": {
+            "type": "string",
+            "lineCount": 1,
+            "frameCount": 0
+          },
+          "fallbackReason": null
+        },
+        "comparisonEligible": true,
+        "status": "applied"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "7e8e072f-82ed-4169-acee-ed8a184b57d6",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "07-control-precompiled-cold",
+      "arm": "control",
+      "candidate": "precompiled",
+      "repetition": 2,
+      "mode": "cold",
+      "pair": 7,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/07-control-precompiled-cold/sample.json",
+      "runId": "fd9c974b-15ed-438c-8dba-80fd1ac90a20",
+      "timings": {
+        "readyMs": 11985.479999999981,
+        "stackLoadMs": 8500.214999999967,
+        "wasmReadyMs": 827.1750000000466,
+        "firstLogicalMs": 1021.844970703125,
+        "firstPositiveGradeMs": 1328.574951171875,
+        "firstNegativeGradeMs": 13.705078125,
+        "warmGradeMedianMs": 28.9249267578125,
+        "warmArithmeticMedianMs": 4.9600830078125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14335.899921874981
+      },
+      "experiment": {
+        "arm": "control",
+        "receiptCount": 0,
+        "parseErrors": [],
+        "receipt": null,
+        "comparisonEligible": true,
+        "status": "control-original-runtime"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "fd9c974b-15ed-438c-8dba-80fd1ac90a20",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "07-control-precompiled-warm-profile-reload",
+      "arm": "control",
+      "candidate": "precompiled",
+      "repetition": 2,
+      "mode": "warm-profile-reload",
+      "pair": 7,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/07-control-precompiled-warm-profile-reload/sample.json",
+      "runId": "dfb45995-0980-4c04-af2e-887d0c4b9fef",
+      "timings": {
+        "readyMs": 11990.494999999995,
+        "stackLoadMs": 8569.464999999967,
+        "wasmReadyMs": 443.20000000006985,
+        "firstLogicalMs": 961.409912109375,
+        "firstPositiveGradeMs": 1313.05517578125,
+        "firstNegativeGradeMs": 13.2099609375,
+        "warmGradeMedianMs": 24.3350830078125,
+        "warmArithmeticMedianMs": 3.405029296875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14264.96008789062
+      },
+      "experiment": {
+        "arm": "control",
+        "receiptCount": 0,
+        "parseErrors": [],
+        "receipt": null,
+        "comparisonEligible": true,
+        "status": "control-original-runtime"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "dfb45995-0980-4c04-af2e-887d0c4b9fef",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "08-control-source-cold",
+      "arm": "control",
+      "candidate": "source",
+      "repetition": 2,
+      "mode": "cold",
+      "pair": 8,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/08-control-source-cold/sample.json",
+      "runId": "4e3bb768-2f9e-4fab-b2ba-255cdc9d31a5",
+      "timings": {
+        "readyMs": 11573.265000000014,
+        "stackLoadMs": 7727.844999999972,
+        "wasmReadyMs": 795.5149999998976,
+        "firstLogicalMs": 1086.1298828125,
+        "firstPositiveGradeMs": 1384.255126953125,
+        "firstNegativeGradeMs": 14.080078125,
+        "warmGradeMedianMs": 26.8323974609375,
+        "warmArithmeticMedianMs": 3.695068359375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14043.650009765639
+      },
+      "experiment": {
+        "arm": "control",
+        "receiptCount": 0,
+        "parseErrors": [],
+        "receipt": null,
+        "comparisonEligible": true,
+        "status": "control-original-runtime"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "4e3bb768-2f9e-4fab-b2ba-255cdc9d31a5",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "08-control-source-warm-profile-reload",
+      "arm": "control",
+      "candidate": "source",
+      "repetition": 2,
+      "mode": "warm-profile-reload",
+      "pair": 8,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/08-control-source-warm-profile-reload/sample.json",
+      "runId": "162c1d8c-e10b-476c-b1b2-3aabfcd5f4f5",
+      "timings": {
+        "readyMs": 10993.689999999944,
+        "stackLoadMs": 7707.975000000093,
+        "wasmReadyMs": 417.60999999998603,
+        "firstLogicalMs": 960.669921875,
+        "firstPositiveGradeMs": 1408.35498046875,
+        "firstNegativeGradeMs": 14.929931640625,
+        "warmGradeMedianMs": 27.782470703125,
+        "warmArithmeticMedianMs": 4.1826171875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 13362.714902343694
+      },
+      "experiment": {
+        "arm": "control",
+        "receiptCount": 0,
+        "parseErrors": [],
+        "receipt": null,
+        "comparisonEligible": true,
+        "status": "control-original-runtime"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "162c1d8c-e10b-476c-b1b2-3aabfcd5f4f5",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "09-control-source-cold",
+      "arm": "control",
+      "candidate": "source",
+      "repetition": 3,
+      "mode": "cold",
+      "pair": 9,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/09-control-source-cold/sample.json",
+      "runId": "67046c7f-bd50-441a-9d43-1bbf64a3215c",
+      "timings": {
+        "readyMs": 11650.05999999994,
+        "stackLoadMs": 7541.160000000033,
+        "wasmReadyMs": 789.0450000000419,
+        "firstLogicalMs": 1005.300048828125,
+        "firstPositiveGradeMs": 1349.56005859375,
+        "firstNegativeGradeMs": 13.565185546875,
+        "warmGradeMedianMs": 25.37255859375,
+        "warmArithmeticMedianMs": 3.6575927734375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14004.920107421814
+      },
+      "experiment": {
+        "arm": "control",
+        "receiptCount": 0,
+        "parseErrors": [],
+        "receipt": null,
+        "comparisonEligible": true,
+        "status": "control-original-runtime"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "67046c7f-bd50-441a-9d43-1bbf64a3215c",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "09-control-source-warm-profile-reload",
+      "arm": "control",
+      "candidate": "source",
+      "repetition": 3,
+      "mode": "warm-profile-reload",
+      "pair": 9,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/09-control-source-warm-profile-reload/sample.json",
+      "runId": "e86877ed-a4f7-49a6-98ae-7f9e8fc715d6",
+      "timings": {
+        "readyMs": 11367.86499999999,
+        "stackLoadMs": 7548.650000000023,
+        "wasmReadyMs": 445.7399999999907,
+        "firstLogicalMs": 945.73486328125,
+        "firstPositiveGradeMs": 1362.110107421875,
+        "firstNegativeGradeMs": 14.52001953125,
+        "warmGradeMedianMs": 24.757568359375,
+        "warmArithmeticMedianMs": 3.4774169921875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 13675.709970703116
+      },
+      "experiment": {
+        "arm": "control",
+        "receiptCount": 0,
+        "parseErrors": [],
+        "receipt": null,
+        "comparisonEligible": true,
+        "status": "control-original-runtime"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "e86877ed-a4f7-49a6-98ae-7f9e8fc715d6",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "10-control-precompiled-cold",
+      "arm": "control",
+      "candidate": "precompiled",
+      "repetition": 3,
+      "mode": "cold",
+      "pair": 10,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/10-control-precompiled-cold/sample.json",
+      "runId": "a20b7e77-33b2-4b5f-b647-8dde4978c438",
+      "timings": {
+        "readyMs": 12638.395000000019,
+        "stackLoadMs": 8578.780000000028,
+        "wasmReadyMs": 829.5350000000326,
+        "firstLogicalMs": 1071.22998046875,
+        "firstPositiveGradeMs": 1285.419921875,
+        "firstNegativeGradeMs": 13.27001953125,
+        "warmGradeMedianMs": 26.5675048828125,
+        "warmArithmeticMedianMs": 4.2225341796875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14995.044902343769
+      },
+      "experiment": {
+        "arm": "control",
+        "receiptCount": 0,
+        "parseErrors": [],
+        "receipt": null,
+        "comparisonEligible": true,
+        "status": "control-original-runtime"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "a20b7e77-33b2-4b5f-b647-8dde4978c438",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "10-control-precompiled-warm-profile-reload",
+      "arm": "control",
+      "candidate": "precompiled",
+      "repetition": 3,
+      "mode": "warm-profile-reload",
+      "pair": 10,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/10-control-precompiled-warm-profile-reload/sample.json",
+      "runId": "3b990eb6-d205-4b08-8865-49800c21db28",
+      "timings": {
+        "readyMs": 12744.909999999916,
+        "stackLoadMs": 8421.695000000065,
+        "wasmReadyMs": 424.05999999993946,
+        "firstLogicalMs": 963.16015625,
+        "firstPositiveGradeMs": 1275.304931640625,
+        "firstNegativeGradeMs": 34.929931640625,
+        "warmGradeMedianMs": 24.387451171875,
+        "warmArithmeticMedianMs": 3.304931640625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14983.375087890541
+      },
+      "experiment": {
+        "arm": "control",
+        "receiptCount": 0,
+        "parseErrors": [],
+        "receipt": null,
+        "comparisonEligible": true,
+        "status": "control-original-runtime"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "3b990eb6-d205-4b08-8865-49800c21db28",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "11-errno-stack-suppressed-precompiled-cold",
+      "arm": "errno-stack-suppressed",
+      "candidate": "precompiled",
+      "repetition": 3,
+      "mode": "cold",
+      "pair": 11,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/11-errno-stack-suppressed-precompiled-cold/sample.json",
+      "runId": "2311c652-a7e7-400e-819a-faf7f332a623",
+      "timings": {
+        "readyMs": 13338.194999999949,
+        "stackLoadMs": 8818.545000000042,
+        "wasmReadyMs": 856.6800000000512,
+        "firstLogicalMs": 1018.01513671875,
+        "firstPositiveGradeMs": 1319.550048828125,
+        "firstNegativeGradeMs": 13.5048828125,
+        "warmGradeMedianMs": 26.737548828125,
+        "warmArithmeticMedianMs": 3.632568359375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 15675.760185546824
+      },
+      "experiment": {
+        "arm": "errno-stack-suppressed",
+        "receiptCount": 1,
+        "parseErrors": [],
+        "receipt": {
+          "schema": 1,
+          "kind": "ctm-errno-stack-capability",
+          "errno": 44,
+          "assignedErrno": 44,
+          "code": "ENOENT",
+          "supported": true,
+          "didSuppress": true,
+          "descriptorRestored": true,
+          "originalStackTraceLimit": 10,
+          "capability": {
+            "ownData": true,
+            "writable": true,
+            "finiteNumeric": true,
+            "messageIsString": true
+          },
+          "stack": {
+            "type": "string",
+            "lineCount": 1,
+            "frameCount": 0
+          },
+          "fallbackReason": null
+        },
+        "comparisonEligible": true,
+        "status": "applied"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "2311c652-a7e7-400e-819a-faf7f332a623",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "11-errno-stack-suppressed-precompiled-warm-profile-reload",
+      "arm": "errno-stack-suppressed",
+      "candidate": "precompiled",
+      "repetition": 3,
+      "mode": "warm-profile-reload",
+      "pair": 11,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/11-errno-stack-suppressed-precompiled-warm-profile-reload/sample.json",
+      "runId": "488aedca-aaa7-494d-b4a9-dc624966309b",
+      "timings": {
+        "readyMs": 12315.145000000019,
+        "stackLoadMs": 8583.184999999823,
+        "wasmReadyMs": 416.2650000001304,
+        "firstLogicalMs": 985.28515625,
+        "firstPositiveGradeMs": 1369.775146484375,
+        "firstNegativeGradeMs": 13.820068359375,
+        "warmGradeMedianMs": 28.4825439453125,
+        "warmArithmeticMedianMs": 3.8525390625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14670.205302734394
+      },
+      "experiment": {
+        "arm": "errno-stack-suppressed",
+        "receiptCount": 1,
+        "parseErrors": [],
+        "receipt": {
+          "schema": 1,
+          "kind": "ctm-errno-stack-capability",
+          "errno": 44,
+          "assignedErrno": 44,
+          "code": "ENOENT",
+          "supported": true,
+          "didSuppress": true,
+          "descriptorRestored": true,
+          "originalStackTraceLimit": 10,
+          "capability": {
+            "ownData": true,
+            "writable": true,
+            "finiteNumeric": true,
+            "messageIsString": true
+          },
+          "stack": {
+            "type": "string",
+            "lineCount": 1,
+            "frameCount": 0
+          },
+          "fallbackReason": null
+        },
+        "comparisonEligible": true,
+        "status": "applied"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "488aedca-aaa7-494d-b4a9-dc624966309b",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "12-errno-stack-suppressed-source-cold",
+      "arm": "errno-stack-suppressed",
+      "candidate": "source",
+      "repetition": 3,
+      "mode": "cold",
+      "pair": 12,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/12-errno-stack-suppressed-source-cold/sample.json",
+      "runId": "b6b2e324-8029-439f-b5b1-bf7bf5d6f08c",
+      "timings": {
+        "readyMs": 11519.790000000037,
+        "stackLoadMs": 7979.405000000028,
+        "wasmReadyMs": 811.7649999998976,
+        "firstLogicalMs": 1060.68017578125,
+        "firstPositiveGradeMs": 1420.204833984375,
+        "firstNegativeGradeMs": 15.1650390625,
+        "warmGradeMedianMs": 26.6474609375,
+        "warmArithmeticMedianMs": 4.3250732421875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14000.675009765662
+      },
+      "experiment": {
+        "arm": "errno-stack-suppressed",
+        "receiptCount": 1,
+        "parseErrors": [],
+        "receipt": {
+          "schema": 1,
+          "kind": "ctm-errno-stack-capability",
+          "errno": 44,
+          "assignedErrno": 44,
+          "code": "ENOENT",
+          "supported": true,
+          "didSuppress": true,
+          "descriptorRestored": true,
+          "originalStackTraceLimit": 10,
+          "capability": {
+            "ownData": true,
+            "writable": true,
+            "finiteNumeric": true,
+            "messageIsString": true
+          },
+          "stack": {
+            "type": "string",
+            "lineCount": 1,
+            "frameCount": 0
+          },
+          "fallbackReason": null
+        },
+        "comparisonEligible": true,
+        "status": "applied"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "b6b2e324-8029-439f-b5b1-bf7bf5d6f08c",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "12-errno-stack-suppressed-source-warm-profile-reload",
+      "arm": "errno-stack-suppressed",
+      "candidate": "source",
+      "repetition": 3,
+      "mode": "warm-profile-reload",
+      "pair": 12,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/12-errno-stack-suppressed-source-warm-profile-reload/sample.json",
+      "runId": "71d0300e-c5f6-438e-9cf8-220fcb356c48",
+      "timings": {
+        "readyMs": 11166.824999999953,
+        "stackLoadMs": 7830.320000000065,
+        "wasmReadyMs": 432.8549999999814,
+        "firstLogicalMs": 1078.14501953125,
+        "firstPositiveGradeMs": 1396.8251953125,
+        "firstNegativeGradeMs": 14.889892578125,
+        "warmGradeMedianMs": 26.3450927734375,
+        "warmArithmeticMedianMs": 4.1124267578125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 13641.795214843703
+      },
+      "experiment": {
+        "arm": "errno-stack-suppressed",
+        "receiptCount": 1,
+        "parseErrors": [],
+        "receipt": {
+          "schema": 1,
+          "kind": "ctm-errno-stack-capability",
+          "errno": 44,
+          "assignedErrno": 44,
+          "code": "ENOENT",
+          "supported": true,
+          "didSuppress": true,
+          "descriptorRestored": true,
+          "originalStackTraceLimit": 10,
+          "capability": {
+            "ownData": true,
+            "writable": true,
+            "finiteNumeric": true,
+            "messageIsString": true
+          },
+          "stack": {
+            "type": "string",
+            "lineCount": 1,
+            "frameCount": 0
+          },
+          "fallbackReason": null
+        },
+        "comparisonEligible": true,
+        "status": "applied"
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "71d0300e-c5f6-438e-9cf8-220fcb356c48",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    }
+  ],
+  "skipped": [],
+  "scope": "Diagnostic A/B comparison of original Oz JavaScript versus an explicit errno44/54 stack-capture derivation, with the same original Wasm/modules/source/FAS/preload. Fresh browser/profile per pair followed by same-page/context reload and new workers. Both arms use one identical explicitly derived stdout-only child guard; startup commands/session/runtime bytes otherwise stay admitted (except experimental maxima.js). This is guarded timing, not pristine wrapper timing. Guard parsing/one bounded receipt add shared overhead and do not prove a same-evaluation root-load return. No TRACE, Worker replacement or CPU profiler; the experimental constructor emits one capability receipt. Its own checks/reporting costs are part of the intervention. Unsupported, missing or untreated receipts cannot establish a suppression effect. Alternating order limits but does not remove runner/cache variation; n3 medians are descriptive. No production acceptance, rebuild, default promotion or assumed speedup. Combined readiness/logical/positive is a synthetic sum, not complete UI latency.",
+  "summary": [
+    {
+      "arm": "control",
+      "candidate": "source",
+      "mode": "cold",
+      "successfulCorrectnessTrials": 3,
+      "comparisonEligibleTrials": 3,
+      "capabilityStatuses": [
+        "control-original-runtime",
+        "control-original-runtime",
+        "control-original-runtime"
+      ],
+      "medians": {
+        "readyMs": 11650.05999999994,
+        "stackLoadMs": 7727.844999999972,
+        "wasmReadyMs": 795.5149999998976,
+        "firstLogicalMs": 1086.1298828125,
+        "firstPositiveGradeMs": 1384.255126953125,
+        "firstNegativeGradeMs": 14.080078125,
+        "warmGradeMedianMs": 26.8323974609375,
+        "warmArithmeticMedianMs": 3.695068359375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14043.650009765639
+      }
+    },
+    {
+      "arm": "control",
+      "candidate": "source",
+      "mode": "warm-profile-reload",
+      "successfulCorrectnessTrials": 3,
+      "comparisonEligibleTrials": 3,
+      "capabilityStatuses": [
+        "control-original-runtime",
+        "control-original-runtime",
+        "control-original-runtime"
+      ],
+      "medians": {
+        "readyMs": 11367.86499999999,
+        "stackLoadMs": 7707.975000000093,
+        "wasmReadyMs": 442.4550000000163,
+        "firstLogicalMs": 960.669921875,
+        "firstPositiveGradeMs": 1408.35498046875,
+        "firstNegativeGradeMs": 14.929931640625,
+        "warmGradeMedianMs": 27.782470703125,
+        "warmArithmeticMedianMs": 3.9874267578125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 13675.709970703116
+      }
+    },
+    {
+      "arm": "control",
+      "candidate": "precompiled",
+      "mode": "cold",
+      "successfulCorrectnessTrials": 3,
+      "comparisonEligibleTrials": 3,
+      "capabilityStatuses": [
+        "control-original-runtime",
+        "control-original-runtime",
+        "control-original-runtime"
+      ],
+      "medians": {
+        "readyMs": 12638.395000000019,
+        "stackLoadMs": 8578.780000000028,
+        "wasmReadyMs": 829.5350000000326,
+        "firstLogicalMs": 1071.22998046875,
+        "firstPositiveGradeMs": 1328.574951171875,
+        "firstNegativeGradeMs": 13.705078125,
+        "warmGradeMedianMs": 27.5325927734375,
+        "warmArithmeticMedianMs": 4.2225341796875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14995.044902343769
+      }
+    },
+    {
+      "arm": "control",
+      "candidate": "precompiled",
+      "mode": "warm-profile-reload",
+      "successfulCorrectnessTrials": 3,
+      "comparisonEligibleTrials": 3,
+      "capabilityStatuses": [
+        "control-original-runtime",
+        "control-original-runtime",
+        "control-original-runtime"
+      ],
+      "medians": {
+        "readyMs": 12744.909999999916,
+        "stackLoadMs": 8569.464999999967,
+        "wasmReadyMs": 443.20000000006985,
+        "firstLogicalMs": 963.16015625,
+        "firstPositiveGradeMs": 1313.05517578125,
+        "firstNegativeGradeMs": 15.2451171875,
+        "warmGradeMedianMs": 24.387451171875,
+        "warmArithmeticMedianMs": 3.405029296875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14983.375087890541
+      }
+    },
+    {
+      "arm": "errno-stack-suppressed",
+      "candidate": "source",
+      "mode": "cold",
+      "successfulCorrectnessTrials": 3,
+      "comparisonEligibleTrials": 3,
+      "capabilityStatuses": [
+        "applied",
+        "applied",
+        "applied"
+      ],
+      "medians": {
+        "readyMs": 11814.530000000028,
+        "stackLoadMs": 8133.0449999999255,
+        "wasmReadyMs": 834.7249999999767,
+        "firstLogicalMs": 1071.655029296875,
+        "firstPositiveGradeMs": 1380.705078125,
+        "firstNegativeGradeMs": 15.1650390625,
+        "warmGradeMedianMs": 27.33740234375,
+        "warmArithmeticMedianMs": 4.219970703125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14266.890107421903
+      }
+    },
+    {
+      "arm": "errno-stack-suppressed",
+      "candidate": "source",
+      "mode": "warm-profile-reload",
+      "successfulCorrectnessTrials": 3,
+      "comparisonEligibleTrials": 3,
+      "capabilityStatuses": [
+        "applied",
+        "applied",
+        "applied"
+      ],
+      "medians": {
+        "readyMs": 11459.255000000005,
+        "stackLoadMs": 7830.320000000065,
+        "wasmReadyMs": 432.8549999999814,
+        "firstLogicalMs": 1040.02001953125,
+        "firstPositiveGradeMs": 1393.005126953125,
+        "firstNegativeGradeMs": 15.18505859375,
+        "warmGradeMedianMs": 27.5799560546875,
+        "warmArithmeticMedianMs": 4.1124267578125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 13864.14006835944
+      }
+    },
+    {
+      "arm": "errno-stack-suppressed",
+      "candidate": "precompiled",
+      "mode": "cold",
+      "successfulCorrectnessTrials": 3,
+      "comparisonEligibleTrials": 3,
+      "capabilityStatuses": [
+        "applied",
+        "applied",
+        "applied"
+      ],
+      "medians": {
+        "readyMs": 13338.194999999949,
+        "stackLoadMs": 8818.545000000042,
+        "wasmReadyMs": 856.6800000000512,
+        "firstLogicalMs": 1081.534912109375,
+        "firstPositiveGradeMs": 1319.550048828125,
+        "firstNegativeGradeMs": 14.835205078125,
+        "warmGradeMedianMs": 28.2200927734375,
+        "warmArithmeticMedianMs": 4.429931640625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 15675.760185546824
+      }
+    },
+    {
+      "arm": "errno-stack-suppressed",
+      "candidate": "precompiled",
+      "mode": "warm-profile-reload",
+      "successfulCorrectnessTrials": 3,
+      "comparisonEligibleTrials": 3,
+      "capabilityStatuses": [
+        "applied",
+        "applied",
+        "applied"
+      ],
+      "medians": {
+        "readyMs": 12370.169999999925,
+        "stackLoadMs": 8583.184999999823,
+        "wasmReadyMs": 435.0799999999581,
+        "firstLogicalMs": 985.28515625,
+        "firstPositiveGradeMs": 1369.775146484375,
+        "firstNegativeGradeMs": 13.820068359375,
+        "warmGradeMedianMs": 28.4674072265625,
+        "warmArithmeticMedianMs": 3.8525390625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 14670.205302734394
+      }
+    }
+  ],
+  "pairedComparisons": [
+    {
+      "candidate": "precompiled",
+      "mode": "cold",
+      "repetition": 1,
+      "control": "02-control-precompiled-cold",
+      "experiment": "03-errno-stack-suppressed-precompiled-cold",
+      "experimentalMinusControlMs": {
+        "readyMs": 46.84000000008382,
+        "stackLoadMs": -78.17500000004657,
+        "wasmReadyMs": 22.40500000002794,
+        "firstLogicalMs": 58.1201171875,
+        "firstPositiveGradeMs": -1468.804931640625,
+        "firstNegativeGradeMs": 0.6748046875,
+        "warmGradeMedianMs": 5.6473388671875,
+        "warmArithmeticMedianMs": 0.2850341796875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": -1363.8448144530412
+      }
+    },
+    {
+      "candidate": "precompiled",
+      "mode": "warm-profile-reload",
+      "repetition": 1,
+      "control": "02-control-precompiled-warm-profile-reload",
+      "experiment": "03-errno-stack-suppressed-precompiled-warm-profile-reload",
+      "experimentalMinusControlMs": {
+        "readyMs": 717.1850000000559,
+        "stackLoadMs": 342.1049999999814,
+        "wasmReadyMs": 77.80000000004657,
+        "firstLogicalMs": 28.650146484375,
+        "firstPositiveGradeMs": 24.14013671875,
+        "firstNegativeGradeMs": -0.239990234375,
+        "warmGradeMedianMs": 0.9849853515625,
+        "warmArithmeticMedianMs": -0.065185546875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 769.9752832031809
+      }
+    },
+    {
+      "candidate": "source",
+      "mode": "cold",
+      "repetition": 1,
+      "control": "01-control-source-cold",
+      "experiment": "04-errno-stack-suppressed-source-cold",
+      "experimentalMinusControlMs": {
+        "readyMs": -35.47499999997672,
+        "stackLoadMs": -37.75,
+        "wasmReadyMs": -10.119999999995343,
+        "firstLogicalMs": -74.06005859375,
+        "firstPositiveGradeMs": -71.255126953125,
+        "firstNegativeGradeMs": -1.485107421875,
+        "warmGradeMedianMs": 0.6275634765625,
+        "warmArithmeticMedianMs": 0.37744140625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": -180.79018554685172
+      }
+    },
+    {
+      "candidate": "source",
+      "mode": "warm-profile-reload",
+      "repetition": 1,
+      "control": "01-control-source-warm-profile-reload",
+      "experiment": "04-errno-stack-suppressed-source-warm-profile-reload",
+      "experimentalMinusControlMs": {
+        "readyMs": -849.0449999999837,
+        "stackLoadMs": -179.14000000001397,
+        "wasmReadyMs": -0.9949999999371357,
+        "firstLogicalMs": -16.284912109375,
+        "firstPositiveGradeMs": -56.044921875,
+        "firstNegativeGradeMs": -1.0849609375,
+        "warmGradeMedianMs": -1.27001953125,
+        "warmArithmeticMedianMs": -0.0499267578125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": -921.3748339843587
+      }
+    },
+    {
+      "candidate": "source",
+      "mode": "cold",
+      "repetition": 2,
+      "control": "08-control-source-cold",
+      "experiment": "05-errno-stack-suppressed-source-cold",
+      "experimentalMinusControlMs": {
+        "readyMs": 241.26500000001397,
+        "stackLoadMs": 405.19999999995343,
+        "wasmReadyMs": 59.07000000006519,
+        "firstLogicalMs": -14.474853515625,
+        "firstPositiveGradeMs": -3.550048828125,
+        "firstNegativeGradeMs": 0.64501953125,
+        "warmGradeMedianMs": 0.5050048828125,
+        "warmArithmeticMedianMs": 0.3123779296875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 223.24009765626397
+      }
+    },
+    {
+      "candidate": "source",
+      "mode": "warm-profile-reload",
+      "repetition": 2,
+      "control": "08-control-source-warm-profile-reload",
+      "experiment": "05-errno-stack-suppressed-source-warm-profile-reload",
+      "experimentalMinusControlMs": {
+        "readyMs": 475.0050000001211,
+        "stackLoadMs": -110.66500000003725,
+        "wasmReadyMs": 1.9899999999906868,
+        "firstLogicalMs": 79.35009765625,
+        "firstPositiveGradeMs": -52.929931640625,
+        "firstNegativeGradeMs": 0.255126953125,
+        "warmGradeMedianMs": -0.1051025390625,
+        "warmArithmeticMedianMs": 0.0599365234375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 501.4251660157461
+      }
+    },
+    {
+      "candidate": "precompiled",
+      "mode": "cold",
+      "repetition": 2,
+      "control": "07-control-precompiled-cold",
+      "experiment": "06-errno-stack-suppressed-precompiled-cold",
+      "experimentalMinusControlMs": {
+        "readyMs": 889.4549999999581,
+        "stackLoadMs": 280.5350000000326,
+        "wasmReadyMs": 9.324999999953434,
+        "firstLogicalMs": 59.68994140625,
+        "firstPositiveGradeMs": -27.010009765625,
+        "firstNegativeGradeMs": 1.130126953125,
+        "warmGradeMedianMs": -0.704833984375,
+        "warmArithmeticMedianMs": -0.527587890625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 922.1349316405831
+      }
+    },
+    {
+      "candidate": "precompiled",
+      "mode": "warm-profile-reload",
+      "repetition": 2,
+      "control": "07-control-precompiled-warm-profile-reload",
+      "experiment": "06-errno-stack-suppressed-precompiled-warm-profile-reload",
+      "experimentalMinusControlMs": {
+        "readyMs": 379.67499999993015,
+        "stackLoadMs": -149.09999999997672,
+        "wasmReadyMs": -8.120000000111759,
+        "firstLogicalMs": -17.71484375,
+        "firstPositiveGradeMs": -18.865234375,
+        "firstNegativeGradeMs": 0.58984375,
+        "warmGradeMedianMs": 0.8248291015625,
+        "warmArithmeticMedianMs": -0.0576171875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 343.09492187493015
+      }
+    },
+    {
+      "candidate": "precompiled",
+      "mode": "cold",
+      "repetition": 3,
+      "control": "10-control-precompiled-cold",
+      "experiment": "11-errno-stack-suppressed-precompiled-cold",
+      "experimentalMinusControlMs": {
+        "readyMs": 699.7999999999302,
+        "stackLoadMs": 239.76500000001397,
+        "wasmReadyMs": 27.145000000018626,
+        "firstLogicalMs": -53.21484375,
+        "firstPositiveGradeMs": 34.130126953125,
+        "firstNegativeGradeMs": 0.23486328125,
+        "warmGradeMedianMs": 0.1700439453125,
+        "warmArithmeticMedianMs": -0.5899658203125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 680.7152832030552
+      }
+    },
+    {
+      "candidate": "precompiled",
+      "mode": "warm-profile-reload",
+      "repetition": 3,
+      "control": "10-control-precompiled-warm-profile-reload",
+      "experiment": "11-errno-stack-suppressed-precompiled-warm-profile-reload",
+      "experimentalMinusControlMs": {
+        "readyMs": -429.76499999989755,
+        "stackLoadMs": 161.48999999975786,
+        "wasmReadyMs": -7.794999999809079,
+        "firstLogicalMs": 22.125,
+        "firstPositiveGradeMs": 94.47021484375,
+        "firstNegativeGradeMs": -21.10986328125,
+        "warmGradeMedianMs": 4.0950927734375,
+        "warmArithmeticMedianMs": 0.547607421875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": -313.16978515614755
+      }
+    },
+    {
+      "candidate": "source",
+      "mode": "cold",
+      "repetition": 3,
+      "control": "09-control-source-cold",
+      "experiment": "12-errno-stack-suppressed-source-cold",
+      "experimentalMinusControlMs": {
+        "readyMs": -130.2699999999022,
+        "stackLoadMs": 438.24499999999534,
+        "wasmReadyMs": 22.719999999855645,
+        "firstLogicalMs": 55.380126953125,
+        "firstPositiveGradeMs": 70.644775390625,
+        "firstNegativeGradeMs": 1.599853515625,
+        "warmGradeMedianMs": 1.27490234375,
+        "warmArithmeticMedianMs": 0.66748046875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": -4.245097656152211
+      }
+    },
+    {
+      "candidate": "source",
+      "mode": "warm-profile-reload",
+      "repetition": 3,
+      "control": "09-control-source-warm-profile-reload",
+      "experiment": "12-errno-stack-suppressed-source-warm-profile-reload",
+      "experimentalMinusControlMs": {
+        "readyMs": -201.04000000003725,
+        "stackLoadMs": 281.6700000000419,
+        "wasmReadyMs": -12.885000000009313,
+        "firstLogicalMs": 132.41015625,
+        "firstPositiveGradeMs": 34.715087890625,
+        "firstNegativeGradeMs": 0.369873046875,
+        "warmGradeMedianMs": 1.5875244140625,
+        "warmArithmeticMedianMs": 0.635009765625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": -33.91475585941225
+      }
+    }
+  ],
+  "benchmark": {
+    "GITHUB_REPOSITORY": "Erasmus-CTM/stack-wasm-maxima",
+    "GITHUB_RUN_ID": "40141617243",
+    "GITHUB_RUN_ATTEMPT": "1",
+    "GITHUB_SHA": "01ffcfe9d5559502df7daa9321de48c77bc56789",
+    "GITHUB_REF": "refs/heads/profiling/e8ad-fs-error-stack",
+    "GITHUB_EVENT_NAME": "push",
+    "GITHUB_WORKFLOW_REF": "Erasmus-CTM/stack-wasm-maxima/.github/workflows/fs-error-stack-ab.yml@refs/heads/profiling/e8ad-fs-error-stack",
+    "GITHUB_WORKFLOW_SHA": "01ffcfe9d5559502df7daa9321de48c77bc56789",
+    "RUNNER_OS": "Linux",
+    "RUNNER_ARCH": "X64",
+    "ImageOS": "ubuntu24",
+    "ImageVersion": "20261023.334.3"
+  },
+  "admission": {
+    "path": "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/fs-error-stack/evidence/admission.json",
+    "bytes": 144944,
+    "sha256": "903cf2b0931800452b1adffc74d6d3882b1f3a97f80604e7c66618269f605760"
+  },
+  "sharedTrustedFiles": [
+    {
+      "path": "prototype/runtime/maxima-child.js",
+      "bytes": 12159,
+      "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+    },
+    {
+      "path": "prototype/runtime/maxima-session.js",
+      "bytes": 14344,
+      "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+    },
+    {
+      "path": "runtime/precompiled/restart-checks.json",
+      "bytes": 3955,
+      "sha256": "2c2d07a78c01c8d04c89f214a02a5ef67b94fe7ec05e102096c2a955a64d7e72"
+    },
+    {
+      "path": "scripts/milestone-two/serve.mjs",
+      "bytes": 7906,
+      "sha256": "f46c0d9688971dd1fbf3e9b83b4cce76ddd4136b71514159eede1c8bb5fa7e4e"
+    },
+    {
+      "path": "runtime/compression/server-source.mjs",
+      "bytes": 3374,
+      "sha256": "d1dd9b9fb956c44caa51cfe7a08b7f301cd4020d2fa69cf8d2f4c8b6cd3e0166"
+    }
+  ],
+  "nativeWorkload": {
+    "sha256": "a52a17f3b40a1d89057ff11042dfcde0f4dcbb27c04977a855bf782dc9fb584a",
+    "operations": [
+      "prepare",
+      "validate",
+      "prt"
+    ],
+    "capture": {
+      "bytes": 5117000,
+      "sha256": "17a557666db25580bae340acc94243071d85e3b086eb662df47b1a69d5853160"
+    }
+  },
+  "derivation": {
+    "path": "derivation.json",
+    "bytes": 2146,
+    "sha256": "81e6c2afaa5ad21a5ba86c2f052fd4ce8ec1492234f47aa41da86639af6dc07b"
+  },
+  "derivedRuntimeManifest": {
+    "path": "derived-runtime-manifest.json",
+    "bytes": 33541,
+    "sha256": "5f49aebb6379ec4f73cee8f0b79886c420843f325a10b600aaadbb2461bb4776"
+  },
+  "startupObserver": {
+    "path": "startup-observer-derivation.json",
+    "bytes": 1782,
+    "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+  },
+  "crossArmVerification": {
+    "identicalFiles": 83,
+    "changedRuntimeAssets": [
+      "maxima.js"
+    ],
+    "changedManifestFields": [
+      "runtimeBuild",
+      "runtimeAssets[maxima.js].fileBytes",
+      "runtimeAssets[maxima.js].sha256"
+    ],
+    "fasPreloadEmbeddedSourcesAndStartupUnchanged": true
+  },
+  "browser": "141.0.7390.37",
+  "correctnessComplete": true,
+  "suppressionComparisonEligible": true,
+  "finishedAt": "2026-10-24T23:24:51.414Z"
+}

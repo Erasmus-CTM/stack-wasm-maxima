@@ -1,0 +1,9 @@
+run,artifact,compiler_profile,arm,stack_loader,mode,n,ready_seconds,stack_load_seconds,first_logical_seconds,first_positive_grade_seconds,warm_grade_seconds,ready_plus_first_logical_plus_first_positive_seconds
+40141617243,12579700576,ECL-Oz / Maxima-O2,control,source,cold,3,11.65006,7.727845,1.08613,1.384255,0.026832,14.04365
+40141617243,12579700576,ECL-Oz / Maxima-O2,control,source,warm-profile-reload,3,11.367865,7.707975,0.96067,1.408355,0.027782,13.67571
+40141617243,12579700576,ECL-Oz / Maxima-O2,control,precompiled,cold,3,12.638395,8.57878,1.07123,1.328575,0.027533,14.995045
+40141617243,12579700576,ECL-Oz / Maxima-O2,control,precompiled,warm-profile-reload,3,12.74491,8.569465,0.96316,1.313055,0.024387,14.983375
+40141617243,12579700576,ECL-Oz / Maxima-O2,errno-stack-suppressed,source,cold,3,11.81453,8.133045,1.071655,1.380705,0.027337,14.26689
+40141617243,12579700576,ECL-Oz / Maxima-O2,errno-stack-suppressed,source,warm-profile-reload,3,11.459255,7.83032,1.04002,1.393005,0.02758,13.86414
+40141617243,12579700576,ECL-Oz / Maxima-O2,errno-stack-suppressed,precompiled,cold,3,13.338195,8.818545,1.081535,1.31955,0.02822,15.67576
+40141617243,12579700576,ECL-Oz / Maxima-O2,errno-stack-suppressed,precompiled,warm-profile-reload,3,12.37017,8.583185,0.985285,1.369775,0.028467,14.670205

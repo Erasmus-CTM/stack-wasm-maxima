@@ -1,0 +1,830 @@
+{
+  "schema": 1,
+  "verdict": "SCOPED CLEAR: actual two-cell Oz TRACE operational pilot, including raw CPU profile rederivation",
+  "artifact": {
+    "kind": "provenance",
+    "id": 12578048686,
+    "name": "no-rebuild-stack-profile-40138617107-1",
+    "zipBytes": 34833643,
+    "sha256": "c9df2fc37d8de4b53cb1c1723226cc1ffef2ee178fcd724bd1559eb5015de64e",
+    "run": 40138617107,
+    "workflow": 395414190,
+    "head": "6669bb57e39783e93e5515a48a00d7af736c4a1e",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "files": [
+      "identity.json",
+      "admission.json",
+      "tool-sources.json",
+      "report.json",
+      "trials/01-ecl-oz-source-instrumented/sample.json",
+      "trials/02-ecl-oz-precompiled-instrumented/sample.json"
+    ],
+    "runStartedAt": "2026-10-24T22:27:11Z",
+    "artifactCreatedAt": "2026-10-24T22:29:38Z",
+    "provisional": false
+  },
+  "recordsSha256": "631fc1d617679f39eeea5bf689f0c5c51b2ac7d8d2d2cf9788458134c62a146f",
+  "payloadBindings": {
+    "records": {
+      "path": "/workspace/work/no-rebuild-trace-pilot-records.json",
+      "bytes": 337570,
+      "sha256": "631fc1d617679f39eeea5bf689f0c5c51b2ac7d8d2d2cf9788458134c62a146f"
+    },
+    "provenance": {
+      "kind": "provenance",
+      "id": 12578048686,
+      "name": "no-rebuild-stack-profile-40138617107-1",
+      "zipBytes": 34833643,
+      "sha256": "c9df2fc37d8de4b53cb1c1723226cc1ffef2ee178fcd724bd1559eb5015de64e",
+      "run": 40138617107,
+      "workflow": 395414190,
+      "head": "6669bb57e39783e93e5515a48a00d7af736c4a1e",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "files": [
+        "identity.json",
+        "admission.json",
+        "tool-sources.json",
+        "report.json",
+        "trials/01-ecl-oz-source-instrumented/sample.json",
+        "trials/02-ecl-oz-precompiled-instrumented/sample.json"
+      ],
+      "runStartedAt": "2026-10-24T22:27:11Z",
+      "artifactCreatedAt": "2026-10-24T22:29:38Z",
+      "provisional": false
+    },
+    "inventoryFiles": 229,
+    "payloadFiles": 6,
+    "payloadBytes": 2723537,
+    "files": [
+      {
+        "path": "admission.json",
+        "bytes": 118360,
+        "sha256": "b47c8dbacd949b9d3dfbfc286d44fa6adc9fad1907f39912f7215c876a107a35"
+      },
+      {
+        "path": "identity.json",
+        "bytes": 1027,
+        "sha256": "df3845b56edc379ef4843d1f38d26e108eb24422795d8d5a34f43fadfa34ce7a"
+      },
+      {
+        "path": "report.json",
+        "bytes": 1405643,
+        "sha256": "2fcee1b9aaf41c7e52ec7b2d2c74aa773030682d3db4a504d5d6d5020eb1638f"
+      },
+      {
+        "path": "tool-sources.json",
+        "bytes": 2530,
+        "sha256": "209144df694b5de9dc5cb47eafc37ecaaaee73328dc2ca69cafbad660543fcc0"
+      },
+      {
+        "path": "trials/01-ecl-oz-source-instrumented/sample.json",
+        "bytes": 647121,
+        "sha256": "c4a5ce484f5bba3256d5eb3239427c36c7d100c8afd44179731dd76787fe7217"
+      },
+      {
+        "path": "trials/02-ecl-oz-precompiled-instrumented/sample.json",
+        "bytes": 548856,
+        "sha256": "78a97cc1f456f4fafb602eadc7bebfc8c699ff057dbe361f68f3e48e4cc9fae8"
+      }
+    ]
+  },
+  "sourceBindings": [
+    {
+      "path": ".github/workflows/no-rebuild-profile.yml",
+      "bytes": 3732,
+      "sha256": "11cb8b1c070487214b00eeaa75d17e89b6e40c3860601c737475803b2ee0e18f"
+    },
+    {
+      "path": "runtime/profiling/no-rebuild/HARNESS.md",
+      "bytes": 8958,
+      "sha256": "244259fa0a393927debfaea2ce5f6245a41178d67ad9c18777f6c26809fdff30"
+    },
+    {
+      "path": "runtime/profiling/no-rebuild/admission-freeze.json",
+      "bytes": 1245,
+      "sha256": "c1488478f5847f836ef3107cc6e29ad9cec055c36573a246339d124a1acef4dc"
+    },
+    {
+      "path": "runtime/profiling/no-rebuild/cdp-profile.mjs",
+      "bytes": 6237,
+      "sha256": "0fa1801bed61fe99139c43856a4e44bac6dfc7edf5d3b7c51ad3be8b019ddb3f"
+    },
+    {
+      "path": "runtime/profiling/no-rebuild/child-hooks.js",
+      "bytes": 7788,
+      "sha256": "1fb0e026e0a2a2425333255d5d7c6bef2fcd94c1a49b17073bd680efee878b5b"
+    },
+    {
+      "path": "runtime/profiling/no-rebuild/existing-phase-evidence.json",
+      "bytes": 6109,
+      "sha256": "b8b7b512080a4ecd03580126b4784e15f44bda03c28d1e88ee8351e786af550a"
+    },
+    {
+      "path": "runtime/profiling/no-rebuild/harness-freeze.json",
+      "bytes": 5033,
+      "sha256": "1a775009bb7464ec5632246549b6e1c9a0e9e34b77e2dfe98669122e5a5dd1bb"
+    },
+    {
+      "path": "runtime/profiling/no-rebuild/load-hooks.lisp",
+      "bytes": 1279,
+      "sha256": "ce21365c8389e304c0deca3ea5e67cf71ebfe4359eaf38deeaf15b46c54a840e"
+    },
+    {
+      "path": "runtime/profiling/no-rebuild/plan.json",
+      "bytes": 6741,
+      "sha256": "c7c41f80cd6fa1c90a9bc46cb80ae8880c7e52993134c47ad9c7d8bdbae2b116"
+    },
+    {
+      "path": "runtime/profiling/no-rebuild/prepare.py",
+      "bytes": 20320,
+      "sha256": "edae9d58efd34d16a122cbfd3952d6d9ab3b1a35eb8444a94c920c43bb925ac2"
+    },
+    {
+      "path": "runtime/profiling/no-rebuild/probe-worker.js",
+      "bytes": 6665,
+      "sha256": "9ca8b1af486c8f5ddb2a297d3cfdbc7eaf934bad4502ae10831a7e0279a2a7f0"
+    },
+    {
+      "path": "runtime/profiling/no-rebuild/run.mjs",
+      "bytes": 19569,
+      "sha256": "8001053ec50ad140415a008f8f81b78f02780ea6b3a30b752e2c72b1666d64e0"
+    },
+    {
+      "path": "runtime/profiling/no-rebuild/stage.mjs",
+      "bytes": 9396,
+      "sha256": "2c5da45d4990eff7fe7bad1a46d888fd210f1f32265ff8e354f056f253e73638"
+    },
+    {
+      "path": "runtime/profiling/no-rebuild/test-harness.mjs",
+      "bytes": 26281,
+      "sha256": "64e3bd3b1dd83e27fdc49dcf53ed951baf88e65eba5925eac5686c27c8d8d5e3"
+    },
+    {
+      "path": "runtime/profiling/no-rebuild/test_prepare.py",
+      "bytes": 9837,
+      "sha256": "74255cf86c3d94a9f51d8b751cd5430a3a225a0869f62774383812e8ebf535fc"
+    }
+  ],
+  "profiles": [
+    {
+      "profile": "baseline",
+      "artifact": 12567788724,
+      "packageManifest": {
+        "bytes": 52516,
+        "sha256": "e60eee4686d39b41bc9cde093c4e158fed1284293b86c8f4f96f51289e87d7ea"
+      },
+      "originalStagedFiles": 87,
+      "runtimeAssets": 79,
+      "derivedChanges": [
+        {
+          "kind": "child-observers",
+          "original": {
+            "path": "runtime/maxima-child.js",
+            "bytes": 12159,
+            "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+          },
+          "derived": {
+            "path": "runtime-profile/maxima-child.js",
+            "bytes": 22539,
+            "sha256": "4ec32ecee8af66ca28cc73cb939955df5693843a3547103950b103b0622e547e"
+          }
+        },
+        {
+          "kind": "diagnostic-memfs-lisp-hook",
+          "original": {
+            "path": "load-hooks.lisp",
+            "bytes": 1279,
+            "sha256": "ce21365c8389e304c0deca3ea5e67cf71ebfe4359eaf38deeaf15b46c54a840e"
+          },
+          "mounted": {
+            "path": "/ctm/no-rebuild-profile/load-hooks.lisp",
+            "bytes": 1279,
+            "sha256": "ce21365c8389e304c0deca3ea5e67cf71ebfe4359eaf38deeaf15b46c54a840e"
+          },
+          "mountPhase": "derived child preRun before Maxima initialization",
+          "bytesVerifiedAfterWrite": true
+        },
+        {
+          "kind": "startup-prefix",
+          "candidate": "source",
+          "original": {
+            "path": "stack-sources-timed-source.json",
+            "bytes": 987389,
+            "sha256": "07ebb5b9d1f3811e337f1edac82a464d054cecc5acaf09af65512859b074566c"
+          },
+          "derived": {
+            "path": "stack-sources-profile-source.json",
+            "bytes": 985718,
+            "sha256": "3a23e3feb6df3921f8eae09c61cfb9e4383405c1569ee9051a524f3261d626d3"
+          }
+        },
+        {
+          "kind": "startup-prefix",
+          "candidate": "precompiled",
+          "original": {
+            "path": "stack-sources-precompiled.json",
+            "bytes": 989243,
+            "sha256": "0f0376a7c796944ea0713880d2fa7e2f16447829d8a3d2cf5c7c5df7bfcb2a8d"
+          },
+          "derived": {
+            "path": "stack-sources-profile-precompiled.json",
+            "bytes": 987503,
+            "sha256": "6cc61ba1f43fad9221702458d79b32dc535348da72a6685b1e96bdc460029dd1"
+          }
+        }
+      ]
+    },
+    {
+      "profile": "ecl-oz",
+      "artifact": 12568085269,
+      "packageManifest": {
+        "bytes": 52520,
+        "sha256": "f7b1fc526776e585532d859d89cbdd0797a8290366b5b8970cb790a4cc4fd17c"
+      },
+      "originalStagedFiles": 87,
+      "runtimeAssets": 79,
+      "derivedChanges": [
+        {
+          "kind": "child-observers",
+          "original": {
+            "path": "runtime/maxima-child.js",
+            "bytes": 12159,
+            "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+          },
+          "derived": {
+            "path": "runtime-profile/maxima-child.js",
+            "bytes": 22539,
+            "sha256": "4ec32ecee8af66ca28cc73cb939955df5693843a3547103950b103b0622e547e"
+          }
+        },
+        {
+          "kind": "diagnostic-memfs-lisp-hook",
+          "original": {
+            "path": "load-hooks.lisp",
+            "bytes": 1279,
+            "sha256": "ce21365c8389e304c0deca3ea5e67cf71ebfe4359eaf38deeaf15b46c54a840e"
+          },
+          "mounted": {
+            "path": "/ctm/no-rebuild-profile/load-hooks.lisp",
+            "bytes": 1279,
+            "sha256": "ce21365c8389e304c0deca3ea5e67cf71ebfe4359eaf38deeaf15b46c54a840e"
+          },
+          "mountPhase": "derived child preRun before Maxima initialization",
+          "bytesVerifiedAfterWrite": true
+        },
+        {
+          "kind": "startup-prefix",
+          "candidate": "source",
+          "original": {
+            "path": "stack-sources-timed-source.json",
+            "bytes": 987388,
+            "sha256": "a215b6dc1f39cb831ad24c5bf4ec570ad3f7434d939b1dee28f88c05f13ebd59"
+          },
+          "derived": {
+            "path": "stack-sources-profile-source.json",
+            "bytes": 985717,
+            "sha256": "3ea9f82048f3e2c512821e98b6f7468238152fe668459f3ccb99199289d9691d"
+          }
+        },
+        {
+          "kind": "startup-prefix",
+          "candidate": "precompiled",
+          "original": {
+            "path": "stack-sources-precompiled.json",
+            "bytes": 989242,
+            "sha256": "432a745dcc66b1f4e0593704b79c444813b9105d38ec77003d63bd11802f696f"
+          },
+          "derived": {
+            "path": "stack-sources-profile-precompiled.json",
+            "bytes": 987502,
+            "sha256": "4330c236076e36d05aac5619375721391cf9c27ba56abece43ee9f60de0c4418"
+          }
+        }
+      ]
+    }
+  ],
+  "trials": [
+    {
+      "id": "01-ecl-oz-source-instrumented",
+      "sampleSha256": "c4a5ce484f5bba3256d5eb3239427c36c7d100c8afd44179731dd76787fe7217",
+      "correctness": {
+        "typedChecks": 10,
+        "grades": 12,
+        "warmArithmetic": 10,
+        "policy": true,
+        "firstLogical": [
+          true,
+          [],
+          1,
+          true
+        ]
+      },
+      "metrics": {
+        "readyMs": 20009.699999999983,
+        "stackLoadMs": 14960.904999999984,
+        "wasmReadyMs": 1061.7400000000052,
+        "preStackAfterWasmMs": 3936.0149999999994,
+        "firstLogicalMs": 1569.135009765625,
+        "firstPositiveGradeMs": 1952.704833984375,
+        "firstNegativeGradeMs": 28.614990234375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 23531.539843749983
+      },
+      "trace": {
+        "frames": 81,
+        "finish": {
+          "childMs": 24882.819999999992,
+          "kind": "trace-finish",
+          "restored": true,
+          "observed": 81,
+          "entries": 81,
+          "openFrames": 0,
+          "dropped": 0,
+          "observerErrors": 0,
+          "jsDropped": 0,
+          "ordinaryEventsDropped": 0,
+          "fsUnbucketedOpenCalls": 0
+        },
+        "rootInclusiveAndAllFrameExclusiveElapsedMs": 17370.060000000012,
+        "phaseExclusiveElapsedMs": {
+          "initialization": 17266.62939453125,
+          "first-call-logical-validation": 0.0,
+          "first-positive-grade": 103.429931640625,
+          "first-negative-grade": 0.0,
+          "warm-grade-0": 0.0,
+          "warm-grade-1": 0.0,
+          "warm-grade-2": 0.0,
+          "warm-grade-3": 0.0,
+          "warm-grade-4": 0.0,
+          "warm-grade-5": 0.0,
+          "warm-grade-6": 0.0,
+          "warm-grade-7": 0.0,
+          "warm-grade-8": 0.0,
+          "warm-grade-9": 0.0,
+          "warm-arithmetic-0": 0.0,
+          "warm-arithmetic-1": 0.0,
+          "warm-arithmetic-2": 0.0,
+          "warm-arithmetic-3": 0.0,
+          "warm-arithmetic-4": 0.0,
+          "warm-arithmetic-5": 0.0,
+          "warm-arithmetic-6": 0.0,
+          "warm-arithmetic-7": 0.0,
+          "warm-arithmetic-8": 0.0,
+          "warm-arithmetic-9": 0.0,
+          "noun-isolation": 0.0,
+          "direct-noun-equivalence": 0.0,
+          "pm-structure": 0.0,
+          "pm-replacement": 0.0,
+          "pm-display": 0.0,
+          "pm-unary-rewrite": 0.0,
+          "pm-positive": 0.0,
+          "pm-negative": 0.0,
+          "number-display": 0.0,
+          "policy": 0.0
+        },
+        "top10ExclusiveLoads": [
+          {
+            "operation": "maxima-load",
+            "name": "lisp-utils/defsystem.lisp",
+            "calls": 2,
+            "inclusiveElapsedMs": 3240.485000000015,
+            "exclusiveElapsedMs": 3240.485000000015
+          },
+          {
+            "operation": "maxima-load",
+            "name": "draw",
+            "calls": 1,
+            "inclusiveElapsedMs": 2361.6900000000023,
+            "exclusiveElapsedMs": 1740.6549999999988
+          },
+          {
+            "operation": "maxima-load",
+            "name": "eval_string.lisp",
+            "calls": 1,
+            "inclusiveElapsedMs": 1103.979999999996,
+            "exclusiveElapsedMs": 1103.979999999996
+          },
+          {
+            "operation": "maxima-load",
+            "name": "unicode-sniffer.lisp",
+            "calls": 2,
+            "inclusiveElapsedMs": 892.6600000000035,
+            "exclusiveElapsedMs": 892.6600000000035
+          },
+          {
+            "operation": "maxima-load",
+            "name": "load-linearalgebra-lisp-files",
+            "calls": 1,
+            "inclusiveElapsedMs": 3455.3050000000076,
+            "exclusiveElapsedMs": 835.8549999999959
+          },
+          {
+            "operation": "maxima-load",
+            "name": "distrib",
+            "calls": 2,
+            "inclusiveElapsedMs": 2128.204999999987,
+            "exclusiveElapsedMs": 817.8149999999441
+          },
+          {
+            "operation": "maxima-load",
+            "name": "geometry.mac",
+            "calls": 1,
+            "inclusiveElapsedMs": 745.5149999999994,
+            "exclusiveElapsedMs": 745.5149999999994
+          },
+          {
+            "operation": "maxima-load",
+            "name": "stackmaxima.mac",
+            "calls": 1,
+            "inclusiveElapsedMs": 9134.74000000002,
+            "exclusiveElapsedMs": 707.2449999999808
+          },
+          {
+            "operation": "maxima-load",
+            "name": "descriptive",
+            "calls": 2,
+            "inclusiveElapsedMs": 3015.5050000000047,
+            "exclusiveElapsedMs": 539
+          },
+          {
+            "operation": "maxima-load",
+            "name": "assessment.mac",
+            "calls": 1,
+            "inclusiveElapsedMs": 1137.5100000000093,
+            "exclusiveElapsedMs": 426.4550000000163
+          }
+        ]
+      },
+      "filesystem": {
+        "totalOpens": 34576,
+        "totalOpenElapsedMs": 6520.195000002903,
+        "regularFileBuckets": 197,
+        "otherBuckets": 6,
+        "failureOpens": 22406,
+        "failureElapsedMs": 6463.255000002595,
+        "failures": [
+          {
+            "kind": "failure",
+            "flags": 622592,
+            "completed": false,
+            "errorCode": 54,
+            "opens": 11302,
+            "openElapsedMs": 3022.8800000016345,
+            "examples": [
+              {
+                "path": "/share/info/maxima-index.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/share/info/maxima-index-html.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/ctm/no-rebuild-profile/load-hooks.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/MYTOPIC.info",
+                "truncated": false
+              }
+            ]
+          },
+          {
+            "kind": "failure",
+            "flags": 622592,
+            "completed": false,
+            "errorCode": 44,
+            "opens": 11104,
+            "openElapsedMs": 3440.3750000009604,
+            "examples": [
+              {
+                "path": "/home/web_user/.maxima/maxima-init.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/home/web_user/.maxima/maxima-init.mac",
+                "truncated": false
+              },
+              {
+                "path": "/share/locale/en_US@posix.UTF-8/LC_MESSAGES/maxima.mo",
+                "truncated": false
+              },
+              {
+                "path": "/share/locale/en_US@posix/LC_MESSAGES/maxima.mo",
+                "truncated": false
+              }
+            ]
+          }
+        ],
+        "overflowCalls": 0
+      },
+      "cpuReported": {
+        "complete": true,
+        "contexts": 3,
+        "errnoCanonicalGroup": {
+          "frame": {
+            "functionName": "ErrnoError",
+            "url": "http://127.0.0.1:43747/maxima-runtime/maxima.js",
+            "scriptId": "5",
+            "lineNumber": 2708,
+            "columnNumber": 19
+          },
+          "samples": 11755,
+          "sampledIntervalMicroseconds": 12605590,
+          "nodeIdCount": 499,
+          "nodeIdsTruncated": true,
+          "opaqueWasm": false
+        },
+        "processCPUSeconds": 29.12,
+        "rawIndependentlyRederived": true
+      },
+      "requests": 13,
+      "consoleCounts": {
+        "error:warning: unsupported syscall: __syscall_prlimit64\n": 1,
+        "error:warning: unsupported syscall: __syscall_getrusage\n": 87,
+        "log:LazyFiles on gzip forces download of the whole file when length is accessed": 1
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "02-ecl-oz-precompiled-instrumented",
+      "sampleSha256": "78a97cc1f456f4fafb602eadc7bebfc8c699ff057dbe361f68f3e48e4cc9fae8",
+      "correctness": {
+        "typedChecks": 10,
+        "grades": 12,
+        "warmArithmetic": 10,
+        "policy": true,
+        "firstLogical": [
+          true,
+          [],
+          1,
+          true
+        ]
+      },
+      "metrics": {
+        "readyMs": 20637.36499999999,
+        "stackLoadMs": 15381.065000000002,
+        "wasmReadyMs": 1703.2600000000093,
+        "preStackAfterWasmMs": 3351.2850000000035,
+        "firstLogicalMs": 1627.690185546875,
+        "firstPositiveGradeMs": 1917.7451171875,
+        "firstNegativeGradeMs": 53.60498046875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 24182.800302734366
+      },
+      "trace": {
+        "frames": 53,
+        "finish": {
+          "childMs": 25393.679999999993,
+          "kind": "trace-finish",
+          "restored": true,
+          "observed": 53,
+          "entries": 53,
+          "openFrames": 0,
+          "dropped": 0,
+          "observerErrors": 0,
+          "jsDropped": 0,
+          "ordinaryEventsDropped": 0,
+          "fsUnbucketedOpenCalls": 0
+        },
+        "rootInclusiveAndAllFrameExclusiveElapsedMs": 17262.505000000005,
+        "phaseExclusiveElapsedMs": {
+          "initialization": 17165.0751953125,
+          "first-call-logical-validation": 0.0,
+          "first-positive-grade": 97.429931640625,
+          "first-negative-grade": 0.0,
+          "warm-grade-0": 0.0,
+          "warm-grade-1": 0.0,
+          "warm-grade-2": 0.0,
+          "warm-grade-3": 0.0,
+          "warm-grade-4": 0.0,
+          "warm-grade-5": 0.0,
+          "warm-grade-6": 0.0,
+          "warm-grade-7": 0.0,
+          "warm-grade-8": 0.0,
+          "warm-grade-9": 0.0,
+          "warm-arithmetic-0": 0.0,
+          "warm-arithmetic-1": 0.0,
+          "warm-arithmetic-2": 0.0,
+          "warm-arithmetic-3": 0.0,
+          "warm-arithmetic-4": 0.0,
+          "warm-arithmetic-5": 0.0,
+          "warm-arithmetic-6": 0.0,
+          "warm-arithmetic-7": 0.0,
+          "warm-arithmetic-8": 0.0,
+          "warm-arithmetic-9": 0.0,
+          "noun-isolation": 0.0,
+          "direct-noun-equivalence": 0.0,
+          "pm-structure": 0.0,
+          "pm-replacement": 0.0,
+          "pm-display": 0.0,
+          "pm-unary-rewrite": 0.0,
+          "pm-positive": 0.0,
+          "pm-negative": 0.0,
+          "number-display": 0.0,
+          "policy": 0.0
+        },
+        "top10ExclusiveLoads": [
+          {
+            "operation": "maxima-load",
+            "name": "lisp-utils/defsystem.lisp",
+            "calls": 2,
+            "inclusiveElapsedMs": 4309.639999999985,
+            "exclusiveElapsedMs": 4309.639999999985
+          },
+          {
+            "operation": "maxima-load",
+            "name": "/ctm/moodle-qtype_stack-master/stack/maxima/stackmaxima.fas",
+            "calls": 1,
+            "inclusiveElapsedMs": 9707.084999999992,
+            "exclusiveElapsedMs": 3364.4150000000373
+          },
+          {
+            "operation": "maxima-load",
+            "name": "draw",
+            "calls": 1,
+            "inclusiveElapsedMs": 2480.939999999973,
+            "exclusiveElapsedMs": 1860.9899999999907
+          },
+          {
+            "operation": "maxima-load",
+            "name": "eval_string.lisp",
+            "calls": 1,
+            "inclusiveElapsedMs": 1126.4049999999988,
+            "exclusiveElapsedMs": 1126.4049999999988
+          },
+          {
+            "operation": "maxima-load",
+            "name": "load-linearalgebra-lisp-files",
+            "calls": 1,
+            "inclusiveElapsedMs": 4737.845000000001,
+            "exclusiveElapsedMs": 1048.1549999999988
+          },
+          {
+            "operation": "maxima-load",
+            "name": "distrib",
+            "calls": 2,
+            "inclusiveElapsedMs": 2017.914999999979,
+            "exclusiveElapsedMs": 764.3599999999569
+          },
+          {
+            "operation": "maxima-load",
+            "name": "descriptive",
+            "calls": 2,
+            "inclusiveElapsedMs": 3114.1500000000233,
+            "exclusiveElapsedMs": 522.6100000000733
+          },
+          {
+            "operation": "maxima-load",
+            "name": "unicode-sniffer.lisp",
+            "calls": 2,
+            "inclusiveElapsedMs": 302.7600000000093,
+            "exclusiveElapsedMs": 302.7600000000093
+          },
+          {
+            "operation": "maxima-load",
+            "name": "stats",
+            "calls": 1,
+            "inclusiveElapsedMs": 5065.625,
+            "exclusiveElapsedMs": 248.24499999999534
+          },
+          {
+            "operation": "maxima-load",
+            "name": "to_poly_solve.mac",
+            "calls": 1,
+            "inclusiveElapsedMs": 727.8299999999872,
+            "exclusiveElapsedMs": 196.52499999999418
+          }
+        ]
+      },
+      "filesystem": {
+        "totalOpens": 31926,
+        "totalOpenElapsedMs": 6604.414999999019,
+        "regularFileBuckets": 198,
+        "otherBuckets": 6,
+        "failureOpens": 20893,
+        "failureElapsedMs": 6543.200000001554,
+        "failures": [
+          {
+            "kind": "failure",
+            "flags": 622592,
+            "completed": false,
+            "errorCode": 54,
+            "opens": 9824,
+            "openElapsedMs": 3211.9550000017043,
+            "examples": [
+              {
+                "path": "/share/info/maxima-index.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/share/info/maxima-index-html.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/ctm/no-rebuild-profile/load-hooks.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/share/maxima/branch_5_49_base_90_g813903d33/share/MYTOPIC.info",
+                "truncated": false
+              }
+            ]
+          },
+          {
+            "kind": "failure",
+            "flags": 622592,
+            "completed": false,
+            "errorCode": 44,
+            "opens": 11069,
+            "openElapsedMs": 3331.24499999985,
+            "examples": [
+              {
+                "path": "/home/web_user/.maxima/maxima-init.lisp",
+                "truncated": false
+              },
+              {
+                "path": "/home/web_user/.maxima/maxima-init.mac",
+                "truncated": false
+              },
+              {
+                "path": "/share/locale/en_US@posix.UTF-8/LC_MESSAGES/maxima.mo",
+                "truncated": false
+              },
+              {
+                "path": "/share/locale/en_US@posix/LC_MESSAGES/maxima.mo",
+                "truncated": false
+              }
+            ]
+          }
+        ],
+        "overflowCalls": 0
+      },
+      "cpuReported": {
+        "complete": true,
+        "contexts": 3,
+        "errnoCanonicalGroup": {
+          "frame": {
+            "functionName": "ErrnoError",
+            "url": "http://127.0.0.1:45471/maxima-runtime/maxima.js",
+            "scriptId": "5",
+            "lineNumber": 2708,
+            "columnNumber": 19
+          },
+          "samples": 12109,
+          "sampledIntervalMicroseconds": 12986634,
+          "nodeIdCount": 491,
+          "nodeIdsTruncated": true,
+          "opaqueWasm": false
+        },
+        "processCPUSeconds": 28.880000000000003,
+        "rawIndependentlyRederived": true
+      },
+      "requests": 14,
+      "consoleCounts": {
+        "error:warning: unsupported syscall: __syscall_prlimit64\n": 1,
+        "error:warning: unsupported syscall: __syscall_getrusage\n": 87,
+        "log:LazyFiles on gzip forces download of the whole file when length is accessed": 1
+      },
+      "pageErrors": []
+    }
+  ],
+  "limitations": [
+    "Two instrumented trials only: n1 source and n1 entry-FAS, no clean control and no full-matrix acceptance.",
+    "TRACE measures MAXIMA::$LOAD JavaScript elapsed entry/return intervals including trace printing/processing overhead; direct compiled calls may bypass tracing. CL:LOAD and compiler activity are not separately measured.",
+    "Nested inclusive intervals must not be summed. Independent direct-child subtraction, well-nested order and epoch/phase overlap rederivation passed.",
+    "FS counters cover instrumented FS.open calls, not every possible filesystem operation. Grouped failures retain bounded examples rather than a full path history; no bucket or event loss occurred.",
+    "Expected errno44/54 failure counts are a diagnostic lead. FS.open duration is not full load time, canonical ErrnoError sampled intervals include the whole sampled run, and these quantities are not additive or proven reclaimable CPU.",
+    "Epoch alignment is approximate; Chrome sampling timestamps use a separate monotonic domain and require captured calibration before phase attribution.",
+    "Both trials visibly retain prlimit64 warning once, getrusage warning87 times and one LazyFiles informational message; no page errors. No blanket warning-free claim.",
+    "Successful Oz pilot does not clear the separately failed expanded baseline instrumented run.",
+    "No artifact program was imported or executed during review. Existing accepted original manifests were read only as data.",
+    "All raw CPU node/sample/timeDelta arrays and retained top30 node/canonical summaries were independently rederived; no clock-pair calibration permits phase attribution. Process CPU totals remain summary-only.",
+    "Raw CPU ErrnoError groups include open and readlink callers. Readlink can throw errno28 as well as44; sampled stack frames do not identify errno arguments, so a44/54-only A/B must not claim coverage of all ErrnoError cost."
+  ],
+  "cpuReview": {
+    "path": "/workspace/work/no-rebuild-trace-pilot-independent-cpu-review.json",
+    "bytes": 34499,
+    "sha256": "e65089d76c31e97d316c2620d0e990b7fea980c842325efcc15ba073e27c280c"
+  },
+  "producerAndInitialAuditAPIReceipt": {
+    "path": "/workspace/work/no-rebuild-trace-pilot-independent-api.json",
+    "bytes": 42186,
+    "sha256": "cb9e425e6472e1bcaff5404a8b2d84fb8bc1de04e482fec4f090b86b8489a28f"
+  },
+  "auditCompletenessReceipt": "Root-owned job-log recovery reported one COMPLETE for the initial audit and each of four CPU range audits; no duplicate log GET by this reviewer. Producer/audit runs/jobs/commit trees were independently GET verified.",
+  "checkers": [
+    {
+      "path": "/workspace/work/review-trace-pilot-data.py",
+      "bytes": 17438,
+      "sha256": "547d365e21ebfe306c0d5682aa8e78f80eccd44dd92b6020b85fe840984f050e"
+    },
+    {
+      "path": "/workspace/work/review-trace-pilot-cpu.py",
+      "bytes": 10150,
+      "sha256": "d42bdaa101d54374d62556e978a136ff6bc055d4d7eea5c18882812471ef9c2e"
+    }
+  ]
+}

@@ -1,0 +1,338 @@
+{
+  "schema": 1,
+  "status": "FINAL SCOPED CLEAR: actual diagnostic A/B integrity, correctness, capability and descriptive timings",
+  "passed": true,
+  "scope": "Independent data-only review of this 24-sample guarded no-rebuild diagnostic A/B. This accepts the recorded comparison as descriptive evidence; it does not promote the derivative or establish a reliable speedup.",
+  "benchmark": {
+    "run": 40141617243,
+    "workflow": 395494340,
+    "job": 121014363595,
+    "head": "01ffcfe9d5559502df7daa9321de48c77bc56789",
+    "tree": "1c260576aa2bdff7d97657fd4d057620be3fd746",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "artifact": {
+    "id": 12579700576,
+    "name": "fs-error-stack-ab-01ffcfe9d5559502df7daa9321de48c77bc56789-1",
+    "zipBytes": 36132905,
+    "sha256": "aec085c5b5e67cf59d50baa927ff166a845556ebe5d6abdb7a5e9c789492aaff",
+    "run": 40141617243,
+    "workflow": 395494340,
+    "head": "01ffcfe9d5559502df7daa9321de48c77bc56789",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "originalProducer": {
+    "runId": 40108653819,
+    "runAttempt": 1,
+    "workflowId": 394101239,
+    "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+    "testedRevision": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+    "trustedRevision": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+    "tree": "0e543f936a385548a7ffd53d68930bd88c033922",
+    "recipeFiles": 71,
+    "jobs": [
+      {
+        "id": 120915544152,
+        "name": "bundle-probe (ecl-oz)"
+      },
+      {
+        "id": 120915544199,
+        "name": "bundle-probe (baseline)"
+      }
+    ]
+  },
+  "originalArtifact": {
+    "id": 12568085269,
+    "node_id": "MDg6QXJ0aWZhY3QxMjU2ODA4NTI2OQ==",
+    "name": "precompiled-stack-probe-ecl-oz-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+    "size_in_bytes": 213921626,
+    "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12568085269",
+    "archive_download_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12568085269/zip",
+    "expired": false,
+    "digest": "sha256:890a9c1c6c96d915ada2c41bf85e8b3756132ea2f42d6c5d4c6d9a9357c6759d",
+    "created_at": "2026-10-24T16:55:52Z",
+    "updated_at": "2026-10-24T16:55:52Z",
+    "expires_at": "2027-01-22T15:48:29Z",
+    "workflow_run": {
+      "id": 40108653819,
+      "repository_id": 1428812079,
+      "head_repository_id": 1428812079,
+      "head_branch": "runtime/2026-10-precompiled-stack",
+      "head_sha": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31"
+    }
+  },
+  "originalCompilerProfile": {
+    "name": "ecl-oz",
+    "injectedEmccFlags": "-Oz",
+    "eclCoreOptimization": "-Oz",
+    "eclGeneratedLispOptimization": "-Oz",
+    "maximaGeneratedOptimization": "-O2"
+  },
+  "bindingVerification": {
+    "passed": true,
+    "artifact": {
+      "id": 12579700576,
+      "name": "fs-error-stack-ab-01ffcfe9d5559502df7daa9321de48c77bc56789-1",
+      "zipBytes": 36132905,
+      "sha256": "aec085c5b5e67cf59d50baa927ff166a845556ebe5d6abdb7a5e9c789492aaff",
+      "run": 40141617243,
+      "workflow": 395494340,
+      "head": "01ffcfe9d5559502df7daa9321de48c77bc56789",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "records": [
+      {
+        "path": "/workspace/work/fs-error-stack-actual-initial-records.json",
+        "bytes": 124868,
+        "sha256": "604c19d5bdafbabebdf762c27d5e9c431d583d9676456c9278948bb71b1f3451"
+      },
+      {
+        "path": "/workspace/work/fs-error-stack-actual-samples-records.json",
+        "bytes": 222960,
+        "sha256": "a07b13493ca88af230127158ca3ceb1890834d9d66a6eaad5c55cc8debd4fda7"
+      },
+      {
+        "path": "/workspace/work/fs-error-stack-actual-delta-records.json",
+        "bytes": 954262,
+        "sha256": "89d963e6e9fb27deb8c7360e1b69384c39ed6295e3609f00e27bda38817267be"
+      }
+    ],
+    "recoveredPayloadFiles": 37,
+    "recoveredPayloadBytes": 4872925,
+    "fullInventoryFiles": 398,
+    "originalZipInventoryRowsMatched": 3404,
+    "originalRetainedAdmissionInputsMatched": 135,
+    "frozenToolsMatched": 21,
+    "stagedArmFilesBeforeRunner": 87,
+    "stagedArmFilesAfterRunner": 89,
+    "identicalFilesAcrossArms": 83,
+    "changedFilesAcrossArms": 4,
+    "runtimeAssetsPerArm": 79,
+    "embeddedStackSourcesPerManifest": 77,
+    "rawDerivationAndChildReconstructed": true,
+    "originalPreload": "Explicit deterministic reconstruction from old admitted assets; hash-bound to old archived manifest, not an original archived member",
+    "nativeWorkloadMatched": 3,
+    "artifactProgramsExecuted": false
+  },
+  "sampleVerification": {
+    "path": "/workspace/work/fs-error-stack-actual-review/sample-result.json",
+    "bytes": 25418,
+    "sha256": "6aee5cf166fa50855777c73889959c8efe480e353f4b226cdcb8b097fad28c9a"
+  },
+  "controls": {
+    "samples": 24,
+    "freshSessions": 24,
+    "confirmedTerminations": 24,
+    "typedChecks": 240,
+    "firstGrades": 48,
+    "warmGrades": 240,
+    "warmArithmetic": 240,
+    "nativePrograms": 72,
+    "fullGcAcknowledgments": 2400,
+    "caughtErrorRecoveries": 24,
+    "plotNegativeRecoveries": 96,
+    "startupReceipts": 24,
+    "treatmentCapabilityReceipts": 12,
+    "controlTreatmentReceipts": 0,
+    "hashedRequestRecords": 174
+  },
+  "actualTreatment": {
+    "identicalReceipts": 12,
+    "errno": 44,
+    "code": "ENOENT",
+    "originalStackTraceLimit": 10,
+    "ownWritableFiniteNumericDescriptor": true,
+    "suppressionApplied": true,
+    "descriptorRestored": true,
+    "nativeStackFrameCount": 0,
+    "nativeStackLineCount": 1,
+    "controlReceipts": 0,
+    "scope": "One actual-child receipt per treatment sample, after original errno/code assignment and descriptor restoration. This demonstrates eligible suppression for the observed first errno44 construction; it does not measure every errno instance or cover errno54/other paths empirically."
+  },
+  "readinessMs": [
+    {
+      "candidate": "source",
+      "mode": "cold",
+      "nPerArm": 3,
+      "controlGroupMedianMs": 11650.05999999994,
+      "experimentalGroupMedianMs": 11814.530000000028,
+      "pairedMedianExperimentalMinusControlMs": -35.47499999997672,
+      "experimentalFasterPairs": 2
+    },
+    {
+      "candidate": "source",
+      "mode": "warm-profile-reload",
+      "nPerArm": 3,
+      "controlGroupMedianMs": 11367.86499999999,
+      "experimentalGroupMedianMs": 11459.255000000005,
+      "pairedMedianExperimentalMinusControlMs": -201.04000000003725,
+      "experimentalFasterPairs": 2
+    },
+    {
+      "candidate": "precompiled",
+      "mode": "cold",
+      "nPerArm": 3,
+      "controlGroupMedianMs": 12638.395000000019,
+      "experimentalGroupMedianMs": 13338.194999999949,
+      "pairedMedianExperimentalMinusControlMs": 699.7999999999302,
+      "experimentalFasterPairs": 0
+    },
+    {
+      "candidate": "precompiled",
+      "mode": "warm-profile-reload",
+      "nPerArm": 3,
+      "controlGroupMedianMs": 12744.909999999916,
+      "experimentalGroupMedianMs": 12370.169999999925,
+      "pairedMedianExperimentalMinusControlMs": 379.67499999993015,
+      "experimentalFasterPairs": 1
+    }
+  ],
+  "allMetricGroupMediansAndPairedDifferences": {
+    "path": "/workspace/work/fs-error-stack-actual-review/sample-result.json",
+    "bytes": 25418,
+    "sha256": "6aee5cf166fa50855777c73889959c8efe480e353f4b226cdcb8b097fad28c9a"
+  },
+  "performanceConclusion": "No material reliable gain established. Source paired readiness medians are modestly negative but inconsistent with group-median direction; FAS paired readiness medians are positive. n=3 is descriptive and insufficient to claim zero effect or a general speedup. Profiler hotspot intervals do not establish reclaimable time.",
+  "measurementScope": {
+    "arms": [
+      "original runtime with shared guarded child",
+      "errno44/54 stack-capture diagnostic derivative with same guarded child"
+    ],
+    "candidates": [
+      "source",
+      "matching compiled entry FAS"
+    ],
+    "repetitions": 3,
+    "modes": [
+      "cold",
+      "same-browser-profile reload after confirmed session termination"
+    ],
+    "cpuQuota": false,
+    "cpuProfiler": false,
+    "trace": false,
+    "watchdogMs": 300000,
+    "browser": "141.0.7390.37",
+    "runnerImage": "20261023.334.3",
+    "syntheticCombinedMetric": "Readiness + first logical-validation + first positive grade; not complete UI latency."
+  },
+  "retainedDiagnostics": {
+    "consoleCounts": {
+      "error:warning: unsupported syscall: __syscall_prlimit64\n": 24,
+      "error:warning: unsupported syscall: __syscall_getrusage\n": 7512,
+      "log:LazyFiles on gzip forces download of the whole file when length is accessed": 24
+    },
+    "fatalConsoleErrors": 0,
+    "untruncatedStartupTails": 24,
+    "knownCaughtTexnumformatDiagnostics": 12,
+    "explanation": "All FAS tails retain fundef: no such function: texnumformat. Pinned stackmaxima.mac line805 explicitly catches compile(?texnumformat), with an upstream comment calling this spurious on some systems. The accepted compiled official stdout has the same diagnostic followed by subsequent load returns and root-load return. It is not labelled a silent startup or an uncaught load abort."
+  },
+  "audits": [
+    {
+      "name": "initial",
+      "run": 40142704551,
+      "job": 121017588570,
+      "head": "6963a4d73d3f783790dfe4b3219cccbd173678ec",
+      "tree": "b9157a83f18366b303bfe9478cc75815d7a5854c",
+      "status": "completed",
+      "conclusion": "success",
+      "helperSha256": "5e6c83c7c6acc52dc6337a0a4acba27e7c8b3e6fbd3dcc780a243ca6eecdb26e",
+      "workflowSha256": "468af0f6a0b7b5159fd4c8c7acc46b5db0c792411054148daa08b20745e6575c",
+      "specSha256": "83f6c64635a9da526d9a57fadbe583cada8fb7a0d17e6689f929f0dd83b7ca8e",
+      "records": {
+        "path": "/workspace/work/fs-error-stack-actual-initial-records.json",
+        "bytes": 124868,
+        "sha256": "604c19d5bdafbabebdf762c27d5e9c431d583d9676456c9278948bb71b1f3451"
+      },
+      "completeMarker": "Exactly one COMPLETE confirmed by parent recovery; decoded records omit log framing."
+    },
+    {
+      "name": "samples",
+      "run": 40142772410,
+      "job": 121017790734,
+      "head": "72f03f7a0d6f2d72765567168e664bf5435853bd",
+      "tree": "efc02447e566ce8da16ec06d5a3822ca0d4bc901",
+      "status": "completed",
+      "conclusion": "success",
+      "helperSha256": "5e6c83c7c6acc52dc6337a0a4acba27e7c8b3e6fbd3dcc780a243ca6eecdb26e",
+      "workflowSha256": "468af0f6a0b7b5159fd4c8c7acc46b5db0c792411054148daa08b20745e6575c",
+      "specSha256": "07bd0122a06f33b3fc3b0df23ec79b39962d0cb3ee3f9b9e5daafb43c29a27c4",
+      "records": {
+        "path": "/workspace/work/fs-error-stack-actual-samples-records.json",
+        "bytes": 222960,
+        "sha256": "a07b13493ca88af230127158ca3ceb1890834d9d66a6eaad5c55cc8debd4fda7"
+      },
+      "completeMarker": "Exactly one COMPLETE confirmed by parent recovery; decoded records omit log framing."
+    },
+    {
+      "name": "delta",
+      "run": 40142821228,
+      "job": 121017931900,
+      "head": "3d04ffd106412c0aed694122c2b6889cffd3932a",
+      "tree": "4ca099f8f76966d27eb4e4d4c585a96b21ef55b2",
+      "status": "completed",
+      "conclusion": "success",
+      "helperSha256": "5e6c83c7c6acc52dc6337a0a4acba27e7c8b3e6fbd3dcc780a243ca6eecdb26e",
+      "workflowSha256": "468af0f6a0b7b5159fd4c8c7acc46b5db0c792411054148daa08b20745e6575c",
+      "specSha256": "ecfcc62381ed563315060965355717395a2e333b02b025eb9d933806345affcc",
+      "records": {
+        "path": "/workspace/work/fs-error-stack-actual-delta-records.json",
+        "bytes": 954262,
+        "sha256": "89d963e6e9fb27deb8c7360e1b69384c39ed6295e3609f00e27bda38817267be"
+      },
+      "completeMarker": "Exactly one COMPLETE confirmed by parent recovery; decoded records omit log framing."
+    }
+  ],
+  "sourceReview": {
+    "path": "/workspace/work/fs-error-stack-independent-source-review.json",
+    "bytes": 14568,
+    "sha256": "19d8802e03e3d154789b866ecb56bf3cb5aefa257aa1c5ea465ca1aec3b9958a"
+  },
+  "originalIndependentAcceptance": {
+    "path": "/workspace/work/fs-error-stack-experiment/reviews/ecl-oz.json",
+    "bytes": 23593,
+    "sha256": "0a1b39fb99372d10c58a2d4bd0071bd53dda7f39d74ffa9a282c3770495801ce"
+  },
+  "checkers": [
+    {
+      "path": "/workspace/work/fs-error-stack-actual-review/check-data.py",
+      "bytes": 25084,
+      "sha256": "340cf987f0c6ecc92624069083d7b4e93233f1cad19a65bd5fc61720aa50aa74"
+    },
+    {
+      "path": "/workspace/work/fs-error-stack-actual-review/close-final.py",
+      "bytes": 10749,
+      "sha256": "0a0fda44eee78f46385b4bc6562596c127b033236984289b68c5f6eb3a6ca677"
+    }
+  ],
+  "apiEvidence": [
+    {
+      "path": "/workspace/work/fs-error-stack-actual-review/api-provenance.json",
+      "bytes": 39194,
+      "sha256": "fc55e7e5fa78cb1cce90debde9b915490189f1dc315fdb57cda972020ed29bd6"
+    },
+    {
+      "path": "/workspace/work/fs-error-stack-actual-review/audit-api-provenance.json",
+      "bytes": 92017,
+      "sha256": "2e1e6bfab97f85d38b3349a0753c4b5ed0a921bb6c181ea7ed989fa16b7a0fff"
+    }
+  ],
+  "limits": [
+    "Both arms use a separately declared shared stdout observer. Neither is a pristine-wrapper timing. Existing markers and fatal-pattern scan do not prove every possible startup failure absent or a same-evaluation root return.",
+    "Only maxima.js and three manifest metadata records differ across arms; Wasm/FAS/67-file preload/source strings/session wrapper are hash-bound unchanged. Raw generated JS was inspected/derived as bytes, never executed locally.",
+    "The original source package lacks an archived preload JSON. Its reconstructed file is explicitly identified and bound to the original archived manifest hash; this review verifies that hash and the inventory, not a new archive payload claim.",
+    "Readiness group medians and median paired differences answer different questions and can have opposite signs; both are retained.",
+    "No cross-run comparison to earlier 19-second or other-runner timings, no CPU-time recovery estimate, no production promotion, no zero-effect inference.",
+    "Native references are three exact programs from an independently accepted 316-program capture. No runtime/browser/CAS/native/compiler or artifact code was executed in this review.",
+    "Audit log COMPLETE framing is parent-recovery evidence; this reviewer checked all decoded payloads, inventories and exact API/helper/workflow/spec provenance."
+  ],
+  "artifactProgramsExecuted": false,
+  "githubMutationsPerformed": false,
+  "productionPromotion": false,
+  "blockingFindings": []
+}

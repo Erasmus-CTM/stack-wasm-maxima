@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "observedBeforeMeasurement": true,
+  "platform": "linux",
+  "release": "6.17.0-1022-azure",
+  "arch": "x64",
+  "logicalCPUCount": 4,
+  "cpuModels": [
+    "AMD EPYC 7763 64-Core Processor"
+  ],
+  "availableParallelism": 4,
+  "totalMemoryBytes": 16766414848,
+  "scope": "Untimed host metadata, not CPU sampling or cross-run timing normalization."
+}

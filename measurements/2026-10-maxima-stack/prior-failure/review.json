@@ -1,0 +1,282 @@
+{
+  "schema": 1,
+  "verdict": "FAILED overall matrix; independently verified partial evidence and startup rejection",
+  "evidenceReviewCompleted": true,
+  "fullComparisonAccepted": false,
+  "benchmark": {
+    "run": 40143072180,
+    "workflow": 395505120,
+    "job": 121018668691,
+    "head": "8f1c9d32f467ec8c264771307d259a268ea23448",
+    "tree": "47485c435d631638677c73590225a1836976ccef",
+    "attempt": 1,
+    "requiredStatus": "completed",
+    "requiredConclusion": "success",
+    "observedStatus": "completed",
+    "observedConclusion": "failure"
+  },
+  "artifact": {
+    "id": 12580575852,
+    "name": "full-six-cell-guarded-8f1c9d32f467ec8c264771307d259a268ea23448-1",
+    "zipBytes": 71875641,
+    "sha256": "0ba0cfc2e61ea13ad133040fa1b2c2b80e3eca5dd38d8ea05d8d7917d37c98f0",
+    "run": 40143072180,
+    "workflow": 395505120,
+    "head": "8f1c9d32f467ec8c264771307d259a268ea23448",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "failure"
+  },
+  "actualCounts": {
+    "attempts": 36,
+    "successfulSamples": 35,
+    "failedSamples": 1,
+    "confirmedTerminations": 36,
+    "typedChecks": 350,
+    "firstGrades": 70,
+    "warmGrades": 350,
+    "warmArithmetic": 350,
+    "nativePrograms": 105,
+    "fullGcAcknowledgments": 3500,
+    "caughtErrorRecoveries": 35,
+    "plotNegativeRecoveries": 140,
+    "passedStartupReceipts": 35,
+    "failedStartupReceipts": 1,
+    "hashedRequestRecords": 261
+  },
+  "bindingVerification": {
+    "path": "/workspace/work/full-timing-table-guarded-actual-review/failed-attempt-1/binding-result.json",
+    "bytes": 3921,
+    "sha256": "e20735573cf3eb5d260b031048a5afa1be73631f79d26f8ebe2fec9c33f7691c"
+  },
+  "rawSampleVerification": {
+    "path": "/workspace/work/full-timing-table-guarded-actual-review/failed-attempt-1/sample-result.json",
+    "bytes": 117838,
+    "sha256": "11bad65ee9297f3e7520ff659ab4bf86cd8df83b65f1157c0d65f6b6b798a892"
+  },
+  "failedSample": {
+    "id": "17-ecl-oz-precompiled-cold",
+    "profile": "ecl-oz",
+    "candidate": "precompiled",
+    "mode": "cold",
+    "repetition": 3,
+    "phase": "initialization",
+    "initializationMs": 15743.324951171875,
+    "fatalDiagnostic": {
+      "reason": "Fatal startup diagnostic",
+      "line": "loadfile: failed to load /share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+      "lineNumber": 25
+    },
+    "stdoutUntruncated": true,
+    "completedLines": 25,
+    "beginCount": 1,
+    "endCount": 0,
+    "readyCount": 0,
+    "passedSemanticChecksBeforeFailure": 0,
+    "sessionTerminated": true,
+    "postTerminationEvaluationRejected": true,
+    "fatalBrowserConsoleErrors": 0,
+    "pageErrors": [],
+    "retainedStdout": {
+      "path": "/workspace/work/full-timing-table-guarded-actual-review/failed-attempt-1/failed-startup-stdout.txt",
+      "bytes": 898,
+      "sha256": "5aab63c31656a806ba4549843d584cc08b354e5ec431d05194668dbb96977819"
+    }
+  },
+  "knownPriorCaughtDiagnostic": "The earlier fundef: no such function: texnumformat line is the known upstream caught compile diagnostic. The subsequent explicit loadfile failure for draw.lisp is independently fatal to this startup.",
+  "diagnosticConclusion": "The guard correctly rejected startup before LOAD-END/READY. The artifact does not expose the underlying condition behind Maxima loadfile failure; no parser-only, GC, timeout, CPU-sampling or general memory-cause conclusion is justified.",
+  "followingReload": {
+    "id": "17-ecl-oz-precompiled-warm-profile-reload",
+    "recordedCorrectnessPassed": true,
+    "freshWorkerAndBuffersVerified": true,
+    "priorSessionTerminationVerified": true,
+    "qualification": "Its browser profile followed an incomplete cold startup, so cache warmup differs from reloads following complete successful cold trials. Preserve this in partial comparisons."
+  },
+  "reportingFinding": [
+    {
+      "id": "17-ecl-oz-precompiled-cold",
+      "reportWarningCount": 19,
+      "rawSampleWarningCount": 17,
+      "difference": 2,
+      "status": "Preserved discrepancy; raw sample and compact report were serialized at different points. The source permits late console events during the awaited sample write. Exact missing events are not recoverable from these two records."
+    }
+  ],
+  "conditionalTimings": {
+    "path": "/workspace/work/full-timing-table-guarded-actual-review/failed-attempt-1/conditional-timings.json",
+    "bytes": 32547,
+    "sha256": "25ec92a5cf7e9b7459b684e3f57c515df1a374da31eaab32fc87d565d6588cb0"
+  },
+  "partialComparisonScope": {
+    "reportedSummaryRows": 12,
+    "failedCellSuccessfulN": 2,
+    "otherSummaryRowsN": 3,
+    "reviewerDerivedPairs": 54,
+    "unavailableBecauseFailedMember": 3,
+    "availableButReloadCacheQualified": 3,
+    "allAttemptedSamplesRetained": true,
+    "failedCaseOmittedOrImputed": false
+  },
+  "profileSourceBindings": {
+    "baseline": {
+      "artifactId": 12567788724,
+      "sourceZipInventoryRows": 3404,
+      "packageRowsExcludingSelf": 223,
+      "recipeFiles": 71,
+      "runtimeAssets": 79,
+      "retainedOriginalAdmissionInputsMatched": 135,
+      "siteOriginalFiles": 87,
+      "siteStagedFiles": 89,
+      "archivedPreload": false,
+      "sourceManifestCount": 3,
+      "nativePrograms": 3,
+      "sharedDerivedChildSha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068",
+      "rawObserverProof": {
+        "path": "/workspace/work/compiler-audit-evidence/12580575852/staged/baseline-startup-observer-derivation.json",
+        "bytes": 1782,
+        "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+      },
+      "matchingFas": {
+        "bytes": 2626498,
+        "sha256": "dfa05fc4652d4b94c4d59d8a3dc7f18e590992cb72d97e590ec0e9f1baa41755"
+      }
+    },
+    "ecl-oz": {
+      "artifactId": 12568085269,
+      "sourceZipInventoryRows": 3404,
+      "packageRowsExcludingSelf": 223,
+      "recipeFiles": 71,
+      "runtimeAssets": 79,
+      "retainedOriginalAdmissionInputsMatched": 135,
+      "siteOriginalFiles": 87,
+      "siteStagedFiles": 89,
+      "archivedPreload": false,
+      "sourceManifestCount": 3,
+      "nativePrograms": 3,
+      "sharedDerivedChildSha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068",
+      "rawObserverProof": {
+        "path": "/workspace/work/compiler-audit-evidence/12580575852/staged/ecl-oz-startup-observer-derivation.json",
+        "bytes": 1782,
+        "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+      },
+      "matchingFas": {
+        "bytes": 2626498,
+        "sha256": "70123f857618d68d92896a541ae602fd0ed7f0bde0d1bff7ba1d630c0540df31"
+      }
+    },
+    "ecl-oz-maxima-oz": {
+      "artifactId": 12578753698,
+      "sourceZipInventoryRows": 3420,
+      "packageRowsExcludingSelf": 232,
+      "recipeFiles": 80,
+      "runtimeAssets": 79,
+      "retainedOriginalAdmissionInputsMatched": 142,
+      "siteOriginalFiles": 87,
+      "siteStagedFiles": 89,
+      "archivedPreload": true,
+      "sourceManifestCount": 3,
+      "nativePrograms": 3,
+      "sharedDerivedChildSha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068",
+      "rawObserverProof": {
+        "path": "/workspace/work/compiler-audit-evidence/12580575852/staged/ecl-oz-maxima-oz-startup-observer-derivation.json",
+        "bytes": 1782,
+        "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+      },
+      "matchingFas": {
+        "bytes": 2554359,
+        "sha256": "2ae1af2ccd5de6ea174536a93a44c5cb8d46d8e4fbbeb49c8d4e6306bafb441f"
+      }
+    }
+  },
+  "originalProducerAcceptancePreserved": true,
+  "audits": [
+    {
+      "name": "initial",
+      "run": 40145353256,
+      "job": 121025388211,
+      "head": "c238e403741947aa62bc906f8ce5ac6add4a1d95",
+      "tree": "fa86b69d62fa4a7bd2ca5538a9b645fc6129d226",
+      "status": "completed",
+      "conclusion": "success",
+      "sourceWorkflowConclusionPreserved": "failure",
+      "helperSha256": "5e6c83c7c6acc52dc6337a0a4acba27e7c8b3e6fbd3dcc780a243ca6eecdb26e",
+      "workflowSha256": "468af0f6a0b7b5159fd4c8c7acc46b5db0c792411054148daa08b20745e6575c",
+      "specSha256": "b088905bb171d94af8ffb536e2bc53697a84f31470bc91f74a9cae710b9ff7d9",
+      "records": {
+        "path": "/workspace/work/full-timing-table-first-initial-records.json",
+        "bytes": 226789,
+        "sha256": "5e8d056ce20196046f31c44652900ffefdf8bf6fd264fd8c312237896eb54f79"
+      },
+      "completeMarker": "Exactly one COMPLETE confirmed by parent recovery; decoded records omit log framing."
+    },
+    {
+      "name": "remaining",
+      "run": 40145558762,
+      "job": 121026005424,
+      "head": "3a4279d0941e4beae341a9fab026a30cdfebb753",
+      "tree": "efa1a58a61179e6b009b6a9594c3734d7f139d37",
+      "status": "completed",
+      "conclusion": "success",
+      "sourceWorkflowConclusionPreserved": "failure",
+      "helperSha256": "5e6c83c7c6acc52dc6337a0a4acba27e7c8b3e6fbd3dcc780a243ca6eecdb26e",
+      "workflowSha256": "468af0f6a0b7b5159fd4c8c7acc46b5db0c792411054148daa08b20745e6575c",
+      "specSha256": "36dff8d110245021cf35f20cdffb5473d1552852e9791f88053f532bedce4118",
+      "records": {
+        "path": "/workspace/work/full-timing-table-first-remaining-records.json",
+        "bytes": 1010224,
+        "sha256": "dd8d5a88137484a045265880d525083c94d3a576dcf58ece796f7391fe8bd562"
+      },
+      "completeMarker": "Exactly one COMPLETE confirmed by parent recovery; decoded records omit log framing."
+    }
+  ],
+  "apiEvidence": [
+    {
+      "path": "/workspace/work/full-timing-table-guarded-actual-review/failed-attempt-1/api-provenance.json",
+      "bytes": 22051,
+      "sha256": "ff81c97e3e794319bc565a5d1ba5dde7bf32ad3ae4f15173123af60afec0ab3d"
+    },
+    {
+      "path": "/workspace/work/full-timing-table-guarded-actual-review/failed-attempt-1/audit-api-provenance.json",
+      "bytes": 63236,
+      "sha256": "477054321743d72c79db2d690776f6c0b1571279204286b412b52b943200ce89"
+    }
+  ],
+  "sourceReview": {
+    "path": "/workspace/work/full-timing-table-guarded-final-binding-independent-review.json",
+    "bytes": 10160,
+    "sha256": "e570bb861a649d1805d20dbda6a29bc897b4f4350481af6a851fee70b016d71c"
+  },
+  "publicationActivation": {
+    "path": "/workspace/work/guarded-six-table-independent-activation-checks.json",
+    "bytes": 7192,
+    "sha256": "f89f56141f726b81507fb7cae9bd2c3b17839c7457af1bd6060d19e7e48f4837"
+  },
+  "checkers": [
+    {
+      "path": "/workspace/work/full-timing-table-guarded-actual-review/failed-attempt-1/check-bindings.py",
+      "bytes": 12555,
+      "sha256": "be098a3b5436a84bea85e7dd08b8fb1253a608b799f1f8f0238a2a8552012786"
+    },
+    {
+      "path": "/workspace/work/full-timing-table-guarded-actual-review/failed-attempt-1/check-samples.py",
+      "bytes": 14906,
+      "sha256": "5d8740fc669efaf2380b86c5554e8b5e10951e30ce630f2e258150ee12ed495b"
+    },
+    {
+      "path": "/workspace/work/full-timing-table-guarded-actual-review/failed-attempt-1/close-review.py",
+      "bytes": 9989,
+      "sha256": "9c5ef6e21ce06ad12a5b6e2aabf5661e23f0c2083e4aa20dc132a9544ddd49d4"
+    }
+  ],
+  "limitations": [
+    "Whole benchmark failure remains a blocker to complete36 acceptance;35 passed records do not replace the failed case.",
+    "All12 all-Oz samples passed in this attempt; their timings and complete source-only profile rows remain conditional descriptive observations within a failed overall matrix, not production promotion.",
+    "One shared derived stdout guard runs in all cells. Runtime binaries/FAS/startup/session are admitted unchanged; no TRACE,CPU profiler,CPU quota or errno-stack intervention was used.",
+    "Known warnings and the17-vs19 warning count discrepancy are preserved. Source permits console events to update activeRow after sample serialization and before compact report serialization; missing exact events cannot be reconstructed.",
+    "Server request SHA/size/encoding accounting is not a wire-byte or CPU-time measurement.",
+    "n3 order/cache/runner variation and different source trees are explicit; no cross-run hardware comparison or general speedup/cause claim.",
+    "Audit log COMPLETE framing is parent-recovery evidence; this reviewer verified all56 decoded payloads,full795 inventory and immutable API/helper/workflow/spec closure."
+  ],
+  "artifactProgramsExecuted": false,
+  "githubMutationsPerformed": false,
+  "productionPromotion": false
+}

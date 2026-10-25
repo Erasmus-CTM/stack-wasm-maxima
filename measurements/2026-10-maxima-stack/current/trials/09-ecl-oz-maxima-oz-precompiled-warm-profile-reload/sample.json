@@ -1,0 +1,918 @@
+{
+  "id": "09-ecl-oz-maxima-oz-precompiled-warm-profile-reload",
+  "pair": 9,
+  "repetition": 2,
+  "profile": "ecl-oz-maxima-oz",
+  "candidate": "precompiled",
+  "modes": [
+    "cold",
+    "warm-profile-reload"
+  ],
+  "mode": "warm-profile-reload",
+  "precedingCold": {
+    "id": "09-ecl-oz-maxima-oz-precompiled-cold",
+    "passed": true,
+    "terminationAcknowledged": true
+  },
+  "runId": "66408df3-d9c9-4395-94f5-65ec1c4aef59",
+  "startedAt": "2026-10-25T00:39:06.272Z",
+  "ok": true,
+  "consoleCounts": {
+    "log:LazyFiles on gzip forces download of the whole file when length is accessed": 1
+  },
+  "fatalConsoleCount": 0,
+  "fatalConsoleSamples": [],
+  "pageErrors": [],
+  "result": {
+    "phase": "complete",
+    "ok": true,
+    "correctnessPassed": true,
+    "runId": "66408df3-d9c9-4395-94f5-65ec1c4aef59",
+    "phases": [
+      {
+        "name": "initialization",
+        "startEpochMs": 1792888746295.2,
+        "completed": true,
+        "endEpochMs": 1792888755183.7798,
+        "elapsedMs": 8888.579833984375
+      },
+      {
+        "name": "first-call-logical-validation",
+        "startEpochMs": 1792888755183.98,
+        "completed": true,
+        "endEpochMs": 1792888756744.19,
+        "elapsedMs": 1560.2099609375
+      },
+      {
+        "name": "first-positive-grade",
+        "startEpochMs": 1792888756744.3198,
+        "completed": true,
+        "endEpochMs": 1792888756971.8398,
+        "elapsedMs": 227.52001953125
+      },
+      {
+        "name": "first-negative-grade",
+        "startEpochMs": 1792888756971.91,
+        "completed": true,
+        "endEpochMs": 1792888756993.9148,
+        "elapsedMs": 22.0048828125
+      },
+      {
+        "name": "warm-grade-0",
+        "startEpochMs": 1792888756993.97,
+        "completed": true,
+        "endEpochMs": 1792888757055.4648,
+        "elapsedMs": 61.494873046875
+      },
+      {
+        "name": "warm-grade-1",
+        "startEpochMs": 1792888757055.525,
+        "completed": true,
+        "endEpochMs": 1792888757077.63,
+        "elapsedMs": 22.10498046875
+      },
+      {
+        "name": "warm-grade-2",
+        "startEpochMs": 1792888757077.6948,
+        "completed": true,
+        "endEpochMs": 1792888757139,
+        "elapsedMs": 61.30517578125
+      },
+      {
+        "name": "warm-grade-3",
+        "startEpochMs": 1792888757139.065,
+        "completed": true,
+        "endEpochMs": 1792888757159.89,
+        "elapsedMs": 20.824951171875
+      },
+      {
+        "name": "warm-grade-4",
+        "startEpochMs": 1792888757159.9448,
+        "completed": true,
+        "endEpochMs": 1792888757221.46,
+        "elapsedMs": 61.51513671875
+      },
+      {
+        "name": "warm-grade-5",
+        "startEpochMs": 1792888757221.545,
+        "completed": true,
+        "endEpochMs": 1792888757243.1099,
+        "elapsedMs": 21.56494140625
+      },
+      {
+        "name": "warm-grade-6",
+        "startEpochMs": 1792888757243.22,
+        "completed": true,
+        "endEpochMs": 1792888757303.49,
+        "elapsedMs": 60.27001953125
+      },
+      {
+        "name": "warm-grade-7",
+        "startEpochMs": 1792888757303.555,
+        "completed": true,
+        "endEpochMs": 1792888757324.625,
+        "elapsedMs": 21.070068359375
+      },
+      {
+        "name": "warm-grade-8",
+        "startEpochMs": 1792888757324.68,
+        "completed": true,
+        "endEpochMs": 1792888757385.7249,
+        "elapsedMs": 61.044921875
+      },
+      {
+        "name": "warm-grade-9",
+        "startEpochMs": 1792888757385.7898,
+        "completed": true,
+        "endEpochMs": 1792888757406.7,
+        "elapsedMs": 20.91015625
+      },
+      {
+        "name": "warm-arithmetic-0",
+        "startEpochMs": 1792888757406.76,
+        "completed": true,
+        "endEpochMs": 1792888757411.6448,
+        "elapsedMs": 4.884765625
+      },
+      {
+        "name": "warm-arithmetic-1",
+        "startEpochMs": 1792888757411.69,
+        "completed": true,
+        "endEpochMs": 1792888757416.7,
+        "elapsedMs": 5.010009765625
+      },
+      {
+        "name": "warm-arithmetic-2",
+        "startEpochMs": 1792888757416.7449,
+        "completed": true,
+        "endEpochMs": 1792888757422.0898,
+        "elapsedMs": 5.344970703125
+      },
+      {
+        "name": "warm-arithmetic-3",
+        "startEpochMs": 1792888757422.1548,
+        "completed": true,
+        "endEpochMs": 1792888757427.2698,
+        "elapsedMs": 5.114990234375
+      },
+      {
+        "name": "warm-arithmetic-4",
+        "startEpochMs": 1792888757427.3098,
+        "completed": true,
+        "endEpochMs": 1792888757433.0698,
+        "elapsedMs": 5.760009765625
+      },
+      {
+        "name": "warm-arithmetic-5",
+        "startEpochMs": 1792888757433.13,
+        "completed": true,
+        "endEpochMs": 1792888757438.2249,
+        "elapsedMs": 5.094970703125
+      },
+      {
+        "name": "warm-arithmetic-6",
+        "startEpochMs": 1792888757438.265,
+        "completed": true,
+        "endEpochMs": 1792888757443.42,
+        "elapsedMs": 5.155029296875
+      },
+      {
+        "name": "warm-arithmetic-7",
+        "startEpochMs": 1792888757443.4749,
+        "completed": true,
+        "endEpochMs": 1792888757448.525,
+        "elapsedMs": 5.050048828125
+      },
+      {
+        "name": "warm-arithmetic-8",
+        "startEpochMs": 1792888757448.5898,
+        "completed": true,
+        "endEpochMs": 1792888757455.035,
+        "elapsedMs": 6.445068359375
+      },
+      {
+        "name": "warm-arithmetic-9",
+        "startEpochMs": 1792888757455.085,
+        "completed": true,
+        "endEpochMs": 1792888757459.95,
+        "elapsedMs": 4.864990234375
+      },
+      {
+        "name": "noun-isolation",
+        "startEpochMs": 1792888757460,
+        "completed": true,
+        "endEpochMs": 1792888757511.97,
+        "elapsedMs": 51.969970703125
+      },
+      {
+        "name": "direct-noun-equivalence",
+        "startEpochMs": 1792888757512.065,
+        "completed": true,
+        "endEpochMs": 1792888757523.6099,
+        "elapsedMs": 11.544921875
+      },
+      {
+        "name": "pm-structure",
+        "startEpochMs": 1792888757523.6848,
+        "completed": true,
+        "endEpochMs": 1792888757532.805,
+        "elapsedMs": 9.1201171875
+      },
+      {
+        "name": "pm-replacement",
+        "startEpochMs": 1792888757532.865,
+        "completed": true,
+        "endEpochMs": 1792888757539.98,
+        "elapsedMs": 7.114990234375
+      },
+      {
+        "name": "pm-display",
+        "startEpochMs": 1792888757540.0398,
+        "completed": true,
+        "endEpochMs": 1792888757559.26,
+        "elapsedMs": 19.22021484375
+      },
+      {
+        "name": "pm-unary-rewrite",
+        "startEpochMs": 1792888757559.3398,
+        "completed": true,
+        "endEpochMs": 1792888757565.71,
+        "elapsedMs": 6.3701171875
+      },
+      {
+        "name": "pm-positive",
+        "startEpochMs": 1792888757565.775,
+        "completed": true,
+        "endEpochMs": 1792888757946.8398,
+        "elapsedMs": 381.06494140625
+      },
+      {
+        "name": "pm-negative",
+        "startEpochMs": 1792888757946.96,
+        "completed": true,
+        "endEpochMs": 1792888758350.4248,
+        "elapsedMs": 403.46484375
+      },
+      {
+        "name": "number-display",
+        "startEpochMs": 1792888758350.565,
+        "completed": true,
+        "endEpochMs": 1792888758357.18,
+        "elapsedMs": 6.614990234375
+      },
+      {
+        "name": "policy",
+        "startEpochMs": 1792888758357.255,
+        "completed": true,
+        "endEpochMs": 1792888758371.295,
+        "elapsedMs": 14.0400390625
+      },
+      {
+        "name": "native-prepare",
+        "startEpochMs": 1792888758371.4,
+        "completed": true,
+        "endEpochMs": 1792888758666.555,
+        "elapsedMs": 295.155029296875
+      },
+      {
+        "name": "native-validate",
+        "startEpochMs": 1792888758666.71,
+        "completed": true,
+        "endEpochMs": 1792888758755.3098,
+        "elapsedMs": 88.599853515625
+      },
+      {
+        "name": "native-prt",
+        "startEpochMs": 1792888758755.45,
+        "completed": true,
+        "endEpochMs": 1792888758912.815,
+        "elapsedMs": 157.364990234375
+      }
+    ],
+    "initialization": {
+      "elapsedMs": 8888.38500000001,
+      "maximaVersion": "branch_5_49_base_90_g813903d33",
+      "stages": {
+        "preloadMs": 271.85999999998603,
+        "preloadedFiles": 67,
+        "compiledStackBytes": 2554359,
+        "wasmReadyMs": 568.8699999999953,
+        "compiledStackMounted": true,
+        "compiledStackOpens": 1,
+        "compiledSourceEntryOpens": 0,
+        "compiledStackSha256": "2ae1af2ccd5de6ea174536a93a44c5cb8d46d8e4fbbeb49c8d4e6306bafb441f",
+        "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "stackLoadStartedMs": 1947.4049999999115,
+        "stackLoadEndedMs": 8869.194999999949,
+        "stackLoadMs": 6921.790000000037,
+        "readyMs": 8870.779999999912
+      },
+      "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+      "stackLibraryVersion": "2026101500"
+    },
+    "readyMs": 8888.579999999958,
+    "startupGuard": {
+      "receiptCount": 1,
+      "parseErrors": [],
+      "receipt": {
+        "schema": 1,
+        "kind": "ctm-startup-stdout-guard",
+        "state": "ready",
+        "failed": false,
+        "emitted": true,
+        "completedLines": 31,
+        "stdoutCharacters": 912,
+        "beginCount": 1,
+        "endCount": 1,
+        "readyCount": 1,
+        "firstFatal": null,
+        "passed": true,
+        "reason": null,
+        "stdoutTail": "\nMaxima branch_5_49_base_90_g813903d33 https://maxima.sourceforge.io\nusing Lisp ECL 26.3.27\nDistributed under the GNU Public License. See the file COPYING.\nDedicated to the memory of William Schelter.\nThe function bug_report() provides bug reporting information.\n\n(%i1) \nNIL\n(%i1) \n(%i2) \n(%i3) \n(%i4) \nCTMSTACK-LOAD-BEGIN\n\n(%i5) \nWarning: stack_randseed has a function or macro call which has not been translated properly.\nThe function was totally undefined. Maybe you want to quote it.\nWarning: mminusbp134 has a function or macro call which has not been translated properly.\nThe function was totally undefined. Maybe you want to quote it.warning: encountered undefined variable %_ce_rem in translation.\ndefine: warning: redefining the built-in operator intervalp\n\nfundef: no such function: texnumformat\n\n(%i1) \nCTMSTACK-LOAD-END\n\n(%i2) \n(%i3) \n(%i4) \nCTMMAXIMA-READY|2026101500|branch_5_49_base_90_g813903d33\n",
+        "stdoutTailTruncated": false,
+        "stderrScope": "Browser console retained separately; no stderr stream interposition",
+        "completionScope": "Existing LOAD-BEGIN/LOAD-END/READY markers; no same-evaluation root-return sentinel"
+      },
+      "passed": true
+    },
+    "freshSession": {
+      "newSessionHadNoChildOrBuffers": true,
+      "childPresent": true,
+      "buffersDistinct": true,
+      "bufferBytes": [
+        32,
+        2097152,
+        1048576
+      ],
+      "initialSequence": 0,
+      "initialNativeCalls": 0,
+      "initialRequest": 0,
+      "initialResponse": 0
+    },
+    "checks": [
+      {
+        "name": "first-call-logical-validation",
+        "result": [
+          true,
+          [],
+          1,
+          true
+        ],
+        "elapsedMs": 1560.2099609375
+      },
+      {
+        "name": "noun-isolation",
+        "result": [
+          true,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true
+        ],
+        "elapsedMs": 51.969970703125
+      },
+      {
+        "name": "direct-noun-equivalence",
+        "result": true,
+        "elapsedMs": 11.544921875
+      },
+      {
+        "name": "pm-structure",
+        "result": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "elapsedMs": 9.1201171875
+      },
+      {
+        "name": "pm-replacement",
+        "result": [
+          true,
+          true
+        ],
+        "elapsedMs": 7.114990234375
+      },
+      {
+        "name": "pm-display",
+        "result": [
+          "{x \\pm y}",
+          " \\pm y"
+        ],
+        "elapsedMs": 19.22021484375
+      },
+      {
+        "name": "pm-unary-rewrite",
+        "result": true,
+        "elapsedMs": 6.3701171875
+      },
+      {
+        "name": "pm-positive",
+        "result": [
+          true,
+          true
+        ],
+        "elapsedMs": 381.06494140625
+      },
+      {
+        "name": "pm-negative",
+        "result": [
+          true,
+          false
+        ],
+        "elapsedMs": 403.46484375
+      },
+      {
+        "name": "number-display",
+        "result": "42",
+        "elapsedMs": 6.614990234375
+      }
+    ],
+    "firstPositiveGrade": {
+      "positive": true,
+      "result": {
+        "cas_valid": true,
+        "correct": true,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 226.89500000001863
+      },
+      "elapsedMs": 227.52001953125
+    },
+    "firstNegativeGrade": {
+      "positive": false,
+      "result": {
+        "cas_valid": true,
+        "correct": false,
+        "answer_note": "",
+        "feedback": "",
+        "native_feedback": "",
+        "elapsedMs": 21.95499999995809
+      },
+      "elapsedMs": 22.0048828125
+    },
+    "warmGrades": [
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 61.44499999994878
+        },
+        "elapsedMs": 61.494873046875
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 22.050000000046566
+        },
+        "elapsedMs": 22.10498046875
+      },
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 61.27500000002328
+        },
+        "elapsedMs": 61.30517578125
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 20.79500000004191
+        },
+        "elapsedMs": 20.824951171875
+      },
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 61.47999999998137
+        },
+        "elapsedMs": 61.51513671875
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 21.510000000009313
+        },
+        "elapsedMs": 21.56494140625
+      },
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 60.21999999997206
+        },
+        "elapsedMs": 60.27001953125
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 21.055000000051223
+        },
+        "elapsedMs": 21.070068359375
+      },
+      {
+        "positive": true,
+        "result": {
+          "cas_valid": true,
+          "correct": true,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 61.02500000002328
+        },
+        "elapsedMs": 61.044921875
+      },
+      {
+        "positive": false,
+        "result": {
+          "cas_valid": true,
+          "correct": false,
+          "answer_note": "",
+          "feedback": "",
+          "native_feedback": "",
+          "elapsedMs": 20.89000000001397
+        },
+        "elapsedMs": 20.91015625
+      }
+    ],
+    "warmCalls": [
+      {
+        "value": 42,
+        "elapsedMs": 4.884765625
+      },
+      {
+        "value": 42,
+        "elapsedMs": 5.010009765625
+      },
+      {
+        "value": 42,
+        "elapsedMs": 5.344970703125
+      },
+      {
+        "value": 42,
+        "elapsedMs": 5.114990234375
+      },
+      {
+        "value": 42,
+        "elapsedMs": 5.760009765625
+      },
+      {
+        "value": 42,
+        "elapsedMs": 5.094970703125
+      },
+      {
+        "value": 42,
+        "elapsedMs": 5.155029296875
+      },
+      {
+        "value": 42,
+        "elapsedMs": 5.050048828125
+      },
+      {
+        "value": 42,
+        "elapsedMs": 6.445068359375
+      },
+      {
+        "value": 42,
+        "elapsedMs": 4.864990234375
+      }
+    ],
+    "policy": [
+      "#pm#",
+      true,
+      true,
+      true,
+      false,
+      "~d",
+      "~a",
+      ".",
+      true,
+      true
+    ],
+    "nativeCalls": [
+      {
+        "operation": "prepare",
+        "result": {
+          "seed": 1,
+          "env": {
+            "n": "3",
+            "m": "6",
+            "ta": "(x+6)/(x+3)"
+          },
+          "teachers": {
+            "ans": {
+              "source": "(x+6)/(x+3)",
+              "latex": "\\frac{x+6}{x+3}",
+              "type": "scalar",
+              "shape": null
+            }
+          },
+          "tokenValues": {
+            "t0": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t1": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t2": {
+              "format": "latex",
+              "value": "6",
+              "string": false,
+              "wrap": false
+            },
+            "t3": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t4": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t5": {
+              "format": "latex",
+              "value": "3",
+              "string": false,
+              "wrap": false
+            },
+            "t6": {
+              "format": "latex",
+              "value": "\\frac{x+6}{x+3}",
+              "string": false,
+              "wrap": false
+            }
+          },
+          "qtests": [
+            {
+              "testcase": "1",
+              "answers": {
+                "ans": "(x+6)/(x+3)"
+              }
+            },
+            {
+              "testcase": "2",
+              "answers": {
+                "ans": "((x+3)*(x+6))/(x+3)^2"
+              }
+            },
+            {
+              "testcase": "3",
+              "answers": {
+                "ans": "(x+3)/(x+6)"
+              }
+            }
+          ]
+        },
+        "elapsedMs": 295.155029296875
+      },
+      {
+        "operation": "validate",
+        "result": {
+          "ans": {
+            "valid": true,
+            "latex": "\\frac{x+6}{x+3}",
+            "feedback": "",
+            "source": "(x+6)/(x+3)"
+          }
+        },
+        "elapsedMs": 88.599853515625
+      },
+      {
+        "operation": "prt",
+        "result": {
+          "kind": "done",
+          "score": 1,
+          "notes": [
+            "prt1-0-T"
+          ],
+          "feedback": [
+            {
+              "template": "<p>Correct on the stated domain.</p>",
+              "tokens": {}
+            }
+          ],
+          "path": [
+            {
+              "node": "0",
+              "branch": "true",
+              "note": "prt1-0-T"
+            }
+          ],
+          "events": [
+            {
+              "event": "native-at",
+              "prt": "prt1",
+              "node": "0",
+              "test": "AlgEquiv",
+              "cas_valid": true,
+              "correct": true,
+              "answerNote": "",
+              "nativeFeedback": ""
+            }
+          ]
+        },
+        "elapsedMs": 157.364990234375
+      }
+    ],
+    "smoke": {
+      "retained": 1000,
+      "gcCalls": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "caughtError": "CTM deliberate caught CAS error",
+      "afterError": 42,
+      "plotting": [
+        {
+          "expression": "plot2d(x,[x,0,1])",
+          "diagnostic": "CTM plotting unavailable; use JSXGraph.",
+          "afterError": 42
+        },
+        {
+          "expression": "plot(x,[x,0,1])",
+          "diagnostic": "CTM plotting unavailable; use JSXGraph.",
+          "afterError": 42
+        },
+        {
+          "expression": "get_plot_option(plot_format)",
+          "diagnostic": "CTM plotting unavailable; use JSXGraph.",
+          "afterError": 42
+        },
+        {
+          "expression": "gnuplot_close()",
+          "diagnostic": "CTM plotting unavailable; use JSXGraph.",
+          "afterError": 42
+        }
+      ]
+    }
+  },
+  "termination": {
+    "type": "stopped",
+    "runId": "66408df3-d9c9-4395-94f5-65ec1c4aef59",
+    "stopped": true,
+    "rejected": true,
+    "error": null,
+    "ok": true
+  },
+  "requests": [
+    {
+      "pathname": "/clean-timing.html",
+      "method": "GET",
+      "status": 200,
+      "contentEncoding": "identity",
+      "encodedBodyBytes": 84,
+      "decodedFileBytes": 84,
+      "sha256": "d7ea306b9e58985ac240bd5eaf29881d922f6a47bfcb566e007f1925abcac4af"
+    }
+  ],
+  "finishedAt": "2026-10-25T00:39:35.852Z"
+}

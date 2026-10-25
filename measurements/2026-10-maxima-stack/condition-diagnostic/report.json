@@ -1,0 +1,1200 @@
+{
+  "schema": 1,
+  "diagnosticOnly": true,
+  "acceptance": false,
+  "passed": true,
+  "startedAt": "2026-10-25T00:34:36.447Z",
+  "trials": 12,
+  "plan": [
+    {
+      "pair": 1,
+      "repetition": 1,
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "modes": [
+        "cold"
+      ]
+    },
+    {
+      "pair": 2,
+      "repetition": 2,
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "modes": [
+        "cold"
+      ]
+    },
+    {
+      "pair": 3,
+      "repetition": 3,
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "modes": [
+        "cold"
+      ]
+    },
+    {
+      "pair": 4,
+      "repetition": 4,
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "modes": [
+        "cold"
+      ]
+    },
+    {
+      "pair": 5,
+      "repetition": 5,
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "modes": [
+        "cold"
+      ]
+    },
+    {
+      "pair": 6,
+      "repetition": 6,
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "modes": [
+        "cold"
+      ]
+    },
+    {
+      "pair": 7,
+      "repetition": 7,
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "modes": [
+        "cold"
+      ]
+    },
+    {
+      "pair": 8,
+      "repetition": 8,
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "modes": [
+        "cold"
+      ]
+    },
+    {
+      "pair": 9,
+      "repetition": 9,
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "modes": [
+        "cold"
+      ]
+    },
+    {
+      "pair": 10,
+      "repetition": 10,
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "modes": [
+        "cold"
+      ]
+    },
+    {
+      "pair": 11,
+      "repetition": 11,
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "modes": [
+        "cold"
+      ]
+    },
+    {
+      "pair": 12,
+      "repetition": 12,
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "modes": [
+        "cold"
+      ]
+    }
+  ],
+  "plannedMeasurements": 12,
+  "performanceAcceptance": false,
+  "watchdogMs": 300000,
+  "staging": {
+    "ecl-oz": {
+      "source": {
+        "runId": 40108653819,
+        "runAttempt": 1,
+        "workflowId": 394101239,
+        "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+        "testedRevision": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+        "trustedRevision": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+        "tree": "0e543f936a385548a7ffd53d68930bd88c033922",
+        "recipeFiles": 71,
+        "jobs": [
+          {
+            "id": 120915544152,
+            "name": "bundle-probe (ecl-oz)"
+          },
+          {
+            "id": 120915544199,
+            "name": "bundle-probe (baseline)"
+          }
+        ]
+      },
+      "artifact": {
+        "id": 12568085269,
+        "node_id": "MDg6QXJ0aWZhY3QxMjU2ODA4NTI2OQ==",
+        "name": "precompiled-stack-probe-ecl-oz-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+        "size_in_bytes": 213921626,
+        "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12568085269",
+        "archive_download_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12568085269/zip",
+        "expired": false,
+        "digest": "sha256:890a9c1c6c96d915ada2c41bf85e8b3756132ea2f42d6c5d4c6d9a9357c6759d",
+        "created_at": "2026-10-24T16:55:52Z",
+        "updated_at": "2026-10-24T16:55:52Z",
+        "expires_at": "2027-01-22T15:48:29Z",
+        "workflow_run": {
+          "id": 40108653819,
+          "repository_id": 1428812079,
+          "head_repository_id": 1428812079,
+          "head_branch": "runtime/2026-10-precompiled-stack",
+          "head_sha": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31"
+        }
+      },
+      "packageManifest": {
+        "bytes": 52520,
+        "sha256": "f7b1fc526776e585532d859d89cbdd0797a8290366b5b8970cb790a4cc4fd17c"
+      },
+      "compilerProfile": {
+        "name": "ecl-oz",
+        "injectedEmccFlags": "-Oz",
+        "eclCoreOptimization": "-Oz",
+        "eclGeneratedLispOptimization": "-Oz",
+        "maximaGeneratedOptimization": "-O2"
+      },
+      "manifestFiles": {
+        "source": {
+          "path": "stack-sources-timed-source.json",
+          "bytes": 987388,
+          "sha256": "a215b6dc1f39cb831ad24c5bf4ec570ad3f7434d939b1dee28f88c05f13ebd59",
+          "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+          "stackLibraryVersion": "2026101500",
+          "compiledStack": null
+        },
+        "precompiled": {
+          "path": "stack-sources-precompiled.json",
+          "bytes": 989242,
+          "sha256": "432a745dcc66b1f4e0593704b79c444813b9105d38ec77003d63bd11802f696f",
+          "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+          "stackLibraryVersion": "2026101500",
+          "compiledStack": {
+            "schema": 1,
+            "mode": "entry-fas",
+            "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+            "sourcePath": "stack/maxima/stackmaxima.mac",
+            "sourceSha256": "7dce85b0c4949944e1963e87b07310356ef93b93d99c1f318f1db1df3cc8d359",
+            "translatedLispSha256": "b79b5baebb2c0119d6f508308d6430a0e78bb8b604ef6ccbc54f41dcbf845a34",
+            "bundleProvenanceSha256": "b21d9318422a20a7dad7167bf2a56ed9fd8f834e865a64f6f86688e01d60db96",
+            "translationAdapter": {
+              "mode": "symbolic-assignment-hooks+packagefile+pinned-parser-declarations+targeted-texcolor-texcolorplain-nounor-apply-dispatch",
+              "path": "display2d-bridge.lisp",
+              "fileBytes": 761,
+              "sha256": "a35a207a820e61db53e1454719fa44c1ffcb81bcd8d653c1ce7c334cbd9f1479",
+              "processAdapter": {
+                "path": "assignment-adapter.lisp",
+                "fileBytes": 4525,
+                "sha256": "c7cfb8d6645d9d8cd0896b4f90781001a794ea927c6d8436cbf8db717427c695"
+              },
+              "parserBootstrap": {
+                "schema": 1,
+                "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+                "scope": "Translation-process parser declarations only; target dependency loads and upstream files are unchanged",
+                "source": {
+                  "path": "stack/maxima/assessment.mac",
+                  "bytes": 116032,
+                  "sha256": "d45f18db6bbb0b85fee9e2724276cfa1f92998f9d1db3c4115b5ab05835f9978",
+                  "start": 54055,
+                  "end": 54253
+                },
+                "file": {
+                  "path": "parser-declarations.mac",
+                  "bytes": 198,
+                  "sha256": "9b815714cb1c2c9720078412242d1ecf1b398a3772f2df2fc109734227738b9c"
+                }
+              },
+              "parserBootstrapMetadataSha256": "458e7e04888fcd24ae0b663d680835cb94e30737f79668a7051daaa2db43e6aa"
+            },
+            "originalLoaderSha256": "9f16f2addeaf1bf13a5364b86a9d6dc424dea94fb50deb9d640f79deb8cba7d9",
+            "overlayLoaderSha256": "0e0f3e76f73c3cdb383ecaeafbc2a7bf0586ac910d8e790f5652fd5625d570f8",
+            "asset": {
+              "path": "stackmaxima.fas",
+              "fileBytes": 2626498,
+              "sha256": "70123f857618d68d92896a541ae602fd0ed7f0bde0d1bff7ba1d630c0540df31"
+            }
+          }
+        },
+        "diagnostic": {
+          "path": "stack-sources-condition-precompiled.json",
+          "bytes": 987551,
+          "sha256": "4818d2eed5e74376e924dbef0c620f19d3e46128936483ef5a51b0dd59769af2",
+          "startup": {
+            "original": {
+              "bytes": 1856,
+              "sha256": "99e6281fa6c5bd4d838a4e5fea5643934b232cc0d6b0674f4325fe49cb5825ac"
+            },
+            "derived": {
+              "bytes": 1957,
+              "sha256": "c233a46ec5ccbced4b45a96657dbf832794d1fa51b113eec56b267525018e180"
+            },
+            "originalRootCommand": "load(\"/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac\")$",
+            "diagnosticRootCommand": ":lisp (progn (load \"/ctm/load-condition/observer.lisp\") (funcall (find-symbol \"RUN\" \"CTM-LOAD-CONDITION\") \"/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac\"))",
+            "scope": "One original root-load line is replaced with one diagnostic Lisp form. Dynamic ERRSET T changes error propagation; original surrounding startup commands remain exact."
+          },
+          "original": {
+            "path": "stack-sources-precompiled.json",
+            "bytes": 989242,
+            "sha256": "432a745dcc66b1f4e0593704b79c444813b9105d38ec77003d63bd11802f696f"
+          }
+        }
+      },
+      "originalFilesVerified": 87,
+      "runtimeAssetsVerified": 79,
+      "embeddedStackFilesPerManifest": 77,
+      "worker": {
+        "path": "clean-probe-worker.js",
+        "bytes": 10515,
+        "sha256": "b762b49cd2155f866f87b46e25b341fe1886020f24ed069bee4accd8b9f1d759"
+      },
+      "originalRuntimeAssetsUnchanged": true,
+      "originalStartupUnchanged": false,
+      "diagnosticRootLoadOnly": true,
+      "originalChildUnchanged": false,
+      "sharedStartupObserver": {
+        "schema": 1,
+        "kind": "scoped-root-load-condition-diagnostic",
+        "diagnosticOnly": true,
+        "acceptance": false,
+        "original": {
+          "bytes": 12159,
+          "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+        },
+        "guarded": {
+          "bytes": 14744,
+          "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+        },
+        "derived": {
+          "bytes": 18465,
+          "sha256": "8bb312bd62f915ee717c55e12d2158fac39b5f82424f10610d75126b4d9dc8eb"
+        },
+        "startupObserver": {
+          "schema": 1,
+          "kind": "benchmark-startup-stdout-observer",
+          "diagnosticOnly": true,
+          "acceptance": false,
+          "original": {
+            "bytes": 12159,
+            "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+          },
+          "derived": {
+            "bytes": 14744,
+            "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+          },
+          "observer": {
+            "bytes": 2322,
+            "sha256": "ca6d11bad5be261ff67415bb765bf93347052faf5b85c9c58bdc9ff09f8721c7"
+          },
+          "edits": [
+            {
+              "before": {
+                "bytes": 24,
+                "sha256": "bf076f232a55a96360adddbd158fbb2dc0f04f7fa3071842534fc4aa1c32dff7"
+              },
+              "after": {
+                "bytes": 2416,
+                "sha256": "f8a5163bf0823b10fac4f56bb30ce6dd3b8f4257c9dd494a19746c48f1ea50fc"
+              }
+            },
+            {
+              "before": {
+                "bytes": 43,
+                "sha256": "e3df67364ab78f794109d24be5b9238e1897889a401a8570a46a3366328fa1a9"
+              },
+              "after": {
+                "bytes": 103,
+                "sha256": "9c608119a803a5f67eb4d522a565649acb374883513b147e6c4a3b32091ff7f6"
+              }
+            },
+            {
+              "before": {
+                "bytes": 54,
+                "sha256": "c96e3b7df630e8d5d066e2d65d1bbddfa7931f3381bd2603bb8e3b10b55a619d"
+              },
+              "after": {
+                "bytes": 187,
+                "sha256": "37666c47d01f371a9fd8a2aee95e23568aea141155095dacbc5bb1ad7552f7e0"
+              }
+            }
+          ],
+          "scope": "Shared derived child only. Original startup commands, runtime assets, session wrapper, source and FAS unchanged. Completed pre-READY stdout lines are scanned for anchored fatal diagnostics and existing marker order. One bounded receipt; no TRACE/CPU/FS observer or per-line timestamps/messages. Does not prove a same-evaluation root-load return. Original stdout tail is bounded to 16384 characters; console stderr is retained separately."
+        },
+        "helper": {
+          "path": "/ctm/load-condition/observer.lisp",
+          "bytes": 2520,
+          "sha256": "f5440a2d043f9884537431a0f55d8e5e1a4fa11a6cf3a9c98a5c68c99022f58d",
+          "bytesVerifiedAfterWrite": true
+        },
+        "scope": "Reviewed stdout guard plus one MEMFS helper mount before initialization. No runtime asset edits, compiler rebuild, CL:LOAD/function-cell interposition, TRACE, CPU or FS observers. Success/failure under ERRSET T cannot identify the original condition without matching evidence.",
+        "proof": {
+          "path": "staged/ecl-oz-condition-derivation.json",
+          "bytes": 2882,
+          "sha256": "a2bd963579dcd517bffb2768d2270943ec96f63d6a98a8cc387e9ccbc981f1c1"
+        }
+      }
+    }
+  },
+  "samples": [
+    {
+      "id": "01-ecl-oz-precompiled-cold",
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "repetition": 1,
+      "mode": "cold",
+      "pair": 1,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/01-ecl-oz-precompiled-cold/sample.json",
+      "precedingCold": null,
+      "runId": "2e02d5c3-e230-444e-ad48-ae66a155e66d",
+      "timings": {
+        "readyMs": 23689.85500000001,
+        "stackLoadMs": 17702.515,
+        "wasmReadyMs": 1302.0450000000128,
+        "firstLogicalMs": 1912.489990234375,
+        "firstPositiveGradeMs": 2519.56494140625,
+        "firstNegativeGradeMs": 28.47509765625,
+        "warmGradeMedianMs": 49.18505859375,
+        "warmArithmeticMedianMs": 6.5250244140625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 28121.909931640635
+      },
+      "startupGuardPassed": true,
+      "conditionDiagnostic": {
+        "armed": true,
+        "records": [],
+        "errors": [],
+        "loggerFailed": false,
+        "capture": {
+          "armedCount": 1,
+          "recordCount": 0,
+          "loggerFailedCount": 0,
+          "overflow": 0,
+          "lines": []
+        },
+        "immediate": {
+          "count": 0,
+          "values": [],
+          "errors": []
+        },
+        "stdoutTailTruncated": false,
+        "scope": "A first bounded condition record is sent immediately through diagnostic/progress transport and also retained in the startup receipt even if its stdout tail rotates; missing/overflowed capture cannot establish absence of conditions. ERRSET T changes propagation, so no original-cause inference."
+      },
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "2e02d5c3-e230-444e-ad48-ae66a155e66d",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 312,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "02-ecl-oz-precompiled-cold",
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "repetition": 2,
+      "mode": "cold",
+      "pair": 2,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/02-ecl-oz-precompiled-cold/sample.json",
+      "precedingCold": null,
+      "runId": "92d270ea-63fd-4f0c-852a-51cc07b6bb09",
+      "timings": {
+        "readyMs": 22542.555000000022,
+        "stackLoadMs": 17417.650000000023,
+        "wasmReadyMs": 1290.0400000000081,
+        "firstLogicalMs": 1939.4150390625,
+        "firstPositiveGradeMs": 2511.77001953125,
+        "firstNegativeGradeMs": 25.635009765625,
+        "warmGradeMedianMs": 67.3924560546875,
+        "warmArithmeticMedianMs": 7.1300048828125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 26993.740058593772
+      },
+      "startupGuardPassed": true,
+      "conditionDiagnostic": {
+        "armed": true,
+        "records": [],
+        "errors": [],
+        "loggerFailed": false,
+        "capture": {
+          "armedCount": 1,
+          "recordCount": 0,
+          "loggerFailedCount": 0,
+          "overflow": 0,
+          "lines": []
+        },
+        "immediate": {
+          "count": 0,
+          "values": [],
+          "errors": []
+        },
+        "stdoutTailTruncated": false,
+        "scope": "A first bounded condition record is sent immediately through diagnostic/progress transport and also retained in the startup receipt even if its stdout tail rotates; missing/overflowed capture cannot establish absence of conditions. ERRSET T changes propagation, so no original-cause inference."
+      },
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "92d270ea-63fd-4f0c-852a-51cc07b6bb09",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 312,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "03-ecl-oz-precompiled-cold",
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "repetition": 3,
+      "mode": "cold",
+      "pair": 3,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/03-ecl-oz-precompiled-cold/sample.json",
+      "precedingCold": null,
+      "runId": "4026a69a-4a8c-45e0-b1a5-d816daf7d8c6",
+      "timings": {
+        "readyMs": 22766.580000000016,
+        "stackLoadMs": 17874.800000000017,
+        "wasmReadyMs": 1271.9750000000058,
+        "firstLogicalMs": 1949.47509765625,
+        "firstPositiveGradeMs": 2494.52001953125,
+        "firstNegativeGradeMs": 60.455078125,
+        "warmGradeMedianMs": 49.9276123046875,
+        "warmArithmeticMedianMs": 7.31494140625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 27210.575117187516
+      },
+      "startupGuardPassed": true,
+      "conditionDiagnostic": {
+        "armed": true,
+        "records": [],
+        "errors": [],
+        "loggerFailed": false,
+        "capture": {
+          "armedCount": 1,
+          "recordCount": 0,
+          "loggerFailedCount": 0,
+          "overflow": 0,
+          "lines": []
+        },
+        "immediate": {
+          "count": 0,
+          "values": [],
+          "errors": []
+        },
+        "stdoutTailTruncated": false,
+        "scope": "A first bounded condition record is sent immediately through diagnostic/progress transport and also retained in the startup receipt even if its stdout tail rotates; missing/overflowed capture cannot establish absence of conditions. ERRSET T changes propagation, so no original-cause inference."
+      },
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "4026a69a-4a8c-45e0-b1a5-d816daf7d8c6",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 312,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "04-ecl-oz-precompiled-cold",
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "repetition": 4,
+      "mode": "cold",
+      "pair": 4,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/04-ecl-oz-precompiled-cold/sample.json",
+      "precedingCold": null,
+      "runId": "194979a1-2d43-42a7-b502-53d95ed76a5e",
+      "timings": {
+        "readyMs": 22588.23000000001,
+        "stackLoadMs": 17418.840000000026,
+        "wasmReadyMs": 1291.8649999999907,
+        "firstLogicalMs": 1989.75,
+        "firstPositiveGradeMs": 2474.679931640625,
+        "firstNegativeGradeMs": 26.77978515625,
+        "warmGradeMedianMs": 66.6199951171875,
+        "warmArithmeticMedianMs": 7.169921875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 27052.659931640635
+      },
+      "startupGuardPassed": true,
+      "conditionDiagnostic": {
+        "armed": true,
+        "records": [],
+        "errors": [],
+        "loggerFailed": false,
+        "capture": {
+          "armedCount": 1,
+          "recordCount": 0,
+          "loggerFailedCount": 0,
+          "overflow": 0,
+          "lines": []
+        },
+        "immediate": {
+          "count": 0,
+          "values": [],
+          "errors": []
+        },
+        "stdoutTailTruncated": false,
+        "scope": "A first bounded condition record is sent immediately through diagnostic/progress transport and also retained in the startup receipt even if its stdout tail rotates; missing/overflowed capture cannot establish absence of conditions. ERRSET T changes propagation, so no original-cause inference."
+      },
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "194979a1-2d43-42a7-b502-53d95ed76a5e",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 312,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "05-ecl-oz-precompiled-cold",
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "repetition": 5,
+      "mode": "cold",
+      "pair": 5,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/05-ecl-oz-precompiled-cold/sample.json",
+      "precedingCold": null,
+      "runId": "6dd14e4a-34cb-41e3-8030-7235786290c6",
+      "timings": {
+        "readyMs": 22639.35499999998,
+        "stackLoadMs": 17493.034999999974,
+        "wasmReadyMs": 1277.0950000000303,
+        "firstLogicalMs": 1977.60009765625,
+        "firstPositiveGradeMs": 2502.80517578125,
+        "firstNegativeGradeMs": 26.64990234375,
+        "warmGradeMedianMs": 63.9573974609375,
+        "warmArithmeticMedianMs": 7.2574462890625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 27119.76027343748
+      },
+      "startupGuardPassed": true,
+      "conditionDiagnostic": {
+        "armed": true,
+        "records": [],
+        "errors": [],
+        "loggerFailed": false,
+        "capture": {
+          "armedCount": 1,
+          "recordCount": 0,
+          "loggerFailedCount": 0,
+          "overflow": 0,
+          "lines": []
+        },
+        "immediate": {
+          "count": 0,
+          "values": [],
+          "errors": []
+        },
+        "stdoutTailTruncated": false,
+        "scope": "A first bounded condition record is sent immediately through diagnostic/progress transport and also retained in the startup receipt even if its stdout tail rotates; missing/overflowed capture cannot establish absence of conditions. ERRSET T changes propagation, so no original-cause inference."
+      },
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "6dd14e4a-34cb-41e3-8030-7235786290c6",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 312,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "06-ecl-oz-precompiled-cold",
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "repetition": 6,
+      "mode": "cold",
+      "pair": 6,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/06-ecl-oz-precompiled-cold/sample.json",
+      "precedingCold": null,
+      "runId": "9e317fe8-6229-46d0-b7d4-7d634ef9d4c6",
+      "timings": {
+        "readyMs": 22557.875,
+        "stackLoadMs": 17571.79999999999,
+        "wasmReadyMs": 1319.1749999999884,
+        "firstLogicalMs": 1966.0751953125,
+        "firstPositiveGradeMs": 2512.75,
+        "firstNegativeGradeMs": 61.27001953125,
+        "warmGradeMedianMs": 53.1824951171875,
+        "warmArithmeticMedianMs": 8.4951171875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 27036.7001953125
+      },
+      "startupGuardPassed": true,
+      "conditionDiagnostic": {
+        "armed": true,
+        "records": [],
+        "errors": [],
+        "loggerFailed": false,
+        "capture": {
+          "armedCount": 1,
+          "recordCount": 0,
+          "loggerFailedCount": 0,
+          "overflow": 0,
+          "lines": []
+        },
+        "immediate": {
+          "count": 0,
+          "values": [],
+          "errors": []
+        },
+        "stdoutTailTruncated": false,
+        "scope": "A first bounded condition record is sent immediately through diagnostic/progress transport and also retained in the startup receipt even if its stdout tail rotates; missing/overflowed capture cannot establish absence of conditions. ERRSET T changes propagation, so no original-cause inference."
+      },
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "9e317fe8-6229-46d0-b7d4-7d634ef9d4c6",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 312,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "07-ecl-oz-precompiled-cold",
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "repetition": 7,
+      "mode": "cold",
+      "pair": 7,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/07-ecl-oz-precompiled-cold/sample.json",
+      "precedingCold": null,
+      "runId": "b3bc69e7-a7ce-4c45-9db2-c576580eb21f",
+      "timings": {
+        "readyMs": 22504.08500000002,
+        "stackLoadMs": 17545.890000000014,
+        "wasmReadyMs": 1314.2750000000233,
+        "firstLogicalMs": 1957.48486328125,
+        "firstPositiveGradeMs": 2479.7451171875,
+        "firstNegativeGradeMs": 25.375,
+        "warmGradeMedianMs": 48.5848388671875,
+        "warmArithmeticMedianMs": 6.824951171875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 26941.31498046877
+      },
+      "startupGuardPassed": true,
+      "conditionDiagnostic": {
+        "armed": true,
+        "records": [],
+        "errors": [],
+        "loggerFailed": false,
+        "capture": {
+          "armedCount": 1,
+          "recordCount": 0,
+          "loggerFailedCount": 0,
+          "overflow": 0,
+          "lines": []
+        },
+        "immediate": {
+          "count": 0,
+          "values": [],
+          "errors": []
+        },
+        "stdoutTailTruncated": false,
+        "scope": "A first bounded condition record is sent immediately through diagnostic/progress transport and also retained in the startup receipt even if its stdout tail rotates; missing/overflowed capture cannot establish absence of conditions. ERRSET T changes propagation, so no original-cause inference."
+      },
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "b3bc69e7-a7ce-4c45-9db2-c576580eb21f",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 312,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "08-ecl-oz-precompiled-cold",
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "repetition": 8,
+      "mode": "cold",
+      "pair": 8,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/08-ecl-oz-precompiled-cold/sample.json",
+      "precedingCold": null,
+      "runId": "5fe4901e-1e3d-4b30-8205-f616b5aed6ea",
+      "timings": {
+        "readyMs": 22647.415000000037,
+        "stackLoadMs": 17737.820000000007,
+        "wasmReadyMs": 1294.179999999993,
+        "firstLogicalMs": 1919.465087890625,
+        "firstPositiveGradeMs": 2538.81494140625,
+        "firstNegativeGradeMs": 25.324951171875,
+        "warmGradeMedianMs": 49.5823974609375,
+        "warmArithmeticMedianMs": 6.95751953125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 27105.695029296912
+      },
+      "startupGuardPassed": true,
+      "conditionDiagnostic": {
+        "armed": true,
+        "records": [],
+        "errors": [],
+        "loggerFailed": false,
+        "capture": {
+          "armedCount": 1,
+          "recordCount": 0,
+          "loggerFailedCount": 0,
+          "overflow": 0,
+          "lines": []
+        },
+        "immediate": {
+          "count": 0,
+          "values": [],
+          "errors": []
+        },
+        "stdoutTailTruncated": false,
+        "scope": "A first bounded condition record is sent immediately through diagnostic/progress transport and also retained in the startup receipt even if its stdout tail rotates; missing/overflowed capture cannot establish absence of conditions. ERRSET T changes propagation, so no original-cause inference."
+      },
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "5fe4901e-1e3d-4b30-8205-f616b5aed6ea",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 312,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "09-ecl-oz-precompiled-cold",
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "repetition": 9,
+      "mode": "cold",
+      "pair": 9,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/09-ecl-oz-precompiled-cold/sample.json",
+      "precedingCold": null,
+      "runId": "f9902888-4a54-4358-a818-19c0319990ab",
+      "timings": {
+        "readyMs": 22650.225000000035,
+        "stackLoadMs": 17752.940000000002,
+        "wasmReadyMs": 1274.1600000000326,
+        "firstLogicalMs": 1945.360107421875,
+        "firstPositiveGradeMs": 2524.780029296875,
+        "firstNegativeGradeMs": 28.3349609375,
+        "warmGradeMedianMs": 51.8326416015625,
+        "warmArithmeticMedianMs": 6.7200927734375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 27120.365136718785
+      },
+      "startupGuardPassed": true,
+      "conditionDiagnostic": {
+        "armed": true,
+        "records": [],
+        "errors": [],
+        "loggerFailed": false,
+        "capture": {
+          "armedCount": 1,
+          "recordCount": 0,
+          "loggerFailedCount": 0,
+          "overflow": 0,
+          "lines": []
+        },
+        "immediate": {
+          "count": 0,
+          "values": [],
+          "errors": []
+        },
+        "stdoutTailTruncated": false,
+        "scope": "A first bounded condition record is sent immediately through diagnostic/progress transport and also retained in the startup receipt even if its stdout tail rotates; missing/overflowed capture cannot establish absence of conditions. ERRSET T changes propagation, so no original-cause inference."
+      },
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "f9902888-4a54-4358-a818-19c0319990ab",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 312,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "10-ecl-oz-precompiled-cold",
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "repetition": 10,
+      "mode": "cold",
+      "pair": 10,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/10-ecl-oz-precompiled-cold/sample.json",
+      "precedingCold": null,
+      "runId": "37fed13d-556a-4b22-b73b-73dbdebe5814",
+      "timings": {
+        "readyMs": 22515.975000000035,
+        "stackLoadMs": 17497.159999999916,
+        "wasmReadyMs": 1268.945000000007,
+        "firstLogicalMs": 1919.35986328125,
+        "firstPositiveGradeMs": 2463.514892578125,
+        "firstNegativeGradeMs": 25.264892578125,
+        "warmGradeMedianMs": 51.447509765625,
+        "warmArithmeticMedianMs": 7.217529296875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 26898.84975585941
+      },
+      "startupGuardPassed": true,
+      "conditionDiagnostic": {
+        "armed": true,
+        "records": [],
+        "errors": [],
+        "loggerFailed": false,
+        "capture": {
+          "armedCount": 1,
+          "recordCount": 0,
+          "loggerFailedCount": 0,
+          "overflow": 0,
+          "lines": []
+        },
+        "immediate": {
+          "count": 0,
+          "values": [],
+          "errors": []
+        },
+        "stdoutTailTruncated": false,
+        "scope": "A first bounded condition record is sent immediately through diagnostic/progress transport and also retained in the startup receipt even if its stdout tail rotates; missing/overflowed capture cannot establish absence of conditions. ERRSET T changes propagation, so no original-cause inference."
+      },
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "37fed13d-556a-4b22-b73b-73dbdebe5814",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 312,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "11-ecl-oz-precompiled-cold",
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "repetition": 11,
+      "mode": "cold",
+      "pair": 11,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/11-ecl-oz-precompiled-cold/sample.json",
+      "precedingCold": null,
+      "runId": "4d504e0b-cc84-458a-bc73-b44226ee72f4",
+      "timings": {
+        "readyMs": 22314.290000000037,
+        "stackLoadMs": 17292.320000000065,
+        "wasmReadyMs": 1291.015000000014,
+        "firstLogicalMs": 1897.85498046875,
+        "firstPositiveGradeMs": 2439.02001953125,
+        "firstNegativeGradeMs": 26.169921875,
+        "warmGradeMedianMs": 48.092529296875,
+        "warmArithmeticMedianMs": 6.875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 26651.165000000037
+      },
+      "startupGuardPassed": true,
+      "conditionDiagnostic": {
+        "armed": true,
+        "records": [],
+        "errors": [],
+        "loggerFailed": false,
+        "capture": {
+          "armedCount": 1,
+          "recordCount": 0,
+          "loggerFailedCount": 0,
+          "overflow": 0,
+          "lines": []
+        },
+        "immediate": {
+          "count": 0,
+          "values": [],
+          "errors": []
+        },
+        "stdoutTailTruncated": false,
+        "scope": "A first bounded condition record is sent immediately through diagnostic/progress transport and also retained in the startup receipt even if its stdout tail rotates; missing/overflowed capture cannot establish absence of conditions. ERRSET T changes propagation, so no original-cause inference."
+      },
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "4d504e0b-cc84-458a-bc73-b44226ee72f4",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 312,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "12-ecl-oz-precompiled-cold",
+      "profile": "ecl-oz",
+      "candidate": "precompiled",
+      "repetition": 12,
+      "mode": "cold",
+      "pair": 12,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/12-ecl-oz-precompiled-cold/sample.json",
+      "precedingCold": null,
+      "runId": "daf6ce55-8786-4ce3-bf7c-76266d08f1bf",
+      "timings": {
+        "readyMs": 23582.040000000037,
+        "stackLoadMs": 17649.51000000001,
+        "wasmReadyMs": 1275.6899999999441,
+        "firstLogicalMs": 1982.33984375,
+        "firstPositiveGradeMs": 2531.625,
+        "firstNegativeGradeMs": 27.369873046875,
+        "warmGradeMedianMs": 51.8975830078125,
+        "warmArithmeticMedianMs": 7.072509765625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 28096.004843750037
+      },
+      "startupGuardPassed": true,
+      "conditionDiagnostic": {
+        "armed": true,
+        "records": [],
+        "errors": [],
+        "loggerFailed": false,
+        "capture": {
+          "armedCount": 1,
+          "recordCount": 0,
+          "loggerFailedCount": 0,
+          "overflow": 0,
+          "lines": []
+        },
+        "immediate": {
+          "count": 0,
+          "values": [],
+          "errors": []
+        },
+        "stdoutTailTruncated": false,
+        "scope": "A first bounded condition record is sent immediately through diagnostic/progress transport and also retained in the startup receipt even if its stdout tail rotates; missing/overflowed capture cannot establish absence of conditions. ERRSET T changes propagation, so no original-cause inference."
+      },
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "daf6ce55-8786-4ce3-bf7c-76266d08f1bf",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 312,
+      "fatalConsoleCount": 0
+    }
+  ],
+  "skipped": [],
+  "lateTelemetry": [
+    {
+      "id": "01-ecl-oz-precompiled-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "02-ecl-oz-precompiled-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "03-ecl-oz-precompiled-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "04-ecl-oz-precompiled-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "05-ecl-oz-precompiled-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "06-ecl-oz-precompiled-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "07-ecl-oz-precompiled-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "08-ecl-oz-precompiled-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "09-ecl-oz-precompiled-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "10-ecl-oz-precompiled-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "11-ecl-oz-precompiled-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "12-ecl-oz-precompiled-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    }
+  ],
+  "scope": "Bounded diagnostic only: up to12 fresh cold old-Oz/own-FAS cases. Unique root startup load is replaced with a declared Lisp form that dynamically binds ERRSET T and logs an error condition before normal propagation. This changes error handling and may expose otherwise benign handled conditions. Same strict startup/typed/native/GC/plot/termination guards remain. No CPU/TRACE/FS observers, CL:LOAD/function-cell interposition, compiler rebuild or collector probe. A failed case stops later cases with explicit skipped records; no retry and no clean-performance table. Passing does not establish the earlier cause or whole-matrix acceptance.",
+  "summary": {
+    "attempted": 12,
+    "successfulDiagnosticCases": 12,
+    "failedCases": [],
+    "capturedConditions": [],
+    "scope": "Diagnostic outcomes only. Per-case elapsed observations remain raw evidence, without performance medians or original-cause attribution."
+  },
+  "lateTelemetryFailed": false,
+  "benchmark": {
+    "GITHUB_REPOSITORY": "Erasmus-CTM/stack-wasm-maxima",
+    "GITHUB_RUN_ID": "40147171718",
+    "GITHUB_RUN_ATTEMPT": "1",
+    "GITHUB_SHA": "2c4344b1ddf9537aa23ca3d9c22ead0fe1f739cb",
+    "GITHUB_REF": "refs/heads/profiling/e8ad-oz-fas-load-condition",
+    "GITHUB_EVENT_NAME": "push",
+    "GITHUB_WORKFLOW_REF": "Erasmus-CTM/stack-wasm-maxima/.github/workflows/oz-fas-load-condition.yml@refs/heads/profiling/e8ad-oz-fas-load-condition",
+    "GITHUB_WORKFLOW_SHA": "2c4344b1ddf9537aa23ca3d9c22ead0fe1f739cb",
+    "RUNNER_OS": "Linux",
+    "RUNNER_ARCH": "X64",
+    "ImageOS": "ubuntu24",
+    "ImageVersion": "20261023.334.3"
+  },
+  "admission": {
+    "path": "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/oz-fas-load-condition/evidence/admission.json",
+    "bytes": 86075,
+    "sha256": "7c0994e09b548176c5d9cefa95939b6a9976ef61c361a13782585ce1e707a4d8"
+  },
+  "sharedTrustedFiles": [
+    {
+      "path": "prototype/runtime/maxima-child.js",
+      "bytes": 12159,
+      "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+    },
+    {
+      "path": "prototype/runtime/maxima-session.js",
+      "bytes": 14344,
+      "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+    },
+    {
+      "path": "runtime/precompiled/restart-checks.json",
+      "bytes": 3955,
+      "sha256": "2c2d07a78c01c8d04c89f214a02a5ef67b94fe7ec05e102096c2a955a64d7e72"
+    },
+    {
+      "path": "scripts/milestone-two/serve.mjs",
+      "bytes": 7906,
+      "sha256": "f46c0d9688971dd1fbf3e9b83b4cce76ddd4136b71514159eede1c8bb5fa7e4e"
+    },
+    {
+      "path": "runtime/compression/server-source.mjs",
+      "bytes": 3374,
+      "sha256": "d1dd9b9fb956c44caa51cfe7a08b7f301cd4020d2fa69cf8d2f4c8b6cd3e0166"
+    }
+  ],
+  "nativeWorkload": {
+    "sha256": "a52a17f3b40a1d89057ff11042dfcde0f4dcbb27c04977a855bf782dc9fb584a",
+    "operations": [
+      "prepare",
+      "validate",
+      "prt"
+    ],
+    "captures": {
+      "ecl-oz": {
+        "bytes": 5117000,
+        "sha256": "17a557666db25580bae340acc94243071d85e3b086eb662df47b1a69d5853160"
+      }
+    }
+  },
+  "browser": "141.0.7390.37",
+  "diagnosticCompleted": true,
+  "fullComparisonComplete": false,
+  "finishedAt": "2026-10-25T00:44:22.440Z"
+}
