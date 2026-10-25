@@ -1,0 +1,4 @@
+{
+  "expression": "?eval(?read\\-from\\-string(sconcat(\"(let ((*print-level* 4) (*print-length* 8) (*print-readably* nil) (ar maxima::*mlambda-call-stack*)) (with-output-to-string (stream) (format stream \",ascii(34),\"active=~D capacity=~D~%\",ascii(34),\" (fill-pointer ar) (array-total-size ar)) (dotimes (i (min 300 (array-total-size ar))) (let ((text (prin1-to-string (aref ar i)))) (format stream \",ascii(34),\"~D ~A~%\",ascii(34),\" i (subseq text 0 (min 1024 (length text))))))))\")))",
+  "lisp": "(let ((*print-level* 4) (*print-length* 8) (*print-readably* nil) (ar maxima::*mlambda-call-stack*)) (with-output-to-string (stream) (format stream \"active=~D capacity=~D~%\" (fill-pointer ar) (array-total-size ar)) (dotimes (i (min 300 (array-total-size ar))) (let ((text (prin1-to-string (aref ar i)))) (format stream \"~D ~A~%\" i (subseq text 0 (min 1024 (length text))))))))"
+}

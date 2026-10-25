@@ -5,10 +5,10 @@ self.onmessage=async({data})=>{
   session=new MaximaSession({baseURL:new URL('./maxima-runtime/',location.href).href,stackSourceURL:new URL('probe-sources.json',location.href).href});
   report.initialization=await session.init();
   if(data.experiment==='postmortem-control'){
-   const frames=String.raw`block([?\*print\-level\*:4,?\*print\-length\*:12,?\*print\-readably\*:false],makelist(?format(false,"~S",?aref(?\*mlambda\-call\-stack\*,_ctm_i)),_ctm_i,0,ev(min(299,?array\-total\-size(?\*mlambda\-call\-stack\*)-1),simp)))`;
+   const frames="?eval(?read\\-from\\-string(sconcat(\"(let ((*print-level* 4) (*print-length* 8) (*print-readably* nil) (ar maxima::*mlambda-call-stack*)) (with-output-to-string (stream) (format stream \",ascii(34),\"active=~D capacity=~D~%\",ascii(34),\" (fill-pointer ar) (array-total-size ar)) (dotimes (i (min 300 (array-total-size ar))) (let ((text (prin1-to-string (aref ar i)))) (format stream \",ascii(34),\"~D ~A~%\",ascii(34),\" i (subseq text 0 (min 1024 (length text))))))))\")))";
    report.frames=session.evaluate('block([r],ctm_post_inner():=?car(?subr),ctm_post_outer():=ctm_post_inner(),r:errcatch(ctm_post_outer()),'+frames+')');
    report.after=session.evaluate('6*7');
-   report.ok=Array.isArray(report.frames)&&report.frames.some(r=>r.includes('$CTM_POST_INNER'))&&report.after===42;
+   report.ok=typeof report.frames==='string'&&report.frames.includes('$CTM_POST_INNER')&&report.after===42;
   }else if(data.experiment==='hook-control'){
    session.write(':lisp (defun maxima::$ctm_injected_car_fault (x) (car x))\n',60000);
    report.injected=session.evaluate('block([r],r:errcatch(ctm_injected_car_fault(?subr)),[is(length(r)=0),ctm_validation_trace])');
