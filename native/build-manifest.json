@@ -322,7 +322,7 @@
             "seed": 1,
             "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
             "stackLibraryVersion": "2026101500",
-            "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+            "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
             "preparedHash": "f60a4759b27b2de06076232a724ee866b405dd0a9a8ff2a32c2b088b8604ace0"
           },
           "question_html": "<p>For \\(x\\neq-{3}\\), give an expression equivalent to \\(\\dfrac{(x+{3})(x+{6})}{(x+{3})^2}\\). You may simplify it, or give any equivalent expression on this domain.</p><p><input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>",
@@ -418,7 +418,7 @@
             "seed": 2,
             "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
             "stackLibraryVersion": "2026101500",
-            "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+            "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
             "preparedHash": "32b257684115087e499628d54f0429254e6418feea7ed548f8ca9a791ed3390a"
           },
           "question_html": "<p>For \\(x\\neq-{2}\\), give an expression equivalent to \\(\\dfrac{(x+{2})(x+{3})}{(x+{2})^2}\\). You may simplify it, or give any equivalent expression on this domain.</p><p><input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>",
@@ -428,7 +428,7 @@
         }
       ],
       "graphical": null,
-      "cardSha256": "1be7dad321aab8027a5fec33d1476f264187fb6d77361e338dc798f75b76c56a",
+      "cardSha256": "26f89c5302f7dbd7056cda82a29de6c60e858900b0fd670bc125debbb3039641",
       "payload": {
         "version": 1,
         "id": "native-rational",
@@ -723,7 +723,7 @@
               "seed": 1,
               "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
               "stackLibraryVersion": "2026101500",
-              "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+              "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
               "preparedHash": "f60a4759b27b2de06076232a724ee866b405dd0a9a8ff2a32c2b088b8604ace0"
             },
             "question_html": "<p>For \\(x\\neq-{3}\\), give an expression equivalent to \\(\\dfrac{(x+{3})(x+{6})}{(x+{3})^2}\\). You may simplify it, or give any equivalent expression on this domain.</p><p><input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>",
@@ -819,7 +819,7 @@
               "seed": 2,
               "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
               "stackLibraryVersion": "2026101500",
-              "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+              "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
               "preparedHash": "32b257684115087e499628d54f0429254e6418feea7ed548f8ca9a791ed3390a"
             },
             "question_html": "<p>For \\(x\\neq-{2}\\), give an expression equivalent to \\(\\dfrac{(x+{2})(x+{3})}{(x+{2})^2}\\). You may simplify it, or give any equivalent expression on this domain.</p><p><input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>",
@@ -1298,7 +1298,7 @@
             "seed": 1,
             "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
             "stackLibraryVersion": "2026101500",
-            "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+            "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
             "preparedHash": "051898cd2410881399c72e5928193b5c16350fe1229bb43ef59dfa88f6e5a4ff"
           },
           "question_html": "<p>A rectangle is \\({7}\\) cm long and \\({5}\\) cm wide. A right triangle has those same perpendicular side lengths.</p><ol><li>Find the rectangle perimeter in cm, within \\(0.25\\) cm. <input class=\"stack-answer\" data-name=\"perimeter\" data-stack-input-type=\"numerical\" aria-label=\"Answer perimeter\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"perimeter\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></li><li>Find the triangle area in cm², within \\(2\\%\\) of the exact value. <input class=\"stack-answer\" data-name=\"area\" data-stack-input-type=\"numerical\" aria-label=\"Answer area\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"area\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt2\"></span></li><li>Write the triangle area to <strong>exactly two decimal places</strong> (include the final zero). <input class=\"stack-answer\" data-name=\"reported\" data-stack-input-type=\"numerical\" aria-label=\"Answer reported\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"reported\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt3\"></span></li></ol>",
@@ -1308,7 +1308,7 @@
         }
       ],
       "graphical": null,
-      "cardSha256": "cff5ea3031ab1c8a083681da6137220b5586d9e567830995b955fc10d486474c",
+      "cardSha256": "a3d27fc913548c3bd1a624f737714ad142dcbbe347283e3603cd5fddef465ae6",
       "payload": {
         "version": 1,
         "id": "native-numerical",
@@ -1743,7 +1743,7 @@
               "seed": 1,
               "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
               "stackLibraryVersion": "2026101500",
-              "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+              "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
               "preparedHash": "051898cd2410881399c72e5928193b5c16350fe1229bb43ef59dfa88f6e5a4ff"
             },
             "question_html": "<p>A rectangle is \\({7}\\) cm long and \\({5}\\) cm wide. A right triangle has those same perpendicular side lengths.</p><ol><li>Find the rectangle perimeter in cm, within \\(0.25\\) cm. <input class=\"stack-answer\" data-name=\"perimeter\" data-stack-input-type=\"numerical\" aria-label=\"Answer perimeter\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"perimeter\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></li><li>Find the triangle area in cm², within \\(2\\%\\) of the exact value. <input class=\"stack-answer\" data-name=\"area\" data-stack-input-type=\"numerical\" aria-label=\"Answer area\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"area\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt2\"></span></li><li>Write the triangle area to <strong>exactly two decimal places</strong> (include the final zero). <input class=\"stack-answer\" data-name=\"reported\" data-stack-input-type=\"numerical\" aria-label=\"Answer reported\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"reported\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt3\"></span></li></ol>",
@@ -2179,7 +2179,7 @@
             "seed": 1,
             "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
             "stackLibraryVersion": "2026101500",
-            "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+            "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
             "preparedHash": "b2e658ad92b566b88bfafcdc13ff9019273c14ca31c56030760fe1b829179b56"
           },
           "question_html": "<p>Use square brackets for an ordered list and braces for a set. Here a = \\({2}\\).</p><p>Enter the list \\({\\left[ 2 , 2\\,x \\right] }\\): <input class=\"stack-answer\" data-name=\"sequence\" data-stack-input-type=\"algebraic\" aria-label=\"Answer sequence\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"sequence\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"ordered\"></span></p><p>Enter the set \\({\\left \\{2 , 2\\,x \\right \\}}\\): <input class=\"stack-answer\" data-name=\"members\" data-stack-input-type=\"algebraic\" aria-label=\"Answer members\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"members\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"unordered\"></span></p><p>Enter the same set again; this check explains duplicates and missing/extra elements: <input class=\"stack-answer\" data-name=\"explained\" data-stack-input-type=\"algebraic\" aria-label=\"Answer explained\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"explained\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"explained\"></span></p>",
@@ -2189,7 +2189,7 @@
         }
       ],
       "graphical": null,
-      "cardSha256": "1dfdc1f7a3b6438df9b39dc902499ef7852b243a81db24adec2371fe2af8f3cd",
+      "cardSha256": "ee5d58ade355decf88c4e704919947ca79700ccadb65f588305a412ada389634",
       "payload": {
         "version": 1,
         "id": "native-collections",
@@ -2600,7 +2600,7 @@
               "seed": 1,
               "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
               "stackLibraryVersion": "2026101500",
-              "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+              "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
               "preparedHash": "b2e658ad92b566b88bfafcdc13ff9019273c14ca31c56030760fe1b829179b56"
             },
             "question_html": "<p>Use square brackets for an ordered list and braces for a set. Here a = \\({2}\\).</p><p>Enter the list \\({\\left[ 2 , 2\\,x \\right] }\\): <input class=\"stack-answer\" data-name=\"sequence\" data-stack-input-type=\"algebraic\" aria-label=\"Answer sequence\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"sequence\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"ordered\"></span></p><p>Enter the set \\({\\left \\{2 , 2\\,x \\right \\}}\\): <input class=\"stack-answer\" data-name=\"members\" data-stack-input-type=\"algebraic\" aria-label=\"Answer members\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"members\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"unordered\"></span></p><p>Enter the same set again; this check explains duplicates and missing/extra elements: <input class=\"stack-answer\" data-name=\"explained\" data-stack-input-type=\"algebraic\" aria-label=\"Answer explained\" size=\"18\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"explained\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"explained\"></span></p>",
@@ -2782,7 +2782,7 @@
             "seed": 1,
             "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
             "stackLibraryVersion": "2026101500",
-            "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+            "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
             "preparedHash": "7778c341546b4528899edd95af05652595b28bebd5e1396dc269aca2b2533d37"
           },
           "question_html": "<p>Enter the two by two identity matrix. <span class=\"stack-answer stack-matrix\" data-name=\"ans\" data-matrix-spec=\"{&quot;name&quot;: &quot;ans&quot;, &quot;rows&quot;: {&quot;auto&quot;: false, &quot;initial&quot;: 2, &quot;min&quot;: 2, &quot;max&quot;: 2}, &quot;cols&quot;: {&quot;auto&quot;: false, &quot;initial&quot;: 2, &quot;min&quot;: 2, &quot;max&quot;: 2}}\" role=\"group\" aria-label=\"Answer ans\"></span> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>",
@@ -2792,7 +2792,7 @@
         }
       ],
       "graphical": null,
-      "cardSha256": "1bb2102f7dd51af761682e3d62ce82f31f462083fa35f48161cafd3438ceb8ae",
+      "cardSha256": "8b82ee8f200f3b9f18c7182d39ec5aefeb2ec29b0357ca796802ca2119fbeaea",
       "payload": {
         "version": 1,
         "id": "native-matrix",
@@ -2937,7 +2937,7 @@
               "seed": 1,
               "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
               "stackLibraryVersion": "2026101500",
-              "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+              "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
               "preparedHash": "7778c341546b4528899edd95af05652595b28bebd5e1396dc269aca2b2533d37"
             },
             "question_html": "<p>Enter the two by two identity matrix. <span class=\"stack-answer stack-matrix\" data-name=\"ans\" data-matrix-spec=\"{&quot;name&quot;: &quot;ans&quot;, &quot;rows&quot;: {&quot;auto&quot;: false, &quot;initial&quot;: 2, &quot;min&quot;: 2, &quot;max&quot;: 2}, &quot;cols&quot;: {&quot;auto&quot;: false, &quot;initial&quot;: 2, &quot;min&quot;: 2, &quot;max&quot;: 2}}\" role=\"group\" aria-label=\"Answer ans\"></span> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>",
@@ -3086,10 +3086,10 @@
             "seed": 1,
             "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
             "stackLibraryVersion": "2026101500",
-            "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+            "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
             "preparedHash": "46ad6acdac35e6a5f246e68885c5655a87fc568f1743f2672b4f4b3154abcebb"
           },
-          "question_html": "<p>\"Binding\", in the context of STACK + JSXGraph integration, means connecting the value of a STACK input field to some element in the graph. If the element gets moved the input field's value is also changed. In the simplest example if you drag a slider from value 1 to value 2 the bound input will be set to 2. This is obviously important when you wish to use that part of the graph as an input.  Also, as the VLE in the background stores the values of the input fields we can start remembering state. E.g. f you dragged the slider to value 2 and left the page then the binding logic should be able to ensure that the slider gets placed back to that same value if you return to the page.</p><p>As an simplified example of this we now build a graph with a line segment which has two draggable end points one of which is bound and one which is not. Drag the two points around and then press 'Check'.  When the checking process reloads the page you should see the bound one staying where you dragged it to and the other to return into its initial position. You should also see that the STACK logic side received the position of the bound point.</p><pre style=\"line-height:0.9;\">&#91;&#91;jsxgraph input-ref-ans1='ans1Ref'&#93;&#93;\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\nvar p1 = board.create('point', [-3,3], {name:'Bound',size:4});\nvar p2 = board.create('point', [3,-3], {name:'Free',size:4});\nvar line = board.create('line', [p1,p2], {straightFirst:false, straightLast:false});\n\n/* There exists a simple convenience method for binding inputs to points\n    It just needs an input reference, defined as a parameter of the jsxgraph-block\n    and a primitive object of the type of the binding, in this case a point. */\nstack_jxg.bind_point(ans1Ref, p1);\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as we are not yet ready to talk about two-way binding. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n&#91;&#91;/jsxgraph&#93;&#93;</pre>\n\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-binding-b0&quot;,&quot;inputs&quot;:[&quot;ans1&quot;],&quot;boardValues&quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-binding-b0.html\" class=\"\" name=\"iframeJXG515158f2_2efc_56dc_73e2_99a121c6\" style=\"width:500px; height:400px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-binding-b0\" sandbox=\"allow-scripts\"></iframe>\n\n<p><i>As a special test case here, try moving the bound one out of the box. For that to work the binding needs to track not only direct actions affecting the point but also changes caused by other actions. Those needing to build their own binding logic for more complex things should note this. Simply tracking the point may not be enough.</i></p><p><input class=\"stack-answer\" data-name=\"ans1\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans1\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans1\" aria-live=\"polite\"></span></p>",
+          "question_html": "<p>\"Binding\", in the context of STACK + JSXGraph integration, means connecting the value of a STACK input field to some element in the graph. If the element gets moved the input field's value is also changed. In the simplest example if you drag a slider from value 1 to value 2 the bound input will be set to 2. This is obviously important when you wish to use that part of the graph as an input.  Also, as the VLE in the background stores the values of the input fields we can start remembering state. E.g. f you dragged the slider to value 2 and left the page then the binding logic should be able to ensure that the slider gets placed back to that same value if you return to the page.</p><p>As an simplified example of this we now build a graph with a line segment which has two draggable end points one of which is bound and one which is not. Drag the two points around and then press 'Check'.  When the checking process reloads the page you should see the bound one staying where you dragged it to and the other to return into its initial position. You should also see that the STACK logic side received the position of the bound point.</p><pre style=\"line-height:0.9;\">&#91;&#91;jsxgraph input-ref-ans1='ans1Ref'&#93;&#93;\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\nvar p1 = board.create('point', [-3,3], {name:'Bound',size:4});\nvar p2 = board.create('point', [3,-3], {name:'Free',size:4});\nvar line = board.create('line', [p1,p2], {straightFirst:false, straightLast:false});\n\n/* There exists a simple convenience method for binding inputs to points\n    It just needs an input reference, defined as a parameter of the jsxgraph-block\n    and a primitive object of the type of the binding, in this case a point. */\nstack_jxg.bind_point(ans1Ref, p1);\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as we are not yet ready to talk about two-way binding. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n&#91;&#91;/jsxgraph&#93;&#93;</pre>\n\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-binding-b0&quot;,&quot;inputs&quot;:[&quot;ans1&quot;],&quot;boardValues&quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-binding-b0.html\" class=\"\" name=\"iframeJXGcc25b2a3_7e67_eb6b_a5e7_ac309a2d\" style=\"width:500px; height:400px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-binding-b0\" sandbox=\"allow-scripts\"></iframe>\n\n<p><i>As a special test case here, try moving the bound one out of the box. For that to work the binding needs to track not only direct actions affecting the point but also changes caused by other actions. Those needing to build their own binding logic for more complex things should note this. Simply tracking the point may not be enough.</i></p><p><input class=\"stack-answer\" data-name=\"ans1\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans1\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans1\" aria-live=\"polite\"></span></p>",
           "generalfeedback_html": "",
           "specificfeedback_html": "<span class=\"stack-feedback\" data-name=\"prt1\"></span>",
           "questionnote_html": ""
@@ -3101,7 +3101,7 @@
         "input": "ans1",
         "pointName": "Bound"
       },
-      "cardSha256": "4d8fd1df2683f8aed33cd1d21946fa2e29e8bf3dd4f780230dda3ab331b8281d",
+      "cardSha256": "b8b2793059e6210e8c48b7592cd9871befeebc0864b6f39e57c5d887a855aa0d",
       "payload": {
         "version": 1,
         "id": "native-binding",
@@ -3221,10 +3221,10 @@
               "seed": 1,
               "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
               "stackLibraryVersion": "2026101500",
-              "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+              "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
               "preparedHash": "46ad6acdac35e6a5f246e68885c5655a87fc568f1743f2672b4f4b3154abcebb"
             },
-            "question_html": "<p>\"Binding\", in the context of STACK + JSXGraph integration, means connecting the value of a STACK input field to some element in the graph. If the element gets moved the input field's value is also changed. In the simplest example if you drag a slider from value 1 to value 2 the bound input will be set to 2. This is obviously important when you wish to use that part of the graph as an input.  Also, as the VLE in the background stores the values of the input fields we can start remembering state. E.g. f you dragged the slider to value 2 and left the page then the binding logic should be able to ensure that the slider gets placed back to that same value if you return to the page.</p><p>As an simplified example of this we now build a graph with a line segment which has two draggable end points one of which is bound and one which is not. Drag the two points around and then press 'Check'.  When the checking process reloads the page you should see the bound one staying where you dragged it to and the other to return into its initial position. You should also see that the STACK logic side received the position of the bound point.</p><pre style=\"line-height:0.9;\">&#91;&#91;jsxgraph input-ref-ans1='ans1Ref'&#93;&#93;\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\nvar p1 = board.create('point', [-3,3], {name:'Bound',size:4});\nvar p2 = board.create('point', [3,-3], {name:'Free',size:4});\nvar line = board.create('line', [p1,p2], {straightFirst:false, straightLast:false});\n\n/* There exists a simple convenience method for binding inputs to points\n    It just needs an input reference, defined as a parameter of the jsxgraph-block\n    and a primitive object of the type of the binding, in this case a point. */\nstack_jxg.bind_point(ans1Ref, p1);\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as we are not yet ready to talk about two-way binding. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n&#91;&#91;/jsxgraph&#93;&#93;</pre>\n\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-binding-b0&quot;,&quot;inputs&quot;:[&quot;ans1&quot;],&quot;boardValues&quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-binding-b0.html\" class=\"\" name=\"iframeJXG515158f2_2efc_56dc_73e2_99a121c6\" style=\"width:500px; height:400px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-binding-b0\" sandbox=\"allow-scripts\"></iframe>\n\n<p><i>As a special test case here, try moving the bound one out of the box. For that to work the binding needs to track not only direct actions affecting the point but also changes caused by other actions. Those needing to build their own binding logic for more complex things should note this. Simply tracking the point may not be enough.</i></p><p><input class=\"stack-answer\" data-name=\"ans1\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans1\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans1\" aria-live=\"polite\"></span></p>",
+            "question_html": "<p>\"Binding\", in the context of STACK + JSXGraph integration, means connecting the value of a STACK input field to some element in the graph. If the element gets moved the input field's value is also changed. In the simplest example if you drag a slider from value 1 to value 2 the bound input will be set to 2. This is obviously important when you wish to use that part of the graph as an input.  Also, as the VLE in the background stores the values of the input fields we can start remembering state. E.g. f you dragged the slider to value 2 and left the page then the binding logic should be able to ensure that the slider gets placed back to that same value if you return to the page.</p><p>As an simplified example of this we now build a graph with a line segment which has two draggable end points one of which is bound and one which is not. Drag the two points around and then press 'Check'.  When the checking process reloads the page you should see the bound one staying where you dragged it to and the other to return into its initial position. You should also see that the STACK logic side received the position of the bound point.</p><pre style=\"line-height:0.9;\">&#91;&#91;jsxgraph input-ref-ans1='ans1Ref'&#93;&#93;\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\nvar p1 = board.create('point', [-3,3], {name:'Bound',size:4});\nvar p2 = board.create('point', [3,-3], {name:'Free',size:4});\nvar line = board.create('line', [p1,p2], {straightFirst:false, straightLast:false});\n\n/* There exists a simple convenience method for binding inputs to points\n    It just needs an input reference, defined as a parameter of the jsxgraph-block\n    and a primitive object of the type of the binding, in this case a point. */\nstack_jxg.bind_point(ans1Ref, p1);\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as we are not yet ready to talk about two-way binding. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n&#91;&#91;/jsxgraph&#93;&#93;</pre>\n\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-binding-b0&quot;,&quot;inputs&quot;:[&quot;ans1&quot;],&quot;boardValues&quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-binding-b0.html\" class=\"\" name=\"iframeJXGcc25b2a3_7e67_eb6b_a5e7_ac309a2d\" style=\"width:500px; height:400px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-binding-b0\" sandbox=\"allow-scripts\"></iframe>\n\n<p><i>As a special test case here, try moving the bound one out of the box. For that to work the binding needs to track not only direct actions affecting the point but also changes caused by other actions. Those needing to build their own binding logic for more complex things should note this. Simply tracking the point may not be enough.</i></p><p><input class=\"stack-answer\" data-name=\"ans1\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans1\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans1\" aria-live=\"polite\"></span></p>",
             "generalfeedback_html": "",
             "specificfeedback_html": "<span class=\"stack-feedback\" data-name=\"prt1\"></span>",
             "questionnote_html": ""
@@ -3417,10 +3417,10 @@
             "seed": 1,
             "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
             "stackLibraryVersion": "2026101500",
-            "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+            "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
             "preparedHash": "5a969bc0f19708bbf924cbee2a634758c9c672b46c699619f24623c7f2e43b13"
           },
-          "question_html": "<p>The previous examples have shown the use of simplified binding of single primitives to single inputs, that should cover most use cases but once you start to do more complex things you will need to start building your own binding logic. Some examples of such situations are:</p><ul><li>Creation and deletion of arbitrary numbers of points/objects in graph cannot be tracked with one input per object logic as you cannot create inputs. In these cases you need to store more structure into inputs.</li><li>Not dealing with the positions of things might also be an obvious case, if you want to for example track the order the student clicks some edges in some graph use of the simple binding tools will not help.</li></ul><p>Basically, you cannot use one-to-one input-object-binding if you have dynamic number of objects. To deal with this you need to have some form of data-structures (simple lists of coordinates are often enough but once you have multiple types of things with connections between them you will probably want more) that you can store that represent the state of your graph. As you are authoring JSXGraph graphs in JavaScript the obvious structures are JavaScript objects/dictionaries and lists, luckily those can easily be turned to JSON strings that can be stored into String input fields. And what is important STACK now provides a way for parsing those JSON strings on Maxima side so that you can process the values there.</p><pre style=\"line-height:0.9;\">&#91;&#91;jsxgraph height='700px' width='700px' input-ref-ans1='ans1Ref'&#93;&#93;\n/* In this example ans1 is a String type input, which is important as the value we store \n   there is most definitely not a valid Maxima expression. */\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\n\n/* We will store our points here. */\nvar points = new Array();\nvar i = 0;\n\n/* If we have stored state of points we will resurrect them now. */\nvar theInput = document.getElementById(ans1Ref);\nif (theInput.value &amp;&amp; theInput.value != '') {\n var pointList = JSON.parse(theInput.value);\n for (i=0; i&lt;pointList.length; i++) {\n  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});\n  points[i] = p;\n } \n}\n\n/* Lets create some magic, in this example dragging points through specific areas changes \n   the color of the points. And there is an area that both creates and deletes points. */\n\nvar source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {  strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {    strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], { strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\n\n/* A function the we can tie to points so that their color changes. */\nvar colorDragListener = function() {\n /* this in this context should be the point. */\n if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n  this.setAttribute({color:'black'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) &lt; red.Radius()) {\n  this.setAttribute({color:'red'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) &lt; green.Radius()) {\n  this.setAttribute({color:'green'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) &lt; blue.Radius()) {\n  this.setAttribute({color:'blue'});\n }\n}\n\n/* Another function to handle the release of dragged points and the storage of the state. */\nvar dropHandler = function() {\n /* this in this context should be the point. */\n var newOne = points.indexOf(this);\n if (newOne == -1) {\n  /* This is a new one depending on where it was dropped we do things. */\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n   /* When dropped into the source, reset the point. */\n   this.moveTo([source.center.X(),source.center.Y()],100);\n   this.setAttribute({color:'black'});\n  } else {\n   /* it is now in play add it to the list. */\n   points[points.length] = this;\n   /* also initialise a new point in the source. */\n   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\n   p.on('drag',colorDragListener);\n   p.on('up',dropHandler);\n  }\n } else {\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n   /* When dropped into the source delete this point as this is an existing point. */\n   points.splice(newOne, 1);\n   this.board.removeObject(this);\n  }\n  /* Otherwise all fine. */\n }\n\n /* Then construct the state. Basically, map the points to a specific form, in this example the form is \n    a bit too complex as it includes an object/dictionary when a list would have worked but maybe this\n    will come in handy elsewhere. */\n var newState = new Array();\n for (i=0; i&lt;points.length; i++) {\n  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};\n  newState[i] = P;\n }\n theInput.value = JSON.stringify(newState);\n\n /* NOTE! You will need to do certain things to make the VLE around you know that things happen, \n    for this reason we need to generate a \"change\" event. In the case of Moodle and this question the event\n    marks the form modified and causes a warning if the page is left through non saving routes. */\n var e = new Event('change');\n theInput.dispatchEvent(e);\n}\n\n\n/* This is the intial point. */\nvar p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\np.on('drag',colorDragListener);\np.on('up',dropHandler);\n\n/* Remember that the points from stored state must also be tied to the listeners if present. */\nfor (i=0; i&lt;points.length; i++) {\n points[i].on('drag',colorDragListener);\n points[i].on('up',dropHandler);\n}\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as it will get absurd very soon. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n&#91;&#91;/jsxgraph&#93;&#93;\n</pre>\n\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-json-b0&quot;,&quot;inputs&quot;:[&quot;ans1&quot;],&quot;boardValues&quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-json-b0.html\" class=\"\" name=\"iframeJXG01af5117_14ce_2acd_ac16_ec417fc9\" style=\"width:700px; height:700px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-json-b0\" sandbox=\"allow-scripts\"></iframe>\n\n<p>Drag some points around and press check, as expected the points stay in place. The feedback should also show you the raw stored state and some very simple numbers collected from it. You may wish to check the feedback logic but it has very little to show.</p><p>In STACK 4.4 a simplified way of doing custom binding was added, if you need to do this you might wish to look into it, there should be a new sample of that.</p><p><input class=\"stack-answer\" data-name=\"ans1\" data-stack-input-type=\"string\" aria-label=\"Answer ans1\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans1\" aria-live=\"polite\"></span></p>",
+          "question_html": "<p>The previous examples have shown the use of simplified binding of single primitives to single inputs, that should cover most use cases but once you start to do more complex things you will need to start building your own binding logic. Some examples of such situations are:</p><ul><li>Creation and deletion of arbitrary numbers of points/objects in graph cannot be tracked with one input per object logic as you cannot create inputs. In these cases you need to store more structure into inputs.</li><li>Not dealing with the positions of things might also be an obvious case, if you want to for example track the order the student clicks some edges in some graph use of the simple binding tools will not help.</li></ul><p>Basically, you cannot use one-to-one input-object-binding if you have dynamic number of objects. To deal with this you need to have some form of data-structures (simple lists of coordinates are often enough but once you have multiple types of things with connections between them you will probably want more) that you can store that represent the state of your graph. As you are authoring JSXGraph graphs in JavaScript the obvious structures are JavaScript objects/dictionaries and lists, luckily those can easily be turned to JSON strings that can be stored into String input fields. And what is important STACK now provides a way for parsing those JSON strings on Maxima side so that you can process the values there.</p><pre style=\"line-height:0.9;\">&#91;&#91;jsxgraph height='700px' width='700px' input-ref-ans1='ans1Ref'&#93;&#93;\n/* In this example ans1 is a String type input, which is important as the value we store \n   there is most definitely not a valid Maxima expression. */\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\n\n/* We will store our points here. */\nvar points = new Array();\nvar i = 0;\n\n/* If we have stored state of points we will resurrect them now. */\nvar theInput = document.getElementById(ans1Ref);\nif (theInput.value &amp;&amp; theInput.value != '') {\n var pointList = JSON.parse(theInput.value);\n for (i=0; i&lt;pointList.length; i++) {\n  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});\n  points[i] = p;\n } \n}\n\n/* Lets create some magic, in this example dragging points through specific areas changes \n   the color of the points. And there is an area that both creates and deletes points. */\n\nvar source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {  strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {    strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], { strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\n\n/* A function the we can tie to points so that their color changes. */\nvar colorDragListener = function() {\n /* this in this context should be the point. */\n if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n  this.setAttribute({color:'black'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) &lt; red.Radius()) {\n  this.setAttribute({color:'red'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) &lt; green.Radius()) {\n  this.setAttribute({color:'green'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) &lt; blue.Radius()) {\n  this.setAttribute({color:'blue'});\n }\n}\n\n/* Another function to handle the release of dragged points and the storage of the state. */\nvar dropHandler = function() {\n /* this in this context should be the point. */\n var newOne = points.indexOf(this);\n if (newOne == -1) {\n  /* This is a new one depending on where it was dropped we do things. */\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n   /* When dropped into the source, reset the point. */\n   this.moveTo([source.center.X(),source.center.Y()],100);\n   this.setAttribute({color:'black'});\n  } else {\n   /* it is now in play add it to the list. */\n   points[points.length] = this;\n   /* also initialise a new point in the source. */\n   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\n   p.on('drag',colorDragListener);\n   p.on('up',dropHandler);\n  }\n } else {\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n   /* When dropped into the source delete this point as this is an existing point. */\n   points.splice(newOne, 1);\n   this.board.removeObject(this);\n  }\n  /* Otherwise all fine. */\n }\n\n /* Then construct the state. Basically, map the points to a specific form, in this example the form is \n    a bit too complex as it includes an object/dictionary when a list would have worked but maybe this\n    will come in handy elsewhere. */\n var newState = new Array();\n for (i=0; i&lt;points.length; i++) {\n  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};\n  newState[i] = P;\n }\n theInput.value = JSON.stringify(newState);\n\n /* NOTE! You will need to do certain things to make the VLE around you know that things happen, \n    for this reason we need to generate a \"change\" event. In the case of Moodle and this question the event\n    marks the form modified and causes a warning if the page is left through non saving routes. */\n var e = new Event('change');\n theInput.dispatchEvent(e);\n}\n\n\n/* This is the intial point. */\nvar p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\np.on('drag',colorDragListener);\np.on('up',dropHandler);\n\n/* Remember that the points from stored state must also be tied to the listeners if present. */\nfor (i=0; i&lt;points.length; i++) {\n points[i].on('drag',colorDragListener);\n points[i].on('up',dropHandler);\n}\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as it will get absurd very soon. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n&#91;&#91;/jsxgraph&#93;&#93;\n</pre>\n\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-json-b0&quot;,&quot;inputs&quot;:[&quot;ans1&quot;],&quot;boardValues&quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-json-b0.html\" class=\"\" name=\"iframeJXG19417afd_da18_1d26_777d_97d72cb6\" style=\"width:700px; height:700px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-json-b0\" sandbox=\"allow-scripts\"></iframe>\n\n<p>Drag some points around and press check, as expected the points stay in place. The feedback should also show you the raw stored state and some very simple numbers collected from it. You may wish to check the feedback logic but it has very little to show.</p><p>In STACK 4.4 a simplified way of doing custom binding was added, if you need to do this you might wish to look into it, there should be a new sample of that.</p><p><input class=\"stack-answer\" data-name=\"ans1\" data-stack-input-type=\"string\" aria-label=\"Answer ans1\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans1\" aria-live=\"polite\"></span></p>",
           "generalfeedback_html": "",
           "specificfeedback_html": "<span class=\"stack-feedback\" data-name=\"prt1\"></span>",
           "questionnote_html": ""
@@ -3430,7 +3430,7 @@
         "kind": "json-colour-points",
         "input": "ans1"
       },
-      "cardSha256": "c34ac6ca7007fedabdb2e636ad9a1d32819afb88f518ccbb7c3f1caeadac3a6c",
+      "cardSha256": "28c7d613fa7e67dd2a382ff77d53108ed5eb96f8001c94d7f35c419ed7c5fbac",
       "payload": {
         "version": 1,
         "id": "native-json",
@@ -3598,10 +3598,10 @@
               "seed": 1,
               "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
               "stackLibraryVersion": "2026101500",
-              "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+              "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
               "preparedHash": "5a969bc0f19708bbf924cbee2a634758c9c672b46c699619f24623c7f2e43b13"
             },
-            "question_html": "<p>The previous examples have shown the use of simplified binding of single primitives to single inputs, that should cover most use cases but once you start to do more complex things you will need to start building your own binding logic. Some examples of such situations are:</p><ul><li>Creation and deletion of arbitrary numbers of points/objects in graph cannot be tracked with one input per object logic as you cannot create inputs. In these cases you need to store more structure into inputs.</li><li>Not dealing with the positions of things might also be an obvious case, if you want to for example track the order the student clicks some edges in some graph use of the simple binding tools will not help.</li></ul><p>Basically, you cannot use one-to-one input-object-binding if you have dynamic number of objects. To deal with this you need to have some form of data-structures (simple lists of coordinates are often enough but once you have multiple types of things with connections between them you will probably want more) that you can store that represent the state of your graph. As you are authoring JSXGraph graphs in JavaScript the obvious structures are JavaScript objects/dictionaries and lists, luckily those can easily be turned to JSON strings that can be stored into String input fields. And what is important STACK now provides a way for parsing those JSON strings on Maxima side so that you can process the values there.</p><pre style=\"line-height:0.9;\">&#91;&#91;jsxgraph height='700px' width='700px' input-ref-ans1='ans1Ref'&#93;&#93;\n/* In this example ans1 is a String type input, which is important as the value we store \n   there is most definitely not a valid Maxima expression. */\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\n\n/* We will store our points here. */\nvar points = new Array();\nvar i = 0;\n\n/* If we have stored state of points we will resurrect them now. */\nvar theInput = document.getElementById(ans1Ref);\nif (theInput.value &amp;&amp; theInput.value != '') {\n var pointList = JSON.parse(theInput.value);\n for (i=0; i&lt;pointList.length; i++) {\n  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});\n  points[i] = p;\n } \n}\n\n/* Lets create some magic, in this example dragging points through specific areas changes \n   the color of the points. And there is an area that both creates and deletes points. */\n\nvar source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {  strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {    strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], { strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\n\n/* A function the we can tie to points so that their color changes. */\nvar colorDragListener = function() {\n /* this in this context should be the point. */\n if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n  this.setAttribute({color:'black'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) &lt; red.Radius()) {\n  this.setAttribute({color:'red'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) &lt; green.Radius()) {\n  this.setAttribute({color:'green'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) &lt; blue.Radius()) {\n  this.setAttribute({color:'blue'});\n }\n}\n\n/* Another function to handle the release of dragged points and the storage of the state. */\nvar dropHandler = function() {\n /* this in this context should be the point. */\n var newOne = points.indexOf(this);\n if (newOne == -1) {\n  /* This is a new one depending on where it was dropped we do things. */\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n   /* When dropped into the source, reset the point. */\n   this.moveTo([source.center.X(),source.center.Y()],100);\n   this.setAttribute({color:'black'});\n  } else {\n   /* it is now in play add it to the list. */\n   points[points.length] = this;\n   /* also initialise a new point in the source. */\n   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\n   p.on('drag',colorDragListener);\n   p.on('up',dropHandler);\n  }\n } else {\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n   /* When dropped into the source delete this point as this is an existing point. */\n   points.splice(newOne, 1);\n   this.board.removeObject(this);\n  }\n  /* Otherwise all fine. */\n }\n\n /* Then construct the state. Basically, map the points to a specific form, in this example the form is \n    a bit too complex as it includes an object/dictionary when a list would have worked but maybe this\n    will come in handy elsewhere. */\n var newState = new Array();\n for (i=0; i&lt;points.length; i++) {\n  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};\n  newState[i] = P;\n }\n theInput.value = JSON.stringify(newState);\n\n /* NOTE! You will need to do certain things to make the VLE around you know that things happen, \n    for this reason we need to generate a \"change\" event. In the case of Moodle and this question the event\n    marks the form modified and causes a warning if the page is left through non saving routes. */\n var e = new Event('change');\n theInput.dispatchEvent(e);\n}\n\n\n/* This is the intial point. */\nvar p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\np.on('drag',colorDragListener);\np.on('up',dropHandler);\n\n/* Remember that the points from stored state must also be tied to the listeners if present. */\nfor (i=0; i&lt;points.length; i++) {\n points[i].on('drag',colorDragListener);\n points[i].on('up',dropHandler);\n}\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as it will get absurd very soon. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n&#91;&#91;/jsxgraph&#93;&#93;\n</pre>\n\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-json-b0&quot;,&quot;inputs&quot;:[&quot;ans1&quot;],&quot;boardValues&quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-json-b0.html\" class=\"\" name=\"iframeJXG01af5117_14ce_2acd_ac16_ec417fc9\" style=\"width:700px; height:700px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-json-b0\" sandbox=\"allow-scripts\"></iframe>\n\n<p>Drag some points around and press check, as expected the points stay in place. The feedback should also show you the raw stored state and some very simple numbers collected from it. You may wish to check the feedback logic but it has very little to show.</p><p>In STACK 4.4 a simplified way of doing custom binding was added, if you need to do this you might wish to look into it, there should be a new sample of that.</p><p><input class=\"stack-answer\" data-name=\"ans1\" data-stack-input-type=\"string\" aria-label=\"Answer ans1\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans1\" aria-live=\"polite\"></span></p>",
+            "question_html": "<p>The previous examples have shown the use of simplified binding of single primitives to single inputs, that should cover most use cases but once you start to do more complex things you will need to start building your own binding logic. Some examples of such situations are:</p><ul><li>Creation and deletion of arbitrary numbers of points/objects in graph cannot be tracked with one input per object logic as you cannot create inputs. In these cases you need to store more structure into inputs.</li><li>Not dealing with the positions of things might also be an obvious case, if you want to for example track the order the student clicks some edges in some graph use of the simple binding tools will not help.</li></ul><p>Basically, you cannot use one-to-one input-object-binding if you have dynamic number of objects. To deal with this you need to have some form of data-structures (simple lists of coordinates are often enough but once you have multiple types of things with connections between them you will probably want more) that you can store that represent the state of your graph. As you are authoring JSXGraph graphs in JavaScript the obvious structures are JavaScript objects/dictionaries and lists, luckily those can easily be turned to JSON strings that can be stored into String input fields. And what is important STACK now provides a way for parsing those JSON strings on Maxima side so that you can process the values there.</p><pre style=\"line-height:0.9;\">&#91;&#91;jsxgraph height='700px' width='700px' input-ref-ans1='ans1Ref'&#93;&#93;\n/* In this example ans1 is a String type input, which is important as the value we store \n   there is most definitely not a valid Maxima expression. */\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\n\n/* We will store our points here. */\nvar points = new Array();\nvar i = 0;\n\n/* If we have stored state of points we will resurrect them now. */\nvar theInput = document.getElementById(ans1Ref);\nif (theInput.value &amp;&amp; theInput.value != '') {\n var pointList = JSON.parse(theInput.value);\n for (i=0; i&lt;pointList.length; i++) {\n  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});\n  points[i] = p;\n } \n}\n\n/* Lets create some magic, in this example dragging points through specific areas changes \n   the color of the points. And there is an area that both creates and deletes points. */\n\nvar source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {  strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {    strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], { strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\n\n/* A function the we can tie to points so that their color changes. */\nvar colorDragListener = function() {\n /* this in this context should be the point. */\n if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n  this.setAttribute({color:'black'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) &lt; red.Radius()) {\n  this.setAttribute({color:'red'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) &lt; green.Radius()) {\n  this.setAttribute({color:'green'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) &lt; blue.Radius()) {\n  this.setAttribute({color:'blue'});\n }\n}\n\n/* Another function to handle the release of dragged points and the storage of the state. */\nvar dropHandler = function() {\n /* this in this context should be the point. */\n var newOne = points.indexOf(this);\n if (newOne == -1) {\n  /* This is a new one depending on where it was dropped we do things. */\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n   /* When dropped into the source, reset the point. */\n   this.moveTo([source.center.X(),source.center.Y()],100);\n   this.setAttribute({color:'black'});\n  } else {\n   /* it is now in play add it to the list. */\n   points[points.length] = this;\n   /* also initialise a new point in the source. */\n   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\n   p.on('drag',colorDragListener);\n   p.on('up',dropHandler);\n  }\n } else {\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n   /* When dropped into the source delete this point as this is an existing point. */\n   points.splice(newOne, 1);\n   this.board.removeObject(this);\n  }\n  /* Otherwise all fine. */\n }\n\n /* Then construct the state. Basically, map the points to a specific form, in this example the form is \n    a bit too complex as it includes an object/dictionary when a list would have worked but maybe this\n    will come in handy elsewhere. */\n var newState = new Array();\n for (i=0; i&lt;points.length; i++) {\n  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};\n  newState[i] = P;\n }\n theInput.value = JSON.stringify(newState);\n\n /* NOTE! You will need to do certain things to make the VLE around you know that things happen, \n    for this reason we need to generate a \"change\" event. In the case of Moodle and this question the event\n    marks the form modified and causes a warning if the page is left through non saving routes. */\n var e = new Event('change');\n theInput.dispatchEvent(e);\n}\n\n\n/* This is the intial point. */\nvar p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\np.on('drag',colorDragListener);\np.on('up',dropHandler);\n\n/* Remember that the points from stored state must also be tied to the listeners if present. */\nfor (i=0; i&lt;points.length; i++) {\n points[i].on('drag',colorDragListener);\n points[i].on('up',dropHandler);\n}\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as it will get absurd very soon. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n&#91;&#91;/jsxgraph&#93;&#93;\n</pre>\n\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-json-b0&quot;,&quot;inputs&quot;:[&quot;ans1&quot;],&quot;boardValues&quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-json-b0.html\" class=\"\" name=\"iframeJXG19417afd_da18_1d26_777d_97d72cb6\" style=\"width:700px; height:700px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-json-b0\" sandbox=\"allow-scripts\"></iframe>\n\n<p>Drag some points around and press check, as expected the points stay in place. The feedback should also show you the raw stored state and some very simple numbers collected from it. You may wish to check the feedback logic but it has very little to show.</p><p>In STACK 4.4 a simplified way of doing custom binding was added, if you need to do this you might wish to look into it, there should be a new sample of that.</p><p><input class=\"stack-answer\" data-name=\"ans1\" data-stack-input-type=\"string\" aria-label=\"Answer ans1\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans1\" aria-live=\"polite\"></span></p>",
             "generalfeedback_html": "",
             "specificfeedback_html": "<span class=\"stack-feedback\" data-name=\"prt1\"></span>",
             "questionnote_html": ""
@@ -3854,10 +3854,10 @@
             "seed": 1,
             "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
             "stackLibraryVersion": "2026101500",
-            "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+            "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
             "preparedHash": "443cda9a9934f5d01e6538a178ba77c5c1f2f4943b4d99c132dc556ffb38e255"
           },
-          "question_html": "<p>Place P anywhere in the open first quadrant. PythonChecker accepts any two positive coordinates.</p><p>Move the point, or edit its coordinate list. <input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-python-board-b0&quot;,&quot;inputs&quot;:[&quot;ans&quot;],&quot;boardValues&quot;:{&quot;t0&quot;:-1}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-python-board-b0.html\" class=\"\" name=\"iframeJXG76f8fcef_b631_c3ff_d6b2_fdc667e9\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-python-board-b0\" sandbox=\"allow-scripts\"></iframe>",
+          "question_html": "<p>Place P anywhere in the open first quadrant. PythonChecker accepts any two positive coordinates.</p><p>Move the point, or edit its coordinate list. <input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-python-board-b0&quot;,&quot;inputs&quot;:[&quot;ans&quot;],&quot;boardValues&quot;:{&quot;t0&quot;:-1}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-python-board-b0.html\" class=\"\" name=\"iframeJXGe8d6967f_7f25_0092_b8c1_137282ba\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-python-board-b0\" sandbox=\"allow-scripts\"></iframe>",
           "generalfeedback_html": "",
           "specificfeedback_html": "<span class=\"stack-feedback\" data-name=\"prt1\"></span>",
           "questionnote_html": ""
@@ -3906,10 +3906,10 @@
             "seed": 2,
             "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
             "stackLibraryVersion": "2026101500",
-            "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+            "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
             "preparedHash": "670b15ae2bd4771ca3c6fa79c816e2ec6a87088e8cc4d58a39f95f6317b37825"
           },
-          "question_html": "<p>Place P anywhere in the open first quadrant. PythonChecker accepts any two positive coordinates.</p><p>Move the point, or edit its coordinate list. <input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-python-board-b0&quot;,&quot;inputs&quot;:[&quot;ans&quot;],&quot;boardValues&quot;:{&quot;t0&quot;:-2}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-python-board-b0.html\" class=\"\" name=\"iframeJXG76f8fcef_b631_c3ff_d6b2_fdc667e9\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-python-board-b0\" sandbox=\"allow-scripts\"></iframe>",
+          "question_html": "<p>Place P anywhere in the open first quadrant. PythonChecker accepts any two positive coordinates.</p><p>Move the point, or edit its coordinate list. <input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-python-board-b0&quot;,&quot;inputs&quot;:[&quot;ans&quot;],&quot;boardValues&quot;:{&quot;t0&quot;:-2}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-python-board-b0.html\" class=\"\" name=\"iframeJXGe8d6967f_7f25_0092_b8c1_137282ba\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-python-board-b0\" sandbox=\"allow-scripts\"></iframe>",
           "generalfeedback_html": "",
           "specificfeedback_html": "<span class=\"stack-feedback\" data-name=\"prt1\"></span>",
           "questionnote_html": ""
@@ -3943,7 +3943,7 @@
           }
         ]
       },
-      "cardSha256": "703c58c5d5f15317a992fcb19fa1e60adf0721805d47d7fbfcd0886ff98dfb47",
+      "cardSha256": "961b4acf2db2acd2501daced7c32781327adda1d8b736f27ab5462347d81053a",
       "payload": {
         "version": 1,
         "id": "native-python-board",
@@ -4122,10 +4122,10 @@
               "seed": 1,
               "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
               "stackLibraryVersion": "2026101500",
-              "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+              "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
               "preparedHash": "443cda9a9934f5d01e6538a178ba77c5c1f2f4943b4d99c132dc556ffb38e255"
             },
-            "question_html": "<p>Place P anywhere in the open first quadrant. PythonChecker accepts any two positive coordinates.</p><p>Move the point, or edit its coordinate list. <input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-python-board-b0&quot;,&quot;inputs&quot;:[&quot;ans&quot;],&quot;boardValues&quot;:{&quot;t0&quot;:-1}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-python-board-b0.html\" class=\"\" name=\"iframeJXG76f8fcef_b631_c3ff_d6b2_fdc667e9\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-python-board-b0\" sandbox=\"allow-scripts\"></iframe>",
+            "question_html": "<p>Place P anywhere in the open first quadrant. PythonChecker accepts any two positive coordinates.</p><p>Move the point, or edit its coordinate list. <input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-python-board-b0&quot;,&quot;inputs&quot;:[&quot;ans&quot;],&quot;boardValues&quot;:{&quot;t0&quot;:-1}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-python-board-b0.html\" class=\"\" name=\"iframeJXGe8d6967f_7f25_0092_b8c1_137282ba\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-python-board-b0\" sandbox=\"allow-scripts\"></iframe>",
             "generalfeedback_html": "",
             "specificfeedback_html": "<span class=\"stack-feedback\" data-name=\"prt1\"></span>",
             "questionnote_html": ""
@@ -4174,10 +4174,10 @@
               "seed": 2,
               "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
               "stackLibraryVersion": "2026101500",
-              "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+              "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
               "preparedHash": "670b15ae2bd4771ca3c6fa79c816e2ec6a87088e8cc4d58a39f95f6317b37825"
             },
-            "question_html": "<p>Place P anywhere in the open first quadrant. PythonChecker accepts any two positive coordinates.</p><p>Move the point, or edit its coordinate list. <input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-python-board-b0&quot;,&quot;inputs&quot;:[&quot;ans&quot;],&quot;boardValues&quot;:{&quot;t0&quot;:-2}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-python-board-b0.html\" class=\"\" name=\"iframeJXG76f8fcef_b631_c3ff_d6b2_fdc667e9\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-python-board-b0\" sandbox=\"allow-scripts\"></iframe>",
+            "question_html": "<p>Place P anywhere in the open first quadrant. PythonChecker accepts any two positive coordinates.</p><p>Move the point, or edit its coordinate list. <input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-python-board-b0&quot;,&quot;inputs&quot;:[&quot;ans&quot;],&quot;boardValues&quot;:{&quot;t0&quot;:-2}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-python-board-b0.html\" class=\"\" name=\"iframeJXGe8d6967f_7f25_0092_b8c1_137282ba\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-python-board-b0\" sandbox=\"allow-scripts\"></iframe>",
             "generalfeedback_html": "",
             "specificfeedback_html": "<span class=\"stack-feedback\" data-name=\"prt1\"></span>",
             "questionnote_html": ""
@@ -4565,10 +4565,10 @@
             "seed": 1,
             "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
             "stackLibraryVersion": "2026101500",
-            "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+            "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
             "preparedHash": "6e564b3e2994a474e60f37532985780b6e6de267b1abf022f1502ac695b75788"
           },
-          "question_html": "<p>Place P at (2,2). The y-coordinate earns one half, positive x earns one quarter through PythonChecker, and x=2 earns the final quarter.</p><p>Move the point, or edit its coordinate list. <input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-mixed-board-b0&quot;,&quot;inputs&quot;:[&quot;ans&quot;],&quot;boardValues&quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-mixed-board-b0.html\" class=\"\" name=\"iframeJXGd398a7c1_471a_be5d_430a_8fc69ebc\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-mixed-board-b0\" sandbox=\"allow-scripts\"></iframe>",
+          "question_html": "<p>Place P at (2,2). The y-coordinate earns one half, positive x earns one quarter through PythonChecker, and x=2 earns the final quarter.</p><p>Move the point, or edit its coordinate list. <input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-mixed-board-b0&quot;,&quot;inputs&quot;:[&quot;ans&quot;],&quot;boardValues&quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-mixed-board-b0.html\" class=\"\" name=\"iframeJXG5ef3ef40_ee30_a265_552e_03c6ceb5\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-mixed-board-b0\" sandbox=\"allow-scripts\"></iframe>",
           "generalfeedback_html": "",
           "specificfeedback_html": "<span class=\"stack-feedback\" data-name=\"prt1\"></span>",
           "questionnote_html": ""
@@ -4580,7 +4580,7 @@
         "input": "ans",
         "pointName": "P"
       },
-      "cardSha256": "576227d1c9d4a4b405b34e792ee20fa7a1aab5a738b5981099a826a20d2ed03f",
+      "cardSha256": "b2dcbac8ab5749f44d02d56f8cbfdc0b01973189c398a680fc632a11dc82a2f8",
       "payload": {
         "version": 1,
         "id": "native-mixed-board",
@@ -4854,10 +4854,10 @@
               "seed": 1,
               "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
               "stackLibraryVersion": "2026101500",
-              "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+              "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
               "preparedHash": "6e564b3e2994a474e60f37532985780b6e6de267b1abf022f1502ac695b75788"
             },
-            "question_html": "<p>Place P at (2,2). The y-coordinate earns one half, positive x earns one quarter through PythonChecker, and x=2 earns the final quarter.</p><p>Move the point, or edit its coordinate list. <input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-mixed-board-b0&quot;,&quot;inputs&quot;:[&quot;ans&quot;],&quot;boardValues&quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-mixed-board-b0.html\" class=\"\" name=\"iframeJXGd398a7c1_471a_be5d_430a_8fc69ebc\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-mixed-board-b0\" sandbox=\"allow-scripts\"></iframe>",
+            "question_html": "<p>Place P at (2,2). The y-coordinate earns one half, positive x earns one quarter through PythonChecker, and x=2 earns the final quarter.</p><p>Move the point, or edit its coordinate list. <input class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>\n<iframe data-stack-jsxgraph=\"{&quot;assessmentId&quot;:&quot;native-mixed-board-b0&quot;,&quot;inputs&quot;:[&quot;ans&quot;],&quot;boardValues&quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-mixed-board-b0.html\" class=\"\" name=\"iframeJXG5ef3ef40_ee30_a265_552e_03c6ceb5\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-mixed-board-b0\" sandbox=\"allow-scripts\"></iframe>",
             "generalfeedback_html": "",
             "specificfeedback_html": "<span class=\"stack-feedback\" data-name=\"prt1\"></span>",
             "questionnote_html": ""
@@ -5052,7 +5052,7 @@
             "seed": 1,
             "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
             "stackLibraryVersion": "2026101500",
-            "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+            "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
             "preparedHash": "7778c341546b4528899edd95af05652595b28bebd5e1396dc269aca2b2533d37"
           },
           "question_html": "<p>Enter the identity matrix. The checker reports a verdict for each column. <span class=\"stack-answer stack-matrix\" data-name=\"ans\" data-matrix-spec=\"{&quot;name&quot;: &quot;ans&quot;, &quot;rows&quot;: {&quot;auto&quot;: false, &quot;initial&quot;: 2, &quot;min&quot;: 2, &quot;max&quot;: 2}, &quot;cols&quot;: {&quot;auto&quot;: false, &quot;initial&quot;: 2, &quot;min&quot;: 2, &quot;max&quot;: 2}}\" role=\"group\" aria-label=\"Answer ans\"></span> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>",
@@ -5062,7 +5062,7 @@
         }
       ],
       "graphical": null,
-      "cardSha256": "d59de432eff0951d09d82062530992c27444915eedf7cc0ab459e7f03bc4be56",
+      "cardSha256": "0aff7a53f6c361a0cc3a65c79c09421c2d3e3e2a3e9cf4e86871c4a607ae6b95",
       "payload": {
         "version": 1,
         "id": "native-matrix-python",
@@ -5211,7 +5211,7 @@
               "seed": 1,
               "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
               "stackLibraryVersion": "2026101500",
-              "runtimeHash": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+              "runtimeHash": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
               "preparedHash": "7778c341546b4528899edd95af05652595b28bebd5e1396dc269aca2b2533d37"
             },
             "question_html": "<p>Enter the identity matrix. The checker reports a verdict for each column. <span class=\"stack-answer stack-matrix\" data-name=\"ans\" data-matrix-spec=\"{&quot;name&quot;: &quot;ans&quot;, &quot;rows&quot;: {&quot;auto&quot;: false, &quot;initial&quot;: 2, &quot;min&quot;: 2, &quot;max&quot;: 2}, &quot;cols&quot;: {&quot;auto&quot;: false, &quot;initial&quot;: 2, &quot;min&quot;: 2, &quot;max&quot;: 2}}\" role=\"group\" aria-label=\"Answer ans\"></span> <span class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"></span> <span class=\"stack-feedback\" data-name=\"prt1\"></span></p>",
@@ -5224,8 +5224,8 @@
       }
     }
   ],
-  "sourceRevision": "9d6bf6fc15db372e6d38c5d3b269241bb2d66a10",
-  "createdAt": "2026-10-23T19:07:26.618Z",
+  "sourceRevision": "99847b44ee26201b21b18013e497c5803011539e",
+  "createdAt": "2026-10-25T06:08:12.518Z",
   "programs": [
     {
       "type": "backend-event",
@@ -5881,8 +5881,8 @@
     },
     {
       "path": "scripts/milestone-three/build-site.mjs",
-      "bytes": 14590,
-      "sha256": "060befa1e5c8411c58134d47ff75f5262633b4b833f6fd2388e71d9bc21d0509"
+      "bytes": 14874,
+      "sha256": "ce883d5d209055295fb2cde529cafb5985fd0e52c11470024288bdfaddc417d2"
     },
     {
       "path": "scripts/milestone-three/render-cards.py",
@@ -5941,13 +5941,13 @@
     },
     {
       "path": "prototype/runtime/maxima-session.js",
-      "bytes": 14314,
-      "sha256": "b2ee08fd8d5e4cb47a54ddd8276ad837d5cf5bbd72fcebb87c5c88dd37c6a5e0"
+      "bytes": 14344,
+      "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
     },
     {
       "path": "prototype/runtime/maxima-child.js",
-      "bytes": 8766,
-      "sha256": "83da6c056fc6c425d0aa8e9464617854c93575fed15205529fae12c9d10db4cb"
+      "bytes": 12159,
+      "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
     },
     {
       "path": "prototype/jsxgraph/frame.js",
@@ -5964,6 +5964,7 @@
     "backend": "maxima-native",
     "worker": "native/backend-worker.js",
     "actualWasm": true,
+    "stackManifestSha256": "16176e3d707d1eb07527a43064cdcc2d25184b1bcff7f695591b130fe81c9f35",
     "initialization": {
       "id": "maxima-native",
       "mode": "native-with-optional-python",
@@ -5974,12 +5975,12 @@
       "restarts": 0,
       "pythonLoaded": false,
       "timings": {
-        "readyMs": 24209.915000000008,
+        "readyMs": 19320.29999999999,
         "maximaStages": {
-          "preloadMs": 290.40499999999884,
-          "preloadedFiles": 68,
-          "wasmReadyMs": 991.3450000000012,
-          "readyMs": 24167.254999999976
+          "preloadMs": 300.2600000000093,
+          "preloadedFiles": 67,
+          "wasmReadyMs": 1135.0299999999988,
+          "readyMs": 19254.170000000013
         }
       }
     },
@@ -5993,14 +5994,14 @@
       "restarts": 0,
       "pythonLoaded": false,
       "timings": {
-        "readyMs": 24209.915000000008,
+        "readyMs": 19320.29999999999,
         "maximaStages": {
-          "preloadMs": 290.40499999999884,
-          "preloadedFiles": 68,
-          "wasmReadyMs": 991.3450000000012,
-          "readyMs": 24167.254999999976
+          "preloadMs": 300.2600000000093,
+          "preloadedFiles": 67,
+          "wasmReadyMs": 1135.0299999999988,
+          "readyMs": 19254.170000000013
         },
-        "requestMs": 103.35499999998137
+        "requestMs": 167.85499999998137
       }
     },
     "programs": 11
@@ -6146,8 +6147,8 @@
     {
       "path": "native/boards/native-binding-b0.html",
       "bytes": 35855,
-      "sha256": "9483eeec36c6d3d820f377b2ca6e00feeae1e8fd0e81d3da6bb5754f41dee76d",
-      "originalSha256": "ce96d849b05d3ae619fb2d101bb579ae1c540b9b0c24733f5505482356f8e24c",
+      "sha256": "b3df18d2f6b8fc042d508827af053549a3e0c0e1fbe61ada594f84e1ec427f99",
+      "originalSha256": "4a7e8ba3ea930a8c31200532ab72b3a02f91cebf7885254c254cea661e344566",
       "assets": [
         {
           "path": "native/boards/assets/b6ebd07421e560431b888efeb472cfb7f2cfc495a853200963f97d2c28e6e474.js",
@@ -6173,8 +6174,8 @@
     {
       "path": "native/boards/native-json-b0.html",
       "bytes": 39990,
-      "sha256": "35385e3b30d9594c618d4f151a2d580f45315313f985f58277f711d3337461fb",
-      "originalSha256": "e006a89a7fa4e37e64281ab3cdf7216ba3005ff29a2403d68be995de160cf5a0",
+      "sha256": "66ab8cab94c88940c47fe7709e949cb2e862b24ff6778bea70eedb288d4b95c5",
+      "originalSha256": "7f4a7211240c831cbc8fb79331b7d79d6407c88f41a883bc7497c2b257c9a702",
       "assets": [
         {
           "path": "native/boards/assets/b6ebd07421e560431b888efeb472cfb7f2cfc495a853200963f97d2c28e6e474.js",
@@ -6200,8 +6201,8 @@
     {
       "path": "native/boards/native-python-board-b0.html",
       "bytes": 35314,
-      "sha256": "52231d656043791354c15ee546f5ffb63e3f382694c06b577ad103988629eeaf",
-      "originalSha256": "dc7dfc4b9565159730131e855ed3335a320a42b4194414d621f49d2cf55976b6",
+      "sha256": "b3f0b9b3417b8b3cbf9fad1e6af540b2996c040020e2f37c3388904a17e403dd",
+      "originalSha256": "d4979d049ec1c2b3cc35de0fa9ae4cf6e06906708d12cbf1c8f51bde4c6461a6",
       "assets": [
         {
           "path": "native/boards/assets/b6ebd07421e560431b888efeb472cfb7f2cfc495a853200963f97d2c28e6e474.js",
@@ -6227,8 +6228,8 @@
     {
       "path": "native/boards/native-mixed-board-b0.html",
       "bytes": 35288,
-      "sha256": "4ec06cf17c9c306af5c57c674c50a0afd9babb3dc9d23200a591312f94a38e1a",
-      "originalSha256": "588b76333e801ccd27ad8bd2c9ffb851c52e76d142002d2a1c3ae09abf874dfb",
+      "sha256": "1b7803935cd84b753ecb1685a431d07baefc3146aca295a6a8368bbbe17dfdd2",
+      "originalSha256": "24d164546686665e23e844b1faa457f382e1ee7f072133fc7191da7b33d62208",
       "assets": [
         {
           "path": "native/boards/assets/b6ebd07421e560431b888efeb472cfb7f2cfc495a853200963f97d2c28e6e474.js",

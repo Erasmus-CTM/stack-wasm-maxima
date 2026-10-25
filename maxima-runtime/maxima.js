@@ -1049,7 +1049,7 @@ async function createWasm() {
   
   
   
-  var ___heap_base = 35528448;
+  var ___heap_base = 35543296;
   
   var alignMemory = (size, alignment) => {
       assert(alignment, "alignment argument is required");
@@ -4630,11 +4630,11 @@ async function createWasm() {
 
   var ___memory_base = new WebAssembly.Global({'value': 'i32', 'mutable': false}, 1024);
 
-  var ___stack_high = 35528448;
+  var ___stack_high = 35543296;
 
-  var ___stack_low = 1974016;
+  var ___stack_low = 1988864;
 
-  var ___stack_pointer = new WebAssembly.Global({'value': 'i32', 'mutable': true}, 35528448);
+  var ___stack_pointer = new WebAssembly.Global({'value': 'i32', 'mutable': true}, 35543296);
 
   
   
@@ -30974,17 +30974,17 @@ function checkIncomingModuleAPI() {
   ignoredModuleProp('fetchSettings');
 }
 var ASM_CONSTS = {
-  1925628: () => { return readChar() },  
- 1925648: ($0) => { writeChar($0) },  
- 1925664: ($0, $1) => { writeBaseString($0,$1) },  
- 1925691: ($0, $1) => { writeString($0,$1) },  
- 1925714: ($0, $1, $2, $3, $4, $5, $6, $7) => { displayOutput(convertString($0,$1),convertString($2,$3),convertString($4,$5),convertString($6,$7)) },  
- 1925817: () => { return checkForInterrupt(); },  
- 1925847: ($0, $1, $2, $3, $4) => { var sp = stackSave(); try { setValue($2, Module.dynCall('vii', $1, [1, $0]), '*'); } catch (e) { stackRestore(sp); if (!(e instanceof Error)) { throw e; } if (!(e.type === undefined)) { setValue($3, stringToNewUTF8(String(e.type)), '*'); } setValue($4, stringToNewUTF8(String(e.message)), '*'); } },  
- 1926148: ($0, $1, $2, $3, $4) => { var sp = stackSave(); try { setValue($2, Module.dynCall('vii', $1, [1, $0]), '*'); } catch (e) { stackRestore(sp); if (!(e instanceof Error)) { throw e; } if (!(e.type === undefined)) { setValue($3, stringToNewUTF8(String(e.type)), '*'); } setValue($4, stringToNewUTF8(String(e.message)), '*'); } },  
- 1926449: ($0) => { eval(UTF8ToString($0)) },  
- 1926474: ($0) => { if (!$0) { AL.alcErr = 0xA004 ; return 1; } },  
- 1926522: ($0) => { if (!AL.currentCtx) { err("alGetProcAddress() called without a valid context"); return 1; } if (!$0) { AL.currentCtx.err = 0xA003 ; return 1; } }
+  1940476: () => { return readChar() },  
+ 1940496: ($0) => { writeChar($0) },  
+ 1940512: ($0, $1) => { writeBaseString($0,$1) },  
+ 1940539: ($0, $1) => { writeString($0,$1) },  
+ 1940562: ($0, $1, $2, $3, $4, $5, $6, $7) => { displayOutput(convertString($0,$1),convertString($2,$3),convertString($4,$5),convertString($6,$7)) },  
+ 1940665: () => { return checkForInterrupt(); },  
+ 1940695: ($0, $1, $2, $3, $4) => { var sp = stackSave(); try { setValue($2, Module.dynCall('vii', $1, [1, $0]), '*'); } catch (e) { stackRestore(sp); if (!(e instanceof Error)) { throw e; } if (!(e.type === undefined)) { setValue($3, stringToNewUTF8(String(e.type)), '*'); } setValue($4, stringToNewUTF8(String(e.message)), '*'); } },  
+ 1940996: ($0, $1, $2, $3, $4) => { var sp = stackSave(); try { setValue($2, Module.dynCall('vii', $1, [1, $0]), '*'); } catch (e) { stackRestore(sp); if (!(e instanceof Error)) { throw e; } if (!(e.type === undefined)) { setValue($3, stringToNewUTF8(String(e.type)), '*'); } setValue($4, stringToNewUTF8(String(e.message)), '*'); } },  
+ 1941297: ($0) => { eval(UTF8ToString($0)) },  
+ 1941322: ($0) => { if (!$0) { AL.alcErr = 0xA004 ; return 1; } },  
+ 1941370: ($0) => { if (!AL.currentCtx) { err("alGetProcAddress() called without a valid context"); return 1; } if (!$0) { AL.currentCtx.err = 0xA003 ; return 1; } }
 };
 
 // Imports from the Wasm binary.

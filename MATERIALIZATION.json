@@ -139,8 +139,8 @@
   "parentPresentation": [
     {
       "path": "maxima/examples.html",
-      "sourceSha256": "251c8721700153dec17b2af6f67fc238923961d4ac865d5998929bb1f193c62c",
-      "materializedSha256": "75a494556f1197b2d6abe3ef63f020209b36435fb9d1325691ed7b91a0c07d23",
+      "sourceSha256": "328be1d8c5ea87a7b95597aab4b6ee5dd94bf452cfebc52561806553c81e145e",
+      "materializedSha256": "78ea174051066a4901a730ada1f59ada5a5fa75777543338ce8e2d2629128362",
       "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
       "existingLoader": [
         "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
@@ -148,8 +148,8 @@
     },
     {
       "path": "maxima/native.html",
-      "sourceSha256": "e753e8769a92cba925f11bead6970540f9380bfc1665d4ada9c4df3551169f28",
-      "materializedSha256": "244b3aec577649845e82b54b6a00f92db36902472f61ce14d1d1a584c94eeca5",
+      "sourceSha256": "954d93d48be4a7814ccb1bbfec2ef14edb02b71f87b08c0abc6c8745142fdee1",
+      "materializedSha256": "0ca7a0dd876190aee0ac7eb74db531db790b6f1dff79e88d465bac872351d1ff",
       "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
       "existingLoader": []
     },
@@ -162,8 +162,8 @@
     },
     {
       "path": "licenses.html",
-      "sourceSha256": "d14523a29ac37bf6a39f7f2c0816d3962727c9fb7ee7ca72b27551057c99f213",
-      "materializedSha256": "a64054fddaf9a8fcee528cba5869b16d562e375da22529c561f9208db5bb5fdb",
+      "sourceSha256": "e79fe4a6ecff1c561b96ec27bfaee22a10536e051487f21e1ffd7dfee1c4c066",
+      "materializedSha256": "f6cab4d5db6c0d8f5b6410388c4c87438580b2da5cf46e07fc3d959d25c04ca1",
       "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
       "existingLoader": []
     }
@@ -171,8 +171,8 @@
   "renderedPagePatches": [
     {
       "path": "maxima/examples.html",
-      "sourceSha256": "75a494556f1197b2d6abe3ef63f020209b36435fb9d1325691ed7b91a0c07d23",
-      "materializedSha256": "b43b62aef382ae0f42d3c746150d483ec1f6926c245f3988688a04193a0c9687",
+      "sourceSha256": "78ea174051066a4901a730ada1f59ada5a5fa75777543338ce8e2d2629128362",
+      "materializedSha256": "6f217225acb996cd1f68a014b364b550d4b41de6ee87127a3cbb2189f6581b1e",
       "obsoleteEs6PolyfillRemoved": 1,
       "sourcePanelCount": 36,
       "authoredBlocks": [
