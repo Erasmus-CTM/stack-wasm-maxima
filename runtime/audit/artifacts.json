@@ -1,20 +1,19 @@
 [
   {
-    "id": 12579452850,
-    "name": "baseline-trace-no-cpu-40143548841-1",
-    "zipBytes": 26443358,
-    "sha256": "e03d7b00bc9d58aa28d7dbc7e52580d24bdc16ac854158070c2bb9dfbc81c6c9",
-    "run": 40143548841,
-    "workflow": 395508358,
-    "head": "61abc65d4c4ac4f03122d5df161d9140e88fb5f1",
+    "id": 12576968821,
+    "name": "owned-runtime-ecl-oz-51fdadd606c668371f5d50d0b853ecafe47883fc",
+    "zipBytes": 391617778,
+    "sha256": "6edb9bbbe238b72be43b9914fc126c541096581d09caefc1adefbe0312ea89a1",
+    "run": 40132538310,
+    "workflow": 394897850,
+    "head": "51fdadd606c668371f5d50d0b853ecafe47883fc",
     "attempt": 1,
     "status": "completed",
     "conclusion": "success",
     "files": [
-      "staged/baseline/startup-observer-derivation.json",
-      "staged/ecl-oz/startup-observer-derivation.json",
-      "trials/01-baseline-source-instrumented/sample.json",
-      "trials/02-baseline-precompiled-instrumented/sample.json"
+      ".cache/runtime-build/artifact/manifest.json",
+      ".cache/runtime-build/artifact/artifact-manifest.json",
+      ".cache/runtime-build/artifact/source-manifest.json"
     ]
   }
 ]
