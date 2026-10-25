@@ -2,6 +2,11 @@
 name: Compare scoped ECL compiler experiments
 on:
   workflow_dispatch:
+    inputs:
+      emsdk:
+        description: Experimental Emscripten toolchain from runtime/build/toolchains.json (empty builds the pinned release toolchain)
+        type: string
+        default: ''
   # A runtime release (runtime-release.yml) builds and accepts one profile.
   workflow_call:
     inputs:
@@ -44,6 +49,8 @@ jobs:
     env:
       CTM_COLD_BUILD: cold1
       CTM_ECL_COMPILER_PROFILE: ${{ matrix.profile }}
+      # Trials only: runtime-release.yml rejects any pins but pins.json.
+      CTM_EMSDK: ${{ inputs.emsdk }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -61,6 +68,7 @@ jobs:
         run: |
           node scripts/milestone-one/test-fatal-reporting.mjs
           node runtime/build/test-runtime-source.mjs
+          node runtime/build/test-toolchain-pins.mjs
           python runtime/build/test-substitution.py
           python runtime/build/test-toolchain.py
           python runtime/build/test-cold-evidence.py
@@ -279,6 +287,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     needs: build
+    env:
+      CTM_EMSDK: ${{ inputs.emsdk }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

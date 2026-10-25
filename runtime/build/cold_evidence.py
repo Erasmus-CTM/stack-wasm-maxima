@@ -89,8 +89,9 @@ def current_expectations(repository, identity):
     from package import records
     from recipe_inputs import recipe_records
     from compiler_profile import compiler_profile
+    from toolchain_pins import effective_pins
     config = configuration()
-    return {'compilerProfile':compiler_profile(),'pins':read_json(repository / 'runtime/build/pins.json'),'configuration':config,
+    return {'compilerProfile':compiler_profile(),'pins':effective_pins(repository),'configuration':config,
             'startupAdapter':{'content':startup(config),'sha256':config['startupSha256']},
             'runtimePaths':set(records()) - set(config['omittedRuntimePaths']),
             'recipe':{'repository':'https://github.com/Erasmus-CTM/stack-wasm-maxima','revision':identity['sourceRevision'],'files':recipe_records(repository)},

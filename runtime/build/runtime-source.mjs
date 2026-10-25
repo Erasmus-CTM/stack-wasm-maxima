@@ -4,12 +4,13 @@ import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 import {expectedRuntimePaths} from './inventory.mjs';
+import {effectivePins} from './toolchain-pins.mjs';
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 export async function loadOwnedRuntime(source,repository) {
  if(!source)return null;
  const root=resolve(source),bytes=await readFile(resolve(root,'manifest.json'));
  const manifest=JSON.parse(bytes);
- const pins=JSON.parse(await readFile(resolve(repository,'runtime/build/pins.json')));
+ const pins=await effectivePins(repository);
  assert.equal(manifest.schema,1);assert.deepEqual(manifest.sourcePins,pins,'Owned runtime must match the exact current source pins');
  const profiles=JSON.parse(await readFile(resolve(repository,'runtime/build/compiler-profiles.json')));
  const profile=profiles.profiles[process.env.CTM_ECL_COMPILER_PROFILE||'baseline'];

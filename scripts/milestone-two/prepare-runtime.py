@@ -71,7 +71,9 @@ def owned_runtime_source(path: Path | None, wanted: set[str], baseline_comparato
     path = path.resolve()
     encoded = (path / "manifest.json").read_bytes()
     manifest = json.loads(encoded)
-    pins = json.loads((ROOT / "runtime/build/pins.json").read_text())
+    sys.path.insert(0, str(ROOT / 'runtime/build'))
+    from toolchain_pins import effective_pins
+    pins = effective_pins(ROOT)
     if baseline_comparator:
         baseline = json.loads((ROOT / 'runtime/build/baseline.json').read_text())
         if hashlib.sha256(encoded).hexdigest() != baseline['manifestSha256'] or manifest.get('sourcePins') != baseline['sourcePins']:
