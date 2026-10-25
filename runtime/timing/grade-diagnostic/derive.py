@@ -4,8 +4,8 @@ r=Path('.cache/full-timing-table-guarded/tools')
 p=r/'run.mjs';s=p.read_text()
 s=s.replace("const observer=deriveStartupObserver", "const observer=deriveStartupObserver")
 a="await writeFile(join(output,'runtime/maxima-child.js'),observer.derived);"
-b="""await writeFile(join(output,'runtime/maxima-child.js'),observer.derived.toString().replace('function consume(text) {',`function consume(text) {
-  if (initialized && text.length) self.postMessage({type:'maxima-diagnostic',text:'CTM-GRADE-STDOUT|'+text});`));"""
+b="""await writeFile(join(output,'runtime/maxima-child.js'),observer.derived.toString().replace("    const ready =",`    if (initialized && /(?:LOAD|load|returned)/.test(line)) self.postMessage({type:'diagnostic',text:'CTM-GRADE-STDOUT|'+JSON.stringify({epochMs:performance.timeOrigin+performance.now(),line})});
+    const ready =`));"""
 assert s.count(a)==1;s=s.replace(a,b)
 a="let app,browser,page,priorStopped=false,precedingCold=null;"
 b="let app,browser,page,cdp,trace=[],priorStopped=false,precedingCold=null;"
