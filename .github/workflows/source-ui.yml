@@ -1,0 +1,193 @@
+name: Diagnose full source UI without runtime rebuild
+'on':
+  push:
+    branches:
+    - evidence/maxima-oz-production
+    paths:
+    - .github/workflows/source-ui.yml
+    - runtime/timing/source-ui/**
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - name: old
+          profile: ecl-oz
+          run: '40108653819'
+          artifact: '12568085269'
+        - name: candidate
+          profile: ecl-oz-maxima-oz
+          run: '40136606442'
+          artifact: '12578753698'
+        - name: fresh
+          profile: ecl-oz-maxima-oz
+          run: '40169665328'
+          artifact: '12591951822'
+    env:
+      CTM_ECL_COMPILER_PROFILE: ${{ matrix.profile }}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: e872869b17dc57b6e4b09b40b4a342d5534c1771
+        persist-credentials: false
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+        path: benchmark
+        persist-credentials: false
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - uses: actions/download-artifact@v4
+      with:
+        github-token: ${{ github.token }}
+        run-id: ${{ matrix.run }}
+        artifact-ids: ${{ matrix.artifact }}
+        path: input
+        merge-multiple: true
+    - name: Select the archived runtime and record distinct benchmark/build identities
+      run: |
+        mkdir -p .cache/runtime-build
+        cp -a input/.cache/runtime-build/artifact .cache/runtime-build/artifact
+        python - <<'PYCODE'
+        import json,os,subprocess
+        from pathlib import Path
+        m=json.loads(Path('.cache/runtime-build/artifact/manifest.json').read_bytes())
+        assert m['compilerProfile']['name']==os.environ['CTM_ECL_COMPILER_PROFILE']
+        Path('source-ui-identity.json').write_text(json.dumps({'diagnosticOnly':True,'acceptance':False,'benchmark':{k:os.environ.get(k) for k in ['GITHUB_RUN_ID','GITHUB_SHA','GITHUB_REF']},'trustedControllerRevision':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'runtimeRecipe':m['recipe']['revision'],'compilerProfile':m['compilerProfile']},indent=2)+'\n')
+        PYCODE
+    - uses: quarto-dev/quarto-actions/setup@v2
+      with:
+        version: 1.8.27
+    - name: Install the pinned authoring dependencies
+      run: python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'
+    - uses: actions/checkout@v4
+      with:
+        repository: Erasmus-CTM/stack-sympy
+        ref: 1b1d50f69fc1e7eb39846b497657d72be325f597
+        path: .site-sources/stack-sympy
+        persist-credentials: false
+    - uses: actions/checkout@v4
+      with:
+        repository: Erasmus-CTM/ctm-checkers
+        ref: c366f175aba6b62caa628bc60f57bb1167fc087b
+        path: .site-sources/ctm-checkers
+        persist-credentials: false
+    - uses: actions/checkout@v4
+      with:
+        repository: Erasmus-CTM/ctm-libs
+        ref: 94687f718fd651fc2857bc5242a64e45c8fd4697
+        path: .site-sources/ctm-libs
+        persist-credentials: false
+    - uses: actions/checkout@v4
+      with:
+        repository: maths/moodle-qtype_stack
+        ref: 33383047af39c204bf4442802a058f8b918b2b1b
+        path: .site-sources/stack
+        sparse-checkout: |
+          stack/maxima
+          stack/cas
+          stack/maximaparser
+          corsscripts
+          lang/en
+          samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs
+        persist-credentials: false
+    - uses: actions/checkout@v4
+      with:
+        repository: jsxgraph/jsxgraph-quarto
+        ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e
+        path: .site-sources/jsxgraph-quarto
+        persist-credentials: false
+    - uses: actions/checkout@v4
+      with:
+        repository: Erasmus-CTM/ctm-assessment
+        ref: 68fe838ca76ce7dfc4297f8ed4db1ccf1dc29a8b
+        path: .site-sources/ctm-assessment
+        persist-credentials: false
+    - uses: actions/checkout@v4
+      with:
+        repository: Erasmus-CTM/ctm-libs
+        ref: 2cdd3b47bb4722f65f168a0baf4dbd6a18bff384
+        path: .site-sources/board-ctm-libs
+        persist-credentials: false
+    - name: Install the pinned browser dependencies
+      run: |
+        npm ci --ignore-scripts --no-audit --no-fund
+        npx playwright install --with-deps chromium
+    - name: Install the pinned source browser harness
+      run: |
+        npm ci --ignore-scripts --no-audit --no-fund
+        npx playwright install --with-deps chromium
+    - name: Stage pinned dependencies around the tracked QMD
+      run: |
+        python scripts/milestone-two/materialize.py --prepare-existing site \
+          --stack-sympy-source .site-sources/stack-sympy \
+          --ctm-checkers-source .site-sources/ctm-checkers \
+          --ctm-libs-source .site-sources/ctm-libs
+        python scripts/milestone-two/prepare-runtime.py --output site --runtime-source .cache/runtime-build/artifact \
+          --stack-source .site-sources/stack \
+          --ctm-checkers-source .site-sources/ctm-checkers
+        node scripts/milestone-two/test-frontend-pools.mjs site/_extensions/stack-sympy/stack-sympy.js
+        python scripts/milestone-three/stage-parser.py --stack-source .site-sources/stack --output site/native
+        python scripts/milestone-three/stage-feedback.py --stack-source .site-sources/stack --output site/native
+        node prototype/native/test-feedback.mjs site/native
+        python scripts/milestone-three/compile.py --stack-source .site-sources/stack \
+          --ctm-checkers-source .site-sources/ctm-checkers --output site/native/questions.json \
+          --resources site/maxima/native-questions
+    - name: Observe the CAS condition only after an invalid validation result
+      run: python benchmark/runtime/timing/source-ui/diagnose.py
+    - name: Prepare native variants in the actual Wasm backend
+      env:
+        CTM_COMPONENT_DEV: '1'
+        STACK_SYMPY_PYTHON: python
+        CTM_CHECKERS_SOURCE: .site-sources/ctm-checkers
+        STACK_SOURCE: .site-sources/stack
+        PYTHONPATH: .site-sources/ctm-checkers/src
+      run: |
+        python scripts/milestone-three/test-build.py
+        python scripts/milestone-three/test-reference.py
+        node scripts/milestone-three/build-site.mjs --site site --stack-source .site-sources/stack \
+          --ctm-checkers-source .site-sources/ctm-checkers --jsxgraph-source .site-sources/jsxgraph-quarto
+    - name: Render the committed Quarto page
+      env:
+        CTM_COMPONENT_DEV: '1'
+        STACK_SYMPY_PYTHON: python
+      run: |
+        export CTM_LIBS_EXTENSION="$PWD/site/_extensions/ctm-libs"
+        export CTM_CHECKERS_EXTENSION="$PWD/site/_extensions/ctm-checkers"
+        quarto render site
+    - name: Exercise both backends in the rendered comparison page
+      run: node scripts/site/smoke.mjs site/_site test-results/reviewer-site
+    - name: Exercise native questions, graphical inputs and Python continuations
+      run: node scripts/milestone-three/browser.mjs site/_site test-results/milestone-three
+    - name: Install the independent native Maxima reference
+      if: ${{ !cancelled() && hashFiles('test-results/milestone-three/browser.json') != '' }}
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends maxima maxima-share
+    - name: Compare captured native programs with the independent native runtime
+      if: ${{ !cancelled() && hashFiles('test-results/milestone-three/browser.json') != '' }}
+      run: |
+        python scripts/milestone-three/native-reference.py --browser-report test-results/milestone-three/browser.json \
+          --stack-source .site-sources/stack --output test-results/milestone-three/native-reference
+    - name: Retain source UI evidence including failures
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: source-ui-${{ matrix.name }}-${{ github.sha }}
+        include-hidden-files: true
+        path: |
+          test-results/milestone-three/
+          .cache/native-build/prepared.json
+          source-ui-identity.json
+          source-ui-derivation.json
+        if-no-files-found: warn
