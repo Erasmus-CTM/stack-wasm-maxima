@@ -1,4 +1,4 @@
-name: Replay failed source controller history without rebuilding
+name: Replay failed source history with observed idle intervals
 'on':
   push:
     branches: [evidence/maxima-oz-production]

@@ -9,11 +9,11 @@ const hash=b=>createHash('sha256').update(b).digest('hex');
 const root=resolve('.'),work=join(root,'.cache/full-timing-table-guarded'),out=join(root,'replay-evidence');await mkdir(out,{recursive:true});
 const failed=join(root,'failed-build'),browserBody=await readFile(join(failed,'test-results/milestone-three/browser.json')),browser=JSON.parse(browserBody);
 const events=browser.observation.events.filter(e=>e.data?.event==='native-evaluate');assert.equal(new Set(events.map(e=>e.worker)).size,1);
-const history=events.map(e=>({operation:e.data.operation,question:e.data.question,expression:e.data.expression,recorded:e.data.result}));
+const history=events.map((e,index)=>({pauseMs:index ? Math.max(0,e.receivedAt-events[index-1].receivedAt) : 0,operation:e.data.operation,question:e.data.question,expression:e.data.expression,recorded:e.data.result}));
 assert.equal(history.at(-1).recorded.ans.valid,false);assert.ok(history.at(-1).expression.includes('[1,1]'));
 const sources={old:join(work,'profiles/ecl-oz/site'),candidate:join(work,'profiles/ecl-oz-maxima-oz/site'),fresh:join(failed,'.cache/precompiled-stack/site')};
 const {serveDemo}=await import(pathToFileURL(join(root,'old-trusted/scripts/milestone-two/serve.mjs')));
-const report={diagnosticOnly:true,acceptance:false,failedBuildRun:40169665328,failedBrowser:{bytes:browserBody.length,sha256:hash(browserBody)},history,sourceRevision:process.env.GITHUB_SHA,samples:[]};
+const report={diagnosticOnly:true,acceptance:false,pacing:'Observed source-failure inter-result gaps inserted as idle delays. Includes original CAS time, therefore intentionally over-delays instead of claiming exact timing replay.',failedBuildRun:40169665328,failedBrowser:{bytes:browserBody.length,sha256:hash(browserBody)},history,sourceRevision:process.env.GITHUB_SHA,samples:[]};
 let commonFiles,commonStartup;
 for(const [name,source] of Object.entries(sources)){
  const stage=join(out,'staged',name);await cp(source,stage,{recursive:true});
