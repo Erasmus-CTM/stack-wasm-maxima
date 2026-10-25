@@ -1,12 +1,14 @@
 """Phase-align sampled CPU leaf frames; never interpret diagnostic times as selection medians."""
 from collections import defaultdict
-import json
+import json,statistics
 from pathlib import Path
 
 def summarize(events, raw):
  markers=[e for e in events if e['name']=='clock_sync' and str(e.get('args',{}).get('sync_id','')).startswith('epoch-')]
- assert len(markers)==1
- marker=markers[0];offset=float(marker['args']['sync_id'][6:])-marker['ts']/1000
+ assert markers, [e for e in events if 'clock' in e['name'].lower()][:10]
+ offsets=[float(e['args']['sync_id'][6:])-e['ts']/1000 for e in markers]
+ assert max(offsets)-min(offsets)<2, [(e.get('args'),e['ts']) for e in markers]
+ offset=statistics.median(offsets)
  windows=[]
  for p in raw.glob('trials/*/sample.json'):
   s=json.loads(p.read_bytes())
