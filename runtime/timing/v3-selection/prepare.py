@@ -61,9 +61,9 @@ subprocess.run([sys.executable,str(HERE/'verify-new.py'),'--binding',str(HERE/'c
  '--trusted-root',str(trusted),'--extracted',str(root),'--output',str(out)],check=True)
 new=read(out/'flattened-candidate-admission.json');new['artifact']=artifact
 programs=new['producerNativePrograms'];assert [r['operation'] for r in programs]==['prepare','validate','prt']
-old['producerNativePrograms']=old['nativePrograms'];old['producerNativeCapture']=old['nativeCapture']
+new['nativePrograms']=programs
 for row in (old,new):
- row['nativePrograms']=programs;row['nativeCapture']=new['nativeCapture']
+ row['benchmarkNativePrograms']=programs;row['benchmarkNativeCapture']=new['nativeCapture']
 packages={'ecl-oz':frozen/'extracted/ecl-oz/.cache/runtime-build/artifact',
           'ecl-oz-maxima-oz':root/'.cache/runtime-build/artifact'}
 profiles={'ecl-oz':old,'ecl-oz-maxima-oz':new};manifests={}

@@ -26,7 +26,7 @@ try {
   for(const [i,name] of runner.profiles.entries()){
     const source=name==='ecl-oz'?old:binding.source;
     admission.profiles[name]={source,compilerProfile:{name},packageManifest:{sha256:String(i).repeat(64)},
-      runtimeAssets:assets,nativePrograms,artifact:{id:i+1,name:(i?'owned-runtime-':'precompiled-stack-probe-')+name+'-'+source.testedRevision,
+      runtimeAssets:assets,nativePrograms,benchmarkNativePrograms:nativePrograms,artifact:{id:i+1,name:(i?'owned-runtime-':'precompiled-stack-probe-')+name+'-'+source.testedRevision,
       digest:'sha256:'+'b'.repeat(64),size_in_bytes:100,workflow_run:{id:source.runId,head_sha:source.head}}};
   }
   const manifest=name=>({runtimeBuild:{compilerProfile:{name},manifestSha256:admission.profiles[name].packageManifest.sha256},
@@ -38,7 +38,7 @@ try {
     a=>{a.profiles['ecl-oz-maxima-oz'].artifact.name='maxima-oz-candidate-old';},
     a=>{a.profiles['ecl-oz-maxima-oz'].artifact.workflow_run.head_sha='0'.repeat(40);},
     a=>{a.profiles['ecl-oz-maxima-oz'].runtimeAssets=[...assets.slice(1),assets[1]];},
-    a=>{a.profiles['ecl-oz-maxima-oz'].nativePrograms=[...nativePrograms].reverse();}
+    a=>{a.profiles['ecl-oz-maxima-oz'].benchmarkNativePrograms=[...nativePrograms].reverse();}
   ]){const changed=structuredClone(admission);mutate(changed);assert.throws(()=>runner.validateAdmission(changed,'ecl-oz-maxima-oz',manifest('ecl-oz-maxima-oz')));}
   const bad=manifest('ecl-oz-maxima-oz');bad.runtimeBuild.manifestSha256='0'.repeat(64);
   assert.throws(()=>runner.validateAdmission(admission,'ecl-oz-maxima-oz',bad));

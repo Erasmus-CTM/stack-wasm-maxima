@@ -29,7 +29,7 @@ export function validateAdmission(admission,profile,manifest){
   assert.deepEqual(assets(manifest.runtimeAssets),assets(row.runtimeAssets),'Runtime asset closure differs');
   assert.equal(manifest.files.length,77);assert.equal(new Set(manifest.files.map(r=>r.path)).size,77);
   assert.equal(admission.nativePrograms.length,3);assert.deepEqual(admission.nativePrograms.map(r=>r.operation),['prepare','validate','prt']);
-  assert.deepEqual(row.nativePrograms,admission.nativePrograms,'Native workload differs across sources');
+  assert.deepEqual(row.benchmarkNativePrograms,admission.nativePrograms,'Native workload differs across sources');
   return row;
 }
 export function trialPlan(repetitions){
@@ -132,7 +132,7 @@ async function main(){
     report.sharedTrustedFiles=[];
     for(const path of ['prototype/runtime/maxima-child.js','prototype/runtime/maxima-session.js','runtime/precompiled/restart-checks.json','scripts/milestone-two/serve.mjs','runtime/compression/server-source.mjs']){const a=await readFile(join(oldRoot,path));assert.deepEqual(a,await readFile(join(candidateRoot,path)),'Common trusted input differs: '+path);report.sharedTrustedFiles.push(record(path,a));}
     const checks=JSON.parse(await readFile(join(oldRoot,'runtime/precompiled/restart-checks.json'))).checks;assert.equal(checks.length,10);assert.equal(checks[0].name,'first-call-logical-validation');
-    report.nativeWorkload={sha256:hash(JSON.stringify(admission.nativePrograms)),operations:admission.nativePrograms.map(r=>r.operation),captures:Object.fromEntries(profiles.map(p=>[p,admission.profiles[p].nativeCapture]))};
+    report.nativeWorkload={sha256:hash(JSON.stringify(admission.nativePrograms)),operations:admission.nativePrograms.map(r=>r.operation),captures:Object.fromEntries(profiles.map(p=>[p,admission.profiles[p].benchmarkNativeCapture])),producerCaptures:Object.fromEntries(profiles.map(p=>[p,admission.profiles[p].nativeCapture]))};
     const staged={};for(const profile of profiles){staged[profile]=await stageSite({site:join(profilesRoot,profile,'site'),output:join(output,'staged',profile),root:profile==='ecl-oz-maxima-oz'?candidateRoot:oldRoot,admission,profile});report.staging[profile]=staged[profile].proof;await save();}
     assert.equal(new Set(Object.values(staged).map(row=>row.proof.sharedStartupObserver.derived.sha256)).size,1,'Shared observer differs across profiles');
     const {chromium}=await import('playwright'),{serveDemo}=await import(pathToFileURL(join(oldRoot,'scripts/milestone-two/serve.mjs')));
