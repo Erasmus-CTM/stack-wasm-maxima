@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "kind": "data-only-pinned-loader-path-review",
+  "sourceCommit": "813903d33f5ccca09cbe3086dbfe5e228521da52",
+  "archive": {
+    "path": "/workspace/work/gc-overlay-sources/maxima.tar",
+    "bytes": 99614720,
+    "sha256": "05192416af11303dc5974fe02d0e5a894df813593af8a57d37e51897707dab42"
+  },
+  "files": [
+    {
+      "path": "src/generr.lisp",
+      "bytes": 976,
+      "sha256": "28b5d5ef2784f296f756964e382355ea46c6d4e878ef03c423c17afab85bc218"
+    },
+    {
+      "path": "src/suprv1.lisp",
+      "bytes": 32925,
+      "sha256": "07efa53af02dca37834dec37f7c6dc64ebe0b249709e60bc58b10503db0c228e"
+    },
+    {
+      "path": "src/mload.lisp",
+      "bytes": 60394,
+      "sha256": "cf2a95e0b989a0d51ed4404f00bed0c1d0713eb8ba4444fcded9ab0102310605"
+    },
+    {
+      "path": "src/mdebug.lisp",
+      "bytes": 25075,
+      "sha256": "6f99c83a980f5042ee699bae22b5bd26b3b48956fae64adeaaf1400491b40bba"
+    },
+    {
+      "path": "share/draw/draw.lisp",
+      "bytes": 231,
+      "sha256": "45def400e51ed424494d988f0c37e8e880247bda9ae249d54e8f2e33b856dbd9"
+    },
+    {
+      "path": "share/draw/draw.system",
+      "bytes": 288,
+      "sha256": "b3540ed3cc0623c7269f74418fd316551f4302fd11235d05366158251eb0ece4"
+    },
+    {
+      "path": "lisp-utils/defsystem.lisp",
+      "bytes": 211935,
+      "sha256": "5752e3cb3b1653009ea11d92c54ccda008275225f76c5e869f7f08d173133d8d"
+    }
+  ],
+  "originalFailure": {
+    "artifactId": 12580575852,
+    "sample": "trials/17-ecl-oz-precompiled-cold/sample.json",
+    "diagnostic": "loadfile: failed to load /share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+    "underlyingConditionCaptured": false
+  },
+  "finding": "loadfile generic failure follows a caught ERROR condition in ERRSET, not an ordinary NIL return from CL:LOAD. draw.lisp performs nested loads and MK:OOS :COMPILE, so the exact nested failure remains unknown.",
+  "scope": "Read-only source inspection. No archived program evaluated. Diagnostic ERRSET T is an explicit behavior change and cannot by itself establish the original cause."
+}

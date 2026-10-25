@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "kind": "bounded-old-oz-fas-scoped-condition-diagnostic",
+  "runtimeExecution": false,
+  "githubWrites": false,
+  "publicationAllowed": false,
+  "diagnosticOnly": true,
+  "acceptance": false,
+  "priorFailedRun": 40143072180,
+  "priorFailedArtifact": 12580575852,
+  "runtimeFailureFixed": false,
+  "files": [
+    {
+      "path": "run.mjs",
+      "bytes": 23121,
+      "sha256": "0c6bf3d3f15d75ca9925436ac68c130820555c8db2ab3c353a7cc7fd00678561"
+    },
+    {
+      "path": "clean-probe-worker.js",
+      "bytes": 10515,
+      "sha256": "b762b49cd2155f866f87b46e25b341fe1886020f24ed069bee4accd8b9f1d759"
+    },
+    {
+      "path": "condition-stage.mjs",
+      "bytes": 6010,
+      "sha256": "9735b852bdecd10ba8d656d58dfedc6c660b4db089712bb553d3e0fde11cdcc2"
+    },
+    {
+      "path": "load-condition.lisp",
+      "bytes": 2520,
+      "sha256": "f5440a2d043f9884537431a0f55d8e5e1a4fa11a6cf3a9c98a5c68c99022f58d"
+    },
+    {
+      "path": "derive-startup-observer.mjs",
+      "bytes": 2830,
+      "sha256": "9a3cffad1fbe26823b1f970b9b9806d1f79292be94b7db5653c9db1f94a70939"
+    },
+    {
+      "path": "startup-observer.jsfrag",
+      "bytes": 2322,
+      "sha256": "ca6d11bad5be261ff67415bb765bf93347052faf5b85c9c58bdc9ff09f8721c7"
+    },
+    {
+      "path": "test-condition-diagnostic.mjs",
+      "bytes": 17496,
+      "sha256": "517dfe78f51bcc5c8593911c23ce93e4db0495553324793ae8ec17f9059bf5d4"
+    },
+    {
+      "path": "test-startup-observer.mjs",
+      "bytes": 5217,
+      "sha256": "e3ecec25e626da76bd8c59a7b45ebb809a4043e6dd27e35fb6b6794c4354fa1d"
+    },
+    {
+      "path": "HARNESS.md",
+      "bytes": 5335,
+      "sha256": "a08c54345dcf5f3eb4f31105a48545997dd7979cae6de953701d00ba264d665e"
+    },
+    {
+      "path": "pinned-loader-path-review.json",
+      "bytes": 2079,
+      "sha256": "46eb1e1f34acedb9ace3e542f8e4ba3a77290bf4b7ecce949447890ca8e4c0e3"
+    }
+  ],
+  "runtimeFiles": [
+    "run.mjs",
+    "clean-probe-worker.js",
+    "condition-stage.mjs",
+    "load-condition.lisp",
+    "derive-startup-observer.mjs",
+    "startup-observer.jsfrag"
+  ],
+  "derivedChild": {
+    "bytes": 18465,
+    "sha256": "8bb312bd62f915ee717c55e12d2158fac39b5f82424f10610d75126b4d9dc8eb"
+  },
+  "helper": {
+    "path": "/ctm/load-condition/observer.lisp",
+    "bytes": 2520,
+    "sha256": "f5440a2d043f9884537431a0f55d8e5e1a4fa11a6cf3a9c98a5c68c99022f58d"
+  },
+  "validation": {
+    "conditionMockGroups": 30,
+    "sharedObserverGroups": 10,
+    "admissionTests": 8,
+    "jsSyntaxFiles": 6,
+    "passed": true,
+    "scope": "Trusted JS/source derivation, fake-session/transport tests, retained manifest/stdout as data, lexical Lisp checks only. No browser/CAS/Lisp/Wasm/artifact execution. Live condition behavior remains diagnostic CI boundary."
+  },
+  "bounds": {
+    "plannedCases": 12,
+    "profiles": [
+      "ecl-oz"
+    ],
+    "candidate": "precompiled",
+    "modes": [
+      "cold"
+    ],
+    "watchdogMs": 300000,
+    "stopFirstConditionOrCoreFailure": true,
+    "retries": 0,
+    "remainingCasesExplicitlySkipped": true
+  },
+  "scope": "One exact root-load startup line plus separately mounted trusted helper and declared child bridge. ERRSET T is scoped around original MAXIMA::$LOAD; standard HANDLER-BIND logs first condition then declines. No CL:LOAD/function-cell interposition, TRACE/CPU/FS instrumentation, rebuild or collector probe. All original acceptance guards retained, but diagnostic cannot establish original cause or replace the failed performance matrix."
+}

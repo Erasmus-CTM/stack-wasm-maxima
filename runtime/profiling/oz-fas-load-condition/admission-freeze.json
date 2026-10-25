@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "state": "diagnostic-admission-workflow-ready-for-independent-source-review",
+  "files": {
+    "artifact.py": {
+      "bytes": 16056,
+      "sha256": "e0b923210a32a1d490c09e4c13b624e499465bb32ef6e35a753d55e6577feb8b"
+    },
+    "prepare.py": {
+      "bytes": 7245,
+      "sha256": "12352a208b28e38078c182023b039311b15e5ee23728d444b7c7aa868d3cb39e"
+    },
+    "verify-one.py": {
+      "bytes": 3951,
+      "sha256": "52615e0353b53be8ee1c8e4a4b54fa5717839f55c3bb340ad3622b2b873ae0a0"
+    },
+    "test-admission.py": {
+      "bytes": 9409,
+      "sha256": "bd3ac26588fafe9e5e49a6bd7b9c1c7183cf24642d399e1820632c3f0ac28db7"
+    },
+    "bindings.json": {
+      "bytes": 1362,
+      "sha256": "818872a12b872f32e55d2199c8ee11b310d30a08fd11355351b4187d8c92c32f"
+    },
+    "oz-fas-load-condition.yml": {
+      "bytes": 4449,
+      "sha256": "394b4dc09464b333c5719887f49696133ed29e77fa856abcec491503e4ad4291"
+    },
+    "PLAN.md": {
+      "bytes": 4729,
+      "sha256": "c89836cb712ed1bf44f8ef3d1137007a8d35096f654d4d5fd070d5aaa205b4f5"
+    },
+    "reviews/ecl-oz.json": {
+      "bytes": 23593,
+      "sha256": "0a1b39fb99372d10c58a2d4bd0071bd53dda7f39d74ffa9a282c3770495801ce"
+    }
+  },
+  "unchangedReviewedGenericHelpers": {
+    "artifact.py": {
+      "bytes": 16056,
+      "sha256": "e0b923210a32a1d490c09e4c13b624e499465bb32ef6e35a753d55e6577feb8b"
+    },
+    "verify-one.py": {
+      "bytes": 3951,
+      "sha256": "52615e0353b53be8ee1c8e4a4b54fa5717839f55c3bb340ad3622b2b873ae0a0"
+    }
+  },
+  "validation": {
+    "admissionTests": 8,
+    "actualOldOzSiteFasNativeCaptureFixturePassed": true,
+    "PythonAST": true,
+    "YAML": true,
+    "BashBodies": 4,
+    "hardwareJavaScriptSyntax": true,
+    "pinnedActions": 5,
+    "runtimeAdjacentDependenciesCopied": 6
+  },
+  "publicationAllowed": false,
+  "pending": [
+    "Harness/condition-source final freeze and independent integrated review"
+  ],
+  "notPerformed": [
+    "External writes or CI launch",
+    "Artifact/browser/CAS/Lisp/Wasm/native/compiler execution"
+  ],
+  "documentationRevision": {
+    "previousFreezeSha256": "ccb4aad0af354b327ba918bb30e5475ff20bd2b9f877e55d39775298d4f0c397",
+    "change": "Explicit halt on first captured condition/core failure; every remaining case recorded skipped, never accepted as a pass.",
+    "codeUnchanged": true
+  }
+}
