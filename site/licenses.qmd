@@ -19,49 +19,64 @@ licence files and [source provenance](native/board-mathjax.json). Those files
 are additional to the 27 texts above.
 
 Everything below was checked on 2026-10-22 and 2026-10-23 against the files
-deployed on this site. The site also serves preview copies of research branches
-under `previews/research/` (`2026-10-native-stack` and
-`2026-10-runtime-feasibility` at the time of checking). Their `maxima-runtime/`
-binaries and `maxima.js` have the same SHA-256 as those of the main site, and their
-`stack-sources.json` names the same STACK commit. This page covers those copies as
-well. "Evidence" means a notice inside a shipped file, a licence file in the
+deployed on this site; the runtime section was updated on 2026-10-24, when the
+site switched to the runtime release `runtime-v2`. Older preview copies of
+research branches under `previews/research/` (`2026-10-native-stack` and
+`2026-10-runtime-feasibility`), where still present, serve the earlier runtime
+copied from <https://maxima-on-wasm.pages.dev/>;
+[the previous version of this page](https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/64d02c43d839ac6e8f9fb686b7c618f8a292901f/site/licenses.qmd)
+describes that runtime, gnuplot included. "Evidence" means a notice inside a shipped file, a licence file in the
 upstream source tree at the stated version, or both. Where neither could be
 found the entry says so.
 
-## Maxima, ECL and gnuplot runtime
+## Maxima and ECL runtime
 
-The Maxima runtime in `maxima-runtime/` is the WebAssembly build made by Marius
-Gerbershagen: an Emscripten port of Maxima running on ECL, deployed at
-<https://maxima-on-wasm.pages.dev/>. Its source is published at
-<https://gitlab.com/mgerbershagen/maxima> (branch `emscripten-port-deployed`).
+The Maxima runtime in `maxima-runtime/` is the CTM project's release
+[`runtime-v2`](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/tag/runtime-v2):
+Marius Gerbershagen's Emscripten port of Maxima running on ECL
+(<https://gitlab.com/mgerbershagen/maxima>, the build first deployed at
+<https://maxima-on-wasm.pages.dev/>), rebuilt by this project from exact,
+hash-pinned sources in
+[this run](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40132538310)
+(commit `51fdadd6`, compiler profile `ecl-oz`).
 
-- The files are copied byte for byte from that deployment. Each file's
-  SHA-256 is recorded in [`runtime-assets.json`](runtime-assets.json) and
-  checked when the site is built. This site has not modified, rebuilt or patched
-  them. [`runtime-preload.json`](maxima-runtime/runtime-preload.json) is assembled
-  by this project from the same unmodified files (their bytes, base64-encoded) so
-  that they load in one request.
-- The port's source is published at the repository above (branch
-  `emscripten-port-deployed`). This project could not confirm that this branch
-  contains the Maxima commit (`813903d33`) or the ECL source id (`e4bdb2e5...`)
-  named by the binaries, and has not compared the branch with the files: GitLab
-  could not be read from its build environment.
-- A runtime built by the CTM project from pinned sources, with its full build
-  recipe, sources and licence files published beside each release, is planned;
-  see [§6 of the system design audit](https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/main/reports/2026-10-22-system-design-audit.md#6-runtime-ownership-packaging-and-exams).
-  Until then the upstream deployment is the reference for these files.
+- **Corresponding source.** The release asset
+  [`maxima-runtime-v2-sources.tar.gz`](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v2/maxima-runtime-v2-sources.tar.gz)
+  holds the exact source archives (Maxima `813903d33`, ECL `e4bdb2e5`,
+  Emscripten and emsdk 4.0.10), the build recipe and the source manifest with
+  every archive's SHA-256. The runtime archive
+  [`maxima-runtime-v2.tar.gz`](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v2/maxima-runtime-v2.tar.gz)
+  carries the same licence texts and the build's notices. Both are published
+  beside each other for as long as the release exists.
+- The site build downloads the release, checks the release record
+  (`maxima-runtime-v2.json`, SHA-256 `c2d80a41…0e8c`, pinned in the repository's
+  `runtime/release.json`), the archive and every runtime file against their
+  hashes, and serves the files unchanged. Each file's SHA-256 is recorded in
+  [`runtime-assets.json`](runtime-assets.json).
+  [`runtime-preload.json`](maxima-runtime/runtime-preload.json) is assembled by
+  this project from the same files (their bytes, base64-encoded) so that they
+  load in one request.
+- The build omits plotting: gnuplot (`libgnuplot.so`) and `maxima-plot.fas` are
+  not built and not served. An authored plot gets a build diagnostic instead.
+- **Modified ECL source.** The WebAssembly build of ECL carries one declared
+  change by the CTM project: in `src/c/alloc_2.d`, eight root-scanning calls in
+  `ecl_mark_env` and `stacks_scanner` use the collector's `GC_push_all_eager`
+  instead of `GC_push_all`/`GC_push_conditional`. The exact patch, the original
+  and derived file hashes and a dated comment in the changed file are in the
+  release's sources archive (`source-overlays/`); the native build host uses
+  unchanged ECL. ECL's licence (LGPL-2.1-or-later) and original notices apply to
+  the modified file.
 
 | Component | Files on this site | Version as reported by the files | Licence | Source |
 |---|---|---|---|---|
-| Maxima (Emscripten port) | `maxima.wasm`, `maxima-integration.fas`, `maxima-limits.fas`, `maxima-matrix-algebra.fas`, `maxima-number-theory.fas`, `maxima-plot.fas`, `maxima-poisson-series.fas`, `maxima-quadpack.fas`, `maxima-slatec.fas`, `maxima-solve.fas` | `branch_5_49_base_90_g813903d33` | GNU GPL version 2, as in Maxima's `COPYING` ([GPL-2.0 text](LICENSES/GPL-2.0-only.txt); [Maxima's COPYING](LICENSES/Maxima-COPYING.txt)). "Only" or "or later" is not stated in `COPYING`; GitLab labels the port "GNU General Public License v2.0 or later". Individual source files differ, see [notes](#maxima). | [port branch `emscripten-port-deployed`](https://gitlab.com/mgerbershagen/maxima/-/tree/emscripten-port-deployed) (a branch, not a fixed commit); upstream Maxima at <https://maxima.sourceforge.io/>, read at [tag `branch-5_49-base`](https://github.com/rtoy/maxima/tree/cce856a60952c971e6f3604706335455c9a46fca) in a GitHub mirror |
+| Maxima (Emscripten port) | `maxima.wasm`, `maxima-integration.fas`, `maxima-limits.fas`, `maxima-matrix-algebra.fas`, `maxima-number-theory.fas`, `maxima-poisson-series.fas`, `maxima-quadpack.fas`, `maxima-slatec.fas`, `maxima-solve.fas` | `branch_5_49_base_90_g813903d33` | GNU GPL version 2, as in Maxima's `COPYING` ([GPL-2.0 text](LICENSES/GPL-2.0-only.txt); [Maxima's COPYING](LICENSES/Maxima-COPYING.txt)). "Only" or "or later" is not stated in `COPYING`; GitLab labels the port "GNU General Public License v2.0 or later". Individual source files differ, see [notes](#maxima). | commit `813903d33f5ccca09cbe3086dbfe5e228521da52` of <https://gitlab.com/mgerbershagen/maxima>, archived in the [release's sources](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v2/maxima-runtime-v2-sources.tar.gz); upstream Maxima at <https://maxima.sourceforge.io/>, read at [tag `branch-5_49-base`](https://github.com/rtoy/maxima/tree/cce856a60952c971e6f3604706335455c9a46fca) in a GitHub mirror |
 | Maxima share packages | 66 files under `maxima-runtime/share/` | same | per file, see [table below](#maxima-share-packages) | same |
-| ECL (Embeddable Common Lisp) | `libecl.so` | 26.3.27, source id `e4bdb2e5b1e444e1773032a53650773848f4d6cd` | [LGPL-2.1-or-later](LICENSES/LGPL-2.1-or-later.txt) ([ECL's LICENSE](LICENSES/ECL-LICENSE.txt)), with exceptions that include parts present in the file (`loop.lsp`, `contrib/ecl-cdb`), see [notes](#ecl) | [tag 26.3.27](https://gitlab.com/embeddable-common-lisp/ecl/-/tree/26.3.27); checked in the [GitHub mirror](https://github.com/roswell/ecl/tree/26.3.27) |
+| ECL (Embeddable Common Lisp) | `libecl.so` | 26.3.27, source id `e4bdb2e5b1e444e1773032a53650773848f4d6cd` | [LGPL-2.1-or-later](LICENSES/LGPL-2.1-or-later.txt) ([ECL's LICENSE](LICENSES/ECL-LICENSE.txt)), with exceptions that include parts present in the file (`loop.lsp`, `contrib/ecl-cdb`), see [notes](#ecl) | commit `e4bdb2e5b1e444e1773032a53650773848f4d6cd` of <https://gitlab.com/mgerbershagen/ecl>, archived in the [release's sources](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v2/maxima-runtime-v2-sources.tar.gz); [tag 26.3.27](https://gitlab.com/embeddable-common-lisp/ecl/-/tree/26.3.27) checked in the [GitHub mirror](https://github.com/roswell/ecl/tree/26.3.27) |
 | GMP, bundled with ECL | inside `libecl.so` | 4.2.1 | [LGPL-2.1-or-later](LICENSES/LGPL-2.1-or-later.txt) | [`src/gmp` of ECL 26.3.27](https://github.com/roswell/ecl/tree/26.3.27/src/gmp) |
 | Boehm-Demers-Weiser GC, bundled with ECL | inside `libecl.so` | 8.2.8 | [Boehm-GC](LICENSES/Boehm-GC.txt) | [`src/bdwgc` of ECL 26.3.27](https://github.com/roswell/ecl/tree/26.3.27/src/bdwgc); [bdwgc v8.2.8](https://github.com/ivmai/bdwgc/tree/v8.2.8) |
-| gnuplot | `libgnuplot.so` | 6.1, patchlevel 0, dated 2025-02-15; probably a modified, library-style build, see [notes](#gnuplot) | gnuplot's own licence ([gnuplot](LICENSES/gnuplot.txt), its `Copyright` file; SPDX `gnuplot`), see [notes](#gnuplot) | <http://www.gnuplot.info/>; licence text read at [commit `fbeb88e`](https://github.com/gnuplot/gnuplot/tree/fbeb88eadedf927a4d778b41dd118e373f33eacb) of the GitHub mirror. Where the build's own sources and patches are published: not determined |
-| Emscripten JavaScript runtime | `maxima.js` | Emscripten version not stated in the file | MIT or NCSA, at the user's choice ([MIT](LICENSES/MIT.txt), [NCSA](LICENSES/NCSA.txt), [Emscripten's LICENSE](LICENSES/Emscripten-LICENSE.txt)) | [Emscripten at `45a6cffd`](https://github.com/emscripten-core/emscripten/tree/45a6cffdbdf003665c7f48072191ce5a860fd0f4) (`main` when read) |
-| Emscripten system libraries: musl libc (`libgnuplot.so` exports musl's `crypt` functions; `maxima.wasm` contains `__crypt_*` names); libc++ (`std::__2` symbols), libc++abi and compiler-rt (source paths) in `maxima.wasm` only | inside the files named | not stated in the files | musl: MIT ([musl COPYRIGHT](LICENSES/musl-COPYRIGHT.txt)); LLVM libraries: Apache-2.0 with LLVM exception ([Apache-2.0](LICENSES/Apache-2.0.txt), [LLVM-exception](LICENSES/LLVM-exception.txt), [LLVM LICENSE.TXT](LICENSES/LLVM-LICENSE.TXT.txt)) | [`system/lib` of Emscripten at `45a6cffd`](https://github.com/emscripten-core/emscripten/tree/45a6cffdbdf003665c7f48072191ce5a860fd0f4/system/lib) (the `main` branch when read; the toolchain version used for the build is not stated) |
-| Port glue scripts | `maxima_thread.js`, `share_files.js` | none | no notice in the files; licence not determined | [port branch](https://gitlab.com/mgerbershagen/maxima/-/tree/emscripten-port-deployed) |
+| Emscripten JavaScript runtime | `maxima.js` | built with Emscripten 4.0.10 (release source manifest) | MIT or NCSA, at the user's choice ([MIT](LICENSES/MIT.txt), [NCSA](LICENSES/NCSA.txt), [Emscripten's LICENSE](LICENSES/Emscripten-LICENSE.txt)) | Emscripten commit `b7dc6e57`, archived in the [release's sources](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v2/maxima-runtime-v2-sources.tar.gz); its licence was read at [`45a6cffd`](https://github.com/emscripten-core/emscripten/tree/45a6cffdbdf003665c7f48072191ce5a860fd0f4) (`main` when read) |
+| Emscripten system libraries: musl libc (`maxima.wasm` contained `__crypt_*` names in the earlier deployed build); libc++ (`std::__2` symbols), libc++abi and compiler-rt (source paths) in `maxima.wasm` only | inside the files named | not stated in the files | musl: MIT ([musl COPYRIGHT](LICENSES/musl-COPYRIGHT.txt)); LLVM libraries: Apache-2.0 with LLVM exception ([Apache-2.0](LICENSES/Apache-2.0.txt), [LLVM-exception](LICENSES/LLVM-exception.txt), [LLVM LICENSE.TXT](LICENSES/LLVM-LICENSE.TXT.txt)) | [`system/lib` of Emscripten at `45a6cffd`](https://github.com/emscripten-core/emscripten/tree/45a6cffdbdf003665c7f48072191ce5a860fd0f4/system/lib) (the `main` branch when read); the build's own toolchain (4.0.10) is archived in the release's sources |
+| Port glue scripts | `maxima_thread.js`, `share_files.js` | none | no notice in the files; licence not determined | generated by the build from the Maxima port's sources, archived in the [release's sources](https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v2/maxima-runtime-v2-sources.tar.gz) |
 
 ### Notes on the runtime {#runtime-notes}
 
@@ -197,41 +212,23 @@ LLGPL files (`mring.lisp` here, `maxmin.lisp` and `nummod.lisp` above) are cover
 
 #### gnuplot {#gnuplot}
 
-- `libgnuplot.so` reports gnuplot version 6.1, patchlevel 0, date 2025-02-15, and
-  "Copyright (C) 1986-1993, 1998, 2004, 2007-2023". The licence text is gnuplot's
-  `Copyright` file, committed unchanged as [`LICENSES/gnuplot.txt`](LICENSES/gnuplot.txt)
-  from <https://github.com/gnuplot/gnuplot> (master as of 2023-09-08,
-  `fbeb88eadedf927a4d778b41dd118e373f33eacb`). That GitHub mirror stopped at
-  2023-09-08, which is older than the shipped build, so the file could not be
-  compared at the exact version; the SPDX `gnuplot` text matches it. The official
-  gnuplot repository on SourceForge could not be read from the build environment.
-- `libgnuplot.so` exports a function `libgnuplot_main`. That name does not occur in
-  gnuplot's source at the commit above (gnuplot's own entry points there are
-  `main` and `gnu_main`), and the binary is dated 2025-02-15, after that commit.
-  This suggests a modified, library-style build of gnuplot (or a newer upstream
-  that could not be read). Where the sources or patches of that build are
-  published was not determined.
-- gnuplot's licence allows distributing binaries built from modified sources only if
-  the source modifications are distributed as a patch file with the binaries,
-  the version is identified, and contact information is kept. Whether the
-  WebAssembly build of gnuplot is modified, and where any patches are
-  published, was therefore not determined (see the previous point).
-- `libgnuplot.so` also contains parts of Emscripten's musl libc (it exports
-  `crypt_r` and the `__crypt_*` functions) and the path
-  `/emsdk/emscripten/system/lib/pthread/thread_profiler.c`. It has no libc++,
-  libc++abi or compiler-rt paths. These are covered by the "Emscripten system
-  libraries" row.
+- Not served since the switch to `runtime-v2`: the release is built without
+  plotting (`libgnuplot.so` and `maxima-plot.fas` are omitted). The licence text
+  [`LICENSES/gnuplot.txt`](LICENSES/gnuplot.txt) stays for older preview copies,
+  which still serve the earlier deployed build; the
+  [previous version of this page](https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/64d02c43d839ac6e8f9fb686b7c618f8a292901f/site/licenses.qmd#gnuplot)
+  has the notes on that build.
 
 #### Emscripten {#emscripten}
 
 - `maxima.js` is Emscripten's generated JavaScript glue. It has no licence header.
   Emscripten's `LICENSE` offers MIT or the University of Illinois/NCSA licence;
-  it was read at the `main` branch (`45a6cffdbdf003665c7f48072191ce5a860fd0f4`)
-  because the toolchain version is not recorded in the files. `maxima.wasm`
+  it was read at the `main` branch (`45a6cffdbdf003665c7f48072191ce5a860fd0f4`).
+  The release's source manifest records the toolchain actually used
+  (Emscripten and emsdk 4.0.10); its `LICENSE` is in the release's sources. `maxima.wasm`
   contains paths such as `/emsdk/emscripten/system/lib/libcxxabi/src/`,
   `/emsdk/emscripten/system/lib/compiler-rt/lib/builtins/` and
-  `/emsdk/emscripten/system/lib/html5/`; `libgnuplot.so` contains only
-  `/emsdk/emscripten/system/lib/pthread/thread_profiler.c`.
+  `/emsdk/emscripten/system/lib/html5/` (observed in the earlier deployed build).
 - `musl` is "licensed under the following standard MIT license"; its `COPYRIGHT`
   file also lists parts under other terms (for example the DES `crypt` code, which is under a BSD licence). The Emscripten tree's LLVM libraries say "Apache License
   v2.0 with LLVM Exceptions"; the libc++ file also describes a dual MIT and
@@ -405,18 +402,15 @@ They are not copied to this site, and their licences are not reproduced here.
 
 ## What could not be determined
 
-- The exact Maxima commit `813903d33` and the ECL source id `e4bdb2e5...` in the
-  shipped binaries could not be opened (GitLab pages are not readable from the
-  build environment), so the Maxima licence evidence comes from the nearest
-  upstream tag and the ECL evidence from tag 26.3.27.
-- The Emscripten version used to build the runtime, and therefore which musl,
-  LLVM and Emscripten files are in the binaries.
+- The exact Maxima commit `813903d33` and ECL commit `e4bdb2e5` are now
+  archived in the release's sources, but the per-file licence evidence on this
+  page was read at the nearest upstream tag (Maxima) and tag 26.3.27 (ECL) and
+  has not yet been re-checked against those archives.
+- Which musl, LLVM and Emscripten files of the 4.0.10 toolchain are in the
+  binaries.
 - The licence of the files without a notice (see the tables), of the
   Unicode tables in ECL, of the SLATEC and QUADPACK originals, and of
   `maxima_thread.js` and `share_files.js`.
-- Whether the WebAssembly build of gnuplot is modified (the exported
-  `libgnuplot_main` suggests it is) and where its sources and patches are
-  published.
 - Whether each Maxima core file is GPL version 2 only or "or later".
 - The difference between the GPL version in many STACK file headers (2) and in
   STACK's `COPYING.txt` (3), and whether STACK as a whole is "version 3" or
