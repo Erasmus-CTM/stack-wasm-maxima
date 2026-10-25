@@ -71,6 +71,16 @@ jobs:
             if [ "${{ matrix.expect }}" = abort ]; then [ "$status" -eq 1 ] || exit 1
             else [ "$status" -eq 0 ] || exit 1; fi
           done
+      - name: Run the attached upstream bundle unchanged
+        run: |
+          set -o pipefail
+          ecl="$RUNNER_TEMP/ecl/bin/ecl"
+          cp -r "$DIAG/upstream-bundle" "$RUNNER_TEMP/bundle"
+          (cd "$RUNNER_TEMP/bundle" && sha256sum deep.lisp sweep.sh occupancy.gdb eager-root-scanning.patch) | tee "$OUT/bundle-sha256.txt"
+          (cd "$RUNNER_TEMP/bundle" && setarch -R sh sweep.sh "$ecl" 3600 4700) 2>&1 | tee "$OUT/bundle-sweep.txt"
+          aborts=$(grep -c '^N=' "$OUT/bundle-sweep.txt" || true)
+          echo "sweep.sh reported $aborts aborting depths"
+          if [ "${{ matrix.expect }}" = abort ]; then [ "$aborts" -gt 0 ]; else [ "$aborts" -eq 0 ]; fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
