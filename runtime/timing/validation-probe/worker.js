@@ -6,7 +6,7 @@ self.onmessage=async({data})=>{
   report.initialization=await session.init();
   if(data.experiment==='hook-control'){
    session.write(':lisp (defun maxima::$ctm_injected_car_fault (x) (car x))\n',60000);
-   report.injected=session.evaluate('block([r],r:errcatch(ctm_injected_car_fault(?subr)),[length(r)=0,ctm_validation_trace])');
+   report.injected=session.evaluate('block([r],r:errcatch(ctm_injected_car_fault(?subr)),[is(length(r)=0),ctm_validation_trace])');
    report.after=session.evaluate('6*7');
    report.ok=report.injected[0]===true&&typeof report.injected[1]==='string'&&report.injected[1].includes('SUBR')&&report.injected[1].includes('MEVAL:')&&report.after===42;
   }else{

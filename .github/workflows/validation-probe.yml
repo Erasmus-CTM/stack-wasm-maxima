@@ -26,7 +26,9 @@ jobs:
         run: |
           npm ci --ignore-scripts --no-audit --no-fund
           npx playwright install --with-deps chromium
-      - name: Capture injected fault and stress validation on separate fresh source workers
+      - name: Check the corrected Boolean control on a fresh source worker
+        env:
+          CTM_VALIDATION_PROBE_EXPERIMENTS: hook-control
         run: node runtime/timing/validation-probe/run.mjs
       - uses: actions/upload-artifact@v4
         if: always()

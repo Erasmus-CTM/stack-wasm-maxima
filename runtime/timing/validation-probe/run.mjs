@@ -20,7 +20,7 @@ const report={diagnosticOnly:true,acceptance:false,runtimeBuildRun:40169665328,b
 const app=await serveDemo({root:stage,compression:'gzip',sidecarSource:null});let browser;
 try{
  browser=await chromium.launch({headless:true});
- for(const experiment of ['hook-control','repeated-target','forced-gc']){
+ for(const experiment of (process.env.CTM_VALIDATION_PROBE_EXPERIMENTS || 'hook-control,repeated-target,forced-gc').split(',')){
   const page=await browser.newPage();await page.goto(app.baseURL+'probe.html');
   const result=await page.evaluate(data=>new Promise(resolve=>{const worker=new Worker('probe-worker.js');const timer=setTimeout(()=>{worker.terminate();resolve({error:'600-second watchdog'})},600000);worker.onerror=e=>{clearTimeout(timer);worker.terminate();resolve({error:e.message})};worker.onmessage=({data})=>{clearTimeout(timer);worker.terminate();resolve(data)};worker.postMessage(data)}),{experiment,history});
   report.samples.push(result);await writeFile(join(out,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({experiment,ok:result.ok,error:result.error,failureIndex:result.failureIndex,trace:result.trace,hook:result.injected?.[1]?.slice(0,500)}));await page.close();
