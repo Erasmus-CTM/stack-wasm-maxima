@@ -8,6 +8,8 @@ import platform
 import shutil
 import urllib.request
 
+from toolchain_pins import effective_pins
+
 ROOT = Path(__file__).resolve().parents[2]
 WORK = ROOT / '.cache/runtime-build'
 
@@ -21,7 +23,7 @@ def digest(path):
 def main():
     if platform.system() != 'Linux' or platform.machine() != 'x86_64':
         raise ValueError('This pinned SDK binary set targets Linux x86_64 only')
-    pins = json.loads((ROOT / 'runtime/build/pins.json').read_text())
+    pins = effective_pins(ROOT)
     sdk = (WORK / 'sources/emsdk').resolve()
     if not sdk.is_relative_to(WORK.resolve()):
         raise ValueError('SDK directory escapes build workspace')

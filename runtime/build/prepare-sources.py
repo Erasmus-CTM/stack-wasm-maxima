@@ -9,9 +9,11 @@ import sys
 import time
 import urllib.request
 
+from toolchain_pins import effective_pins
+
 ROOT = Path(__file__).resolve().parents[2]
 WORK = ROOT / '.cache/runtime-build'
-PINS = json.loads((ROOT / 'runtime/build/pins.json').read_text())
+PINS = effective_pins(ROOT)
 
 def run(*args, cwd=None):
     return subprocess.check_output(args, cwd=cwd, text=True).strip()

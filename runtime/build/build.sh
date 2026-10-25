@@ -26,9 +26,11 @@ test ! -e "$WORK/source-archives/gnuplot.tar"
 python "$ROOT/runtime/build/record-environment.py"
 python "$ROOT/runtime/build/prepare-toolchain.py"
 export EMSDK_KEEP_DOWNLOADS=1
+# CTM_EMSDK selects an experimental toolchain; unset means the pinned release.
+EMSDK_VERSION=$(python "$ROOT/runtime/build/toolchain_pins.py")
 cd "$EMSDK_PATH"
-./emsdk install 4.0.10
-./emsdk activate 4.0.10
+./emsdk install "$EMSDK_VERSION"
+./emsdk activate "$EMSDK_VERSION"
 # emsdk_env references optional unset variables.
 set +u
 source "$EMSDK_PATH/emsdk_env.sh"

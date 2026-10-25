@@ -13,6 +13,7 @@ from source_overlay import DESCRIPTOR, PATCH, SOURCE, integrity, verify_packaged
 from source_state import verify as verify_source_state
 from compiler_profile import compiler_profile
 from compiler_evidence import derive
+from toolchain_pins import effective_pins
 
 ROOT = Path(__file__).resolve().parents[2]
 BASE = 'https://maxima-on-wasm.pages.dev/'
@@ -41,7 +42,7 @@ def main():
     parser.add_argument('--output', type=Path, default=ROOT / '.cache/runtime-build/artifact')
     args = parser.parse_args()
     work = ROOT / '.cache/runtime-build'
-    pins = json.loads((ROOT / 'runtime/build/pins.json').read_text())
+    pins = effective_pins(ROOT)
     config = configuration()
     profile = compiler_profile()
     compiler_record = json.loads((work / 'logs/compiler-experiment.json').read_bytes())
