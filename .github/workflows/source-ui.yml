@@ -1,4 +1,4 @@
-name: Diagnose full source UI without runtime rebuild
+name: Capture the exact caught source validation condition
 'on':
   push:
     branches:
@@ -17,14 +17,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - name: old
-          profile: ecl-oz
-          run: '40108653819'
-          artifact: '12568085269'
-        - name: candidate
-          profile: ecl-oz-maxima-oz
-          run: '40136606442'
-          artifact: '12578753698'
         - name: fresh
           profile: ecl-oz-maxima-oz
           run: '40169665328'
@@ -143,7 +135,7 @@ jobs:
         python scripts/milestone-three/compile.py --stack-source .site-sources/stack \
           --ctm-checkers-source .site-sources/ctm-checkers --output site/native/questions.json \
           --resources site/maxima/native-questions
-    - name: Require the original unmodified source engine
+    - name: Add exact-case in-CAS failure diagnostics
       run: python benchmark/runtime/timing/source-ui/diagnose.py
     - name: Prepare native variants in the actual Wasm backend
       env:
@@ -179,9 +171,9 @@ jobs:
       run: |
         python scripts/milestone-three/native-reference.py --browser-report test-results/milestone-three/browser.json \
           --stack-source .site-sources/stack --output test-results/milestone-three/native-reference
-    - name: Repeat the original source UI and native316 comparisons twice more
+    - name: Repeat the exact-case diagnostic on fresh source workers
       run: |
-        for repetition in 2 3; do
+        for repetition in 2 3 4 5; do
           node scripts/milestone-three/browser.mjs site/_site "test-results/milestone-three/repetition-$repetition"
           python scripts/milestone-three/native-reference.py --browser-report "test-results/milestone-three/repetition-$repetition/browser.json" \
             --stack-source .site-sources/stack --output "test-results/milestone-three/repetition-$repetition/native-reference"
