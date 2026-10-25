@@ -1,0 +1,85 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Reproduce the spill-pointers value-stack gap through ECL
+'on':
+  workflow_dispatch:
+  push:
+    branches: [claude/peaceful-cray-p1sz3o]
+    paths:
+      - .github/workflows/spill-pointers-ecl.yml
+      - runtime/diagnostics/spill-pointers-ecl/**
+permissions:
+  contents: read
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Upstream ECL develop, with the SDK its INSTALL names.
+          - name: ecl-develop-ff5c6abb
+            repository: 'https://gitlab.com/embeddable-common-lisp/ecl.git'
+            commit: ff5c6abbe73e3b3e95608e32721ce0be232c1987
+            sdk: {version: 6.0.11, commit: dd8e25632640cfc1fb570c7fa4cc374e8a5e5a72}
+          # The Emscripten fork used by the Maxima Wasm build, with the SDK it used.
+          - name: ecl-fork-e4bdb2e5
+            repository: 'https://gitlab.com/mgerbershagen/ecl.git'
+            commit: e4bdb2e5b1e444e1773032a53650773848f4d6cd
+            sdk: {version: 4.0.10, commit: 62a853cd3b3134398ce85cde8bb5cbb2ef0194cb}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install a 32-bit host toolchain
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq gcc-multilib
+      - name: Install the pinned Emscripten SDK
+        run: |
+          git clone --quiet https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
+          git -C "$RUNNER_TEMP/emsdk" checkout --quiet "${{ matrix.sdk.commit }}"
+          "$RUNNER_TEMP/emsdk/emsdk" install "${{ matrix.sdk.version }}"
+          "$RUNNER_TEMP/emsdk/emsdk" activate "${{ matrix.sdk.version }}"
+      - name: Fetch the pinned ECL source
+        run: |
+          git init --quiet "$RUNNER_TEMP/ecl-src"
+          git -C "$RUNNER_TEMP/ecl-src" fetch --quiet --depth 1 "${{ matrix.repository }}" "${{ matrix.commit }}"
+          git -C "$RUNNER_TEMP/ecl-src" checkout --quiet FETCH_HEAD
+      # The cross build runs a host ECL to compile Lisp to C; a 32-bit host
+      # matches the wasm32 cross configuration (32-bit fixnums and words).
+      - name: Build the host ECL
+        run: |
+          cp -a "$RUNNER_TEMP/ecl-src" "$RUNNER_TEMP/ecl-host"
+          cd "$RUNNER_TEMP/ecl-host"
+          ./configure ABI=32 CFLAGS=-m32 LDFLAGS=-m32 --prefix="$RUNNER_TEMP/host32" > "$RUNNER_TEMP/host.log" 2>&1
+          make -j"$(nproc)" >> "$RUNNER_TEMP/host.log" 2>&1
+          make install >> "$RUNNER_TEMP/host.log" 2>&1
+          "$RUNNER_TEMP/host32/bin/ecl" --version
+      # As in ECL's INSTALL, "Cross-compile for the WASM platform", unmodified.
+      - name: Build ECL for wasm32
+        run: |
+          source "$RUNNER_TEMP/emsdk/emsdk_env.sh"
+          cp -a "$RUNNER_TEMP/ecl-src" "$RUNNER_TEMP/ecl-wasm"
+          cd "$RUNNER_TEMP/ecl-wasm"
+          export ECL_TO_RUN="$RUNNER_TEMP/host32/bin/ecl"
+          emconfigure ./configure --host=wasm32-unknown-emscripten --build=x86_64-pc-linux-gnu \
+            --with-cross-config="$PWD/src/util/wasm32-unknown-emscripten.cross_config" \
+            --prefix="$RUNNER_TEMP/ecl-emscripten" --disable-shared --with-tcp=no --with-cmp=no \
+            > "$RUNNER_TEMP/wasm.log" 2>&1
+          (emmake make && emmake make install) >> "$RUNNER_TEMP/wasm.log" 2>&1
+          ls "$RUNNER_TEMP/ecl-emscripten"
+      - name: Show the end of the build logs
+        if: failure()
+        run: tail -n 60 "$RUNNER_TEMP/host.log" "$RUNNER_TEMP/wasm.log" || true
+      - name: Build and run every case
+        run: |
+          python3 runtime/diagnostics/spill-pointers-ecl/run.py --emsdk "$RUNNER_TEMP/emsdk" \
+            --ecl "$RUNNER_TEMP/ecl-emscripten" --output "$RUNNER_TEMP/out"
+      - name: Retain the report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spill-pointers-${{ matrix.name }}
+          path: ${{ runner.temp }}/out/report.json
+          if-no-files-found: warn

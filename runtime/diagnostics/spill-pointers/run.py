@@ -55,18 +55,25 @@ def main():
                 summary = case.get('result', {'build': 'failed: ' + (case['build']['stderr'].strip().splitlines() or [''])[0][:160]})
                 print(name, json.dumps(summary), flush=True)
     by = {case['name']: case for case in report['cases']}
-    def lost(name):
-        return by[name].get('result', {}).get('lost')
-    expectations = [(f'{opt}-flatten-spill-names', lambda value: value == 0, 'flattening before spilling keeps every object')
-                    for opt in ('O0', 'O2', 'Oz')]
-    expectations += [('O0-spill-names', lambda value: value == 0, 'unoptimized code keeps pointers in linear memory'),
-                     ('O2-spill-names', lambda value: value and value > 0, 'negative control: optimized plain spilling loses objects'),
-                     ('Oz-spill-names', lambda value: value and value > 0, 'negative control: optimized plain spilling loses objects')]
-    # 'none' and 'stripped' cases are recorded only: unexplained retention without
-    # any spill pass, and SDK-dependent build failure without a name section.
-    for name, check, meaning in expectations:
-        if not check(lost(name)):
-            report['failures'].append({'case': name, 'lost': lost(name), 'expected': meaning})
+    def field(name, key):
+        return by[name].get('result', {}).get(key)
+    rounds = args.rounds
+    expectations = []
+    for opt in ('O0', 'O2', 'Oz'):
+        expectations += [
+            (f'{opt}-flatten-spill-names', 'freed', lambda value: value == 0, 'flattening before spilling keeps every object'),
+            (f'{opt}-flatten-spill-names', 'spilledRounds', lambda value: value == rounds, 'the object is spilled into main\'s frame'),
+            (f'{opt}-flatten-spill-names', 'staleRounds', lambda value: value == 0, 'no stale copy confounds the case')]
+    for opt in ('O2', 'Oz'):
+        expectations += [
+            (f'{opt}-spill-names', 'freed', lambda value: value == rounds, 'negative control: plain spilling frees the live object'),
+            (f'{opt}-spill-names', 'spilledRounds', lambda value: value == 0, 'no spill of the waiting operand'),
+            (f'{opt}-spill-names', 'staleRounds', lambda value: value == 0, 'no stale copy confounds the case')]
+    # Recorded only: -O0 plain spilling (toolchain-dependent code shape), 'lost'
+    # (whether a freed block is reused within the round), and any other cases.
+    for name, key, check, meaning in expectations:
+        if not check(field(name, key)):
+            report['failures'].append({'case': name, key: field(name, key), 'expected': meaning})
     report['passed'] = not report['failures']
     (args.output / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
     # Evidence: main() of the optimized plain-spill build, where make()'s result
