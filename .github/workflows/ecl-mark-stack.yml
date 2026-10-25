@@ -89,11 +89,20 @@ jobs:
       fail-fast: false
       matrix:
         variant: [original, eager]
+        emsdk: ['4.0.10', '6.0.11']
+        include:
+          # Deepest N below ECL's 32 MB C stack limit for each toolchain;
+          # 6.0.11 uses more stack per frame.
+          - emsdk: '4.0.10'
+            last: 440
+          - emsdk: '6.0.11'
+            last: 390
     env:
-      # The Emscripten fork and emsdk pinned by the Maxima runtime build.
+      # The Emscripten fork pinned by the Maxima runtime build; 4.0.10 is
+      # the emsdk it pins, 6.0.11 the newer one Marius tested.
       FORK_REPOSITORY: https://gitlab.com/mgerbershagen/ecl.git
       FORK_COMMIT: e4bdb2e5b1e444e1773032a53650773848f4d6cd
-      EMSDK_VERSION: 4.0.10
+      EMSDK_VERSION: ${{ matrix.emsdk }}
       OUT: test-results/ecl-mark-stack-wasm
     steps:
       - uses: actions/checkout@v4
@@ -156,7 +165,7 @@ jobs:
           node --version
           echo "stack limit: soft $(ulimit -s), hard $(ulimit -Hs)"
           set +e
-          sh "$BUNDLE/run-wasm.sh" "$RUNNER_TEMP/ecl-wasm" 200 440 | tee "$OUT/wasm-sweep.txt"
+          sh "$BUNDLE/run-wasm.sh" "$RUNNER_TEMP/ecl-wasm" 200 ${{ matrix.last }} | tee "$OUT/wasm-sweep.txt"
           status=${PIPESTATUS[0]}
           set -e
           [ "$status" -le 1 ] || exit 1
@@ -164,6 +173,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: ecl-mark-stack-wasm-${{ matrix.variant }}-${{ github.run_id }}
+          name: ecl-mark-stack-wasm-${{ matrix.emsdk }}-${{ matrix.variant }}-${{ github.run_id }}
           path: test-results/ecl-mark-stack-wasm/
           if-no-files-found: error
