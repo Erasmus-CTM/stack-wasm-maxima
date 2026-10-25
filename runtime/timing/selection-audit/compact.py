@@ -7,6 +7,10 @@ inventory=[]
 for p in raw.rglob('*'):
  if not p.is_file():continue
  rel=p.relative_to(raw)
+ if len(rel.parts)==4 and rel.parts[0]=='staged' and rel.parts[1] in ('ecl-oz','ecl-oz-maxima-oz') and rel.parts[2:] == ('maxima-runtime','maxima.js'):
+  dest=out/rel;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,dest)
+  inventory.append({'path':str(rel),'originalBytes':p.stat().st_size,'originalSha256':hashlib.sha256(p.read_bytes()).hexdigest()})
+  continue
  if 'staged' in rel.parts or 'tool-sources' in rel.parts:continue
  if p.name.startswith('trace-') and p.suffix=='.json':
   d=json.loads(p.read_bytes());events=d['traceEvents'];counts=collections.Counter(e['name'] for e in events)
