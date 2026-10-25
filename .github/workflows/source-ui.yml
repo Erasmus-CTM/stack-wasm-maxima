@@ -1,4 +1,4 @@
-name: Capture source failure at the ECL error signaling boundary
+name: Inspect original source validation only after an unexpected invalid result
 'on':
   push:
     branches:
@@ -135,8 +135,8 @@ jobs:
         python scripts/milestone-three/compile.py --stack-source .site-sources/stack \
           --ctm-checkers-source .site-sources/ctm-checkers --output site/native/questions.json \
           --resources site/maxima/native-questions
-    - name: Add exact-case in-CAS failure diagnostics
-      run: python benchmark/runtime/timing/source-ui/diagnose.py
+    - name: Install post-result diagnostics without changing startup or CAS programs
+      run: python benchmark/runtime/timing/source-ui/postmortem.py
     - name: Prepare native variants in the actual Wasm backend
       env:
         CTM_COMPONENT_DEV: '1'
@@ -173,7 +173,7 @@ jobs:
           --stack-source .site-sources/stack --output test-results/milestone-three/native-reference
     - name: Repeat the exact-case diagnostic on fresh source workers
       run: |
-        for repetition in $(seq 2 10); do
+        for repetition in $(seq 2 5); do
           node scripts/milestone-three/browser.mjs site/_site "test-results/milestone-three/repetition-$repetition"
           python scripts/milestone-three/native-reference.py --browser-report "test-results/milestone-three/repetition-$repetition/browser.json" \
             --stack-source .site-sources/stack --output "test-results/milestone-three/repetition-$repetition/native-reference"

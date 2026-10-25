@@ -9,6 +9,13 @@
               (with-output-to-string (stream)
                 (let ((*print-level* 5) (*print-length* 12))
                   (format stream "~A~%MEVAL: ~S~%" condition maxima::*last-meval1-form*)
+                  (let ((ar maxima::*mlambda-call-stack*))
+                    (loop for offset from (- (fill-pointer ar) 5) downto 0 by 5
+                          repeat 60
+                          do (let ((args (prin1-to-string (aref ar (+ offset 3)))))
+                               (format stream "MAXIMA ~S ~S ~A~%" (aref ar (+ offset 4))
+                                       (aref ar (+ offset 2))
+                                       (subseq args 0 (min 2048 (length args)))))))
                   (let ((top (find-symbol "IHS-TOP" "SI"))
                         (fun (find-symbol "IHS-FUN" "SI"))
                         (lex (find-symbol "IHS-LEX" "SI")))
