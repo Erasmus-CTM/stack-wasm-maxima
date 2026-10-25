@@ -25,7 +25,7 @@ def summarize(events, raw, calibration=None):
  profiles={};preview=[]
  for e in events:
   if e['name'] not in ('Profile','ProfileChunk'):continue
-  if len(preview)<2:preview.append(str(e)[:2500])
+  if (e['name']=='Profile' and not preview) or (e['name']=='ProfileChunk' and len(preview)<3):preview.append(str(e)[:5000])
   key=(e['pid'],e['tid'],e.get('id'))
   p=profiles.setdefault(key,{'nodes':{},'samples':[],'deltas':[]})
   data=e.get('args',{}).get('data',{})
@@ -48,4 +48,4 @@ def summarize(events, raw, calibration=None):
     t=end
    if count:contexts.append({'pid':key[0],'tid':key[1],'id':key[2],'selectedSamples':count,'sampledMs':total,'nodes':len(p['nodes'])})
   result.append({**w,'contexts':contexts,'leafFrames':sorted([{'functionName':k[0],'url':k[1],**v} for k,v in groups.items()],key=lambda v:-v['sampledMs'])[:80]})
- return {'schema':1,'diagnosticOnly':True,'method':'Chrome Profile/ProfileChunk startTime plus cumulative timeDeltas, calibrated to one recorded epoch clock_sync marker. Each delta interval is clipped to the measured first-positive-grade wall window. Leaf-frame weights are sampled wall intervals per CPU context, not additive CPU time across threads. Instrumented n3 only.','calibration':calibration,'retainedClockMarkers':markers,'profileFormatPreview':preview,'windows':result}
+ return {'schema':1,'diagnosticOnly':True,'method':'Chrome Profile/ProfileChunk startTime plus cumulative timeDeltas, calibrated to one recorded epoch clock_sync marker. Each delta interval is clipped to the measured first-positive-grade wall window. Leaf-frame weights are sampled wall intervals per CPU context, not additive CPU time across threads. Instrumented n3 only.','profiles':[{'key':k,'startTime':p.get('startTime'),'samples':len(p['samples']),'deltas':len(p['deltas']),'nodes':len(p['nodes'])} for k,p in profiles.items()],'calibration':calibration,'retainedClockMarkers':markers,'profileFormatPreview':preview,'windows':result}
