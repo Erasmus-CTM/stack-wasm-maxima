@@ -25,6 +25,27 @@ jobs:
           path: raw
           merge-multiple: true
       - run: python runtime/timing/build-audit/compact.py
+      - name: Retain the final comparison log from the complete run archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40218307121/logs > run-logs.zip
+          python - <<'PYCODE'
+          import zipfile
+          from pathlib import Path
+          out=Path('compact/logs');out.mkdir(parents=True,exist_ok=True)
+          with zipfile.ZipFile('run-logs.zip') as z:
+            names=z.namelist()
+            (out/'inventory.txt').write_text('\n'.join(names))
+            for i,name in enumerate(names):
+              if name.endswith('/'):
+                continue
+              body=z.read(name)
+              if b'validate-probes.sh' in body or 'Compare both runtime' in name:
+                start=body.rfind(b'Run bash runtime/build/validate-probes.sh')
+                selected=body[max(0,start):] if start>=0 else body[-50000:]
+                (out/('comparison-'+str(i)+'.log')).write_bytes(selected[-100000:])
+          PYCODE
       - uses: actions/upload-artifact@v4
         with:
           name: flattened-candidate-build-evidence
