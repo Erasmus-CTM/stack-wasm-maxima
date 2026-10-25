@@ -312,6 +312,11 @@ jobs:
       - name: 'STACK acceptance: Exercise native questions, graphical inputs and Python continuations'
         run: node scripts/milestone-three/browser.mjs site/_site test-results/milestone-three
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
+      - name: 'STACK acceptance: Replay compiled-controller programs under frequent garbage collection'
+        run: |
+          node scripts/milestone-three/gc-stress.mjs --site site/_site \
+            --browser-report test-results/milestone-three/browser.json --output test-results/milestone-three/gc-stress.json
+        if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
       - name: 'STACK acceptance: Install the independent native Maxima reference'
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' && !cancelled() && hashFiles('test-results/milestone-three/browser.json') != '' }}
         run: |
@@ -329,6 +334,15 @@ jobs:
           python scripts/milestone-three/native-reference.py --browser-report test-results/milestone-three/browser.json \
             --stack-source .site-sources/stack --output test-results/milestone-three/same-source-reference \
             --maxima "$MAXIMA_PREFIX/bin/maxima"
+        if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
+      - name: 'STACK acceptance: Keep domain errors invalid and fail internal validation faults in both native Maxima builds'
+        env:
+          MAXIMA_PREFIX: ${{ github.workspace }}/.cache/runtime-build/sources/maxima/wasm/maxima-ecl-combined
+        run: |
+          python scripts/milestone-three/test-validation-boundary.py --stack-source .site-sources/stack \
+            --output test-results/milestone-three/validation-boundary-independent.json
+          python scripts/milestone-three/test-validation-boundary.py --stack-source .site-sources/stack \
+            --maxima "$MAXIMA_PREFIX/bin/maxima" --output test-results/milestone-three/validation-boundary-same-source.json
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
       - name: 'STACK acceptance: Require complete compiled controller evidence and replay bindings'
         run: |
@@ -498,6 +512,11 @@ jobs:
         run: node scripts/site/smoke.mjs site/_site test-results/reviewer-site
       - name: Exercise native questions, graphical inputs and Python continuations
         run: node scripts/milestone-three/browser.mjs site/_site test-results/milestone-three
+      - name: 'STACK acceptance: Replay source-loaded programs under frequent garbage collection'
+        run: |
+          node scripts/milestone-three/gc-stress.mjs --site site/_site \
+            --browser-report test-results/milestone-three/browser.json --output test-results/milestone-three/gc-stress.json
+        if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
       - name: Install the independent native Maxima reference
         if: ${{ !cancelled() && hashFiles('test-results/milestone-three/browser.json') != '' }}
         run: |

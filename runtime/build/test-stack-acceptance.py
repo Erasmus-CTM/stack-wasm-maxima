@@ -38,6 +38,12 @@ class StackAcceptance(unittest.TestCase):
             for width in (1280, 390):
                 reports[base + f'board-functional-{engine}-{width}.json'] = {'passed': True}
         reports[base + 'board-transfer-chromium.json'] = {'passed': True}
+        stress = {'ok': True, 'deviations': [], 'divisor': 1000, 'iterations': 400, 'rounds': 1,
+                  'targetPrograms': 1, 'replayPrograms': 316, 'gcStats': [1, 5000, True]}
+        reports[base + 'gc-stress.json'] = stress
+        reports['test-results/milestone-three/gc-stress.json'] = copy.deepcopy(stress)
+        for kind in ('independent', 'same-source'):
+            reports[base + 'validation-boundary-' + kind + '.json'] = {'passed': True}
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             binary = root / '.cache/precompiled-stack/stackmaxima.fas'
@@ -65,13 +71,22 @@ class StackAcceptance(unittest.TestCase):
                     ('test-results/precompiled-stack/probes-compiled/comparison.json', 'versions', [{'stackRevision': PINS[0], 'passed': True, 'comparisonCount': 22}]),
                     (base + 'browser.json', 'sourceRevision', 'other-head'),
                     ('test-results/precompiled-stack/controller-parity.json', 'programs', 315),
-                    (base + 'board-functional-webkit-390.json', 'passed', False)]
+                    (base + 'board-functional-webkit-390.json', 'passed', False),
+                    (base + 'gc-stress.json', 'deviations', [{'phase': 'target', 'index': 7}]),
+                    ('test-results/milestone-three/gc-stress.json', 'ok', False),
+                    ('test-results/milestone-three/gc-stress.json', 'iterations', 50),
+                    ('test-results/milestone-three/gc-stress.json', 'gcStats', [1, 10, True]),
+                    (base + 'gc-stress.json', 'replayPrograms', 1),
+                    (base + 'validation-boundary-same-source.json', 'passed', False)]
                 for name, key, value in cases:
                     with self.subTest(report=name, key=key):
                         mutated = copy.deepcopy(reports); mutated[name][key] = value; emit(mutated)
                         with self.assertRaises(AssertionError): stack_acceptance.verify(root / 'artifact', 'head')
                 emit(reports)
                 (root / 'test-results/precompiled-stack/measure.json').unlink()
+                with self.assertRaises(FileNotFoundError): stack_acceptance.verify(root / 'artifact', 'head')
+                emit(reports)
+                (root / 'test-results/milestone-three/gc-stress.json').unlink()
                 with self.assertRaises(FileNotFoundError): stack_acceptance.verify(root / 'artifact', 'head')
 
 if __name__ == '__main__': unittest.main()

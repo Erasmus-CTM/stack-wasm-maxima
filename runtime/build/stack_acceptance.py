@@ -52,5 +52,17 @@ def verify(artifact, revision):
     graphics += [base + 'board-transfer-chromium.json']
     for path in graphics:
         assert read(path)['passed'] is True, path
+    # Frequent collection exposes collector-invisible pointers. Both the
+    # opt-in compiled controller and the source-loaded default must replay
+    # every captured program, plus the exact [1,1] validation, unchanged.
+    stress = {}
+    for name, path in (('compiled', base + 'gc-stress.json'), ('source', 'test-results/milestone-three/gc-stress.json')):
+        gc = read(path)
+        assert gc['ok'] is True and gc['deviations'] == [], path
+        assert gc['divisor'] >= 1000 and gc['iterations'] >= 400 and gc['targetPrograms'] >= 1, path
+        assert gc['replayPrograms'] == 316 and gc['rounds'] >= 1 and gc['gcStats'][1] >= gc['iterations'], path
+        stress[name] = {'collections': gc['gcStats'][1], 'iterations': gc['iterations'], 'replayPrograms': gc['replayPrograms']}
+    for kind in ('independent', 'same-source'):
+        assert read(base + 'validation-boundary-' + kind + '.json')['passed'] is True, kind
     return {'passed': True, 'sourceRevision': revision, 'compilerProofs': proofs,
-            'controllerPrograms': 316, 'restarts': 24, 'reports': records}
+            'controllerPrograms': 316, 'restarts': 24, 'gcStress': stress, 'reports': records}
