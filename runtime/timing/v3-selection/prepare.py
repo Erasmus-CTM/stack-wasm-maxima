@@ -35,6 +35,11 @@ frozen=work/'frozen'
 subprocess.run([sys.executable,str(HERE.parent/'full-table-guarded/prepare.py'),
  '--old-trusted-root',str(a.old_trusted_root.resolve()),'--candidate-trusted-root',str(a.frozen_candidate_root.resolve()),
  '--benchmark-root',str(benchmark),'--work-root',str(frozen)],check=True)
+control_records=[]
+for name in ('bindings.json','ecl-oz-producer-api.json','ecl-oz-zip-inventory.json','ecl-oz-admission.json'):
+ original=frozen/'evidence'/name;dest=out/'frozen-control'/name
+ dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(original,dest)
+ control_records.append({'path':dest.relative_to(out).as_posix(),**record(dest)})
 old=read(frozen/'evidence/admission.json')['profiles']['ecl-oz']
 run=api(f"/actions/runs/{source['runId']}")
 assert run['status']=='completed' and run['conclusion']=='success' and run['run_attempt']==source['runAttempt']
@@ -95,5 +100,6 @@ for path in [benchmark/'.github/workflows/v3-selection.yml',*sorted(HERE.rglob('
  files.append({'path':relative,**record(path)})
 emit(out,'tool-sources.json',files)
 emit(out,'admission.json',{'schema':1,'passed':True,'benchmark':identity,'profiles':profiles,'nativePrograms':programs,
+ 'controlProducerEvidence':control_records,
  'sharedWorkload':{'source':source,'capture':new['nativeCapture'],'scope':'Identical current captured rational prepare/validate/PRT programs on both admitted runtime profiles; their shared current classifier is staged before timing.'},
  'scope':'Old and repaired runtime packages independently admitted; full producer acceptance required; current source integration shared. No runtime rebuild or reassigned benchmark identity.'})
