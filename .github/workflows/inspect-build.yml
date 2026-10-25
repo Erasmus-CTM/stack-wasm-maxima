@@ -1,0 +1,32 @@
+name: Inspect complete source-path build evidence
+on:
+  push:
+    branches: [evidence/maxima-oz-production]
+    paths:
+      - .github/workflows/inspect-build.yml
+      - runtime/timing/build-audit/**
+permissions:
+  actions: read
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for retained build evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh run watch 40169665328 --interval 30 || true
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40169665328'
+          path: raw
+          merge-multiple: true
+      - run: python runtime/timing/build-audit/compact.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-path-build-evidence
+          path: compact/
+          include-hidden-files: true
