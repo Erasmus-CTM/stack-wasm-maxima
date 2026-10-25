@@ -1,4 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// This bounds the whole correctness workload, including 100 full collections.
+// It is independent of the measured startup latency and the D8 20-second wish.
+export function timingWatchdogMs(cpuLimit) {
+ if (!cpuLimit || cpuLimit === 'unrestricted') return 300000;
+ if (cpuLimit === 'systemd CPUQuota=25%') return 4 * 300000;
+ throw new Error('Unrecognized timing CPU limit: ' + cpuLimit);
+}
 export const timingWorker=`importScripts('runtime/maxima-session.js');
 self.onmessage=async({data})=>{let session;try {
  session=new MaximaSession({baseURL:'./maxima-runtime/',stackSourceURL:'./stack-sources.json'});

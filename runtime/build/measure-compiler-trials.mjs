@@ -5,7 +5,7 @@ import {resolve,join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {chromium} from 'playwright';
 import {serveDemo} from '../../scripts/milestone-two/serve.mjs';
-import {timingWorker} from './timing-worker.mjs';
+import {timingWorker,timingWatchdogMs} from './timing-worker.mjs';
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 // CTM_TIMING_REPETITIONS alternating repetitions of CTM_TIMING_PROFILES (all
 // admitted profiles are still verified). CTM_TIMING_LABEL names a run made
@@ -14,10 +14,11 @@ const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const repetitions=Number(process.env.CTM_TIMING_REPETITIONS||2);
 const timed=(process.env.CTM_TIMING_PROFILES||'baseline,ecl-oz,ecl-o2').split(',');
 const label=process.env.CTM_TIMING_LABEL||'';
+const watchdogMs=timingWatchdogMs(process.env.CTM_TIMING_CPU_LIMIT);
 const root=resolve('.cache/compiler-trials'),output=join(root,'comparison',label?`timings-${label}.json`:'timings.json');
 const admissionBytes=await readFile(join(root,'comparison/admission.json'));
 const admission=JSON.parse(admissionBytes);
-const report={schema:1,passed:false,admissionSha256:hash(admissionBytes),samples:[],repetitions,profiles:timed,label:label||null,
+const report={schema:1,passed:false,admissionSha256:hash(admissionBytes),samples:[],repetitions,profiles:timed,label:label||null,watchdogMs,
  cpuLimit:process.env.CTM_TIMING_CPU_LIMIT||null,
  toolchain:{node:process.version,zlib:process.versions.zlib,platform:process.platform,arch:process.arch},
  runnerImage:Object.fromEntries(['ImageOS','ImageVersion','RUNNER_OS','RUNNER_ARCH'].map(k=>[k,process.env[k]||null])),
@@ -49,7 +50,7 @@ try{
    for(const mode of ['cold','warm-profile-reload']){
     const requestStart=app.requests.length;
     if(mode==='cold')await page.goto(app.baseURL+'compiler-timing.html');else await page.reload();
-    const result=await page.evaluate(programs=>new Promise(resolve=>{const worker=new Worker('compiler-timing.js');const timer=setTimeout(()=>{worker.terminate();resolve({ok:false,error:'Timing watchdog expired'})},300000);const finish=data=>{clearTimeout(timer);worker.terminate();resolve(data)};worker.onmessage=({data})=>finish(data);worker.onerror=e=>finish({ok:false,error:e.message});worker.postMessage({programs,trimPlot:true})}),programs);
+    const result=await page.evaluate(({programs,watchdogMs})=>new Promise(resolve=>{const worker=new Worker('compiler-timing.js');const timer=setTimeout(()=>{worker.terminate();resolve({ok:false,error:'Timing watchdog expired',watchdogMs})},watchdogMs);const finish=data=>{clearTimeout(timer);worker.terminate();resolve(data)};worker.onmessage=({data})=>finish(data);worker.onerror=e=>finish({ok:false,error:e.message});worker.postMessage({programs,trimPlot:true})}),{programs,watchdogMs});
     const requests=app.requests.slice(requestStart),sample={candidate,repetition,mode,...result,requests,encodedBodyBytes:requests.reduce((n,r)=>n+r.encodedBodyBytes,0)};
     report.samples.push(sample);await writeFile(output,JSON.stringify(report,null,2)+'\n');
     assert.equal(result.ok,true,result.error);assert.equal(result.nativeCalls.length,3);
