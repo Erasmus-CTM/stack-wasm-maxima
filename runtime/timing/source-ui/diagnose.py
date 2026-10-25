@@ -8,7 +8,7 @@ b="""        const targetDiagnostic = question.name === 'A graphical PythonCheck
 assert s.count(a)==1;s=s.replace(a,b)
 a="            ['feedback','simplode(_ctm_lines,\" \")'], ['source','if _ctm_good then string(ev(_ctm_s,simp)) else \"\"']])"
 b="""            ['feedback','simplode(_ctm_lines," ")'], ['source','if _ctm_good then string(ev(_ctm_s,simp)) else ""'],
-            ...(targetDiagnostic ? [['diagnostic','if _ctm_good then false else [errormsgtostring(),string(%ERR),string(%NOTES),_ctm_validation_stage,ctm_validation_trace]']] : [])])"""
+            ...(targetDiagnostic ? [['diagnostic','[errormsgtostring(),string(%ERR),string(%NOTES),_ctm_validation_stage,ctm_validation_trace]']] : [])])"""
 assert s.count(a)==1;s=s.replace(a,b)
 a="        checks.push([input.name, block(['_ctm_s'"
 b="""        const observedChecks = targetDiagnostic ? learnerChecks.flatMap((check,index)=>['_ctm_validation_stage:'+quote('step-'+index),check]) : learnerChecks;
@@ -16,7 +16,7 @@ b="""        const observedChecks = targetDiagnostic ? learnerChecks.flatMap((ch
 assert s.count(a)==1;s=s.replace(a,b)
 a="          '%ERR:[\"stack_map\"]','%NOTES:[\"stack_map\"]','%FEEDBACK:[\"stack_map\"]'], ["
 b="""          '%ERR:["stack_map"]','%NOTES:["stack_map"]','%FEEDBACK:["stack_map"]',
-          ...(targetDiagnostic ? ['_ctm_validation_stage:"before-student"','ctm_capture_validation:true'] : [])], ["""
+          ...(targetDiagnostic ? ['_ctm_validation_stage:"before-student"'] : [])], ["""
 assert s.count(a)==1;s=s.replace(a,b)
 a="          '_ctm_r:errcatch(' + block([],learnerChecks) + ')',"
 b="          '_ctm_r:errcatch(' + block([],observedChecks) + ')',"

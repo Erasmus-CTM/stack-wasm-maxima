@@ -1,4 +1,4 @@
-name: Capture the exact caught source validation condition
+name: Capture source failure at the ECL error signaling boundary
 'on':
   push:
     branches:
@@ -173,7 +173,7 @@ jobs:
           --stack-source .site-sources/stack --output test-results/milestone-three/native-reference
     - name: Repeat the exact-case diagnostic on fresh source workers
       run: |
-        for repetition in $(seq 2 15); do
+        for repetition in $(seq 2 10); do
           node scripts/milestone-three/browser.mjs site/_site "test-results/milestone-three/repetition-$repetition"
           python scripts/milestone-three/native-reference.py --browser-report "test-results/milestone-three/repetition-$repetition/browser.json" \
             --stack-source .site-sources/stack --output "test-results/milestone-three/repetition-$repetition/native-reference"
