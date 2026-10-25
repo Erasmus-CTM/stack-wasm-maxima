@@ -1,0 +1,37 @@
+name: Extract compact compiler selection evidence
+on:
+  push:
+    branches: [evidence/maxima-oz-production]
+    paths:
+      - .github/workflows/inspect-selection.yml
+      - runtime/timing/selection-audit/**
+permissions:
+  actions: read
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        run: ['40169306303', '40169523214', '40169223514']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for producer completion
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh run watch '${{ matrix.run }}' --interval 60 || true
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ matrix.run }}
+          path: raw
+          merge-multiple: true
+      - name: Preserve sample bytes and reduce tracing to compiler events
+        run: python runtime/timing/selection-audit/compact.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compact-selection-${{ matrix.run }}
+          path: compact/
+          include-hidden-files: true
