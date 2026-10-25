@@ -3,12 +3,20 @@ from collections import defaultdict
 import json,statistics
 from pathlib import Path
 
-def summarize(events, raw):
+def summarize(events, raw, calibration=None):
  markers=[e for e in events if e['name']=='clock_sync' and str(e.get('args',{}).get('sync_id','')).startswith('epoch-')]
- assert markers, [e for e in events if 'clock' in e['name'].lower()][:10]
  offsets=[float(e['args']['sync_id'][6:])-e['ts']/1000 for e in markers]
- assert max(offsets)-min(offsets)<2, [(e.get('args'),e['ts']) for e in markers]
- offset=statistics.median(offsets)
+ if offsets:
+  assert max(offsets)-min(offsets)<2
+  offset=statistics.median(offsets)
+ else:
+  assert calibration, 'No retained clock marker or independent Performance.Timestamp calibration'
+  assert 0<=calibration['afterEpochMs']-calibration['beforeEpochMs']<=20
+  offset=(calibration['beforeEpochMs']+calibration['afterEpochMs'])/2-calibration['timestampSeconds']*1000
+ if calibration and offsets:
+  independent=(calibration['beforeEpochMs']+calibration['afterEpochMs'])/2-calibration['timestampSeconds']*1000
+  assert abs(independent-offset)<20, 'Clock domains disagree'
+
  windows=[]
  for p in raw.glob('trials/*/sample.json'):
   s=json.loads(p.read_bytes())
@@ -40,4 +48,4 @@ def summarize(events, raw):
     t=end
    if count:contexts.append({'pid':key[0],'tid':key[1],'id':key[2],'selectedSamples':count,'sampledMs':total,'nodes':len(p['nodes'])})
   result.append({**w,'contexts':contexts,'leafFrames':sorted([{'functionName':k[0],'url':k[1],**v} for k,v in groups.items()],key=lambda v:-v['sampledMs'])[:80]})
- return {'schema':1,'diagnosticOnly':True,'method':'Chrome Profile/ProfileChunk startTime plus cumulative timeDeltas, calibrated to one recorded epoch clock_sync marker. Each delta interval is clipped to the measured first-positive-grade wall window. Leaf-frame weights are sampled wall intervals per CPU context, not additive CPU time across threads. Instrumented n3 only.','profileFormatPreview':preview,'windows':result}
+ return {'schema':1,'diagnosticOnly':True,'method':'Chrome Profile/ProfileChunk startTime plus cumulative timeDeltas, calibrated to one recorded epoch clock_sync marker. Each delta interval is clipped to the measured first-positive-grade wall window. Leaf-frame weights are sampled wall intervals per CPU context, not additive CPU time across threads. Instrumented n3 only.','calibration':calibration,'retainedClockMarkers':markers,'profileFormatPreview':preview,'windows':result}

@@ -13,7 +13,7 @@ for p in raw.rglob('*'):
   markers=[e for e in events if e['name']=='clock_sync']
   wasm=[e for e in events if any(x in e['name'].lower() for x in ('wasm','compile','gc','clock_sync'))]
   if any(e['name']=='ProfileChunk' for e in events):
-   summary=summarize(events,raw)
+   summary=summarize(events,raw,d.get('calibration'))
    (out/(p.stem+'-cpu-summary.json')).write_text(json.dumps(summary,indent=2)+'\n')
    print(json.dumps({'cpuTrace':str(rel),'windows':[(w['sample'],w['contexts'],w['leafFrames'][:5]) for w in summary['windows']]}))
   value={'pair':d['pair'],'counts':dict(counts),'clockSync':markers,'events':wasm}

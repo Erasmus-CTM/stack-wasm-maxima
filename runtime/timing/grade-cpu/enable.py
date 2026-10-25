@@ -4,16 +4,20 @@ r=Path('.cache/full-timing-table-guarded/tools')
 p=r/'run.mjs';s=p.read_text()
 a="""        await cdp.send('Tracing.start',{categories:'v8,wasm,devtools.timeline,disabled-by-default-v8.wasm.detailed',transferMode:'ReportEvents'});
         const syncBefore=Date.now();await cdp.send('Tracing.recordClockSyncMarker',{syncId:'epoch-'+syncBefore});"""
-b="""        let tracingStarted=false;
+b="""        let tracingStarted=false,calibration;
         await page.exposeFunction('ctmGradeTrace',async({kind,runId})=>{
           if(kind==='begin'){
             assert.equal(tracingStarted,false);trace=[];tracingStarted=true;
             await cdp.send('Tracing.start',{categories:'v8,wasm,devtools.timeline,disabled-by-default-v8.wasm.detailed,disabled-by-default-v8.cpu_profiler',transferMode:'ReportEvents'});
             await cdp.send('Tracing.recordClockSyncMarker',{syncId:'epoch-'+Date.now()});
+            const clock=await page.context().newCDPSession(page);await clock.send('Performance.enable');
+            const beforeEpochMs=Date.now(),metrics=await clock.send('Performance.getMetrics'),afterEpochMs=Date.now();
+            calibration={beforeEpochMs,afterEpochMs,timestampSeconds:metrics.metrics.find(m=>m.name==='Timestamp').value};
+            await clock.detach();
           }else{
             assert.equal(tracingStarted,true);
             const completed=new Promise(r=>cdp.once('Tracing.tracingComplete',r));await cdp.send('Tracing.end');await completed;tracingStarted=false;
-            await writeFile(join(output,'trace-'+pair.pair+'-'+runId+'.json'),JSON.stringify({diagnosticOnly:true,scope:'CPU around one first positive grade only; no startup or later controls in this trace',pair,runId,traceEvents:trace}));
+            await writeFile(join(output,'trace-'+pair.pair+'-'+runId+'.json'),JSON.stringify({diagnosticOnly:true,scope:'CPU around one first positive grade only; no startup or later controls in this trace',pair,runId,calibration,traceEvents:trace}));
           }
           return true;
         });"""
