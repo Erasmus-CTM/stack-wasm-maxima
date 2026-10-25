@@ -66,9 +66,11 @@ ECL_INJECTED_FLAGS=$(python "$ROOT/runtime/build/compiler_profile.py" --emcc-fla
  strace -f -qq -e trace=execve -e signal=none -s 1048576 -o "$WORK/logs/ecl-exec.log" make --output-sync=target -f "$MAKE_RECIPE" -j2 ecl-emscripten
 ) 2>&1 | tee "$WORK/logs/ecl-cross-build.log"
 cat "$WORK/logs/ecl-exec.log" >> "$WORK/logs/ecl-cross-build.log"
-# Target-info carries raw upstream CFLAGS, not the injected experiment. Keep
-# it unchanged so Maxima still uses its original generated-Lisp optimization.
+# Target-info always retains raw upstream CFLAGS. Only the explicitly selected
+# Maxima experiment injects a separate override into this process environment.
 unset EMCC_CFLAGS
+MAXIMA_INJECTED_FLAGS=$(python "$ROOT/runtime/build/compiler_profile.py" --maxima-emcc-flags)
+if [[ -n "$MAXIMA_INJECTED_FLAGS" ]]; then export EMCC_CFLAGS="$MAXIMA_INJECTED_FLAGS"; fi
 export EMCC_VERBOSE=1
 build_maxima_phase() {
 targets=(maxima-ecl-combined/maxima.wasm maxima-ecl-combined/libecl.so maxima-ecl-combined/maxima_thread.js maxima-ecl-combined/share_files.js)
@@ -86,7 +88,7 @@ export -f build_maxima_phase
 strace -f -qq -e trace=execve -e signal=none -s 1048576 -o "$WORK/logs/maxima-exec.log" bash -euo pipefail -c build_maxima_phase 2>&1 | tee "$WORK/logs/maxima-cross-build.log"
 cat "$WORK/logs/maxima-exec.log" >> "$WORK/logs/maxima-cross-build.log"
 unset -f build_maxima_phase
-unset EMCC_VERBOSE
+unset EMCC_CFLAGS EMCC_VERBOSE
 python "$ROOT/runtime/build/check-compiler-experiment.py"
 test ! -e ../src/binary-ecl/wasm32-emscripten/maxima/plot.fasb
 test ! -e maxima-ecl-combined/maxima-plot.fas

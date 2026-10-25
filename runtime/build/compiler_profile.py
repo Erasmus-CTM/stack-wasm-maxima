@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-"""Controlled ECL-only experiments; never edit upstream configure or Lisp policy."""
+"""Explicit compiler experiments; never edit upstream configure or Lisp policy."""
 import json
 import os
 from pathlib import Path
@@ -21,7 +21,9 @@ def production_name():
 
 def compiler_profile(name=None):
     name = name or os.environ.get('CTM_ECL_COMPILER_PROFILE', 'baseline')
-    selected = profiles()['profiles'].get(name)
+    catalog = profiles()
+    assert not (set(catalog['profiles']) & set(catalog.get('experimentalProfiles', {})))
+    selected = {**catalog['profiles'], **catalog.get('experimentalProfiles', {})}.get(name)
     if selected is None:
         raise ValueError('Unknown ECL compiler experiment: ' + name)
     return selected
@@ -32,5 +34,7 @@ if __name__ == '__main__':
     profile = compiler_profile()
     if len(sys.argv) > 1 and sys.argv[1] == '--production':
         print(production_name())
+    elif len(sys.argv) > 1 and sys.argv[1] == '--maxima-emcc-flags':
+        print(profile.get('maximaInjectedEmccFlags') or '')
     else:
         print((profile['injectedEmccFlags'] or '') if len(sys.argv)>1 and sys.argv[1]=='--emcc-flags' else json.dumps(profile))

@@ -1,7 +1,8 @@
 {
   "schema": 1,
   "directories": [
-    "runtime/build"
+    "runtime/build",
+    "runtime/precompiled"
   ],
   "files": [
     ".gitattributes",
@@ -23,6 +24,7 @@
     "prototype/runtime/maxima-child.js",
     "scripts/milestone-two/serve.mjs",
     "package.json",
-    "package-lock.json"
+    "package-lock.json",
+    ".github/workflows/runtime-production.yml"
   ]
 }

@@ -98,6 +98,12 @@ jobs:
           assert acceptance['passed'] is True, acceptance.get('failure')
           assert acceptance['compilerProfile'] == expected == manifest['compilerProfile']
           assert acceptance['artifactManifestSha256'] == hashlib.sha256(manifest_bytes).hexdigest()
+          if expected['name'] == 'ecl-oz-maxima-oz':
+              stack = acceptance['stackAcceptance']
+              assert stack['passed'] is True and stack['sourceRevision'] == os.environ['GITHUB_SHA']
+              assert stack['controllerPrograms'] == 316 and stack['restarts'] == 24
+              assert {p['stackRevision'] for p in stack['compilerProofs']} == set(manifest['sourcePins']['stack'])
+              assert all(p['passed'] is True and p['runtimeManifest']['sha256'] == acceptance['artifactManifestSha256'] for p in stack['compilerProofs'])
           revision, recipe = committed_recipe(repository)
           assert revision == os.environ['GITHUB_SHA'] == manifest['recipe']['revision']
           assert manifest['recipe']['files'] == recipe

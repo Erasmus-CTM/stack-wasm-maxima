@@ -9,7 +9,7 @@ import shlex
 import shutil
 import subprocess
 import sys
-from compiler_profile import profiles
+from compiler_profile import profiles, compiler_profile
 from compiler_evidence import derive, digest, verify_packaged, MODULES, commands, config_assignments
 
 REQUIRE_STRACE='--require-strace' in sys.argv
@@ -41,8 +41,8 @@ def traces(profile):
     for auxiliary in ['ecl-cdb.fas','ecl-help.fas','serve-event.fas','package-locks.fas']:
         ecl+=link(auxiliary,auxiliary)
     prefix='/repo/sources/maxima/src/binary-ecl/wasm32-emscripten'
-    maxima=compile(prefix+'/maxima/residu.c','residu.o','-O0 -O2','-O2',True)
-    maxima+=compile('/tmp/eclinitMAX.c','init-max.o','-O0 -O2','-O2',True)
+    maxima=compile(prefix+'/maxima/residu.c','residu.o','-O0 -O2',profile['maximaGeneratedOptimization'],True)
+    maxima+=compile('/tmp/eclinitMAX.c','init-max.o','-O0 -O2',profile['maximaGeneratedOptimization'],True)
     maxima+=link(prefix+'/maxima.html',prefix+'/maxima.wasm')
     for module in MODULES:
         maxima+=link(prefix+'/maxima/'+module+'.fasb',prefix+'/maxima/'+module+'.fasb')
@@ -64,6 +64,23 @@ def packaged(root, profile):
 
 
 class CompilerEvidence(unittest.TestCase):
+    def test_explicit_maxima_oz_does_not_expand_the_standard_comparison(self):
+        catalog=profiles()
+        self.assertEqual(set(catalog['profiles']), {'baseline','ecl-oz','ecl-o2'})
+        self.assertEqual(catalog['production'], 'ecl-oz')
+        for profile in catalog['profiles'].values():
+            self.assertNotIn('maximaInjectedEmccFlags',profile)
+            self.assertEqual(profile['maximaGeneratedOptimization'],'-O2')
+        profile=compiler_profile('ecl-oz-maxima-oz')
+        ecl,maxima=traces(profile)
+        result=derive(CONFIG,TARGET,ecl,maxima,profile)
+        self.assertTrue(all(row['optimization']=='-Oz' for row in result['maximaGeneratedUnits']))
+        for wrong in ['-O0','-O2','-O3']:
+            with self.assertRaises(AssertionError):
+                derive(CONFIG,TARGET,ecl,maxima.replace(b'-Oz',wrong.encode()),profile)
+        with self.assertRaises(AssertionError):
+            derive(CONFIG,TARGET,ecl,maxima,compiler_profile('ecl-oz'))
+
     def test_relative_sdk_source_requires_both_exact_root_anchors(self):
         anchors=['-ffile-prefix-map=/repo/sources/emsdk/upstream/emscripten=/emsdk/emscripten',
                  '-ffile-prefix-map=../../..=/emsdk/emscripten','-fdebug-compilation-dir=/emsdk/emscripten']
