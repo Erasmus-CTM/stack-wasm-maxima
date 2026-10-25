@@ -1,0 +1,96 @@
+name: Replay failed source controller history without rebuilding
+'on':
+  push:
+    branches: [evidence/maxima-oz-production]
+    paths:
+      - .github/workflows/source-replay.yml
+      - runtime/timing/source-replay/**
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: source-replay-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: false
+env:
+  PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/playwright
+jobs:
+  compare:
+    if: github.repository == 'Erasmus-CTM/stack-wasm-maxima' && github.event_name == 'push' && github.ref == 'refs/heads/evidence/maxima-oz-production'
+    runs-on: ubuntu-24.04
+    # 36 measurements x300s worst-case =180min, plus admission/setup/upload.
+    timeout-minutes: 360
+    steps:
+      - name: Check out the accepted old producer recipe
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31
+          path: old-trusted
+          persist-credentials: false
+      - name: Check out the exact candidate producer recipe
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: 58cf269f303898a7b679d9d164346fbb9384b781
+          path: candidate-trusted
+          persist-credentials: false
+      - name: Check out this independently reviewed benchmark
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          path: benchmark
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Admit exact original packages and matching FAS inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python benchmark/runtime/timing/full-table-guarded/prepare.py \
+            --old-trusted-root "$PWD/old-trusted" --candidate-trusted-root "$PWD/candidate-trusted" \
+            --benchmark-root "$PWD/benchmark" --work-root "$PWD/.cache/full-timing-table-guarded"
+      - name: Install the pinned guarded Chromium harness
+        run: |
+          cmp old-trusted/package-lock.json candidate-trusted/package-lock.json
+          npm ci --prefix old-trusted --ignore-scripts --no-audit --no-fund
+          old-trusted/node_modules/.bin/playwright install --with-deps chromium
+          mkdir -p .cache/full-timing-table-guarded/tools
+          for timing_tool in run.mjs clean-probe-worker.js derive-startup-observer.mjs startup-observer.jsfrag; do
+            cp "benchmark/runtime/timing/full-table-guarded/$timing_tool" .cache/full-timing-table-guarded/tools/
+          done
+          ln -s "$PWD/old-trusted/node_modules" .cache/full-timing-table-guarded/tools/node_modules
+          node --version > .cache/full-timing-table-guarded/evidence/node-version.txt
+          old-trusted/node_modules/.bin/playwright --version > .cache/full-timing-table-guarded/evidence/playwright-version.txt
+      - name: Record runner hardware outside measurements
+        run: |
+          node --input-type=module <<'JS'
+          import os from 'node:os';
+          import {writeFileSync} from 'node:fs';
+          const cpus=os.cpus();
+          writeFileSync('.cache/full-timing-table-guarded/evidence/runner-hardware.json',JSON.stringify({
+            schema:1,observedBeforeMeasurement:true,platform:os.platform(),release:os.release(),arch:os.arch(),
+            logicalCPUCount:cpus.length,cpuModels:[...new Set(cpus.map(cpu=>cpu.model))],
+            availableParallelism:os.availableParallelism(),totalMemoryBytes:os.totalmem(),
+            scope:'Untimed host metadata, not CPU sampling or cross-run timing normalization.'
+          },null,2)+'\n');
+          JS
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40169665328'
+          path: failed-build
+          merge-multiple: true
+      - name: Replay exact source browser CAS history on old, admitted candidate and fresh failed build
+        run: |
+          cp benchmark/runtime/timing/source-replay/run.mjs .cache/full-timing-table-guarded/tools/replay.mjs
+          node .cache/full-timing-table-guarded/tools/replay.mjs
+      - name: Preserve raw and partial evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: source-controller-replay-${{ github.sha }}-${{ github.run_attempt }}
+          include-hidden-files: true
+          if-no-files-found: error
+          path: replay-evidence/report.json
