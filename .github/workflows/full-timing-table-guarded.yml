@@ -1,7 +1,7 @@
-name: Compare all six guarded Maxima and STACK timing cells
+name: Select production Maxima Oz with balanced source STACK trials
 'on':
   push:
-    branches: [timing/e8ad-six-cell-guarded]
+    branches: [evidence/maxima-oz-production]
     paths:
       - .github/workflows/full-timing-table-guarded.yml
       - runtime/timing/full-table-guarded/**
@@ -15,10 +15,10 @@ env:
   PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/playwright
 jobs:
   compare:
-    if: github.repository == 'Erasmus-CTM/stack-wasm-maxima' && github.event_name == 'push' && github.ref == 'refs/heads/timing/e8ad-six-cell-guarded'
+    if: github.repository == 'Erasmus-CTM/stack-wasm-maxima' && github.event_name == 'push' && github.ref == 'refs/heads/evidence/maxima-oz-production'
     runs-on: ubuntu-24.04
     # 36 measurements x300s worst-case =180min, plus admission/setup/upload.
-    timeout-minutes: 240
+    timeout-minutes: 360
     steps:
       - name: Check out the accepted old producer recipe
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -84,8 +84,19 @@ jobs:
             --old-trusted-root "$PWD/old-trusted" --candidate-trusted-root "$PWD/candidate-trusted" \
             --profiles-root "$PWD/.cache/full-timing-table-guarded/profiles" \
             --admission "$PWD/.cache/full-timing-table-guarded/evidence/admission.json" \
-            --output "$PWD/.cache/full-timing-table-guarded/evidence" --repetitions 3 \
+            --output "$PWD/.cache/full-timing-table-guarded/evidence" --repetitions 10 \
             2>&1 | tee .cache/full-timing-table-guarded/evidence/run.log
+      - name: Measure D8 reference with aggregate CPUQuota=25%
+        timeout-minutes: 190
+        env:
+          CTM_TIMING_CPU_LIMIT: systemd CPUQuota=25%
+        run: |
+          sudo -E systemd-run --scope --quiet -p CPUQuota=25% --uid="$(id -u)" --gid="$(id -g)" \
+            -- "$(command -v node)" .cache/full-timing-table-guarded/tools/run.mjs \
+            --old-trusted-root "$PWD/old-trusted" --candidate-trusted-root "$PWD/candidate-trusted" \
+            --profiles-root "$PWD/.cache/full-timing-table-guarded/profiles" \
+            --admission "$PWD/.cache/full-timing-table-guarded/evidence/admission.json" \
+            --output "$PWD/.cache/full-timing-table-guarded/evidence/cpu-quarter" --repetitions 10
       - name: Preserve raw and partial evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

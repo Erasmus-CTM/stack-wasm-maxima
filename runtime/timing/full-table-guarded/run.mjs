@@ -32,10 +32,10 @@ export function validateAdmission(admission,profile,manifest){
 }
 export function trialPlan(repetitions){
   assert.ok(Number.isSafeInteger(repetitions)&&repetitions>=3&&repetitions<=10,'At least three repetitions required');
-  const pairs=[];
+  const pairs=[], selected=['ecl-oz','ecl-oz-maxima-oz'];
   for(let repetition=1;repetition<=repetitions;repetition++){
-    const offset=(repetition-1)%profiles.length,order=[...profiles.slice(offset),...profiles.slice(0,offset)];
-    for(const profile of order)for(const candidate of (repetition+profiles.indexOf(profile))%2?['source','precompiled']:['precompiled','source'])pairs.push({pair:pairs.length+1,repetition,profile,candidate,modes:['cold','warm-profile-reload']});
+    const order=repetition%2?selected:[...selected].reverse();
+    for(const profile of order)pairs.push({pair:pairs.length+1,repetition,profile,candidate:'source',modes:['cold','warm-profile-reload']});
   }
   return pairs;
 }
@@ -118,7 +118,7 @@ async function main(){
   const args={};for(let i=2;i<process.argv.length;i+=2){assert.ok(process.argv[i]?.startsWith('--')&&process.argv[i+1]);args[process.argv[i]]=process.argv[i+1];}
   for(const key of ['--old-trusted-root','--candidate-trusted-root','--profiles-root','--admission','--output'])assert.ok(args[key],key+' required');
   const oldRoot=resolve(args['--old-trusted-root']),candidateRoot=resolve(args['--candidate-trusted-root']),profilesRoot=resolve(args['--profiles-root']),output=resolve(args['--output']),repetitions=Number(args['--repetitions']||3),plan=trialPlan(repetitions);
-  await mkdir(output,{recursive:true});const report={schema:1,diagnosticOnly:true,acceptance:false,passed:false,startedAt:new Date().toISOString(),repetitions,plan,plannedMeasurements:plan.length*2,watchdogMs:300000,staging:{},samples:[],skipped:[],lateTelemetry:[],scope:'Guarded matched-runner comparison of three admitted runtime profiles and source versus each profile’s own FAS. Fresh browser/profile per pair, then same-page/context reload after confirmed old CAS and probe-worker termination. Fresh probe/session/buffers on every measurement; same explicitly derived stdout-only child observer in all six cells and every restart. Original startup/session/runtime bytes unchanged. These are guarded timings, not pristine-wrapper timings; marker parsing/one bounded receipt add shared overhead. No TRACE, CPU profiler or FS observer. Existing marker order and no matched fatal do not prove a same-evaluation root-load return. Warm calls reuse that measurement’s worker. Rotating order limits but does not remove cache/runner variation. n3 medians are descriptive, not a statistical speedup or default promotion. Combined readiness/logical/positive is a synthetic sum of measured blocks, not complete UI latency.'};
+  await mkdir(output,{recursive:true});const report={schema:1,diagnosticOnly:true,acceptance:false,passed:false,startedAt:new Date().toISOString(),repetitions,cpuLimit:process.env.CTM_TIMING_CPU_LIMIT||'unrestricted',plan,plannedMeasurements:plan.length*2,watchdogMs:300000,staging:{},samples:[],skipped:[],lateTelemetry:[],scope:'Guarded matched-runner comparison of three admitted runtime profiles and source versus each profile’s own FAS. Fresh browser/profile per pair, then same-page/context reload after confirmed old CAS and probe-worker termination. Fresh probe/session/buffers on every measurement; same explicitly derived stdout-only child observer in all six cells and every restart. Original startup/session/runtime bytes unchanged. These are guarded timings, not pristine-wrapper timings; marker parsing/one bounded receipt add shared overhead. No TRACE, CPU profiler or FS observer. Existing marker order and no matched fatal do not prove a same-evaluation root-load return. Warm calls reuse that measurement’s worker. Rotating order limits but does not remove cache/runner variation. n3 medians are descriptive, not a statistical speedup or default promotion. Combined readiness/logical/positive is a synthetic sum of measured blocks, not complete UI latency.'};
   const save=async()=>{report.summary=summarize(report.samples);report.lateTelemetryFailed=lateTelemetryFailed(report.lateTelemetry);if(report.lateTelemetryFailed)report.passed=false;await writeFile(join(output,'report.json'),JSON.stringify(report,null,2)+'\n');};await save();
   try{
     const body=await readFile(resolve(args['--admission'])),admission=JSON.parse(body);assert.equal(admission.passed,true);

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "repository": "Erasmus-CTM/stack-wasm-maxima",
-  "branch": "refs/heads/timing/e8ad-six-cell-guarded",
+  "branch": "refs/heads/evidence/maxima-oz-production",
   "profiles": {
     "baseline": {
       "source": {

@@ -15,7 +15,7 @@ NEW={'head':'58cf269f303898a7b679d9d164346fbb9384b781','trustedRevision':'58cf26
 
 def validate_bindings(bindings,toolroot):
  assert bindings['schema']==1 and bindings['repository']==REPOSITORY
- assert bindings['branch']=='refs/heads/timing/e8ad-six-cell-guarded'
+ assert bindings['branch']=='refs/heads/evidence/maxima-oz-production'
  assert bindings['publicationAllowed'] is True,'Template blocked: final artifact acceptance/bindings have not been authorized'
  assert set(bindings['profiles'])==set(PROFILES)
  for name,binding in bindings['profiles'].items():
