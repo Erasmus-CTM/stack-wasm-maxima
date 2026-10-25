@@ -1,0 +1,35 @@
+name: Validate the condition hook and stress the original source validation
+on:
+  push:
+    branches: [evidence/maxima-oz-production]
+    paths: [.github/workflows/validation-probe.yml, runtime/timing/validation-probe/**]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40169665328'
+          artifact-ids: '12591951822'
+          path: input
+          merge-multiple: true
+      - name: Install the pinned browser harness
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Capture injected fault and stress validation on separate fresh source workers
+        run: node runtime/timing/validation-probe/run.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation-condition-probe-${{ github.sha }}
+          path: validation-probe/report.json
