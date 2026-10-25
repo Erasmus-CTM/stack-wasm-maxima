@@ -29,12 +29,37 @@ def compiler_profile(name=None):
     return selected
 
 
+def spill_passes_setting(profile):
+    """Complete Binaryen GC pass list for a profile, or None for upstream.
+
+    Upstream ECL configure links with BINARYEN_EXTRA_PASSES=--spill-pointers.
+    That pass spills only pointer locals live across a call; an optimized call
+    result waiting on the Wasm value stack for an enclosing call is invisible
+    to the collector. --flatten first moves every such value into a local.
+    Emscripten appends EMCC_CFLAGS last, so this later setting is effective.
+    """
+    passes = profile.get('gcSpillPasses')
+    if passes is None:
+        return None
+    names = passes.split(',')
+    assert names[:2] == ['flatten', 'spill-pointers'] and all(names), 'GC passes must flatten immediately before spilling'
+    return '-sBINARYEN_EXTRA_PASSES=' + passes
+
+
+def emcc_flags(profile, key):
+    flags = [profile.get(key)] if profile.get(key) else []
+    setting = spill_passes_setting(profile)
+    if setting:
+        flags.append(setting)
+    return ' '.join(flags)
+
+
 if __name__ == '__main__':
     import sys
     profile = compiler_profile()
     if len(sys.argv) > 1 and sys.argv[1] == '--production':
         print(production_name())
     elif len(sys.argv) > 1 and sys.argv[1] == '--maxima-emcc-flags':
-        print(profile.get('maximaInjectedEmccFlags') or '')
+        print(emcc_flags(profile, 'maximaInjectedEmccFlags'))
     else:
-        print((profile['injectedEmccFlags'] or '') if len(sys.argv)>1 and sys.argv[1]=='--emcc-flags' else json.dumps(profile))
+        print(emcc_flags(profile, 'injectedEmccFlags') if len(sys.argv)>1 and sys.argv[1]=='--emcc-flags' else json.dumps(profile))

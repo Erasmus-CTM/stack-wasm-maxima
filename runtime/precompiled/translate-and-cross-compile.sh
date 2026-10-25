@@ -156,7 +156,7 @@ if [[ ${CTM_ECL_COMPILER_PROFILE:-baseline} == ecl-oz-maxima-oz ]]; then
     unset EMCC_CFLAGS EMCC_DEBUG EMCC_DEBUG_SAVE EMCC_VERBOSE
     export EMCC_CFLAGS="$(python "$ROOT/runtime/build/compiler_profile.py" --maxima-emcc-flags)"
     export EMCC_VERBOSE=1
-    test "$EMCC_CFLAGS" = -Oz
+    test "$EMCC_CFLAGS" = "-Oz -sBINARYEN_EXTRA_PASSES=flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
     strace -f -qq -e trace=execve,exit_group -e signal=none -s 1048576 \
       -o "$WORK/logs/cross-compile-exec.log" \
       "$ECL" --norc --load build.lisp \

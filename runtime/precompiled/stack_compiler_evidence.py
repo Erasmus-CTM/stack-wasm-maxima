@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'runtime/build'))
 from compiler_profile import compiler_profile
 from compiler_evidence import (commands, config_assignments, c_compiles, digest,
-                               link_evidence, relevant_compiles, same_source,
+                               gc_passes, link_evidence, relevant_compiles, same_source,
                                verify_packaged, LINK_FIELDS)
 from bundle_provenance import record
 from parser_bootstrap import PINNED_SOURCES
@@ -81,7 +81,7 @@ def derive(config, target, printed, execution, profile, pin):
     for row in observed:
         assert any(r['executed'] and same_source(r['input'], row['input']) and same_source(r['output'], row['output']) for r in raw), 'Missing executed compiler driver'
         assert any(same_source(r['input'], row['input']) and same_source(r['output'], row['output']) for r in actual), 'Printed clang has no successful execution'
-    links = link_evidence([r for r in rows if r['executed']], build + '/sources/maxima/wasm', [delivered])
+    links = link_evidence([r for r in rows if r['executed']], build + '/sources/maxima/wasm', [delivered], gc_passes(profile))
     outputs = {row['wasmOutput'] for row in links['targetLinks']}
     # The final bundle cannot stand in for either intermediate. Require both
     # distinct source-specific temporary outputs in this exact target directory.

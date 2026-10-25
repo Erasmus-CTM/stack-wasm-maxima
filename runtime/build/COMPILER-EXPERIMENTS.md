@@ -30,6 +30,18 @@ link invocations; this is an ECL target experiment, not a claim that every Wasm
 component uses one optimization level. Original configure flags and installed
 target-info remain unchanged and are preserved alongside the effective traces.
 
+The experimental `ecl-oz-maxima-oz` profile also sets `gcSpillPasses`. Plain
+`--spill-pointers` spills only pointer locals live after a call; a pointer
+waiting on the Wasm value stack for an enclosing call stays invisible to the
+collector, which caused the source validation failure recorded in
+`measurements/2026-10-25-maxima-oz-selection/gc-root-cause/`. The profile's
+injected flags add `-sBINARYEN_EXTRA_PASSES=flatten,spill-pointers,...`, which
+Emscripten applies after ECL's upstream setting, to the ECL, Maxima and compiled
+STACK phases. Compiler evidence requires that exact contiguous sequence, after
+the optimization passes and with no other spill pass, in the executed
+`wasm-opt` argv of every delivered target. The standard profiles keep the
+upstream pass unchanged.
+
 `EMCC_VERBOSE=1` records actual clang and wasm-opt subprocess commands without
 debug mode's large retained temporary trees. `VERBOSE=1` exposes ECL core make
 commands. Separate ECL and Maxima phase logs distinguish raw make/emcc argv

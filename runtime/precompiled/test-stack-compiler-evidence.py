@@ -22,6 +22,9 @@ fixtures = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(fixtures)
 
 
+GC_SEQUENCE = ['--' + name for name in compiler_profile(NAME)['gcSpillPasses'].split(',')]
+
+
 def traces(pin, base='/repo/.cache/runtime-build'):
     cc = base + '/sources/emsdk/upstream/emscripten/emcc'
     clang = base + '/sources/emsdk/upstream/bin/clang'
@@ -40,9 +43,10 @@ def traces(pin, base='/repo/.cache/runtime-build'):
         command([clang, '-Oz', '-c', source, '-o', output])
     for output in [directory+'display2d-bridge-tmpX.fas', directory+'stackmaxima-tmpY.fas',
                    directory+'ctm-stackmaxima-'+pin[:7]+'.fasb']:
+        # The candidate's passes arrive through EMCC_CFLAGS, not driver argv.
         command([cc, '-o', output, '-sSIDE_MODULE', '-sSTACK_SIZE=33554432',
                  '-sBINARYEN_EXTRA_PASSES=--spill-pointers', 'unit.o'], ';;; ')
-        command([opt, '--spill-pointers', output, '-o', output])
+        command([opt, '--post-emscripten', '-Oz', *GC_SEQUENCE, '--no-stack-ir', output, '-o', output])
     config = fixtures.CONFIG.replace(b'/repo', base.encode())
     return config, fixtures.TARGET, ('\n'.join(printed)+'\n').encode(), ('\n'.join(executed)+'\n').encode()
 
@@ -88,6 +92,18 @@ class StackCompilerEvidence(unittest.TestCase):
                  execution.replace(('ctm-stackmaxima-'+pin[:7]).encode(), b'ctm-stackmaxima-wrong'),
                  b'\n'.join(line for line in execution.splitlines() if b'/emcc"' not in line)]
         for bad in cases:
+            with self.assertRaises(AssertionError):
+                derive(config, target, printed, bad, self.profile, pin)
+
+    def test_stack_fas_requires_flatten_before_spill_on_every_link(self):
+        pin = self.pins[0]
+        config, target, printed, execution = traces(pin)
+        cases = [execution.replace(b'"--flatten", ', b''),
+                 execution.replace(b'"--flatten", "--spill-pointers"', b'"--spill-pointers", "--flatten"'),
+                 execution.replace(b'"--reorder-locals", ', b'"--reorder-locals", "-Oz", ', 1),
+                 execution.replace(b'"--flatten", "--spill-pointers"', b'"--spill-pointers"', 1)]
+        for bad in cases:
+            self.assertNotEqual(bad, execution)
             with self.assertRaises(AssertionError):
                 derive(config, target, printed, bad, self.profile, pin)
 

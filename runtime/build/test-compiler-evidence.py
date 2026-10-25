@@ -28,9 +28,16 @@ def traces(profile):
     def compile(source,output,raw,actual,generated=False):
         return ((';;; ' if generated else '')+f'{cc} {raw} -c {source} -o {output}\n'+
                 f' {clang} {actual} -c {source} -o {output}\n')
+    gc=profile.get('gcSpillPasses')
     def link(output,wasm):
         side='-sSIDE_MODULE' if output.endswith(('.so','.fas','.fasb')) else ''
-        return f';;; {cc} -o {output} {GC} {side} unit.o\n /sdk/bin/wasm-opt --spill-pointers {wasm} -o {wasm}\n'
+        if gc is None:
+            return f';;; {cc} -o {output} {GC} {side} unit.o\n /sdk/bin/wasm-opt --spill-pointers {wasm} -o {wasm}\n'
+        # EMCC_CFLAGS reaches only emcc's environment; the upstream setting
+        # stays in the printed driver argv and Binaryen shows the effect.
+        passes=' '.join('--'+name for name in gc.split(','))
+        return (f';;; {cc} -o {output} {GC} {side} unit.o\n'
+                f' /sdk/bin/wasm-opt --post-emscripten -Oz --low-memory-unused {passes} --no-stack-ir {wasm} -o {wasm}\n')
     ecl=compile('main.o.c','main.o.o','-O0',profile['eclCoreOptimization'])
     ecl+=compile('other-core.o.c','other-core.o','-O0',profile['eclCoreOptimization'])
     ecl+=compile('eclinitABC.c','init.o','-O0 -O2',profile['eclGeneratedLispOptimization'],True)
@@ -80,6 +87,36 @@ class CompilerEvidence(unittest.TestCase):
                 derive(CONFIG,TARGET,ecl,maxima.replace(b'-Oz',wrong.encode()),profile)
         with self.assertRaises(AssertionError):
             derive(CONFIG,TARGET,ecl,maxima,compiler_profile('ecl-oz'))
+
+    def test_maxima_oz_requires_flatten_immediately_before_every_spill(self):
+        # Plain --spill-pointers misses pointers on the Wasm value stack across
+        # nested calls; only the complete sequence is admitted for this profile.
+        profile=compiler_profile('ecl-oz-maxima-oz')
+        self.assertEqual(profile['gcSpillPasses'].split(',')[:2],['flatten','spill-pointers'])
+        ecl,maxima=traces(profile)
+        result=derive(CONFIG,TARGET,ecl,maxima,profile)
+        self.assertEqual(result['gcSpillPasses'],profile['gcSpillPasses'].split(','))
+        self.assertEqual(len(result['maximaLinks']['targetLinks']),len(MODULES)+2)
+        sequence=' '.join('--'+name for name in profile['gcSpillPasses'].split(','))
+        for name,body in [('ecl',ecl),('maxima',maxima)]:
+            def replaced(old,new):
+                return (body.replace(old.encode(),new.encode()),maxima) if name=='ecl' else (ecl,body.replace(old.encode(),new.encode()))
+            cases=[replaced('--flatten --spill-pointers','--spill-pointers'),
+                   replaced('--flatten --spill-pointers','--spill-pointers --flatten'),
+                   replaced(sequence,'--spill-pointers'),
+                   replaced(sequence,sequence+' -Oz'),
+                   replaced(sequence,sequence+' --spill-pointers'),
+                   replaced('--reorder-locals --no-stack-ir','--reorder-locals -O2 --no-stack-ir')]
+            for left,right in cases:
+                with self.assertRaises(AssertionError):derive(CONFIG,TARGET,left,right,profile)
+        # A single target with the plain upstream pass also fails.
+        lines=maxima.decode().splitlines()
+        index=next(i for i,line in enumerate(lines) if 'wasm-opt' in line and 'solve.fasb' in line)
+        lines[index]=lines[index].replace(sequence,'--spill-pointers')
+        with self.assertRaises(AssertionError):derive(CONFIG,TARGET,ecl,('\n'.join(lines)+'\n').encode(),profile)
+        # Standard profiles keep exactly the upstream pass and setting.
+        for standard in profiles()['profiles'].values():
+            self.assertNotIn('gcSpillPasses',standard)
 
     def test_relative_sdk_source_requires_both_exact_root_anchors(self):
         anchors=['-ffile-prefix-map=/repo/sources/emsdk/upstream/emscripten=/emsdk/emscripten',

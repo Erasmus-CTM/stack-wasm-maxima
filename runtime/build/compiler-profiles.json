@@ -9,6 +9,6 @@
     "ecl-o2": {"name": "ecl-o2", "injectedEmccFlags": "-O2", "eclCoreOptimization": "-O2", "eclGeneratedLispOptimization": "-O2", "maximaGeneratedOptimization": "-O2"}
   },
   "experimentalProfiles": {
-    "ecl-oz-maxima-oz": {"name": "ecl-oz-maxima-oz", "injectedEmccFlags": "-Oz", "eclCoreOptimization": "-Oz", "eclGeneratedLispOptimization": "-Oz", "maximaGeneratedOptimization": "-Oz", "maximaInjectedEmccFlags": "-Oz", "stackGeneratedOptimization": "-Oz"}
+    "ecl-oz-maxima-oz": {"name": "ecl-oz-maxima-oz", "injectedEmccFlags": "-Oz", "eclCoreOptimization": "-Oz", "eclGeneratedLispOptimization": "-Oz", "maximaGeneratedOptimization": "-Oz", "maximaInjectedEmccFlags": "-Oz", "stackGeneratedOptimization": "-Oz", "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"}
   }
 }
