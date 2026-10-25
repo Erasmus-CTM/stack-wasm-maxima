@@ -173,7 +173,7 @@ jobs:
           --stack-source .site-sources/stack --output test-results/milestone-three/native-reference
     - name: Repeat the exact-case diagnostic on fresh source workers
       run: |
-        for repetition in 2 3 4 5; do
+        for repetition in $(seq 2 15); do
           node scripts/milestone-three/browser.mjs site/_site "test-results/milestone-three/repetition-$repetition"
           python scripts/milestone-three/native-reference.py --browser-report "test-results/milestone-three/repetition-$repetition/browser.json" \
             --stack-source .site-sources/stack --output "test-results/milestone-three/repetition-$repetition/native-reference"

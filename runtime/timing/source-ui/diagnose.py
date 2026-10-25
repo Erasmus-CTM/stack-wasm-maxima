@@ -16,7 +16,7 @@ b="""        const observedChecks = targetDiagnostic ? learnerChecks.flatMap((ch
 assert s.count(a)==1;s=s.replace(a,b)
 a="          '%ERR:[\"stack_map\"]','%NOTES:[\"stack_map\"]','%FEEDBACK:[\"stack_map\"]'], ["
 b="""          '%ERR:["stack_map"]','%NOTES:["stack_map"]','%FEEDBACK:["stack_map"]',
-          ...(targetDiagnostic ? ['_ctm_validation_stage:"before-student"'] : [])], ["""
+          ...(targetDiagnostic ? ['_ctm_validation_stage:"before-student"','ctm_capture_validation:true'] : [])], ["""
 assert s.count(a)==1;s=s.replace(a,b)
 a="          '_ctm_r:errcatch(' + block([],learnerChecks) + ')',"
 b="          '_ctm_r:errcatch(' + block([],observedChecks) + ')',"
@@ -25,7 +25,7 @@ a="            ['feedback','\"Native STACK could not evaluate this expression\"'
 b="""            ['feedback','"Native STACK could not evaluate this expression"'],['source','""'],
             ...(targetDiagnostic ? [['diagnostic','[errormsgtostring(),string(%ERR),string(%NOTES),_ctm_validation_stage,ctm_validation_trace]']] : [])]) + ' else first(_ctm_r)'"""
 assert s.count(a)==1;s=s.replace(a,b)
-s=s.replace("scalar ? 'with_stdout(' + path + ',_ctm_v:' + validation + ')'", "scalar ? 'with_stdout(' + path + ',_ctm_v:' + (targetDiagnostic ? validation.replace('stack_validate(', 'ctm_diagnostic_validate(') : validation) + ')'" )
+
 p.write_text(s)
 manifest=Path('site/stack-sources.json');m=json.loads(manifest.read_text());originalStartup=m['startup']
 helper=Path('benchmark/runtime/timing/source-ui/validation-trace.lisp').read_text()
