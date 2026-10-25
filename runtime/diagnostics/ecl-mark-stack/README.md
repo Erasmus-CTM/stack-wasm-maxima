@@ -63,9 +63,14 @@ With ASLR on, the unmodified build aborted at depth 4013 in one sweep and
 completed at the same depth in three repeat runs. Under gdb the backtrace is
 `GC_push_all` ← `ecl_mark_env` (`alloc_2.d:1175`) ← `stacks_scanner` ←
 `GC_mark_some` ← `GC_try_to_collect_inner`. The patched build returns the
-correct result at every depth tested. The CI workflow
-`.github/workflows/ecl-mark-stack.yml` repeats all three upstream builds on
-64-bit and 32-bit.
+correct result at every depth tested.
+
+The CI workflow `.github/workflows/ecl-mark-stack.yml` repeats all three
+upstream builds on 64-bit and 32-bit. In
+[run 40177761129](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40177761129)
+both unmodified non-threaded builds aborted in both modes (32-bit: 13 compiled
+depths in 3600–4700 and 11 interpreted depths in 700–1500). The threaded and
+patched builds never aborted, on either width.
 
 ## Relation to the browser abort
 
