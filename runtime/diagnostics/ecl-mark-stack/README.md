@@ -72,18 +72,56 @@ both unmodified non-threaded builds aborted in both modes (32-bit: 13 compiled
 depths in 3600–4700 and 11 interpreted depths in 700–1500). The threaded and
 patched builds never aborted, on either width.
 
-## Relation to the browser abort
+## Wasm target
 
-This is not yet confirmed. The wasm target is consistent with the mechanism:
-`aclocal.m4` forces `enable_threads='no'` for `wasm32-unknown-emscripten`, and
-the target is compiled at `-O0` with Binaryen's `--spill-pointers` pass, which
-writes pointer locals to the shadow stack that BDWGC scans eagerly. Loading
-STACK runs deep Lisp call chains. With roughly 6 of 512 final positions fatal,
-an overflowing collection has about a 1% chance of aborting. The mark stack
-doubles after an overflow, so the risk falls once the runtime has grown it.
-That matches an intermittent abort early in loading. Confirming it needs the
-occupancy at `stacks_scanner` entry, or the abort backtrace, from the wasm
-runtime.
+The same abort occurs in ECL alone built for `wasm32-unknown-emscripten`.
+`aclocal.m4` forces `enable_threads='no'` for that target and compiles it at
+`-O0` with Binaryen's `--spill-pointers` pass, which writes pointer locals to
+the shadow stack that BDWGC scans eagerly.
+
+Build used (25 October 2026): the pinned fork with `root-occupancy.patch`, a
+diagnostic-only line that prints the free mark stack slots just before
+`GC_push_other_roots` and changes nothing else. emsdk 4.0.10 and a 32-bit host
+ECL built from the same commit, configured exactly as the Maxima port's
+`wasm/Makefile` does, with `--profiling-funcs` added to `LDFLAGS` for function
+names in traces:
+
+```sh
+ECL_TO_RUN=/path/to/host32/bin/ecl CFLAGS="-O0 -DECLDIR='' -Wno-macro-redefined" \
+LDFLAGS="-sINITIAL_MEMORY=134217728 -sALLOW_MEMORY_GROWTH -sSTACK_OVERFLOW_CHECK=0 -sEXPORTED_RUNTIME_METHODS=dynCall --profiling-funcs" \
+emconfigure ./configure --host=wasm32-unknown-emscripten --build=x86_64-pc-linux-gnu \
+  --with-cross-config=$PWD/src/util/wasm32-unknown-emscripten.cross_config \
+  --with-tcp=no --with-cmp=no --with-bytecmp=builtin --with-asdf=no
+emmake make && cp build/libecl.so build/bin/
+sh run-wasm.sh build/bin 200 440
+```
+
+The wasm ECL has no C compiler, and `deep-bc.lisp` exhausts ECL's 32 MB C stack
+limit (about 440 levels, roughly 70 KB per level) before it fills the mark
+stack. `deep-wasm.lisp` recurses through `map` instead and leaves about 16
+pointers per level. Under Node 22 it aborted at depths 234, 268, 302, 336,
+370, 404 and 438 out of 200–440. That is exactly every 34 levels, repeatably,
+since wasm has no address randomisation. The other 234 depths returned the
+correct sum. At depth 234, ECL's callback started with 4 free slots, and
+the trace is:
+
+```text
+Unexpected mark stack overflow
+RuntimeError: Aborted(native code called abort())
+    at libecl.so.GC_push_all
+    at libecl.so.ecl_mark_env
+    at libecl.so.stacks_scanner
+    at libecl.so.GC_push_roots
+    at libecl.so.GC_mark_some
+    at libecl.so.GC_stopped_mark
+    at libecl.so.GC_try_to_collect_inner
+```
+
+This shows the hazard on the target the Maxima runtime uses. It does not prove
+that the earlier browser abort while loading STACK came from this path, but
+it matches: deep call chains during loading, an intermittent abort (about 1%
+per overflowing collection), and a risk that falls once the mark stack has
+grown.
 
 ## Fix options
 

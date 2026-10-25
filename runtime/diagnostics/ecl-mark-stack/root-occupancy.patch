@@ -1,0 +1,16 @@
+diff --git a/src/bdwgc/mark_rts.c b/src/bdwgc/mark_rts.c
+index 0428d5769..6895aef0d 100644
+--- a/src/bdwgc/mark_rts.c
++++ b/src/bdwgc/mark_rts.c
+@@ -956,6 +956,11 @@ GC_INNER void GC_push_roots(GC_bool all, ptr_t cold_gc_frame GC_ATTR_UNUSED)
+         /* Note that without interior pointer recognition lots  */
+         /* of stuff may have been pushed already, and this      */
+         /* should be careful about mark stack overflows.        */
++        /* CTM diagnostic only: mark stack room left for ECL's callback. */
++        GC_err_printf("CTM-ROOTS gc=%lu size=%lu free=%ld\n",
++                      (unsigned long)GC_gc_no,
++                      (unsigned long)GC_mark_stack_size,
++                      (long)(GC_mark_stack_limit - GC_mark_stack_top) - 1);
+         (*GC_push_other_roots)();
+     }
+ }
