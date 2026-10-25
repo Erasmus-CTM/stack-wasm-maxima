@@ -336,13 +336,13 @@ jobs:
             --maxima "$MAXIMA_PREFIX/bin/maxima"
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
       - name: 'STACK acceptance: Keep domain errors invalid and fail internal validation faults in both native Maxima builds'
-        env:
-          MAXIMA_PREFIX: ${{ github.workspace }}/.cache/runtime-build/sources/maxima/wasm/maxima-ecl-combined
         run: |
+          # MAXIMA_PREFIX relocates any Maxima launcher; set it only for the same-source build.
           python scripts/milestone-three/test-validation-boundary.py --stack-source .site-sources/stack \
             --output test-results/milestone-three/validation-boundary-independent.json
-          python scripts/milestone-three/test-validation-boundary.py --stack-source .site-sources/stack \
-            --maxima "$MAXIMA_PREFIX/bin/maxima" --output test-results/milestone-three/validation-boundary-same-source.json
+          prefix="$GITHUB_WORKSPACE/.cache/runtime-build/sources/maxima/wasm/maxima-ecl-combined"
+          MAXIMA_PREFIX="$prefix" python scripts/milestone-three/test-validation-boundary.py --stack-source .site-sources/stack \
+            --maxima "$prefix/bin/maxima" --output test-results/milestone-three/validation-boundary-same-source.json
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
       - name: 'STACK acceptance: Require complete compiled controller evidence and replay bindings'
         run: |
