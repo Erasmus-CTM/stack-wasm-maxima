@@ -36,5 +36,15 @@ def emsdk_version(repository=ROOT):
     return next(pin['version'] for pin in effective_pins(repository)['sources'] if pin['name'] == 'emsdk')
 
 
+def emcc_flags(repository=ROOT):
+    """Flags a toolchain needs on every emcc call; the pinned one needs none."""
+    chosen = effective_pins(repository).get('experimentalToolchain')
+    if not chosen:
+        return ''
+    experiments = json.loads((Path(repository) / 'runtime/build/toolchains.json').read_text())['experimental']
+    return experiments[chosen['emsdk']].get('emccFlags', '')
+
+
 if __name__ == '__main__':
-    print(emsdk_version())
+    import sys
+    print(emcc_flags() if sys.argv[1:] == ['--emcc-flags'] else emsdk_version())

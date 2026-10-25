@@ -3,6 +3,8 @@
   "experimental": {
     "6.0.11": {
       "evidence": "Newer Emscripten that the Maxima port author reported testing (ECL issue 860, 25 October 2026). Builds with it are experiments for the timing matrix, never releases.",
+      "emccFlags": "--emit-symbol-map -Wno-unused-command-line-argument",
+      "emccFlagsEvidence": "ECL links every wasm target with -sBINARYEN_EXTRA_PASSES=--spill-pointers. From 6.0.11 that pass aborts with 'getStackSpace: failed to find the stack pointer' unless the name section survives until wasm-opt. --emit-symbol-map keeps names for the intermediate Binaryen passes only and strips them from the final binary (the names go to a separate .symbols file). It is a link flag, so compile-only calls would warn; the warning is silenced.",
       "sources": {
         "emsdk": {
           "commit": "dd8e25632640cfc1fb570c7fa4cc374e8a5e5a72",

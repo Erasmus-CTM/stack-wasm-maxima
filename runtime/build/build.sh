@@ -60,9 +60,12 @@ python "$ROOT/runtime/build/apply-target-overlay.py"
 # compiler/Binaryen argv regardless of that redirection; never dump environment.
 python "$ROOT/runtime/build/compiler_profile.py" > "$WORK/logs/compiler-profile.json"
 ECL_INJECTED_FLAGS=$(python "$ROOT/runtime/build/compiler_profile.py" --emcc-flags)
+# Flags an experimental toolchain needs on every emcc call (none for the pinned one).
+TOOLCHAIN_EMCC_FLAGS=$(python "$ROOT/runtime/build/toolchain_pins.py" --emcc-flags)
 (
  export EMCC_VERBOSE=1
- if [[ -n "$ECL_INJECTED_FLAGS" ]]; then export EMCC_CFLAGS="$ECL_INJECTED_FLAGS"; else unset EMCC_CFLAGS; fi
+ ECL_EMCC_FLAGS=$(echo $ECL_INJECTED_FLAGS $TOOLCHAIN_EMCC_FLAGS)
+ if [[ -n "$ECL_EMCC_FLAGS" ]]; then export EMCC_CFLAGS="$ECL_EMCC_FLAGS"; else unset EMCC_CFLAGS; fi
  # Keep each target's printed command and diagnostics together. Interleaving
  # a parallel warning with another command makes strict trace association fail.
  strace -f -qq -e trace=execve -e signal=none -s 1048576 -o "$WORK/logs/ecl-exec.log" make --output-sync=target -f "$MAKE_RECIPE" -j2 ecl-emscripten
@@ -70,7 +73,8 @@ ECL_INJECTED_FLAGS=$(python "$ROOT/runtime/build/compiler_profile.py" --emcc-fla
 cat "$WORK/logs/ecl-exec.log" >> "$WORK/logs/ecl-cross-build.log"
 # Target-info carries raw upstream CFLAGS, not the injected experiment. Keep
 # it unchanged so Maxima still uses its original generated-Lisp optimization.
-unset EMCC_CFLAGS
+# Toolchain flags carry no optimization, so they still apply here.
+if [[ -n "$TOOLCHAIN_EMCC_FLAGS" ]]; then export EMCC_CFLAGS="$TOOLCHAIN_EMCC_FLAGS"; else unset EMCC_CFLAGS; fi
 export EMCC_VERBOSE=1
 build_maxima_phase() {
 targets=(maxima-ecl-combined/maxima.wasm maxima-ecl-combined/libecl.so maxima-ecl-combined/maxima_thread.js maxima-ecl-combined/share_files.js)
