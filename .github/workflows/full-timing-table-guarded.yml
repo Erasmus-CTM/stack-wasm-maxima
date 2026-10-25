@@ -63,6 +63,19 @@ jobs:
           ln -s "$PWD/old-trusted/node_modules" .cache/full-timing-table-guarded/tools/node_modules
           node --version > .cache/full-timing-table-guarded/evidence/node-version.txt
           old-trusted/node_modules/.bin/playwright --version > .cache/full-timing-table-guarded/evidence/playwright-version.txt
+      - name: Record runner hardware outside measurements
+        run: |
+          node --input-type=module <<'JS'
+          import os from 'node:os';
+          import {writeFileSync} from 'node:fs';
+          const cpus=os.cpus();
+          writeFileSync('.cache/full-timing-table-guarded/evidence/runner-hardware.json',JSON.stringify({
+            schema:1,observedBeforeMeasurement:true,platform:os.platform(),release:os.release(),arch:os.arch(),
+            logicalCPUCount:cpus.length,cpuModels:[...new Set(cpus.map(cpu=>cpu.model))],
+            availableParallelism:os.availableParallelism(),totalMemoryBytes:os.totalmem(),
+            scope:'Untimed host metadata, not CPU sampling or cross-run timing normalization.'
+          },null,2)+'\n');
+          JS
       - name: Measure all six guarded cells with cold and same-profile reload
         timeout-minutes: 190
         run: |

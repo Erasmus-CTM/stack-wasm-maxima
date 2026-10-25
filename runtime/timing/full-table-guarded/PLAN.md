@@ -24,9 +24,11 @@ The composite review index pins all three exact independent raw scope receipts:
 compiler/bundle/official203, native657 and controller/graphics. Their warning,
 functional-request-abort and scope limits remain intact; this is benchmark
 artifact acceptance, not production promotion, zero-warning or raw reset/F11
-acceptance. `publicationAllowed` remains false until independent final binding
-review and parent-authorized isolated publication. The earlier unbound source
-freeze remains unchanged as history. There is no latest/failed-ZIP fallback.
+acceptance. The exact already-published artifact bindings and their activation
+are inherited unchanged. This reporter/workflow repair still requires new
+independent source/tree review before parent-owned publication. The earlier
+unbound and first published source freezes remain unchanged as history. There
+is no latest/failed-ZIP fallback.
 
 Admission checks each producer separately against its pinned trusted checkout:
 the old e8ad/5295 tree and 71-file recipe for both old controls, and the new
@@ -77,3 +79,15 @@ clean-probe-worker.js, derive-startup-observer.mjs and startup-observer.jsfrag.
 The nine admission tests are unchanged; the guarded harness/observer tests
 include the actual retained draw.lisp failure tail as data. No downloaded
 runtime or browser execution occurs during this source preparation.
+
+The first guarded36 run remains a failed35/36 matrix: the old ECL-Oz/Maxima-O2
+FAS cold repetition3 reported a draw.lisp load failure without TRACE or CPU
+sampling. Its original records and review remain preserved; successful sibling
+samples do not convert that matrix to acceptance. This revision fixes only a
+reporting race (late console events changing report counts after sample JSON
+was saved), retaining immutable samples and separate late-event/fatal evidence.
+It adds one untimed hardware receipt before the run and start/end progress
+messages outside measured blocks. Runtime assets, startup, per-cell ordering,
+all correctness/failure guards and the same three producer bindings remain.
+No failed cell is reclassified, skipped for convenience or retried into success.
+The separate12-cold condition diagnostic is not part of these36 measurements.

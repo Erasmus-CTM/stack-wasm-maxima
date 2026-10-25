@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {createLateTelemetry,recordConsoleEvent,snapshotMeasurement,lateTelemetryFailed,summarize} from './run.mjs';
+const warning='warning: unsupported syscall: __syscall_getrusage\n';
+const original={...createLateTelemetry('fixture'),ok:true,result:{ok:true},partialPath:'private-partial-path'};
+for(let i=0;i<17;i++)recordConsoleEvent(original,'error',warning);
+const priorRaw=JSON.stringify(original);recordConsoleEvent(original,'error',warning);recordConsoleEvent(original,'error',warning);
+assert.equal(Object.values(JSON.parse(priorRaw).consoleCounts).reduce((a,b)=>a+b),17);assert.equal(Object.values(original.consoleCounts).reduce((a,b)=>a+b),19,'Reproduce prior serialization/live-summary race');
+const row={...createLateTelemetry('fixed'),ok:true,result:{ok:true},partialPath:'partial.json'};for(let i=0;i<17;i++)recordConsoleEvent(row,'error',warning);
+const snapshot=snapshotMeasurement(row),raw=JSON.stringify(snapshot),summaryCount=Object.values(snapshot.consoleCounts).reduce((a,b)=>a+b),late=createLateTelemetry('fixed');
+let finish;const pendingWrite=new Promise(resolve=>{finish=resolve;});
+queueMicrotask(()=>{recordConsoleEvent(late,'error',warning);recordConsoleEvent(late,'error',warning);finish();});await pendingWrite;
+assert.equal(Object.values(JSON.parse(raw).consoleCounts).reduce((a,b)=>a+b),summaryCount);assert.equal(summaryCount,17);assert.equal(Object.values(late.consoleCounts).reduce((a,b)=>a+b),2);assert.equal(lateTelemetryFailed([late]),false);assert.equal(snapshot.partialPath,undefined);
+recordConsoleEvent(late,'warning','RuntimeError: late native failure');assert.equal(lateTelemetryFailed([late]),true);assert.equal(snapshot.ok,true,'Snapshot remains immutable; late fatal independently fails the matrix');
+const latePage=createLateTelemetry('page');latePage.pageErrors.push('Late page error');assert.equal(lateTelemetryFailed([latePage]),true);
+const immediate={...createLateTelemetry('immediate'),ok:true};recordConsoleEvent(immediate,'error','Unexpected fatal');assert.equal(snapshotMeasurement(immediate).ok,false);
+for(let i=0;i<1100;i++)recordConsoleEvent(late,'warning','unique '+i);recordConsoleEvent(late,'warning','RuntimeError beyond bounded samples');assert.equal(late.fatalConsoleCount,2);assert.ok(late.consoleOverflow>0);
+const groups=summarize([{profile:'ecl-oz',candidate:'precompiled',mode:'warm-profile-reload',ok:true,timings:{readyMs:1},precedingCold:{passed:false}}]);assert.equal(groups.find(x=>x.profile==='ecl-oz'&&x.candidate==='precompiled'&&x.mode==='warm-profile-reload').reloadsFollowingFailedCold,1);
+console.log(JSON.stringify({passed:true,scope:'Synthetic event scheduling and report data only; no browser/CAS/artifact execution',checks:['reproduce raw17/live19 race','immutable raw/summary both17','two late warnings retained separately','late fatal fails matrix without altering frozen sample','late page error fails matrix','pre-snapshot fatal fails sample','overflow cannot suppress fatal count','reload after failed cold remains present and qualified']}));

@@ -64,7 +64,7 @@ class AdmissionTests(unittest.TestCase):
    with self.assertRaises(AssertionError):p.reconstruct_preload(destination,{**preload,**patchrow},assets)
 
  def test_bound_template_requires_activation_and_exact_review_bytes(self):
-  bindings=p.read(HERE/'bindings.json')
+  bindings=p.read(HERE/'bindings.json');bindings['publicationAllowed']=False
   with patch.object(gate,'api',side_effect=AssertionError('Network must not run')):
    with self.assertRaisesRegex(AssertionError,'Template blocked'):gate.validate_bindings(bindings,HERE)
   bindings['publicationAllowed']=True;gate.validate_bindings(bindings,HERE)

@@ -1,13 +1,21 @@
 {
   "schema": 1,
-  "kind": "guarded-six-cell-harness-source-freeze",
+  "kind": "guarded36-report-snapshot-repair",
   "runtimeExecution": false,
   "githubWrites": false,
+  "publicationAllowed": false,
+  "priorFailedRun": 40143072180,
+  "priorFailedArtifact": 12580575852,
+  "runtimeFailureFixed": false,
+  "priorSourceFreeze": {
+    "bytes": 4605,
+    "sha256": "cac956c53c59596db71f6346517e7f08c3ec54b8e2e526ed116e9bf7f95359ec"
+  },
   "files": [
     {
       "path": "run.mjs",
-      "bytes": 20161,
-      "sha256": "19adee69cc4cfe2cfb5ab834e76c4ae6816de5f3a9f557ec34c387c541d1df52"
+      "bytes": 22132,
+      "sha256": "f623142c95b1abb35f29320f9245ee3b36735f1be1e05f3d575d37b5252ab295"
     },
     {
       "path": "clean-probe-worker.js",
@@ -35,17 +43,16 @@
       "sha256": "e3ecec25e626da76bd8c59a7b45ebb809a4043e6dd27e35fb6b6794c4354fa1d"
     },
     {
+      "path": "test-snapshot-race.mjs",
+      "bytes": 3078,
+      "sha256": "42dc47cb72078b613339decbc83f992afcfff302c4c9cb3ef3227d7541c2c205"
+    },
+    {
       "path": "HARNESS.md",
-      "bytes": 4393,
-      "sha256": "de3690b08bad2d7297427f10017d62ddb1807e63ce24bfbe6614939e988dfbe5"
+      "bytes": 5544,
+      "sha256": "516daac5cb588b9fec9e9ca3621ed19bc2c480c19de69411379227232d7cc794"
     }
   ],
-  "originalCleanFilesUnchanged": {
-    "run.mjs": "fb2fb1d93f406724f883928e532af9fe3bd5508a0fb3eaacabb437fb2aef8797",
-    "clean-probe-worker.js": "ff4aa0031f27bcca48e68130ebca1bf6a95722277f60627b7fe70219769b5ec1",
-    "test-harness.mjs": "494ceab78b17b0f2b55b16d631dbf1e511dc7e2d26d3028e489b249e0bcff092",
-    "HARNESS.md": "729b2682fcf6622fe72b02b0b238be718c3a7faa5e5b14b9261ae358a45dac28"
-  },
   "validation": {
     "harness": {
       "passed": true,
@@ -87,7 +94,21 @@
         "progress serialization excluded from measured call durations"
       ]
     },
-    "startupObserver": {
+    "snapshot": {
+      "passed": true,
+      "scope": "Synthetic event scheduling and report data only; no browser/CAS/artifact execution",
+      "checks": [
+        "reproduce raw17/live19 race",
+        "immutable raw/summary both17",
+        "two late warnings retained separately",
+        "late fatal fails matrix without altering frozen sample",
+        "late page error fails matrix",
+        "pre-snapshot fatal fails sample",
+        "overflow cannot suppress fatal count",
+        "reload after failed cold remains present and qualified"
+      ]
+    },
+    "observer": {
       "passed": true,
       "scope": "Trusted observer/consume source with synthetic transport and read-only actual failed stdout data; no browser/CAS/Lisp/Wasm/artifact program executed",
       "original": {
@@ -115,11 +136,7 @@
         "bounded long output",
         "actual draw.lisp failure retained/rejected"
       ]
-    },
-    "syntax": [
-      "run.mjs",
-      "clean-probe-worker.js",
-      "derive-startup-observer.mjs"
-    ]
-  }
+    }
+  },
+  "scope": "Immutable raw/report snapshots, separately retained late fatal/page telemetry, qualified reload cache predecessor, bounded untimed progress logs. No runtime/startup/guard/plan/timeout/typed gates changed."
 }

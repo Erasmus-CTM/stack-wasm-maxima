@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "all-candidate-scope-bindings-prepared-publication-blocked-for-final-independent-review",
+  "state": "repair-source-ready-for-independent-review",
   "files": {
     "artifact.py": {
       "bytes": 16056,
@@ -15,28 +15,24 @@
       "sha256": "52615e0353b53be8ee1c8e4a4b54fa5717839f55c3bb340ad3622b2b873ae0a0"
     },
     "test-admission.py": {
-      "bytes": 9410,
-      "sha256": "ee242366b517cd091acd3a2fe5f28056820002146f220badb6923817e915f051"
+      "bytes": 9447,
+      "sha256": "547030827b82c36f96df8ac4208a4bae1adb37e5c995f5902884605481c4b9cb"
     },
     "bindings.json": {
-      "bytes": 3654,
-      "sha256": "afe3627a021f455947f0b577d9eff83d40e24d563987ad2c4a9bb5760794f8bb"
+      "bytes": 3653,
+      "sha256": "276a1b7cc6f409e81d606811b4fc3cac4006be351e5cd54184d0182ea3c92e48"
     },
     "full-timing-table-guarded.yml": {
-      "bytes": 4137,
-      "sha256": "8796bb9fa86216fc95cce51a21dff43e41c96e18270db8b2e268413fa0879e22"
+      "bytes": 4903,
+      "sha256": "54d4c64fb4d67b1dfdf1ba1d93381c46e4c624249384fc75a6a259a5a9131040"
     },
     "PLAN.md": {
-      "bytes": 5321,
-      "sha256": "4a437b44a23a2925521426840cf19150ff8158ff58c10f19e4371ea7a7b827c4"
+      "bytes": 6285,
+      "sha256": "4d97ba54b06a8d5c7d0e3b6015bbe34f021979b4090679edbfad057538f5ea60"
     },
     "reviews/baseline.json": {
       "bytes": 25871,
       "sha256": "4539bfd319c1515780838e65fa901a9a02c754df14e4f31b23ae9fd4ae56a4ff"
-    },
-    "reviews/ecl-oz.json": {
-      "bytes": 23593,
-      "sha256": "0a1b39fb99372d10c58a2d4bd0071bd53dda7f39d74ffa9a282c3770495801ce"
     },
     "reviews/ecl-oz-maxima-oz-compiler-bundle-official.json": {
       "bytes": 23065,
@@ -57,25 +53,42 @@
     "reviews/ecl-oz-maxima-oz.json": {
       "bytes": 7159,
       "sha256": "8ff54c1c2bfcd9710875be76fd1a0d2f85792c108bc9a9d58588f20201961124"
+    },
+    "reviews/ecl-oz.json": {
+      "bytes": 23593,
+      "sha256": "0a1b39fb99372d10c58a2d4bd0071bd53dda7f39d74ffa9a282c3770495801ce"
     }
   },
-  "previousUnboundSourceFreeze": {
-    "path": "/workspace/work/full-timing-table-guarded/integration-freeze.json",
-    "bytes": 9030,
-    "sha256": "f460d42a818edcbe0a8c3bb0358f7be868d4c235585a88799a394dd0b04d32ec"
+  "priorPublishedSource": {
+    "head": "8f1c9d32f467ec8c264771307d259a268ea23448",
+    "tree": "47485c435d631638677c73590225a1836976ccef",
+    "branch": "timing/e8ad-six-cell-guarded",
+    "reviewSha256": "e570bb861a649d1805d20dbda6a29bc897b4f4350481af6a851fee70b016d71c"
+  },
+  "unchangedPublishedArtifactBindings": {
+    "bytes": 3653,
+    "sha256": "276a1b7cc6f409e81d606811b4fc3cac4006be351e5cd54184d0182ea3c92e48"
+  },
+  "changedAdmissionWorkflowFiles": [
+    "test-admission.py",
+    "full-timing-table-guarded.yml",
+    "PLAN.md"
+  ],
+  "changes": {
+    "workflow": "One untimed hardware receipt; existing tee captures bounded untimed start/end progress emitted by runner.",
+    "test": "Exercise local false/true gate states regardless of inherited active bindings.",
+    "plan": "Preserve failed35/36 result and declare reporter/metadata repair scope."
   },
   "validation": {
-    "admissionDataTests": 9,
-    "allThreeRawReviewsExact": true,
-    "producerApiAndPackageCountsVerified": true,
-    "runtimeAdmissionAndWorkflowCodeUnchanged": true,
+    "admissionTests": 9,
     "PythonAST": true,
     "YAML": true,
-    "BashBodies": 3
+    "BashBodies": 4,
+    "hardwareJavaScriptSyntax": true,
+    "exactPublishedHelpersAndReviewReceiptsUnchanged": true
   },
   "notPerformed": [
-    "External writes",
-    "CI launch",
-    "Browser/CAS/Lisp/Wasm/native/compiler/artifact execution"
+    "External writes or CI launch",
+    "Artifact/browser/CAS/Lisp/Wasm/native/compiler execution"
   ]
 }

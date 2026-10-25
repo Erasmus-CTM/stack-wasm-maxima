@@ -41,6 +41,19 @@ export function trialPlan(repetitions){
 }
 export const isKnownSyscallWarning=text=>/^warning: unsupported syscall: __syscall_(?:prlimit64|getrusage)\s*$/.test(text);
 export const isFatalConsole=(type,text)=>(type==='error'&&!isKnownSyscallWarning(text))||/RuntimeError|Unexpected mark stack overflow|\bAborted\(|memory access out of bounds|unreachable executed|out of memory/i.test(text);
+export function recordConsoleEvent(target,type,text){
+  if(!target)return;
+  const key=type+':'+text.slice(0,2000);
+  if(Object.keys(target.consoleCounts).length<1000||key in target.consoleCounts)target.consoleCounts[key]=(target.consoleCounts[key]||0)+1;else target.consoleOverflow=(target.consoleOverflow||0)+1;
+  if(isFatalConsole(type,text)){target.fatalConsoleCount++;if(target.fatalConsoleSamples.length<20)target.fatalConsoleSamples.push({type,text:text.slice(0,2000)});}
+}
+export function createLateTelemetry(id){return {id,scope:'Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.',consoleCounts:{},fatalConsoleCount:0,fatalConsoleSamples:[],pageErrors:[]};}
+export function snapshotMeasurement(row){
+  const snapshot=structuredClone(row);delete snapshot.partialPath;
+  snapshot.ok=snapshot.ok===true&&snapshot.fatalConsoleCount===0&&snapshot.pageErrors.length===0;
+  return snapshot;
+}
+export const lateTelemetryFailed=rows=>rows.some(row=>row.fatalConsoleCount>0||row.pageErrors.length>0);
 const median=values=>{const rows=values.filter(Number.isFinite).sort((a,b)=>a-b);return rows.length?(rows[Math.floor((rows.length-1)/2)]+rows[Math.ceil((rows.length-1)/2)])/2:null;};
 export function compactResult(result){
   if(!result?.ok)return null;
@@ -53,7 +66,7 @@ export function compactResult(result){
 export function summarize(samples){
   const rows=[];for(const profile of profiles)for(const candidate of ['source','precompiled'])for(const mode of ['cold','warm-profile-reload']){
     const matches=samples.filter(s=>s.profile===profile&&s.candidate===candidate&&s.mode===mode&&s.ok),keys=Object.keys(matches[0]?.timings||{});
-    rows.push({profile,candidate,mode,successfulTrials:matches.length,medians:Object.fromEntries(keys.map(k=>[k,median(matches.map(s=>s.timings[k]))]))});
+    rows.push({profile,candidate,mode,successfulTrials:matches.length,reloadsFollowingFailedCold:matches.filter(row=>row.precedingCold?.passed===false).length,cacheQualification:mode==='warm-profile-reload'?'Same browser/profile reload; any failed preceding cold is explicitly counted and does not establish a fully initialized warm cache':null,medians:Object.fromEntries(keys.map(k=>[k,median(matches.map(s=>s.timings[k]))]))});
   }return rows;
 }
 async function stageSite({site,output,root,admission,profile}){
@@ -105,8 +118,8 @@ async function main(){
   const args={};for(let i=2;i<process.argv.length;i+=2){assert.ok(process.argv[i]?.startsWith('--')&&process.argv[i+1]);args[process.argv[i]]=process.argv[i+1];}
   for(const key of ['--old-trusted-root','--candidate-trusted-root','--profiles-root','--admission','--output'])assert.ok(args[key],key+' required');
   const oldRoot=resolve(args['--old-trusted-root']),candidateRoot=resolve(args['--candidate-trusted-root']),profilesRoot=resolve(args['--profiles-root']),output=resolve(args['--output']),repetitions=Number(args['--repetitions']||3),plan=trialPlan(repetitions);
-  await mkdir(output,{recursive:true});const report={schema:1,diagnosticOnly:true,acceptance:false,passed:false,startedAt:new Date().toISOString(),repetitions,plan,plannedMeasurements:plan.length*2,watchdogMs:300000,staging:{},samples:[],skipped:[],scope:'Guarded matched-runner comparison of three admitted runtime profiles and source versus each profile’s own FAS. Fresh browser/profile per pair, then same-page/context reload after confirmed old CAS and probe-worker termination. Fresh probe/session/buffers on every measurement; same explicitly derived stdout-only child observer in all six cells and every restart. Original startup/session/runtime bytes unchanged. These are guarded timings, not pristine-wrapper timings; marker parsing/one bounded receipt add shared overhead. No TRACE, CPU profiler or FS observer. Existing marker order and no matched fatal do not prove a same-evaluation root-load return. Warm calls reuse that measurement’s worker. Rotating order limits but does not remove cache/runner variation. n3 medians are descriptive, not a statistical speedup or default promotion. Combined readiness/logical/positive is a synthetic sum of measured blocks, not complete UI latency.'};
-  const save=async()=>{report.summary=summarize(report.samples);await writeFile(join(output,'report.json'),JSON.stringify(report,null,2)+'\n');};await save();
+  await mkdir(output,{recursive:true});const report={schema:1,diagnosticOnly:true,acceptance:false,passed:false,startedAt:new Date().toISOString(),repetitions,plan,plannedMeasurements:plan.length*2,watchdogMs:300000,staging:{},samples:[],skipped:[],lateTelemetry:[],scope:'Guarded matched-runner comparison of three admitted runtime profiles and source versus each profile’s own FAS. Fresh browser/profile per pair, then same-page/context reload after confirmed old CAS and probe-worker termination. Fresh probe/session/buffers on every measurement; same explicitly derived stdout-only child observer in all six cells and every restart. Original startup/session/runtime bytes unchanged. These are guarded timings, not pristine-wrapper timings; marker parsing/one bounded receipt add shared overhead. No TRACE, CPU profiler or FS observer. Existing marker order and no matched fatal do not prove a same-evaluation root-load return. Warm calls reuse that measurement’s worker. Rotating order limits but does not remove cache/runner variation. n3 medians are descriptive, not a statistical speedup or default promotion. Combined readiness/logical/positive is a synthetic sum of measured blocks, not complete UI latency.'};
+  const save=async()=>{report.summary=summarize(report.samples);report.lateTelemetryFailed=lateTelemetryFailed(report.lateTelemetry);if(report.lateTelemetryFailed)report.passed=false;await writeFile(join(output,'report.json'),JSON.stringify(report,null,2)+'\n');};await save();
   try{
     const body=await readFile(resolve(args['--admission'])),admission=JSON.parse(body);assert.equal(admission.passed,true);
     for(const key of ['GITHUB_REPOSITORY','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','GITHUB_SHA','GITHUB_REF']){assert.ok(process.env[key]);assert.equal(admission.benchmark[key],process.env[key],'Benchmark identity changed: '+key);}
@@ -122,16 +135,17 @@ async function main(){
     assert.equal(new Set(Object.values(staged).map(row=>row.proof.sharedStartupObserver.derived.sha256)).size,1,'Shared observer differs across profiles');
     const {chromium}=await import('playwright'),{serveDemo}=await import(pathToFileURL(join(oldRoot,'scripts/milestone-two/serve.mjs')));
     for(const pair of plan){
-      let app,browser,page,priorStopped=false;
+      let app,browser,page,priorStopped=false,precedingCold=null;
       try{
         app=await serveDemo({root:staged[pair.profile].site,compression:'gzip',sidecarSource:null});browser=await chromium.launch({headless:true});page=await browser.newPage();report.browser=browser.version();
-        let activeRow,writeQueue=Promise.resolve();await page.exposeFunction('ctmCleanProgress',value=>{if(!activeRow)return;const path=activeRow.partialPath;writeQueue=writeQueue.then(()=>writeFile(path,JSON.stringify(value,null,2)+'\n'));});
-        page.on('console',message=>{if(!activeRow)return;const text=message.text(),type=message.type(),key=type+':'+text.slice(0,2000);if(Object.keys(activeRow.consoleCounts).length<1000||key in activeRow.consoleCounts)activeRow.consoleCounts[key]=(activeRow.consoleCounts[key]||0)+1;else activeRow.consoleOverflow=(activeRow.consoleOverflow||0)+1;if(isFatalConsole(type,text)){activeRow.fatalConsoleCount++;if(activeRow.fatalConsoleSamples.length<20)activeRow.fatalConsoleSamples.push({type,text:text.slice(0,2000)});}});
-        page.on('pageerror',error=>{if(activeRow)activeRow.pageErrors.push(String(error));});
+        let activeRow,lateRow,writeQueue=Promise.resolve();await page.exposeFunction('ctmCleanProgress',value=>{if(!activeRow)return;const path=activeRow.partialPath;writeQueue=writeQueue.then(()=>writeFile(path,JSON.stringify(value,null,2)+'\n'));});
+        page.on('console',message=>recordConsoleEvent(activeRow||lateRow,message.type(),message.text()));
+        page.on('pageerror',error=>{const target=activeRow||lateRow;if(target)target.pageErrors.push(String(error));});
         for(const mode of pair.modes){
           const id=String(pair.pair).padStart(2,'0')+'-'+pair.profile+'-'+pair.candidate+'-'+mode,directory=join(output,'trials',id);await mkdir(directory,{recursive:true});
-          const row=activeRow={id,...pair,mode,runId:randomUUID(),startedAt:new Date().toISOString(),ok:false,consoleCounts:{},fatalConsoleCount:0,fatalConsoleSamples:[],pageErrors:[],partialPath:join(directory,'partial.json')};
+          lateRow=null;const row=activeRow={id,...pair,mode,precedingCold:mode==='warm-profile-reload'?precedingCold:null,runId:randomUUID(),startedAt:new Date().toISOString(),ok:false,consoleCounts:{},fatalConsoleCount:0,fatalConsoleSamples:[],pageErrors:[],partialPath:join(directory,'partial.json')};
           report.samples.push({id,profile:pair.profile,candidate:pair.candidate,repetition:pair.repetition,mode,pair:pair.pair,ok:false,phase:'started',samplePath:'trials/'+id+'/sample.json'});await save();await writeFile(row.partialPath,JSON.stringify({phase:'before-navigation',runId:row.runId})+'\n');
+          console.log('CTM-TIMING-TRIAL|'+JSON.stringify({id,phase:'started',profile:pair.profile,candidate:pair.candidate,mode}));
           const requestStart=app.requests.length;
           try{
             if(mode==='cold')await page.goto(app.baseURL+'clean-timing.html');else{assert.equal(priorStopped,true,'Cannot reload without confirmed prior termination');await page.reload();}
@@ -140,15 +154,18 @@ async function main(){
             row.requests=app.requests.slice(requestStart);assert.ok(!row.requests.some(r=>r.status>=400||/maxima-plot\.fas|libgnuplot\.so/.test(r.pathname||'')),'Unexpected runtime request failure or plotting asset');assert.equal(row.pageErrors.length,0,'Page error observed');assert.equal(row.fatalConsoleCount,0,'Fatal/unexpected console error observed');
           }catch(error){row.error=String(error);row.ok=false;priorStopped=false;}
           finally{
-            await writeQueue;row.requests=app.requests.slice(requestStart);row.finishedAt=new Date().toISOString();delete row.partialPath;await writeFile(join(directory,'sample.json'),JSON.stringify(row,null,2)+'\n');
-            Object.assign(report.samples.at(-1),{ok:row.ok,phase:'finished',runId:row.runId,timings:compactResult(row.result),startupGuardPassed:row.result?.startupGuard?.passed===true,error:row.error||row.result?.error||(!priorStopped?'Worker termination guard failed':null),termination:row.termination||null,warningCount:Object.entries(row.consoleCounts).filter(([k])=>k.startsWith('warning:')||isKnownSyscallWarning(k.slice(k.indexOf(':')+1))).reduce((sum,[,n])=>sum+n,0),fatalConsoleCount:row.fatalConsoleCount});activeRow=null;await save();
+            await writeQueue;row.requests=app.requests.slice(requestStart);row.finishedAt=new Date().toISOString();
+            const snapshot=snapshotMeasurement(row);if(mode==='cold')precedingCold={id,passed:snapshot.ok,terminationAcknowledged:priorStopped};activeRow=null;lateRow=createLateTelemetry(id);report.lateTelemetry.push(lateRow);
+            Object.assign(report.samples.at(-1),{ok:snapshot.ok,phase:'finished',precedingCold:snapshot.precedingCold,runId:snapshot.runId,timings:compactResult(snapshot.result),startupGuardPassed:snapshot.result?.startupGuard?.passed===true,error:snapshot.error||snapshot.result?.error||(!priorStopped?'Worker termination guard failed':null),termination:snapshot.termination||null,warningCount:Object.entries(snapshot.consoleCounts).filter(([k])=>k.startsWith('warning:')||isKnownSyscallWarning(k.slice(k.indexOf(':')+1))).reduce((sum,[,n])=>sum+n,0),fatalConsoleCount:snapshot.fatalConsoleCount});
+            await writeFile(join(directory,'sample.json'),JSON.stringify(snapshot,null,2)+'\n');await save();
+            console.log('CTM-TIMING-TRIAL|'+JSON.stringify({id,phase:'finished',ok:snapshot.ok,error:(snapshot.error||snapshot.result?.error||'').slice(0,500),startupFatal:snapshot.result?.startupGuard?.receipt?.firstFatal?.line?.slice(0,500)||null}));
           }
           if(!priorStopped&&mode==='cold'){report.skipped.push({...pair,mode:'warm-profile-reload',reason:'Cold measurement did not confirm old worker termination'});break;}
         }
       }catch(error){report.pairFailures??=[];report.pairFailures.push({...pair,error:String(error)});}
       finally{if(browser)await browser.close().catch(()=>{});if(app)await app.close();await save();}
     }
-    report.passed=report.samples.length===report.plannedMeasurements&&report.samples.every(s=>s.ok)&&!report.skipped.length&&!report.pairFailures?.length;
+    report.passed=report.samples.length===report.plannedMeasurements&&report.samples.every(s=>s.ok)&&!report.skipped.length&&!report.pairFailures?.length&&!lateTelemetryFailed(report.lateTelemetry);
   }catch(error){report.failure=String(error);}
   finally{report.finishedAt=new Date().toISOString();await save();}
   if(!report.passed)process.exitCode=1;
