@@ -17,11 +17,11 @@ jobs:
       - name: Wait for retained build evidence
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh run watch 40234019825 --interval 30 || true
+        run: gh run watch 40244258581 --interval 30 || true
       - uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
-          run-id: '40234019825'
+          run-id: '40244258581'
           path: raw
           merge-multiple: true
       - run: python runtime/timing/build-audit/compact.py
@@ -29,7 +29,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh api repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40234019825/logs > run-logs.zip
+          gh api repos/Erasmus-CTM/stack-wasm-maxima/actions/runs/40244258581/logs > run-logs.zip
           python - <<'PYCODE'
           import zipfile
           from pathlib import Path
