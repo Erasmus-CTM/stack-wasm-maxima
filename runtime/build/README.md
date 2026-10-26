@@ -1,3 +1,5 @@
+The production profile proposal is `ecl-oz-maxima-oz`: -Oz for ECL and Maxima, with flatten-before-spill collector rooting and local-count cleanup. See [acceptance](PRODUCTION-ACCEPTANCE.md) and the [selection/repair evidence](../../measurements/2026-10-25-maxima-oz-selection/README.md). Source-loaded STACK remains the default; compiled bundles are opt-in. The draft descriptions below are retained historical context.
+
 The current draft also carries the exact target-only ECL root-scanner overlay
 described in [ECL-ROOT-OVERLAY.md](ECL-ROOT-OVERLAY.md). It changes one ECL source
 file after the original native ECL32 host is installed. Original archives and

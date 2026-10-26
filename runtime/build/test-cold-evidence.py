@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from cold_evidence import digest, validate_build
+from cold_evidence import current_run_producer_identity, digest, validate_build
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -106,6 +106,30 @@ class ColdEvidence(unittest.TestCase):
                 save(path,value); self.refresh(root)
                 with self.assertRaises(AssertionError):
                     validate_build(root,'cold1',expected)
+
+    def test_comparison_retry_preserves_the_accepted_producer_attempt(self):
+        with tempfile.TemporaryDirectory(dir=self.work) as tmp:
+            root = Path(tmp)
+            expected = self.fixture(root)
+            consumer = {**expected['identity'], 'runAttempt': '2'}
+            producer = current_run_producer_identity(root, consumer)
+            self.assertEqual(producer, expected['identity'])
+            validate_build(root, 'cold1', {**expected, 'identity': producer})
+            # Relabeling the producer as the consumer still fails verification.
+            with self.assertRaises(AssertionError):
+                validate_build(root, 'cold1', {**expected, 'identity': consumer})
+            for changed in ({'runId': '99999'}, {'sourceRevision': 'b'*40},
+                            {'runAttempt': '0'}, {'runAttempt': '1.0'}):
+                with self.subTest(changed=changed), self.assertRaises(AssertionError):
+                    current_run_producer_identity(root, {**consumer, **changed})
+            # A future producer cannot be admitted merely because its run matches.
+            path = root / '.cache/runtime-build/artifact/logs/environment.json'
+            environment = json.loads(path.read_bytes())
+            environment['buildIdentity']['runAttempt'] = '3'
+            save(path, environment)
+            self.refresh(root)
+            with self.assertRaises(AssertionError):
+                current_run_producer_identity(root, consumer)
 
     @classmethod
     def setUpClass(cls):

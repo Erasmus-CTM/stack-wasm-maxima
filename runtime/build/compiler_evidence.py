@@ -192,11 +192,34 @@ def normalized(path,cwd):
     return posixpath.normpath(path if path.startswith('/') else str(cwd)+'/'+path)
 
 
-def link_evidence(rows,cwd,required):
+def gc_passes(profile):
+    """Profile-selected complete GC pass list, or None for upstream spilling."""
+    value = profile.get('gcSpillPasses')
+    return None if value is None else value.split(',')
+
+
+def spill_sequence(tokens, gc):
+    """Require the selected passes, contiguous and after every optimization pass.
+
+    Plain --spill-pointers misses pointers held on the Wasm value stack across
+    a nested call. A profile that selects the complete list must not accept a
+    spill pass that runs without --flatten immediately before it.
+    """
+    if gc is None:
+        return
+    wanted = ['--'+name for name in gc]
+    starts = [i for i in range(len(tokens)-len(wanted)+1) if tokens[i:i+len(wanted)]==wanted]
+    assert len(starts)==1, 'Missing exact GC pass sequence: '+shlex.join(tokens)
+    assert tokens.count('--spill-pointers')==1, 'Additional spill pass outside the GC sequence'
+    assert not any(re.fullmatch(r'-O(?:[0-3sz]|fast)',token) for token in tokens[starts[0]:]), 'Optimization after GC spilling'
+
+
+def link_evidence(rows,cwd,required,gc=None):
     passes = []
     for row in rows:
         if row['executable']!='wasm-opt' or '--spill-pointers' not in row['tokens'] or '-o' not in row['tokens']:
             continue
+        spill_sequence(row['tokens'],gc)
         outindex=row['tokens'].index('-o')
         assert outindex>1 and not row['tokens'][outindex-1].startswith('-'), 'Missing actual Binaryen input'
         passes.append({'command':row['command'],'input':normalized(row['tokens'][outindex-1],cwd),'output':normalized(output_of(row),cwd)})
@@ -220,6 +243,8 @@ def link_evidence(rows,cwd,required):
                 assert any(re.fullmatch(r'-sSIDE_MODULE(?:=[12])?',token) for token in tokens), 'Missing SIDE_MODULE identity: '+output
         wasm=normalized(wasm,cwd)
         matching=[p for p in passes if p['input']==wasm and p['output']==wasm]
+        # A profile's GC passes arrive through EMCC_CFLAGS, never in the
+        # driver argv; the executed Binaryen argv is the effective evidence.
         assert matching, 'No actual spill-pointers execution for target: '+wasm
         links.append({'output':normalized(output,cwd),'wasmOutput':wasm,'command':row['command'],'spillPasses':matching})
     observed={row['wasmOutput'] for row in links}
@@ -256,8 +281,9 @@ def derive(config, target, ecl_trace, maxima_trace, profile):
             'eclTraceSha256':digest(ecl_trace),'maximaTraceSha256':digest(maxima_trace),
             'eclCore':core,'eclGeneratedLisp':generated,'maximaGeneratedUnits':maxima,
             'excludedNonTargetCompiles':{'ecl':ecl_excluded,'maxima':maxima_excluded},
-            'eclLinks':link_evidence(ecl_rows,ecl_cwd,[ecl_cwd+'/libecl.so']),
-            'maximaLinks':link_evidence(maxima_rows,maxima_cwd,[maxima_output+'/maxima.wasm']+[maxima_output+'/maxima/'+module+'.fasb' for module in MODULES])}
+            'gcSpillPasses':gc_passes(profile),
+            'eclLinks':link_evidence(ecl_rows,ecl_cwd,[ecl_cwd+'/libecl.so'],gc_passes(profile)),
+            'maximaLinks':link_evidence(maxima_rows,maxima_cwd,[maxima_output+'/maxima.wasm']+[maxima_output+'/maxima/'+module+'.fasb' for module in MODULES],gc_passes(profile))}
 
 
 def verify_packaged(artifact, profile):

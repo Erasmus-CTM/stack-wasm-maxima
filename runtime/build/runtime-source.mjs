@@ -13,7 +13,7 @@ export async function loadOwnedRuntime(source,repository) {
  const pins=await effectivePins(repository);
  assert.equal(manifest.schema,1);assert.deepEqual(manifest.sourcePins,pins,'Owned runtime must match the exact current source pins');
  const profiles=JSON.parse(await readFile(resolve(repository,'runtime/build/compiler-profiles.json')));
- const profile=profiles.profiles[process.env.CTM_ECL_COMPILER_PROFILE||'baseline'];
+ const profile={...profiles.profiles,...profiles.experimentalProfiles}[process.env.CTM_ECL_COMPILER_PROFILE||'baseline'];
  assert.ok(profile,'Unknown compiler experiment');assert.deepEqual(manifest.compilerProfile,profile,'Current compiler profile differs');
  const configuration=JSON.parse(await readFile(resolve(repository,'runtime/build/configuration.json')));
  assert.deepEqual(manifest.configuration,configuration,'Current candidates require the exact no-gnuplot configuration');

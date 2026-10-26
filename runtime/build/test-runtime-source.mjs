@@ -16,7 +16,8 @@ const paths=[...await expectedRuntimePaths(repository)];
 for(const path of paths){await mkdir(dirname(join(root,'runtime',path)),{recursive:true});await writeFile(join(root,'runtime',path),body);}
 const configuration=JSON.parse(await readFile(join(repository,'runtime/build/configuration.json')));
 const startup=(await readFile(join(repository,'runtime/build/no-plot.mac'),'utf8')).trim()+'\n';
-const compilerProfile=JSON.parse(await readFile(join(repository,'runtime/build/compiler-profiles.json'))).profiles[process.env.CTM_ECL_COMPILER_PROFILE||'baseline'];
+const catalog=JSON.parse(await readFile(join(repository,'runtime/build/compiler-profiles.json')));
+const compilerProfile={...catalog.profiles,...catalog.experimentalProfiles}[process.env.CTM_ECL_COMPILER_PROFILE||'baseline'];
 const valid={schema:1,compilerProfile,sourcePins,configuration,startupAdapter:{content:startup,sha256:configuration.startupSha256},runtimeAssets:paths.map(path=>({path,bytes:body.length,sha256}))};
 valid.sourceIntegrity={schema:1,allVerifiedFilesUnmodified:false,overlays:[JSON.parse(await readFile(join(repository,'runtime/build/patches/ecl-root-scanner.json')))],
  originalArchives:sourcePins.sources.filter(p=>['maxima','ecl'].includes(p.name)).map(p=>({path:'sources/'+p.name+'.tar',sha256:p.archive.sha256})),

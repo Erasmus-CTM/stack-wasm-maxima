@@ -1,0 +1,98 @@
+CLAUDE REVIEW HANDOFF — 25 October 2026, 09:46 UTC
+Repository: Erasmus-CTM/stack-wasm-maxima
+
+REQUEST AND CURRENT STOP
+AC asked to promote ecl-oz-maxima-oz only after selection evidence and a full production-profile build with every acceptance gate. AC merges and publishes runtime-v3. Never merge, tag, release, or change the site's v2 pin in this task. One eventual promotion PR, only if evidence holds. No PR exists. Production is STILL ecl-oz; candidate STILL experimental. User now requests a handoff for a fresh Claude review because the investigation is stuck. Please independently review the project design, harness, and native runtime before proposing a repair. A passing rerun is not a repair.
+
+WORKTREES / CHECKPOINTS
+- /workspace/maxima-production, branch runtime/promote-maxima-oz, main base 99847b44ee26201b21b18013e497c5803011539e (still current main, verified).
+- Tested preparation head e872869b17dc57b6e4b09b40b4a342d5534c1771. Later checkpoint includes pending gate/preflight improvements and these evidence notes, but DOES NOT promote the catalog. Get its SHA with git rev-parse HEAD. Its final full build has not run.
+- /workspace/compiler-selection, branch evidence/maxima-oz-production, pushed 7e29424ccc0a892f1948ad7e128aeb20cbe2dca0. Contains diagnostic/comparison workflows, not promotion code. DO NOT copy these workflows into the promotion PR.
+- /workspace/compiler-promotion-state.json has the longer machine-readable working state. This handoff supersedes stale hypotheses in it and earlier notes.
+- Original /workspace/stack-wasm-maxima worktree was left untouched.
+
+THE REAL FAILURE, BEFORE PYTHON
+Full fresh candidate integration build run 40169665328, head e872869..., built/packaged successfully. Both STACK pins' compiler/native evidence, compiled controller/native316, 32 initializations/24 restarts, compiled graphics/offline MathJax, and both-pin official source+compiled probes passed. Final original SOURCE controller failed: expected graded, got invalid. Its partial capture had181 programs,180 accepted native comparisons,1 mismatch.
+https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40169665328
+
+Question: "A graphical PythonChecker", source answer [1,1], teacher [2,2], env startx=-2. A validation succeeds, then the adjacent revalidation for grade unexpectedly returns generic-invalid. grade() stops in _validate BEFORE invoking the Python callback. This is not established to be a Python failure.
+
+No-rebuild UNMODIFIED full UI run40176606770, head67fbbf901a5e5502b18a7dcdbb8e7f84dce6e857:
+- old ecl-oz:3/3 complete UI316+independent native pass;
+- original candidate58cf269:3/3 complete UI316+independent native pass;
+- fresh e872 binary: repetition1 complete pass; repetition2 fails at180 programs at the same validation, then stops.
+Original engine hash equals executed engine hash 642e1cdd481b57f74f3b4733796812c131f37068feecbf3d4f6717f794bd99b1.
+https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40176606770
+Local: /workspace/source-ui-fresh-unmodified; /workspace/source-ui-old-unmodified; /workspace/source-ui-original-unmodified.
+
+All first180 generated CAS expressions in the failed repetition exactly match each of SIX passing old/original-candidate repetitions. Their full JSON results agree through179;180 is the first difference. See identical-history.json here. This rules out a different submitted/prepared program, not hidden state/timing/runtime causes.
+
+EXACT CONDITION ALREADY CAUGHT
+Run40177576930, head bcb5915cb074dda5901b3591551c6a8fa48277f8, added exact-case engine diagnostics (no new Lisp startup definitions). First UI run passed; repetition2 reproduced the fault:
+"In function CAR, the value of the first argument is SUBR which is not of the expected type LIST"
+%ERR = ["stack_map"] (empty)
+%NOTES = ["stack_map", ["ctm-native", ["(ATList_wrongentries 1, 2)"]]]
+stage step-1 = with_stdout(path,_ctm_v:stack_validate([_ctm_s],false,_ctm_t,0)).
+It occurs before openr/readline and before Python. See caught-condition.json; local /workspace/exact-condition.
+https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40177576930
+
+PINNED SOURCE PATH / DESIGN FINDINGS
+STACK pin33383047af39c204bf4442802a058f8b918b2b1b:
+validator.mac stack_validate -> ATSameTypefun -> ATAlgEquivfun -> ATList. ATList appends ATList_wrongentries immediately before stack_disp(SAN,"d") / wrong-entry feedback. stack_disp invokes unary_minus_sort, stack_disp_sub_script, mminusbp100, tex, mminusbp134. This narrows the suspected path but is NOT a root-cause proof.
+ATList aliases SAN:SA and colors wrong entries. ATSameTypefun evaluates arguments then calls ATAlgEquivfun without the public ATAlgEquiv wrapper's explicit copies. Our caller stores _ctm_v but later displays _ctm_s. Investigate actual semantics before changing this; no destructive-aliasing cause has been demonstrated.
+STACK defines ?texnumformat and attempts errcatch(compile(?texnumformat)), with an upstream comment that some systems throw a spurious error. Another hypothesis, not established.
+
+Definite boundary concern: prototype/native/engine.js validationExpression catches ALL Lisp/Maxima failures and converts them to learner-invalid with generic text. This hides internal faults and bypasses MaximaSession's existing poison/restart path. Maxima's pinned errcatch-impl explicitly catches both maxima-$error and generic Lisp error. A repair must distinguish expected learner mathematical domain errors (1/0 remains invalid WITHOUT restarting) from internal failures; do not just surface all invalid input as a system fault or silently retry grading.
+
+Long-lived session reuse is another design question: backend-worker.js serializes requests through a Promise queue; NativePythonBridge has its own queue. Simple overlapping requests have no supporting evidence. Healthy MaximaSession is reused across questions; full per-question isolation is explicitly deferred (F11 / plans). Session resets may avoid symptoms without proving their cause.
+
+WHAT DID NOT REPRODUCE / WHY GREEN IS NOT A FIX
+-40175227481: exact live CAS history, back-to-back, all3 runtimes x3 fresh workers; target+3 repeats valid.
+-40179688085: same history with observed inter-result intervals inserted as idle delays (intentionally over-delays by original CAS duration), all3 runtimes x3 workers; all target+3 repeats valid. Local /workspace/paced-history. Idle alone did not reproduce; this is not the full UI/Python workload.
+-40180063357: fresh runtime, original paced history +200 target repetitions passes; another fresh worker +200 forced-full-GC target repetitions passes. Injected hook captured real CAR(SUBR), then42; job failed only because the assertion expected true but Maxima returned unevaluated "0 = 0". Corrected to is(...).
+-40180427067: corrected actual injected-error hook control green; verifies capture and42 afterward.
+-40181062403: both hook and retained-frame controls explicitly verified TRUE. Local /workspace/raw-frame-control. An intentionally deep20 Maxima call chain leaves deep entries in *mlambda-call-stack* backing storage after unwind/JSON serialization; shallow entries are overwritten by serialization. Bound snapshot300 entries, each1024 characters, via existing :lisp session.write channel. Do not treat these as an intact active stack. Passing job status alone was insufficient in earlier control iterations; inspect per-experiment ok fields.
+-40178315296:5 full UI/native passes with a startup Lisp wrapper routing stack_validate through mfuncall; changes calling interface, no proof of repair.
+-40179071090:15 full UI/native passes with errcatch wrapped; normal evaluation path altered, no proof of repair.
+-40179881228:10 full UI/native passes with universal-error-handler hook at startup; no fault captured. One earlier hook run40179421666 failed native replay solely because added successful-result metadata referenced Wasm-only helper state; corrected successful diagnostic=false. Do not mistake that observer bug for the source parity fault.
+
+LATEST IMPORTANT RESULT
+40181246819, head37e8bae1e44830e32ab62226f1bd40a3557ee572:
+5 complete fresh SOURCE UI316 + independent native316 repetitions ALL PASS,0 unaccepted differences. NO startup or generated validation-program changes. Derived JS only makes additional CAS calls after original exact-case generic-invalid has already occurred; zero triggers in all5 workers. All first180 expressions match the unmodified failed run. Therefore it is NOT established that startup instrumentation alone masks the fault. It is currently non-reproducing, and remains unexplained.
+https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40181246819
+Artifact12593873369 SHA256 4036b0b7591a01be1e28a81533d3654d34d404b32de38da983d0051f3342aada.
+Local /workspace/postfailure-only-ui; derived postfailure-only-summary.json here.
+
+LATEST DIAGNOSTIC TO REUSE IF NEEDED
+On evidence branch: runtime/timing/source-ui/postmortem.py and validation-trace.lisp; .github/workflows/source-ui.yml now selects postmortem.py. It leaves startup/CAS programs unchanged. Only after the original fault: snapshot retained frame storage, read current condition, install ECL universal-error-handler hook, diagnostically re-evaluate original expression5 times and capture live Maxima mlambda frames + ECL IHS/last-meval form if the SUBR type error recurs. Original invalid verdict is never replaced. No automatic retry is proposed as a production fix.
+Changes to the workflow/source-ui paths on evidence branch trigger it. Current matrix fresh e872 artifact12591951822 only,5 UI repetitions. Every run remains diagnosticOnly/acceptance=false.
+
+BUILD IDENTITY
+Original candidate58cf269 and fresh e872 have identical build.sh, compiler_profile.py, pins, configuration, source overlay and maxima-child.js source. Runtime79 paths and sizes match;10 asset hashes differ (libecl.so,maxima.wasm,8 optional FAS), maxima.js is identical. Nondeterministic byte differences are already known; do not call this byte-reproducible or infer a specific cause from build identity alone.
+
+SELECTION WORK IS COMPLETE (SEPARATE FROM BLOCKED INTEGRATION)
+Run40169223514, head99ba6e652fa259f7b6771889994e728eea6c6021: one runner, no rebuild, source STACK,10 balanced AB/BA repetitions per profile/mode/CPU condition; all80 pass. See README.md, results.json (all raw samples/spreads), raw/, derive-statistics.py.
+https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40169223514
+Median seconds, old ecl-oz -> original ecl-oz-maxima-oz:
+Full speed cold ready18.538->9.534, STACK13.567->6.653, first positive2.486->0.217.
+Full speed reload ready18.464->9.038, STACK13.648->7.133, positive2.485->0.195.
+CPUQuota25% cold ready77.453->42.908, STACK57.450->29.650, positive10.205->0.997.
+CPUQuota25% reload ready74.156->40.046, STACK57.597->29.697, positive10.287->0.998.
+D8 aspirational20s cold target NOT MET; not a correctness gate or exact laptop prediction.
+Control is same profile/pins as v2, NOT byte-identical published v2.
+
+FIRST-POSITIVE MECHANISM EXPLAINED INDEPENDENTLY
+EMCC_CFLAGS=-Oz also reaches final Emscripten link. Old delivered FS.ErrnoError extends Error, super(strError(errno)), code lookup; new errno-only class because final optimized link defaults ASSERTIONS0. Narrow first-positive CPU traces show old ErrnoError leaf2.05-2.10s of~2.4s, candidate <0.6ms bound, grade~0.255-0.323s under instrumentation. Both load genut.mac (old~0.10-0.16s,new~0.03s); V8 baseline compilation only~2.4-2.6ms cold/0 reload. Real first-use glue gain, NOT10x algebra/steady-state. Clean warm grades48.7ms->42.8ms. FIRST-GRADE.md and first-grade-cause.json bind exact SDK/source/glue hashes, traces, samples. Valid CPU run40171592095; LOAD run40169523214. Exclude earlier full-session CPU run40169894083 (lost calibration). Group CPU ProfileChunks by(pid,id), not tid.
+
+WHAT REMAINS FOR PROMOTION
+Find a defensible explanation/repair or explicitly retain the block. Then meaningful focused regression(s), full fresh production-profile build with ALL gates at final head, and green PR CI. Only THEN move candidate experimentalProfiles->profiles and production, dated evidence note, update catalog tests, open one PR main and attach it in Codex. Source STACK remains default, compiled opt-in. Keep explicit legacy timing/comparison profile selections and omit experiment-only workflow. No PR/merge/tag/release so far.
+Prepared support wires runtime-production PR workflow to production profile and reuses runtime-build, as runtime-release does. Release record schema1/archive member layout unchanged; acceptance JSON adds stackAcceptance. Site runtime/release.json stays v2.
+
+HOW TO USE TOOLS
+Git/gh shell networking needs sandbox_permissions=require_escalated; automatic review allowed these scoped actions. GitHub connector GET reads are fast. For artifacts use github_fetch_workflow_run_artifacts -> github_download_workflow_artifact -> tools.download_file(file_id).32MiB download maximum; full build ZIP314MB needs a CI extraction workflow to upload selected small files (example evidence extraction workflows already present). CLI gh artifact storage-host downloads were blocked. Do not expose credentials. All current diagnostic runs completed; no active jobs need babysitting.
+
+SUGGESTED FRESH REVIEW QUESTIONS (NOT A PRESCRIBED FIX)
+1. Does validation's catch-all / the with_stdout + discarded returned value / shared mutable STACK state explain the symptom, or just conceal it?
+2. Can you build a small reproducer that preserves the missing full-UI interaction without adding startup state? What do the matching180 expressions and non-reproducing paced/GC stress actually rule out?
+3. Is a typed internal-error boundary needed independently of the root cause? Preserve ordinary domain invalidity and existing lifecycle semantics.
+4. What evidence would distinguish source interpreter state, collector/root lifetime, Wasm tiering/timing, and a harness issue? Avoid promoting any one hypothesis to a finding without direct evidence.

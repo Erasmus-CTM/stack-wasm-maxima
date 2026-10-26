@@ -149,14 +149,33 @@ if [[ "$MODE" == native-only ]]; then
   printf 'CTM-NATIVE-ENTRY-TRANSLATION-OK\n' | tee "$WORK/logs/native-entry-status.txt"
   exit 0
 fi
-"$ECL" --norc --load build.lisp \
-  --eval "(asdf:load-asd \"$WORK/source-initialized/$SYSTEM.asd\")" \
-  --eval "(cross-compile-maxima-module \"$SYSTEM\")" \
-  --eval '(ext:quit)' 2>&1 | tee "$WORK/logs/cross-compile.log"
+if [[ ${CTM_ECL_COMPILER_PROFILE:-baseline} == ecl-oz-maxima-oz ]]; then
+  # Only this explicit candidate changes STACK target optimization. Retain
+  # independent raw execution/exit evidence even if ECL captures child stderr.
+  (
+    unset EMCC_CFLAGS EMCC_DEBUG EMCC_DEBUG_SAVE EMCC_VERBOSE
+    export EMCC_CFLAGS="$(python "$ROOT/runtime/build/compiler_profile.py" --maxima-emcc-flags)"
+    export EMCC_VERBOSE=1
+    test "$EMCC_CFLAGS" = "-Oz -sBINARYEN_EXTRA_PASSES=flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
+    strace -f -qq -e trace=execve,exit_group -e signal=none -s 1048576 \
+      -o "$WORK/logs/cross-compile-exec.log" \
+      "$ECL" --norc --load build.lisp \
+      --eval "(asdf:load-asd \"$WORK/source-initialized/$SYSTEM.asd\")" \
+      --eval "(cross-compile-maxima-module \"$SYSTEM\")" --eval '(ext:quit)'
+  ) 2>&1 | tee "$WORK/logs/cross-compile.log"
+else
+  "$ECL" --norc --load build.lisp \
+    --eval "(asdf:load-asd \"$WORK/source-initialized/$SYSTEM.asd\")" \
+    --eval "(cross-compile-maxima-module \"$SYSTEM\")" \
+    --eval '(ext:quit)' 2>&1 | tee "$WORK/logs/cross-compile.log"
+fi
 mapfile -t bundles < <(find "$WORK" "$MAXIMA/src/binary-ecl" -type f \( -name "$SYSTEM.fasb" -o -name "$SYSTEM.fas" \) -print)
 test "${#bundles[@]}" = 1
 cp "${bundles[0]}" "$WORK/stackmaxima.fas"
 file "$WORK/stackmaxima.fas" | tee "$WORK/logs/bundle-format.txt"
 sha256sum "$WORK/stackmaxima.fas" > "$WORK/logs/stackmaxima-fas.sha256"
 python "$ROOT/runtime/precompiled/bundle_provenance.py" --stack-source "$STACK" --work "$WORK" --pin "$PIN"
+if [[ ${CTM_ECL_COMPILER_PROFILE:-baseline} == ecl-oz-maxima-oz ]]; then
+  python "$ROOT/runtime/precompiled/stack_compiler_evidence.py" --work "$WORK" --pin "$PIN"
+fi
 python "$ROOT/runtime/build/verify-source-state.py" after --target-overlay

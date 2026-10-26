@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "scope": "Original unmodified browser program prefixes; one-based indices, all generated expressions and full JSON results compared. Hidden CAS state/timing are not captured by expression equality.",
+  "failedReportSha256": "f22dbfc8623c386e4acac10229acdea64aaca17b63f9092173ebfa1592ea39fa",
+  "sharedPrefixExpressionsSha256": "ecaf2fe2f0d9294e6432050543aa8dbb7867ed270845bfdae648bcea8e48f685",
+  "checks": [
+    {
+      "control": "old",
+      "report": "source-ui-old-unmodified/test-results/milestone-three/browser.json",
+      "reportSha256": "30f0079a7eb731a32b9b6dff23a38f798b28871218d49e7425bcb8a3a5b4118f",
+      "totalPrograms": 316,
+      "comparedPrefixPrograms": 180,
+      "expressionDifferences": [],
+      "resultDifferences": [
+        180
+      ]
+    },
+    {
+      "control": "old",
+      "report": "source-ui-old-unmodified/test-results/milestone-three/repetition-2/browser.json",
+      "reportSha256": "4de2e1bb83f5ba989dc3ea977bc73cf97f78a238ef97b3f8c4fd06422c61e65e",
+      "totalPrograms": 316,
+      "comparedPrefixPrograms": 180,
+      "expressionDifferences": [],
+      "resultDifferences": [
+        180
+      ]
+    },
+    {
+      "control": "old",
+      "report": "source-ui-old-unmodified/test-results/milestone-three/repetition-3/browser.json",
+      "reportSha256": "364cc842b5e248b536a6087d286bbceff1455106542ba289e1056301e84998b8",
+      "totalPrograms": 316,
+      "comparedPrefixPrograms": 180,
+      "expressionDifferences": [],
+      "resultDifferences": [
+        180
+      ]
+    },
+    {
+      "control": "original",
+      "report": "source-ui-original-unmodified/test-results/milestone-three/browser.json",
+      "reportSha256": "0886ccb6a67a1f2405a64ad7869c5bb255eec21ee64906feee31048956d593ce",
+      "totalPrograms": 316,
+      "comparedPrefixPrograms": 180,
+      "expressionDifferences": [],
+      "resultDifferences": [
+        180
+      ]
+    },
+    {
+      "control": "original",
+      "report": "source-ui-original-unmodified/test-results/milestone-three/repetition-2/browser.json",
+      "reportSha256": "2966c2f994266fe4ca3bb54704e81a9c97828f1c7d9f0384743af72c262eaec7",
+      "totalPrograms": 316,
+      "comparedPrefixPrograms": 180,
+      "expressionDifferences": [],
+      "resultDifferences": [
+        180
+      ]
+    },
+    {
+      "control": "original",
+      "report": "source-ui-original-unmodified/test-results/milestone-three/repetition-3/browser.json",
+      "reportSha256": "6ceae4dd479477a393afb7eaf9b038f073e2a22e44e60794e4c126b82088550c",
+      "totalPrograms": 316,
+      "comparedPrefixPrograms": 180,
+      "expressionDifferences": [],
+      "resultDifferences": [
+        180
+      ]
+    }
+  ]
+}

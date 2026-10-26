@@ -13,6 +13,22 @@ def read_json(path):
     return json.loads(path.read_text())
 
 
+def current_run_producer_identity(root, consumer):
+    """A comparison retry consumes accepted builds from this run's earlier attempts.
+
+    The workflow downloads named artifacts from its own run. Keep that run and
+    checkout fixed; only the producer attempt may precede the consumer attempt.
+    validate_build subsequently verifies this identity and the complete inventory.
+    """
+    producer = read_json(root / '.cache/runtime-build/artifact/logs/environment.json')['buildIdentity']
+    assert producer['runId'] == consumer['runId'], 'Artifact belongs to another workflow run'
+    assert producer['sourceRevision'] == consumer['sourceRevision'], 'Artifact belongs to another checkout'
+    for attempt in (producer['runAttempt'], consumer['runAttempt']):
+        assert isinstance(attempt, str) and re.fullmatch(r'[1-9][0-9]*', attempt), 'Invalid workflow attempt'
+    assert int(producer['runAttempt']) <= int(consumer['runAttempt']), 'Artifact belongs to a future attempt'
+    return {key: producer[key] for key in ('runId', 'runAttempt', 'sourceRevision')}
+
+
 def verify_artifact_files(artifact):
     rows = read_json(artifact / 'artifact-manifest.json')['files']
     paths = {row['path'] for row in rows}

@@ -122,6 +122,14 @@ def owned_runtime_source(path: Path | None, wanted: set[str], baseline_comparato
             'startup': manifest.get('startupAdapter', {}).get('content', '')}
 
 
+def classified_errcatch() -> str:
+    """One-line Lisp form shared with the independent native reference."""
+    body = (ROOT / "prototype/native/classified-errcatch.lisp").read_text(encoding="utf-8")
+    if body.count("\n") != 1 or not body.endswith("\n") or not body.startswith("(defmspec $ctm_classified_errcatch "):
+        raise ValueError("The classified errcatch form must be one exact startup line")
+    return body.strip()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--stack-source", type=Path, required=True)
@@ -251,6 +259,8 @@ def main() -> None:
         'maxima_userdir:"/ctm"$',
         'load("/ctm/moodle-qtype_stack-master/stack/maxima/stacklocallinux.mac")$',
         "display2d:false$", "linel:1000000$",
+        # Native validation separates learner-domain errors from internal faults.
+        ":lisp " + classified_errcatch(),
         'm2_emit(sconcat("CTMMAXIMA-READY|",stackmaximaversion,"|",MAXIMA_VERSION_STR))$',
         "",
     ])

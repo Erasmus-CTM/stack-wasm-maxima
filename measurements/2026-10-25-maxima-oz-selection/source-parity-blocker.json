@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "promotionBlocked": true,
+  "productionUnchanged": "ecl-oz",
+  "testedBuildRevision": "e872869b17dc57b6e4b09b40b4a342d5534c1771",
+  "fullBuildRun": 40169665328,
+  "fullBuildArtifact": 12591951822,
+  "initialFailure": {
+    "browser": {
+      "bytes": 2668018,
+      "sha256": "39ad8103e2d530fc19e90505d5693eb0ec5e1672091dcab37abd81ed6e86d2b1"
+    },
+    "passed": false,
+    "capturedPrograms": 181,
+    "failure": {
+      "message": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'invalid'\n- 'graded'\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'invalid'\n- 'graded'\n\n    at file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-three/browser.mjs:636:18"
+    },
+    "nativeReference": {
+      "bytes": 307970,
+      "sha256": "fa23125f3baa45847ab80513b8449fa68ea11e551bd9df66db05f6950639a53a"
+    },
+    "nativeSummary": {
+      "programs": 181,
+      "passed": 180,
+      "different": 1,
+      "exact": 175,
+      "presentationEquivalent": 5,
+      "unaccepted": 1,
+      "rawDifferenceFields": 12,
+      "acceptedPresentationFields": 8,
+      "unacceptedDifferenceFields": 4
+    },
+    "unaccepted": [
+      {
+        "index": 180,
+        "operation": "validate",
+        "question": "A graphical PythonChecker",
+        "expressionSha256": "03fcb9f64cdd5af119c90c40af233e3a1033f38ef5fdfc6b08222d660e21d51a",
+        "wasm": {
+          "ans": {
+            "valid": false,
+            "latex": "",
+            "feedback": "Native STACK could not evaluate this expression",
+            "source": ""
+          }
+        },
+        "native": {
+          "ans": {
+            "valid": true,
+            "latex": "\\left[ 1 , 1 \\right] ",
+            "feedback": "",
+            "source": "[1,1]"
+          }
+        },
+        "differences": [
+          {
+            "path": "$.ans.valid",
+            "expected": false,
+            "actual": true
+          },
+          {
+            "path": "$.ans.latex",
+            "expected": "",
+            "actual": "\\left[ 1 , 1 \\right] "
+          },
+          {
+            "path": "$.ans.feedback",
+            "expected": "Native STACK could not evaluate this expression",
+            "actual": ""
+          },
+          {
+            "path": "$.ans.source",
+            "expected": "",
+            "actual": "[1,1]"
+          }
+        ],
+        "presentationDifferences": [],
+        "unacceptedDifferences": [
+          {
+            "path": "$.ans.valid",
+            "expected": false,
+            "actual": true
+          },
+          {
+            "path": "$.ans.latex",
+            "expected": "",
+            "actual": "\\left[ 1 , 1 \\right] "
+          },
+          {
+            "path": "$.ans.feedback",
+            "expected": "Native STACK could not evaluate this expression",
+            "actual": ""
+          },
+          {
+            "path": "$.ans.source",
+            "expected": "",
+            "actual": "[1,1]"
+          }
+        ],
+        "comparison": "unaccepted",
+        "passed": false
+      }
+    ],
+    "adjacentIdenticalExpression": {
+      "sha256": "03fcb9f64cdd5af119c90c40af233e3a1033f38ef5fdfc6b08222d660e21d51a",
+      "expression": "block([simp:true,assume_pos:false,assume_real:false,%ERR:[\"stack_map\"],%NOTES:[\"stack_map\"],%FEEDBACK:[\"stack_map\"],%stmt:\"ctm-native\",startx,ans],simp:false,startx:eval_string(\"-2\"),[\"stack_map\",[\"ans\",block([_ctm_s,_ctm_t,_ctm_v,_ctm_r,_ctm_lines,_ctm_stream,_ctm_line,_ctm_shape,_ctm_good,%ERR:[\"stack_map\"],%NOTES:[\"stack_map\"],%FEEDBACK:[\"stack_map\"]],simp:false,_ctm_lines:[],_ctm_t:eval_string(\"[2,2]\"),_ctm_r:errcatch(block([],_ctm_s:eval_string(\"[1,1]\"),with_stdout(sconcat(maxima_tempdir,\"/ctm-native-validation.txt\"),_ctm_v:stack_validate([_ctm_s],false,_ctm_t,0)),_ctm_stream:openr(sconcat(maxima_tempdir,\"/ctm-native-validation.txt\")),_ctm_line:readline(_ctm_stream),while not is(_ctm_line=false) do (if slength(_ctm_line)>0 then _ctm_lines:endcons(_ctm_line,_ctm_lines),_ctm_line:readline(_ctm_stream)),close(_ctm_stream),if length(%ERR)>1 then _ctm_lines:endcons(\"Native STACK could not evaluate this expression\",_ctm_lines),_ctm_good:is(_ctm_lines=[] and length(%ERR)=1),[\"stack_map\",[\"valid\",_ctm_good],[\"latex\",if _ctm_good then tex1(_ctm_s) else \"\"],[\"feedback\",simplode(_ctm_lines,\" \")],[\"source\",if _ctm_good then string(ev(_ctm_s,simp)) else \"\"]])),if _ctm_r=[] then [\"stack_map\",[\"valid\",false],[\"latex\",\"\"],[\"feedback\",\"Native STACK could not evaluate this expression\"],[\"source\",\"\"]] else first(_ctm_r))]])",
+      "first": {
+        "ans": {
+          "valid": true,
+          "latex": "\\left[ 1 , 1 \\right] ",
+          "feedback": "",
+          "source": "[1,1]"
+        }
+      },
+      "second": {
+        "ans": {
+          "valid": false,
+          "latex": "",
+          "feedback": "Native STACK could not evaluate this expression",
+          "source": ""
+        }
+      }
+    }
+  },
+  "unmodifiedReproduction": {
+    "run": 40176606770,
+    "head": "67fbbf901a5e5502b18a7dcdbb8e7f84dce6e857",
+    "artifact": 12593036184,
+    "repetition1": {
+      "passed": true,
+      "programs": 316
+    },
+    "repetition2": {
+      "browser": {
+        "bytes": 2662899,
+        "sha256": "f22dbfc8623c386e4acac10229acdea64aaca17b63f9092173ebfa1592ea39fa"
+      },
+      "passed": false,
+      "capturedPrograms": 180,
+      "failure": {
+        "message": "AssertionError [ERR_ASSERTION]: native-python-board: undefined\n\n'invalid' !== 'valid'\n",
+        "stack": "AssertionError [ERR_ASSERTION]: native-python-board: undefined\n\n'invalid' !== 'valid'\n\n    at file:///home/runner/work/stack-wasm-maxima/stack-wasm-maxima/scripts/milestone-three/browser.mjs:621:16"
+      },
+      "target": {
+        "ans": {
+          "valid": false,
+          "latex": "",
+          "feedback": "Native STACK could not evaluate this expression",
+          "source": ""
+        }
+      }
+    },
+    "engineDerivation": {
+      "diagnosticOnly": true,
+      "acceptance": false,
+      "file": "site/native/engine.js",
+      "originalSha256": "642e1cdd481b57f74f3b4733796812c131f37068feecbf3d4f6717f794bd99b1",
+      "derivedSha256": "642e1cdd481b57f74f3b4733796812c131f37068feecbf3d4f6717f794bd99b1",
+      "scope": "No engine or session observer modification. Full original UI and original validation verdicts."
+    }
+  },
+  "historyDiagnostic": {
+    "run": 40175227481,
+    "repetitionsPerRuntime": 3,
+    "sourceEvaluationsPerSession": 170,
+    "outcome": "No reproduction in the accepted old control, original candidate or fresh failed binary. This history-only diagnostic is not the complete UI/native316 gate."
+  },
+  "instrumentedUI": {
+    "run": 40176126363,
+    "outcome": "One complete UI/native316 pass per runtime with a post-verdict CAS-condition observer. Excluded as proof of a fix because expected earlier domain errors trigger extra diagnostic evaluations and alter later heap history."
+  },
+  "conclusion": "The first-grade performance mechanism is explained, but the fresh source-loaded candidate intermittently fails the required native316 controller semantics. The underlying CAS condition/cause is not established. Do not promote or publish runtime-v3 from this evidence. The same archived original candidate passed separate source UI replays; no claim that all builds of this compiler profile fail.",
+  "latestReviewStatus": {
+    "rootCause": "unresolved",
+    "promotionBlocked": true,
+    "handoff": "CLAUDE-HANDOFF.txt",
+    "latestPostFailureOnlyRun": 40181246819,
+    "freshSourceUIAndNativePasses": 5,
+    "diagnosticTriggers": 0,
+    "limitation": "Passing later repetitions do not establish a repair or explain the prior failures."
+  }
+}

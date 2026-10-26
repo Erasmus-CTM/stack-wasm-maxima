@@ -179,6 +179,9 @@ def main():
         report['publicPagesEncodings'] = pages['assets']
         report['plotDiagnostic'] = diagnostic
         report['environment'] = environment
+        if profile['name'] == 'ecl-oz-maxima-oz':
+            from stack_acceptance import verify as verify_stack
+            report['stackAcceptance'] = verify_stack(artifact_path.parent, revision)
         report['passed'] = True
     except Exception as error:
         report['failure'] = f'{type(error).__name__}: {error}'
