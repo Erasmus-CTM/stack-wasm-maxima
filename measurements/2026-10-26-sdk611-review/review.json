@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-26",
+  "reviewedCommit": "3ef575fe8e43f1fa45347002cafdaf264ea15dbf",
+  "reviewedBranch": "claude/elegant-maxwell-3tv01e",
+  "sourceRun": 40266518267,
+  "sourceArtifact": 12629510043,
+  "sourceArtifactZipSha256": "c9528a55938a07b79e104a0f09f10ff7f91e09d67ddba74ecb45df94d51c330e",
+  "sourceArtifactZipBytes": 389419233,
+  "reviewCollectorRun": 40275943680,
+  "reviewArtifact": 12630735182,
+  "reviewArtifactZipSha256": "b483faf0ffc482b55377c43eac1f2ed3907b3f1adfb0cfc2ecbfbb3211234191",
+  "sdk": "6.0.11",
+  "profile": "ecl-oz",
+  "maximaOptimization": "-O2",
+  "runtimeAssets": 79,
+  "runtimeBytes": 48121956,
+  "historicalSDK4EclOzBytes": 49348838,
+  "sizeDifferencePercent": 2.486141618977933,
+  "ownColdSeconds": [
+    10.697575000000187,
+    10.934925000000746
+  ],
+  "ownReloadSeconds": [
+    9.099919999999926,
+    9.36159499999974
+  ],
+  "timingScope": "Only n2 acceptance samples, different runner and profile from the validated v3 candidate; not a matched SDK4-vs-SDK6 speed comparison.",
+  "localChecks": "JS/Python effective pin equality, owned runtime manifest admission, source archive verification fixture, all12 compiler-evidence regressions passed.",
+  "missingV3Evidence": [
+    "ecl-oz-maxima-oz profile on SDK6",
+    "Exact flatten/spill/local-cleanup sequence through ECL, Maxima and translated STACK on SDK6",
+    "Both compiled STACK pins and compiled controller316 native comparisons",
+    "During-call source and compiled GC stress and internal validation error boundary",
+    "Matched n10 balanced SDK4-vs-SDK6 same-profile source STACK timing, cold/reload and CPUQuota25 on one runner"
+  ],
+  "recommendation": "Keep PR28/runtime-v3 on the accepted SDK4.0.10 profile; reuse the SDK6 compatibility and pin-selection work for a separately accepted successor candidate."
+}

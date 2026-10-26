@@ -1,0 +1,1280 @@
+{
+  "schema": 1,
+  "compilerProfile": {
+    "name": "ecl-oz",
+    "injectedEmccFlags": "-Oz",
+    "eclCoreOptimization": "-Oz",
+    "eclGeneratedLispOptimization": "-Oz",
+    "maximaGeneratedOptimization": "-O2"
+  },
+  "runtimeAssets": [
+    {
+      "path": "libecl.so",
+      "bytes": 5162085,
+      "sha256": "ba49ce61f1b4aeda7f1167e282f3cff92bd5db1b5284b62d22d4d3b8634e41c3",
+      "deployedBytes": 7966927,
+      "deployedSha256": "477e2d4092cc8a6a601e39ddc746440854984115347b62e7faf3b65cc8fa3564",
+      "differenceBytes": -2804842
+    },
+    {
+      "path": "maxima-integration.fas",
+      "bytes": 2157614,
+      "sha256": "c5f5e6703eaff10c2831b4bf60e9fb02dc21a34d0fa1fbbc3f7b5b87c61db594",
+      "deployedBytes": 2156309,
+      "deployedSha256": "f9cfeaaf6dcf3063428a19b08bd1b27cfd7618db3f7e3443a69ad26fcbe95db4",
+      "differenceBytes": 1305
+    },
+    {
+      "path": "maxima-limits.fas",
+      "bytes": 985893,
+      "sha256": "9881a37c7b6eb0b58838437077fd649425a678a8ad209e1b74ea94f023427e89",
+      "deployedBytes": 985243,
+      "deployedSha256": "df76a340b53864025e4a8030789a40a91a5d8b6cc0724c11c0e271af9814a5c0",
+      "differenceBytes": 650
+    },
+    {
+      "path": "maxima-matrix-algebra.fas",
+      "bytes": 645999,
+      "sha256": "c88af662a48efd4932862447d1c76c5d183bba35aa11d528ff59f65e324a719a",
+      "deployedBytes": 645537,
+      "deployedSha256": "25a1496b2170cb0ee1d66adc44e89d934e96ea9af1f93c879db02be56e1b3c07",
+      "differenceBytes": 462
+    },
+    {
+      "path": "maxima-number-theory.fas",
+      "bytes": 1429179,
+      "sha256": "77711f96d585c27c124d6a39dfa7338b5c8c390a09492eaebf72f1b7e8eb4b3e",
+      "deployedBytes": 1429150,
+      "deployedSha256": "833ac50171d72c4bff7278ae1c989117b15c49a67516790683380d0f5aa0d887",
+      "differenceBytes": 29
+    },
+    {
+      "path": "maxima-poisson-series.fas",
+      "bytes": 217596,
+      "sha256": "4d2622eda7c00a59d3714952433bde439941f4cefcc0ca6e2332541b55b44d22",
+      "deployedBytes": 217426,
+      "deployedSha256": "439ab53ff86b76052105dbcc8770c04109c7ea95efb89b2440a9a2a533eff9fd",
+      "differenceBytes": 170
+    },
+    {
+      "path": "maxima-quadpack.fas",
+      "bytes": 3686663,
+      "sha256": "7b96cd92d89a7331cd0eab1b70b4ae4754b58b525cbcb598c291659d6ab3e4ae",
+      "deployedBytes": 3714554,
+      "deployedSha256": "26ca2a9811792cb023730014f9e9179af0e5e47c47fdf64528558d1dbc0c0def",
+      "differenceBytes": -27891
+    },
+    {
+      "path": "maxima-slatec.fas",
+      "bytes": 6178003,
+      "sha256": "2ccfbf5f3ef512bb64b2142f1cec7a238f5512e5dec38da6dc0f4b4361ba7d75",
+      "deployedBytes": 6182186,
+      "deployedSha256": "3123d401b7ab973a66b7e585ea0e746a5c899937e1b0ebdf399589eb9d2a003e",
+      "differenceBytes": -4183
+    },
+    {
+      "path": "maxima-solve.fas",
+      "bytes": 1373708,
+      "sha256": "ec4e9e7f986568754b742af741d21dcfc4754b126296e2bad23528e5018af745",
+      "deployedBytes": 1373325,
+      "deployedSha256": "7c2b44e14bc16f3b51b2185b5877c0667d8ae27c8fd5f34546d494e118febaf7",
+      "differenceBytes": 383
+    },
+    {
+      "path": "maxima.js",
+      "bytes": 1817748,
+      "sha256": "2d8510e7fd3cf4304d248ef5b3e8171a28fb88df2022dc6afc4ea0e44892c542",
+      "deployedBytes": 1239434,
+      "deployedSha256": "4b0b3ecc4eb229b35595e3e5f4063565502df023559d355a23306696af2fdf87",
+      "differenceBytes": 578314
+    },
+    {
+      "path": "maxima.wasm",
+      "bytes": 21984751,
+      "sha256": "985bd0d18db735ae7e236f13bd53ac9d62ea0a427f7b404bed5dbfa83899ad12",
+      "deployedBytes": 23611995,
+      "deployedSha256": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+      "differenceBytes": -1627244
+    },
+    {
+      "path": "maxima_thread.js",
+      "bytes": 3229,
+      "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db",
+      "deployedBytes": 3229,
+      "deployedSha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/info/maxima-index-html.lisp",
+      "bytes": 240539,
+      "sha256": "1447fa3ae889b6e2466bee0b1825e24d2c5c06049a2aea46ae841f3736238ce9",
+      "deployedBytes": 240539,
+      "deployedSha256": "1447fa3ae889b6e2466bee0b1825e24d2c5c06049a2aea46ae841f3736238ce9",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/info/maxima-index.lisp",
+      "bytes": 262119,
+      "sha256": "07fe12c5619772c33f8f6867afbfe9bd417b38605816f530689b3d0cfc50890f",
+      "deployedBytes": 262119,
+      "deployedSha256": "c4f25a08a93e2d730bec935a031537f6d01a069ad61f220f473a14f7aabd2160",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp",
+      "bytes": 83712,
+      "sha256": "027ea2adca8ee282261ef2c860a09506ade398ec8bee53d10f45b4edf3066aa0",
+      "deployedBytes": 83712,
+      "deployedSha256": "027ea2adca8ee282261ef2c860a09506ade398ec8bee53d10f45b4edf3066aa0",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/diag.mac",
+      "bytes": 13815,
+      "sha256": "058e2c46b050371cb10f45146c80daaabc38699fe057e31826a9c8566c26ea1e",
+      "deployedBytes": 13815,
+      "deployedSha256": "058e2c46b050371cb10f45146c80daaabc38699fe057e31826a9c8566c26ea1e",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp",
+      "bytes": 5719,
+      "sha256": "ff90059ce466a6f111838b6a31876f77c9b7d4947528b16d1642eea97b9fdbd3",
+      "deployedBytes": 5719,
+      "deployedSha256": "ff90059ce466a6f111838b6a31876f77c9b7d4947528b16d1642eea97b9fdbd3",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/simplifying.lisp",
+      "bytes": 3674,
+      "sha256": "fa7c62ce99c4aac44587ef4eeb301d15b902f8349945e4163f3148fa5f1da12f",
+      "deployedBytes": 3674,
+      "deployedSha256": "fa7c62ce99c4aac44587ef4eeb301d15b902f8349945e4163f3148fa5f1da12f",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/trigtools/trigtools.mac",
+      "bytes": 5020,
+      "sha256": "cae0f3c2f902ddfa05099d7bd59e9f0b85a8b616f72085d1fc69ac6eab14fbbc",
+      "deployedBytes": 5020,
+      "deployedSha256": "cae0f3c2f902ddfa05099d7bd59e9f0b85a8b616f72085d1fc69ac6eab14fbbc",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac",
+      "bytes": 69297,
+      "sha256": "c9b7d891f0a59d62a4acc0171d46d9234cb9613364c7760206fb34ebf4c2d15a",
+      "deployedBytes": 69297,
+      "deployedSha256": "c9b7d891f0a59d62a4acc0171d46d9234cb9613364c7760206fb34ebf4c2d15a",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp",
+      "bytes": 665,
+      "sha256": "a55a311e59742454623026388173bf8bc53933741bf1eec54dc9754d908d3b89",
+      "deployedBytes": 665,
+      "deployedSha256": "a55a311e59742454623026388173bf8bc53933741bf1eec54dc9754d908d3b89",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac",
+      "bytes": 75917,
+      "sha256": "bca2baca2a951be94c48d903e9f742dc6c48af56c0ee8d71852d21e8b2c4e674",
+      "deployedBytes": 75917,
+      "deployedSha256": "bca2baca2a951be94c48d903e9f742dc6c48af56c0ee8d71852d21e8b2c4e674",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp",
+      "bytes": 67103,
+      "sha256": "785a5040c4ddccbf86cbfe545ecd6df9c9c91b3fd0943d175c63ea6842c6361b",
+      "deployedBytes": 67103,
+      "deployedSha256": "785a5040c4ddccbf86cbfe545ecd6df9c9c91b3fd0943d175c63ea6842c6361b",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+      "bytes": 231,
+      "sha256": "45def400e51ed424494d988f0c37e8e880247bda9ae249d54e8f2e33b856dbd9",
+      "deployedBytes": 231,
+      "deployedSha256": "45def400e51ed424494d988f0c37e8e880247bda9ae249d54e8f2e33b856dbd9",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.system",
+      "bytes": 288,
+      "sha256": "b3540ed3cc0623c7269f74418fd316551f4302fd11235d05366158251eb0ece4",
+      "deployedBytes": 288,
+      "deployedSha256": "b3540ed3cc0623c7269f74418fd316551f4302fd11235d05366158251eb0ece4",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/gnuplot.lisp",
+      "bytes": 160983,
+      "sha256": "6a3207114a838113174240e0d1873b19ee3914eaa2a6f7ece59d537e242a490f",
+      "deployedBytes": 160983,
+      "deployedSha256": "6a3207114a838113174240e0d1873b19ee3914eaa2a6f7ece59d537e242a490f",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/grcommon.lisp",
+      "bytes": 102070,
+      "sha256": "db6d1ffd9a740856ca1a31541ff727ab868b98a7815c20ddf0f0eb65ba79f023",
+      "deployedBytes": 102070,
+      "deployedSha256": "db6d1ffd9a740856ca1a31541ff727ab868b98a7815c20ddf0f0eb65ba79f023",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/picture.lisp",
+      "bytes": 16364,
+      "sha256": "cf2fe24284c017ad30c476af6269f04555d572aea851ee8f0ed580df364123a2",
+      "deployedBytes": 16364,
+      "deployedSha256": "cf2fe24284c017ad30c476af6269f04555d572aea851ee8f0ed580df364123a2",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/vtk.lisp",
+      "bytes": 141890,
+      "sha256": "a28dc5a4333b10e568a216a69f658c93a4000cd4f354fc6f8c8454d348e4f5fe",
+      "deployedBytes": 141890,
+      "deployedSha256": "a28dc5a4333b10e568a216a69f658c93a4000cd4f354fc6f8c8454d348e4f5fe",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp",
+      "bytes": 22207,
+      "sha256": "b48ebeea74f5bf175e3d42adaceebe7e6d806e9697723309e03b94c509848bf0",
+      "deployedBytes": 22207,
+      "deployedSha256": "b48ebeea74f5bf175e3d42adaceebe7e6d806e9697723309e03b94c509848bf0",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb1.lisp",
+      "bytes": 9238,
+      "sha256": "3a68fba9fbb1c8e436eaa28841a9c2a43194f976fac12765c536f9f0a631d3a5",
+      "deployedBytes": 9238,
+      "deployedSha256": "3a68fba9fbb1c8e436eaa28841a9c2a43194f976fac12765c536f9f0a631d3a5",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb2.lisp",
+      "bytes": 1910,
+      "sha256": "1673fc162449c44506e0681fc156cae1d48064cf675bcdfa9958e472d21cfb15",
+      "deployedBytes": 1910,
+      "deployedSha256": "1673fc162449c44506e0681fc156cae1d48064cf675bcdfa9958e472d21cfb15",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-daxpy.lisp",
+      "bytes": 5461,
+      "sha256": "8b9d6701475ae051929eed656a6e61c6077e569e8c41a3fa5b30f42972d317f6",
+      "deployedBytes": 5461,
+      "deployedSha256": "8b9d6701475ae051929eed656a6e61c6077e569e8c41a3fa5b30f42972d317f6",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-ddot.lisp",
+      "bytes": 5327,
+      "sha256": "2ff8618463103d462dd94fc802c89536edc2ba78ff3701cbc5feb2a2e5e3ae7d",
+      "deployedBytes": 5327,
+      "deployedSha256": "2ff8618463103d462dd94fc802c89536edc2ba78ff3701cbc5feb2a2e5e3ae7d",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.lisp",
+      "bytes": 35249,
+      "sha256": "daf18d1bbf8a3e870d9bea27ffc5365b261a227226f5a3077906dfaa6774f366",
+      "deployedBytes": 35249,
+      "deployedSha256": "daf18d1bbf8a3e870d9bea27ffc5365b261a227226f5a3077906dfaa6774f366",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.mac",
+      "bytes": 185,
+      "sha256": "f1136424d74dcd47337b9c96536f90d1b47a580dd5c1c552d2931c3620493816",
+      "deployedBytes": 185,
+      "deployedSha256": "f1136424d74dcd47337b9c96536f90d1b47a580dd5c1c552d2931c3620493816",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/maxima-lbfgs.lisp",
+      "bytes": 5510,
+      "sha256": "caee6aac20da81e78303b075cd8d855ff5a846a010116ba7f3b44e492397f611",
+      "deployedBytes": 5510,
+      "deployedSha256": "caee6aac20da81e78303b075cd8d855ff5a846a010116ba7f3b44e492397f611",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcsrch.lisp",
+      "bytes": 9933,
+      "sha256": "3e90e87f806cb09b48885c04473e8caf36646212c21926eb6112b783633f1b04",
+      "deployedBytes": 9933,
+      "deployedSha256": "3e90e87f806cb09b48885c04473e8caf36646212c21926eb6112b783633f1b04",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcstep.lisp",
+      "bytes": 7096,
+      "sha256": "e95233ea91210438ef1ff783bae0ffd6e57cfd42a6a143904ac835923e4e24b2",
+      "deployedBytes": 7096,
+      "deployedSha256": "e95233ea91210438ef1ff783bae0ffd6e57cfd42a6a143904ac835923e4e24b2",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/eigens-by-jacobi.lisp",
+      "bytes": 5461,
+      "sha256": "7ad415c80a119bf62a0b1786fe12417c15ffbcc7ac6eb224684eac840b90c856",
+      "deployedBytes": 5461,
+      "deployedSha256": "7ad415c80a119bf62a0b1786fe12417c15ffbcc7ac6eb224684eac840b90c856",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-extra.lisp",
+      "bytes": 6189,
+      "sha256": "511f4576fd99db0dfc99bea2ee4fa7b4ea9e8bad619c0ee0c4515bce629a15bf",
+      "deployedBytes": 6189,
+      "deployedSha256": "511f4576fd99db0dfc99bea2ee4fa7b4ea9e8bad619c0ee0c4515bce629a15bf",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-utilities.lisp",
+      "bytes": 6658,
+      "sha256": "da67e38dc83182b95b89476df4b436c95a90b797c0d02197c7dadbf6ba2202b0",
+      "deployedBytes": 6658,
+      "deployedSha256": "da67e38dc83182b95b89476df4b436c95a90b797c0d02197c7dadbf6ba2202b0",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalgcholesky.lisp",
+      "bytes": 2533,
+      "sha256": "fadfe281f1ae18d9ef9d658c7b38507e56285d3bec53ce5dc0e67427988ce71b",
+      "deployedBytes": 2533,
+      "deployedSha256": "fadfe281f1ae18d9ef9d658c7b38507e56285d3bec53ce5dc0e67427988ce71b",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linearalgebra.mac",
+      "bytes": 12218,
+      "sha256": "6f509719c842128e9c8fb34a91e2b0efeec38e45f9a1dbe11fd2cfe3a76e45cf",
+      "deployedBytes": 12218,
+      "deployedSha256": "6f509719c842128e9c8fb34a91e2b0efeec38e45f9a1dbe11fd2cfe3a76e45cf",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/load-linearalgebra-lisp-files.lisp",
+      "bytes": 818,
+      "sha256": "ff456f078307f59c845d2ba6712e4bf2d4dd90908979cda01abcfb37b4daa778",
+      "deployedBytes": 818,
+      "deployedSha256": "ff456f078307f59c845d2ba6712e4bf2d4dd90908979cda01abcfb37b4daa778",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/lu.lisp",
+      "bytes": 12284,
+      "sha256": "493fc8dd91b5283f365b90d5babc0a4c0884ba68a43d0e08a5025e2e6fd6cdb0",
+      "deployedBytes": 12284,
+      "deployedSha256": "493fc8dd91b5283f365b90d5babc0a4c0884ba68a43d0e08a5025e2e6fd6cdb0",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/matrixexp.lisp",
+      "bytes": 6603,
+      "sha256": "06810384023da28279abc1a1c0ac296c192cdaacab8fb0dc2e80f5a9b8ef5d87",
+      "deployedBytes": 6603,
+      "deployedSha256": "06810384023da28279abc1a1c0ac296c192cdaacab8fb0dc2e80f5a9b8ef5d87",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/mring.lisp",
+      "bytes": 16809,
+      "sha256": "c4af22f8e472e182cef693328d3000e36749397202d5d48ca5db2178a320b0c8",
+      "deployedBytes": 16809,
+      "deployedSha256": "c4af22f8e472e182cef693328d3000e36749397202d5d48ca5db2178a320b0c8",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+      "bytes": 211935,
+      "sha256": "5752e3cb3b1653009ea11d92c54ccda008275225f76c5e869f7f08d173133d8d",
+      "deployedBytes": 211935,
+      "deployedSha256": "5752e3cb3b1653009ea11d92c54ccda008275225f76c5e869f7f08d173133d8d",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/macro/basic.mac",
+      "bytes": 1106,
+      "sha256": "ec99cf76b3653dcfe661d58b5868d51d2718b0f6e73a75696ff11fc2596536b7",
+      "deployedBytes": 1106,
+      "deployedSha256": "ec99cf76b3653dcfe661d58b5868d51d2718b0f6e73a75696ff11fc2596536b7",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/macro/packg.mac",
+      "bytes": 1571,
+      "sha256": "be614af9f8583290f54879a5978156f768798ee3e5ce4d67ed7ee44265dfeb8a",
+      "deployedBytes": 1571,
+      "deployedSha256": "be614af9f8583290f54879a5978156f768798ee3e5ce4d67ed7ee44265dfeb8a",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac",
+      "bytes": 8120,
+      "sha256": "cc63e4b33108bfc8cb3657c7dd84861bb40be5202e1fa5eff5dcb4ff842efe0c",
+      "deployedBytes": 8120,
+      "deployedSha256": "cc63e4b33108bfc8cb3657c7dd84861bb40be5202e1fa5eff5dcb4ff842efe0c",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/facexp.mac",
+      "bytes": 11079,
+      "sha256": "a749264a1679b7a7eee0d1f01e5459b81bd589ae1bf908232dd3d6588c0fdbfd",
+      "deployedBytes": 11079,
+      "deployedSha256": "a749264a1679b7a7eee0d1f01e5459b81bd589ae1bf908232dd3d6588c0fdbfd",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac",
+      "bytes": 4915,
+      "sha256": "59319fd8623025ce5444ac508f4d6defce594829b26e8ec950c7b5e2cc6f2181",
+      "deployedBytes": 4915,
+      "deployedSha256": "59319fd8623025ce5444ac508f4d6defce594829b26e8ec950c7b5e2cc6f2181",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac",
+      "bytes": 8469,
+      "sha256": "9c60b72c98b369a7a98e5d7076c9f7db03c05189cbc5c0623d0c1ec6ba56a960",
+      "deployedBytes": 8469,
+      "deployedSha256": "9c60b72c98b369a7a98e5d7076c9f7db03c05189cbc5c0623d0c1ec6ba56a960",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/lrats.mac",
+      "bytes": 2536,
+      "sha256": "8ba7506bf7a30695f3d513d2a89b62852689f9a44b13822e656cb45ebce23ba2",
+      "deployedBytes": 2536,
+      "deployedSha256": "8ba7506bf7a30695f3d513d2a89b62852689f9a44b13822e656cb45ebce23ba2",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stats/inference_result.lisp",
+      "bytes": 8238,
+      "sha256": "c56c33c6bc6e0cc1e735f3d0025c2e615f40b481093fa48e6197a24728485faf",
+      "deployedBytes": 8238,
+      "deployedSha256": "c56c33c6bc6e0cc1e735f3d0025c2e615f40b481093fa48e6197a24728485faf",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stats/numstats.lisp",
+      "bytes": 12080,
+      "sha256": "c961431de9c647558c3f2f993a64abd6af69fde6a849e24d089255b8c9497811",
+      "deployedBytes": 12080,
+      "deployedSha256": "c961431de9c647558c3f2f993a64abd6af69fde6a849e24d089255b8c9497811",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stats/stats.mac",
+      "bytes": 66662,
+      "sha256": "d6dd9065e460e92512c3050508e7c0918e6da258fc4c02d1587e2c6f3a60050c",
+      "deployedBytes": 66662,
+      "deployedSha256": "d6dd9065e460e92512c3050508e7c0918e6da258fc4c02d1587e2c6f3a60050c",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp",
+      "bytes": 5901,
+      "sha256": "acc82d7fb13251e2a67ce4f9162ca7184d5a9ce8e35e848d063d0f410f530ff1",
+      "deployedBytes": 5901,
+      "deployedSha256": "acc82d7fb13251e2a67ce4f9162ca7184d5a9ce8e35e848d063d0f410f530ff1",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp",
+      "bytes": 10760,
+      "sha256": "75c9b17bd4f33a896f4207e6652d5ab63c63edd200858ddab6fec0d40adb8273",
+      "deployedBytes": 10760,
+      "deployedSha256": "75c9b17bd4f33a896f4207e6652d5ab63c63edd200858ddab6fec0d40adb8273",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp",
+      "bytes": 2395,
+      "sha256": "39ef5cc589851f013f5846c89f8d2dd3cc847dfea040e55dc662f5f74ff7ae6b",
+      "deployedBytes": 2395,
+      "deployedSha256": "39ef5cc589851f013f5846c89f8d2dd3cc847dfea040e55dc662f5f74ff7ae6b",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp",
+      "bytes": 8193,
+      "sha256": "c8fb5a9241e800c0173c76ac87344a02cd35c972c4595868c9ca2b037ca729db",
+      "deployedBytes": 8193,
+      "deployedSha256": "c8fb5a9241e800c0173c76ac87344a02cd35c972c4595868c9ca2b037ca729db",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp",
+      "bytes": 21346,
+      "sha256": "35ec2642b830737b1c5543692c9c2385fd5970ce70028189966d36e3bdd434ac",
+      "deployedBytes": 21346,
+      "deployedSha256": "35ec2642b830737b1c5543692c9c2385fd5970ce70028189966d36e3bdd434ac",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp",
+      "bytes": 13633,
+      "sha256": "c19ee8b7532cce05bfaa382c1877110d61113caad7a09af52cc29648d6b6cfeb",
+      "deployedBytes": 13633,
+      "deployedSha256": "c19ee8b7532cce05bfaa382c1877110d61113caad7a09af52cc29648d6b6cfeb",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.lisp",
+      "bytes": 7501,
+      "sha256": "e8f6d2fb9a8d4a3184b644b49175d2a2ad4b9b6c0759e34ad7ce9e01588ce50c",
+      "deployedBytes": 7501,
+      "deployedSha256": "e8f6d2fb9a8d4a3184b644b49175d2a2ad4b9b6c0759e34ad7ce9e01588ce50c",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.mac",
+      "bytes": 76,
+      "sha256": "ca75d7da5c533701f736efd8b9ae8ea160b650d1b7f6066c2479e2363d13c248",
+      "deployedBytes": 76,
+      "deployedSha256": "ca75d7da5c533701f736efd8b9ae8ea160b650d1b7f6066c2479e2363d13c248",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp",
+      "bytes": 47721,
+      "sha256": "5b5678e3fbd9efab7e9870bf8cfb34652907a196ec7aee4f20ccee21e94d6211",
+      "deployedBytes": 47721,
+      "deployedSha256": "5b5678e3fbd9efab7e9870bf8cfb34652907a196ec7aee4f20ccee21e94d6211",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.mac",
+      "bytes": 184,
+      "sha256": "fe11a711f0af6214a976aca4ac0a1e52720186790bb4b9c61d1e606ee40e3118",
+      "deployedBytes": 184,
+      "deployedSha256": "fe11a711f0af6214a976aca4ac0a1e52720186790bb4b9c61d1e606ee40e3118",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp",
+      "bytes": 6599,
+      "sha256": "e4179ffab65b8e2c98162634d2c408e8e04c6577e943a8dacd99faa7f90bd1fb",
+      "deployedBytes": 6599,
+      "deployedSha256": "e4179ffab65b8e2c98162634d2c408e8e04c6577e943a8dacd99faa7f90bd1fb",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp",
+      "bytes": 24670,
+      "sha256": "bfcae0e610d039bb43d71e6bfa2723820df3cfe0fca012a05530f73c1a8d0e3d",
+      "deployedBytes": 24670,
+      "deployedSha256": "bfcae0e610d039bb43d71e6bfa2723820df3cfe0fca012a05530f73c1a8d0e3d",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve.mac",
+      "bytes": 26278,
+      "sha256": "2441e553d1604a55dad602cdb2e997c6f48eff668932d7cc7b7a12ec0ca1fb5e",
+      "deployedBytes": 26278,
+      "deployedSha256": "2441e553d1604a55dad602cdb2e997c6f48eff668932d7cc7b7a12ec0ca1fb5e",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve_extra.lisp",
+      "bytes": 6966,
+      "sha256": "0a364d75e9e6700c0cb170dc6bf08fbc3a700739e87218a8b029ffd0ee340b30",
+      "deployedBytes": 6966,
+      "deployedSha256": "0a364d75e9e6700c0cb170dc6bf08fbc3a700739e87218a8b029ffd0ee340b30",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/atrig1.mac",
+      "bytes": 1528,
+      "sha256": "11843e2e013d1e9888251c1acb0109c3b6f7d9c7d57cb9db9e1a285744b02dd8",
+      "deployedBytes": 1528,
+      "deployedSha256": "11843e2e013d1e9888251c1acb0109c3b6f7d9c7d57cb9db9e1a285744b02dd8",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/ntrig.mac",
+      "bytes": 1096,
+      "sha256": "3a2422f3c749c9fd8673c9dbda0e1f125f4b06c6ac7e8ec408c4fbcc8279df58",
+      "deployedBytes": 1096,
+      "deployedSha256": "3a2422f3c749c9fd8673c9dbda0e1f125f4b06c6ac7e8ec408c4fbcc8279df58",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/spangl.mac",
+      "bytes": 1945,
+      "sha256": "999b974b59ce420302ac818e49b6876b42615788b4a18c887d4f961e39e84a65",
+      "deployedBytes": 1945,
+      "deployedSha256": "999b974b59ce420302ac818e49b6876b42615788b4a18c887d4f961e39e84a65",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trgsmp.mac",
+      "bytes": 4874,
+      "sha256": "0f5db0cb2e22d4ce8536e84a3767830e76ac1751f4555ca253b86c70aa3c56a1",
+      "deployedBytes": 4874,
+      "deployedSha256": "0f5db0cb2e22d4ce8536e84a3767830e76ac1751f4555ca253b86c70aa3c56a1",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trigrat.lisp",
+      "bytes": 1909,
+      "sha256": "5da6c242383b117fc4d75b241193ab6976b63fe58542ef17b3332ead900973ec",
+      "deployedBytes": 1909,
+      "deployedSha256": "5da6c242383b117fc4d75b241193ab6976b63fe58542ef17b3332ead900973ec",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share_files.js",
+      "bytes": 528107,
+      "sha256": "e07cdd6ef8eac3ee63869a1f9c0e5cb3ec30f7f538f3dadd764e248e404a6057",
+      "deployedBytes": 533835,
+      "deployedSha256": "0a325df1e0e85c65ebaf3102fd75cb2db2d989735a0976e97c1a2108a8f5bca0",
+      "differenceBytes": -5728
+    }
+  ],
+  "sourcePins": {
+    "schema": 1,
+    "sources": [
+      {
+        "name": "maxima",
+        "repository": "https://gitlab.com/mgerbershagen/maxima.git",
+        "commit": "813903d33f5ccca09cbe3086dbfe5e228521da52",
+        "version": "branch_5_49_base_90_g813903d33",
+        "licence": "Project COPYING contains GPL v2; mixed per-file notices apply (no blanket or-later assertion)",
+        "archive": {
+          "format": "git-archive-tar",
+          "prefix": "maxima/",
+          "sha256": "05192416af11303dc5974fe02d0e5a894df813593af8a57d37e51897707dab42"
+        },
+        "tag": {
+          "name": "branch-5_49-base",
+          "object": "00acb694f8128b8e8bfcc544e1540df3def04d3e",
+          "commit": "cce856a60952c971e6f3604706335455c9a46fca"
+        },
+        "evidence": "Deployed version suffix and exact upstream commit; existing tag plus ancestry gives 90 commits. Git core.abbrev=9 preserves deployed version spelling."
+      },
+      {
+        "name": "ecl",
+        "repository": "https://gitlab.com/mgerbershagen/ecl.git",
+        "commit": "e4bdb2e5b1e444e1773032a53650773848f4d6cd",
+        "version": "26.3.27",
+        "licence": "LGPL-2.1-or-later AND bundled notices",
+        "archive": {
+          "format": "git-archive-tar",
+          "prefix": "ecl/",
+          "sha256": "fafd6275264c33dd4d8562703752f709bf992b29c40fd766d1351782f4c507b0"
+        },
+        "evidence": "Exact full commit and version embedded in deployed libecl.so.",
+        "noticeExceptions": [
+          "src/lsp/loop.lsp",
+          "src/lsp/pprint.lsp",
+          "src/lsp/format.lsp",
+          "contrib/",
+          "examples/"
+        ]
+      },
+      {
+        "name": "emsdk",
+        "repository": "https://github.com/emscripten-core/emsdk.git",
+        "commit": "dd8e25632640cfc1fb570c7fa4cc374e8a5e5a72",
+        "version": "6.0.11",
+        "licence": "MIT AND bundled SDK notices",
+        "release": "f6264d4a4dd9ba24a9f0a5702835a44d1463de13",
+        "archive": {
+          "format": "tar.gz",
+          "url": "https://codeload.github.com/emscripten-core/emsdk/tar.gz/dd8e25632640cfc1fb570c7fa4cc374e8a5e5a72",
+          "sha256": "f57126eb845e04325a3d3d7711dbddc159ff0e8516c331d28cf01476bf72dc0b"
+        },
+        "evidence": "Official emsdk tag 6.0.11; emscripten-releases-tags.json maps it to the pinned release hash."
+      },
+      {
+        "name": "emscripten",
+        "repository": "https://github.com/emscripten-core/emscripten.git",
+        "commit": "a0014542110d6078c3a1a7941fa1ddb3a2281f16",
+        "version": "6.0.11",
+        "licence": "MIT OR NCSA AND bundled notices",
+        "archive": {
+          "format": "tar.gz",
+          "url": "https://codeload.github.com/emscripten-core/emscripten/tar.gz/a0014542110d6078c3a1a7941fa1ddb3a2281f16",
+          "sha256": "bd0d31316d84f5338329d888c5726c22a9a391b4bce377160e5c51e92af2dd85"
+        },
+        "evidence": "Official source tag 6.0.11; emcc --version of the 6.0.11 SDK reports this commit."
+      }
+    ],
+    "bundled": [
+      {
+        "name": "gmp",
+        "version": "4.2.1",
+        "source": "ecl",
+        "path": "src/gmp",
+        "licence": "LGPL-2.1-or-later",
+        "wasmLinked": true
+      },
+      {
+        "name": "boehm-gc",
+        "version": "8.2.8",
+        "source": "ecl",
+        "path": "src/bdwgc",
+        "licence": "LicenseRef-Boehm-GC",
+        "wasmLinked": true
+      },
+      {
+        "name": "libffi",
+        "version": "3.5.2",
+        "source": "ecl",
+        "path": "src/libffi",
+        "licence": "MIT",
+        "wasmLinked": false,
+        "evidence": "ECL wasm32 configure branch forces enable_libffi=no; deployed module exports no ffi_* symbols."
+      }
+    ],
+    "notices": {
+      "repository": "Erasmus-CTM/stack-wasm-maxima",
+      "commit": "b34bfc8af10cd80b6130baabe88a47c9a32c0333",
+      "path": "site/LICENSES"
+    },
+    "stack": [
+      "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+      "33383047af39c204bf4442802a058f8b918b2b1b"
+    ],
+    "toolchainArchives": [
+      {
+        "name": "sdk-linux-x86_64",
+        "version": "6.0.11",
+        "release": "f6264d4a4dd9ba24a9f0a5702835a44d1463de13",
+        "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/linux/f6264d4a4dd9ba24a9f0a5702835a44d1463de13/wasm-binaries.tar.xz",
+        "file": "f6264d4a4dd9ba24a9f0a5702835a44d1463de13-wasm-binaries.tar.xz",
+        "bytes": 304047688,
+        "sha256": "cab251b54999e8fb4260080f0e719796336570396e118865013a20b8d93dbb83"
+      },
+      {
+        "name": "sdk-node-linux-x86_64",
+        "version": "24.19.0",
+        "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/node-v24.19.0-linux-x64.tar.xz",
+        "file": "node-v24.19.0-linux-x64.tar.xz",
+        "bytes": 31633904,
+        "sha256": "14b342e71204f811bde6153be8e04b62aef63c236fef92b55f9c83154b409647"
+      }
+    ],
+    "buildPatches": [
+      {
+        "descriptor": "runtime/build/patches/ecl-root-scanner.json",
+        "sha256": "b1e3d49a9ff13b7a2a6d517ba585d08e4a6ea017f0c58ff00ffc5de5e8fa485d"
+      }
+    ],
+    "experimentalToolchain": {
+      "emsdk": "6.0.11",
+      "replaces": "4.0.10"
+    }
+  },
+  "recipe": {
+    "repository": "https://github.com/Erasmus-CTM/stack-wasm-maxima",
+    "revision": "3ef575fe8e43f1fa45347002cafdaf264ea15dbf",
+    "files": [
+      {
+        "path": ".gitattributes",
+        "bytes": 38,
+        "sha256": "a868ea4f6215e0e8fcedcb862bd8ad3904899d0f373c0c47db3ea30c54f9cc5a"
+      },
+      {
+        "path": ".github/workflows/precompiled-fixtures.yml",
+        "bytes": 4695,
+        "sha256": "bece2b9227f1b819bda30eb10a77056446d6b31caabb7b3a7f1b8d724ec4c516"
+      },
+      {
+        "path": ".github/workflows/runtime-build.yml",
+        "bytes": 18214,
+        "sha256": "b5fe6ed6da372ca9698bf9944acd6553ae05b312209cb218ff413019569706c0"
+      },
+      {
+        "path": ".github/workflows/runtime-release.yml",
+        "bytes": 10703,
+        "sha256": "f31a40a24d55ffdfb6f0993f8eb5a66b30fb5e42ed4eb66bb16139cc41d71d9d"
+      },
+      {
+        "path": "package-lock.json",
+        "bytes": 1764,
+        "sha256": "b3f2b192435d7cabc98ff89ac766a9e0fcab7c96f452f8473d15aa31b20aafd2"
+      },
+      {
+        "path": "package.json",
+        "bytes": 176,
+        "sha256": "1306a578b294df073d764e51abe54c4cd4ea15227eb192abb28462278fff44a1"
+      },
+      {
+        "path": "prototype/runtime/maxima-child.js",
+        "bytes": 12899,
+        "sha256": "8c34fb11e19cbdb869a6110c9297f43305b719ff62135b1144668b0c91084f63"
+      },
+      {
+        "path": "prototype/runtime/maxima-session.js",
+        "bytes": 14344,
+        "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+      },
+      {
+        "path": "runtime/build/COMPILER-EXPERIMENTS.md",
+        "bytes": 7596,
+        "sha256": "6c5bcb1ca24846678ea4a2a74b4c429907bc1bb4f318a2d1914dc64879f4df9b"
+      },
+      {
+        "path": "runtime/build/ECL-ROOT-OVERLAY.md",
+        "bytes": 4984,
+        "sha256": "1c601a1633cd266c0e4418afbf526da51fadae15ebc9414cefc03f49f6830d89"
+      },
+      {
+        "path": "runtime/build/README.md",
+        "bytes": 7855,
+        "sha256": "b4c145a7daac2a0971c4aa3f22a312f25cf93c6400744d320a5de817f971a64c"
+      },
+      {
+        "path": "runtime/build/apply-target-overlay.py",
+        "bytes": 321,
+        "sha256": "87fd7b884036d844761c084304c53ed1690c0708628c1a5ef253001f6ca94256"
+      },
+      {
+        "path": "runtime/build/baseline.json",
+        "bytes": 6469,
+        "sha256": "2fdf024eeed9d3625df435868aab9499b0ff55d81fdcaa3e0d659e0bd2865319"
+      },
+      {
+        "path": "runtime/build/build.sh",
+        "bytes": 6045,
+        "sha256": "144036bdfc739dd60ae590c1b586f7df94466b7605a73e4cd2da7be90cb23bf8"
+      },
+      {
+        "path": "runtime/build/check-acceptance.py",
+        "bytes": 12575,
+        "sha256": "991d1fbaeb3e05f090a2c8a3af88135795034434f166f69880e348ada26932fa"
+      },
+      {
+        "path": "runtime/build/check-compiler-experiment.py",
+        "bytes": 1581,
+        "sha256": "0056398c530ffcbb95e932b499beed18ea9c5c102a259e3fe342f4b70fae10d9"
+      },
+      {
+        "path": "runtime/build/check-upstream.py",
+        "bytes": 2161,
+        "sha256": "4ac8d7bf686baadfba9c7322348ef5ecef8bf1d08285ca902110769284571b8e"
+      },
+      {
+        "path": "runtime/build/cold_evidence.py",
+        "bytes": 5719,
+        "sha256": "6d333811b7e08efd538dfc521de0235c107c75b3371116b886f6aa42b52382af"
+      },
+      {
+        "path": "runtime/build/compare-cold-builds.py",
+        "bytes": 2013,
+        "sha256": "97c450555e95fd566ea33f8c931a6ce045e586fddf090e7bcea5463a8778a11e"
+      },
+      {
+        "path": "runtime/build/compiler-profiles.json",
+        "bytes": 975,
+        "sha256": "2c7f78fa6d098bb9dd931973e1a6f89b3b050ecb7e04831c951058fb47780484"
+      },
+      {
+        "path": "runtime/build/compiler_evidence.py",
+        "bytes": 15012,
+        "sha256": "9ad1e51a7c6fef6831fc8bd81d451085f2e2538a0f211d555cb41d433bf78782"
+      },
+      {
+        "path": "runtime/build/compiler_profile.py",
+        "bytes": 1188,
+        "sha256": "7d22a5d7d400aba60bded56ddcefd6a0d6e1a995596eaf7205787c3d6379e4dc"
+      },
+      {
+        "path": "runtime/build/configuration.json",
+        "bytes": 389,
+        "sha256": "9aab834c70ebc3c729963b9b96eae837cee31792b4d7393044f72337eefd6eab"
+      },
+      {
+        "path": "runtime/build/configuration.py",
+        "bytes": 722,
+        "sha256": "e25a673720cce5514e2489d8b2fbfd6da54e14990ff94afe2003d59e4e3f4b78"
+      },
+      {
+        "path": "runtime/build/inspect-wasm.mjs",
+        "bytes": 1954,
+        "sha256": "8449410522034ac33192cdf9c4d4cd7e3338075fbe51fa49d66aa0bfb04433bc"
+      },
+      {
+        "path": "runtime/build/inventory.mjs",
+        "bytes": 1082,
+        "sha256": "1cbb58636a7760644f35ef24e41c6c2409421a7976376a86734cc83fe640f38c"
+      },
+      {
+        "path": "runtime/build/measure-compiler-trials.mjs",
+        "bytes": 6696,
+        "sha256": "95eeca1c32fbdbb5d563896a2fc286337fe82def5e0a0e7357939ba790f61396"
+      },
+      {
+        "path": "runtime/build/measure-pages.mjs",
+        "bytes": 2962,
+        "sha256": "cd3b6317fffd9855815997db6c12d46f471ff142b87f6169c4244c0871d51695"
+      },
+      {
+        "path": "runtime/build/measure.mjs",
+        "bytes": 5293,
+        "sha256": "4466ca767412e6be8258e8644497cabb494f984ff1f2877aa6a3339347957d11"
+      },
+      {
+        "path": "runtime/build/no-plot.mac",
+        "bytes": 1532,
+        "sha256": "4fb9fdab38b9676328550d00aeef492b9267aad3e10fd6ccb4e16135251d238b"
+      },
+      {
+        "path": "runtime/build/package.py",
+        "bytes": 13322,
+        "sha256": "45e9dfc0ce2e3a71c915d5b04ac2d745d5e9c37da86f592b6114626babb1ecb8"
+      },
+      {
+        "path": "runtime/build/patches/.gitattributes",
+        "bytes": 130,
+        "sha256": "127fd01913d69a8e676dd1eab4c51c6dc7ea865c7ffe95d7ac978efc96d25d1e"
+      },
+      {
+        "path": "runtime/build/patches/ecl-root-scanner.json",
+        "bytes": 977,
+        "sha256": "b1e3d49a9ff13b7a2a6d517ba585d08e4a6ea017f0c58ff00ffc5de5e8fa485d"
+      },
+      {
+        "path": "runtime/build/patches/ecl-root-scanner.patch",
+        "bytes": 2040,
+        "sha256": "cf1b01e1a67be3a6af8159c8f9b26f0e2741b1e0d0ee04c8b16cf45122e75dab"
+      },
+      {
+        "path": "runtime/build/pins.json",
+        "bytes": 4847,
+        "sha256": "ce3f9d247001639bdeb7c450a16345f25cbc99f465aa49e3d56157381834bcb5"
+      },
+      {
+        "path": "runtime/build/prepare-sources.py",
+        "bytes": 5694,
+        "sha256": "9c14afbce3253b51487179a1747f3f6b1bf46d845aa607b4d8baf350ab79fde0"
+      },
+      {
+        "path": "runtime/build/prepare-toolchain.py",
+        "bytes": 3025,
+        "sha256": "18636a278843170342cd4cfccf04cbb7e081df53f01b9aa36a56ccd4c0245c1a"
+      },
+      {
+        "path": "runtime/build/recipe-inputs.json",
+        "bytes": 896,
+        "sha256": "5b5bce9d023c9d76aa183008450514cae9b00b2fb0db5d936fd3eb2754069d5d"
+      },
+      {
+        "path": "runtime/build/recipe_inputs.py",
+        "bytes": 2087,
+        "sha256": "c9abc7abb8feadaf153606a93515efbed20d1abcf37f40bc3de56a4b02cc1911"
+      },
+      {
+        "path": "runtime/build/record-environment.py",
+        "bytes": 1604,
+        "sha256": "88af3868b2db64172834ed60726a2035c987e266473d91ceed03c20711fe4381"
+      },
+      {
+        "path": "runtime/build/runtime-source.mjs",
+        "bytes": 3758,
+        "sha256": "e19cbd258bb5f8520936b8d8ba292239267bbfef1b45dea69304b9575e7c9ad3"
+      },
+      {
+        "path": "runtime/build/source_overlay.py",
+        "bytes": 15158,
+        "sha256": "4935e58ade214df3767d706e1f72ffcae0c4c047e9b8a9bcc96abb29c3c23e4f"
+      },
+      {
+        "path": "runtime/build/source_state.py",
+        "bytes": 4078,
+        "sha256": "c85fc16791631677c71d006fa6a0ecb3d0102edebe24e5687fdb13e7c3f95290"
+      },
+      {
+        "path": "runtime/build/test-cold-evidence.py",
+        "bytes": 6684,
+        "sha256": "2abbc52b46e361b912a0ed280c01197acc1978aa95aa706bc81f09c86a74792a"
+      },
+      {
+        "path": "runtime/build/test-compiler-evidence.py",
+        "bytes": 20544,
+        "sha256": "efa2582122a59d3c903dc526904f089d9fbb1d119f43a7397f61d6297abb3690"
+      },
+      {
+        "path": "runtime/build/test-plot-build.py",
+        "bytes": 3209,
+        "sha256": "6e6335f4420f5924106c9f2b59949fc280a3e898f7ecca56cb0c26455f137195"
+      },
+      {
+        "path": "runtime/build/test-runtime-source.mjs",
+        "bytes": 4704,
+        "sha256": "40eeb99161d39e2ccdfb74b43d23a87bfc4a0eaa5927c1a19a177602a3308308"
+      },
+      {
+        "path": "runtime/build/test-source-checkout.py",
+        "bytes": 4154,
+        "sha256": "cce49f64f3b70950fbc6663b49c2189fca8f4a94668e5762d94a1b44fe25e90b"
+      },
+      {
+        "path": "runtime/build/test-source-overlay.py",
+        "bytes": 23930,
+        "sha256": "4d2596f78f798262cade96646994c0987b54a3a8ca2cd3c1c30e82bb619a03ef"
+      },
+      {
+        "path": "runtime/build/test-substitution.py",
+        "bytes": 4941,
+        "sha256": "0025ebfcbc5012f859eec4f210ce2c5bd31a7886925221d78d3840602ab8b64d"
+      },
+      {
+        "path": "runtime/build/test-timing-evidence.py",
+        "bytes": 3791,
+        "sha256": "8d3921f77e7584d4606658851d9742404f2f73dace3b4c44a8f2ba181a4fffc8"
+      },
+      {
+        "path": "runtime/build/test-toolchain-pins.mjs",
+        "bytes": 1449,
+        "sha256": "f1acd14162d177b41722c884a849d5dca6edbcb2f3d58846bc937645e36d642a"
+      },
+      {
+        "path": "runtime/build/test-toolchain.py",
+        "bytes": 2928,
+        "sha256": "e64cbaeff62df2bd11b04fc884ac1843913a3b13e1024cc810fce7e2d26efa2e"
+      },
+      {
+        "path": "runtime/build/timing-worker.mjs",
+        "bytes": 2337,
+        "sha256": "05aa3caa0a50c39aa2db90a255ae81649ec805873cdbf456dca7981fde0a3f9b"
+      },
+      {
+        "path": "runtime/build/timing_evidence.py",
+        "bytes": 2348,
+        "sha256": "b2cabcf8aab8bfa293b59c2502186b48743dd5a81cdb575a590a939b985db05c"
+      },
+      {
+        "path": "runtime/build/toolchain-pins.mjs",
+        "bytes": 1187,
+        "sha256": "f9725b6e7aadd06f67c438d5e2fbe5afd668aadb20f0c766c8081642c8bcba4a"
+      },
+      {
+        "path": "runtime/build/toolchain_pins.py",
+        "bytes": 2035,
+        "sha256": "49987041a4fb880c452c226d310352e6aafd4968e2109f7621a70969fc1fbbcf"
+      },
+      {
+        "path": "runtime/build/toolchains.json",
+        "bytes": 2864,
+        "sha256": "b72f2d0eb4a7cf86c6e6fad354b03625f2977bb2e0388405fd8c4daf72b5c6fb"
+      },
+      {
+        "path": "runtime/build/validate-probes.sh",
+        "bytes": 770,
+        "sha256": "546dfd4e135d37533a34aa9f158b02d1d04576918ffb9c5653beac3f2d382948"
+      },
+      {
+        "path": "runtime/build/verify-baseline.py",
+        "bytes": 1344,
+        "sha256": "ba43bfa6b6b67eacca9aa56fdc5d15f7fe117b9ee8efce19e6c2f723ca63b769"
+      },
+      {
+        "path": "runtime/build/verify-compiler-trials.py",
+        "bytes": 2875,
+        "sha256": "8f9c0b1fadbbd11bc528df852b1c43f95f276f12b7e3dc5ec804733b502f7f5a"
+      },
+      {
+        "path": "runtime/build/verify-source-overlay.py",
+        "bytes": 505,
+        "sha256": "48d2bcb90deabfaca39bf217a5e80975b48655de0e773d4e6a4b03f90e1f4a92"
+      },
+      {
+        "path": "runtime/build/verify-source-state.py",
+        "bytes": 730,
+        "sha256": "5e8a935dfb59c40a324a69d2b22a1ad86bc16e0e7d98ded431edc08f5b2171ba"
+      },
+      {
+        "path": "runtime/diagnostics/gc-root-regression.c",
+        "bytes": 11814,
+        "sha256": "389ac2a516758f0a517002eec084f011d5b43fcd5b58bcdc92c6fe8bf9928a7a"
+      },
+      {
+        "path": "runtime/diagnostics/gc-root-regression.md",
+        "bytes": 3824,
+        "sha256": "6f77324bee2deb22dcc3d683ec916d79295e134610215a6314040fa4e4fd014f"
+      },
+      {
+        "path": "runtime/diagnostics/gc-root-regression.py",
+        "bytes": 12126,
+        "sha256": "0ed61e70d3c5e06461d0e046346da592d98a52db379aebb50f759083b32c1d39"
+      },
+      {
+        "path": "scripts/milestone-one/client.js",
+        "bytes": 3473,
+        "sha256": "41dca12b4d0fb2aef737019c72a269eb00f4afdb67fc5c975f8ebad4e4292715"
+      },
+      {
+        "path": "scripts/milestone-one/compare.py",
+        "bytes": 6328,
+        "sha256": "3f43f8044f256d9bf0cabf493282c2b540ef448035d1d2bcc933496e5b34fddc"
+      },
+      {
+        "path": "scripts/milestone-one/result.mjs",
+        "bytes": 836,
+        "sha256": "c6914c959b67bdbdefcefb2b9d75f51726d15653584eb9ea7082817b52dede5d"
+      },
+      {
+        "path": "scripts/milestone-one/run.mjs",
+        "bytes": 9402,
+        "sha256": "3b5933ee5f32ff4495ea97b021fb1b3bda37ac05f26fb76b2fb31c735fe9a412"
+      },
+      {
+        "path": "scripts/milestone-one/test-fatal-reporting.mjs",
+        "bytes": 9143,
+        "sha256": "3fd5d2200468f3154198b4e03d3a18d1495aa78660ed95c87c132c0c8524fe2e"
+      },
+      {
+        "path": "scripts/milestone-one/worker.js",
+        "bytes": 5668,
+        "sha256": "9c875417c73c4683c4d4a3fda5735fb615824c96c6160fc2dfbe438003573e20"
+      },
+      {
+        "path": "scripts/milestone-three/build-site.mjs",
+        "bytes": 14874,
+        "sha256": "ce883d5d209055295fb2cde529cafb5985fd0e52c11470024288bdfaddc417d2"
+      },
+      {
+        "path": "scripts/milestone-two/prepare-runtime.py",
+        "bytes": 16854,
+        "sha256": "b670d56287fda5a7e9bc8d7699126435c55a1b36801eeaa0c5d83d00a35e8c43"
+      },
+      {
+        "path": "scripts/milestone-two/serve.mjs",
+        "bytes": 7906,
+        "sha256": "f46c0d9688971dd1fbf3e9b83b4cce76ddd4136b71514159eede1c8bb5fa7e4e"
+      }
+    ]
+  },
+  "toolchain": {
+    "schema": 1,
+    "archives": [
+      {
+        "name": "sdk-linux-x86_64",
+        "version": "6.0.11",
+        "release": "f6264d4a4dd9ba24a9f0a5702835a44d1463de13",
+        "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/linux/f6264d4a4dd9ba24a9f0a5702835a44d1463de13/wasm-binaries.tar.xz",
+        "file": "f6264d4a4dd9ba24a9f0a5702835a44d1463de13-wasm-binaries.tar.xz",
+        "bytes": 304047688,
+        "sha256": "cab251b54999e8fb4260080f0e719796336570396e118865013a20b8d93dbb83",
+        "observedBytes": 304047688,
+        "observedSha256": "cab251b54999e8fb4260080f0e719796336570396e118865013a20b8d93dbb83",
+        "verified": true
+      },
+      {
+        "name": "sdk-node-linux-x86_64",
+        "version": "24.19.0",
+        "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/node-v24.19.0-linux-x64.tar.xz",
+        "file": "node-v24.19.0-linux-x64.tar.xz",
+        "bytes": 31633904,
+        "sha256": "14b342e71204f811bde6153be8e04b62aef63c236fef92b55f9c83154b409647",
+        "observedBytes": 31633904,
+        "observedSha256": "14b342e71204f811bde6153be8e04b62aef63c236fef92b55f9c83154b409647",
+        "verified": true
+      }
+    ]
+  },
+  "upstreamRecipe": {
+    "path": "wasm/Makefile",
+    "sha256": "165e45ff9c6578381ac4535c52782796db58193d445ad8ee3b59ab3b2a0435d4",
+    "verifiedFilesUnmodified": true,
+    "verifiedInputs": [
+      {
+        "path": "src/maxima.asd",
+        "gitBlob": "c49fcbf5726898339a17cc8cb3f8171435b7d28c",
+        "bytes": 27201,
+        "sha256": "e1ad24f88abd9fdbfa269c086408417561073fb0a66230b3e814ffec3a397172"
+      },
+      {
+        "path": "wasm/Makefile",
+        "gitBlob": "b07bb7bd5f6236114a15dd08b8307b2c3d59e5ee",
+        "bytes": 19413,
+        "sha256": "165e45ff9c6578381ac4535c52782796db58193d445ad8ee3b59ab3b2a0435d4"
+      },
+      {
+        "path": "wasm/build.lisp",
+        "gitBlob": "01d9fea18c6162eb0f02cf0e292ca9c27dfd77dc",
+        "bytes": 8410,
+        "sha256": "9712cd0e68ee80249f08aadbaef930f53b043b2287f0027550ff5d05ff90a62d"
+      }
+    ],
+    "patches": [],
+    "scope": "Only the three pinned Maxima build inputs: wasm/Makefile, wasm/build.lisp, src/maxima.asd. ECL source derivation is described separately in sourceIntegrity."
+  },
+  "sourceIntegrity": {
+    "schema": 1,
+    "allVerifiedFilesUnmodified": false,
+    "scope": "Before: every tracked Maxima/ECL input byte is original. Host: tracked .lisp/.lsp/.mac/.asd/.c/.h/.d and the three Maxima build inputs are original. After: the same coverage, with only the declared ECL target overlay admitted explicitly; each row records its actual bytes and Git blob. Generated configuration/build support is excluded from host/after claims.",
+    "overlays": [
+      {
+        "schema": 1,
+        "id": "ecl-eager-owned-root-ranges",
+        "source": "ecl",
+        "revision": "e4bdb2e5b1e444e1773032a53650773848f4d6cd",
+        "path": "src/c/alloc_2.d",
+        "target": "wasm32-unknown-emscripten",
+        "applyAfter": "verified-original-native-ecl32",
+        "original": {
+          "gitBlob": "57f945305a16e2bd6a932d49bfa928c11ae091ff",
+          "bytes": 38136,
+          "sha256": "d7492e257e5dc9a143bb86461686b6f3e030b1d741c93c31ab645a9f74d2f5d7"
+        },
+        "derived": {
+          "bytes": 38245,
+          "sha256": "daec4a8a78be8a67114bb14f6ea13bacff5c78977b8ed652924c3a5df18ec585"
+        },
+        "patch": {
+          "path": "runtime/build/patches/ecl-root-scanner.patch",
+          "bytes": 2040,
+          "sha256": "cf1b01e1a67be3a6af8159c8f9b26f0e2741b1e0d0ee04c8b16cf45122e75dab"
+        },
+        "licence": "LGPL-2.1-or-later; original ECL file notices and LICENSE retained",
+        "scope": "Eight calls in ecl_mark_env and stacks_scanner only; range bounds, null guards, locked-cblock mark bit and previous-root-callback chain preserved."
+      }
+    ],
+    "beforeSha256": "3fe42b6f3147997e614953cc5d38a6fc117cda61f0269284f262653a0a18ec8b",
+    "hostSourceSha256": "5ddeb030b4a7515892ecdc2db584324cd9fa8ddbf78df3f604ccd7b36e081bd8",
+    "afterSha256": "bf760983a676c9d028b2c0979830d8bdd4ff3a21d7c0bc6a90551fc50760411f",
+    "applicationSha256": "cb2f36f47e22a935fbcd85efb581b5f987400e8814f7258a50188785e4707930",
+    "originalArchives": [
+      {
+        "path": "sources/maxima.tar",
+        "sha256": "05192416af11303dc5974fe02d0e5a894df813593af8a57d37e51897707dab42"
+      },
+      {
+        "path": "sources/ecl.tar",
+        "sha256": "fafd6275264c33dd4d8562703752f709bf992b29c40fd766d1351782f4c507b0"
+      }
+    ]
+  },
+  "configuration": {
+    "schema": 1,
+    "name": "no-gnuplot",
+    "omittedRuntimePaths": [
+      "libgnuplot.so",
+      "maxima-plot.fas"
+    ],
+    "capabilities": {
+      "plotting": false
+    },
+    "startupSha256": "4fb9fdab38b9676328550d00aeef492b9267aad3e10fd6ccb4e16135251d238b",
+    "maximaBuildInputsUnmodified": true,
+    "targetSourceOverlaySha256": "b1e3d49a9ff13b7a2a6d517ba585d08e4a6ea017f0c58ff00ffc5de5e8fa485d"
+  },
+  "startupAdapter": {
+    "content": ":lisp (progn #| SPDX-License-Identifier: AGPL-3.0-or-later |# (setf (symbol-function 'maxima::$set_plot_option) (lambda (&rest options) (unless (every (lambda (x) (member (cadr x) '(maxima::$run_viewer maxima::$plot_format maxima::$nticks maxima::$adapt_depth maxima::$gnuplot_default_term_command))) options) (maxima::merror \"CTM plotting unavailable; use JSXGraph.\")) 'maxima::$done)) (dolist (name '(maxima::$gnuplot_close maxima::$gnuplot_start maxima::$gnuplot_restart maxima::$gnuplot_send maxima::$gnuplot_reset maxima::$gnuplot_replot maxima::$get_plot_option maxima::$remove_plot_option maxima::$rotation1 maxima::$rotate_pts maxima::$rotate_list maxima::$get_range maxima::$polar_to_xy maxima::$spherical_to_xyz maxima::$make_transform maxima::$concat_polygons maxima::$copy_pts maxima::$plot2d maxima::$tcl_output maxima::$zero_fun maxima::$contour_plot maxima::$plot3d maxima::plot-preamble maxima::plot-shipout maxima::ensure-string maxima::start-gnuplot-process maxima::check-gnuplot-process maxima::stop-gnuplot-process maxima::send-gnuplot-command maxima::adaptive-plot maxima::random-name maxima::plot-temp-file maxima::plot-file-path maxima::plot-options-parser maxima::naturalp maxima::plotcolorp maxima::parse-azimuth maxima::parse-elevation maxima::check-option maxima::check-option-boole maxima::check-range maxima::rgb-color maxima::gnuplot-palette maxima::display-plot)) (setf (symbol-function name) (lambda (&rest args) (declare (ignore args)) (maxima::merror \"CTM plotting unavailable; use JSXGraph.\")))))\n",
+    "sha256": "4fb9fdab38b9676328550d00aeef492b9267aad3e10fd6ccb4e16135251d238b"
+  },
+  "scope": "Uncompressed owned-build substitution candidate; parity not implied by successful compilation"
+}
