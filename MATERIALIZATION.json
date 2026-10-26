@@ -139,8 +139,8 @@
   "parentPresentation": [
     {
       "path": "maxima/examples.html",
-      "sourceSha256": "251c8721700153dec17b2af6f67fc238923961d4ac865d5998929bb1f193c62c",
-      "materializedSha256": "75a494556f1197b2d6abe3ef63f020209b36435fb9d1325691ed7b91a0c07d23",
+      "sourceSha256": "1a32e851c6b76f8c29fcd26cc4ea2abfbfb3f300c9364a59fc3f69d1971facf0",
+      "materializedSha256": "e48166ad99ddbe8e58aa882e34a8d84df790938b37b8a960b13cdc9996fa862b",
       "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
       "existingLoader": [
         "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
@@ -148,22 +148,29 @@
     },
     {
       "path": "maxima/native.html",
-      "sourceSha256": "c172936eb95764843c4e987c05b1cbcfb47b807ad831fe44b9863bc08f760cbb",
-      "materializedSha256": "c2e73ad37246393a421c3b6c0748023bea7405956e0f4affc1ab5bcdd9b41fb2",
+      "sourceSha256": "fbd397edef5be69a5b68cea9dc467a9cfca26d8260897d497e75ac8dafdd135a",
+      "materializedSha256": "ae41b7bff5a001c79bca859bd712f6621c1c6e5168ed641ceaa83a054cec3f71",
       "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
       "existingLoader": []
     },
     {
       "path": "maxima/data-flow.html",
-      "sourceSha256": "801038a996b206f1d1cac8c1847f45e590959c10ed8f9e6365e4439fd89679f0",
-      "materializedSha256": "b245b1d0202218ea6271ea6a7253f8c08815757a67ac74736913145d75fd6f54",
+      "sourceSha256": "c383711b0ceabb33515810070819120d86d1b691476fe60f14d4683806bf2e10",
+      "materializedSha256": "955a01b47eab50d746e61e204c442bd48406f5feb87da1c809445d223c7de932",
+      "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
+      "existingLoader": []
+    },
+    {
+      "path": "maxima/startup.html",
+      "sourceSha256": "77fdfeec74a011021c9330365bccf51724f2c0e13925930526f136ee06faeffc",
+      "materializedSha256": "ef8fc024cbc05f529b404dfa667fbdb27426898333bf27afcd5cd620a14374a0",
       "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
       "existingLoader": []
     },
     {
       "path": "licenses.html",
-      "sourceSha256": "f589d0ac30e22b5b140f7b64a0ddaa1b7f2a8b4496442e4ebe5b792c3a04b4fb",
-      "materializedSha256": "bd25f92d24eed02140a37d467b6d54c54b54921a882a215ad8baa45320a1ded8",
+      "sourceSha256": "1f856491637ddf45b078e8aec7ff1ff1e1723b0964e58ebfc6cc052e218131da",
+      "materializedSha256": "39e3e902ccb28835aff94a4fd9110aed5f158d5c1239ed5e9b8b1ec9bcb4a885",
       "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
       "existingLoader": []
     }
@@ -171,8 +178,8 @@
   "renderedPagePatches": [
     {
       "path": "maxima/examples.html",
-      "sourceSha256": "75a494556f1197b2d6abe3ef63f020209b36435fb9d1325691ed7b91a0c07d23",
-      "materializedSha256": "b43b62aef382ae0f42d3c746150d483ec1f6926c245f3988688a04193a0c9687",
+      "sourceSha256": "e48166ad99ddbe8e58aa882e34a8d84df790938b37b8a960b13cdc9996fa862b",
+      "materializedSha256": "8ced26d6f4d3908e3910dd92083ce3d97b37f73b2529157ea05a723b0934853f",
       "obsoleteEs6PolyfillRemoved": 1,
       "sourcePanelCount": 36,
       "authoredBlocks": [
@@ -615,7 +622,7 @@
   ],
   "postRender": {
     "script": "scripts/site/post-render.py",
-    "scriptSha256": "f5b49c77f6f4f31b64d463c210faabc3742bd5d61e1d0285541ed891b9de49c0",
+    "scriptSha256": "07b5d1217f4516641cccdeac64c6aa4169abaf0999805f83dcd3b9105e0f2578",
     "trackedPageSha256": "eeb1bfb47797e384d3fe4468f8149e9851bbabc1b6373de240589f0c94d6afe6",
     "renderedCards": 36,
     "renderedPairs": 18,
