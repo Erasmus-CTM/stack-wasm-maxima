@@ -35,7 +35,8 @@ for (const [speed, title] of [['full', 'Full speed'], ['quarter', 'Quarter of on
       if (!report) return 'not run';
       if (!report.passed) return 'failed';
       let stat;
-      try { stat = pick(report.statistics); } catch { return 'not measured'; }
+      try { stat = pick(report.statistics); } catch { stat = null; }
+      if (!stat) return 'not measured';
       return `${format(stat.median)} (${format(stat.min)}–${format(stat.max)})`;
     }).join(' | ')} |`);
   }
