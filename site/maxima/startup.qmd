@@ -1,0 +1,146 @@
+---
+title: "Start-up timing"
+subtitle: "How long native Maxima takes on this computer"
+header-includes:
+  - |
+    <script data-ctm-coi-bootstrap src="../ctm-isolation.js"></script>
+---
+
+This page measures how long the native Maxima backend takes on **your** computer and browser.
+It runs the [rational equivalence question](native.qmd#rational-equivalence) through the same
+worker as the native questions page: start Maxima and STACK, check a correct answer once, then
+check it five more times.
+
+Nothing is sent anywhere. To share a result, press **Copy results** and paste the text into an
+e-mail or message.
+
+```{=html}
+<div id="startup-timing">
+  <p>
+    <button type="button" class="btn btn-primary" id="startup-run">Measure</button>
+    <button type="button" class="btn btn-outline-secondary" id="startup-copy" disabled>Copy results</button>
+  </p>
+  <p id="startup-status" role="status">Not started.</p>
+  <table class="table table-sm" id="startup-table" hidden>
+    <thead><tr><th>Run</th><th>Ready</th><th>First Validate</th><th>First Check</th>
+      <th>Later Validate</th><th>Later Check</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <p id="startup-environment" class="small text-muted"></p>
+</div>
+<script>
+(function () {
+  'use strict';
+  const QUESTION = 'native-rational', REPEATS = 5;
+  const runButton = document.getElementById('startup-run');
+  const copyButton = document.getElementById('startup-copy');
+  const status = document.getElementById('startup-status');
+  const table = document.getElementById('startup-table');
+  const environmentLine = document.getElementById('startup-environment');
+  const results = [];
+  let environment;
+
+  const seconds = ms => (ms / 1000).toFixed(1) + ' s';
+  const millis = ms => ms < 1000 ? Math.round(ms) + ' ms' : seconds(ms);
+  const median = values => { const s = [...values].sort((a, b) => a - b), m = s.length >> 1;
+    return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+
+  async function describeEnvironment() {
+    const manifest = await (await fetch('../stack-sources.json', {cache: 'no-store'})).json();
+    const build = manifest.runtimeBuild || null;
+    const brands = navigator.userAgentData?.brands?.map(b => b.brand + ' ' + b.version).join(', ');
+    return {
+      page: location.href, measuredAt: new Date().toISOString(),
+      runtime: build?.release?.tag || (build ? build.kind : 'deployed PoC1 runtime'),
+      compilerProfile: build?.compilerProfile?.name || null,
+      runtimeManifestSha256: build?.manifestSha256 || null,
+      browser: brands || navigator.userAgent, userAgent: navigator.userAgent,
+      platform: navigator.userAgentData?.platform || navigator.platform,
+      logicalCores: navigator.hardwareConcurrency || null,
+      deviceMemoryGB: navigator.deviceMemory || null,
+      crossOriginIsolated: self.crossOriginIsolated
+    };
+  }
+
+  // One request at a time, like a student clicking; the page clock includes
+  // worker messaging but not drawing the result.
+  function connect(worker) {
+    let sequence = 0;
+    return message => new Promise((resolve, reject) => {
+      const id = ++sequence, started = performance.now();
+      const listener = ({data}) => {
+        if (data.id !== id) return;
+        worker.removeEventListener('message', listener);
+        if (!data.ok) reject(new Error(data.error)); else resolve({result: data.result, ms: performance.now() - started});
+      };
+      worker.addEventListener('message', listener);
+      worker.postMessage({...message, id});
+    });
+  }
+
+  async function measure() {
+    const questions = (await (await fetch('../native/questions.json')).json()).questions;
+    const question = questions.find(entry => entry.id === QUESTION).question;
+    const worker = new Worker('../native/backend-worker.js');
+    const call = connect(worker);
+    try {
+      status.textContent = 'Starting Maxima and STACK…';
+      const ready = await call({type: 'init'});
+      const variant = (await call({type: 'prepare', question, seed: 1})).result;
+      const answers = Object.fromEntries(Object.entries(variant.teachers).map(([name, value]) => [name, value.source]));
+      status.textContent = 'Checking answers…';
+      const firstValidate = await call({type: 'validate', question, variant, answers});
+      const firstCheck = await call({type: 'grade', question, variant, answers});
+      if (firstValidate.result.status !== 'valid' || firstCheck.result.score !== 1) throw new Error('The model answer was not accepted');
+      const laterValidate = [], laterCheck = [];
+      for (let i = 0; i < REPEATS; i++) {
+        laterValidate.push((await call({type: 'validate', question, variant, answers})).ms);
+        laterCheck.push((await call({type: 'grade', question, variant, answers})).ms);
+      }
+      return {readyMs: ready.ms, firstValidateMs: firstValidate.ms, firstCheckMs: firstCheck.ms,
+        laterValidateMs: median(laterValidate), laterCheckMs: median(laterCheck),
+        laterValidateAllMs: laterValidate, laterCheckAllMs: laterCheck};
+    } finally { worker.terminate(); }
+  }
+
+  function show(row, index) {
+    const tr = document.createElement('tr');
+    for (const text of [index === 0 ? 'First' : 'Again (' + (index + 1) + ')', seconds(row.readyMs),
+      millis(row.firstValidateMs), millis(row.firstCheckMs), millis(row.laterValidateMs), millis(row.laterCheckMs)]) {
+      const td = document.createElement('td'); td.textContent = text; tr.append(td);
+    }
+    table.tBodies[0].append(tr); table.hidden = false;
+  }
+
+  runButton.addEventListener('click', async () => {
+    runButton.disabled = true;
+    try {
+      environment ||= await describeEnvironment();
+      environmentLine.textContent = environment.browser + ' · ' + environment.platform + ' · ' +
+        (environment.logicalCores || '?') + ' logical cores · runtime ' + environment.runtime +
+        (environment.compilerProfile ? ' (' + environment.compilerProfile + ')' : '');
+      if (!environment.crossOriginIsolated) throw new Error('This page is not cross-origin isolated yet; reload it once.');
+      const row = await measure();
+      results.push(row); show(row, results.length - 1);
+      status.textContent = 'Done. Press Measure again to time a start with the files already in the browser cache.';
+      copyButton.disabled = false;
+    } catch (error) {
+      status.textContent = 'Failed: ' + (error.message || error);
+    } finally { runButton.disabled = false; runButton.textContent = 'Measure again'; }
+  });
+
+  copyButton.addEventListener('click', async () => {
+    const text = JSON.stringify({environment, results}, null, 2);
+    try { await navigator.clipboard.writeText(text); status.textContent = 'Results copied.'; }
+    catch { status.textContent = 'Copy failed; select the text below instead.';
+      const pre = document.createElement('pre'); pre.textContent = text; environmentLine.after(pre); }
+  });
+})();
+</script>
+```
+
+**Ready** is the time from pressing Measure until Maxima and STACK are loaded, including any
+download. **First Check** is the first assessment of the answer; **Later Check** is the median of
+five more. The first run in a browser downloads the runtime (about 11 MB); later runs use the
+browser cache, so their Ready time mostly shows the processor. To time a first visit again, use a
+private window.

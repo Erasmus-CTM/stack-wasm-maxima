@@ -7,6 +7,7 @@ project:
     - maxima/examples.qmd
     - maxima/native.qmd
     - maxima/data-flow.qmd
+    - maxima/startup.qmd
     - licenses.qmd
   resources:
     - _headers
@@ -34,6 +35,8 @@ website:
         text: Native questions
       - href: maxima/data-flow.qmd
         text: Data flow
+      - href: maxima/startup.qmd
+        text: Start-up timing
     right:
       - href: licenses.qmd
         text: Licences and sources
