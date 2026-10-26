@@ -50,7 +50,7 @@ def main():
                     '-sBINARYEN_EXTRA_PASSES=' + passes, '-o', name + '.js']
             case = {'name': name, 'optimization': opt, 'passes': passes, 'build': run(argv, env, args.output)}
             if case['build']['exitCode'] == 0:
-                case['run'] = run(['node', '--stack-size=65500', name + '.js', str(args.rounds)], env, args.output)
+                case['run'] = run([env.get('EMSDK_NODE', 'node'), '--stack-size=65500', name + '.js', str(args.rounds)], env, args.output)
                 lines = [line for line in case['run']['stdout'].splitlines() if line.startswith('{')]
                 if lines:
                     case['result'] = json.loads(lines[-1])

@@ -47,8 +47,8 @@ jobs:
         run: |
           source "$RUNNER_TEMP/emsdk/emsdk_env.sh" > /dev/null
           emcc --version | head -n 1
-          wasm-opt --version
-          node --version
+          "$EMSDK/upstream/bin/wasm-opt" --version
+          "$EMSDK_NODE" --version
           python3 runtime/diagnostics/spill-pointers/run.py --emsdk "$RUNNER_TEMP/emsdk" \
             --gc "$RUNNER_TEMP/gc/${{ matrix.gc.path }}" --output "$RUNNER_TEMP/out"
       - name: Retain the report and disassembly

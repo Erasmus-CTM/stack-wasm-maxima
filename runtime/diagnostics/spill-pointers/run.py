@@ -49,7 +49,7 @@ def main():
                     argv.append('-sBINARYEN_EXTRA_PASSES=' + passes)
                 case = {'name': name, 'optimization': opt, 'passes': kind, 'names': names, 'build': run(argv, env, args.output)}
                 if case['build']['exitCode'] == 0:
-                    case['run'] = run(['node', name + '.js', str(args.rounds)], env, args.output)
+                    case['run'] = run([env.get('EMSDK_NODE', 'node'), name + '.js', str(args.rounds)], env, args.output)
                     case['result'] = json.loads(case['run']['stdout'].strip().splitlines()[-1])
                 report['cases'].append(case)
                 summary = case.get('result', {'build': 'failed: ' + (case['build']['stderr'].strip().splitlines() or [''])[0][:160]})

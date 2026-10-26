@@ -81,9 +81,9 @@ jobs:
         run: |
           source "$RUNNER_TEMP/emsdk/emsdk_env.sh" > /dev/null
           emcc --version | head -n 1
-          node --version
+          "$EMSDK_NODE" --version
           cd "$RUNNER_TEMP/ecl-wasm/build/bin"
-          node --stack-size=65500 ecl.js -norc -eval '(format t "~&~@{~12@A ~S~%~}"
+          "$EMSDK_NODE" --stack-size=65500 ecl.js -norc -eval '(format t "~&~@{~12@A ~S~%~}"
                   :version (lisp-implementation-version)
                   :vcs-id (ext:lisp-implementation-vcs-id)
                   :os (software-type)
