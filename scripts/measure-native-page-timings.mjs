@@ -250,7 +250,7 @@ async function sample(repetition,inventory) {
         assert.ok(id);assert.deepEqual(call.answers,result.workloads[id].answers);
       }
     }
-    assert.equal(result.observation.calls.at(-1).response.backend.pythonCheckerCount,repeats+1);
+    assert.equal(result.observation.calls.at(-1).response.backend.pythonCheckerCount,skipPython?0:repeats+1);
     assert.deepEqual(result.errors,[]);assert.deepEqual(result.httpErrors,[]);
     assert.deepEqual(result.consoleErrors.filter(text=>!safeConsole(text)),[]);
     assert.deepEqual(result.failedRequests.filter(row=>!/ERR_ABORTED/.test(row.error || '')),[]);
