@@ -1,0 +1,837 @@
+{
+  "schema_version": 1,
+  "engine_revision": "05894f9c1f7646e5a6f6b3fa27abc65bb0331b25",
+  "adapter_source_sha256": "ead4ee0ee6a339075521888ab91c87ec0b8c65ee03d776912a059032bf9cd83e",
+  "python_version": "3.12.3",
+  "sympy_version": "1.13.3",
+  "seed_policy": "first three deployed seeds, or adapter-local 17,29,47 (not Maxima parity)",
+  "timeout_seconds_per_file": 10,
+  "summary": {
+    "total": 35,
+    "stages": {
+      "qtests_mismatch": 1,
+      "qtests_pass": 23,
+      "unsupported_import": 3,
+      "unsupported_instantiate": 8
+    },
+    "imported": 32,
+    "instantiated_all_seeds": 24,
+    "replayed_cases": 162,
+    "failed_cases": 2,
+    "failed_checks": 2
+  },
+  "questions": [
+    {
+      "diagnostic": {
+        "location": "questiontext",
+        "message": "7.3.26 (Write sim. eqns. with matrices): questiontext: unsupported HTML attribute 'style' on <ul>",
+        "reason": "unsupported HTML attribute 'style' on <ul>",
+        "seed": 1930245414,
+        "type": "UnsupportedQuestion"
+      },
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "7-3-26-(Write-sim-eqns-with-matrices).xml",
+      "id": "matrix-system",
+      "imported_questions": 1,
+      "instantiated_seeds": [],
+      "mismatches": [],
+      "native_qtests": 1,
+      "replayed_cases": 0,
+      "seeds": [
+        1930245414,
+        812684119,
+        1827462946
+      ],
+      "status": "unsupported_instantiate"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-1-5.xml",
+      "id": "algmap-1-5",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        128137392,
+        2051957692,
+        1375878840
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        128137392,
+        2051957692,
+        1375878840
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-1-6.xml",
+      "id": "algmap-1-6",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        891319547,
+        1858711800,
+        1536647851
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        891319547,
+        1858711800,
+        1536647851
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-10-1.xml",
+      "id": "algmap-10-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        1910622122,
+        1142759260,
+        91955274
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        1910622122,
+        1142759260,
+        91955274
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-11-1.xml",
+      "id": "algmap-11-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        17,
+        29,
+        47
+      ],
+      "mismatches": [],
+      "native_qtests": 1,
+      "replayed_cases": 3,
+      "seeds": [
+        17,
+        29,
+        47
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-11-8.xml",
+      "id": "algmap-11-8",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        17,
+        29,
+        47
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        17,
+        29,
+        47
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "diagnostic": {
+        "location": "questionvariables[sysl]",
+        "message": "AlgMap-12.1: questionvariables[sysl]: Unexpected character '.' (U+002E) at position 1",
+        "reason": "Unexpected character '.' (U+002E) at position 1",
+        "seed": 1841615900,
+        "type": "UnsupportedQuestion"
+      },
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-12-1.xml",
+      "id": "algmap-12-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [],
+      "mismatches": [],
+      "native_qtests": 1,
+      "replayed_cases": 0,
+      "seeds": [
+        1841615900,
+        744559019,
+        775117297
+      ],
+      "status": "unsupported_instantiate"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-13-1-.xml",
+      "id": "algmap-13-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        1874421384,
+        1770560704,
+        1402158234
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        1874421384,
+        1770560704,
+        1402158234
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-14-1.xml",
+      "id": "algmap-14-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        1720352247,
+        1847020159,
+        410204508
+      ],
+      "mismatches": [],
+      "native_qtests": 3,
+      "replayed_cases": 9,
+      "seeds": [
+        1720352247,
+        1847020159,
+        410204508
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "diagnostic": {
+        "location": "instantiation",
+        "message": "AlgMap-15.1: instantiation: Unexpected character '?' (U+003F) at position 1",
+        "reason": "Unexpected character '?' (U+003F) at position 1",
+        "seed": 2060820372,
+        "type": "UnsupportedQuestion"
+      },
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-15-1.xml",
+      "id": "algmap-15-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 0,
+      "seeds": [
+        2060820372,
+        1584668898,
+        584521279
+      ],
+      "status": "unsupported_instantiate"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-2-1.xml",
+      "id": "algmap-2-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        675382660,
+        1779049407,
+        302075276
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        675382660,
+        1779049407,
+        302075276
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-2-5.xml",
+      "id": "algmap-2-5",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        554625703,
+        2004313867,
+        1257826844
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        554625703,
+        2004313867,
+        1257826844
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "diagnostic": {
+        "location": "prt[prt1]/node[0]/answertest",
+        "message": "AlgMap-3.1: prt[prt1]/node[0]/answertest: unsupported answer test 'EqualComAssRules'",
+        "reason": "unsupported answer test 'EqualComAssRules'",
+        "type": "UnsupportedQuestion"
+      },
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-3-1.xml",
+      "id": "algmap-3-1",
+      "imported_questions": 0,
+      "instantiated_seeds": [],
+      "mismatches": [],
+      "native_qtests": 5,
+      "replayed_cases": 0,
+      "seeds": [
+        1329293196,
+        708806052,
+        2090926622
+      ],
+      "status": "unsupported_import"
+    },
+    {
+      "diagnostic": {
+        "location": "questionvariables[simp]",
+        "message": "AlgMap-3.3: questionvariables[simp]: reassigned variable is unsupported",
+        "reason": "reassigned variable is unsupported",
+        "seed": 73699510,
+        "type": "UnsupportedQuestion"
+      },
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-3-3.xml",
+      "id": "algmap-3-3",
+      "imported_questions": 1,
+      "instantiated_seeds": [],
+      "mismatches": [],
+      "native_qtests": 4,
+      "replayed_cases": 0,
+      "seeds": [
+        73699510,
+        251827869,
+        1630492411
+      ],
+      "status": "unsupported_instantiate"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-4-1.xml",
+      "id": "algmap-4-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        167731690,
+        482559703,
+        774333379
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        167731690,
+        482559703,
+        774333379
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-4-13.xml",
+      "id": "algmap-4-13",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        1088093467,
+        276430126,
+        1612320671
+      ],
+      "mismatches": [],
+      "native_qtests": 4,
+      "replayed_cases": 12,
+      "seeds": [
+        1088093467,
+        276430126,
+        1612320671
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "diagnostic": {
+        "location": "questionvariables[simp]",
+        "message": "AlgMap-5.1: questionvariables[simp]: reassigned variable is unsupported",
+        "reason": "reassigned variable is unsupported",
+        "seed": 1965111916,
+        "type": "UnsupportedQuestion"
+      },
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-5-1.xml",
+      "id": "algmap-5-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 0,
+      "seeds": [
+        1965111916,
+        1816973567,
+        2092955263
+      ],
+      "status": "unsupported_instantiate"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-6-4.xml",
+      "id": "algmap-6-4",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        17,
+        29,
+        47
+      ],
+      "mismatches": [],
+      "native_qtests": 3,
+      "replayed_cases": 9,
+      "seeds": [
+        17,
+        29,
+        47
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-6-7.xml",
+      "id": "algmap-6-7",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        1214045767,
+        536649773,
+        971070137
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        1214045767,
+        536649773,
+        971070137
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-7-1.xml",
+      "id": "algmap-7-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        891379060,
+        1144746893,
+        208533265
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        891379060,
+        1144746893,
+        208533265
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "diagnostic": {
+        "location": "questionvariables[ta]",
+        "message": "AlgMap-7.10: questionvariables[ta]: reassigned variable is unsupported",
+        "reason": "reassigned variable is unsupported",
+        "seed": 1181131383,
+        "type": "UnsupportedQuestion"
+      },
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-7-10.xml",
+      "id": "algmap-7-10",
+      "imported_questions": 1,
+      "instantiated_seeds": [],
+      "mismatches": [],
+      "native_qtests": 3,
+      "replayed_cases": 0,
+      "seeds": [
+        1181131383,
+        1650846705,
+        2113771072
+      ],
+      "status": "unsupported_instantiate"
+    },
+    {
+      "failed_cases": 2,
+      "failed_checks": 2,
+      "file": "AlgMap-8-10.xml",
+      "id": "algmap-8-10",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        496178535,
+        1856951054,
+        1715030049
+      ],
+      "mismatches": [
+        {
+          "checks": [
+            {
+              "actual": {
+                "note": "1-0-F | 1-1-F",
+                "penalty": 0.1,
+                "score": 0.0
+              },
+              "expected": {
+                "note": "1-0-T",
+                "penalty": 0.0,
+                "score": 1.0
+              },
+              "passed": false,
+              "prt": "prt1"
+            }
+          ],
+          "inputs": {
+            "ans": "(7*(t + y))"
+          },
+          "seed": 1856951054,
+          "testcase": "1"
+        },
+        {
+          "checks": [
+            {
+              "actual": {
+                "note": "1-0-F | 1-1-F",
+                "penalty": 0.1,
+                "score": 0.0
+              },
+              "expected": {
+                "note": "1-0-T",
+                "penalty": 0.0,
+                "score": 1.0
+              },
+              "passed": false,
+              "prt": "prt1"
+            }
+          ],
+          "inputs": {
+            "ans": "(7*(t + y))"
+          },
+          "seed": 1856951054,
+          "testcase": "2"
+        }
+      ],
+      "native_qtests": 4,
+      "replayed_cases": 12,
+      "seeds": [
+        496178535,
+        1856951054,
+        1715030049
+      ],
+      "status": "qtests_mismatch"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-8-5.xml",
+      "id": "algmap-8-5",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        17,
+        29,
+        47
+      ],
+      "mismatches": [],
+      "native_qtests": 4,
+      "replayed_cases": 12,
+      "seeds": [
+        17,
+        29,
+        47
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-9-1.xml",
+      "id": "algmap-9-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        253453649,
+        332413405,
+        343041774
+      ],
+      "mismatches": [],
+      "native_qtests": 1,
+      "replayed_cases": 3,
+      "seeds": [
+        253453649,
+        332413405,
+        343041774
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "AlgMap-9-6.xml",
+      "id": "algmap-9-6",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        1775658430,
+        1085854555,
+        995216167
+      ],
+      "mismatches": [],
+      "native_qtests": 1,
+      "replayed_cases": 3,
+      "seeds": [
+        1775658430,
+        1085854555,
+        995216167
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "Complex_Convert_1.xml",
+      "id": "complex-convert-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        817828831,
+        1302743320,
+        2023109718
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        817828831,
+        1302743320,
+        2023109718
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "diagnostic": {
+        "location": "questionvariables[correctanswer]",
+        "message": "Inequality_1: questionvariables[correctanswer]: Unexpected character '>' (U+003E) at position 1",
+        "reason": "Unexpected character '>' (U+003E) at position 1",
+        "seed": 1959651692,
+        "type": "UnsupportedQuestion"
+      },
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "Inequality_1.xml",
+      "id": "inequality-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [],
+      "mismatches": [],
+      "native_qtests": 3,
+      "replayed_cases": 0,
+      "seeds": [
+        1959651692,
+        1912647767,
+        1656909886
+      ],
+      "status": "unsupported_instantiate"
+    },
+    {
+      "diagnostic": {
+        "location": "prt[Result]/node[0]/truepenalty",
+        "message": "Limits_1: prt[Result]/node[0]/truepenalty: branch-specific penalties are unsupported",
+        "reason": "branch-specific penalties are unsupported",
+        "type": "UnsupportedQuestion"
+      },
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "Limits_1.xml",
+      "id": "limits-1",
+      "imported_questions": 0,
+      "instantiated_seeds": [],
+      "mismatches": [],
+      "native_qtests": 3,
+      "replayed_cases": 0,
+      "seeds": [
+        755191200,
+        1987251928,
+        361610374
+      ],
+      "status": "unsupported_import"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "LinearAlgebra_elementary_1.xml",
+      "id": "linearalgebra-elementary-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        948077501,
+        2115177529,
+        1223528597
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        948077501,
+        2115177529,
+        1223528597
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "LinearAlgebra_elementary_2.xml",
+      "id": "linearalgebra-elementary-2",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        404337827,
+        765269806,
+        1906938980
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        404337827,
+        765269806,
+        1906938980
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "LinearAlgebra_elementary_3.xml",
+      "id": "linearalgebra-elementary-3",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        386876637,
+        1073163127,
+        1496670985
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        386876637,
+        1073163127,
+        1496670985
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "LinearAlgebra_elementary_4.xml",
+      "id": "linearalgebra-elementary-4",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        2043088205,
+        724623537,
+        347081126
+      ],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 6,
+      "seeds": [
+        2043088205,
+        724623537,
+        347081126
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "Logs_1.xml",
+      "id": "logs-1",
+      "imported_questions": 1,
+      "instantiated_seeds": [
+        1531295862,
+        864648734,
+        1099277693
+      ],
+      "mismatches": [],
+      "native_qtests": 3,
+      "replayed_cases": 9,
+      "seeds": [
+        1531295862,
+        864648734,
+        1099277693
+      ],
+      "status": "qtests_pass"
+    },
+    {
+      "diagnostic": {
+        "location": "questionvariables[correctanswer]",
+        "message": "Matrices_find det 2*2: questionvariables[correctanswer]: Function determinant is not allowed; use determinant*(...) for multiplication",
+        "reason": "Function determinant is not allowed; use determinant*(...) for multiplication",
+        "seed": 1113104891,
+        "type": "UnsupportedQuestion"
+      },
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "Matrices_find-det-2-2.xml",
+      "id": "matrices-find-det-2-2",
+      "imported_questions": 1,
+      "instantiated_seeds": [],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 0,
+      "seeds": [
+        1113104891,
+        694332030,
+        929766521
+      ],
+      "status": "unsupported_instantiate"
+    },
+    {
+      "diagnostic": {
+        "location": "input[ans1]/options",
+        "message": "Numerical input (min sf): input[ans1]/options: input-specific options are unsupported",
+        "reason": "input-specific options are unsupported",
+        "type": "UnsupportedQuestion"
+      },
+      "failed_cases": 0,
+      "failed_checks": 0,
+      "file": "Numerical_input_min_sf.xml",
+      "id": "numerical-input-min-sf",
+      "imported_questions": 0,
+      "instantiated_seeds": [],
+      "mismatches": [],
+      "native_qtests": 2,
+      "replayed_cases": 0,
+      "seeds": [
+        17,
+        29,
+        47
+      ],
+      "status": "unsupported_import"
+    }
+  ]
+}

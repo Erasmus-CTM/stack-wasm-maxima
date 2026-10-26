@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Native questions and graphical answers – STACK Maxima</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1ae0656660a27274ffbb8da420579a0e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/ctm-runtime-0.9.0/pyodide-runtime.js"></script>
+<script src="../site_libs/quarto-contrib/ctm-checkers-0.6.0/ctm-checkers.js"></script>
+<script src="../site_libs/quarto-contrib/ctm-checkers-stack-0.6.0/ctm-checkers-stack.js"></script>
+<link href="../site_libs/quarto-contrib/stack-sympy-0.3.0/matrix-input.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/stack-sympy-0.3.0/stack-sympy.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script data-ctm-coi-bootstrap="" src="../ctm-isolation.js"></script>
+<style>.stack-native-backend pre { max-width: 100%; overflow-x: auto; }</style>
+
+
+<link rel="icon" href="data:,">
+<script type="application/ctm-parent-mathjax" src="../native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js"></script><script>(function(){if(!window.crossOriginIsolated)return;const placeholder=document.currentScript.previousElementSibling;const attributes={"id": "ctm-parent-mathjax", "async": "", "src": "../native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js"};const loader=document.createElement("script");loader.async=Object.prototype.hasOwnProperty.call(attributes,"async");for(const [name,value] of Object.entries(attributes))loader.setAttribute(name,value);placeholder.replaceWith(loader);})();</script>
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">STACK Maxima</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../maxima/examples.html"> 
+<span class="menu-text">Worked questions</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../maxima/native.html" aria-current="page"> 
+<span class="menu-text">Native questions</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../maxima/data-flow.html"> 
+<span class="menu-text">Data flow</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../maxima/startup.html"> 
+<span class="menu-text">Start-up timing</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../licenses.html"> 
+<span class="menu-text">Licences and sources</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Erasmus-CTM/stack-wasm-maxima"> <i class="bi bi-github" role="img" aria-label="Source repository">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#rational-equivalence" id="toc-rational-equivalence" class="nav-link active" data-scroll-target="#rational-equivalence">Rational equivalence</a></li>
+  <li><a href="#numerical-precision" id="toc-numerical-precision" class="nav-link" data-scroll-target="#numerical-precision">Numerical precision</a></li>
+  <li><a href="#lists-and-sets" id="toc-lists-and-sets" class="nav-link" data-scroll-target="#lists-and-sets">Lists and sets</a></li>
+  <li><a href="#a-fixed-matrix-input" id="toc-a-fixed-matrix-input" class="nav-link" data-scroll-target="#a-fixed-matrix-input">A fixed matrix input</a></li>
+  <li><a href="#an-unchanged-upstream-binding-example" id="toc-an-unchanged-upstream-binding-example" class="nav-link" data-scroll-target="#an-unchanged-upstream-binding-example">An unchanged upstream binding example</a></li>
+  <li><a href="#an-unchanged-upstream-json-example" id="toc-an-unchanged-upstream-json-example" class="nav-link" data-scroll-target="#an-unchanged-upstream-json-example">An unchanged upstream JSON example</a></li>
+  <li><a href="#a-graphical-pythonchecker" id="toc-a-graphical-pythonchecker" class="nav-link" data-scroll-target="#a-graphical-pythonchecker">A graphical PythonChecker</a></li>
+  <li><a href="#a-mixed-response-tree" id="toc-a-mixed-response-tree" class="nav-link" data-scroll-target="#a-mixed-response-tree">A mixed response tree</a></li>
+  <li><a href="#structured-matrix-feedback-from-pythonchecker" id="toc-structured-matrix-feedback-from-pythonchecker" class="nav-link" data-scroll-target="#structured-matrix-feedback-from-pythonchecker">Structured matrix feedback from PythonChecker</a></li>
+  <li><a href="#public-startup-and-response-times" id="toc-public-startup-and-response-times" class="nav-link" data-scroll-target="#public-startup-and-response-times">Public startup and response times</a></li>
+  <li><a href="#build-and-execution-evidence" id="toc-build-and-execution-evidence" class="nav-link" data-scroll-target="#build-and-execution-evidence">Build and execution evidence</a>
+  <ul class="collapse">
+  <li><a href="#supported-subset" id="toc-supported-subset" class="nav-link" data-scroll-target="#supported-subset">Supported subset</a></li>
+  <li><a href="#historical-controlled-loader-measurements" id="toc-historical-controlled-loader-measurements" class="nav-link" data-scroll-target="#historical-controlled-loader-measurements">Historical controlled loader measurements</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Native questions and graphical answers</h1>
+<p class="subtitle lead">Milestone 3 — native STACK execution with optional PythonChecker</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<script>window.CTMStackBackends=window.CTMStackBackends||{};window.CTMStackBackends["maxima-native"]={workerURL:"../native/backend-worker.js",label:"Native Maxima",loadTimeout:240000};document.addEventListener("DOMContentLoaded",function(){if(self.crossOriginIsolated)window.CTMStackJSXGraph.install(document);},{once:true});</script>
+<p>These exercises use the same CTM question controls as the <a href="../maxima/examples.html">backend comparison</a>. Question variables, supported input validation and native response-tree nodes run through STACK’s Maxima libraries in WebAssembly. Native questions start without Python. A visited PythonChecker node loads the existing CTM checker implementation in Pyodide and then resumes the native response tree.</p>
+<p>The supported controller subset is explicit; this page does not establish full Moodle PHP input-controller or attempt-state compatibility. Use <strong>Run question tests</strong> where available, then try your own correct, incorrect and invalid answers. Source XML links identify the exact questions used by this build.</p>
+<section id="rational-equivalence" class="level2">
+<h2 class="anchored" data-anchor-id="rational-equivalence">Rational equivalence</h2>
+<p><strong>Standard STACK features; CTM-authored question.</strong> This checks the same mathematical condition as the comparison page. The selected variants are prepared by native Maxima. <a href="native-questions/native-rational.xml">Source XML</a>.</p>
+<div class="stack-native-backend" data-stack-backend="maxima-native"><section class="stack-sympy" data-stack-id="native-rational"><div class="stack-toolbar"><label>Variant <select class="stack-variant" aria-label="Question variant"><option value="0">Variant 1</option><option value="1">Variant 2</option></select></label></div><div class="stack-prompt stack-question"><p>For \(x\neq-{3}\), give an expression equivalent to \(\dfrac{(x+{3})(x+{6})}{(x+{3})^2}\). You may simplify it, or give any equivalent expression on this domain.</p><p><input class="stack-answer" data-name="ans" data-stack-input-type="algebraic" aria-label="Answer ans" size="18" autocomplete="off"> <span class="stack-validation" data-name="ans" aria-live="polite"></span> <span class="stack-feedback" data-name="prt1"></span></p></div><div class="stack-actions"><button type="button" class="stack-validate">Validate answers</button><button type="button" class="stack-check" disabled="">Check answer</button><button type="button" class="stack-tests">Run question tests</button></div><div class="stack-result" aria-live="polite"></div><div class="stack-generalfeedback" hidden=""></div><script type="application/json" class="stack-sympy-data">{"version":1,"id":"native-rational","question":{"name":"Equivalent rational expression","questiontext":"\u003cp\u003eFor \\(x\\neq-@@CTM_NATIVE_t0@@\\), give an expression equivalent to \\(\\dfrac{(x+@@CTM_NATIVE_t1@@)(x+@@CTM_NATIVE_t2@@)}{(x+@@CTM_NATIVE_t3@@)^2}\\). You may simplify it, or give any equivalent expression on this domain.\u003c/p\u003e\u003cp\u003e[[input:ans]] [[validation:ans]] [[feedback:prt1]]\u003c/p\u003e","generalfeedback":"\u003cp\u003eCancel one common factor of \\(x+@@CTM_NATIVE_t4@@\\) (valid when \\(x\\neq-@@CTM_NATIVE_t5@@\\)) to obtain \\(@@CTM_NATIVE_t6@@\\).\u003c/p\u003e","specificfeedback":"\u003cp\u003e[[feedback:prt1]]\u003c/p\u003e","questionnote":"Rational identity: (x+n)(x+m)/(x+n)^2 = ta, for x != -n","variables":"n:rand(3)+2;\nm:n+rand(3)+1;\nta:(x+m)/(x+n);","defaultgrade":1,"penalty":0.1,"simplify":true,"assumepositive":false,"assumereal":false,"inputs":[{"name":"ans","type":"algebraic","teacher":"ta","boxsize":18,"strictsyntax":true,"insertstars":0,"forbidwords":[],"forbidfloat":true,"requirelowestterms":false,"checkanswertype":true,"mustverify":true,"showvalidation":true,"syntaxhint":""}],"prts":[{"name":"prt1","value":1,"autosimplify":false,"feedbackvariables":"","nodes":[{"name":"0","test":"AlgEquiv","student":"ans","teacher":"ta","options":"","quiet":false,"true":{"mode":"=","score":1,"next":-1,"note":"prt1-0-T","feedback":"\u003cp\u003eCorrect on the stated domain.\u003c/p\u003e"},"false":{"mode":"=","score":0,"next":1,"note":"prt1-0-F","feedback":""}},{"name":"1","test":"AlgEquiv","student":"ans","teacher":"(x+n)/(x+m)","options":"","quiet":false,"true":{"mode":"=","score":0,"next":-1,"note":"prt1-1-T","feedback":"\u003cp\u003eYou inverted the fraction. Cancel a shared factor instead.\u003c/p\u003e"},"false":{"mode":"=","score":0,"next":-1,"note":"prt1-1-F","feedback":"\u003cp\u003eCancel one factor in the numerator against one in the squared denominator.\u003c/p\u003e"}}],"locals":[]}],"qtests":[{"testcase":"1","description":"Simplified expression","inputs":{"ans":"(x+m)/(x+n)"},"expected":{"prt1":{"score":1,"penalty":0,"note":"prt1-0-T"}}},{"testcase":"2","description":"Unsimplified but equivalent expression","inputs":{"ans":"(x+n)*(x+m)/(x+n)^2"},"expected":{"prt1":{"score":1,"penalty":0,"note":"prt1-0-T"}}},{"testcase":"3","description":"Reciprocal misconception","inputs":{"ans":"(x+n)/(x+m)"},"expected":{"prt1":{"score":0,"penalty":0.1,"note":"prt1-0-F | prt1-1-T"}}}],"deployedseeds":[17,29,47],"native":{"schema":1,"id":"native-rational","locals":["n","m","ta"],"tokens":[{"id":"t0","source":"n","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t1","source":"n","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t2","source":"m","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t3","source":"n","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t4","source":"n","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t5","source":"n","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t6","source":"ta","format":"latex","wrap":false,"phase":"prepare","context":"html"}],"boards":[]}},"variants":[{"seed":1,"env":{"n":"3","m":"6","ta":"(x+6)/(x+3)"},"teachers":{"ans":{"source":"(x+6)/(x+3)","latex":"\\frac{x+6}{x+3}","type":"scalar","shape":null}},"tokenValues":{"t0":{"format":"latex","value":"3","string":false,"wrap":false},"t1":{"format":"latex","value":"3","string":false,"wrap":false},"t2":{"format":"latex","value":"6","string":false,"wrap":false},"t3":{"format":"latex","value":"3","string":false,"wrap":false},"t4":{"format":"latex","value":"3","string":false,"wrap":false},"t5":{"format":"latex","value":"3","string":false,"wrap":false},"t6":{"format":"latex","value":"\\frac{x+6}{x+3}","string":false,"wrap":false}},"qtests":[{"testcase":"1","answers":{"ans":"(x+6)/(x+3)"}},{"testcase":"2","answers":{"ans":"((x+3)*(x+6))/(x+3)^2"}},{"testcase":"3","answers":{"ans":"(x+3)/(x+6)"}}],"native":{"schema":1,"backend":"maxima-native","planSchema":1,"questionId":"native-rational","questionHash":"d818d122adc9e031e02238b54937904435b2bb334fb7c03774774920faba7b9a","seed":1,"stackRevision":"33383047af39c204bf4442802a058f8b918b2b1b","stackLibraryVersion":"2026101500","runtimeHash":"182384b851e2ef6b76a6a9cb88a018b6b6f5e3dd8cd7a987da22c6b1db29eb20","preparedHash":"f60a4759b27b2de06076232a724ee866b405dd0a9a8ff2a32c2b088b8604ace0"},"question_html":"\u003cp\u003eFor \\(x\\neq-{3}\\), give an expression equivalent to \\(\\dfrac{(x+{3})(x+{6})}{(x+{3})^2}\\). You may simplify it, or give any equivalent expression on this domain.\u003c/p\u003e\u003cp\u003e\u003cinput class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"18\" autocomplete=\"off\"\u003e \u003cspan class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e\u003c/p\u003e","generalfeedback_html":"\u003cp\u003eCancel one common factor of \\(x+{3}\\) (valid when \\(x\\neq-{3}\\)) to obtain \\({\\frac{x+6}{x+3}}\\).\u003c/p\u003e","specificfeedback_html":"\u003cp\u003e\u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e\u003c/p\u003e","questionnote_html":"Rational identity: (x+n)(x+m)/(x+n)^2 = ta, for x != -n"},{"seed":2,"env":{"n":"2","m":"3","ta":"(x+3)/(x+2)"},"teachers":{"ans":{"source":"(x+3)/(x+2)","latex":"\\frac{x+3}{x+2}","type":"scalar","shape":null}},"tokenValues":{"t0":{"format":"latex","value":"2","string":false,"wrap":false},"t1":{"format":"latex","value":"2","string":false,"wrap":false},"t2":{"format":"latex","value":"3","string":false,"wrap":false},"t3":{"format":"latex","value":"2","string":false,"wrap":false},"t4":{"format":"latex","value":"2","string":false,"wrap":false},"t5":{"format":"latex","value":"2","string":false,"wrap":false},"t6":{"format":"latex","value":"\\frac{x+3}{x+2}","string":false,"wrap":false}},"qtests":[{"testcase":"1","answers":{"ans":"(x+3)/(x+2)"}},{"testcase":"2","answers":{"ans":"((x+2)*(x+3))/(x+2)^2"}},{"testcase":"3","answers":{"ans":"(x+2)/(x+3)"}}],"native":{"schema":1,"backend":"maxima-native","planSchema":1,"questionId":"native-rational","questionHash":"d818d122adc9e031e02238b54937904435b2bb334fb7c03774774920faba7b9a","seed":2,"stackRevision":"33383047af39c204bf4442802a058f8b918b2b1b","stackLibraryVersion":"2026101500","runtimeHash":"182384b851e2ef6b76a6a9cb88a018b6b6f5e3dd8cd7a987da22c6b1db29eb20","preparedHash":"32b257684115087e499628d54f0429254e6418feea7ed548f8ca9a791ed3390a"},"question_html":"\u003cp\u003eFor \\(x\\neq-{2}\\), give an expression equivalent to \\(\\dfrac{(x+{2})(x+{3})}{(x+{2})^2}\\). You may simplify it, or give any equivalent expression on this domain.\u003c/p\u003e\u003cp\u003e\u003cinput class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"18\" autocomplete=\"off\"\u003e \u003cspan class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e\u003c/p\u003e","generalfeedback_html":"\u003cp\u003eCancel one common factor of \\(x+{2}\\) (valid when \\(x\\neq-{2}\\)) to obtain \\({\\frac{x+3}{x+2}}\\).\u003c/p\u003e","specificfeedback_html":"\u003cp\u003e\u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e\u003c/p\u003e","questionnote_html":"Rational identity: (x+n)(x+m)/(x+n)^2 = ta, for x != -n"}],"review":true}</script></section></div>
+</section>
+<section id="numerical-precision" class="level2">
+<h2 class="anchored" data-anchor-id="numerical-precision">Numerical precision</h2>
+<p><strong>Standard STACK features; CTM-authored question.</strong> Numerical tolerances and the written number of decimal places are separate conditions. In particular, compare <code>17.50</code> and <code>17.5</code>. <a href="native-questions/native-numerical.xml">Source XML</a>.</p>
+<div class="stack-native-backend" data-stack-backend="maxima-native"><section class="stack-sympy" data-stack-id="native-numerical"><div class="stack-toolbar"><label>Variant <select class="stack-variant" aria-label="Question variant"><option value="0">Variant 1</option></select></label></div><div class="stack-prompt stack-question"><p>A rectangle is \({7}\) cm long and \({5}\) cm wide. A right triangle has those same perpendicular side lengths.</p><ol><li>Find the rectangle perimeter in cm, within \(0.25\) cm. <input class="stack-answer" data-name="perimeter" data-stack-input-type="numerical" aria-label="Answer perimeter" size="18" autocomplete="off"> <span class="stack-validation" data-name="perimeter" aria-live="polite"></span> <span class="stack-feedback" data-name="prt1"></span></li><li>Find the triangle area in cm², within \(2\%\) of the exact value. <input class="stack-answer" data-name="area" data-stack-input-type="numerical" aria-label="Answer area" size="18" autocomplete="off"> <span class="stack-validation" data-name="area" aria-live="polite"></span> <span class="stack-feedback" data-name="prt2"></span></li><li>Write the triangle area to <strong>exactly two decimal places</strong> (include the final zero). <input class="stack-answer" data-name="reported" data-stack-input-type="numerical" aria-label="Answer reported" size="18" autocomplete="off"> <span class="stack-validation" data-name="reported" aria-live="polite"></span> <span class="stack-feedback" data-name="prt3"></span></li></ol></div><div class="stack-actions"><button type="button" class="stack-validate">Validate answers</button><button type="button" class="stack-check" disabled="">Check answer</button><button type="button" class="stack-tests">Run question tests</button></div><div class="stack-result" aria-live="polite"></div><div class="stack-generalfeedback" hidden=""></div><script type="application/json" class="stack-sympy-data">{"version":1,"id":"native-numerical","question":{"name":"Rectangle and triangle measurements","questiontext":"\u003cp\u003eA rectangle is \\(@@CTM_NATIVE_t0@@\\) cm long and \\(@@CTM_NATIVE_t1@@\\) cm wide. A right triangle has those same perpendicular side lengths.\u003c/p\u003e\u003col\u003e\u003cli\u003eFind the rectangle perimeter in cm, within \\(0.25\\) cm. [[input:perimeter]] [[validation:perimeter]] [[feedback:prt1]]\u003c/li\u003e\u003cli\u003eFind the triangle area in cm², within \\(2\\%\\) of the exact value. [[input:area]] [[validation:area]] [[feedback:prt2]]\u003c/li\u003e\u003cli\u003eWrite the triangle area to \u003cstrong\u003eexactly two decimal places\u003c/strong\u003e (include the final zero). [[input:reported]] [[validation:reported]] [[feedback:prt3]]\u003c/li\u003e\u003c/ol\u003e","generalfeedback":"\u003cp\u003ePerimeter: \\(2(@@CTM_NATIVE_t2@@+@@CTM_NATIVE_t3@@)=@@CTM_NATIVE_t4@@\\) cm. Triangle area: \\(@@CTM_NATIVE_t5@@\\cdot@@CTM_NATIVE_t6@@/2=@@CTM_NATIVE_t7@@\\) cm². To two decimal places, write \u003cstrong\u003e17.50\u003c/strong\u003e; the final zero records the requested precision.\u003c/p\u003e","specificfeedback":"\u003cp\u003e[[feedback:prt1]] [[feedback:prt2]] [[feedback:prt3]]\u003c/p\u003e","questionnote":"Numerical checks: perimeter 24, area 17.5, two-place area 17.50","variables":"p:7;\nq:5;\nta_perimeter:2*(p+q);\nta_area:p*q/2;","defaultgrade":1,"penalty":0.1,"simplify":true,"assumepositive":false,"assumereal":false,"inputs":[{"name":"perimeter","type":"numerical","teacher":"ta_perimeter","boxsize":18,"strictsyntax":true,"insertstars":0,"forbidwords":[],"forbidfloat":false,"requirelowestterms":false,"checkanswertype":false,"mustverify":true,"showvalidation":true,"syntaxhint":""},{"name":"area","type":"numerical","teacher":"ta_area","boxsize":18,"strictsyntax":true,"insertstars":0,"forbidwords":[],"forbidfloat":false,"requirelowestterms":false,"checkanswertype":false,"mustverify":true,"showvalidation":true,"syntaxhint":""},{"name":"reported","type":"numerical","teacher":"ta_area","boxsize":18,"strictsyntax":true,"insertstars":0,"forbidwords":[],"forbidfloat":false,"requirelowestterms":false,"checkanswertype":false,"mustverify":true,"showvalidation":true,"syntaxhint":""}],"prts":[{"name":"prt1","value":0.3,"autosimplify":false,"feedbackvariables":"","nodes":[{"name":"0","test":"NumAbsolute","student":"perimeter","teacher":"ta_perimeter","options":"0.25","quiet":false,"true":{"mode":"=","score":1,"next":-1,"note":"prt1-0-T","feedback":"\u003cp\u003ePerimeter is within 0.25 cm.\u003c/p\u003e"},"false":{"mode":"=","score":0,"next":-1,"note":"prt1-0-F","feedback":"\u003cp\u003eUse twice the sum of the side lengths.\u003c/p\u003e"}}],"locals":[]},{"name":"prt2","value":0.4,"autosimplify":false,"feedbackvariables":"","nodes":[{"name":"0","test":"NumRelative","student":"area","teacher":"ta_area","options":"0.02","quiet":false,"true":{"mode":"=","score":1,"next":-1,"note":"prt2-0-T","feedback":"\u003cp\u003eTriangle area is within 2%.\u003c/p\u003e"},"false":{"mode":"=","score":0,"next":-1,"note":"prt2-0-F","feedback":"\u003cp\u003eUse half the product of the perpendicular sides.\u003c/p\u003e"}}],"locals":[]},{"name":"prt3","value":0.3,"autosimplify":false,"feedbackvariables":"","nodes":[{"name":"0","test":"NumDecPlaces","student":"reported","teacher":"ta_area","options":"2","quiet":false,"true":{"mode":"=","score":1,"next":-1,"note":"prt3-0-T","feedback":"\u003cp\u003eThe value and two-decimal-place formatting are both correct.\u003c/p\u003e"},"false":{"mode":"=","score":0,"next":-1,"note":"prt3-0-F","feedback":"\u003cp\u003eCheck the value and type two digits after the decimal point, including a trailing zero.\u003c/p\u003e"}}],"locals":[]}],"qtests":[{"testcase":"1","description":"Exact values with two-place reporting","inputs":{"perimeter":"24","area":"17.5","reported":"17.50"},"expected":{"prt1":{"score":1,"penalty":0,"note":"prt1-0-T"},"prt2":{"score":1,"penalty":0,"note":"prt2-0-T"},"prt3":{"score":1,"penalty":0,"note":"prt3-0-T"}}},{"testcase":"2","description":"Outside tolerance and missing trailing zero","inputs":{"perimeter":"25","area":"20","reported":"17.5"},"expected":{"prt1":{"score":0,"penalty":0.1,"note":"prt1-0-F"},"prt2":{"score":0,"penalty":0.1,"note":"prt2-0-F"},"prt3":{"score":0,"penalty":0.1,"note":"prt3-0-F"}}},{"testcase":"3","description":"Acceptable approximations with precise reporting","inputs":{"perimeter":"24.1","area":"17.65","reported":"17.50"},"expected":{"prt1":{"score":1,"penalty":0,"note":"prt1-0-T"},"prt2":{"score":1,"penalty":0,"note":"prt2-0-T"},"prt3":{"score":1,"penalty":0,"note":"prt3-0-T"}}}],"deployedseeds":[17,29,47],"native":{"schema":1,"id":"native-numerical","locals":["p","q","ta_perimeter","ta_area"],"tokens":[{"id":"t0","source":"p","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t1","source":"q","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t2","source":"p","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t3","source":"q","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t4","source":"ta_perimeter","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t5","source":"p","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t6","source":"q","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t7","source":"ta_area","format":"latex","wrap":false,"phase":"prepare","context":"html"}],"boards":[]}},"variants":[{"seed":1,"env":{"p":"7","q":"5","ta_perimeter":"24","ta_area":"35/2"},"teachers":{"perimeter":{"source":"24","latex":"24","type":"scalar","shape":null},"area":{"source":"35/2","latex":"\\frac{35}{2}","type":"scalar","shape":null},"reported":{"source":"35/2","latex":"\\frac{35}{2}","type":"scalar","shape":null}},"tokenValues":{"t0":{"format":"latex","value":"7","string":false,"wrap":false},"t1":{"format":"latex","value":"5","string":false,"wrap":false},"t2":{"format":"latex","value":"7","string":false,"wrap":false},"t3":{"format":"latex","value":"5","string":false,"wrap":false},"t4":{"format":"latex","value":"24","string":false,"wrap":false},"t5":{"format":"latex","value":"7","string":false,"wrap":false},"t6":{"format":"latex","value":"5","string":false,"wrap":false},"t7":{"format":"latex","value":"\\frac{35}{2}","string":false,"wrap":false}},"qtests":[{"testcase":"1","answers":{"perimeter":"24","area":"17.5","reported":"17.50"}},{"testcase":"2","answers":{"perimeter":"25","area":"20","reported":"17.5"}},{"testcase":"3","answers":{"perimeter":"24.1","area":"17.65","reported":"17.50"}}],"native":{"schema":1,"backend":"maxima-native","planSchema":1,"questionId":"native-numerical","questionHash":"b3f0ab6e9616e8671436f043402bded3502a7fa71ffe838e1be6ae4999a52798","seed":1,"stackRevision":"33383047af39c204bf4442802a058f8b918b2b1b","stackLibraryVersion":"2026101500","runtimeHash":"182384b851e2ef6b76a6a9cb88a018b6b6f5e3dd8cd7a987da22c6b1db29eb20","preparedHash":"051898cd2410881399c72e5928193b5c16350fe1229bb43ef59dfa88f6e5a4ff"},"question_html":"\u003cp\u003eA rectangle is \\({7}\\) cm long and \\({5}\\) cm wide. A right triangle has those same perpendicular side lengths.\u003c/p\u003e\u003col\u003e\u003cli\u003eFind the rectangle perimeter in cm, within \\(0.25\\) cm. \u003cinput class=\"stack-answer\" data-name=\"perimeter\" data-stack-input-type=\"numerical\" aria-label=\"Answer perimeter\" size=\"18\" autocomplete=\"off\"\u003e \u003cspan class=\"stack-validation\" data-name=\"perimeter\" aria-live=\"polite\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e\u003c/li\u003e\u003cli\u003eFind the triangle area in cm², within \\(2\\%\\) of the exact value. \u003cinput class=\"stack-answer\" data-name=\"area\" data-stack-input-type=\"numerical\" aria-label=\"Answer area\" size=\"18\" autocomplete=\"off\"\u003e \u003cspan class=\"stack-validation\" data-name=\"area\" aria-live=\"polite\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"prt2\"\u003e\u003c/span\u003e\u003c/li\u003e\u003cli\u003eWrite the triangle area to \u003cstrong\u003eexactly two decimal places\u003c/strong\u003e (include the final zero). \u003cinput class=\"stack-answer\" data-name=\"reported\" data-stack-input-type=\"numerical\" aria-label=\"Answer reported\" size=\"18\" autocomplete=\"off\"\u003e \u003cspan class=\"stack-validation\" data-name=\"reported\" aria-live=\"polite\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"prt3\"\u003e\u003c/span\u003e\u003c/li\u003e\u003c/ol\u003e","generalfeedback_html":"\u003cp\u003ePerimeter: \\(2({7}+{5})={24}\\) cm. Triangle area: \\({7}\\cdot{5}/2={\\frac{35}{2}}\\) cm². To two decimal places, write \u003cstrong\u003e17.50\u003c/strong\u003e; the final zero records the requested precision.\u003c/p\u003e","specificfeedback_html":"\u003cp\u003e\u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"prt2\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"prt3\"\u003e\u003c/span\u003e\u003c/p\u003e","questionnote_html":"Numerical checks: perimeter 24, area 17.5, two-place area 17.50"}],"review":true}</script></section></div>
+</section>
+<section id="lists-and-sets" class="level2">
+<h2 class="anchored" data-anchor-id="lists-and-sets">Lists and sets</h2>
+<p><strong>Standard STACK features; CTM-authored question.</strong> Ordered lists and unordered sets retain their distinct native meanings. <a href="native-questions/native-collections.xml">Source XML</a>.</p>
+<div class="stack-native-backend" data-stack-backend="maxima-native"><section class="stack-sympy" data-stack-id="native-collections"><div class="stack-toolbar"><label>Variant <select class="stack-variant" aria-label="Question variant"><option value="0">Variant 1</option></select></label></div><div class="stack-prompt stack-question"><p>Use square brackets for an ordered list and braces for a set. Here a = \({2}\).</p><p>Enter the list \({\left[ 2 , 2\,x \right] }\): <input class="stack-answer" data-name="sequence" data-stack-input-type="algebraic" aria-label="Answer sequence" size="18" autocomplete="off"> <span class="stack-validation" data-name="sequence" aria-live="polite"></span> <span class="stack-feedback" data-name="ordered"></span></p><p>Enter the set \({\left \{2 , 2\,x \right \}}\): <input class="stack-answer" data-name="members" data-stack-input-type="algebraic" aria-label="Answer members" size="18" autocomplete="off"> <span class="stack-validation" data-name="members" aria-live="polite"></span> <span class="stack-feedback" data-name="unordered"></span></p><p>Enter the same set again; this check explains duplicates and missing/extra elements: <input class="stack-answer" data-name="explained" data-stack-input-type="algebraic" aria-label="Answer explained" size="18" autocomplete="off"> <span class="stack-validation" data-name="explained" aria-live="polite"></span> <span class="stack-feedback" data-name="explained"></span></p></div><div class="stack-actions"><button type="button" class="stack-validate">Validate answers</button><button type="button" class="stack-check" disabled="">Check answer</button><button type="button" class="stack-tests">Run question tests</button></div><div class="stack-result" aria-live="polite"></div><div class="stack-generalfeedback" hidden=""></div><script type="application/json" class="stack-sympy-data">{"version":1,"id":"native-collections","question":{"name":"Finite scalar collections","questiontext":"\u003cp\u003eUse square brackets for an ordered list and braces for a set. Here a = \\(@@CTM_NATIVE_t0@@\\).\u003c/p\u003e\u003cp\u003eEnter the list \\(@@CTM_NATIVE_t1@@\\): [[input:sequence]] [[validation:sequence]] [[feedback:ordered]]\u003c/p\u003e\u003cp\u003eEnter the set \\(@@CTM_NATIVE_t2@@\\): [[input:members]] [[validation:members]] [[feedback:unordered]]\u003c/p\u003e\u003cp\u003eEnter the same set again; this check explains duplicates and missing/extra elements: [[input:explained]] [[validation:explained]] [[feedback:explained]]\u003c/p\u003e","generalfeedback":"\u003cp\u003eLists preserve order and repetitions. Sets ignore order and repeated elements.\u003c/p\u003e","specificfeedback":"","questionnote":"Finite scalar collections, a = @@CTM_NATIVE_t3@@","variables":"a:rand_with_step(2,8,1); ordered:[a,x+x]; unordered:{a,x+x};","defaultgrade":1,"penalty":0.1,"simplify":true,"assumepositive":false,"assumereal":false,"inputs":[{"name":"sequence","type":"algebraic","teacher":"ordered","boxsize":18,"strictsyntax":true,"insertstars":0,"forbidwords":[],"forbidfloat":true,"requirelowestterms":false,"checkanswertype":true,"mustverify":true,"showvalidation":true,"syntaxhint":""},{"name":"members","type":"algebraic","teacher":"unordered","boxsize":18,"strictsyntax":true,"insertstars":0,"forbidwords":[],"forbidfloat":true,"requirelowestterms":false,"checkanswertype":true,"mustverify":true,"showvalidation":true,"syntaxhint":""},{"name":"explained","type":"algebraic","teacher":"unordered","boxsize":18,"strictsyntax":true,"insertstars":0,"forbidwords":[],"forbidfloat":true,"requirelowestterms":false,"checkanswertype":true,"mustverify":true,"showvalidation":true,"syntaxhint":""}],"prts":[{"name":"ordered","value":1,"autosimplify":false,"feedbackvariables":"","nodes":[{"name":"0","test":"AlgEquiv","student":"sequence","teacher":"ordered","options":"","quiet":false,"true":{"mode":"=","score":1,"next":-1,"note":"ordered-T","feedback":"\u003cp\u003eCorrect.\u003c/p\u003e"},"false":{"mode":"=","score":0,"next":-1,"note":"ordered-F","feedback":"\u003cp\u003eThis answer is not equivalent to the reference.\u003c/p\u003e"}}],"locals":[]},{"name":"unordered","value":1,"autosimplify":false,"feedbackvariables":"","nodes":[{"name":"0","test":"AlgEquiv","student":"members","teacher":"unordered","options":"","quiet":false,"true":{"mode":"=","score":1,"next":-1,"note":"unordered-T","feedback":"\u003cp\u003eCorrect.\u003c/p\u003e"},"false":{"mode":"=","score":0,"next":-1,"note":"unordered-F","feedback":"\u003cp\u003eThis answer is not equivalent to the reference.\u003c/p\u003e"}}],"locals":[]},{"name":"explained","value":1,"autosimplify":false,"feedbackvariables":"","nodes":[{"name":"0","test":"Sets","student":"explained","teacher":"unordered","options":"","quiet":false,"true":{"mode":"=","score":1,"next":-1,"note":"explained-T","feedback":"\u003cp\u003eCorrect.\u003c/p\u003e"},"false":{"mode":"=","score":0,"next":-1,"note":"explained-F","feedback":"\u003cp\u003eThis answer is not equivalent to the reference.\u003c/p\u003e"}}],"locals":[]}],"qtests":[{"testcase":"1","description":"Flat collection control","inputs":{"sequence":"[a,2*x]","members":"{2*x,a}","explained":"{a,2*x}"},"expected":{"ordered":{"score":1,"penalty":0,"note":"ordered-T"},"unordered":{"score":1,"penalty":0,"note":"unordered-T"},"explained":{"score":1,"penalty":0,"note":"explained-T"}}},{"testcase":"2","description":"Flat collection control","inputs":{"sequence":"[2*x,a]","members":"{a,2*x}","explained":"{a,2*x,2*x}"},"expected":{"ordered":{"score":0,"penalty":0.1,"note":"ordered-F"},"unordered":{"score":1,"penalty":0,"note":"unordered-T"},"explained":{"score":1,"penalty":0,"note":"explained-T"}}},{"testcase":"3","description":"Flat collection control","inputs":{"sequence":"[a,2*x,a]","members":"{a}","explained":"{a,3*x}"},"expected":{"ordered":{"score":0,"penalty":0.1,"note":"ordered-F"},"unordered":{"score":0,"penalty":0.1,"note":"unordered-F"},"explained":{"score":0,"penalty":0.1,"note":"explained-F"}}},{"testcase":"4","description":"Flat collection control","inputs":{"sequence":"[a,x+x]","members":"{x+x,a,a}","explained":"{a}"},"expected":{"ordered":{"score":1,"penalty":0,"note":"ordered-T"},"unordered":{"score":1,"penalty":0,"note":"unordered-T"},"explained":{"score":0,"penalty":0.1,"note":"explained-F"}}}],"deployedseeds":[17,29,47],"native":{"schema":1,"id":"native-collections","locals":["a","ordered","unordered"],"tokens":[{"id":"t0","source":"a","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t1","source":"ordered","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t2","source":"unordered","format":"latex","wrap":false,"phase":"prepare","context":"html"},{"id":"t3","source":"a","format":"latex","wrap":true,"phase":"prepare","context":"html"}],"boards":[]}},"variants":[{"seed":1,"env":{"a":"2","ordered":"[2,2*x]","unordered":"{2,2*x}"},"teachers":{"sequence":{"source":"[2,2*x]","latex":"\\left[ 2 , 2\\,x \\right] ","type":"list","shape":null},"members":{"source":"{2,2*x}","latex":"\\left \\{2 , 2\\,x \\right \\}","type":"set","shape":null},"explained":{"source":"{2,2*x}","latex":"\\left \\{2 , 2\\,x \\right \\}","type":"set","shape":null}},"tokenValues":{"t0":{"format":"latex","value":"2","string":false,"wrap":false},"t1":{"format":"latex","value":"\\left[ 2 , 2\\,x \\right] ","string":false,"wrap":false},"t2":{"format":"latex","value":"\\left \\{2 , 2\\,x \\right \\}","string":false,"wrap":false},"t3":{"format":"latex","value":"2","string":false,"wrap":true}},"qtests":[{"testcase":"1","answers":{"sequence":"[2,2*x]","members":"{2*x,2}","explained":"{2,2*x}"}},{"testcase":"2","answers":{"sequence":"[2*x,2]","members":"{2,2*x}","explained":"{2,2*x,2*x}"}},{"testcase":"3","answers":{"sequence":"[2,2*x,2]","members":"{2}","explained":"{2,3*x}"}},{"testcase":"4","answers":{"sequence":"[2,x+x]","members":"{x+x,2,2}","explained":"{2}"}}],"native":{"schema":1,"backend":"maxima-native","planSchema":1,"questionId":"native-collections","questionHash":"eff17bf183b1eceac5285109939089ba6736b93d40596f673f5438f065f5bdf2","seed":1,"stackRevision":"33383047af39c204bf4442802a058f8b918b2b1b","stackLibraryVersion":"2026101500","runtimeHash":"182384b851e2ef6b76a6a9cb88a018b6b6f5e3dd8cd7a987da22c6b1db29eb20","preparedHash":"b2e658ad92b566b88bfafcdc13ff9019273c14ca31c56030760fe1b829179b56"},"question_html":"\u003cp\u003eUse square brackets for an ordered list and braces for a set. Here a = \\({2}\\).\u003c/p\u003e\u003cp\u003eEnter the list \\({\\left[ 2 , 2\\,x \\right] }\\): \u003cinput class=\"stack-answer\" data-name=\"sequence\" data-stack-input-type=\"algebraic\" aria-label=\"Answer sequence\" size=\"18\" autocomplete=\"off\"\u003e \u003cspan class=\"stack-validation\" data-name=\"sequence\" aria-live=\"polite\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"ordered\"\u003e\u003c/span\u003e\u003c/p\u003e\u003cp\u003eEnter the set \\({\\left \\{2 , 2\\,x \\right \\}}\\): \u003cinput class=\"stack-answer\" data-name=\"members\" data-stack-input-type=\"algebraic\" aria-label=\"Answer members\" size=\"18\" autocomplete=\"off\"\u003e \u003cspan class=\"stack-validation\" data-name=\"members\" aria-live=\"polite\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"unordered\"\u003e\u003c/span\u003e\u003c/p\u003e\u003cp\u003eEnter the same set again; this check explains duplicates and missing/extra elements: \u003cinput class=\"stack-answer\" data-name=\"explained\" data-stack-input-type=\"algebraic\" aria-label=\"Answer explained\" size=\"18\" autocomplete=\"off\"\u003e \u003cspan class=\"stack-validation\" data-name=\"explained\" aria-live=\"polite\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"explained\"\u003e\u003c/span\u003e\u003c/p\u003e","generalfeedback_html":"\u003cp\u003eLists preserve order and repetitions. Sets ignore order and repeated elements.\u003c/p\u003e","specificfeedback_html":"","questionnote_html":"Finite scalar collections, a = \\(2\\)"}],"review":true}</script></section></div>
+</section>
+<section id="a-fixed-matrix-input" class="level2">
+<h2 class="anchored" data-anchor-id="a-fixed-matrix-input">A fixed matrix input</h2>
+<p><strong>Standard STACK features; CTM-authored question.</strong> The matrix has fixed dimensions and uses native <code>AlgEquiv</code> grading. <a href="native-questions/native-matrix.xml">Source XML</a>.</p>
+<div class="stack-native-backend" data-stack-backend="maxima-native"><section class="stack-sympy" data-stack-id="native-matrix"><div class="stack-toolbar"><label>Variant <select class="stack-variant" aria-label="Question variant"><option value="0">Variant 1</option></select></label></div><div class="stack-prompt stack-question"><p>Enter the two by two identity matrix. <span class="stack-answer stack-matrix" data-name="ans" data-matrix-spec="{&quot;name&quot;: &quot;ans&quot;, &quot;rows&quot;: {&quot;auto&quot;: false, &quot;initial&quot;: 2, &quot;min&quot;: 2, &quot;max&quot;: 2}, &quot;cols&quot;: {&quot;auto&quot;: false, &quot;initial&quot;: 2, &quot;min&quot;: 2, &quot;max&quot;: 2}}" role="group" aria-label="Answer ans"></span> <span class="stack-validation" data-name="ans" aria-live="polite"></span> <span class="stack-feedback" data-name="prt1"></span></p></div><div class="stack-actions"><button type="button" class="stack-validate">Validate answers</button><button type="button" class="stack-check" disabled="">Check answer</button><button type="button" class="stack-tests">Run question tests</button></div><div class="stack-result" aria-live="polite"></div><div class="stack-generalfeedback" hidden=""></div><script type="application/json" class="stack-sympy-data">{"version":1,"id":"native-matrix","question":{"name":"A fixed native matrix","questiontext":"\u003cp\u003eEnter the two by two identity matrix. [[input:ans]] [[validation:ans]] [[feedback:prt1]]\u003c/p\u003e","generalfeedback":"","specificfeedback":"[[feedback:prt1]]","questionnote":"","variables":"","defaultgrade":1,"penalty":0.1,"simplify":true,"assumepositive":false,"assumereal":false,"inputs":[{"name":"ans","type":"matrix","teacher":"matrix([1,0],[0,1])","boxsize":15,"strictsyntax":true,"insertstars":0,"forbidwords":[],"forbidfloat":false,"requirelowestterms":false,"checkanswertype":true,"mustverify":true,"showvalidation":true,"syntaxhint":"","matrix":null}],"prts":[{"name":"prt1","value":1,"autosimplify":true,"feedbackvariables":"","nodes":[{"name":"0","test":"AlgEquiv","student":"ans","teacher":"matrix([1,0],[0,1])","options":"","quiet":false,"true":{"mode":"=","score":1,"next":-1,"note":"native-T","feedback":""},"false":{"mode":"=","score":0,"next":-1,"note":"native-F","feedback":""}}],"locals":[]}],"qtests":[{"testcase":"1","description":"","inputs":{"ans":"matrix([1,0],[0,1])"},"expected":{"prt1":{"score":1,"penalty":0,"note":"native-T"}}},{"testcase":"2","description":"","inputs":{"ans":"matrix([1,1],[0,1])"},"expected":{"prt1":{"score":0,"penalty":0.1,"note":"native-F"}}}],"deployedseeds":[],"native":{"schema":1,"id":"native-matrix","locals":[],"tokens":[],"boards":[]}},"variants":[{"seed":1,"env":{},"teachers":{"ans":{"source":"matrix([1,0],[0,1])","latex":"\\left[\\begin{array}{cc} 1 \u0026 0 \\\\ 0 \u0026 1 \\end{array}\\right]","type":"matrix","shape":[2,2]}},"tokenValues":{},"qtests":[{"testcase":"1","answers":{"ans":"matrix([1,0],[0,1])"}},{"testcase":"2","answers":{"ans":"matrix([1,1],[0,1])"}}],"native":{"schema":1,"backend":"maxima-native","planSchema":1,"questionId":"native-matrix","questionHash":"82effa694e4214a5c84090c72b9d3349cc35e7baf64d30ac9e8848caa7290db7","seed":1,"stackRevision":"33383047af39c204bf4442802a058f8b918b2b1b","stackLibraryVersion":"2026101500","runtimeHash":"182384b851e2ef6b76a6a9cb88a018b6b6f5e3dd8cd7a987da22c6b1db29eb20","preparedHash":"7778c341546b4528899edd95af05652595b28bebd5e1396dc269aca2b2533d37"},"question_html":"\u003cp\u003eEnter the two by two identity matrix. \u003cspan class=\"stack-answer stack-matrix\" data-name=\"ans\" data-matrix-spec=\"{\u0026quot;name\u0026quot;: \u0026quot;ans\u0026quot;, \u0026quot;rows\u0026quot;: {\u0026quot;auto\u0026quot;: false, \u0026quot;initial\u0026quot;: 2, \u0026quot;min\u0026quot;: 2, \u0026quot;max\u0026quot;: 2}, \u0026quot;cols\u0026quot;: {\u0026quot;auto\u0026quot;: false, \u0026quot;initial\u0026quot;: 2, \u0026quot;min\u0026quot;: 2, \u0026quot;max\u0026quot;: 2}}\" role=\"group\" aria-label=\"Answer ans\"\u003e\u003c/span\u003e \u003cspan class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e\u003c/p\u003e","generalfeedback_html":"","specificfeedback_html":"\u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e","questionnote_html":""}],"review":true}</script></section></div>
+</section>
+<section id="an-unchanged-upstream-binding-example" class="level2">
+<h2 class="anchored" data-anchor-id="an-unchanged-upstream-binding-example">An unchanged upstream binding example</h2>
+<p><strong>Unchanged upstream STACK question.</strong> The board is rendered by the existing <code>jsxgraph-quarto</code> extension, with STACK’s own point-binding library and a CTM input adapter. The upstream prose describes Moodle’s reload behavior; this static page keeps the board mounted while checking. <strong>This teaching example compares the input with itself, so any valid answer receives full credit. It demonstrates data exchange, not mathematical grading.</strong> <a href="native-questions/native-binding.xml">Source XML</a>.</p>
+<div class="stack-native-backend" data-stack-backend="maxima-native"><section class="stack-sympy" data-stack-id="native-binding"><div class="stack-toolbar"><label>Variant <select class="stack-variant" aria-label="Question variant"><option value="0">Variant 1</option></select></label></div><div class="stack-prompt stack-question"><p>"Binding", in the context of STACK + JSXGraph integration, means connecting the value of a STACK input field to some element in the graph. If the element gets moved the input field's value is also changed. In the simplest example if you drag a slider from value 1 to value 2 the bound input will be set to 2. This is obviously important when you wish to use that part of the graph as an input.  Also, as the VLE in the background stores the values of the input fields we can start remembering state. E.g. f you dragged the slider to value 2 and left the page then the binding logic should be able to ensure that the slider gets placed back to that same value if you return to the page.</p><p>As an simplified example of this we now build a graph with a line segment which has two draggable end points one of which is bound and one which is not. Drag the two points around and then press 'Check'.  When the checking process reloads the page you should see the bound one staying where you dragged it to and the other to return into its initial position. You should also see that the STACK logic side received the position of the bound point.</p><pre style="line-height:0.9;">[[jsxgraph input-ref-ans1='ans1Ref']]
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});
+var p1 = board.create('point', [-3,3], {name:'Bound',size:4});
+var p2 = board.create('point', [3,-3], {name:'Free',size:4});
+var line = board.create('line', [p1,p2], {straightFirst:false, straightLast:false});
+
+/* There exists a simple convenience method for binding inputs to points
+    It just needs an input reference, defined as a parameter of the jsxgraph-block
+    and a primitive object of the type of the binding, in this case a point. */
+stack_jxg.bind_point(ans1Ref, p1);
+
+/* Always call board.update() at the end if you have bindings. */
+board.update();
+
+/* In this example we hide the input as we are not yet ready to talk about two-way binding. */
+document.getElementById(ans1Ref).style.display = 'none';
+[[/jsxgraph]]</pre>
+
+<iframe data-stack-jsxgraph="{&quot;assessmentId&quot;:&quot;native-binding-b0&quot;,&quot;inputs&quot;:[&quot;ans1&quot;],&quot;boardValues&quot;:{}}" role="img" src="about:blank" data-stack-jsxgraph-template="../native/boards/native-binding-b0.html" class="" name="iframeJXG94df318c_6a81_2dc7_3176_b5795140" style="width:500px; height:400px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;" id="native-binding-b0" sandbox="allow-scripts"></iframe>
+
+<p><i>As a special test case here, try moving the bound one out of the box. For that to work the binding needs to track not only direct actions affecting the point but also changes caused by other actions. Those needing to build their own binding logic for more complex things should note this. Simply tracking the point may not be enough.</i></p><p><input class="stack-answer" data-name="ans1" data-stack-input-type="algebraic" aria-label="Answer ans1" size="15" autocomplete="off"> <span class="stack-validation" data-name="ans1" aria-live="polite"></span></p></div><div class="stack-actions"><button type="button" class="stack-validate">Validate answers</button><button type="button" class="stack-check" disabled="">Check answer</button></div><div class="stack-result" aria-live="polite"></div><div class="stack-generalfeedback" hidden=""></div><script type="application/json" class="stack-sympy-data">{"version":1,"id":"native-binding","question":{"name":"2. \"Binding\", what does it mean?","questiontext":"\u003cp\u003e\"Binding\", in the context of STACK + JSXGraph integration, means connecting the value of a STACK input field to some element in the graph. If the element gets moved the input field's value is also changed. In the simplest example if you drag a slider from value 1 to value 2 the bound input will be set to 2. This is obviously important when you wish to use that part of the graph as an input.  Also, as the VLE in the background stores the values of the input fields we can start remembering state. E.g. f you dragged the slider to value 2 and left the page then the binding logic should be able to ensure that the slider gets placed back to that same value if you return to the page.\u003c/p\u003e\u003cp\u003eAs an simplified example of this we now build a graph with a line segment which has two draggable end points one of which is bound and one which is not. Drag the two points around and then press 'Check'.  When the checking process reloads the page you should see the bound one staying where you dragged it to and the other to return into its initial position. You should also see that the STACK logic side received the position of the bound point.\u003c/p\u003e\u003cpre style=\"line-height:0.9;\"\u003e\u0026#91;\u0026#91;jsxgraph input-ref-ans1='ans1Ref'\u0026#93;\u0026#93;\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\nvar p1 = board.create('point', [-3,3], {name:'Bound',size:4});\nvar p2 = board.create('point', [3,-3], {name:'Free',size:4});\nvar line = board.create('line', [p1,p2], {straightFirst:false, straightLast:false});\n\n/* There exists a simple convenience method for binding inputs to points\n    It just needs an input reference, defined as a parameter of the jsxgraph-block\n    and a primitive object of the type of the binding, in this case a point. */\nstack_jxg.bind_point(ans1Ref, p1);\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as we are not yet ready to talk about two-way binding. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n\u0026#91;\u0026#91;/jsxgraph\u0026#93;\u0026#93;\u003c/pre\u003e\n\n@@CTM_BOARD_b0@@\n\n\u003cp\u003e\u003ci\u003eAs a special test case here, try moving the bound one out of the box. For that to work the binding needs to track not only direct actions affecting the point but also changes caused by other actions. Those needing to build their own binding logic for more complex things should note this. Simply tracking the point may not be enough.\u003c/i\u003e\u003c/p\u003e\u003cp\u003e[[input:ans1]] [[validation:ans1]]\u003c/p\u003e","generalfeedback":"","specificfeedback":"[[feedback:prt1]]","questionnote":"","variables":"","defaultgrade":1,"penalty":0.1,"simplify":true,"assumepositive":false,"assumereal":false,"inputs":[{"name":"ans1","type":"algebraic","teacher":"[1,1]","boxsize":15,"strictsyntax":true,"insertstars":0,"forbidwords":[],"forbidfloat":false,"requirelowestterms":false,"checkanswertype":false,"mustverify":false,"showvalidation":false,"syntaxhint":""}],"prts":[{"name":"prt1","value":1,"autosimplify":true,"feedbackvariables":"","nodes":[{"name":"0","test":"AlgEquiv","student":"ans1","teacher":"ans1","options":"","quiet":false,"true":{"mode":"=","score":1,"next":-1,"note":"prt1-1-T","feedback":"The value of the input is @@CTM_NATIVE_t0@@"},"false":{"mode":"=","score":0,"next":-1,"note":"prt1-1-F","feedback":""}}],"locals":[]}],"qtests":[],"deployedseeds":[],"native":{"schema":1,"id":"native-binding","locals":[],"tokens":[{"id":"t0","source":"ans1","format":"source","wrap":false,"phase":"feedback","context":"html"}],"boards":[{"id":"b0","phase":"prepare","attributes":{"input-ref-ans1":"ans1Ref"},"inputs":{"ans1":"ans1Ref"},"code":"\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5], showNavigation:false});\nvar p1 = board.create('point', [-3,3], {name:'Bound',size:4});\nvar p2 = board.create('point', [3,-3], {name:'Free',size:4});\nvar line = board.create('line', [p1,p2], {straightFirst:false, straightLast:false});\n\n/* There exists a simple convenience method for binding inputs to points\n   It just needs an input reference, defined as a parameter of the jsxgraph-block\n   and a primitive object of the type of the binding, in this case a point. */\nstack_jxg.bind_point(ans1Ref, p1);\n\n/* Always call board.update() at the end if you have bindings, as they may move things around. */\nboard.update();\n\n/* In this example we hide the input as we are not yet ready to talk about two-way binding. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n"}]}},"variants":[{"seed":1,"env":{},"teachers":{"ans1":{"source":"[1,1]","latex":"\\left[ 1 , 1 \\right] ","type":"list","shape":null}},"tokenValues":{},"qtests":[],"native":{"schema":1,"backend":"maxima-native","planSchema":1,"questionId":"native-binding","questionHash":"52a19e05f6497edd2fb021d18c37f6f362ee6ee49979325e77c599b74bc6e657","seed":1,"stackRevision":"33383047af39c204bf4442802a058f8b918b2b1b","stackLibraryVersion":"2026101500","runtimeHash":"182384b851e2ef6b76a6a9cb88a018b6b6f5e3dd8cd7a987da22c6b1db29eb20","preparedHash":"46ad6acdac35e6a5f246e68885c5655a87fc568f1743f2672b4f4b3154abcebb"},"question_html":"\u003cp\u003e\"Binding\", in the context of STACK + JSXGraph integration, means connecting the value of a STACK input field to some element in the graph. If the element gets moved the input field's value is also changed. In the simplest example if you drag a slider from value 1 to value 2 the bound input will be set to 2. This is obviously important when you wish to use that part of the graph as an input.  Also, as the VLE in the background stores the values of the input fields we can start remembering state. E.g. f you dragged the slider to value 2 and left the page then the binding logic should be able to ensure that the slider gets placed back to that same value if you return to the page.\u003c/p\u003e\u003cp\u003eAs an simplified example of this we now build a graph with a line segment which has two draggable end points one of which is bound and one which is not. Drag the two points around and then press 'Check'.  When the checking process reloads the page you should see the bound one staying where you dragged it to and the other to return into its initial position. You should also see that the STACK logic side received the position of the bound point.\u003c/p\u003e\u003cpre style=\"line-height:0.9;\"\u003e\u0026#91;\u0026#91;jsxgraph input-ref-ans1='ans1Ref'\u0026#93;\u0026#93;\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\nvar p1 = board.create('point', [-3,3], {name:'Bound',size:4});\nvar p2 = board.create('point', [3,-3], {name:'Free',size:4});\nvar line = board.create('line', [p1,p2], {straightFirst:false, straightLast:false});\n\n/* There exists a simple convenience method for binding inputs to points\n    It just needs an input reference, defined as a parameter of the jsxgraph-block\n    and a primitive object of the type of the binding, in this case a point. */\nstack_jxg.bind_point(ans1Ref, p1);\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as we are not yet ready to talk about two-way binding. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n\u0026#91;\u0026#91;/jsxgraph\u0026#93;\u0026#93;\u003c/pre\u003e\n\n\u003ciframe data-stack-jsxgraph=\"{\u0026quot;assessmentId\u0026quot;:\u0026quot;native-binding-b0\u0026quot;,\u0026quot;inputs\u0026quot;:[\u0026quot;ans1\u0026quot;],\u0026quot;boardValues\u0026quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-binding-b0.html\" class=\"\" name=\"iframeJXG94df318c_6a81_2dc7_3176_b5795140\" style=\"width:500px; height:400px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-binding-b0\" sandbox=\"allow-scripts\"\u003e\u003c/iframe\u003e\n\n\u003cp\u003e\u003ci\u003eAs a special test case here, try moving the bound one out of the box. For that to work the binding needs to track not only direct actions affecting the point but also changes caused by other actions. Those needing to build their own binding logic for more complex things should note this. Simply tracking the point may not be enough.\u003c/i\u003e\u003c/p\u003e\u003cp\u003e\u003cinput class=\"stack-answer\" data-name=\"ans1\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans1\" size=\"15\" autocomplete=\"off\"\u003e \u003cspan class=\"stack-validation\" data-name=\"ans1\" aria-live=\"polite\"\u003e\u003c/span\u003e\u003c/p\u003e","generalfeedback_html":"","specificfeedback_html":"\u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e","questionnote_html":""}],"review":false}</script></section></div>
+</section>
+<section id="an-unchanged-upstream-json-example" class="level2">
+<h2 class="anchored" data-anchor-id="an-unchanged-upstream-json-example">An unchanged upstream JSON example</h2>
+<p><strong>Unchanged upstream STACK question.</strong> Its original input is a <strong>string</strong> containing JSON. Native <code>stackjson_parse</code> reads that string and the feedback reports the number and colors of the points. Drag the black source point out of its circle to create a point in the answer, then move it through the colored circles. <strong>Its grading also compares the input with itself.</strong> <a href="native-questions/native-json.xml">Source XML</a>.</p>
+<div class="stack-native-backend" data-stack-backend="maxima-native"><section class="stack-sympy" data-stack-id="native-json"><div class="stack-toolbar"><label>Variant <select class="stack-variant" aria-label="Question variant"><option value="0">Variant 1</option></select></label></div><div class="stack-prompt stack-question"><p>The previous examples have shown the use of simplified binding of single primitives to single inputs, that should cover most use cases but once you start to do more complex things you will need to start building your own binding logic. Some examples of such situations are:</p><ul><li>Creation and deletion of arbitrary numbers of points/objects in graph cannot be tracked with one input per object logic as you cannot create inputs. In these cases you need to store more structure into inputs.</li><li>Not dealing with the positions of things might also be an obvious case, if you want to for example track the order the student clicks some edges in some graph use of the simple binding tools will not help.</li></ul><p>Basically, you cannot use one-to-one input-object-binding if you have dynamic number of objects. To deal with this you need to have some form of data-structures (simple lists of coordinates are often enough but once you have multiple types of things with connections between them you will probably want more) that you can store that represent the state of your graph. As you are authoring JSXGraph graphs in JavaScript the obvious structures are JavaScript objects/dictionaries and lists, luckily those can easily be turned to JSON strings that can be stored into String input fields. And what is important STACK now provides a way for parsing those JSON strings on Maxima side so that you can process the values there.</p><pre style="line-height:0.9;">[[jsxgraph height='700px' width='700px' input-ref-ans1='ans1Ref']]
+/* In this example ans1 is a String type input, which is important as the value we store 
+   there is most definitely not a valid Maxima expression. */
+var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});
+
+/* We will store our points here. */
+var points = new Array();
+var i = 0;
+
+/* If we have stored state of points we will resurrect them now. */
+var theInput = document.getElementById(ans1Ref);
+if (theInput.value &amp;&amp; theInput.value != '') {
+ var pointList = JSON.parse(theInput.value);
+ for (i=0; i&lt;pointList.length; i++) {
+  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});
+  points[i] = p;
+ } 
+}
+
+/* Lets create some magic, in this example dragging points through specific areas changes 
+   the color of the points. And there is an area that both creates and deletes points. */
+
+var source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {  strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {    strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+var blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], { strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});
+
+/* A function the we can tie to points so that their color changes. */
+var colorDragListener = function() {
+ /* this in this context should be the point. */
+ if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {
+  this.setAttribute({color:'black'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) &lt; red.Radius()) {
+  this.setAttribute({color:'red'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) &lt; green.Radius()) {
+  this.setAttribute({color:'green'});
+ } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) &lt; blue.Radius()) {
+  this.setAttribute({color:'blue'});
+ }
+}
+
+/* Another function to handle the release of dragged points and the storage of the state. */
+var dropHandler = function() {
+ /* this in this context should be the point. */
+ var newOne = points.indexOf(this);
+ if (newOne == -1) {
+  /* This is a new one depending on where it was dropped we do things. */
+  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {
+   /* When dropped into the source, reset the point. */
+   this.moveTo([source.center.X(),source.center.Y()],100);
+   this.setAttribute({color:'black'});
+  } else {
+   /* it is now in play add it to the list. */
+   points[points.length] = this;
+   /* also initialise a new point in the source. */
+   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});
+   p.on('drag',colorDragListener);
+   p.on('up',dropHandler);
+  }
+ } else {
+  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {
+   /* When dropped into the source delete this point as this is an existing point. */
+   points.splice(newOne, 1);
+   this.board.removeObject(this);
+  }
+  /* Otherwise all fine. */
+ }
+
+ /* Then construct the state. Basically, map the points to a specific form, in this example the form is 
+    a bit too complex as it includes an object/dictionary when a list would have worked but maybe this
+    will come in handy elsewhere. */
+ var newState = new Array();
+ for (i=0; i&lt;points.length; i++) {
+  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};
+  newState[i] = P;
+ }
+ theInput.value = JSON.stringify(newState);
+
+ /* NOTE! You will need to do certain things to make the VLE around you know that things happen, 
+    for this reason we need to generate a "change" event. In the case of Moodle and this question the event
+    marks the form modified and causes a warning if the page is left through non saving routes. */
+ var e = new Event('change');
+ theInput.dispatchEvent(e);
+}
+
+
+/* This is the intial point. */
+var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});
+p.on('drag',colorDragListener);
+p.on('up',dropHandler);
+
+/* Remember that the points from stored state must also be tied to the listeners if present. */
+for (i=0; i&lt;points.length; i++) {
+ points[i].on('drag',colorDragListener);
+ points[i].on('up',dropHandler);
+}
+
+/* Always call board.update() at the end if you have bindings. */
+board.update();
+
+/* In this example we hide the input as it will get absurd very soon. */
+document.getElementById(ans1Ref).style.display = 'none';
+[[/jsxgraph]]
+</pre>
+
+<iframe data-stack-jsxgraph="{&quot;assessmentId&quot;:&quot;native-json-b0&quot;,&quot;inputs&quot;:[&quot;ans1&quot;],&quot;boardValues&quot;:{}}" role="img" src="about:blank" data-stack-jsxgraph-template="../native/boards/native-json-b0.html" class="" name="iframeJXG181d0de9_21a0_8282_d2c6_2dc20370" style="width:700px; height:700px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;" id="native-json-b0" sandbox="allow-scripts"></iframe>
+
+<p>Drag some points around and press check, as expected the points stay in place. The feedback should also show you the raw stored state and some very simple numbers collected from it. You may wish to check the feedback logic but it has very little to show.</p><p>In STACK 4.4 a simplified way of doing custom binding was added, if you need to do this you might wish to look into it, there should be a new sample of that.</p><p><input class="stack-answer" data-name="ans1" data-stack-input-type="string" aria-label="Answer ans1" size="15" autocomplete="off"> <span class="stack-validation" data-name="ans1" aria-live="polite"></span></p></div><div class="stack-actions"><button type="button" class="stack-validate">Validate answers</button><button type="button" class="stack-check" disabled="">Check answer</button></div><div class="stack-result" aria-live="polite"></div><div class="stack-generalfeedback" hidden=""></div><script type="application/json" class="stack-sympy-data">{"version":1,"id":"native-json","question":{"name":"4. JSON and complex binding.","questiontext":"\u003cp\u003eThe previous examples have shown the use of simplified binding of single primitives to single inputs, that should cover most use cases but once you start to do more complex things you will need to start building your own binding logic. Some examples of such situations are:\u003c/p\u003e\u003cul\u003e\u003cli\u003eCreation and deletion of arbitrary numbers of points/objects in graph cannot be tracked with one input per object logic as you cannot create inputs. In these cases you need to store more structure into inputs.\u003c/li\u003e\u003cli\u003eNot dealing with the positions of things might also be an obvious case, if you want to for example track the order the student clicks some edges in some graph use of the simple binding tools will not help.\u003c/li\u003e\u003c/ul\u003e\u003cp\u003eBasically, you cannot use one-to-one input-object-binding if you have dynamic number of objects. To deal with this you need to have some form of data-structures (simple lists of coordinates are often enough but once you have multiple types of things with connections between them you will probably want more) that you can store that represent the state of your graph. As you are authoring JSXGraph graphs in JavaScript the obvious structures are JavaScript objects/dictionaries and lists, luckily those can easily be turned to JSON strings that can be stored into String input fields. And what is important STACK now provides a way for parsing those JSON strings on Maxima side so that you can process the values there.\u003c/p\u003e\u003cpre style=\"line-height:0.9;\"\u003e\u0026#91;\u0026#91;jsxgraph height='700px' width='700px' input-ref-ans1='ans1Ref'\u0026#93;\u0026#93;\n/* In this example ans1 is a String type input, which is important as the value we store \n   there is most definitely not a valid Maxima expression. */\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\n\n/* We will store our points here. */\nvar points = new Array();\nvar i = 0;\n\n/* If we have stored state of points we will resurrect them now. */\nvar theInput = document.getElementById(ans1Ref);\nif (theInput.value \u0026\u0026 theInput.value != '') {\n var pointList = JSON.parse(theInput.value);\n for (i=0; i\u0026lt;pointList.length; i++) {\n  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});\n  points[i] = p;\n } \n}\n\n/* Lets create some magic, in this example dragging points through specific areas changes \n   the color of the points. And there is an area that both creates and deletes points. */\n\nvar source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {  strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {    strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], { strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\n\n/* A function the we can tie to points so that their color changes. */\nvar colorDragListener = function() {\n /* this in this context should be the point. */\n if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) \u0026lt; source.Radius()) {\n  this.setAttribute({color:'black'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) \u0026lt; red.Radius()) {\n  this.setAttribute({color:'red'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) \u0026lt; green.Radius()) {\n  this.setAttribute({color:'green'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) \u0026lt; blue.Radius()) {\n  this.setAttribute({color:'blue'});\n }\n}\n\n/* Another function to handle the release of dragged points and the storage of the state. */\nvar dropHandler = function() {\n /* this in this context should be the point. */\n var newOne = points.indexOf(this);\n if (newOne == -1) {\n  /* This is a new one depending on where it was dropped we do things. */\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) \u0026lt; source.Radius()) {\n   /* When dropped into the source, reset the point. */\n   this.moveTo([source.center.X(),source.center.Y()],100);\n   this.setAttribute({color:'black'});\n  } else {\n   /* it is now in play add it to the list. */\n   points[points.length] = this;\n   /* also initialise a new point in the source. */\n   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\n   p.on('drag',colorDragListener);\n   p.on('up',dropHandler);\n  }\n } else {\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) \u0026lt; source.Radius()) {\n   /* When dropped into the source delete this point as this is an existing point. */\n   points.splice(newOne, 1);\n   this.board.removeObject(this);\n  }\n  /* Otherwise all fine. */\n }\n\n /* Then construct the state. Basically, map the points to a specific form, in this example the form is \n    a bit too complex as it includes an object/dictionary when a list would have worked but maybe this\n    will come in handy elsewhere. */\n var newState = new Array();\n for (i=0; i\u0026lt;points.length; i++) {\n  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};\n  newState[i] = P;\n }\n theInput.value = JSON.stringify(newState);\n\n /* NOTE! You will need to do certain things to make the VLE around you know that things happen, \n    for this reason we need to generate a \"change\" event. In the case of Moodle and this question the event\n    marks the form modified and causes a warning if the page is left through non saving routes. */\n var e = new Event('change');\n theInput.dispatchEvent(e);\n}\n\n\n/* This is the intial point. */\nvar p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\np.on('drag',colorDragListener);\np.on('up',dropHandler);\n\n/* Remember that the points from stored state must also be tied to the listeners if present. */\nfor (i=0; i\u0026lt;points.length; i++) {\n points[i].on('drag',colorDragListener);\n points[i].on('up',dropHandler);\n}\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as it will get absurd very soon. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n\u0026#91;\u0026#91;/jsxgraph\u0026#93;\u0026#93;\n\u003c/pre\u003e\n\n@@CTM_BOARD_b0@@\n\n\u003cp\u003eDrag some points around and press check, as expected the points stay in place. The feedback should also show you the raw stored state and some very simple numbers collected from it. You may wish to check the feedback logic but it has very little to show.\u003c/p\u003e\u003cp\u003eIn STACK 4.4 a simplified way of doing custom binding was added, if you need to do this you might wish to look into it, there should be a new sample of that.\u003c/p\u003e\u003cp\u003e[[input:ans1]] [[validation:ans1]]\u003c/p\u003e","generalfeedback":"","specificfeedback":"[[feedback:prt1]]","questionnote":"","variables":"","defaultgrade":1,"penalty":0.1,"simplify":true,"assumepositive":false,"assumereal":false,"inputs":[{"name":"ans1","type":"string","teacher":"\"\"","boxsize":15,"strictsyntax":true,"insertstars":0,"forbidwords":[],"forbidfloat":false,"requirelowestterms":false,"checkanswertype":false,"mustverify":false,"showvalidation":false,"syntaxhint":""}],"prts":[{"name":"prt1","value":1,"autosimplify":true,"feedbackvariables":"/* First parse the input string, depending on what it is we can get a list, a stackmap, an integer, a float, a string or und if nothing is found. */\nparsed: stackjson_parse(ans1);\n/* As we will most likely get an list of stackmaps we can just split that list based on which of the elements have which colors like this. We may get und, do try to figure out why and when. */\nred:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,\"color\")=\"red\")));\ngreen:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,\"color\")=\"green\")));\nblue:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,\"color\")=\"blue\")));\nblack:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,\"color\")=\"black\")));\n/* As an exercise you might want to evaluate the means of coordinates of each color group and draw a suitable picture in the feedback... note however that feedback plots cannot reference inputs. */\n\n/* STACK can also output JSON if need be and stackmap objects can be used in other places too, but are very inconvenient when dealing with modifications to deep structures. To find out more about what is available just check the \"stackstrings.mac\" file it defines the functions. */","nodes":[{"name":"0","test":"AlgEquiv","student":"ans1","teacher":"ans1","options":"","quiet":false,"true":{"mode":"=","score":1,"next":-1,"note":"prt1-1-T","feedback":"\u003cp\u003eIn the input we have @@CTM_NATIVE_t0@@ points. By color (red/green/blue/black) @@CTM_NATIVE_t1@@/@@CTM_NATIVE_t2@@/@@CTM_NATIVE_t3@@/@@CTM_NATIVE_t4@@.\u003c/p\u003e\u003cp\u003eThe raw value of the input is \u003cpre\u003e@@CTM_NATIVE_t5@@\u003c/pre\u003e\u003c/p\u003e"},"false":{"mode":"=","score":0,"next":-1,"note":"prt1-1-F","feedback":""}}],"locals":["parsed","red","green","blue","black"]}],"qtests":[],"deployedseeds":[],"native":{"schema":1,"id":"native-json","locals":[],"tokens":[{"id":"t0","source":"if is(parsed=und) then 0 else length(parsed)","format":"latex","wrap":true,"phase":"feedback","context":"html"},{"id":"t1","source":"red","format":"latex","wrap":true,"phase":"feedback","context":"html"},{"id":"t2","source":"green","format":"latex","wrap":true,"phase":"feedback","context":"html"},{"id":"t3","source":"blue","format":"latex","wrap":true,"phase":"feedback","context":"html"},{"id":"t4","source":"black","format":"latex","wrap":true,"phase":"feedback","context":"html"},{"id":"t5","source":"ans1","format":"latex","wrap":true,"phase":"feedback","context":"html"}],"boards":[{"id":"b0","phase":"prepare","attributes":{"height":"700px","width":"700px","input-ref-ans1":"ans1Ref"},"inputs":{"ans1":"ans1Ref"},"code":"\n/* In this example ans1 is a String type input, which is important as the value we store \n   there is most definitely not a valid Maxima expression. */\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\n\n/* We will store our points here. */\nvar points = new Array();\nvar i = 0;\n\n/* If we have stored state of points we will resurrect them now. */\nvar theInput = document.getElementById(ans1Ref);\nif (theInput.value \u0026\u0026 theInput.value != '') {\n var pointList = JSON.parse(theInput.value);\n for (i=0; i\u003cpointList.length; i++) {\n  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});\n  points[i] = p;\n } \n}\n\n/* Lets create some magic, in this example dragging points through specific areas changes \n   the color of the points. And there is an area that both creates and deletes points. */\n\nvar source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {  strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {    strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], { strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\n\n/* A function the we can tie to points so that their color changes. */\nvar colorDragListener = function() {\n /* this in this context should be the point. */\n if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) \u003c source.Radius()) {\n  this.setAttribute({color:'black'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) \u003c red.Radius()) {\n  this.setAttribute({color:'red'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) \u003c green.Radius()) {\n  this.setAttribute({color:'green'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) \u003c blue.Radius()) {\n  this.setAttribute({color:'blue'});\n }\n}\n\n/* Another function to handle the release of dragged points and the storage of the state. */\nvar dropHandler = function() {\n /* this in this context should be the point. */\n var newOne = points.indexOf(this);\n if (newOne == -1) {\n  /* This is a new one depending on where it was dropped we do things. */\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) \u003c source.Radius()) {\n   /* When dropped into the source, reset the point. */\n   this.moveTo([source.center.X(),source.center.Y()],100);\n   this.setAttribute({color:'black'});\n  } else {\n   /* it is now in play add it to the list. */\n   points[points.length] = this;\n   /* also initialise a new point in the source. */\n   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\n   p.on('drag',colorDragListener);\n   p.on('up',dropHandler);\n  }\n } else {\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) \u003c source.Radius()) {\n   /* When dropped into the source delete this point as this is an existing point. */\n   points.splice(newOne, 1);\n   this.board.removeObject(this);\n  }\n  /* Otherwise all fine. */\n }\n\n /* Then construct the state. Basically, map the points to a specific form, in this example the form is \n    a bit too complex as it includes an object/dictionary when a list would have worked but maybe this\n    will come in handy elsewhere. */\n var newState = new Array();\n for (i=0; i\u003cpoints.length; i++) {\n  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};\n  newState[i] = P;\n }\n theInput.value = JSON.stringify(newState);\n\n /* NOTE! You will need to do certain things to make the VLE around you know that things happen, \n    for this reason we need to generate a \"change\" event. In the case of Moodle and this question the event\n    marks the form modified and causes a warning if the page is left through non saving routes. */\n var e = new Event('change');\n theInput.dispatchEvent(e);\n}\n\n\n/* This is the intial point. */\nvar p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\np.on('drag',colorDragListener);\np.on('up',dropHandler);\n\n/* Remember that the points from stored state must also be tied to the listeners if present. */\nfor (i=0; i\u003cpoints.length; i++) {\n points[i].on('drag',colorDragListener);\n points[i].on('up',dropHandler);\n}\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as it will get absurd very soon. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n"}]}},"variants":[{"seed":1,"env":{},"teachers":{"ans1":{"source":"\"\"","latex":"","type":"string","shape":null}},"tokenValues":{},"qtests":[],"native":{"schema":1,"backend":"maxima-native","planSchema":1,"questionId":"native-json","questionHash":"d1e248bc8c91693824618112152768754e9fe741b2f6ab176f0c146b43e6de28","seed":1,"stackRevision":"33383047af39c204bf4442802a058f8b918b2b1b","stackLibraryVersion":"2026101500","runtimeHash":"182384b851e2ef6b76a6a9cb88a018b6b6f5e3dd8cd7a987da22c6b1db29eb20","preparedHash":"5a969bc0f19708bbf924cbee2a634758c9c672b46c699619f24623c7f2e43b13"},"question_html":"\u003cp\u003eThe previous examples have shown the use of simplified binding of single primitives to single inputs, that should cover most use cases but once you start to do more complex things you will need to start building your own binding logic. Some examples of such situations are:\u003c/p\u003e\u003cul\u003e\u003cli\u003eCreation and deletion of arbitrary numbers of points/objects in graph cannot be tracked with one input per object logic as you cannot create inputs. In these cases you need to store more structure into inputs.\u003c/li\u003e\u003cli\u003eNot dealing with the positions of things might also be an obvious case, if you want to for example track the order the student clicks some edges in some graph use of the simple binding tools will not help.\u003c/li\u003e\u003c/ul\u003e\u003cp\u003eBasically, you cannot use one-to-one input-object-binding if you have dynamic number of objects. To deal with this you need to have some form of data-structures (simple lists of coordinates are often enough but once you have multiple types of things with connections between them you will probably want more) that you can store that represent the state of your graph. As you are authoring JSXGraph graphs in JavaScript the obvious structures are JavaScript objects/dictionaries and lists, luckily those can easily be turned to JSON strings that can be stored into String input fields. And what is important STACK now provides a way for parsing those JSON strings on Maxima side so that you can process the values there.\u003c/p\u003e\u003cpre style=\"line-height:0.9;\"\u003e\u0026#91;\u0026#91;jsxgraph height='700px' width='700px' input-ref-ans1='ans1Ref'\u0026#93;\u0026#93;\n/* In this example ans1 is a String type input, which is important as the value we store \n   there is most definitely not a valid Maxima expression. */\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\n\n/* We will store our points here. */\nvar points = new Array();\nvar i = 0;\n\n/* If we have stored state of points we will resurrect them now. */\nvar theInput = document.getElementById(ans1Ref);\nif (theInput.value \u0026amp;\u0026amp; theInput.value != '') {\n var pointList = JSON.parse(theInput.value);\n for (i=0; i\u0026lt;pointList.length; i++) {\n  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});\n  points[i] = p;\n } \n}\n\n/* Lets create some magic, in this example dragging points through specific areas changes \n   the color of the points. And there is an area that both creates and deletes points. */\n\nvar source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {  strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {    strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], { strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\n\n/* A function the we can tie to points so that their color changes. */\nvar colorDragListener = function() {\n /* this in this context should be the point. */\n if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) \u0026lt; source.Radius()) {\n  this.setAttribute({color:'black'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) \u0026lt; red.Radius()) {\n  this.setAttribute({color:'red'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) \u0026lt; green.Radius()) {\n  this.setAttribute({color:'green'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) \u0026lt; blue.Radius()) {\n  this.setAttribute({color:'blue'});\n }\n}\n\n/* Another function to handle the release of dragged points and the storage of the state. */\nvar dropHandler = function() {\n /* this in this context should be the point. */\n var newOne = points.indexOf(this);\n if (newOne == -1) {\n  /* This is a new one depending on where it was dropped we do things. */\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) \u0026lt; source.Radius()) {\n   /* When dropped into the source, reset the point. */\n   this.moveTo([source.center.X(),source.center.Y()],100);\n   this.setAttribute({color:'black'});\n  } else {\n   /* it is now in play add it to the list. */\n   points[points.length] = this;\n   /* also initialise a new point in the source. */\n   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\n   p.on('drag',colorDragListener);\n   p.on('up',dropHandler);\n  }\n } else {\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) \u0026lt; source.Radius()) {\n   /* When dropped into the source delete this point as this is an existing point. */\n   points.splice(newOne, 1);\n   this.board.removeObject(this);\n  }\n  /* Otherwise all fine. */\n }\n\n /* Then construct the state. Basically, map the points to a specific form, in this example the form is \n    a bit too complex as it includes an object/dictionary when a list would have worked but maybe this\n    will come in handy elsewhere. */\n var newState = new Array();\n for (i=0; i\u0026lt;points.length; i++) {\n  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};\n  newState[i] = P;\n }\n theInput.value = JSON.stringify(newState);\n\n /* NOTE! You will need to do certain things to make the VLE around you know that things happen, \n    for this reason we need to generate a \"change\" event. In the case of Moodle and this question the event\n    marks the form modified and causes a warning if the page is left through non saving routes. */\n var e = new Event('change');\n theInput.dispatchEvent(e);\n}\n\n\n/* This is the intial point. */\nvar p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\np.on('drag',colorDragListener);\np.on('up',dropHandler);\n\n/* Remember that the points from stored state must also be tied to the listeners if present. */\nfor (i=0; i\u0026lt;points.length; i++) {\n points[i].on('drag',colorDragListener);\n points[i].on('up',dropHandler);\n}\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as it will get absurd very soon. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n\u0026#91;\u0026#91;/jsxgraph\u0026#93;\u0026#93;\n\u003c/pre\u003e\n\n\u003ciframe data-stack-jsxgraph=\"{\u0026quot;assessmentId\u0026quot;:\u0026quot;native-json-b0\u0026quot;,\u0026quot;inputs\u0026quot;:[\u0026quot;ans1\u0026quot;],\u0026quot;boardValues\u0026quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-json-b0.html\" class=\"\" name=\"iframeJXG181d0de9_21a0_8282_d2c6_2dc20370\" style=\"width:700px; height:700px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-json-b0\" sandbox=\"allow-scripts\"\u003e\u003c/iframe\u003e\n\n\u003cp\u003eDrag some points around and press check, as expected the points stay in place. The feedback should also show you the raw stored state and some very simple numbers collected from it. You may wish to check the feedback logic but it has very little to show.\u003c/p\u003e\u003cp\u003eIn STACK 4.4 a simplified way of doing custom binding was added, if you need to do this you might wish to look into it, there should be a new sample of that.\u003c/p\u003e\u003cp\u003e\u003cinput class=\"stack-answer\" data-name=\"ans1\" data-stack-input-type=\"string\" aria-label=\"Answer ans1\" size=\"15\" autocomplete=\"off\"\u003e \u003cspan class=\"stack-validation\" data-name=\"ans1\" aria-live=\"polite\"\u003e\u003c/span\u003e\u003c/p\u003e","generalfeedback_html":"","specificfeedback_html":"\u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e","questionnote_html":""}],"review":false}</script></section></div>
+</section>
+<section id="a-graphical-pythonchecker" class="level2">
+<h2 class="anchored" data-anchor-id="a-graphical-pythonchecker">A graphical PythonChecker</h2>
+<p><strong>CTM extension: PythonChecker. This question does not run on vanilla STACK.</strong> The board exchanges the same coordinate-list response as an ordinary STACK binding. The existing PythonChecker API decides whether both coordinates are positive. Switch variants to see a different initial point; the accepted condition stays the same. Typing in the bound input moves the point; the board writes back its resulting coordinate pair. <a href="native-questions/native-python-board.xml">Source XML</a> · <a href="native-questions/native-checkers.py">Checker source</a>.</p>
+<div class="stack-native-backend" data-stack-backend="maxima-native"><section class="stack-sympy" data-stack-id="native-python-board"><div class="stack-toolbar"><label>Variant <select class="stack-variant" aria-label="Question variant"><option value="0">Variant 1</option><option value="1">Variant 2</option></select></label></div><div class="stack-prompt stack-question"><p>Place P anywhere in the open first quadrant. PythonChecker accepts any two positive coordinates.</p><p>Move the point, or edit its coordinate list. <input class="stack-answer" data-name="ans" data-stack-input-type="algebraic" aria-label="Answer ans" size="15" autocomplete="off"> <span class="stack-validation" data-name="ans" aria-live="polite"></span> <span class="stack-feedback" data-name="prt1"></span></p>
+<iframe data-stack-jsxgraph="{&quot;assessmentId&quot;:&quot;native-python-board-b0&quot;,&quot;inputs&quot;:[&quot;ans&quot;],&quot;boardValues&quot;:{&quot;t0&quot;:-1}}" role="img" src="about:blank" data-stack-jsxgraph-template="../native/boards/native-python-board-b0.html" class="" name="iframeJXG9c3b0b33_6ce6_7f3f_ae76_a7086a5b" style="width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;" id="native-python-board-b0" sandbox="allow-scripts"></iframe></div><div class="stack-actions"><button type="button" class="stack-validate">Validate answers</button><button type="button" class="stack-check" disabled="">Check answer</button><button type="button" class="stack-tests">Run question tests</button></div><div class="stack-result" aria-live="polite"></div><div class="stack-generalfeedback" hidden=""></div><script type="application/json" class="stack-sympy-data">{"version":1,"id":"native-python-board","question":{"name":"A graphical PythonChecker","questiontext":"\u003cp\u003ePlace P anywhere in the open first quadrant. PythonChecker accepts any two positive coordinates.\u003c/p\u003e\u003cp\u003eMove the point, or edit its coordinate list. [[input:ans]] [[validation:ans]] [[feedback:prt1]]\u003c/p\u003e\n@@CTM_BOARD_b0@@","generalfeedback":"","specificfeedback":"[[feedback:prt1]]","questionnote":"","variables":"startx:rand(3)-2;","defaultgrade":1,"penalty":0.1,"simplify":true,"assumepositive":false,"assumereal":false,"inputs":[{"name":"ans","type":"algebraic","teacher":"[2,2]","boxsize":15,"strictsyntax":true,"insertstars":0,"forbidwords":[],"forbidfloat":false,"requirelowestterms":false,"checkanswertype":true,"mustverify":true,"showvalidation":true,"syntaxhint":""}],"prts":[{"name":"prt1","value":1,"autosimplify":true,"feedbackvariables":"","nodes":[{"name":"0","test":"PythonChecker","student":"ans","teacher":"[2,2]","options":"{\"checker\": \"positive_point\"}","quiet":false,"true":{"mode":"=","score":1,"next":-1,"note":"python-T","feedback":""},"false":{"mode":"=","score":0,"next":-1,"note":"python-F","feedback":""}}],"locals":[]}],"qtests":[{"testcase":"1","description":"","inputs":{"ans":"[2,2]"},"expected":{"prt1":{"score":1,"penalty":0,"note":"python-T"}}},{"testcase":"2","description":"","inputs":{"ans":"[-1,1]"},"expected":{"prt1":{"score":0,"penalty":0.1,"note":"python-F"}}}],"deployedseeds":[],"python_checkers":{"api_version":1,"source":"# CTM team, CC BY-SA 4.0. PythonChecker API v1.\nfrom ctm_checkers.stack.checker_api import collection_items\n\ndef positive_point(student, teacher, options):\n    values = collection_items(student)\n    return len(values) == 2 and all(value.is_real is True and value.is_positive is True for value in values)\n\ndef positive_x(student, teacher, options):\n    values = collection_items(student)\n    return len(values) == 2 and values[0].is_real is True and values[0].is_positive is True\n\ndef identity_columns(student, teacher, options):\n    if student.shape != teacher.shape:\n        return {\"valid\": False, \"correct\": False, \"feedback\": \"Use a two by two matrix.\"}\n    statuses = [\"correct\" if student[:, column] == teacher[:, column] else \"incorrect\" for column in range(student.cols)]\n    return {\"valid\": True, \"correct\": all(value == \"correct\" for value in statuses),\n            \"feedback\": \"Each column is compared with the identity matrix.\", \"assessment\": {\"columns\": statuses}}\n\nCHECKERS = {\"positive_point\": positive_point, \"positive_x\": positive_x, \"identity_columns\": identity_columns}\n"},"native":{"schema":1,"id":"native-python-board","locals":["startx"],"tokens":[{"id":"t0","source":"startx","format":"source","wrap":false,"phase":"prepare","context":"javascript"}],"boards":[{"id":"b0","phase":"prepare","attributes":{"width":"500px","height":"360px","input-ref-ans":"pointRef"},"inputs":{"ans":"pointRef"},"code":"\nvar board = JXG.JSXGraph.initBoard(divid, {axis:true,boundingbox:[-4,4,4,-4],showCopyright:false,showNavigation:false});\nvar point = board.create('point',[@@CTM_NATIVE_t0@@,-1],{name:'P',snapToGrid:true,snapSizeX:1,snapSizeY:1});\nstack_jxg.bind_point(pointRef, point);\nboard.update();\n"}]}},"variants":[{"seed":1,"env":{"startx":"-1"},"teachers":{"ans":{"source":"[2,2]","latex":"\\left[ 2 , 2 \\right] ","type":"list","shape":null}},"tokenValues":{"t0":{"format":"source","value":"-1","string":false,"wrap":false}},"qtests":[{"testcase":"1","answers":{"ans":"[2,2]"}},{"testcase":"2","answers":{"ans":"[-1,1]"}}],"native":{"schema":1,"backend":"maxima-native","planSchema":1,"questionId":"native-python-board","questionHash":"51289d00f8f84d3951c125bd82a3ba1008ab0029f79f3508e803017b00cd0b20","seed":1,"stackRevision":"33383047af39c204bf4442802a058f8b918b2b1b","stackLibraryVersion":"2026101500","runtimeHash":"182384b851e2ef6b76a6a9cb88a018b6b6f5e3dd8cd7a987da22c6b1db29eb20","preparedHash":"443cda9a9934f5d01e6538a178ba77c5c1f2f4943b4d99c132dc556ffb38e255"},"question_html":"\u003cp\u003ePlace P anywhere in the open first quadrant. PythonChecker accepts any two positive coordinates.\u003c/p\u003e\u003cp\u003eMove the point, or edit its coordinate list. \u003cinput class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"\u003e \u003cspan class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e\u003c/p\u003e\n\u003ciframe data-stack-jsxgraph=\"{\u0026quot;assessmentId\u0026quot;:\u0026quot;native-python-board-b0\u0026quot;,\u0026quot;inputs\u0026quot;:[\u0026quot;ans\u0026quot;],\u0026quot;boardValues\u0026quot;:{\u0026quot;t0\u0026quot;:-1}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-python-board-b0.html\" class=\"\" name=\"iframeJXG9c3b0b33_6ce6_7f3f_ae76_a7086a5b\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-python-board-b0\" sandbox=\"allow-scripts\"\u003e\u003c/iframe\u003e","generalfeedback_html":"","specificfeedback_html":"\u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e","questionnote_html":""},{"seed":2,"env":{"startx":"-2"},"teachers":{"ans":{"source":"[2,2]","latex":"\\left[ 2 , 2 \\right] ","type":"list","shape":null}},"tokenValues":{"t0":{"format":"source","value":"-2","string":false,"wrap":false}},"qtests":[{"testcase":"1","answers":{"ans":"[2,2]"}},{"testcase":"2","answers":{"ans":"[-1,1]"}}],"native":{"schema":1,"backend":"maxima-native","planSchema":1,"questionId":"native-python-board","questionHash":"51289d00f8f84d3951c125bd82a3ba1008ab0029f79f3508e803017b00cd0b20","seed":2,"stackRevision":"33383047af39c204bf4442802a058f8b918b2b1b","stackLibraryVersion":"2026101500","runtimeHash":"182384b851e2ef6b76a6a9cb88a018b6b6f5e3dd8cd7a987da22c6b1db29eb20","preparedHash":"670b15ae2bd4771ca3c6fa79c816e2ec6a87088e8cc4d58a39f95f6317b37825"},"question_html":"\u003cp\u003ePlace P anywhere in the open first quadrant. PythonChecker accepts any two positive coordinates.\u003c/p\u003e\u003cp\u003eMove the point, or edit its coordinate list. \u003cinput class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"\u003e \u003cspan class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e\u003c/p\u003e\n\u003ciframe data-stack-jsxgraph=\"{\u0026quot;assessmentId\u0026quot;:\u0026quot;native-python-board-b0\u0026quot;,\u0026quot;inputs\u0026quot;:[\u0026quot;ans\u0026quot;],\u0026quot;boardValues\u0026quot;:{\u0026quot;t0\u0026quot;:-2}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-python-board-b0.html\" class=\"\" name=\"iframeJXG9c3b0b33_6ce6_7f3f_ae76_a7086a5b\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-python-board-b0\" sandbox=\"allow-scripts\"\u003e\u003c/iframe\u003e","generalfeedback_html":"","specificfeedback_html":"\u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e","questionnote_html":""}],"review":true}</script></section></div>
+</section>
+<section id="a-mixed-response-tree" class="level2">
+<h2 class="anchored" data-anchor-id="a-mixed-response-tree">A mixed response tree</h2>
+<p><strong>CTM extension: PythonChecker inside a native response tree. This question does not run on vanilla STACK.</strong> Three nodes run in the order <strong>native → Python → native</strong>. Try <code>[2,2]</code> for full credit, <code>[2,3]</code> for half credit and <code>[-1,3]</code> for zero. The native continuation retains the branch path and score when the Python node finishes. The feedback displays the same target before and after the Python node. <a href="native-questions/native-mixed-board.xml">Source XML</a>.</p>
+<div class="stack-native-backend" data-stack-backend="maxima-native"><section class="stack-sympy" data-stack-id="native-mixed-board"><div class="stack-toolbar"><label>Variant <select class="stack-variant" aria-label="Question variant"><option value="0">Variant 1</option></select></label></div><div class="stack-prompt stack-question"><p>Place P at (2,2). The y-coordinate earns one half, positive x earns one quarter through PythonChecker, and x=2 earns the final quarter.</p><p>Move the point, or edit its coordinate list. <input class="stack-answer" data-name="ans" data-stack-input-type="algebraic" aria-label="Answer ans" size="15" autocomplete="off"> <span class="stack-validation" data-name="ans" aria-live="polite"></span> <span class="stack-feedback" data-name="prt1"></span></p>
+<iframe data-stack-jsxgraph="{&quot;assessmentId&quot;:&quot;native-mixed-board-b0&quot;,&quot;inputs&quot;:[&quot;ans&quot;],&quot;boardValues&quot;:{}}" role="img" src="about:blank" data-stack-jsxgraph-template="../native/boards/native-mixed-board-b0.html" class="" name="iframeJXGf89350ba_9288_5dbb_5a13_cc3cc145" style="width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;" id="native-mixed-board-b0" sandbox="allow-scripts"></iframe></div><div class="stack-actions"><button type="button" class="stack-validate">Validate answers</button><button type="button" class="stack-check" disabled="">Check answer</button><button type="button" class="stack-tests">Run question tests</button></div><div class="stack-result" aria-live="polite"></div><div class="stack-generalfeedback" hidden=""></div><script type="application/json" class="stack-sympy-data">{"version":1,"id":"native-mixed-board","question":{"name":"Native → Python → native","questiontext":"\u003cp\u003ePlace P at (2,2). The y-coordinate earns one half, positive x earns one quarter through PythonChecker, and x=2 earns the final quarter.\u003c/p\u003e\u003cp\u003eMove the point, or edit its coordinate list. [[input:ans]] [[validation:ans]] [[feedback:prt1]]\u003c/p\u003e\n@@CTM_BOARD_b0@@","generalfeedback":"","specificfeedback":"[[feedback:prt1]]","questionnote":"","variables":"","defaultgrade":1,"penalty":0.1,"simplify":true,"assumepositive":false,"assumereal":false,"inputs":[{"name":"ans","type":"algebraic","teacher":"[2,2]","boxsize":15,"strictsyntax":true,"insertstars":0,"forbidwords":[],"forbidfloat":false,"requirelowestterms":false,"checkanswertype":true,"mustverify":true,"showvalidation":true,"syntaxhint":""}],"prts":[{"name":"prt1","value":1,"autosimplify":true,"feedbackvariables":"target:2;","nodes":[{"name":"0","test":"AlgEquiv","student":"if listp(ans) then (if length(ans)=2 then ans[2] else 0) else 0","teacher":"target","options":"","quiet":false,"true":{"mode":"=","score":0.5,"next":1,"note":"native-y-T","feedback":"\u003cp\u003eNative y target: @@CTM_NATIVE_t0@@.\u003c/p\u003e"},"false":{"mode":"=","score":0,"next":1,"note":"native-y-F","feedback":"\u003cp\u003eNative y target: @@CTM_NATIVE_t1@@.\u003c/p\u003e"}},{"name":"1","test":"PythonChecker","student":"ans","teacher":"[2,2]","options":"{\"checker\":\"positive_x\"}","quiet":false,"true":{"mode":"+","score":0.25,"next":2,"note":"python-x-T","feedback":"\u003cp\u003ePython target: @@CTM_NATIVE_t2@@.\u003c/p\u003e"},"false":{"mode":"+","score":0,"next":2,"note":"python-x-F","feedback":"\u003cp\u003ePython target: @@CTM_NATIVE_t3@@.\u003c/p\u003e"}},{"name":"2","test":"AlgEquiv","student":"if listp(ans) then (if length(ans)=2 then ans[1] else 0) else 0","teacher":"target","options":"","quiet":false,"true":{"mode":"+","score":0.25,"next":-1,"note":"native-x-T","feedback":"\u003cp\u003eNative x target: @@CTM_NATIVE_t4@@.\u003c/p\u003e"},"false":{"mode":"+","score":0,"next":-1,"note":"native-x-F","feedback":"\u003cp\u003eNative x target: @@CTM_NATIVE_t5@@.\u003c/p\u003e"}}],"locals":["target"]}],"qtests":[{"testcase":"1","description":"","inputs":{"ans":"[2,2]"},"expected":{"prt1":{"score":1,"penalty":0,"note":"native-y-T | python-x-T | native-x-T"}}},{"testcase":"2","description":"","inputs":{"ans":"[2,3]"},"expected":{"prt1":{"score":0.5,"penalty":0.1,"note":"native-y-F | python-x-T | native-x-T"}}},{"testcase":"3","description":"","inputs":{"ans":"[-1,3]"},"expected":{"prt1":{"score":0,"penalty":0.1,"note":"native-y-F | python-x-F | native-x-F"}}}],"deployedseeds":[],"python_checkers":{"api_version":1,"source":"# CTM team, CC BY-SA 4.0. PythonChecker API v1.\nfrom ctm_checkers.stack.checker_api import collection_items\n\ndef positive_point(student, teacher, options):\n    values = collection_items(student)\n    return len(values) == 2 and all(value.is_real is True and value.is_positive is True for value in values)\n\ndef positive_x(student, teacher, options):\n    values = collection_items(student)\n    return len(values) == 2 and values[0].is_real is True and values[0].is_positive is True\n\ndef identity_columns(student, teacher, options):\n    if student.shape != teacher.shape:\n        return {\"valid\": False, \"correct\": False, \"feedback\": \"Use a two by two matrix.\"}\n    statuses = [\"correct\" if student[:, column] == teacher[:, column] else \"incorrect\" for column in range(student.cols)]\n    return {\"valid\": True, \"correct\": all(value == \"correct\" for value in statuses),\n            \"feedback\": \"Each column is compared with the identity matrix.\", \"assessment\": {\"columns\": statuses}}\n\nCHECKERS = {\"positive_point\": positive_point, \"positive_x\": positive_x, \"identity_columns\": identity_columns}\n"},"native":{"schema":1,"id":"native-mixed-board","locals":[],"tokens":[{"id":"t0","source":"target","format":"source","wrap":false,"phase":"feedback","context":"html"},{"id":"t1","source":"target","format":"source","wrap":false,"phase":"feedback","context":"html"},{"id":"t2","source":"target","format":"source","wrap":false,"phase":"feedback","context":"html"},{"id":"t3","source":"target","format":"source","wrap":false,"phase":"feedback","context":"html"},{"id":"t4","source":"target","format":"source","wrap":false,"phase":"feedback","context":"html"},{"id":"t5","source":"target","format":"source","wrap":false,"phase":"feedback","context":"html"}],"boards":[{"id":"b0","phase":"prepare","attributes":{"width":"500px","height":"360px","input-ref-ans":"pointRef"},"inputs":{"ans":"pointRef"},"code":"\nvar board = JXG.JSXGraph.initBoard(divid, {axis:true,boundingbox:[-4,4,4,-4],showCopyright:false,showNavigation:false});\nvar point = board.create('point',[-1,-1],{name:'P',snapToGrid:true,snapSizeX:1,snapSizeY:1});\nstack_jxg.bind_point(pointRef, point);\nboard.update();\n"}]}},"variants":[{"seed":1,"env":{},"teachers":{"ans":{"source":"[2,2]","latex":"\\left[ 2 , 2 \\right] ","type":"list","shape":null}},"tokenValues":{},"qtests":[{"testcase":"1","answers":{"ans":"[2,2]"}},{"testcase":"2","answers":{"ans":"[2,3]"}},{"testcase":"3","answers":{"ans":"[-1,3]"}}],"native":{"schema":1,"backend":"maxima-native","planSchema":1,"questionId":"native-mixed-board","questionHash":"8cb2c0fab34636e301d08b1e398d9f043206c49c10a040d313de8fb02be69d33","seed":1,"stackRevision":"33383047af39c204bf4442802a058f8b918b2b1b","stackLibraryVersion":"2026101500","runtimeHash":"182384b851e2ef6b76a6a9cb88a018b6b6f5e3dd8cd7a987da22c6b1db29eb20","preparedHash":"6e564b3e2994a474e60f37532985780b6e6de267b1abf022f1502ac695b75788"},"question_html":"\u003cp\u003ePlace P at (2,2). The y-coordinate earns one half, positive x earns one quarter through PythonChecker, and x=2 earns the final quarter.\u003c/p\u003e\u003cp\u003eMove the point, or edit its coordinate list. \u003cinput class=\"stack-answer\" data-name=\"ans\" data-stack-input-type=\"algebraic\" aria-label=\"Answer ans\" size=\"15\" autocomplete=\"off\"\u003e \u003cspan class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e\u003c/p\u003e\n\u003ciframe data-stack-jsxgraph=\"{\u0026quot;assessmentId\u0026quot;:\u0026quot;native-mixed-board-b0\u0026quot;,\u0026quot;inputs\u0026quot;:[\u0026quot;ans\u0026quot;],\u0026quot;boardValues\u0026quot;:{}}\" role=\"img\" src=\"about:blank\" data-stack-jsxgraph-template=\"../native/boards/native-mixed-board-b0.html\" class=\"\" name=\"iframeJXGf89350ba_9288_5dbb_5a13_cc3cc145\" style=\"width:500px; height:360px; position:relative; margin:0; padding:0; display:block; z-index:1;border:1px solid black; border-radius:10px;;\" id=\"native-mixed-board-b0\" sandbox=\"allow-scripts\"\u003e\u003c/iframe\u003e","generalfeedback_html":"","specificfeedback_html":"\u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e","questionnote_html":""}],"review":true}</script></section></div>
+</section>
+<section id="structured-matrix-feedback-from-pythonchecker" class="level2">
+<h2 class="anchored" data-anchor-id="structured-matrix-feedback-from-pythonchecker">Structured matrix feedback from PythonChecker</h2>
+<p><strong>CTM extension: PythonChecker matrix assessment. This question does not run on vanilla STACK.</strong> The checker returns a verdict for each submitted column. Those verdicts explain the result; the response tree awards the score. Try the identity matrix and then change one entry in its second column. <a href="native-questions/native-matrix-python.xml">Source XML</a>.</p>
+<div class="stack-native-backend" data-stack-backend="maxima-native"><section class="stack-sympy" data-stack-id="native-matrix-python"><div class="stack-toolbar"><label>Variant <select class="stack-variant" aria-label="Question variant"><option value="0">Variant 1</option></select></label></div><div class="stack-prompt stack-question"><p>Enter the identity matrix. The checker reports a verdict for each column. <span class="stack-answer stack-matrix" data-name="ans" data-matrix-spec="{&quot;name&quot;: &quot;ans&quot;, &quot;rows&quot;: {&quot;auto&quot;: false, &quot;initial&quot;: 2, &quot;min&quot;: 2, &quot;max&quot;: 2}, &quot;cols&quot;: {&quot;auto&quot;: false, &quot;initial&quot;: 2, &quot;min&quot;: 2, &quot;max&quot;: 2}}" role="group" aria-label="Answer ans"></span> <span class="stack-validation" data-name="ans" aria-live="polite"></span> <span class="stack-feedback" data-name="prt1"></span></p></div><div class="stack-actions"><button type="button" class="stack-validate">Validate answers</button><button type="button" class="stack-check" disabled="">Check answer</button><button type="button" class="stack-tests">Run question tests</button></div><div class="stack-result" aria-live="polite"></div><div class="stack-generalfeedback" hidden=""></div><script type="application/json" class="stack-sympy-data">{"version":1,"id":"native-matrix-python","question":{"name":"Matrix column assessment from PythonChecker","questiontext":"\u003cp\u003eEnter the identity matrix. The checker reports a verdict for each column. [[input:ans]] [[validation:ans]] [[feedback:prt1]]\u003c/p\u003e","generalfeedback":"","specificfeedback":"[[feedback:prt1]]","questionnote":"","variables":"","defaultgrade":1,"penalty":0.1,"simplify":true,"assumepositive":false,"assumereal":false,"inputs":[{"name":"ans","type":"matrix","teacher":"matrix([1,0],[0,1])","boxsize":15,"strictsyntax":true,"insertstars":0,"forbidwords":[],"forbidfloat":false,"requirelowestterms":false,"checkanswertype":true,"mustverify":true,"showvalidation":true,"syntaxhint":"","matrix":null}],"prts":[{"name":"prt1","value":1,"autosimplify":true,"feedbackvariables":"","nodes":[{"name":"0","test":"PythonChecker","student":"ans","teacher":"matrix([1,0],[0,1])","options":"{\"checker\": \"identity_columns\"}","quiet":false,"true":{"mode":"=","score":1,"next":-1,"note":"python-T","feedback":""},"false":{"mode":"=","score":0,"next":-1,"note":"python-F","feedback":""}}],"locals":[]}],"qtests":[{"testcase":"1","description":"","inputs":{"ans":"matrix([1,0],[0,1])"},"expected":{"prt1":{"score":1,"penalty":0,"note":"python-T"}}},{"testcase":"2","description":"","inputs":{"ans":"matrix([1,1],[0,1])"},"expected":{"prt1":{"score":0,"penalty":0.1,"note":"python-F"}}}],"deployedseeds":[],"python_checkers":{"api_version":1,"source":"# CTM team, CC BY-SA 4.0. PythonChecker API v1.\nfrom ctm_checkers.stack.checker_api import collection_items\n\ndef positive_point(student, teacher, options):\n    values = collection_items(student)\n    return len(values) == 2 and all(value.is_real is True and value.is_positive is True for value in values)\n\ndef positive_x(student, teacher, options):\n    values = collection_items(student)\n    return len(values) == 2 and values[0].is_real is True and values[0].is_positive is True\n\ndef identity_columns(student, teacher, options):\n    if student.shape != teacher.shape:\n        return {\"valid\": False, \"correct\": False, \"feedback\": \"Use a two by two matrix.\"}\n    statuses = [\"correct\" if student[:, column] == teacher[:, column] else \"incorrect\" for column in range(student.cols)]\n    return {\"valid\": True, \"correct\": all(value == \"correct\" for value in statuses),\n            \"feedback\": \"Each column is compared with the identity matrix.\", \"assessment\": {\"columns\": statuses}}\n\nCHECKERS = {\"positive_point\": positive_point, \"positive_x\": positive_x, \"identity_columns\": identity_columns}\n"},"native":{"schema":1,"id":"native-matrix-python","locals":[],"tokens":[],"boards":[]}},"variants":[{"seed":1,"env":{},"teachers":{"ans":{"source":"matrix([1,0],[0,1])","latex":"\\left[\\begin{array}{cc} 1 \u0026 0 \\\\ 0 \u0026 1 \\end{array}\\right]","type":"matrix","shape":[2,2]}},"tokenValues":{},"qtests":[{"testcase":"1","answers":{"ans":"matrix([1,0],[0,1])"}},{"testcase":"2","answers":{"ans":"matrix([1,1],[0,1])"}}],"native":{"schema":1,"backend":"maxima-native","planSchema":1,"questionId":"native-matrix-python","questionHash":"f9197c9f486501e5f5ebea96a24b390ac3c20a7d99a6d4d170bf2c083efc7e71","seed":1,"stackRevision":"33383047af39c204bf4442802a058f8b918b2b1b","stackLibraryVersion":"2026101500","runtimeHash":"182384b851e2ef6b76a6a9cb88a018b6b6f5e3dd8cd7a987da22c6b1db29eb20","preparedHash":"7778c341546b4528899edd95af05652595b28bebd5e1396dc269aca2b2533d37"},"question_html":"\u003cp\u003eEnter the identity matrix. The checker reports a verdict for each column. \u003cspan class=\"stack-answer stack-matrix\" data-name=\"ans\" data-matrix-spec=\"{\u0026quot;name\u0026quot;: \u0026quot;ans\u0026quot;, \u0026quot;rows\u0026quot;: {\u0026quot;auto\u0026quot;: false, \u0026quot;initial\u0026quot;: 2, \u0026quot;min\u0026quot;: 2, \u0026quot;max\u0026quot;: 2}, \u0026quot;cols\u0026quot;: {\u0026quot;auto\u0026quot;: false, \u0026quot;initial\u0026quot;: 2, \u0026quot;min\u0026quot;: 2, \u0026quot;max\u0026quot;: 2}}\" role=\"group\" aria-label=\"Answer ans\"\u003e\u003c/span\u003e \u003cspan class=\"stack-validation\" data-name=\"ans\" aria-live=\"polite\"\u003e\u003c/span\u003e \u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e\u003c/p\u003e","generalfeedback_html":"","specificfeedback_html":"\u003cspan class=\"stack-feedback\" data-name=\"prt1\"\u003e\u003c/span\u003e","questionnote_html":""}],"review":true}</script></section></div>
+</section>
+<section id="public-startup-and-response-times" class="level2">
+<h2 class="anchored" data-anchor-id="public-startup-and-response-times">Public startup and response times</h2>
+<p><strong>The native worker starts on the first Validate; Python stays unloaded until a visited PythonChecker node needs it.</strong> First native Validate took a median <strong>38.72 s</strong>, including <strong>38.60 s</strong> of native initialization. Warm native Validate took <strong>104 ms</strong>, and warm native Check took <strong>336 ms</strong>. On an already initialized native worker, the first graphical PythonChecker Check added <strong>6.13 s</strong> of UI time, including <strong>5.80 s</strong> of Python startup; subsequent Checks took <strong>332 ms</strong>.</p>
+<p>These frozen measurements describe deployed source <strong><code>15fa33299d68d64e122a2661a2868feb30130edb</code></strong>, measured on <strong>22 October 2026</strong> by <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39831459804/attempts/2">benchmark attempt 2</a>. Later documentation builds do not remeasure this batch. The native workload uses the first variant of the rational question and its prepared model answer. The graphical workload uses the first PythonChecker board and <code>[2,2]</code>.</p>
+<p>Values are <strong>median / minimum / maximum</strong>. First operations and board validation have <strong>3 samples</strong>; warm rows have <strong>15 samples</strong>, five calls in each of three fresh processes. The unit is shown per row.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 36%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Actual button operation</th>
+<th style="text-align: right;">UI: click to verdict</th>
+<th style="text-align: right;">Worker RPC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Native first Validate (s)</td>
+<td style="text-align: right;">38.716 / 38.514 / 40.782</td>
+<td style="text-align: right;">0.115 / 0.112 / 0.115</td>
+</tr>
+<tr class="even">
+<td>Native warm Validate (ms)</td>
+<td style="text-align: right;">103.89 / 100.07 / 111.05</td>
+<td style="text-align: right;">102.81 / 99.07 / 109.93</td>
+</tr>
+<tr class="odd">
+<td>Native first Check after validation (ms)</td>
+<td style="text-align: right;">418.16 / 413.02 / 422.33</td>
+<td style="text-align: right;">416.86 / 411.71 / 420.84</td>
+</tr>
+<tr class="even">
+<td>Native warm Check (ms)</td>
+<td style="text-align: right;">335.71 / 328.75 / 408.71</td>
+<td style="text-align: right;">334.61 / 327.83 / 407.71</td>
+</tr>
+<tr class="odd">
+<td>Board Validate before Python (ms)</td>
+<td style="text-align: right;">2180.66 / 1697.03 / 2223.28</td>
+<td style="text-align: right;">1376.68 / 1081.51 / 1420.63</td>
+</tr>
+<tr class="even">
+<td>First PythonChecker Check (s)</td>
+<td style="text-align: right;">6.128 / 6.041 / 6.238</td>
+<td style="text-align: right;">6.109 / 6.020 / 6.217</td>
+</tr>
+<tr class="odd">
+<td>Warm PythonChecker Check (ms)</td>
+<td style="text-align: right;">331.67 / 325.13 / 402.90</td>
+<td style="text-align: right;">312.11 / 305.72 / 382.99</td>
+</tr>
+</tbody>
+</table>
+<p>Native initialization alone was <strong>38.600 / 38.400 / 40.665 s</strong> (3 samples). Optional Python initialization alone was <strong>5.798 / 5.705 / 5.897 s</strong> (3 samples). They are included in the relevant first UI operations; do not add the rows together. The first native Validate worker RPC excludes the separately measured initialization. First PythonChecker Check reuses warm Maxima, so it measures incremental Python startup, not a second cold page. Board Validate is native-only and includes the real graphical collection/replay gate; its UI interval includes that gate as well as the worker call.</p>
+<p>Each profile began with zero assessment RPCs, created one native worker and made <strong>20 real RPCs</strong>; six grades visited a <strong>PythonChecker callback</strong>. All three profiles recorded zero interpreter/stdlib/wheel requests and <code>pythonLoaded=false</code> through board validation; the first Python grade then loaded Python exactly once. The shared small <code>pyodide-runtime.js</code> configuration helper is not counted as an interpreter download.</p>
+<p>UI time starts at the original click, before graphical collection, and ends at the verdict DOM update. Worker RPC time is the actual message/response interval. Page navigation, HTML loading, isolation setup, answer entry and later MathJax painting are excluded. Chromium <strong>141.0.7390.37</strong> ran on one GitHub-hosted Ubuntu runner with <strong>4 virtual CPUs</strong>, using three fresh browser processes/profiles. OS and CDN caches were not cleared; provenance requests can warm CDN caches.</p>
+<p>The browser’s final service-worker Document response was exactly <strong>16,855,012 bytes</strong> with the expected HTML hash in every profile. HTML and public runtime/frontend asset hashes also matched before and after the batch. The <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/research/2026-10-native-stack/reports/milestone-three/timings/39831459804-attempt-2/">summary evidence</a> retains those actual navigation hashes, sample numbers, worker/callback counts, method and artifact provenance without copying question bodies.</p>
+<p>This full native validation/response-tree path has higher warm costs than <a href="../maxima/examples.html#startup-and-response-times">the hybrid comparison</a>, which delegates only ordinary answer-test nodes to Maxima. These two accepted-answer workloads on one runner do not establish a general speed ranking or a controlled speedup over earlier builds. Functional builds leave the measurements frozen.</p>
+</section>
+<section id="build-and-execution-evidence" class="level2">
+<h2 class="anchored" data-anchor-id="build-and-execution-evidence">Build and execution evidence</h2>
+<section id="supported-subset" class="level3">
+<h3 class="anchored" data-anchor-id="supported-subset">Supported subset</h3>
+<p>The native controller accepts algebraic, numerical and matrix inputs, plus string and JSON inputs transported as quoted strings. Mathematical input uses the pinned STACK-MP-lite recognizer and STACK security data, a bounded expression/function allowlist, <code>strictsyntax=1</code> and <code>insertstars=0</code> or <code>1</code>. It preserves written forms for native tests such as <code>LowestTerms</code> and decimal-place checks. Native STACK performs type and lowest-terms validation; admission also handles <code>forbidfloat</code> and explicit <code>forbidwords</code>.</p>
+<p>Learner assignments, indexing, statements and arbitrary function calls are unsupported. So are <code>allowwords</code>, forbidden-word shorthand lists and other corrective-input modes. The <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/research/2026-10-native-stack/prototype/native/input.js">input implementation</a> defines the exact function list and size/depth limits.</p>
+<p>Question variables use top-level assignments, with prepared values and model answers frozen for each seed. Nested assignments, state-mutating author calls and random response-tree/feedback expressions are outside this subset. Feedback variables cannot reassign learner inputs. Authors remain trusted; these checks define supported state behavior, not an author-code sandbox. Boards belong to the prepared question and cannot be created by feedback.</p>
+<p>The feedback adapter displays 63 selected English messages from the pinned STACK source. Unknown or unsupported protocols remain visible as escaped, labelled raw feedback. This is bounded translation, not Moodle’s complete feedback interpreter.</p>
+<p>The <a href="../native/build-manifest.json">native build manifest</a> records the pinned source revisions, original XML hashes, actual native preparation programs and prepared variants. Browser CI exercises the controls, the JSON bridge, native and Python routing, partial credit, reset and question independence. Loading measurements are reported separately from ordinary functional builds.</p>
+<p>The reference report records desktop and Wasm Maxima versions separately. Scores, branch state, answer notes and canonical answer sources are compared strictly (finite floating-point values use a stated tolerance). Raw display output is retained. Two narrowly defined TeX differences between core versions are reported separately: equivalent text-box wrappers with identical content, and math-only line wrapping. Those presentation differences do not stand in for agreement on grading.</p>
+</section>
+<section id="historical-controlled-loader-measurements" class="level3">
+<h3 class="anchored" data-anchor-id="historical-controlled-loader-measurements">Historical controlled loader measurements</h3>
+<p>The loader now fetches one verified package of the original runtime library files. A controlled comparison used three fresh Chromium processes per condition and loader, then ran a real native answer test in every sample:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 26%">
+<col style="width: 26%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Local server condition</th>
+<th style="text-align: right;">Original native readiness, median</th>
+<th style="text-align: right;">Bundled readiness, median</th>
+<th style="text-align: right;">HTTP requests</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No added latency</td>
+<td style="text-align: right;">38.57 s</td>
+<td style="text-align: right;">36.71 s</td>
+<td style="text-align: right;">137 → 12</td>
+</tr>
+<tr class="even">
+<td>Simulated 80 ms per request</td>
+<td style="text-align: right;">48.32 s</td>
+<td style="text-align: right;">37.39 s</td>
+<td style="text-align: right;">137 → 12</td>
+</tr>
+</tbody>
+</table>
+<p>These are <strong>local loader measurements</strong>, including an explicitly simulated latency, from <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/39802432330">run 39802432330</a>. They measure native readiness, not button-to-verdict time on this public page. <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/tree/research/2026-10-native-stack/reports/milestone-three/loading">Raw reports and exact source hashes</a> keep the experiment reproducible. First validation on this native page still needs the native runtime; a PythonChecker adds its own lazy startup when its node is reached. Ordinary site builds run functional checks and leave these benchmark statistics frozen.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-contrib/stack-sympy-0.3.0/matrix-input.js"></script>
+<script src="../site_libs/quarto-contrib/stack-sympy-0.3.0/stack-sympy.js"></script>
+<script src="../site_libs/quarto-contrib/ctm-stack-jsxgraph-1/host.js"></script>
+</body></html>

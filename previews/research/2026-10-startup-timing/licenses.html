@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Licences and sources – STACK Maxima</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-1ae0656660a27274ffbb8da420579a0e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="icon" href="data:,">
+<script type="application/ctm-parent-mathjax" src="native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js"></script><script>(function(){if(!window.crossOriginIsolated)return;const placeholder=document.currentScript.previousElementSibling;const attributes={"id": "ctm-parent-mathjax", "async": "", "src": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js"};const loader=document.createElement("script");loader.async=Object.prototype.hasOwnProperty.call(attributes,"async");for(const [name,value] of Object.entries(attributes))loader.setAttribute(name,value);placeholder.replaceWith(loader);})();</script>
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">STACK Maxima</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./maxima/examples.html"> 
+<span class="menu-text">Worked questions</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./maxima/native.html"> 
+<span class="menu-text">Native questions</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./maxima/data-flow.html"> 
+<span class="menu-text">Data flow</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./maxima/startup.html"> 
+<span class="menu-text">Start-up timing</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./licenses.html" aria-current="page"> 
+<span class="menu-text">Licences and sources</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Erasmus-CTM/stack-wasm-maxima"> <i class="bi bi-github" role="img" aria-label="Source repository">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#maxima-and-ecl-runtime" id="toc-maxima-and-ecl-runtime" class="nav-link active" data-scroll-target="#maxima-and-ecl-runtime">Maxima and ECL runtime</a>
+  <ul class="collapse">
+  <li><a href="#runtime-notes" id="toc-runtime-notes" class="nav-link" data-scroll-target="#runtime-notes">Notes on the runtime</a></li>
+  </ul></li>
+  <li><a href="#stack" id="toc-stack" class="nav-link" data-scroll-target="#stack">STACK</a></li>
+  <li><a href="#jsxgraph" id="toc-jsxgraph" class="nav-link" data-scroll-target="#jsxgraph">JSXGraph</a></li>
+  <li><a href="#mathjax-and-native-board-fonts" id="toc-mathjax-and-native-board-fonts" class="nav-link" data-scroll-target="#mathjax-and-native-board-fonts">MathJax and native board fonts</a></li>
+  <li><a href="#page-libraries-from-quarto" id="toc-page-libraries-from-quarto" class="nav-link" data-scroll-target="#page-libraries-from-quarto">Page libraries from Quarto</a></li>
+  <li><a href="#code-and-content-by-the-ctm-project" id="toc-code-and-content-by-the-ctm-project" class="nav-link" data-scroll-target="#code-and-content-by-the-ctm-project">Code and content by the CTM project</a></li>
+  <li><a href="#loaded-from-elsewhere-not-redistributed-here" id="toc-loaded-from-elsewhere-not-redistributed-here" class="nav-link" data-scroll-target="#loaded-from-elsewhere-not-redistributed-here">Loaded from elsewhere, not redistributed here</a></li>
+  <li><a href="#what-could-not-be-determined" id="toc-what-could-not-be-determined" class="nav-link" data-scroll-target="#what-could-not-be-determined">What could not be determined</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Licences and sources</h1>
+<p class="subtitle lead">Third-party software and content that this site redistributes</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This site serves files that were written by other people. This page lists them, the licence each one is distributed under, where that statement comes from, and where the matching source can be found. The licence texts are in the <code>LICENSES/</code> folder of this site (27 text files, linked below file by file) and in the repository’s <code>site/LICENSES/</code> folder (the same files; the repository copy becomes visible on the <code>main</code> branch once this page is merged). The page describes what is provided. It is not legal advice and does not claim that every condition of every licence has been checked.</p>
+<p>The native board bundle additionally carries its own <a href="native/boards/mathjax/THIRD-PARTY-NOTICES.md">licence inventory</a>, original licence files and <a href="native/board-mathjax.json">source provenance</a>. Those files are additional to the 27 texts above.</p>
+<p>Everything below was checked on 2026-10-22 and 2026-10-23 against the files deployed on this site; the runtime section was updated on 2026-10-26, when the site switched to the runtime release <code>runtime-v3</code>. Older preview copies of research branches under <code>previews/research/</code> (<code>2026-10-native-stack</code> and <code>2026-10-runtime-feasibility</code>), where still present, serve the earlier runtime copied from <a href="https://maxima-on-wasm.pages.dev/" class="uri">https://maxima-on-wasm.pages.dev/</a>; <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/64d02c43d839ac6e8f9fb686b7c618f8a292901f/site/licenses.qmd">the previous version of this page</a> describes that runtime, gnuplot included. “Evidence” means a notice inside a shipped file, a licence file in the upstream source tree at the stated version, or both. Where neither could be found the entry says so.</p>
+<section id="maxima-and-ecl-runtime" class="level2">
+<h2 class="anchored" data-anchor-id="maxima-and-ecl-runtime">Maxima and ECL runtime</h2>
+<p>The Maxima runtime in <code>maxima-runtime/</code> is the CTM project’s release <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/tag/runtime-v3"><code>runtime-v3</code></a>: Marius Gerbershagen’s Emscripten port of Maxima running on ECL (<a href="https://gitlab.com/mgerbershagen/maxima" class="uri">https://gitlab.com/mgerbershagen/maxima</a>, the build first deployed at <a href="https://maxima-on-wasm.pages.dev/" class="uri">https://maxima-on-wasm.pages.dev/</a>), rebuilt by this project from exact, hash-pinned sources in <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40278667994">this run</a> (commit <code>285f8882</code>, compiler profile <code>ecl-oz-maxima-oz</code>).</p>
+<ul>
+<li><strong>Corresponding source.</strong> The release asset <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v3/maxima-runtime-v3-sources.tar.gz"><code>maxima-runtime-v3-sources.tar.gz</code></a> holds the exact source archives (Maxima <code>813903d33</code>, ECL <code>e4bdb2e5</code>, Emscripten and emsdk 4.0.10), the build recipe and the source manifest with every archive’s SHA-256. The runtime archive <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v3/maxima-runtime-v3.tar.gz"><code>maxima-runtime-v3.tar.gz</code></a> carries the same licence texts and the build’s notices. Both are published beside each other for as long as the release exists.</li>
+<li>The site build downloads the release, checks the release record (<code>maxima-runtime-v3.json</code>, SHA-256 <code>c508649d…692c</code>, pinned in the repository’s <code>runtime/release.json</code>), the archive and every runtime file against their hashes, and serves the files unchanged. Each file’s SHA-256 is recorded in <a href="runtime-assets.json"><code>runtime-assets.json</code></a>. <a href="maxima-runtime/runtime-preload.json"><code>runtime-preload.json</code></a> is assembled by this project from the same files (their bytes, base64-encoded) so that they load in one request.</li>
+<li>The build omits plotting: gnuplot (<code>libgnuplot.so</code>) and <code>maxima-plot.fas</code> are not built and not served. An authored plot gets a build diagnostic instead.</li>
+<li><strong>Modified ECL source.</strong> The WebAssembly build of ECL carries one declared change by the CTM project: in <code>src/c/alloc_2.d</code>, eight root-scanning calls in <code>ecl_mark_env</code> and <code>stacks_scanner</code> use the collector’s <code>GC_push_all_eager</code> instead of <code>GC_push_all</code>/<code>GC_push_conditional</code>. The exact patch, the original and derived file hashes and a dated comment in the changed file are in the release’s sources archive (<code>source-overlays/</code>); the native build host uses unchanged ECL. ECL’s licence (LGPL-2.1-or-later) and original notices apply to the modified file.</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Files on this site</th>
+<th>Version as reported by the files</th>
+<th>Licence</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Maxima (Emscripten port)</td>
+<td><code>maxima.wasm</code>, <code>maxima-integration.fas</code>, <code>maxima-limits.fas</code>, <code>maxima-matrix-algebra.fas</code>, <code>maxima-number-theory.fas</code>, <code>maxima-poisson-series.fas</code>, <code>maxima-quadpack.fas</code>, <code>maxima-slatec.fas</code>, <code>maxima-solve.fas</code></td>
+<td><code>branch_5_49_base_90_g813903d33</code></td>
+<td>GNU GPL version 2, as in Maxima’s <code>COPYING</code> (<a href="LICENSES/GPL-2.0-only.txt">GPL-2.0 text</a>; <a href="LICENSES/Maxima-COPYING.txt">Maxima’s COPYING</a>). “Only” or “or later” is not stated in <code>COPYING</code>; GitLab labels the port “GNU General Public License v2.0 or later”. Individual source files differ, see <a href="#maxima">notes</a>.</td>
+<td>commit <code>813903d33f5ccca09cbe3086dbfe5e228521da52</code> of <a href="https://gitlab.com/mgerbershagen/maxima" class="uri">https://gitlab.com/mgerbershagen/maxima</a>, archived in the <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v3/maxima-runtime-v3-sources.tar.gz">release’s sources</a>; upstream Maxima at <a href="https://maxima.sourceforge.io/" class="uri">https://maxima.sourceforge.io/</a>, read at <a href="https://github.com/rtoy/maxima/tree/cce856a60952c971e6f3604706335455c9a46fca">tag <code>branch-5_49-base</code></a> in a GitHub mirror</td>
+</tr>
+<tr class="even">
+<td>Maxima share packages</td>
+<td>66 files under <code>maxima-runtime/share/</code></td>
+<td>same</td>
+<td>per file, see <a href="#maxima-share-packages">table below</a></td>
+<td>same</td>
+</tr>
+<tr class="odd">
+<td>ECL (Embeddable Common Lisp)</td>
+<td><code>libecl.so</code></td>
+<td>26.3.27, source id <code>e4bdb2e5b1e444e1773032a53650773848f4d6cd</code></td>
+<td><a href="LICENSES/LGPL-2.1-or-later.txt">LGPL-2.1-or-later</a> (<a href="LICENSES/ECL-LICENSE.txt">ECL’s LICENSE</a>), with exceptions that include parts present in the file (<code>loop.lsp</code>, <code>contrib/ecl-cdb</code>), see <a href="#ecl">notes</a></td>
+<td>commit <code>e4bdb2e5b1e444e1773032a53650773848f4d6cd</code> of <a href="https://gitlab.com/mgerbershagen/ecl" class="uri">https://gitlab.com/mgerbershagen/ecl</a>, archived in the <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v3/maxima-runtime-v3-sources.tar.gz">release’s sources</a>; <a href="https://gitlab.com/embeddable-common-lisp/ecl/-/tree/26.3.27">tag 26.3.27</a> checked in the <a href="https://github.com/roswell/ecl/tree/26.3.27">GitHub mirror</a></td>
+</tr>
+<tr class="even">
+<td>GMP, bundled with ECL</td>
+<td>inside <code>libecl.so</code></td>
+<td>4.2.1</td>
+<td><a href="LICENSES/LGPL-2.1-or-later.txt">LGPL-2.1-or-later</a></td>
+<td><a href="https://github.com/roswell/ecl/tree/26.3.27/src/gmp"><code>src/gmp</code> of ECL 26.3.27</a></td>
+</tr>
+<tr class="odd">
+<td>Boehm-Demers-Weiser GC, bundled with ECL</td>
+<td>inside <code>libecl.so</code></td>
+<td>8.2.8</td>
+<td><a href="LICENSES/Boehm-GC.txt">Boehm-GC</a></td>
+<td><a href="https://github.com/roswell/ecl/tree/26.3.27/src/bdwgc"><code>src/bdwgc</code> of ECL 26.3.27</a>; <a href="https://github.com/ivmai/bdwgc/tree/v8.2.8">bdwgc v8.2.8</a></td>
+</tr>
+<tr class="even">
+<td>Emscripten JavaScript runtime</td>
+<td><code>maxima.js</code></td>
+<td>built with Emscripten 4.0.10 (release source manifest)</td>
+<td>MIT or NCSA, at the user’s choice (<a href="LICENSES/MIT.txt">MIT</a>, <a href="LICENSES/NCSA.txt">NCSA</a>, <a href="LICENSES/Emscripten-LICENSE.txt">Emscripten’s LICENSE</a>)</td>
+<td>Emscripten commit <code>b7dc6e57</code>, archived in the <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v3/maxima-runtime-v3-sources.tar.gz">release’s sources</a>; its licence was read at <a href="https://github.com/emscripten-core/emscripten/tree/45a6cffdbdf003665c7f48072191ce5a860fd0f4"><code>45a6cffd</code></a> (<code>main</code> when read)</td>
+</tr>
+<tr class="odd">
+<td>Emscripten system libraries: musl libc (<code>maxima.wasm</code> contained <code>__crypt_*</code> names in the earlier deployed build); libc++ (<code>std::__2</code> symbols), libc++abi and compiler-rt (source paths) in <code>maxima.wasm</code> only</td>
+<td>inside the files named</td>
+<td>not stated in the files</td>
+<td>musl: MIT (<a href="LICENSES/musl-COPYRIGHT.txt">musl COPYRIGHT</a>); LLVM libraries: Apache-2.0 with LLVM exception (<a href="LICENSES/Apache-2.0.txt">Apache-2.0</a>, <a href="LICENSES/LLVM-exception.txt">LLVM-exception</a>, <a href="LICENSES/LLVM-LICENSE.TXT.txt">LLVM LICENSE.TXT</a>)</td>
+<td><a href="https://github.com/emscripten-core/emscripten/tree/45a6cffdbdf003665c7f48072191ce5a860fd0f4/system/lib"><code>system/lib</code> of Emscripten at <code>45a6cffd</code></a> (the <code>main</code> branch when read); the build’s own toolchain (4.0.10) is archived in the release’s sources</td>
+</tr>
+<tr class="even">
+<td>Port glue scripts</td>
+<td><code>maxima_thread.js</code>, <code>share_files.js</code></td>
+<td>none</td>
+<td>no notice in the files; licence not determined</td>
+<td>generated by the build from the Maxima port’s sources, archived in the <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/releases/download/runtime-v3/maxima-runtime-v3-sources.tar.gz">release’s sources</a></td>
+</tr>
+</tbody>
+</table>
+<section id="runtime-notes" class="level3">
+<h3 class="anchored" data-anchor-id="runtime-notes">Notes on the runtime</h3>
+<section id="maxima" class="level4">
+<h4 class="anchored" data-anchor-id="maxima">Maxima</h4>
+<ul>
+<li>Maxima’s <code>COPYING</code> consists of a preface about the U.S. Department of Energy and the text of the GNU GPL version 2; the whole file is in <a href="LICENSES/Maxima-COPYING.txt"><code>LICENSES/Maxima-COPYING.txt</code></a>. It was read at Maxima’s <code>branch-5_49-base</code> tag (<code>cce856a60952c971e6f3604706335455c9a46fca</code>) in a GitHub mirror of Maxima’s repository, <a href="https://github.com/rtoy/maxima" class="uri">https://github.com/rtoy/maxima</a>. The shipped commit (<code>813903d33</code>, from the version string) is not in that mirror, so it is presumably on the port branch; it could not be inspected here. The version string means 90 commits after the 5.49 branch point of December 2025.</li>
+<li>The <code>COPYING</code> file does not say “or later”. Most Maxima core source files carry only a copyright line and no licence text. Whether a given core file is “GPL-2.0-only” or “GPL-2.0-or-later” is therefore not stated in the files examined. GitLab’s page for <code>COPYING</code> on the port branch (read on 2026-10-22) labels the project “GNU General Public License v2.0 or later”.</li>
+<li><code>maxima.wasm</code> contains the paths of 156 files of the port’s <code>src/</code> and <code>share/utils/</code> trees (for example <code>src/mlisp.lisp</code>). Comparing those with the <code>branch-5_49-base</code> tag, these files carry notices other than the project licence:
+<ul>
+<li><code>intl.lisp</code>: copyright 1999-2010 Paul Foley, an MIT-style permission notice. The notice from the header of that file is reproduced verbatim in <a href="LICENSES/Maxima-intl.lisp-notice.txt"><code>LICENSES/Maxima-intl.lisp-notice.txt</code></a> (no SPDX identifier assigned here).</li>
+<li><code>getopt.lisp</code>: copyright 2003 Kevin M. Rosenberg. The file’s licence is Maxima’s <code>LICENSES/getopt-license.txt</code> (three-clause BSD terms), reproduced unchanged in <a href="LICENSES/Maxima-getopt-license.txt"><code>LICENSES/Maxima-getopt-license.txt</code></a>.</li>
+<li><code>maxmin.lisp</code>, <code>nummod.lisp</code>: Lisp Lesser GNU Public License (LLGPL: Franz’s preamble, <a href="LICENSES/LLGPL.txt"><code>LICENSES/LLGPL.txt</code></a>, plus the GNU Library General Public License version 2 or later, <a href="LICENSES/LGPL-2.0-or-later.txt"><code>LICENSES/LGPL-2.0-or-later.txt</code></a>). The share file <code>mring.lisp</code> has the same notice (see the share table).</li>
+<li><code>rand-mt19937.lisp</code>: derived from public-domain CMUCL code and the Mersenne Twister, noted as placed in the public domain.</li>
+<li><code>numerical/f2cl-lib.lisp</code>: header “Copyright (c) University of Waikato, Hamilton, New Zeland 1992-95 - all rights reserved”; no licence text.</li>
+<li><code>pregexp.lisp</code> (Dorai Sitaram): no licence text in the file.</li>
+<li><code>numerical/slatec.lisp</code>, and the contents of <code>maxima-slatec.fas</code> and <code>maxima-quadpack.fas</code>: Lisp translated by f2cl from the Fortran of the SLATEC library (which includes QUADPACK), obtained from netlib, according to Maxima’s <code>src/numerical/slatec/README</code>. The licence status of the Fortran originals is not stated there and was not determined here.</li>
+</ul></li>
+<li>The nine <code>maxima-*.fas</code> files are compiled Maxima modules. They contain Maxima’s symbol names and no licence text of their own.</li>
+</ul>
+</section>
+<section id="maxima-share-packages" class="level4">
+<h4 class="anchored" data-anchor-id="maxima-share-packages">Maxima share packages</h4>
+<p>The 66 files below <code>maxima-runtime/share/</code> are the Maxima share packages that the runtime preloads. Their notices differ by package. The table gives what each file’s own header says. “GPL-2.0-or-later” means the header says “version 2 of the License, or (at your option) any later version”. The files are served from <code>maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/</code> on this site, so the full notice can be read in each file.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Folder (files)</th>
+<th>Copyright holder named in the header</th>
+<th>Licence statement in the files</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>contrib/</code> (5)</td>
+<td><code>diag.mac</code>: none named. <code>Grobner/grobner.lisp</code>: Marek Rychlik. <code>opsubst.lisp</code>: Barton Willis. <code>simplifying.lisp</code>: Stavros Macrakis. <code>trigtools/trigtools.mac</code>: A. Domarkas</td>
+<td><code>diag.mac</code>: “the GPL, version 2+”. <code>grobner.lisp</code>: GPL-2.0-or-later. <code>opsubst.lisp</code>, <code>trigtools.mac</code>: GNU GPL, version not stated. <code>simplifying.lisp</code>: <a href="LICENSES/LGPL-3.0-or-later.txt">LGPL-3.0</a> as written in the file (“version 3 (LGPLv3)”)</td>
+</tr>
+<tr class="even">
+<td><code>descriptive/</code> (2), <code>distrib/</code> (2), <code>draw/</code> (6), <code>stats/</code> (3)</td>
+<td>Mario Rodriguez Riotorto</td>
+<td>GPL-2.0-or-later in <code>descriptive.mac</code>, <code>distrib.mac</code>, <code>numdistrib.lisp</code>, <code>gnuplot.lisp</code>, <code>grcommon.lisp</code>, <code>picture.lisp</code>, <code>vtk.lisp</code>, and the three <code>stats/</code> files. <code>descriptive_util.lisp</code>, <code>draw.lisp</code>, <code>draw.system</code>: no notice</td>
+</tr>
+<tr class="odd">
+<td><code>fourier_elim/</code> (1)</td>
+<td>Barton Willis</td>
+<td>GNU GPL, version not stated</td>
+</tr>
+<tr class="even">
+<td><code>lbfgs/</code> (9)</td>
+<td><code>maxima-lbfgs.lisp</code>: Robert Dodier</td>
+<td><code>maxima-lbfgs.lisp</code>: “Released under the terms of the GNU General Public License”, version not stated. The other eight files (seven f2cl translations of Fortran code and the small loader <code>lbfgs.mac</code>) carry no copyright or licence notice; their licence is not determined here</td>
+</tr>
+<tr class="odd">
+<td><code>linearalgebra/</code> (9)</td>
+<td>Barton Willis</td>
+<td>GNU GPL, version not stated, in all files with a notice except <code>mring.lisp</code> (LLGPL). <code>load-linearalgebra-lisp-files.lisp</code>: no notice</td>
+</tr>
+<tr class="even">
+<td><code>lisp-utils/</code> (1)</td>
+<td><code>defsystem.lisp</code>: Mark Kantrowitz and Marco Antoniotti</td>
+<td>MK-DEFSYSTEM permission notice at the top of the file (conditions: keep the notice intact; mark modified versions as unofficial); no SPDX identifier assigned here</td>
+</tr>
+<tr class="odd">
+<td><code>macro/</code> (2), <code>matrix/</code> (1), <code>trigonometry/</code> (5)</td>
+<td>none named</td>
+<td>no notice in the files</td>
+</tr>
+<tr class="even">
+<td><code>simplification/</code> (4)</td>
+<td><code>genut.mac</code>: Wolfgang Jenkner</td>
+<td><code>genut.mac</code>: GPL-2.0-or-later. <code>facexp.mac</code>, <code>functs.mac</code>, <code>lrats.mac</code>: no notice</td>
+</tr>
+<tr class="odd">
+<td><code>stringproc/</code> (11)</td>
+<td>Volker van Nek (<code>base64</code>, <code>cryptools</code>, <code>md5</code>, <code>sha1</code>, <code>sregex</code>, <code>printf</code>, <code>stringproc</code>); Robert Dodier (<code>eval_string</code>, <code>unicode-sniffer</code>)</td>
+<td>GPL-2.0-or-later in <code>base64.lisp</code>, <code>cryptools.lisp</code>, <code>eval_string.lisp</code>, <code>md5.lisp</code>, <code>sha1.lisp</code>, <code>sregex.lisp</code>. “GPL2” in <code>printf.lisp</code> and <code>stringproc.lisp</code>. “GNU General Public License, version 2” in <code>unicode-sniffer.lisp</code>. <code>sregex.mac</code>, <code>stringproc.mac</code>: no notice</td>
+</tr>
+<tr class="even">
+<td><code>to_poly_solve/</code> (3)</td>
+<td>Barton Willis</td>
+<td>GPL-2.0-or-later in <code>to_poly.lisp</code> and <code>to_poly_solve_extra.lisp</code>; “GNU General Public License version two” in <code>to_poly_solve.mac</code></td>
+</tr>
+<tr class="odd">
+<td><code>info/</code> (2, below <code>share/info/</code>)</td>
+<td>none named</td>
+<td><code>maxima-index.lisp</code> and <code>maxima-index-html.lisp</code> are generated documentation indexes with no notice</td>
+</tr>
+</tbody>
+</table>
+<p>The GPL texts used above: <a href="LICENSES/GPL-2.0-or-later.txt">GPL-2.0 text</a> (also available as <a href="LICENSES/GPL-2.0-only.txt">GPL-2.0-only</a>; it is the same text). The LLGPL files (<code>mring.lisp</code> here, <code>maxmin.lisp</code> and <code>nummod.lisp</code> above) are covered by <a href="LICENSES/LLGPL.txt"><code>LICENSES/LLGPL.txt</code></a> and <a href="LICENSES/LGPL-2.0-or-later.txt"><code>LICENSES/LGPL-2.0-or-later.txt</code></a>.</p>
+</section>
+<section id="ecl" class="level4">
+<h4 class="anchored" data-anchor-id="ecl">ECL, GMP and the garbage collector</h4>
+<ul>
+<li><code>libecl.so</code> contains the strings <code>26.3.27</code> and the source id shown in the table, and the banner “Copyright (C) 1984 Taiichi Yuasa and Masami Hagiya, 1993 Giuseppe Attardi, 2013 Juan J. Garcia-Ripoll, 2018 Daniel Kochmanski, 2024 Daniel Kochmanski and Marius Gerbershagen … ECL is free software, and you are welcome to redistribute it under certain conditions”. The licence itself is in the ECL source tree: <code>LICENSE</code> at tag 26.3.27 says LGPL version 2.1 or later (<a href="LICENSES/ECL-LICENSE.txt">ECL’s LICENSE</a>). The source id in the binary was not found in the GitHub mirror (it may be a commit of the port’s author), so the tag was used.</li>
+<li>ECL’s <code>LICENSE</code> excludes from the LGPL the files <code>src/lsp/loop.lsp</code>, <code>src/lsp/pprint.lsp</code> and <code>src/lsp/format.lsp</code>, and the directories <code>contrib/</code> and <code>examples/</code>. Parts of the following are present in <code>libecl.so</code>:
+<ul>
+<li>LOOP (<code>src/lsp/loop.lsp</code>, “Symbolic’s LOOP macro”): the file’s strings and internal names (for example <code>LOOP-ACROSS-LIST</code>, <code>LOOP-EMIT-FINAL-VALUE</code>, <code>loop-minimax</code>) are in the binary. The file carries permission notices of the Massachusetts Institute of Technology (1986) and Symbolics, Inc.&nbsp;(1989-1992) that ask for the notice to appear in copies and in supporting documentation. The notice is reproduced verbatim from ECL 26.3.27 in <a href="LICENSES/ECL-loop.lsp-notice.txt"><code>LICENSES/ECL-loop.lsp-notice.txt</code></a>.</li>
+<li>Pretty printer and FORMAT (<code>pprint.lsp</code>, <code>format.lsp</code>): names such as <code>pretty-stream</code>, <code>pprint-logical-block</code> and <code>format-directive</code> are in the binary. The files say they are from CMU Common Lisp and “placed in the public domain”.</li>
+<li><code>contrib/ecl-cdb/</code> (copyright 2011 Juan Jose Garcia-Ripoll): <code>libecl.so</code> contains its <code>ecl-cdb::*</code> functions and the file names <code>ECL-CDB.LISP</code> and <code>ECL-HELP.LISP</code>. The files’ header says “GNU Library General Public License … version 2 of the License, or (at your option) any later version” (<a href="LICENSES/LGPL-2.0-or-later.txt"><code>LICENSES/LGPL-2.0-or-later.txt</code></a>).</li>
+<li>Other <code>contrib/</code> directories of ECL 26.3.27 (for example <code>asdf</code>, <code>sockets</code> and <code>deflate</code>): no names from them were found in <code>libecl.so</code>.</li>
+</ul></li>
+<li>GMP: <code>libecl.so</code> exports GMP’s <code>__gmpz_*</code> and <code>__gmpn_*</code> functions, including internals that only exist in the GMP 4 series (for example <code>__gmpn_kara_mul_n</code>), and contains the string <code>4.2.1</code>. ECL 26.3.27 bundles GMP 4.2.1 in <code>src/gmp</code> (<code>PACKAGE_STRING='GNU MP 4.2.1'</code>), whose files state the GNU LGPL “version 2.1 of the License, or (at your option) any later version”. Copyright: Free Software Foundation, Inc.</li>
+<li>Garbage collector: <code>libecl.so</code> contains Boehm-GC banners (“Copyright 1988, 1989 Hans-J. Boehm and Alan J. Demers”, “Copyright (c) 2008-2021 Ivan Maidanski”, and others) and exports <code>GC_*</code> functions. ECL 26.3.27 bundles version 8.2.8 in <code>src/bdwgc</code>. The README and <code>include/gc.h</code> of bdwgc v8.2.8 give the “THIS MATERIAL IS PROVIDED AS IS … Permission is hereby granted to use or copy this program for any purpose, provided the above notices are retained on all copies …” terms, which are the text of SPDX <code>Boehm-GC</code>. The copyright lines in <code>gc.h</code> are: Hans-J. Boehm and Alan J. Demers (1988, 1989); Xerox Corporation (1991-1995); Silicon Graphics (1996-1999); Hewlett-Packard (1999, 2000-2011); Free Software Foundation (2007); Ivan Maidanski (2009-2020).</li>
+<li>libffi is bundled in ECL’s source tree, but no libffi symbols are exported or imported by <code>libecl.so</code> or <code>maxima.wasm</code>, so it is not listed as shipped.</li>
+<li><code>libecl.so</code> also holds character tables generated from the Unicode Character Database files <code>UnicodeData.txt</code> and <code>Jamo.txt</code> (per ECL’s <code>contrib/unicode</code> scripts). ECL’s tree states no licence for these tables, and the terms of the Unicode data files were not examined here: not determined.</li>
+</ul>
+</section>
+<section id="gnuplot" class="level4">
+<h4 class="anchored" data-anchor-id="gnuplot">gnuplot</h4>
+<ul>
+<li>Not served since the switch to <code>runtime-v2</code>: that release and later ones are built without plotting (<code>libgnuplot.so</code> and <code>maxima-plot.fas</code> are omitted). The licence text <a href="LICENSES/gnuplot.txt"><code>LICENSES/gnuplot.txt</code></a> stays for older preview copies, which still serve the earlier deployed build; the <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima/blob/64d02c43d839ac6e8f9fb686b7c618f8a292901f/site/licenses.qmd#gnuplot">previous version of this page</a> has the notes on that build.</li>
+</ul>
+</section>
+<section id="emscripten" class="level4">
+<h4 class="anchored" data-anchor-id="emscripten">Emscripten</h4>
+<ul>
+<li><code>maxima.js</code> is Emscripten’s generated JavaScript glue. It has no licence header. Emscripten’s <code>LICENSE</code> offers MIT or the University of Illinois/NCSA licence; it was read at the <code>main</code> branch (<code>45a6cffdbdf003665c7f48072191ce5a860fd0f4</code>). The release’s source manifest records the toolchain actually used (Emscripten and emsdk 4.0.10); its <code>LICENSE</code> is in the release’s sources. <code>maxima.wasm</code> contains paths such as <code>/emsdk/emscripten/system/lib/libcxxabi/src/</code>, <code>/emsdk/emscripten/system/lib/compiler-rt/lib/builtins/</code> and <code>/emsdk/emscripten/system/lib/html5/</code> (observed in the earlier deployed build).</li>
+<li><code>musl</code> is “licensed under the following standard MIT license”; its <code>COPYRIGHT</code> file also lists parts under other terms (for example the DES <code>crypt</code> code, which is under a BSD licence). The Emscripten tree’s LLVM libraries say “Apache License v2.0 with LLVM Exceptions”; the libc++ file also describes a dual MIT and University of Illinois licence for older parts. Which of these parts are in the shipped binaries was not examined.</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="stack" class="level2">
+<h2 class="anchored" data-anchor-id="stack">STACK</h2>
+<p>STACK is developed at <a href="https://github.com/maths/moodle-qtype_stack" class="uri">https://github.com/maths/moodle-qtype_stack</a>. This site uses it at commit <a href="https://github.com/maths/moodle-qtype_stack/tree/33383047af39c204bf4442802a058f8b918b2b1b"><code>33383047af39c204bf4442802a058f8b918b2b1b</code></a> (16 October 2026). The earlier milestone-one material, the sample question exports described below, comes from commit <a href="https://github.com/maths/moodle-qtype_stack/tree/10d323311b7f39fb7b092dd10ce75f7d8632f525"><code>10d323311b7f39fb7b092dd10ce75f7d8632f525</code></a>.</p>
+<p>STACK’s own statement, at that commit: its <a href="https://github.com/maths/moodle-qtype_stack/blob/33383047af39c204bf4442802a058f8b918b2b1b/doc/en/About/License.md"><code>doc/en/About/License.md</code></a> says the source code is “Licensed under the GNU General Public, License Version 3” and links to <code>COPYING.txt</code>, which is only the text of the GNU GPL version 3 (the standard text, which has no “or later” grant of its own; <a href="LICENSES/GPL-3.0-or-later.txt">GPL-3.0 text</a>). Neither file grants STACK under “or any later version” (the phrase occurs in the GPL text itself only in its section 14 and appendix). The grant appears only in the headers of individual files: for example the PHP language file <code>lang/en/qtype_stack.php</code>, <code>corsscripts/stackmplite.js</code> (“either version 3 of the License, or (at your option) any later version”) and <code>corsscripts/stackjsxgraph.js</code> (“GNU GPL v3 or later”). So the project licence is recorded here as GPL version 3, and “or later” only where a file’s header says so. The sample questions are under Creative Commons Attribution-ShareAlike 4.0, except the HELM materials, which are under Creative Commons Attribution-NonCommercial 4.0.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Files on this site</th>
+<th>Version</th>
+<th>Licence</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>STACK Maxima libraries</td>
+<td>the 77 files embedded in <a href="stack-sources.json"><code>stack-sources.json</code></a> (<code>stack/maxima/*.mac</code>, <code>*.lisp</code>, <code>contrib/</code>), which the runtime loads</td>
+<td><code>33383047af39c204bf4442802a058f8b918b2b1b</code></td>
+<td>GPL version 3 per STACK’s <code>COPYING.txt</code> and <code>License.md</code> (<a href="LICENSES/GPL-3.0-or-later.txt">GPL-3.0 text</a>); the file headers differ, see <a href="#stack-notes">notes</a></td>
+<td><a href="https://github.com/maths/moodle-qtype_stack/tree/33383047af39c204bf4442802a058f8b918b2b1b/stack/maxima"><code>stack/maxima</code></a></td>
+</tr>
+<tr class="even">
+<td>STACK-MP-lite parser</td>
+<td><code>native/stack-parser.js</code> (the file <code>corsscripts/stackmplite.js</code>, wrapped; see <code>native/input-provenance.json</code>)</td>
+<td>same</td>
+<td>GPL-3.0-or-later from its header (“either version 3 of the License, or (at your option) any later version”; copyright 2025 Matti Harjula, Aalto University; <a href="LICENSES/GPL-3.0-or-later.txt">GPL-3.0 text</a>)</td>
+<td><a href="https://github.com/maths/moodle-qtype_stack/blob/33383047af39c204bf4442802a058f8b918b2b1b/corsscripts/stackmplite.js"><code>corsscripts/stackmplite.js</code></a></td>
+</tr>
+<tr class="odd">
+<td>STACK JSXGraph bindings</td>
+<td>shared content-addressed module under <code>native/boards/assets/</code>, byte-identical to the upstream file (inlined in legacy previews)</td>
+<td>same</td>
+<td>GPL-3.0-or-later from its <code>@license</code> line (“GNU GPL v3 or later”; copyright 2023 Aalto University; <a href="LICENSES/GPL-3.0-or-later.txt">GPL-3.0 text</a>)</td>
+<td><a href="https://github.com/maths/moodle-qtype_stack/blob/33383047af39c204bf4442802a058f8b918b2b1b/corsscripts/stackjsxgraph.js"><code>corsscripts/stackjsxgraph.js</code></a></td>
+</tr>
+<tr class="even">
+<td>STACK data extracted for input handling and feedback</td>
+<td><code>native/input-rules.json</code>, <code>native/feedback-messages.json</code> (sources and hashes in <code>native/input-provenance.json</code> and <code>native/feedback-provenance.json</code>)</td>
+<td>same</td>
+<td>derived from STACK files; GPL version 3 under STACK’s <code>COPYING.txt</code> (the English language file <code>lang/en/qtype_stack.php</code>, the source of the messages, has a GPL “version 3 … or (at your option) any later version” header)</td>
+<td><a href="https://github.com/maths/moodle-qtype_stack/blob/33383047af39c204bf4442802a058f8b918b2b1b/lang/en/qtype_stack.php"><code>lang/en/qtype_stack.php</code></a></td>
+</tr>
+<tr class="odd">
+<td>STACK sample questions</td>
+<td><code>maxima/questions/corpus/</code> (35 unchanged exports, with <a href="maxima/questions/corpus/COPYING.txt">COPYING.txt</a>), <code>maxima/questions/corrected/</code> (four corrected derivatives), <code>maxima/questions/upstream/algmap-6-1.xml</code></td>
+<td><code>10d323311b7f39fb7b092dd10ce75f7d8632f525</code></td>
+<td><a href="LICENSES/CC-BY-SA-4.0.txt">CC-BY-SA-4.0</a>; each export names its authors</td>
+<td><a href="https://github.com/maths/moodle-qtype_stack/tree/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary"><code>samplequestions/stacklibrary</code></a>; per-file paths in <code>maxima/questions/corpus/manifest.json</code></td>
+</tr>
+<tr class="even">
+<td>STACK HELM questions</td>
+<td><code>maxima/questions/upstream/bodmas.xml</code>, <code>maxima/questions/upstream/rounding-three-dp.xml</code> (test data, unchanged)</td>
+<td><code>10d323311b7f39fb7b092dd10ce75f7d8632f525</code></td>
+<td><a href="LICENSES/CC-BY-NC-4.0.txt">CC-BY-NC-4.0</a> (NonCommercial)</td>
+<td><code>maxima/questions/upstream/sources.json</code></td>
+</tr>
+<tr class="odd">
+<td>STACK documentation examples for JSXGraph</td>
+<td><code>maxima/native-questions/native-binding.xml</code>, <code>native-json.xml</code> and the question data in <code>native/questions.json</code> and <code>native/build-manifest.json</code> that comes from them</td>
+<td><code>33383047af39c204bf4442802a058f8b918b2b1b</code></td>
+<td>the files’ own metadata says <code>cc-sa-4.0</code>; STACK’s documentation says CC-BY-SA-4.0 for sample questions: <a href="LICENSES/CC-BY-SA-4.0.txt">CC-BY-SA-4.0</a></td>
+<td><a href="https://github.com/maths/moodle-qtype_stack/tree/33383047af39c204bf4442802a058f8b918b2b1b/samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs"><code>Specialist-Tools-Docs/JSXgraphs</code></a></td>
+</tr>
+</tbody>
+</table>
+<section id="stack-notes" class="level4">
+<h4 class="anchored" data-anchor-id="stack-notes">Notes on STACK</h4>
+<ul>
+<li>The 77 embedded Maxima files: 38 headers say “GNU General Public License version two”, 3 carry other notices, and 36 have no header. This differs from STACK’s <code>COPYING.txt</code> and <code>License.md</code>, which say version 3. This page reproduces both texts (<a href="LICENSES/GPL-2.0-only.txt">GPL-2.0 text</a>, <a href="LICENSES/GPL-3.0-or-later.txt">GPL-3.0 text</a>) and does not decide between them.</li>
+<li>The three files with other notices: <code>stack_logic.lisp</code> (copyright 2008-2009 Alexey Beshenov, <a href="LICENSES/LGPL-2.1-or-later.txt">LGPL-2.1-or-later</a>, as written in the file), <code>to_poly_solve_extra_5.38.1.lisp</code> (copyright 2008 Barton Willis, GPL version 2 or later), <code>fboundp.mac</code> (copyright 2020 Robert Dodier, “GNU General Public License”, version not stated).</li>
+<li><code>stacktex.lisp</code> says it uses code by Richard J. Fateman, copyright 1987, from Maxima’s <code>mactex-utilities.lisp</code>, and gives no licence; <code>trigrat.lisp</code> has no header. Their licence is not determined here.</li>
+<li>STACK’s <code>thirdpartylibs.xml</code> lists libraries bundled in STACK itself. None of those directories is shipped on this site.</li>
+</ul>
+</section>
+</section>
+<section id="jsxgraph" class="level2">
+<h2 class="anchored" data-anchor-id="jsxgraph">JSXGraph</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Where on this site</th>
+<th>Version</th>
+<th>Licence</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>JSXGraph</td>
+<td>shared content-addressed script under <code>native/boards/assets/</code>, extracted from the pinned renderer (inlined in legacy previews)</td>
+<td>1.14.1</td>
+<td><a href="LICENSES/LGPL-3.0-or-later.txt">LGPL-3.0-or-later</a> or <a href="LICENSES/MIT.txt">MIT</a> (<a href="LICENSES/JSXGraph-LICENSE.MIT.txt">JSXGraph’s LICENSE.MIT</a>), at the user’s choice</td>
+<td><a href="https://github.com/jsxgraph/jsxgraph/tree/v1.14.1">jsxgraph v1.14.1</a> (<code>51c9777855dcce87a89a31587c8797fb60893ab0</code>)</td>
+</tr>
+<tr class="even">
+<td>jsxgraph-quarto (the assessment-bridge and graph-editor scripts that its Quarto filter writes into the pages)</td>
+<td>inlined into the reusable board templates (and legacy preview pages)</td>
+<td><code>ba2daa52fa6b1c65b37322bca3f02643e31a688e</code></td>
+<td><a href="LICENSES/MIT.txt">MIT</a>, copyright 2026 JSXGraph group, Center for Mobile Learning with Digital Technology, University of Bayreuth (<a href="LICENSES/jsxgraph-quarto-LICENSE.txt">its LICENSE</a>)</td>
+<td><a href="https://github.com/jsxgraph/jsxgraph-quarto/tree/ba2daa52fa6b1c65b37322bca3f02643e31a688e">jsxgraph-quarto</a></td>
+</tr>
+</tbody>
+</table>
+<p>Each board template links the same shared stylesheet under <code>native/boards/assets/</code> (SHA-256 <code>58ff5704eb9bb8db66e8b002d01c44a6ddfe0ced7f887ab2ef602feff2f3c0f6</code>). It is identical to <code>distrib/jsxgraph.css</code> of JSXGraph v1.14.1 and starts with the same header as the script (JSXGraph 1.14.1, dual licence LGPL-3.0-or-later or MIT), so the JSXGraph row covers it too.</p>
+<p>The shared JSXGraph file (SHA-256 <code>b6ebd07421e560431b888efeb472cfb7f2cfc495a853200963f97d2c28e6e474</code>) starts with JSXGraph’s own copyright and licence header, which offers the two licences above, and it includes a UTF-8 decoder by Bjoern Hoehrmann (MIT permission notice, reproduced in that header). Copyright 2008-2026 Matthias Ehmann, Michael Gerhaeuser, Carsten Miller, Bianca Valentin, Andreas Walter, Alfred Wassermann and Peter Wilfahrt.</p>
+</section>
+<section id="mathjax-and-native-board-fonts" class="level2">
+<h2 class="anchored" data-anchor-id="mathjax-and-native-board-fonts">MathJax and native board fonts</h2>
+<p>The reusable native board documents link shared JSXGraph JavaScript/CSS and STACK binding modules under <code>native/boards/assets/</code>. These resources are extracted byte for byte from the pinned renderer; original licence headers remain intact. The table above also describes legacy preview copies, where those same files remain inlined.</p>
+<p>Native board MathJax and its original speech worker, mathmaps and dynamic font ranges are served locally. The build reuses canonical CTM archive integrity and font-member/licence checks. It does not patch vendor code or disable speech or braille. The <a href="native/boards/mathjax/manifest.json">bundle manifest</a> and <a href="native/boards/mathjax/THIRD-PARTY-NOTICES.md">notices</a> list the shipped files.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Local files</th>
+<th>Version</th>
+<th>Licence and source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Parent-page MathJax</td>
+<td><code>native/boards/mathjax/npm/mathjax@3.2.2/</code></td>
+<td>3.2.2</td>
+<td>Apache-2.0; original notices in the <a href="native/boards/mathjax/THIRD-PARTY-NOTICES.md">canonical inventory</a>; <a href="https://www.npmjs.com/package/mathjax/v/3.2.2">official package</a></td>
+</tr>
+<tr class="even">
+<td>Source Sans Pro, weights 300/400/700</td>
+<td><code>native/boards/mathjax/npm/@fontsource/source-sans-pro@5.3.0/</code></td>
+<td>5.3.0</td>
+<td>OFL-1.1; original notices in the <a href="native/boards/mathjax/THIRD-PARTY-NOTICES.md">canonical inventory</a>; <a href="https://www.npmjs.com/package/@fontsource/source-sans-pro/v/5.3.0">official package</a></td>
+</tr>
+<tr class="odd">
+<td>MathJax, including its shipped accessibility/SRE runtime</td>
+<td><code>native/boards/mathjax/npm/mathjax@4.1.3/</code></td>
+<td>4.1.3</td>
+<td>Apache-2.0; original <a href="native/boards/mathjax/npm/mathjax@4.1.3/LICENSE">LICENSE</a>, <a href="https://www.npmjs.com/package/mathjax/v/4.1.3">official package</a></td>
+</tr>
+<tr class="even">
+<td>New Computer Modern MathJax fonts</td>
+<td><code>native/boards/mathjax/npm/@mathjax/mathjax-newcm-font@4.1.3/</code></td>
+<td>4.1.3</td>
+<td>Apache-2.0 AND GUST-Font-License per the canonical lock; bundled <a href="native/boards/mathjax/LICENSES/boards/mathjax-newcm-font/apache.txt">Apache</a>, <a href="native/boards/mathjax/LICENSES/boards/mathjax-newcm-font/gust.txt">GUST</a>, <a href="native/boards/mathjax/LICENSES/boards/mathjax-newcm-font/lppl.txt">LPPL context</a> and <a href="native/boards/mathjax/LICENSES/boards/mathjax-newcm-font/COPYRIGHT.txt">copyright/member notice</a>; <a href="https://www.npmjs.com/package/@mathjax/mathjax-newcm-font/v/4.1.3">official package</a></td>
+</tr>
+<tr class="odd">
+<td>CTM opaque-worker pre-loader</td>
+<td>content-addressed script under <code>native/boards/assets/</code></td>
+<td>ctm-libs <code>2cdd3b47bb4722f65f168a0baf4dbd6a18bff384</code></td>
+<td>AGPL-3.0-or-later; <a href="native/boards/assets/CTM-LICENSE.txt">copied licence</a>, <a href="https://github.com/Erasmus-CTM/ctm-libs/blob/2cdd3b47bb4722f65f168a0baf4dbd6a18bff384/_extensions/ctm-libs/runtime/mathjax-opaque-adaptor.js">canonical source</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="page-libraries-from-quarto" class="level2">
+<h2 class="anchored" data-anchor-id="page-libraries-from-quarto">Page libraries from Quarto</h2>
+<p>The pages are rendered with Quarto 1.8.27, which copies these libraries into <code>site_libs/</code> of the site. Quarto itself is under the <a href="https://github.com/quarto-dev/quarto-cli/blob/v1.8.27/COPYING.md">MIT licence</a> (copyright Posit Software, PBC). Its own scripts <code>quarto.js</code>, <code>quarto-nav.js</code>, <code>quarto-search.js</code>, <code>tabsets.js</code>, <code>axe-check.js</code> and <code>mermaid-init.js</code> are part of that repository. Versions come from the banners inside the files and from the dependency list in Quarto’s <code>configuration</code> at tag <a href="https://github.com/quarto-dev/quarto-cli/tree/v1.8.27">v1.8.27</a> (<code>3977c9d40b46fa7ab5fc4ba38315034c3c69b8e4</code>). Banners are kept in the shipped files. The MIT text is <a href="LICENSES/MIT.txt">here</a>.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Library</th>
+<th>Version</th>
+<th>Licence</th>
+<th>Evidence</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bootstrap (CSS and JavaScript)</td>
+<td>5.3.1</td>
+<td>MIT</td>
+<td>banner in the files</td>
+<td><a href="https://github.com/twbs/bootstrap/tree/v5.3.1">v5.3.1</a></td>
+</tr>
+<tr class="even">
+<td>Bootswatch “cosmo” theme (built into the Bootstrap CSS)</td>
+<td>5.3.1</td>
+<td>MIT</td>
+<td>upstream LICENSE; no banner in the CSS</td>
+<td><a href="https://github.com/thomaspark/bootswatch/tree/v5.3.1">v5.3.1</a></td>
+</tr>
+<tr class="odd">
+<td>Bootstrap Icons (CSS and font)</td>
+<td>1.13.1</td>
+<td>MIT (banner in the CSS; font file has no banner)</td>
+<td>banner</td>
+<td><a href="https://github.com/twbs/icons/tree/v1.13.1">v1.13.1</a></td>
+</tr>
+<tr class="even">
+<td>clipboard.js</td>
+<td>2.0.11</td>
+<td>MIT</td>
+<td>banner</td>
+<td><a href="https://github.com/zenorocha/clipboard.js/tree/v2.0.11">v2.0.11</a></td>
+</tr>
+<tr class="odd">
+<td>Popper</td>
+<td>2.11.7</td>
+<td>MIT</td>
+<td>banner</td>
+<td><a href="https://github.com/popperjs/popper-core/tree/v2.11.7">v2.11.7</a></td>
+</tr>
+<tr class="even">
+<td>tippy.js</td>
+<td>6.3.7 (from Quarto’s dependency list)</td>
+<td>MIT</td>
+<td>upstream LICENSE; no banner in the file</td>
+<td><a href="https://github.com/atomiks/tippyjs/tree/v6.3.7">v6.3.7</a></td>
+</tr>
+<tr class="odd">
+<td>AnchorJS</td>
+<td>5.0.0</td>
+<td>MIT</td>
+<td>banner</td>
+<td><a href="https://github.com/bryanbraun/anchorjs/tree/5.0.0">5.0.0</a></td>
+</tr>
+<tr class="even">
+<td>headroom.js</td>
+<td>0.12.0</td>
+<td>MIT</td>
+<td>banner</td>
+<td><a href="https://github.com/WickyNilliams/headroom.js/tree/v0.12.0">v0.12.0</a></td>
+</tr>
+<tr class="odd">
+<td><code>@algolia/autocomplete-js</code></td>
+<td>1.19.1</td>
+<td>MIT</td>
+<td>banner</td>
+<td><a href="https://github.com/algolia/autocomplete/tree/v1.19.1">v1.19.1</a></td>
+</tr>
+<tr class="even">
+<td>Fuse.js</td>
+<td>6.6.2</td>
+<td>Apache-2.0</td>
+<td>banner (<a href="LICENSES/Apache-2.0.txt">text</a>)</td>
+<td><a href="https://github.com/krisk/Fuse/tree/v6.6.2">v6.6.2</a></td>
+</tr>
+<tr class="odd">
+<td>Mermaid (bundle with its dependencies, <code>mermaid.min.js</code>, used by the data-flow page)</td>
+<td>11.6.0</td>
+<td>MIT for Mermaid. The bundle also contains other libraries under their own licences: DOMPurify 3.2.4 (Apache-2.0 and MPL-2.0 per its banner; <a href="LICENSES/MPL-2.0.txt">MPL-2.0 text</a>, <a href="LICENSES/Apache-2.0.txt">Apache-2.0 text</a>), KaTeX 0.16.11 (version string in the bundle), and, by the dependency list of Mermaid 11.6.0 and names found in the bundle, d3 modules, cytoscape (with cose-bilkent), dagre-d3-es, lodash-es, dayjs, marked, roughjs, stylis, uuid, khroma, ts-dedent, and the chevrotain and langium parsing libraries. Their licences are those the packages declare (to be expected: MIT for most, ISC for d3 modules, Apache-2.0 for chevrotain); they were not checked one by one and their texts are not reproduced here</td>
+<td>upstream LICENSE, banners in the file, and <code>packages/mermaid/package.json</code> at the tag</td>
+<td><a href="https://github.com/mermaid-js/mermaid/tree/mermaid%4011.6.0">tag <code>mermaid@11.6.0</code></a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="code-and-content-by-the-ctm-project" class="level2">
+<h2 class="anchored" data-anchor-id="code-and-content-by-the-ctm-project">Code and content by the CTM project</h2>
+<p>These are not third-party, but they are AGPL-3.0-or-later and are listed so the text is available: the adapter, engine and measurement code of this repository (<code>backend/</code>, <code>native/</code> except the STACK files above, <code>runtime/</code>, <code>jsxgraph/</code>, the isolation scripts), and the CTM Assessment components in <code>site_libs/quarto-contrib/</code> (ai-feedback 0.9.0, ctm-checkers 0.6.0, ctm-checkers-stack 0.6.0, ctm-runtime 0.9.0, stack-sympy 0.3.0, and the STACK JSXGraph host <code>host.js</code>). Their headers say AGPL-3.0-or-later (<a href="LICENSES/AGPL-3.0-or-later.txt">text</a>); some files have no header. Sources: <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima" class="uri">https://github.com/Erasmus-CTM/stack-wasm-maxima</a>, <a href="https://github.com/Erasmus-CTM/stack-sympy" class="uri">https://github.com/Erasmus-CTM/stack-sympy</a> (<code>1b1d50f69fc1e7eb39846b497657d72be325f597</code>), <a href="https://github.com/Erasmus-CTM/ctm-checkers" class="uri">https://github.com/Erasmus-CTM/ctm-checkers</a> (<code>c366f175aba6b62caa628bc60f57bb1167fc087b</code>) and <a href="https://github.com/Erasmus-CTM/ctm-libs" class="uri">https://github.com/Erasmus-CTM/ctm-libs</a> (<code>94687f718fd651fc2857bc5242a64e45c8fd4697</code>). The header of <code>ctm-checkers-stack.js</code> states that the Python wheel inside it also holds STACK data under GPL-3.0-or-later, so that wheel is AGPL-3.0-or-later and GPL-3.0-or-later together.</p>
+<p>The example questions served under <code>maxima/questions/</code> have a README (<code>maxima/questions/README.md</code> on this site) that gives a licence per path: the CTM team’s example question XML files are CC-BY-SA-4.0, the example checker files and some converted files AGPL-3.0-or-later. That README covers <code>maxima/questions/</code> only. In <code>maxima/native-questions/</code> the files <code>native-checkers.py</code>, <code>native-collections.xml</code>, <code>native-numerical.xml</code> and <code>native-rational.xml</code> carry a “CC BY-SA 4.0” comment, and <code>native-binding.xml</code> and <code>native-json.xml</code> carry STACK metadata <code>cc-sa-4.0</code>. Four files carry no licence notice and are covered by no README: <code>native-matrix.xml</code>, <code>native-matrix-python.xml</code>, <code>native-mixed-board.xml</code> and <code>native-python-board.xml</code>. Their licence is not stated in the files.</p>
+</section>
+<section id="loaded-from-elsewhere-not-redistributed-here" class="level2">
+<h2 class="anchored" data-anchor-id="loaded-from-elsewhere-not-redistributed-here">Loaded from elsewhere, not redistributed here</h2>
+<p>These are fetched by the visitor’s browser from other servers when a page runs. They are not copied to this site, and their licences are not reproduced here.</p>
+<ul>
+<li>Pyodide 0.28.3 and the Python packages it loads, from <code>https://cdn.jsdelivr.net/pyodide/v0.28.3/full/</code> (used by the CTM Python runtime). Project: <a href="https://pyodide.org/" class="uri">https://pyodide.org/</a>.</li>
+<li>KaTeX 0.16 from <code>cdn.jsdelivr.net/npm/katex@0.16/</code>, referenced by the ai-feedback script.</li>
+<li>axe-core, requested from <code>cdn.skypack.dev</code> only if Quarto’s accessibility check is switched on, and Algolia search-insights, referenced by the search script.</li>
+</ul>
+</section>
+<section id="what-could-not-be-determined" class="level2">
+<h2 class="anchored" data-anchor-id="what-could-not-be-determined">What could not be determined</h2>
+<ul>
+<li>The exact Maxima commit <code>813903d33</code> and ECL commit <code>e4bdb2e5</code> are now archived in the release’s sources, but the per-file licence evidence on this page was read at the nearest upstream tag (Maxima) and tag 26.3.27 (ECL) and has not yet been re-checked against those archives.</li>
+<li>Which musl, LLVM and Emscripten files of the 4.0.10 toolchain are in the binaries.</li>
+<li>The licence of the files without a notice (see the tables), of the Unicode tables in ECL, of the SLATEC and QUADPACK originals, and of <code>maxima_thread.js</code> and <code>share_files.js</code>.</li>
+<li>Whether each Maxima core file is GPL version 2 only or “or later”.</li>
+<li>The difference between the GPL version in many STACK file headers (2) and in STACK’s <code>COPYING.txt</code> (3), and whether STACK as a whole is “version 3” or “version 3 or later”: only some file headers say “or later”.</li>
+<li>The licence of the four <code>maxima/native-questions/</code> files without a notice (named above).</li>
+</ul>
+<p>Corrections are welcome as issues or pull requests at <a href="https://github.com/Erasmus-CTM/stack-wasm-maxima" class="uri">https://github.com/Erasmus-CTM/stack-wasm-maxima</a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

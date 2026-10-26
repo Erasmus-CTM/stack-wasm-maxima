@@ -1,0 +1,715 @@
+{
+  "schema": 1,
+  "runtimeAssetCount": 79,
+  "runtimeFileBytes": 43839198,
+  "stackFileCount": 77,
+  "stackSourceBytes": 898867,
+  "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+  "ctmCheckersRevision": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+  "assets": [
+    {
+      "path": "libecl.so",
+      "sourceURL": null,
+      "fileBytes": 5123084,
+      "sha256": "f34977d1b0e136c3398940626f8959ed2df12ae414013433b4740766c013e44f",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/libecl.so"
+    },
+    {
+      "path": "maxima-integration.fas",
+      "sourceURL": null,
+      "fileBytes": 2000690,
+      "sha256": "f6c93b87f167d61cd419620dd7ef618e11ba93b351ada815cee4048aee81ad82",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-integration.fas"
+    },
+    {
+      "path": "maxima-limits.fas",
+      "sourceURL": null,
+      "fileBytes": 869991,
+      "sha256": "b0d3e2d585c6fe19e4b53969aa0f0525ad547f0f1b767d241102403231669d79",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-limits.fas"
+    },
+    {
+      "path": "maxima-matrix-algebra.fas",
+      "sourceURL": null,
+      "fileBytes": 581326,
+      "sha256": "3d379089bfbdbfffbbb0509dda5b0843e9ea857765cddd5c0c2d99b8287fbf4b",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-matrix-algebra.fas"
+    },
+    {
+      "path": "maxima-number-theory.fas",
+      "sourceURL": null,
+      "fileBytes": 1318671,
+      "sha256": "0b3c4a26c1a6e5a3c7119a1acc5334f8d4dbbed875ebf42d710635f7500ede23",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-number-theory.fas"
+    },
+    {
+      "path": "maxima-poisson-series.fas",
+      "sourceURL": null,
+      "fileBytes": 189615,
+      "sha256": "d8b01981336169baa6d2c5bcbac6801fe50992239f9b1a4a5ddc12ab339162e9",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-poisson-series.fas"
+    },
+    {
+      "path": "maxima-quadpack.fas",
+      "sourceURL": null,
+      "fileBytes": 3395044,
+      "sha256": "5da888e338cb040051afeaf67b2f56144632a9d9e1242a501e56e16deb9f80a9",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-quadpack.fas"
+    },
+    {
+      "path": "maxima-slatec.fas",
+      "sourceURL": null,
+      "fileBytes": 5424862,
+      "sha256": "a85e302d5f8feb97a6c14a87f520f4330137de2a762efad1bfb897a5e1c0c970",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-slatec.fas"
+    },
+    {
+      "path": "maxima-solve.fas",
+      "sourceURL": null,
+      "fileBytes": 1215181,
+      "sha256": "2a155331677de0f8648ba65c62bb43928eeaf180215cc9a15fa3e1dabdac7828",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-solve.fas"
+    },
+    {
+      "path": "maxima.js",
+      "sourceURL": null,
+      "fileBytes": 608449,
+      "sha256": "3e34145350f676f44c06a402ce79a28d5119cb60060917b779bd000f9dc8e745",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima.js"
+    },
+    {
+      "path": "maxima.wasm",
+      "sourceURL": null,
+      "fileBytes": 20629568,
+      "sha256": "182384b851e2ef6b76a6a9cb88a018b6b6f5e3dd8cd7a987da22c6b1db29eb20",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima.wasm"
+    },
+    {
+      "path": "maxima_thread.js",
+      "sourceURL": null,
+      "fileBytes": 3229,
+      "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima_thread.js"
+    },
+    {
+      "path": "share/info/maxima-index-html.lisp",
+      "sourceURL": null,
+      "fileBytes": 240539,
+      "sha256": "1447fa3ae889b6e2466bee0b1825e24d2c5c06049a2aea46ae841f3736238ce9",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/info/maxima-index-html.lisp"
+    },
+    {
+      "path": "share/info/maxima-index.lisp",
+      "sourceURL": null,
+      "fileBytes": 262119,
+      "sha256": "07fe12c5619772c33f8f6867afbfe9bd417b38605816f530689b3d0cfc50890f",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/info/maxima-index.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp",
+      "sourceURL": null,
+      "fileBytes": 83712,
+      "sha256": "027ea2adca8ee282261ef2c860a09506ade398ec8bee53d10f45b4edf3066aa0",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/diag.mac",
+      "sourceURL": null,
+      "fileBytes": 13815,
+      "sha256": "058e2c46b050371cb10f45146c80daaabc38699fe057e31826a9c8566c26ea1e",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/diag.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp",
+      "sourceURL": null,
+      "fileBytes": 5719,
+      "sha256": "ff90059ce466a6f111838b6a31876f77c9b7d4947528b16d1642eea97b9fdbd3",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/simplifying.lisp",
+      "sourceURL": null,
+      "fileBytes": 3674,
+      "sha256": "fa7c62ce99c4aac44587ef4eeb301d15b902f8349945e4163f3148fa5f1da12f",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/simplifying.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/trigtools/trigtools.mac",
+      "sourceURL": null,
+      "fileBytes": 5020,
+      "sha256": "cae0f3c2f902ddfa05099d7bd59e9f0b85a8b616f72085d1fc69ac6eab14fbbc",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/trigtools/trigtools.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac",
+      "sourceURL": null,
+      "fileBytes": 69297,
+      "sha256": "c9b7d891f0a59d62a4acc0171d46d9234cb9613364c7760206fb34ebf4c2d15a",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp",
+      "sourceURL": null,
+      "fileBytes": 665,
+      "sha256": "a55a311e59742454623026388173bf8bc53933741bf1eec54dc9754d908d3b89",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac",
+      "sourceURL": null,
+      "fileBytes": 75917,
+      "sha256": "bca2baca2a951be94c48d903e9f742dc6c48af56c0ee8d71852d21e8b2c4e674",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp",
+      "sourceURL": null,
+      "fileBytes": 67103,
+      "sha256": "785a5040c4ddccbf86cbfe545ecd6df9c9c91b3fd0943d175c63ea6842c6361b",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+      "sourceURL": null,
+      "fileBytes": 231,
+      "sha256": "45def400e51ed424494d988f0c37e8e880247bda9ae249d54e8f2e33b856dbd9",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.system",
+      "sourceURL": null,
+      "fileBytes": 288,
+      "sha256": "b3540ed3cc0623c7269f74418fd316551f4302fd11235d05366158251eb0ece4",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.system"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/gnuplot.lisp",
+      "sourceURL": null,
+      "fileBytes": 160983,
+      "sha256": "6a3207114a838113174240e0d1873b19ee3914eaa2a6f7ece59d537e242a490f",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/draw/gnuplot.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/grcommon.lisp",
+      "sourceURL": null,
+      "fileBytes": 102070,
+      "sha256": "db6d1ffd9a740856ca1a31541ff727ab868b98a7815c20ddf0f0eb65ba79f023",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/draw/grcommon.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/picture.lisp",
+      "sourceURL": null,
+      "fileBytes": 16364,
+      "sha256": "cf2fe24284c017ad30c476af6269f04555d572aea851ee8f0ed580df364123a2",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/draw/picture.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/vtk.lisp",
+      "sourceURL": null,
+      "fileBytes": 141890,
+      "sha256": "a28dc5a4333b10e568a216a69f658c93a4000cd4f354fc6f8c8454d348e4f5fe",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/draw/vtk.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp",
+      "sourceURL": null,
+      "fileBytes": 22207,
+      "sha256": "b48ebeea74f5bf175e3d42adaceebe7e6d806e9697723309e03b94c509848bf0",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb1.lisp",
+      "sourceURL": null,
+      "fileBytes": 9238,
+      "sha256": "3a68fba9fbb1c8e436eaa28841a9c2a43194f976fac12765c536f9f0a631d3a5",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb1.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb2.lisp",
+      "sourceURL": null,
+      "fileBytes": 1910,
+      "sha256": "1673fc162449c44506e0681fc156cae1d48064cf675bcdfa9958e472d21cfb15",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb2.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-daxpy.lisp",
+      "sourceURL": null,
+      "fileBytes": 5461,
+      "sha256": "8b9d6701475ae051929eed656a6e61c6077e569e8c41a3fa5b30f42972d317f6",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-daxpy.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-ddot.lisp",
+      "sourceURL": null,
+      "fileBytes": 5327,
+      "sha256": "2ff8618463103d462dd94fc802c89536edc2ba78ff3701cbc5feb2a2e5e3ae7d",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-ddot.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.lisp",
+      "sourceURL": null,
+      "fileBytes": 35249,
+      "sha256": "daf18d1bbf8a3e870d9bea27ffc5365b261a227226f5a3077906dfaa6774f366",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.mac",
+      "sourceURL": null,
+      "fileBytes": 185,
+      "sha256": "f1136424d74dcd47337b9c96536f90d1b47a580dd5c1c552d2931c3620493816",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/maxima-lbfgs.lisp",
+      "sourceURL": null,
+      "fileBytes": 5510,
+      "sha256": "caee6aac20da81e78303b075cd8d855ff5a846a010116ba7f3b44e492397f611",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/maxima-lbfgs.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcsrch.lisp",
+      "sourceURL": null,
+      "fileBytes": 9933,
+      "sha256": "3e90e87f806cb09b48885c04473e8caf36646212c21926eb6112b783633f1b04",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcsrch.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcstep.lisp",
+      "sourceURL": null,
+      "fileBytes": 7096,
+      "sha256": "e95233ea91210438ef1ff783bae0ffd6e57cfd42a6a143904ac835923e4e24b2",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcstep.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/eigens-by-jacobi.lisp",
+      "sourceURL": null,
+      "fileBytes": 5461,
+      "sha256": "7ad415c80a119bf62a0b1786fe12417c15ffbcc7ac6eb224684eac840b90c856",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/eigens-by-jacobi.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-extra.lisp",
+      "sourceURL": null,
+      "fileBytes": 6189,
+      "sha256": "511f4576fd99db0dfc99bea2ee4fa7b4ea9e8bad619c0ee0c4515bce629a15bf",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-extra.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-utilities.lisp",
+      "sourceURL": null,
+      "fileBytes": 6658,
+      "sha256": "da67e38dc83182b95b89476df4b436c95a90b797c0d02197c7dadbf6ba2202b0",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-utilities.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalgcholesky.lisp",
+      "sourceURL": null,
+      "fileBytes": 2533,
+      "sha256": "fadfe281f1ae18d9ef9d658c7b38507e56285d3bec53ce5dc0e67427988ce71b",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalgcholesky.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linearalgebra.mac",
+      "sourceURL": null,
+      "fileBytes": 12218,
+      "sha256": "6f509719c842128e9c8fb34a91e2b0efeec38e45f9a1dbe11fd2cfe3a76e45cf",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linearalgebra.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/load-linearalgebra-lisp-files.lisp",
+      "sourceURL": null,
+      "fileBytes": 818,
+      "sha256": "ff456f078307f59c845d2ba6712e4bf2d4dd90908979cda01abcfb37b4daa778",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/load-linearalgebra-lisp-files.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/lu.lisp",
+      "sourceURL": null,
+      "fileBytes": 12284,
+      "sha256": "493fc8dd91b5283f365b90d5babc0a4c0884ba68a43d0e08a5025e2e6fd6cdb0",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/lu.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/matrixexp.lisp",
+      "sourceURL": null,
+      "fileBytes": 6603,
+      "sha256": "06810384023da28279abc1a1c0ac296c192cdaacab8fb0dc2e80f5a9b8ef5d87",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/matrixexp.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/mring.lisp",
+      "sourceURL": null,
+      "fileBytes": 16809,
+      "sha256": "c4af22f8e472e182cef693328d3000e36749397202d5d48ca5db2178a320b0c8",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/mring.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+      "sourceURL": null,
+      "fileBytes": 211935,
+      "sha256": "5752e3cb3b1653009ea11d92c54ccda008275225f76c5e869f7f08d173133d8d",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/macro/basic.mac",
+      "sourceURL": null,
+      "fileBytes": 1106,
+      "sha256": "ec99cf76b3653dcfe661d58b5868d51d2718b0f6e73a75696ff11fc2596536b7",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/macro/basic.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/macro/packg.mac",
+      "sourceURL": null,
+      "fileBytes": 1571,
+      "sha256": "be614af9f8583290f54879a5978156f768798ee3e5ce4d67ed7ee44265dfeb8a",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/macro/packg.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac",
+      "sourceURL": null,
+      "fileBytes": 8120,
+      "sha256": "cc63e4b33108bfc8cb3657c7dd84861bb40be5202e1fa5eff5dcb4ff842efe0c",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/facexp.mac",
+      "sourceURL": null,
+      "fileBytes": 11079,
+      "sha256": "a749264a1679b7a7eee0d1f01e5459b81bd589ae1bf908232dd3d6588c0fdbfd",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/facexp.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac",
+      "sourceURL": null,
+      "fileBytes": 4915,
+      "sha256": "59319fd8623025ce5444ac508f4d6defce594829b26e8ec950c7b5e2cc6f2181",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac",
+      "sourceURL": null,
+      "fileBytes": 8469,
+      "sha256": "9c60b72c98b369a7a98e5d7076c9f7db03c05189cbc5c0623d0c1ec6ba56a960",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/lrats.mac",
+      "sourceURL": null,
+      "fileBytes": 2536,
+      "sha256": "8ba7506bf7a30695f3d513d2a89b62852689f9a44b13822e656cb45ebce23ba2",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/lrats.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stats/inference_result.lisp",
+      "sourceURL": null,
+      "fileBytes": 8238,
+      "sha256": "c56c33c6bc6e0cc1e735f3d0025c2e615f40b481093fa48e6197a24728485faf",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stats/inference_result.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stats/numstats.lisp",
+      "sourceURL": null,
+      "fileBytes": 12080,
+      "sha256": "c961431de9c647558c3f2f993a64abd6af69fde6a849e24d089255b8c9497811",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stats/numstats.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stats/stats.mac",
+      "sourceURL": null,
+      "fileBytes": 66662,
+      "sha256": "d6dd9065e460e92512c3050508e7c0918e6da258fc4c02d1587e2c6f3a60050c",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stats/stats.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp",
+      "sourceURL": null,
+      "fileBytes": 5901,
+      "sha256": "acc82d7fb13251e2a67ce4f9162ca7184d5a9ce8e35e848d063d0f410f530ff1",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp",
+      "sourceURL": null,
+      "fileBytes": 10760,
+      "sha256": "75c9b17bd4f33a896f4207e6652d5ab63c63edd200858ddab6fec0d40adb8273",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp",
+      "sourceURL": null,
+      "fileBytes": 2395,
+      "sha256": "39ef5cc589851f013f5846c89f8d2dd3cc847dfea040e55dc662f5f74ff7ae6b",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp",
+      "sourceURL": null,
+      "fileBytes": 8193,
+      "sha256": "c8fb5a9241e800c0173c76ac87344a02cd35c972c4595868c9ca2b037ca729db",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp",
+      "sourceURL": null,
+      "fileBytes": 21346,
+      "sha256": "35ec2642b830737b1c5543692c9c2385fd5970ce70028189966d36e3bdd434ac",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp",
+      "sourceURL": null,
+      "fileBytes": 13633,
+      "sha256": "c19ee8b7532cce05bfaa382c1877110d61113caad7a09af52cc29648d6b6cfeb",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.lisp",
+      "sourceURL": null,
+      "fileBytes": 7501,
+      "sha256": "e8f6d2fb9a8d4a3184b644b49175d2a2ad4b9b6c0759e34ad7ce9e01588ce50c",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.mac",
+      "sourceURL": null,
+      "fileBytes": 76,
+      "sha256": "ca75d7da5c533701f736efd8b9ae8ea160b650d1b7f6066c2479e2363d13c248",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp",
+      "sourceURL": null,
+      "fileBytes": 47721,
+      "sha256": "5b5678e3fbd9efab7e9870bf8cfb34652907a196ec7aee4f20ccee21e94d6211",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.mac",
+      "sourceURL": null,
+      "fileBytes": 184,
+      "sha256": "fe11a711f0af6214a976aca4ac0a1e52720186790bb4b9c61d1e606ee40e3118",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp",
+      "sourceURL": null,
+      "fileBytes": 6599,
+      "sha256": "e4179ffab65b8e2c98162634d2c408e8e04c6577e943a8dacd99faa7f90bd1fb",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp",
+      "sourceURL": null,
+      "fileBytes": 24670,
+      "sha256": "bfcae0e610d039bb43d71e6bfa2723820df3cfe0fca012a05530f73c1a8d0e3d",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve.mac",
+      "sourceURL": null,
+      "fileBytes": 26278,
+      "sha256": "2441e553d1604a55dad602cdb2e997c6f48eff668932d7cc7b7a12ec0ca1fb5e",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve_extra.lisp",
+      "sourceURL": null,
+      "fileBytes": 6966,
+      "sha256": "0a364d75e9e6700c0cb170dc6bf08fbc3a700739e87218a8b029ffd0ee340b30",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve_extra.lisp"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/atrig1.mac",
+      "sourceURL": null,
+      "fileBytes": 1528,
+      "sha256": "11843e2e013d1e9888251c1acb0109c3b6f7d9c7d57cb9db9e1a285744b02dd8",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/atrig1.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/ntrig.mac",
+      "sourceURL": null,
+      "fileBytes": 1096,
+      "sha256": "3a2422f3c749c9fd8673c9dbda0e1f125f4b06c6ac7e8ec408c4fbcc8279df58",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/ntrig.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/spangl.mac",
+      "sourceURL": null,
+      "fileBytes": 1945,
+      "sha256": "999b974b59ce420302ac818e49b6876b42615788b4a18c887d4f961e39e84a65",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/spangl.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trgsmp.mac",
+      "sourceURL": null,
+      "fileBytes": 4874,
+      "sha256": "0f5db0cb2e22d4ce8536e84a3767830e76ac1751f4555ca253b86c70aa3c56a1",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trgsmp.mac"
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trigrat.lisp",
+      "sourceURL": null,
+      "fileBytes": 1909,
+      "sha256": "5da6c242383b117fc4d75b241193ab6976b63fe58542ef17b3332ead900973ec",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trigrat.lisp"
+    },
+    {
+      "path": "share_files.js",
+      "sourceURL": null,
+      "fileBytes": 528107,
+      "sha256": "e07cdd6ef8eac3ee63869a1f9c0e5cb3ec30f7f538f3dadd764e248e404a6057",
+      "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/share_files.js"
+    }
+  ],
+  "runtimeBuild": {
+    "kind": "ctm-owned-build",
+    "manifestSha256": "e9cc27652a8e0329b060ada882f34682cd1f1b6d2b81fd7d813ee834a1f914cb",
+    "sourcePins": {
+      "schema": 1,
+      "sources": [
+        {
+          "name": "maxima",
+          "repository": "https://gitlab.com/mgerbershagen/maxima.git",
+          "commit": "813903d33f5ccca09cbe3086dbfe5e228521da52",
+          "version": "branch_5_49_base_90_g813903d33",
+          "licence": "Project COPYING contains GPL v2; mixed per-file notices apply (no blanket or-later assertion)",
+          "archive": {
+            "format": "git-archive-tar",
+            "prefix": "maxima/",
+            "sha256": "05192416af11303dc5974fe02d0e5a894df813593af8a57d37e51897707dab42"
+          },
+          "tag": {
+            "name": "branch-5_49-base",
+            "object": "00acb694f8128b8e8bfcc544e1540df3def04d3e",
+            "commit": "cce856a60952c971e6f3604706335455c9a46fca"
+          },
+          "evidence": "Deployed version suffix and exact upstream commit; existing tag plus ancestry gives 90 commits. Git core.abbrev=9 preserves deployed version spelling."
+        },
+        {
+          "name": "ecl",
+          "repository": "https://gitlab.com/mgerbershagen/ecl.git",
+          "commit": "e4bdb2e5b1e444e1773032a53650773848f4d6cd",
+          "version": "26.3.27",
+          "licence": "LGPL-2.1-or-later AND bundled notices",
+          "archive": {
+            "format": "git-archive-tar",
+            "prefix": "ecl/",
+            "sha256": "fafd6275264c33dd4d8562703752f709bf992b29c40fd766d1351782f4c507b0"
+          },
+          "evidence": "Exact full commit and version embedded in deployed libecl.so.",
+          "noticeExceptions": [
+            "src/lsp/loop.lsp",
+            "src/lsp/pprint.lsp",
+            "src/lsp/format.lsp",
+            "contrib/",
+            "examples/"
+          ]
+        },
+        {
+          "name": "emsdk",
+          "repository": "https://github.com/emscripten-core/emsdk.git",
+          "commit": "62a853cd3b3134398ce85cde8bb5cbb2ef0194cb",
+          "version": "4.0.10",
+          "licence": "MIT AND bundled SDK notices",
+          "release": "8103ffedfb0c42d231c6af6859a5a1a832260b43",
+          "archive": {
+            "format": "tar.gz",
+            "url": "https://codeload.github.com/emscripten-core/emsdk/tar.gz/62a853cd3b3134398ce85cde8bb5cbb2ef0194cb",
+            "sha256": "7e97513705790405f9c385b6a73e380a69139c5d23913a1320bb009e6e1595dc"
+          },
+          "evidence": "Version4.0.10 occurs in deployed maxima.wasm and port README; SDK tag maps to the pinned release hash."
+        },
+        {
+          "name": "emscripten",
+          "repository": "https://github.com/emscripten-core/emscripten.git",
+          "commit": "b7dc6e5747465580df5984e723b9d1f10d8e804b",
+          "version": "4.0.10",
+          "licence": "MIT OR NCSA AND bundled notices",
+          "archive": {
+            "format": "tar.gz",
+            "url": "https://codeload.github.com/emscripten-core/emscripten/tar.gz/b7dc6e5747465580df5984e723b9d1f10d8e804b",
+            "sha256": "901c1881daf528523b848ea596588e7d21c41b4a279d20250d2d56168d24ef9f"
+          },
+          "evidence": "Official source tag for deployed Emscripten version; source archive retained beside SDK build."
+        }
+      ],
+      "bundled": [
+        {
+          "name": "gmp",
+          "version": "4.2.1",
+          "source": "ecl",
+          "path": "src/gmp",
+          "licence": "LGPL-2.1-or-later",
+          "wasmLinked": true
+        },
+        {
+          "name": "boehm-gc",
+          "version": "8.2.8",
+          "source": "ecl",
+          "path": "src/bdwgc",
+          "licence": "LicenseRef-Boehm-GC",
+          "wasmLinked": true
+        },
+        {
+          "name": "libffi",
+          "version": "3.5.2",
+          "source": "ecl",
+          "path": "src/libffi",
+          "licence": "MIT",
+          "wasmLinked": false,
+          "evidence": "ECL wasm32 configure branch forces enable_libffi=no; deployed module exports no ffi_* symbols."
+        }
+      ],
+      "notices": {
+        "repository": "Erasmus-CTM/stack-wasm-maxima",
+        "commit": "b34bfc8af10cd80b6130baabe88a47c9a32c0333",
+        "path": "site/LICENSES"
+      },
+      "stack": [
+        "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+        "33383047af39c204bf4442802a058f8b918b2b1b"
+      ],
+      "toolchainArchives": [
+        {
+          "name": "sdk-linux-x86_64",
+          "version": "4.0.10",
+          "release": "8103ffedfb0c42d231c6af6859a5a1a832260b43",
+          "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/linux/8103ffedfb0c42d231c6af6859a5a1a832260b43/wasm-binaries.tar.xz",
+          "file": "8103ffedfb0c42d231c6af6859a5a1a832260b43-wasm-binaries.tar.xz",
+          "bytes": 303902856,
+          "sha256": "0183f887b56c3f8d4b45826cb49856a3324afb66236ad3c13944c0fd2550cbbc"
+        },
+        {
+          "name": "sdk-node-linux-x86_64",
+          "version": "22.16.0",
+          "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/node-v22.16.0-linux-x64.tar.xz",
+          "file": "node-v22.16.0-linux-x64.tar.xz",
+          "bytes": 30425588,
+          "sha256": "f4cb75bb036f0d0eddf6b79d9596df1aaab9ddccd6a20bf489be5abe9467e84e"
+        }
+      ],
+      "buildPatches": [
+        {
+          "descriptor": "runtime/build/patches/ecl-root-scanner.json",
+          "sha256": "b1e3d49a9ff13b7a2a6d517ba585d08e4a6ea017f0c58ff00ffc5de5e8fa485d"
+        }
+      ]
+    },
+    "compilerProfile": {
+      "name": "ecl-oz-maxima-oz",
+      "injectedEmccFlags": "-Oz",
+      "eclCoreOptimization": "-Oz",
+      "eclGeneratedLispOptimization": "-Oz",
+      "maximaGeneratedOptimization": "-Oz",
+      "maximaInjectedEmccFlags": "-Oz",
+      "stackGeneratedOptimization": "-Oz",
+      "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
+    },
+    "release": {
+      "tag": "runtime-v3",
+      "recordSha256": "c508649d6b6bea2f4df8de9632525ebaa0e4b1504a9782ddf6b10b14d165692c",
+      "commit": "285f88820991572b435e3fa096682f623e97a601",
+      "buildRun": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40278667994"
+    }
+  }
+}

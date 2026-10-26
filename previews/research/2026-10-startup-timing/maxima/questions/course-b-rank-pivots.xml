@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Adapted from Andrey Chesnokov, ingmat3a_ntnu, section 3.8; CC BY-SA 4.0. See course-examples-provenance.json. -->
+<quiz><question type="stack">
+<name><text>Rank and pivot columns of B</text></name>
+<questionvariables><text>B:matrix([1,0,1],[0,1,1],[1,1,2]); r:2; P:matrix([1,2]);</text></questionvariables>
+<questionsimplify>1</questionsimplify>
+<questiontext format="html"><text><![CDATA[<p>Find the rank and the pivot-column numbers of \(B={@B@}\). List the pivot-column numbers in increasing order, one number per column. Choose the number of columns yourself.</p><p>Rank: [[input:rankans]] [[validation:rankans]] [[feedback:rankresult]]</p><p>Pivot columns: [[input:pivots]] [[validation:pivots]] [[feedback:pivotresult]]</p>]]></text></questiontext>
+<generalfeedback format="html"><text><![CDATA[Row reduction gives rows (1,0,1), (0,1,1), (0,0,0). There are two pivots, in columns 1 and 2. The two parts carry equal weight; the pivot list is assessed as a whole.]]></text></generalfeedback>
+<defaultgrade>1</defaultgrade><penalty>0.1</penalty>
+<input><name>rankans</name><type>algebraic</type><tans>r</tans><boxsize>8</boxsize><strictsyntax>1</strictsyntax><insertstars>0</insertstars><forbidfloat>1</forbidfloat><checkanswertype>1</checkanswertype><mustverify>1</mustverify><showvalidation>1</showvalidation></input>
+<input><name>pivots</name><type>matrix</type><tans>P</tans><boxsize>8</boxsize><strictsyntax>1</strictsyntax><insertstars>0</insertstars><forbidfloat>1</forbidfloat><checkanswertype>1</checkanswertype><mustverify>1</mustverify><showvalidation>1</showvalidation><matrix><rows initial="1" min="1" max="1" resizable="0"/><cols initial="1" min="1" max="3" resizable="1"/></matrix></input>
+<prt><name>rankresult</name><value>1</value><autosimplify>1</autosimplify><node><name>0</name><answertest>AlgEquiv</answertest><sans>rankans</sans><tans>r</tans>
+<truescoremode>=</truescoremode><truescore>1</truescore><truenextnode>-1</truenextnode><trueanswernote>rank-T</trueanswernote>
+<falsescoremode>=</falsescoremode><falsescore>0</falsescore><falsenextnode>-1</falsenextnode><falseanswernote>rank-F</falseanswernote>
+</node></prt>
+<prt><name>pivotresult</name><value>1</value><autosimplify>1</autosimplify><node><name>0</name><answertest>AlgEquiv</answertest><sans>pivots</sans><tans>P</tans>
+<truescoremode>=</truescoremode><truescore>1</truescore><truenextnode>-1</truenextnode><trueanswernote>pivots-T</trueanswernote>
+<falsescoremode>=</falsescoremode><falsescore>0</falsescore><falsenextnode>-1</falsenextnode><falseanswernote>pivots-F</falseanswernote>
+</node></prt>
+<qtest><testcase>1</testcase><testinput><name>rankans</name><value>2</value></testinput><testinput><name>pivots</name><value>matrix([1,2])</value></testinput><expected><name>rankresult</name><expectedscore>1</expectedscore><expectedpenalty>0</expectedpenalty><expectedanswernote>rank-T</expectedanswernote></expected><expected><name>pivotresult</name><expectedscore>1</expectedscore><expectedpenalty>0</expectedpenalty><expectedanswernote>pivots-T</expectedanswernote></expected></qtest>
+<qtest><testcase>2</testcase><testinput><name>rankans</name><value>3</value></testinput><testinput><name>pivots</name><value>matrix([1,2])</value></testinput><expected><name>rankresult</name><expectedscore>0</expectedscore><expectedpenalty>0.1</expectedpenalty><expectedanswernote>rank-F</expectedanswernote></expected><expected><name>pivotresult</name><expectedscore>1</expectedscore><expectedpenalty>0</expectedpenalty><expectedanswernote>pivots-T</expectedanswernote></expected></qtest>
+<qtest><testcase>3</testcase><testinput><name>rankans</name><value>2</value></testinput><testinput><name>pivots</name><value>matrix([2,1])</value></testinput><expected><name>rankresult</name><expectedscore>1</expectedscore><expectedpenalty>0</expectedpenalty><expectedanswernote>rank-T</expectedanswernote></expected><expected><name>pivotresult</name><expectedscore>0</expectedscore><expectedpenalty>0.1</expectedpenalty><expectedanswernote>pivots-F</expectedanswernote></expected></qtest>
+<qtest><testcase>4</testcase><testinput><name>rankans</name><value>2</value></testinput><testinput><name>pivots</name><value>matrix([1])</value></testinput><expected><name>rankresult</name><expectedscore>1</expectedscore><expectedpenalty>0</expectedpenalty><expectedanswernote>rank-T</expectedanswernote></expected><expected><name>pivotresult</name><expectedscore>0</expectedscore><expectedpenalty>0.1</expectedpenalty><expectedanswernote>pivots-F</expectedanswernote></expected></qtest>
+</question></quiz>

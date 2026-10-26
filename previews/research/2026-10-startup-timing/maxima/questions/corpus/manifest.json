@@ -1,0 +1,889 @@
+{
+  "repository": "maths/moodle-qtype_stack",
+  "commit": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+  "source_base_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/",
+  "license": "CC-BY-SA-4.0; see COPYING.txt",
+  "questions": [
+    {
+      "id": "algmap-1-5",
+      "file": "AlgMap-1-5.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/01-Combinations-of-arithmetic-operations/AlgMap-1-5.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/01-Combinations-of-arithmetic-operations/AlgMap-1-5.xml",
+      "sha256": "fb214acea2c0945ee62dcac11eb6282dddd833961deeb4334a2ad2ea7e03a0fd",
+      "question_name": "AlgMap-1.5",
+      "topic": "Algebra-Refresher / 01-Combinations-of-arithmetic-operations",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv",
+        "EqualComAss"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        128137392,
+        2051957692,
+        1375878840,
+        147752938,
+        1429917072,
+        1652793006,
+        1814142093,
+        563558373,
+        1641811929,
+        249014580
+      ]
+    },
+    {
+      "id": "algmap-1-6",
+      "file": "AlgMap-1-6.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/01-Combinations-of-arithmetic-operations/AlgMap-1-6.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/01-Combinations-of-arithmetic-operations/AlgMap-1-6.xml",
+      "sha256": "6653571903fa584119b324fd0bc0fa0bb937d2fd28fa81456f1be8c6564dd43d",
+      "question_name": "AlgMap-1.6",
+      "topic": "Algebra-Refresher / 01-Combinations-of-arithmetic-operations",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        891319547,
+        1858711800,
+        1536647851,
+        1117121046,
+        2005858650,
+        784612121,
+        108760200,
+        818995099,
+        280981628,
+        623453608
+      ]
+    },
+    {
+      "id": "algmap-2-1",
+      "file": "AlgMap-2-1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/02-Factorisation-of-whole-numbers/AlgMap-2-1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/02-Factorisation-of-whole-numbers/AlgMap-2-1.xml",
+      "sha256": "2316c3c2dfab8d38453d6c7ae05fb0329b8aaf13ad20f1237e0161cd3efe416d",
+      "question_name": "AlgMap-2.1",
+      "topic": "Algebra-Refresher / 02-Factorisation-of-whole-numbers",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv",
+        "EqualComAss"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        675382660,
+        1779049407,
+        302075276,
+        4640885,
+        1561867926,
+        528490662,
+        1046956652,
+        1024708417,
+        1630812714,
+        971026801
+      ]
+    },
+    {
+      "id": "algmap-2-5",
+      "file": "AlgMap-2-5.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/02-Factorisation-of-whole-numbers/AlgMap-2-5.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/02-Factorisation-of-whole-numbers/AlgMap-2-5.xml",
+      "sha256": "2d344d74736f3f07f9c602efb4d57940d4227f6c6e8d17442769321cf44ea765",
+      "question_name": "AlgMap-2.5",
+      "topic": "Algebra-Refresher / 02-Factorisation-of-whole-numbers",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv",
+        "LowestTerms"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        554625703,
+        2004313867,
+        1257826844,
+        533970977,
+        1878644045
+      ]
+    },
+    {
+      "id": "algmap-3-1",
+      "file": "AlgMap-3-1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/03-Addition-and-subtraction-of-fractions/AlgMap-3-1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/03-Addition-and-subtraction-of-fractions/AlgMap-3-1.xml",
+      "sha256": "62caf4ebfe979ca90e3aaa9220d882cade02c413e7c0512851f8c9c877d40907",
+      "question_name": "AlgMap-3.1",
+      "topic": "Algebra-Refresher / 03-Addition-and-subtraction-of-fractions",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv",
+        "EqualComAssRules"
+      ],
+      "qtest_count": 5,
+      "deployed_seeds": [
+        1329293196,
+        708806052,
+        2090926622,
+        1621878102,
+        944404612
+      ]
+    },
+    {
+      "id": "algmap-3-3",
+      "file": "AlgMap-3-3.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/03-Addition-and-subtraction-of-fractions/AlgMap-3-3.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/03-Addition-and-subtraction-of-fractions/AlgMap-3-3.xml",
+      "sha256": "d2ee8d70ba394ef682335a41249fd713e511b090b506db8bb6cd77e4e15a177d",
+      "question_name": "AlgMap-3.3",
+      "topic": "Algebra-Refresher / 03-Addition-and-subtraction-of-fractions",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv",
+        "EqualComAss"
+      ],
+      "qtest_count": 4,
+      "deployed_seeds": [
+        73699510,
+        251827869,
+        1630492411,
+        123979407,
+        1188141115,
+        1815072118,
+        1293584268
+      ]
+    },
+    {
+      "id": "algmap-4-1",
+      "file": "AlgMap-4-1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/04-Multiplication-and-division-of-fractions/AlgMap-4-1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/04-Multiplication-and-division-of-fractions/AlgMap-4-1.xml",
+      "sha256": "efd63a87af8e9fef4f4d36ced1d96873c7295c552dd4d056cccd0e739c747281",
+      "question_name": "AlgMap-4.1",
+      "topic": "Algebra-Refresher / 04-Multiplication-and-division-of-fractions",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv",
+        "EqualComAss"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        167731690,
+        482559703,
+        774333379,
+        1249864586,
+        663131026,
+        1810138514,
+        568263847,
+        2045593680
+      ]
+    },
+    {
+      "id": "algmap-4-13",
+      "file": "AlgMap-4-13.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/04-Multiplication-and-division-of-fractions/AlgMap-4-13.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/04-Multiplication-and-division-of-fractions/AlgMap-4-13.xml",
+      "sha256": "59330c22fa8349528ce3ea51001ca5767bed430cc6c30c6e463f8364a797018e",
+      "question_name": "AlgMap-4.13",
+      "topic": "Algebra-Refresher / 04-Multiplication-and-division-of-fractions",
+      "input_count": 1,
+      "answer_tests": [
+        "SingleFrac"
+      ],
+      "qtest_count": 4,
+      "deployed_seeds": [
+        1088093467,
+        276430126,
+        1612320671,
+        1975502071,
+        979415934,
+        1094531026,
+        1485717583,
+        496467311,
+        576765248,
+        2121425648
+      ]
+    },
+    {
+      "id": "algmap-5-1",
+      "file": "AlgMap-5-1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/05-Combinations-of-arithmetic-operations-on-fractions/AlgMap-5-1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/05-Combinations-of-arithmetic-operations-on-fractions/AlgMap-5-1.xml",
+      "sha256": "83bb2ff070ddb7d786f2ed48b31a4126425d729321dabedc2c71032d9f9e28c7",
+      "question_name": "AlgMap-5.1",
+      "topic": "Algebra-Refresher / 05-Combinations-of-arithmetic-operations-on-fractions",
+      "input_count": 1,
+      "answer_tests": [
+        "EqualComAss"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        1965111916,
+        1816973567,
+        2092955263,
+        154469717,
+        1843284945,
+        120301773,
+        1842786494,
+        1947793309,
+        953982473,
+        719238784
+      ]
+    },
+    {
+      "id": "algmap-6-4",
+      "file": "AlgMap-6-4.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/06-Simplifying-algebraic-expressions/AlgMap-6-4.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/06-Simplifying-algebraic-expressions/AlgMap-6-4.xml",
+      "sha256": "ddb223f74d31392e0c5247f4ce866cea3ec998f3e8120f638ef29b578db29695",
+      "question_name": "AlgMap-6.4",
+      "topic": "Algebra-Refresher / 06-Simplifying-algebraic-expressions",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv",
+        "EqualComAss"
+      ],
+      "qtest_count": 3,
+      "deployed_seeds": []
+    },
+    {
+      "id": "algmap-6-7",
+      "file": "AlgMap-6-7.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/06-Simplifying-algebraic-expressions/AlgMap-6-7.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/06-Simplifying-algebraic-expressions/AlgMap-6-7.xml",
+      "sha256": "e43f5766c73fb7406d2f01eef65b8fdee7c280aadb9aebf0a977d63954f6307e",
+      "question_name": "AlgMap-6.7",
+      "topic": "Algebra-Refresher / 06-Simplifying-algebraic-expressions",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv",
+        "EqualComAss"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        1214045767,
+        536649773,
+        971070137,
+        374508702,
+        1474212473,
+        1650783818,
+        937873518,
+        455884581,
+        1336036765,
+        1695224112
+      ]
+    },
+    {
+      "id": "algmap-7-1",
+      "file": "AlgMap-7-1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/07-Removing-brackets/AlgMap-7-1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/07-Removing-brackets/AlgMap-7-1.xml",
+      "sha256": "f70817e93a99cdb57c02ed1e94eccc752632870fc6dd1034cbd718ddc1768526",
+      "question_name": "AlgMap-7.1",
+      "topic": "Algebra-Refresher / 07-Removing-brackets",
+      "input_count": 1,
+      "answer_tests": [
+        "EqualComAss"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        891379060,
+        1144746893,
+        208533265,
+        290748318,
+        555009735,
+        684223145,
+        1628482377,
+        1723443166
+      ]
+    },
+    {
+      "id": "algmap-7-10",
+      "file": "AlgMap-7-10.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/07-Removing-brackets/AlgMap-7-10.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/07-Removing-brackets/AlgMap-7-10.xml",
+      "sha256": "aeeea9fc8525552f9aa7ae75d8dee32846a423c5cc15b3392a2460cf71d454a8",
+      "question_name": "AlgMap-7.10",
+      "topic": "Algebra-Refresher / 07-Removing-brackets",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv",
+        "EqualComAss"
+      ],
+      "qtest_count": 3,
+      "deployed_seeds": [
+        1181131383,
+        1650846705,
+        2113771072,
+        1696693158,
+        1000034941,
+        1295802442,
+        1463053235,
+        341547479
+      ]
+    },
+    {
+      "id": "algmap-8-5",
+      "file": "AlgMap-8-5.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/08-Algebraic-fractions/AlgMap-8-5.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/08-Algebraic-fractions/AlgMap-8-5.xml",
+      "sha256": "96e0bf170af27e0fb29fc333e0efc2b24d50ce67ad3f2408653b7ec95c8db497",
+      "question_name": "AlgMap-8.5",
+      "topic": "Algebra-Refresher / 08-Algebraic-fractions",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv",
+        "EqualComAss"
+      ],
+      "qtest_count": 4,
+      "deployed_seeds": []
+    },
+    {
+      "id": "algmap-8-10",
+      "file": "AlgMap-8-10.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/08-Algebraic-fractions/AlgMap-8-10.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/08-Algebraic-fractions/AlgMap-8-10.xml",
+      "sha256": "8342e04b8e52caeaba0baa6c41522f2fcb6e41710cc08283f0d6376c12adf941",
+      "question_name": "AlgMap-8.10",
+      "topic": "Algebra-Refresher / 08-Algebraic-fractions",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv",
+        "SingleFrac"
+      ],
+      "qtest_count": 4,
+      "deployed_seeds": [
+        496178535,
+        1856951054,
+        1715030049,
+        477684187,
+        270137545,
+        690555843
+      ]
+    },
+    {
+      "id": "algmap-9-1",
+      "file": "AlgMap-9-1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/09-Linear-equations/AlgMap-9-1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/09-Linear-equations/AlgMap-9-1.xml",
+      "sha256": "62dc067e73d481af3422cfe0e5adc93f8e62dc74538e6c13f83d048104c3a3e2",
+      "question_name": "AlgMap-9.1",
+      "topic": "Algebra-Refresher / 09-Linear-equations",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 1,
+      "deployed_seeds": [
+        253453649,
+        332413405,
+        343041774,
+        223289048,
+        754301387,
+        1781387469,
+        741447996,
+        544014872,
+        246266401,
+        854303989
+      ]
+    },
+    {
+      "id": "algmap-9-6",
+      "file": "AlgMap-9-6.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/09-Linear-equations/AlgMap-9-6.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/09-Linear-equations/AlgMap-9-6.xml",
+      "sha256": "879839f34d8396546fb0e942f753ed7c66f45baf295cda9e1b389afbaa3ec943",
+      "question_name": "AlgMap-9.6",
+      "topic": "Algebra-Refresher / 09-Linear-equations",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 1,
+      "deployed_seeds": [
+        1775658430,
+        1085854555,
+        995216167,
+        730877766
+      ]
+    },
+    {
+      "id": "algmap-10-1",
+      "file": "AlgMap-10-1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/10-Expressions-single-term-common-factors/AlgMap-10-1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/10-Expressions-single-term-common-factors/AlgMap-10-1.xml",
+      "sha256": "ad90bd19208a68a6b704da98d8aed924fa7d5e0cd43f33c176315df2294fa9ea",
+      "question_name": "AlgMap-10.1",
+      "topic": "Algebra-Refresher / 10-Expressions-single-term-common-factors",
+      "input_count": 1,
+      "answer_tests": [
+        "FacForm"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        1910622122,
+        1142759260,
+        91955274,
+        114660474,
+        1705428887,
+        682992533,
+        2082729848,
+        1789902044,
+        516754182,
+        173380566
+      ]
+    },
+    {
+      "id": "algmap-11-1",
+      "file": "AlgMap-11-1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/11-Rearranging-algebraic-formulae/AlgMap-11-1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/11-Rearranging-algebraic-formulae/AlgMap-11-1.xml",
+      "sha256": "d3bcefd6ce9a3ccfa0e2d1b8100c094b6263f9fa292babeebf4cf7fb09e2feba",
+      "question_name": "AlgMap-11.1",
+      "topic": "Algebra-Refresher / 11-Rearranging-algebraic-formulae",
+      "input_count": 2,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 1,
+      "deployed_seeds": []
+    },
+    {
+      "id": "algmap-11-8",
+      "file": "AlgMap-11-8.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/11-Rearranging-algebraic-formulae/AlgMap-11-8.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/11-Rearranging-algebraic-formulae/AlgMap-11-8.xml",
+      "sha256": "1b2a281a76dbc3788fa8e05c51f344927a6e74f2778665d799e56e25522dab40",
+      "question_name": "AlgMap-11.8",
+      "topic": "Algebra-Refresher / 11-Rearranging-algebraic-formulae",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": []
+    },
+    {
+      "id": "algmap-12-1",
+      "file": "AlgMap-12-1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/12-Simultaneous-linear-equations/AlgMap-12-1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/12-Simultaneous-linear-equations/AlgMap-12-1.xml",
+      "sha256": "e01d6a344c79b7ffe340809c7fbae5d228d7f902fa98a07e6a1870a5fac58cc1",
+      "question_name": "AlgMap-12.1",
+      "topic": "Algebra-Refresher / 12-Simultaneous-linear-equations",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 1,
+      "deployed_seeds": [
+        1841615900,
+        744559019,
+        775117297,
+        632772141,
+        301784416,
+        258726795,
+        673341209,
+        345908151,
+        271748987,
+        495050287
+      ]
+    },
+    {
+      "id": "algmap-13-1",
+      "file": "AlgMap-13-1-.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/13-Factorising-algebraic-expressions/AlgMap-13-1-.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/13-Factorising-algebraic-expressions/AlgMap-13-1-.xml",
+      "sha256": "e34549e8935aa5951649d56e676da57975129998bb02c315fd2fe36430c41f62",
+      "question_name": "AlgMap-13.1",
+      "topic": "Algebra-Refresher / 13-Factorising-algebraic-expressions",
+      "input_count": 1,
+      "answer_tests": [
+        "FacForm"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        1874421384,
+        1770560704,
+        1402158234,
+        1601177468,
+        1592030075,
+        786618329,
+        1948945848,
+        1985214913,
+        607236540,
+        222685436
+      ]
+    },
+    {
+      "id": "algmap-14-1",
+      "file": "AlgMap-14-1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/14-Algebraic-fractions-involving-factorising/AlgMap-14-1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/14-Algebraic-fractions-involving-factorising/AlgMap-14-1.xml",
+      "sha256": "4c2e20a87b8e984108ce1df1ffb07032503ad6018ed2cbfc0dde9f8855f16978",
+      "question_name": "AlgMap-14.1",
+      "topic": "Algebra-Refresher / 14-Algebraic-fractions-involving-factorising",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv",
+        "SingleFrac"
+      ],
+      "qtest_count": 3,
+      "deployed_seeds": [
+        1720352247,
+        1847020159,
+        410204508,
+        1413931985,
+        1369593628,
+        1208877863,
+        1900468977,
+        31933637,
+        1666735042,
+        125358585
+      ]
+    },
+    {
+      "id": "algmap-15-1",
+      "file": "AlgMap-15-1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Algebra-Refresher/15-Quadratic-equations/AlgMap-15-1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Algebra-Refresher/15-Quadratic-equations/AlgMap-15-1.xml",
+      "sha256": "7b1f43c5cc1a836b6b27e26296e15f2bf793a57481eb4312a9077d79f4633a53",
+      "question_name": "AlgMap-15.1",
+      "topic": "Algebra-Refresher / 15-Quadratic-equations",
+      "input_count": 2,
+      "answer_tests": [
+        "AlgEquiv",
+        "FacForm"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        2060820372,
+        1584668898,
+        584521279,
+        1003735463,
+        497584038,
+        887938784,
+        1193189753,
+        525135563,
+        198574087,
+        1024221276
+      ]
+    },
+    {
+      "id": "complex-convert-1",
+      "file": "Complex_Convert_1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Topics/Complex-Numbers/Complex_Convert_1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Topics/Complex-Numbers/Complex_Convert_1.xml",
+      "sha256": "9f0538cd84b0b8e18f42a8968ea427e844b04bfa732867348ee47b7c7667a6c6",
+      "question_name": "Complex_Convert_1",
+      "topic": "Topics / Complex-Numbers",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        817828831,
+        1302743320,
+        2023109718,
+        1885837562,
+        987432883,
+        1651673644,
+        927277669,
+        812708432,
+        727047184,
+        1166488693,
+        1719118035,
+        1330127074,
+        1855378840,
+        710572634,
+        2071272006,
+        1565230007,
+        929362269,
+        763010241,
+        572262086,
+        96601302,
+        1065357600,
+        1368599549,
+        2059212278,
+        1989353230,
+        1173992613
+      ]
+    },
+    {
+      "id": "limits-1",
+      "file": "Limits_1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Topics/Limits/Limits_1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Topics/Limits/Limits_1.xml",
+      "sha256": "25583fea5e824404310f36c3a91d172c4132809b42726c6ed3857dc585ccd0a9",
+      "question_name": "Limits_1",
+      "topic": "Topics / Limits",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 3,
+      "deployed_seeds": [
+        755191200,
+        1987251928,
+        361610374,
+        548169882,
+        1504426525,
+        1753941928,
+        1021896733,
+        1000836762,
+        1893832123,
+        162057896,
+        812124702,
+        2077406899,
+        1666608699,
+        1688793199,
+        2011396505,
+        1706274855
+      ]
+    },
+    {
+      "id": "logs-1",
+      "file": "Logs_1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Topics/Logs-and-Exponentials/Logs_1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Topics/Logs-and-Exponentials/Logs_1.xml",
+      "sha256": "81f2dc2ebfbd4b6871270bf3bbdbe4cb707ecebf00c6db10294836c16ba0232c",
+      "question_name": "Logs_1",
+      "topic": "Topics / Logs-and-Exponentials",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 3,
+      "deployed_seeds": [
+        1531295862,
+        864648734,
+        1099277693,
+        1731809073,
+        209765752,
+        1273387083,
+        1610313421,
+        2071319725,
+        73064170,
+        1410745669,
+        1363551006,
+        1556989561,
+        1814621817,
+        1819508562
+      ]
+    },
+    {
+      "id": "matrices-find-det-2-2",
+      "file": "Matrices_find-det-2-2.xml",
+      "upstream_path": "samplequestions/stacklibrary/Topics/LinearAlgebra/Matrix-Calculations/Matrices_find-det-2-2.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Topics/LinearAlgebra/Matrix-Calculations/Matrices_find-det-2-2.xml",
+      "sha256": "2f71a4b925a84fc82fada4f0c82439da8f1fce8f08431f949b5122d52cd30061",
+      "question_name": "Matrices_find det 2*2",
+      "topic": "Topics / LinearAlgebra / Matrix-Calculations",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        1113104891,
+        694332030,
+        929766521,
+        1155526316,
+        1696158052
+      ]
+    },
+    {
+      "id": "inequality-1",
+      "file": "Inequality_1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Topics/Inequalities/Inequality_1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Topics/Inequalities/Inequality_1.xml",
+      "sha256": "37c2ee39726c5c4e9f665c9e39a5fce79196a14d33cf793a66f8396f3071af6c",
+      "question_name": "Inequality_1",
+      "topic": "Topics / Inequalities",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 3,
+      "deployed_seeds": [
+        1959651692,
+        1912647767,
+        1656909886,
+        1744235747,
+        756699459,
+        1284696583,
+        1421009564,
+        1877886445,
+        604684630,
+        498035618,
+        1758617402,
+        220913037,
+        1399424942,
+        1744326993,
+        1676753852
+      ]
+    },
+    {
+      "id": "numerical-input-min-sf",
+      "file": "Numerical_input_min_sf.xml",
+      "upstream_path": "samplequestions/stacklibrary/Features/input-type-sample-questions/Numerical_input_min_sf.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Features/input-type-sample-questions/Numerical_input_min_sf.xml",
+      "sha256": "89276823704f7611f40e5bc53f002a37f48b5e15c77421874666981aceb4e14c",
+      "question_name": "Numerical input (min sf)",
+      "topic": "Features / input-type-sample-questions",
+      "input_count": 1,
+      "answer_tests": [
+        "NumAbsolute"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": []
+    },
+    {
+      "id": "linearalgebra-elementary-1",
+      "file": "LinearAlgebra_elementary_1.xml",
+      "upstream_path": "samplequestions/stacklibrary/Topics/LinearAlgebra/Matrix-Calculations/LinearAlgebra_elementary_1.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Topics/LinearAlgebra/Matrix-Calculations/LinearAlgebra_elementary_1.xml",
+      "sha256": "f4982902aff0c9db440b0e5deb22ca839f63ae483c140cc4ae1b05084d3c6a91",
+      "question_name": "LinearAlgebra_elementary_1",
+      "topic": "Linear algebra / Matrix input",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        948077501,
+        2115177529,
+        1223528597,
+        998169253,
+        266740368
+      ]
+    },
+    {
+      "id": "linearalgebra-elementary-2",
+      "file": "LinearAlgebra_elementary_2.xml",
+      "upstream_path": "samplequestions/stacklibrary/Topics/LinearAlgebra/Matrix-Calculations/LinearAlgebra_elementary_2.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Topics/LinearAlgebra/Matrix-Calculations/LinearAlgebra_elementary_2.xml",
+      "sha256": "515f940f47f518fa1418407677a7fe68819dacd9dd0d8a3a9a0c8931fb02d650",
+      "question_name": "LinearAlgebra_elementary_2",
+      "topic": "Linear algebra / Matrix input",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        404337827,
+        765269806,
+        1906938980,
+        196774024
+      ]
+    },
+    {
+      "id": "linearalgebra-elementary-3",
+      "file": "LinearAlgebra_elementary_3.xml",
+      "upstream_path": "samplequestions/stacklibrary/Topics/LinearAlgebra/Matrix-Calculations/LinearAlgebra_elementary_3.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Topics/LinearAlgebra/Matrix-Calculations/LinearAlgebra_elementary_3.xml",
+      "sha256": "ea570061f26b0b9f6fd53acd66e0cc98d18dc80ee56bf337742aa3190cc18303",
+      "question_name": "LinearAlgebra_elementary_3",
+      "topic": "Linear algebra / Matrix input",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        386876637,
+        1073163127,
+        1496670985,
+        194599328
+      ]
+    },
+    {
+      "id": "linearalgebra-elementary-4",
+      "file": "LinearAlgebra_elementary_4.xml",
+      "upstream_path": "samplequestions/stacklibrary/Topics/LinearAlgebra/Matrix-Calculations/LinearAlgebra_elementary_4.xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Topics/LinearAlgebra/Matrix-Calculations/LinearAlgebra_elementary_4.xml",
+      "sha256": "130c7671bc8b7ac7a5f723eff1d1bc740c4c1d41e510a3ef4dacec88261e7893",
+      "question_name": "LinearAlgebra_elementary_4",
+      "topic": "Linear algebra / Matrix input",
+      "input_count": 1,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 2,
+      "deployed_seeds": [
+        2043088205,
+        724623537,
+        347081126,
+        233093598
+      ]
+    },
+    {
+      "id": "matrix-system",
+      "file": "7-3-26-(Write-sim-eqns-with-matrices).xml",
+      "upstream_path": "samplequestions/stacklibrary/Introductory-Mathematics/Week-07---Simultaneous-Equations/7-3-26-(Write-sim-eqns-with-matrices).xml",
+      "source_url": "https://github.com/maths/moodle-qtype_stack/blob/10d323311b7f39fb7b092dd10ce75f7d8632f525/samplequestions/stacklibrary/Introductory-Mathematics/Week-07---Simultaneous-Equations/7-3-26-(Write-sim-eqns-with-matrices).xml",
+      "sha256": "a8d78faabb49fefbd21eccb554c9a5eb35fa9cae3ebaec4a2b75fccaafd303f5",
+      "question_name": "7.3.26 (Write sim. eqns. with matrices)",
+      "topic": "Introductory Mathematics / Matrix equations",
+      "input_count": 2,
+      "answer_tests": [
+        "AlgEquiv"
+      ],
+      "qtest_count": 1,
+      "deployed_seeds": [
+        1930245414,
+        812684119,
+        1827462946,
+        145180072,
+        36715103,
+        946761244,
+        1804442351,
+        851490863,
+        2007618713,
+        856928557,
+        892429656,
+        1685384646,
+        1559087057,
+        747596696,
+        1509610601,
+        40582546,
+        601565325,
+        1184321902,
+        997386553,
+        2017829241,
+        1670848744,
+        1535580682,
+        3390270,
+        1021119565,
+        2020613490,
+        1564017995,
+        2091565715,
+        233658395,
+        1275737354,
+        799600169,
+        560189780,
+        55938794,
+        286711187,
+        352371464,
+        1026112134,
+        285276538,
+        1460183348,
+        887106706,
+        1846531579,
+        1720650208,
+        484803512,
+        31647423,
+        104418702,
+        229678539,
+        728150600,
+        983236569,
+        1400604020,
+        1177082385,
+        1829849018,
+        771612950
+      ]
+    }
+  ]
+}

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Authored by the CTM team. CC BY-SA 4.0. -->
+<quiz>
+  <question type="stack">
+    <name>
+      <text>Finite author helpers</text>
+    </name>
+    <questiontext format="html">
+      <text>&lt;p&gt;Author helpers computed this list \({@ordered@}\) and set \({@unordered@}\), with cardinality \({@size@}\). Enter literals below.&lt;/p&gt;&lt;p&gt;Ordered list: [[input:sequence]] [[validation:sequence]] [[feedback:ordered]]&lt;/p&gt;&lt;p&gt;Unordered set: [[input:members]] [[validation:members]] [[feedback:unordered]]&lt;/p&gt;&lt;p&gt;Set with explanations: [[input:explained]] [[validation:explained]] [[feedback:explained]]&lt;/p&gt;</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text>&lt;p&gt;Difference: \({@difference@}\). Intersection: \({@common@}\). Membership: \({@present@}\). Subset: \({@sub@}\).&lt;/p&gt;</text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber />
+    <stackversion>
+      <text>2021072200</text>
+    </stackversion>
+    <questionvariables>
+      <text>a:3; ordered:listify({3,1,2}); unordered:union({1,2},{2,3}); size:cardinality(unordered); present:member(2,unordered); sub:subsetp({1},unordered); difference:setdifference(unordered,{2}); common:intersection(unordered,{2,3}); converted:setify([1,1,2]);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text />
+    </specificfeedback>
+    <questionnote format="moodle_auto_format">
+      <text>Finite author helpers</text>
+    </questionnote>
+    <questiondescription format="moodle_auto_format">
+      <text />
+    </questiondescription>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <scientificnotation>*10</scientificnotation>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens>[</matrixparens>
+    <isbroken>0</isbroken>
+    <variantsselectionseed />
+    <deployedseed>17</deployedseed>
+    <deployedseed>29</deployedseed>
+    <deployedseed>47</deployedseed>
+    <input>
+      <name>sequence</name>
+      <type>algebraic</type>
+      <tans>ordered</tans>
+      <boxsize>18</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint />
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords />
+      <allowwords />
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options />
+    </input>
+    <prt>
+      <name>ordered</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text />
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description />
+        <answertest>AlgEquiv</answertest>
+        <sans>sequence</sans>
+        <tans>ordered</tans>
+        <testoptions />
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty />
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ordered-T</trueanswernote>
+        <truefeedback format="html">
+          <text>&lt;p&gt;Correct.&lt;/p&gt;</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty />
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ordered-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>&lt;p&gt;This answer is not equivalent to the reference.&lt;/p&gt;</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <input>
+      <name>members</name>
+      <type>algebraic</type>
+      <tans>unordered</tans>
+      <boxsize>18</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint />
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords />
+      <allowwords />
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options />
+    </input>
+    <prt>
+      <name>unordered</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text />
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description />
+        <answertest>AlgEquiv</answertest>
+        <sans>members</sans>
+        <tans>unordered</tans>
+        <testoptions />
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty />
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>unordered-T</trueanswernote>
+        <truefeedback format="html">
+          <text>&lt;p&gt;Correct.&lt;/p&gt;</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty />
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>unordered-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>&lt;p&gt;This answer is not equivalent to the reference.&lt;/p&gt;</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <input>
+      <name>explained</name>
+      <type>algebraic</type>
+      <tans>unordered</tans>
+      <boxsize>18</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint />
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords />
+      <allowwords />
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options />
+    </input>
+    <prt>
+      <name>explained</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
+      <feedbackvariables>
+        <text />
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description />
+        <answertest>Sets</answertest>
+        <sans>explained</sans>
+        <tans>unordered</tans>
+        <testoptions />
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty />
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>explained-T</trueanswernote>
+        <truefeedback format="html">
+          <text>&lt;p&gt;Correct.&lt;/p&gt;</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty />
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>explained-F</falseanswernote>
+        <falsefeedback format="html">
+          <text>&lt;p&gt;This answer is not equivalent to the reference.&lt;/p&gt;</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <description>Collection structure and form control</description>
+      <testinput>
+        <name>sequence</name>
+        <value>[1,2,3]</value>
+      </testinput>
+      <testinput>
+        <name>members</name>
+        <value>{3,2,1}</value>
+      </testinput>
+      <testinput>
+        <name>explained</name>
+        <value>{1,2,3}</value>
+      </testinput>
+      <expected>
+        <name>ordered</name>
+        <expectedscore>1</expectedscore>
+        <expectedpenalty>0</expectedpenalty>
+        <expectedanswernote>ordered-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>unordered</name>
+        <expectedscore>1</expectedscore>
+        <expectedpenalty>0</expectedpenalty>
+        <expectedanswernote>unordered-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>explained</name>
+        <expectedscore>1</expectedscore>
+        <expectedpenalty>0</expectedpenalty>
+        <expectedanswernote>explained-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <description>Collection structure and form control</description>
+      <testinput>
+        <name>sequence</name>
+        <value>[3,2,1]</value>
+      </testinput>
+      <testinput>
+        <name>members</name>
+        <value>{1,2,3}</value>
+      </testinput>
+      <testinput>
+        <name>explained</name>
+        <value>{1,2,3,3}</value>
+      </testinput>
+      <expected>
+        <name>ordered</name>
+        <expectedscore>0</expectedscore>
+        <expectedpenalty>0.1</expectedpenalty>
+        <expectedanswernote>ordered-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>unordered</name>
+        <expectedscore>1</expectedscore>
+        <expectedpenalty>0</expectedpenalty>
+        <expectedanswernote>unordered-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>explained</name>
+        <expectedscore>1</expectedscore>
+        <expectedpenalty>0</expectedpenalty>
+        <expectedanswernote>explained-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <description>Collection structure and form control</description>
+      <testinput>
+        <name>sequence</name>
+        <value>[1,2,3]</value>
+      </testinput>
+      <testinput>
+        <name>members</name>
+        <value>{1,2}</value>
+      </testinput>
+      <testinput>
+        <name>explained</name>
+        <value>{1,2,4}</value>
+      </testinput>
+      <expected>
+        <name>ordered</name>
+        <expectedscore>1</expectedscore>
+        <expectedpenalty>0</expectedpenalty>
+        <expectedanswernote>ordered-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>unordered</name>
+        <expectedscore>0</expectedscore>
+        <expectedpenalty>0.1</expectedpenalty>
+        <expectedanswernote>unordered-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>explained</name>
+        <expectedscore>0</expectedscore>
+        <expectedpenalty>0.1</expectedpenalty>
+        <expectedanswernote>explained-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <description>Collection structure and form control</description>
+      <testinput>
+        <name>sequence</name>
+        <value>[1,2]</value>
+      </testinput>
+      <testinput>
+        <name>members</name>
+        <value>{1,2,3,3}</value>
+      </testinput>
+      <testinput>
+        <name>explained</name>
+        <value>{1,2}</value>
+      </testinput>
+      <expected>
+        <name>ordered</name>
+        <expectedscore>0</expectedscore>
+        <expectedpenalty>0.1</expectedpenalty>
+        <expectedanswernote>ordered-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>unordered</name>
+        <expectedscore>1</expectedscore>
+        <expectedpenalty>0</expectedpenalty>
+        <expectedanswernote>unordered-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>explained</name>
+        <expectedscore>0</expectedscore>
+        <expectedpenalty>0.1</expectedpenalty>
+        <expectedanswernote>explained-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+</quiz>

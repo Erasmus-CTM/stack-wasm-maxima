@@ -1,0 +1,7 @@
+(C) 2019-2021 Antonis Tsolomitis. 
+This work is released under the GUST Font License -- see http://tug.org/fonts/licenses/GUST-FONT-LICENSE.txt for details.
+
+Copyright (c) 2024 MathJax, Inc. (www.mathjax.org)
+Original copyright:
+(C) 2019-2021 Antonis Tsolomitis. 
+This work is released under the GUST Font License -- see http://tug.org/fonts/licenses/GUST-FONT-LICENSE.txt for details.

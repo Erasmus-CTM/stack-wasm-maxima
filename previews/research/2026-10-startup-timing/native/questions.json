@@ -1,0 +1,2015 @@
+{
+  "schema": 1,
+  "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+  "ctmCheckersRevision": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+  "jsxgraphQuartoRevision": "ba2daa52fa6b1c65b37322bca3f02643e31a688e",
+  "scope": "Native question preparation and supported controller subset; no Moodle PHP input-controller parity claim",
+  "questions": [
+    {
+      "id": "native-rational",
+      "title": "Rational equivalence",
+      "source": {
+        "repository": "Erasmus-CTM/ctm-checkers",
+        "revision": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+        "path": "examples/stack/rational-equivalence.xml",
+        "classification": "CTM-authored question using standard STACK features",
+        "sha256": "d12877675ab9cf11af9a0c900368e2d3f7c371c4fc4b4676c9437a89434e0b47",
+        "resource": "native-questions/native-rational.xml"
+      },
+      "seeds": [
+        1,
+        2
+      ],
+      "question": {
+        "name": "Equivalent rational expression",
+        "questiontext": "<p>For \\(x\\neq-@@CTM_NATIVE_t0@@\\), give an expression equivalent to \\(\\dfrac{(x+@@CTM_NATIVE_t1@@)(x+@@CTM_NATIVE_t2@@)}{(x+@@CTM_NATIVE_t3@@)^2}\\). You may simplify it, or give any equivalent expression on this domain.</p><p>[[input:ans]] [[validation:ans]] [[feedback:prt1]]</p>",
+        "generalfeedback": "<p>Cancel one common factor of \\(x+@@CTM_NATIVE_t4@@\\) (valid when \\(x\\neq-@@CTM_NATIVE_t5@@\\)) to obtain \\(@@CTM_NATIVE_t6@@\\).</p>",
+        "specificfeedback": "<p>[[feedback:prt1]]</p>",
+        "questionnote": "Rational identity: (x+n)(x+m)/(x+n)^2 = ta, for x != -n",
+        "variables": "n:rand(3)+2;\nm:n+rand(3)+1;\nta:(x+m)/(x+n);",
+        "defaultgrade": 1.0,
+        "penalty": 0.1,
+        "simplify": true,
+        "assumepositive": false,
+        "assumereal": false,
+        "inputs": [
+          {
+            "name": "ans",
+            "type": "algebraic",
+            "teacher": "ta",
+            "boxsize": 18,
+            "strictsyntax": true,
+            "insertstars": 0,
+            "forbidwords": [],
+            "forbidfloat": true,
+            "requirelowestterms": false,
+            "checkanswertype": true,
+            "mustverify": true,
+            "showvalidation": true,
+            "syntaxhint": ""
+          }
+        ],
+        "prts": [
+          {
+            "name": "prt1",
+            "value": 1.0,
+            "autosimplify": false,
+            "feedbackvariables": "",
+            "nodes": [
+              {
+                "name": "0",
+                "test": "AlgEquiv",
+                "student": "ans",
+                "teacher": "ta",
+                "options": "",
+                "quiet": false,
+                "true": {
+                  "mode": "=",
+                  "score": 1.0,
+                  "next": -1,
+                  "note": "prt1-0-T",
+                  "feedback": "<p>Correct on the stated domain.</p>"
+                },
+                "false": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": 1,
+                  "note": "prt1-0-F",
+                  "feedback": ""
+                }
+              },
+              {
+                "name": "1",
+                "test": "AlgEquiv",
+                "student": "ans",
+                "teacher": "(x+n)/(x+m)",
+                "options": "",
+                "quiet": false,
+                "true": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": -1,
+                  "note": "prt1-1-T",
+                  "feedback": "<p>You inverted the fraction. Cancel a shared factor instead.</p>"
+                },
+                "false": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": -1,
+                  "note": "prt1-1-F",
+                  "feedback": "<p>Cancel one factor in the numerator against one in the squared denominator.</p>"
+                }
+              }
+            ],
+            "locals": []
+          }
+        ],
+        "qtests": [
+          {
+            "testcase": "1",
+            "description": "Simplified expression",
+            "inputs": {
+              "ans": "(x+m)/(x+n)"
+            },
+            "expected": {
+              "prt1": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "prt1-0-T"
+              }
+            }
+          },
+          {
+            "testcase": "2",
+            "description": "Unsimplified but equivalent expression",
+            "inputs": {
+              "ans": "(x+n)*(x+m)/(x+n)^2"
+            },
+            "expected": {
+              "prt1": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "prt1-0-T"
+              }
+            }
+          },
+          {
+            "testcase": "3",
+            "description": "Reciprocal misconception",
+            "inputs": {
+              "ans": "(x+n)/(x+m)"
+            },
+            "expected": {
+              "prt1": {
+                "score": 0.0,
+                "penalty": 0.1,
+                "note": "prt1-0-F | prt1-1-T"
+              }
+            }
+          }
+        ],
+        "deployedseeds": [
+          17,
+          29,
+          47
+        ],
+        "native": {
+          "schema": 1,
+          "id": "native-rational",
+          "locals": [
+            "n",
+            "m",
+            "ta"
+          ],
+          "tokens": [
+            {
+              "id": "t0",
+              "source": "n",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t1",
+              "source": "n",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t2",
+              "source": "m",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t3",
+              "source": "n",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t4",
+              "source": "n",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t5",
+              "source": "n",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t6",
+              "source": "ta",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            }
+          ],
+          "boards": []
+        }
+      },
+      "probes": [
+        {
+          "answers": {
+            "ans": "0"
+          },
+          "status": "graded",
+          "score": 0
+        }
+      ],
+      "graph": null,
+      "python": false
+    },
+    {
+      "id": "native-numerical",
+      "title": "Numerical precision",
+      "source": {
+        "repository": "Erasmus-CTM/ctm-checkers",
+        "revision": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+        "path": "examples/stack/numerical-measurement.xml",
+        "classification": "CTM-authored question using standard STACK features",
+        "sha256": "67986e3cac4e77db839dae050abb439d0214858b5bd7a4e1a06f6f778688df8b",
+        "resource": "native-questions/native-numerical.xml"
+      },
+      "seeds": [
+        1
+      ],
+      "question": {
+        "name": "Rectangle and triangle measurements",
+        "questiontext": "<p>A rectangle is \\(@@CTM_NATIVE_t0@@\\) cm long and \\(@@CTM_NATIVE_t1@@\\) cm wide. A right triangle has those same perpendicular side lengths.</p><ol><li>Find the rectangle perimeter in cm, within \\(0.25\\) cm. [[input:perimeter]] [[validation:perimeter]] [[feedback:prt1]]</li><li>Find the triangle area in cm², within \\(2\\%\\) of the exact value. [[input:area]] [[validation:area]] [[feedback:prt2]]</li><li>Write the triangle area to <strong>exactly two decimal places</strong> (include the final zero). [[input:reported]] [[validation:reported]] [[feedback:prt3]]</li></ol>",
+        "generalfeedback": "<p>Perimeter: \\(2(@@CTM_NATIVE_t2@@+@@CTM_NATIVE_t3@@)=@@CTM_NATIVE_t4@@\\) cm. Triangle area: \\(@@CTM_NATIVE_t5@@\\cdot@@CTM_NATIVE_t6@@/2=@@CTM_NATIVE_t7@@\\) cm². To two decimal places, write <strong>17.50</strong>; the final zero records the requested precision.</p>",
+        "specificfeedback": "<p>[[feedback:prt1]] [[feedback:prt2]] [[feedback:prt3]]</p>",
+        "questionnote": "Numerical checks: perimeter 24, area 17.5, two-place area 17.50",
+        "variables": "p:7;\nq:5;\nta_perimeter:2*(p+q);\nta_area:p*q/2;",
+        "defaultgrade": 1.0,
+        "penalty": 0.1,
+        "simplify": true,
+        "assumepositive": false,
+        "assumereal": false,
+        "inputs": [
+          {
+            "name": "perimeter",
+            "type": "numerical",
+            "teacher": "ta_perimeter",
+            "boxsize": 18,
+            "strictsyntax": true,
+            "insertstars": 0,
+            "forbidwords": [],
+            "forbidfloat": false,
+            "requirelowestterms": false,
+            "checkanswertype": false,
+            "mustverify": true,
+            "showvalidation": true,
+            "syntaxhint": ""
+          },
+          {
+            "name": "area",
+            "type": "numerical",
+            "teacher": "ta_area",
+            "boxsize": 18,
+            "strictsyntax": true,
+            "insertstars": 0,
+            "forbidwords": [],
+            "forbidfloat": false,
+            "requirelowestterms": false,
+            "checkanswertype": false,
+            "mustverify": true,
+            "showvalidation": true,
+            "syntaxhint": ""
+          },
+          {
+            "name": "reported",
+            "type": "numerical",
+            "teacher": "ta_area",
+            "boxsize": 18,
+            "strictsyntax": true,
+            "insertstars": 0,
+            "forbidwords": [],
+            "forbidfloat": false,
+            "requirelowestterms": false,
+            "checkanswertype": false,
+            "mustverify": true,
+            "showvalidation": true,
+            "syntaxhint": ""
+          }
+        ],
+        "prts": [
+          {
+            "name": "prt1",
+            "value": 0.3,
+            "autosimplify": false,
+            "feedbackvariables": "",
+            "nodes": [
+              {
+                "name": "0",
+                "test": "NumAbsolute",
+                "student": "perimeter",
+                "teacher": "ta_perimeter",
+                "options": "0.25",
+                "quiet": false,
+                "true": {
+                  "mode": "=",
+                  "score": 1.0,
+                  "next": -1,
+                  "note": "prt1-0-T",
+                  "feedback": "<p>Perimeter is within 0.25 cm.</p>"
+                },
+                "false": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": -1,
+                  "note": "prt1-0-F",
+                  "feedback": "<p>Use twice the sum of the side lengths.</p>"
+                }
+              }
+            ],
+            "locals": []
+          },
+          {
+            "name": "prt2",
+            "value": 0.4,
+            "autosimplify": false,
+            "feedbackvariables": "",
+            "nodes": [
+              {
+                "name": "0",
+                "test": "NumRelative",
+                "student": "area",
+                "teacher": "ta_area",
+                "options": "0.02",
+                "quiet": false,
+                "true": {
+                  "mode": "=",
+                  "score": 1.0,
+                  "next": -1,
+                  "note": "prt2-0-T",
+                  "feedback": "<p>Triangle area is within 2%.</p>"
+                },
+                "false": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": -1,
+                  "note": "prt2-0-F",
+                  "feedback": "<p>Use half the product of the perpendicular sides.</p>"
+                }
+              }
+            ],
+            "locals": []
+          },
+          {
+            "name": "prt3",
+            "value": 0.3,
+            "autosimplify": false,
+            "feedbackvariables": "",
+            "nodes": [
+              {
+                "name": "0",
+                "test": "NumDecPlaces",
+                "student": "reported",
+                "teacher": "ta_area",
+                "options": "2",
+                "quiet": false,
+                "true": {
+                  "mode": "=",
+                  "score": 1.0,
+                  "next": -1,
+                  "note": "prt3-0-T",
+                  "feedback": "<p>The value and two-decimal-place formatting are both correct.</p>"
+                },
+                "false": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": -1,
+                  "note": "prt3-0-F",
+                  "feedback": "<p>Check the value and type two digits after the decimal point, including a trailing zero.</p>"
+                }
+              }
+            ],
+            "locals": []
+          }
+        ],
+        "qtests": [
+          {
+            "testcase": "1",
+            "description": "Exact values with two-place reporting",
+            "inputs": {
+              "perimeter": "24",
+              "area": "17.5",
+              "reported": "17.50"
+            },
+            "expected": {
+              "prt1": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "prt1-0-T"
+              },
+              "prt2": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "prt2-0-T"
+              },
+              "prt3": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "prt3-0-T"
+              }
+            }
+          },
+          {
+            "testcase": "2",
+            "description": "Outside tolerance and missing trailing zero",
+            "inputs": {
+              "perimeter": "25",
+              "area": "20",
+              "reported": "17.5"
+            },
+            "expected": {
+              "prt1": {
+                "score": 0.0,
+                "penalty": 0.1,
+                "note": "prt1-0-F"
+              },
+              "prt2": {
+                "score": 0.0,
+                "penalty": 0.1,
+                "note": "prt2-0-F"
+              },
+              "prt3": {
+                "score": 0.0,
+                "penalty": 0.1,
+                "note": "prt3-0-F"
+              }
+            }
+          },
+          {
+            "testcase": "3",
+            "description": "Acceptable approximations with precise reporting",
+            "inputs": {
+              "perimeter": "24.1",
+              "area": "17.65",
+              "reported": "17.50"
+            },
+            "expected": {
+              "prt1": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "prt1-0-T"
+              },
+              "prt2": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "prt2-0-T"
+              },
+              "prt3": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "prt3-0-T"
+              }
+            }
+          }
+        ],
+        "deployedseeds": [
+          17,
+          29,
+          47
+        ],
+        "native": {
+          "schema": 1,
+          "id": "native-numerical",
+          "locals": [
+            "p",
+            "q",
+            "ta_perimeter",
+            "ta_area"
+          ],
+          "tokens": [
+            {
+              "id": "t0",
+              "source": "p",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t1",
+              "source": "q",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t2",
+              "source": "p",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t3",
+              "source": "q",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t4",
+              "source": "ta_perimeter",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t5",
+              "source": "p",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t6",
+              "source": "q",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t7",
+              "source": "ta_area",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            }
+          ],
+          "boards": []
+        }
+      },
+      "probes": [
+        {
+          "answers": {
+            "perimeter": "24",
+            "area": "17.5",
+            "reported": "17.50"
+          },
+          "status": "graded",
+          "score": 1
+        },
+        {
+          "answers": {
+            "perimeter": "0",
+            "area": "0",
+            "reported": "0.00"
+          },
+          "status": "graded",
+          "score": 0
+        }
+      ],
+      "graph": null,
+      "python": false
+    },
+    {
+      "id": "native-collections",
+      "title": "Lists and sets",
+      "source": {
+        "repository": "Erasmus-CTM/ctm-checkers",
+        "revision": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+        "path": "examples/stack/finite-collections.xml",
+        "classification": "CTM-authored question using standard STACK features",
+        "sha256": "92ab85826a7d89d152c4d1185f6987981f6cf832506c47ef3bf2a7a33f72112c",
+        "resource": "native-questions/native-collections.xml"
+      },
+      "seeds": [
+        1
+      ],
+      "question": {
+        "name": "Finite scalar collections",
+        "questiontext": "<p>Use square brackets for an ordered list and braces for a set. Here a = \\(@@CTM_NATIVE_t0@@\\).</p><p>Enter the list \\(@@CTM_NATIVE_t1@@\\): [[input:sequence]] [[validation:sequence]] [[feedback:ordered]]</p><p>Enter the set \\(@@CTM_NATIVE_t2@@\\): [[input:members]] [[validation:members]] [[feedback:unordered]]</p><p>Enter the same set again; this check explains duplicates and missing/extra elements: [[input:explained]] [[validation:explained]] [[feedback:explained]]</p>",
+        "generalfeedback": "<p>Lists preserve order and repetitions. Sets ignore order and repeated elements.</p>",
+        "specificfeedback": "",
+        "questionnote": "Finite scalar collections, a = @@CTM_NATIVE_t3@@",
+        "variables": "a:rand_with_step(2,8,1); ordered:[a,x+x]; unordered:{a,x+x};",
+        "defaultgrade": 1.0,
+        "penalty": 0.1,
+        "simplify": true,
+        "assumepositive": false,
+        "assumereal": false,
+        "inputs": [
+          {
+            "name": "sequence",
+            "type": "algebraic",
+            "teacher": "ordered",
+            "boxsize": 18,
+            "strictsyntax": true,
+            "insertstars": 0,
+            "forbidwords": [],
+            "forbidfloat": true,
+            "requirelowestterms": false,
+            "checkanswertype": true,
+            "mustverify": true,
+            "showvalidation": true,
+            "syntaxhint": ""
+          },
+          {
+            "name": "members",
+            "type": "algebraic",
+            "teacher": "unordered",
+            "boxsize": 18,
+            "strictsyntax": true,
+            "insertstars": 0,
+            "forbidwords": [],
+            "forbidfloat": true,
+            "requirelowestterms": false,
+            "checkanswertype": true,
+            "mustverify": true,
+            "showvalidation": true,
+            "syntaxhint": ""
+          },
+          {
+            "name": "explained",
+            "type": "algebraic",
+            "teacher": "unordered",
+            "boxsize": 18,
+            "strictsyntax": true,
+            "insertstars": 0,
+            "forbidwords": [],
+            "forbidfloat": true,
+            "requirelowestterms": false,
+            "checkanswertype": true,
+            "mustverify": true,
+            "showvalidation": true,
+            "syntaxhint": ""
+          }
+        ],
+        "prts": [
+          {
+            "name": "ordered",
+            "value": 1.0,
+            "autosimplify": false,
+            "feedbackvariables": "",
+            "nodes": [
+              {
+                "name": "0",
+                "test": "AlgEquiv",
+                "student": "sequence",
+                "teacher": "ordered",
+                "options": "",
+                "quiet": false,
+                "true": {
+                  "mode": "=",
+                  "score": 1.0,
+                  "next": -1,
+                  "note": "ordered-T",
+                  "feedback": "<p>Correct.</p>"
+                },
+                "false": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": -1,
+                  "note": "ordered-F",
+                  "feedback": "<p>This answer is not equivalent to the reference.</p>"
+                }
+              }
+            ],
+            "locals": []
+          },
+          {
+            "name": "unordered",
+            "value": 1.0,
+            "autosimplify": false,
+            "feedbackvariables": "",
+            "nodes": [
+              {
+                "name": "0",
+                "test": "AlgEquiv",
+                "student": "members",
+                "teacher": "unordered",
+                "options": "",
+                "quiet": false,
+                "true": {
+                  "mode": "=",
+                  "score": 1.0,
+                  "next": -1,
+                  "note": "unordered-T",
+                  "feedback": "<p>Correct.</p>"
+                },
+                "false": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": -1,
+                  "note": "unordered-F",
+                  "feedback": "<p>This answer is not equivalent to the reference.</p>"
+                }
+              }
+            ],
+            "locals": []
+          },
+          {
+            "name": "explained",
+            "value": 1.0,
+            "autosimplify": false,
+            "feedbackvariables": "",
+            "nodes": [
+              {
+                "name": "0",
+                "test": "Sets",
+                "student": "explained",
+                "teacher": "unordered",
+                "options": "",
+                "quiet": false,
+                "true": {
+                  "mode": "=",
+                  "score": 1.0,
+                  "next": -1,
+                  "note": "explained-T",
+                  "feedback": "<p>Correct.</p>"
+                },
+                "false": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": -1,
+                  "note": "explained-F",
+                  "feedback": "<p>This answer is not equivalent to the reference.</p>"
+                }
+              }
+            ],
+            "locals": []
+          }
+        ],
+        "qtests": [
+          {
+            "testcase": "1",
+            "description": "Flat collection control",
+            "inputs": {
+              "sequence": "[a,2*x]",
+              "members": "{2*x,a}",
+              "explained": "{a,2*x}"
+            },
+            "expected": {
+              "ordered": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "ordered-T"
+              },
+              "unordered": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "unordered-T"
+              },
+              "explained": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "explained-T"
+              }
+            }
+          },
+          {
+            "testcase": "2",
+            "description": "Flat collection control",
+            "inputs": {
+              "sequence": "[2*x,a]",
+              "members": "{a,2*x}",
+              "explained": "{a,2*x,2*x}"
+            },
+            "expected": {
+              "ordered": {
+                "score": 0.0,
+                "penalty": 0.1,
+                "note": "ordered-F"
+              },
+              "unordered": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "unordered-T"
+              },
+              "explained": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "explained-T"
+              }
+            }
+          },
+          {
+            "testcase": "3",
+            "description": "Flat collection control",
+            "inputs": {
+              "sequence": "[a,2*x,a]",
+              "members": "{a}",
+              "explained": "{a,3*x}"
+            },
+            "expected": {
+              "ordered": {
+                "score": 0.0,
+                "penalty": 0.1,
+                "note": "ordered-F"
+              },
+              "unordered": {
+                "score": 0.0,
+                "penalty": 0.1,
+                "note": "unordered-F"
+              },
+              "explained": {
+                "score": 0.0,
+                "penalty": 0.1,
+                "note": "explained-F"
+              }
+            }
+          },
+          {
+            "testcase": "4",
+            "description": "Flat collection control",
+            "inputs": {
+              "sequence": "[a,x+x]",
+              "members": "{x+x,a,a}",
+              "explained": "{a}"
+            },
+            "expected": {
+              "ordered": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "ordered-T"
+              },
+              "unordered": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "unordered-T"
+              },
+              "explained": {
+                "score": 0.0,
+                "penalty": 0.1,
+                "note": "explained-F"
+              }
+            }
+          }
+        ],
+        "deployedseeds": [
+          17,
+          29,
+          47
+        ],
+        "native": {
+          "schema": 1,
+          "id": "native-collections",
+          "locals": [
+            "a",
+            "ordered",
+            "unordered"
+          ],
+          "tokens": [
+            {
+              "id": "t0",
+              "source": "a",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t1",
+              "source": "ordered",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t2",
+              "source": "unordered",
+              "format": "latex",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "html"
+            },
+            {
+              "id": "t3",
+              "source": "a",
+              "format": "latex",
+              "wrap": true,
+              "phase": "prepare",
+              "context": "html"
+            }
+          ],
+          "boards": []
+        }
+      },
+      "probes": [],
+      "graph": null,
+      "python": false
+    },
+    {
+      "id": "native-matrix",
+      "title": "A fixed matrix",
+      "source": {
+        "classification": "CTM-authored question using standard fixed matrix input and AlgEquiv",
+        "sha256": "c0f7dd88569dd085f21616aa7d343c7c21ab41412fca9ec89bf6b187d7da00c5",
+        "resource": "native-questions/native-matrix.xml"
+      },
+      "seeds": [
+        1
+      ],
+      "question": {
+        "name": "A fixed native matrix",
+        "questiontext": "<p>Enter the two by two identity matrix. [[input:ans]] [[validation:ans]] [[feedback:prt1]]</p>",
+        "generalfeedback": "",
+        "specificfeedback": "[[feedback:prt1]]",
+        "questionnote": "",
+        "variables": "",
+        "defaultgrade": 1.0,
+        "penalty": 0.1,
+        "simplify": true,
+        "assumepositive": false,
+        "assumereal": false,
+        "inputs": [
+          {
+            "name": "ans",
+            "type": "matrix",
+            "teacher": "matrix([1,0],[0,1])",
+            "boxsize": 15,
+            "strictsyntax": true,
+            "insertstars": 0,
+            "forbidwords": [],
+            "forbidfloat": false,
+            "requirelowestterms": false,
+            "checkanswertype": true,
+            "mustverify": true,
+            "showvalidation": true,
+            "syntaxhint": "",
+            "matrix": null
+          }
+        ],
+        "prts": [
+          {
+            "name": "prt1",
+            "value": 1.0,
+            "autosimplify": true,
+            "feedbackvariables": "",
+            "nodes": [
+              {
+                "name": "0",
+                "test": "AlgEquiv",
+                "student": "ans",
+                "teacher": "matrix([1,0],[0,1])",
+                "options": "",
+                "quiet": false,
+                "true": {
+                  "mode": "=",
+                  "score": 1.0,
+                  "next": -1,
+                  "note": "native-T",
+                  "feedback": ""
+                },
+                "false": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": -1,
+                  "note": "native-F",
+                  "feedback": ""
+                }
+              }
+            ],
+            "locals": []
+          }
+        ],
+        "qtests": [
+          {
+            "testcase": "1",
+            "description": "",
+            "inputs": {
+              "ans": "matrix([1,0],[0,1])"
+            },
+            "expected": {
+              "prt1": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "native-T"
+              }
+            }
+          },
+          {
+            "testcase": "2",
+            "description": "",
+            "inputs": {
+              "ans": "matrix([1,1],[0,1])"
+            },
+            "expected": {
+              "prt1": {
+                "score": 0.0,
+                "penalty": 0.1,
+                "note": "native-F"
+              }
+            }
+          }
+        ],
+        "deployedseeds": [],
+        "native": {
+          "schema": 1,
+          "id": "native-matrix",
+          "locals": [],
+          "tokens": [],
+          "boards": []
+        }
+      },
+      "probes": [
+        {
+          "answers": {
+            "ans": "matrix([1,0],[0,1])"
+          },
+          "status": "graded",
+          "score": 1
+        },
+        {
+          "answers": {
+            "ans": "matrix([1,1],[0,1])"
+          },
+          "status": "graded",
+          "score": 0
+        }
+      ],
+      "graph": null,
+      "python": false
+    },
+    {
+      "id": "native-binding",
+      "title": "Unchanged upstream point binding",
+      "source": {
+        "repository": "maths/moodle-qtype_stack",
+        "revision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "path": "samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs/2_Binding_what_does_it_mean.xml",
+        "classification": "Unchanged upstream STACK teaching demonstration; tautological grading, not evidence of mathematical assessment",
+        "sha256": "887265e6aef3fde969596bd4c2946e4662bbe89d2d2fcdc43d593ef0a2b26699",
+        "resource": "native-questions/native-binding.xml"
+      },
+      "seeds": [
+        1
+      ],
+      "question": {
+        "name": "2. \"Binding\", what does it mean?",
+        "questiontext": "<p>\"Binding\", in the context of STACK + JSXGraph integration, means connecting the value of a STACK input field to some element in the graph. If the element gets moved the input field's value is also changed. In the simplest example if you drag a slider from value 1 to value 2 the bound input will be set to 2. This is obviously important when you wish to use that part of the graph as an input.  Also, as the VLE in the background stores the values of the input fields we can start remembering state. E.g. f you dragged the slider to value 2 and left the page then the binding logic should be able to ensure that the slider gets placed back to that same value if you return to the page.</p><p>As an simplified example of this we now build a graph with a line segment which has two draggable end points one of which is bound and one which is not. Drag the two points around and then press 'Check'.  When the checking process reloads the page you should see the bound one staying where you dragged it to and the other to return into its initial position. You should also see that the STACK logic side received the position of the bound point.</p><pre style=\"line-height:0.9;\">&#91;&#91;jsxgraph input-ref-ans1='ans1Ref'&#93;&#93;\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\nvar p1 = board.create('point', [-3,3], {name:'Bound',size:4});\nvar p2 = board.create('point', [3,-3], {name:'Free',size:4});\nvar line = board.create('line', [p1,p2], {straightFirst:false, straightLast:false});\n\n/* There exists a simple convenience method for binding inputs to points\n    It just needs an input reference, defined as a parameter of the jsxgraph-block\n    and a primitive object of the type of the binding, in this case a point. */\nstack_jxg.bind_point(ans1Ref, p1);\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as we are not yet ready to talk about two-way binding. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n&#91;&#91;/jsxgraph&#93;&#93;</pre>\n\n@@CTM_BOARD_b0@@\n\n<p><i>As a special test case here, try moving the bound one out of the box. For that to work the binding needs to track not only direct actions affecting the point but also changes caused by other actions. Those needing to build their own binding logic for more complex things should note this. Simply tracking the point may not be enough.</i></p><p>[[input:ans1]] [[validation:ans1]]</p>",
+        "generalfeedback": "",
+        "specificfeedback": "[[feedback:prt1]]",
+        "questionnote": "",
+        "variables": "",
+        "defaultgrade": 1.0,
+        "penalty": 0.1,
+        "simplify": true,
+        "assumepositive": false,
+        "assumereal": false,
+        "inputs": [
+          {
+            "name": "ans1",
+            "type": "algebraic",
+            "teacher": "[1,1]",
+            "boxsize": 15,
+            "strictsyntax": true,
+            "insertstars": 0,
+            "forbidwords": [],
+            "forbidfloat": false,
+            "requirelowestterms": false,
+            "checkanswertype": false,
+            "mustverify": false,
+            "showvalidation": false,
+            "syntaxhint": ""
+          }
+        ],
+        "prts": [
+          {
+            "name": "prt1",
+            "value": 1.0,
+            "autosimplify": true,
+            "feedbackvariables": "",
+            "nodes": [
+              {
+                "name": "0",
+                "test": "AlgEquiv",
+                "student": "ans1",
+                "teacher": "ans1",
+                "options": "",
+                "quiet": false,
+                "true": {
+                  "mode": "=",
+                  "score": 1.0,
+                  "next": -1,
+                  "note": "prt1-1-T",
+                  "feedback": "The value of the input is @@CTM_NATIVE_t0@@"
+                },
+                "false": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": -1,
+                  "note": "prt1-1-F",
+                  "feedback": ""
+                }
+              }
+            ],
+            "locals": []
+          }
+        ],
+        "qtests": [],
+        "deployedseeds": [],
+        "native": {
+          "schema": 1,
+          "id": "native-binding",
+          "locals": [],
+          "tokens": [
+            {
+              "id": "t0",
+              "source": "ans1",
+              "format": "source",
+              "wrap": false,
+              "phase": "feedback",
+              "context": "html"
+            }
+          ],
+          "boards": [
+            {
+              "id": "b0",
+              "phase": "prepare",
+              "attributes": {
+                "input-ref-ans1": "ans1Ref"
+              },
+              "inputs": {
+                "ans1": "ans1Ref"
+              },
+              "code": "\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5], showNavigation:false});\nvar p1 = board.create('point', [-3,3], {name:'Bound',size:4});\nvar p2 = board.create('point', [3,-3], {name:'Free',size:4});\nvar line = board.create('line', [p1,p2], {straightFirst:false, straightLast:false});\n\n/* There exists a simple convenience method for binding inputs to points\n   It just needs an input reference, defined as a parameter of the jsxgraph-block\n   and a primitive object of the type of the binding, in this case a point. */\nstack_jxg.bind_point(ans1Ref, p1);\n\n/* Always call board.update() at the end if you have bindings, as they may move things around. */\nboard.update();\n\n/* In this example we hide the input as we are not yet ready to talk about two-way binding. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n"
+            }
+          ]
+        }
+      },
+      "probes": [],
+      "graph": {
+        "kind": "bound-point",
+        "name": "Bound",
+        "input": "ans1"
+      },
+      "python": false
+    },
+    {
+      "id": "native-json",
+      "title": "Unchanged upstream JSON state",
+      "source": {
+        "repository": "maths/moodle-qtype_stack",
+        "revision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "path": "samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs/4_JSON_and_complex_binding.xml",
+        "classification": "Unchanged upstream STACK teaching demonstration; tautological grading, not evidence of mathematical assessment",
+        "sha256": "70e0682bf4028d3ffd93ad2d27708a5a992f3ec818e2a14c70854c54bc97706c",
+        "resource": "native-questions/native-json.xml"
+      },
+      "seeds": [
+        1
+      ],
+      "question": {
+        "name": "4. JSON and complex binding.",
+        "questiontext": "<p>The previous examples have shown the use of simplified binding of single primitives to single inputs, that should cover most use cases but once you start to do more complex things you will need to start building your own binding logic. Some examples of such situations are:</p><ul><li>Creation and deletion of arbitrary numbers of points/objects in graph cannot be tracked with one input per object logic as you cannot create inputs. In these cases you need to store more structure into inputs.</li><li>Not dealing with the positions of things might also be an obvious case, if you want to for example track the order the student clicks some edges in some graph use of the simple binding tools will not help.</li></ul><p>Basically, you cannot use one-to-one input-object-binding if you have dynamic number of objects. To deal with this you need to have some form of data-structures (simple lists of coordinates are often enough but once you have multiple types of things with connections between them you will probably want more) that you can store that represent the state of your graph. As you are authoring JSXGraph graphs in JavaScript the obvious structures are JavaScript objects/dictionaries and lists, luckily those can easily be turned to JSON strings that can be stored into String input fields. And what is important STACK now provides a way for parsing those JSON strings on Maxima side so that you can process the values there.</p><pre style=\"line-height:0.9;\">&#91;&#91;jsxgraph height='700px' width='700px' input-ref-ans1='ans1Ref'&#93;&#93;\n/* In this example ans1 is a String type input, which is important as the value we store \n   there is most definitely not a valid Maxima expression. */\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\n\n/* We will store our points here. */\nvar points = new Array();\nvar i = 0;\n\n/* If we have stored state of points we will resurrect them now. */\nvar theInput = document.getElementById(ans1Ref);\nif (theInput.value && theInput.value != '') {\n var pointList = JSON.parse(theInput.value);\n for (i=0; i&lt;pointList.length; i++) {\n  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});\n  points[i] = p;\n } \n}\n\n/* Lets create some magic, in this example dragging points through specific areas changes \n   the color of the points. And there is an area that both creates and deletes points. */\n\nvar source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {  strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {    strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], { strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\n\n/* A function the we can tie to points so that their color changes. */\nvar colorDragListener = function() {\n /* this in this context should be the point. */\n if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n  this.setAttribute({color:'black'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) &lt; red.Radius()) {\n  this.setAttribute({color:'red'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) &lt; green.Radius()) {\n  this.setAttribute({color:'green'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) &lt; blue.Radius()) {\n  this.setAttribute({color:'blue'});\n }\n}\n\n/* Another function to handle the release of dragged points and the storage of the state. */\nvar dropHandler = function() {\n /* this in this context should be the point. */\n var newOne = points.indexOf(this);\n if (newOne == -1) {\n  /* This is a new one depending on where it was dropped we do things. */\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n   /* When dropped into the source, reset the point. */\n   this.moveTo([source.center.X(),source.center.Y()],100);\n   this.setAttribute({color:'black'});\n  } else {\n   /* it is now in play add it to the list. */\n   points[points.length] = this;\n   /* also initialise a new point in the source. */\n   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\n   p.on('drag',colorDragListener);\n   p.on('up',dropHandler);\n  }\n } else {\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) &lt; source.Radius()) {\n   /* When dropped into the source delete this point as this is an existing point. */\n   points.splice(newOne, 1);\n   this.board.removeObject(this);\n  }\n  /* Otherwise all fine. */\n }\n\n /* Then construct the state. Basically, map the points to a specific form, in this example the form is \n    a bit too complex as it includes an object/dictionary when a list would have worked but maybe this\n    will come in handy elsewhere. */\n var newState = new Array();\n for (i=0; i&lt;points.length; i++) {\n  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};\n  newState[i] = P;\n }\n theInput.value = JSON.stringify(newState);\n\n /* NOTE! You will need to do certain things to make the VLE around you know that things happen, \n    for this reason we need to generate a \"change\" event. In the case of Moodle and this question the event\n    marks the form modified and causes a warning if the page is left through non saving routes. */\n var e = new Event('change');\n theInput.dispatchEvent(e);\n}\n\n\n/* This is the intial point. */\nvar p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\np.on('drag',colorDragListener);\np.on('up',dropHandler);\n\n/* Remember that the points from stored state must also be tied to the listeners if present. */\nfor (i=0; i&lt;points.length; i++) {\n points[i].on('drag',colorDragListener);\n points[i].on('up',dropHandler);\n}\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as it will get absurd very soon. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n&#91;&#91;/jsxgraph&#93;&#93;\n</pre>\n\n@@CTM_BOARD_b0@@\n\n<p>Drag some points around and press check, as expected the points stay in place. The feedback should also show you the raw stored state and some very simple numbers collected from it. You may wish to check the feedback logic but it has very little to show.</p><p>In STACK 4.4 a simplified way of doing custom binding was added, if you need to do this you might wish to look into it, there should be a new sample of that.</p><p>[[input:ans1]] [[validation:ans1]]</p>",
+        "generalfeedback": "",
+        "specificfeedback": "[[feedback:prt1]]",
+        "questionnote": "",
+        "variables": "",
+        "defaultgrade": 1.0,
+        "penalty": 0.1,
+        "simplify": true,
+        "assumepositive": false,
+        "assumereal": false,
+        "inputs": [
+          {
+            "name": "ans1",
+            "type": "string",
+            "teacher": "\"\"",
+            "boxsize": 15,
+            "strictsyntax": true,
+            "insertstars": 0,
+            "forbidwords": [],
+            "forbidfloat": false,
+            "requirelowestterms": false,
+            "checkanswertype": false,
+            "mustverify": false,
+            "showvalidation": false,
+            "syntaxhint": ""
+          }
+        ],
+        "prts": [
+          {
+            "name": "prt1",
+            "value": 1.0,
+            "autosimplify": true,
+            "feedbackvariables": "/* First parse the input string, depending on what it is we can get a list, a stackmap, an integer, a float, a string or und if nothing is found. */\nparsed: stackjson_parse(ans1);\n/* As we will most likely get an list of stackmaps we can just split that list based on which of the elements have which colors like this. We may get und, do try to figure out why and when. */\nred:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,\"color\")=\"red\")));\ngreen:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,\"color\")=\"green\")));\nblue:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,\"color\")=\"blue\")));\nblack:if is(parsed=und) then 0 else length(sublist(parsed, lambda([x], stackmap_get(x,\"color\")=\"black\")));\n/* As an exercise you might want to evaluate the means of coordinates of each color group and draw a suitable picture in the feedback... note however that feedback plots cannot reference inputs. */\n\n/* STACK can also output JSON if need be and stackmap objects can be used in other places too, but are very inconvenient when dealing with modifications to deep structures. To find out more about what is available just check the \"stackstrings.mac\" file it defines the functions. */",
+            "nodes": [
+              {
+                "name": "0",
+                "test": "AlgEquiv",
+                "student": "ans1",
+                "teacher": "ans1",
+                "options": "",
+                "quiet": false,
+                "true": {
+                  "mode": "=",
+                  "score": 1.0,
+                  "next": -1,
+                  "note": "prt1-1-T",
+                  "feedback": "<p>In the input we have @@CTM_NATIVE_t0@@ points. By color (red/green/blue/black) @@CTM_NATIVE_t1@@/@@CTM_NATIVE_t2@@/@@CTM_NATIVE_t3@@/@@CTM_NATIVE_t4@@.</p><p>The raw value of the input is <pre>@@CTM_NATIVE_t5@@</pre></p>"
+                },
+                "false": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": -1,
+                  "note": "prt1-1-F",
+                  "feedback": ""
+                }
+              }
+            ],
+            "locals": [
+              "parsed",
+              "red",
+              "green",
+              "blue",
+              "black"
+            ]
+          }
+        ],
+        "qtests": [],
+        "deployedseeds": [],
+        "native": {
+          "schema": 1,
+          "id": "native-json",
+          "locals": [],
+          "tokens": [
+            {
+              "id": "t0",
+              "source": "if is(parsed=und) then 0 else length(parsed)",
+              "format": "latex",
+              "wrap": true,
+              "phase": "feedback",
+              "context": "html"
+            },
+            {
+              "id": "t1",
+              "source": "red",
+              "format": "latex",
+              "wrap": true,
+              "phase": "feedback",
+              "context": "html"
+            },
+            {
+              "id": "t2",
+              "source": "green",
+              "format": "latex",
+              "wrap": true,
+              "phase": "feedback",
+              "context": "html"
+            },
+            {
+              "id": "t3",
+              "source": "blue",
+              "format": "latex",
+              "wrap": true,
+              "phase": "feedback",
+              "context": "html"
+            },
+            {
+              "id": "t4",
+              "source": "black",
+              "format": "latex",
+              "wrap": true,
+              "phase": "feedback",
+              "context": "html"
+            },
+            {
+              "id": "t5",
+              "source": "ans1",
+              "format": "latex",
+              "wrap": true,
+              "phase": "feedback",
+              "context": "html"
+            }
+          ],
+          "boards": [
+            {
+              "id": "b0",
+              "phase": "prepare",
+              "attributes": {
+                "height": "700px",
+                "width": "700px",
+                "input-ref-ans1": "ans1Ref"
+              },
+              "inputs": {
+                "ans1": "ans1Ref"
+              },
+              "code": "\n/* In this example ans1 is a String type input, which is important as the value we store \n   there is most definitely not a valid Maxima expression. */\nvar board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5],showNavigation:false});\n\n/* We will store our points here. */\nvar points = new Array();\nvar i = 0;\n\n/* If we have stored state of points we will resurrect them now. */\nvar theInput = document.getElementById(ans1Ref);\nif (theInput.value && theInput.value != '') {\n var pointList = JSON.parse(theInput.value);\n for (i=0; i<pointList.length; i++) {\n  var p = board.create('point', [pointList[i]['x'],pointList[i]['y']], {name:'',color:pointList[i]['color']});\n  points[i] = p;\n } \n}\n\n/* Lets create some magic, in this example dragging points through specific areas changes \n   the color of the points. And there is an area that both creates and deletes points. */\n\nvar source = board.create('circle',[board.create('point',[-4,-4],{visible: false}),0.7], {  strokeColor:'black',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar red = board.create('circle',[board.create('point',[0,-4],{visible: false}),0.7], {  strokeColor:'red',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar green = board.create('circle',[board.create('point',[2,-4],{visible: false}),0.7], {    strokeColor:'green',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\nvar blue = board.create('circle',[board.create('point',[4,-4],{visible: false}),0.7], { strokeColor:'blue',frozen:true, fixed:true, method:'pointRadius',hasInnerPoints:true});\n\n/* A function the we can tie to points so that their color changes. */\nvar colorDragListener = function() {\n /* this in this context should be the point. */\n if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {\n  this.setAttribute({color:'black'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[red.center.X(),red.center.Y()]) < red.Radius()) {\n  this.setAttribute({color:'red'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[green.center.X(),green.center.Y()]) < green.Radius()) {\n  this.setAttribute({color:'green'});\n } else if (JXG.Math.Geometry.distance([this.X(),this.Y()],[blue.center.X(),blue.center.Y()]) < blue.Radius()) {\n  this.setAttribute({color:'blue'});\n }\n}\n\n/* Another function to handle the release of dragged points and the storage of the state. */\nvar dropHandler = function() {\n /* this in this context should be the point. */\n var newOne = points.indexOf(this);\n if (newOne == -1) {\n  /* This is a new one depending on where it was dropped we do things. */\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {\n   /* When dropped into the source, reset the point. */\n   this.moveTo([source.center.X(),source.center.Y()],100);\n   this.setAttribute({color:'black'});\n  } else {\n   /* it is now in play add it to the list. */\n   points[points.length] = this;\n   /* also initialise a new point in the source. */\n   var p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\n   p.on('drag',colorDragListener);\n   p.on('up',dropHandler);\n  }\n } else {\n  if (JXG.Math.Geometry.distance([this.X(),this.Y()],[source.center.X(),source.center.Y()]) < source.Radius()) {\n   /* When dropped into the source delete this point as this is an existing point. */\n   points.splice(newOne, 1);\n   this.board.removeObject(this);\n  }\n  /* Otherwise all fine. */\n }\n\n /* Then construct the state. Basically, map the points to a specific form, in this example the form is \n    a bit too complex as it includes an object/dictionary when a list would have worked but maybe this\n    will come in handy elsewhere. */\n var newState = new Array();\n for (i=0; i<points.length; i++) {\n  var P = {'x':points[i].X(),'y':points[i].Y(),'color':points[i].getAttribute('color')};\n  newState[i] = P;\n }\n theInput.value = JSON.stringify(newState);\n\n /* NOTE! You will need to do certain things to make the VLE around you know that things happen, \n    for this reason we need to generate a \"change\" event. In the case of Moodle and this question the event\n    marks the form modified and causes a warning if the page is left through non saving routes. */\n var e = new Event('change');\n theInput.dispatchEvent(e);\n}\n\n\n/* This is the intial point. */\nvar p = board.create('point', [source.center.X(),source.center.Y()], {name:'',color:'black'});\np.on('drag',colorDragListener);\np.on('up',dropHandler);\n\n/* Remember that the points from stored state must also be tied to the listeners if present. */\nfor (i=0; i<points.length; i++) {\n points[i].on('drag',colorDragListener);\n points[i].on('up',dropHandler);\n}\n\n/* Always call board.update() at the end if you have bindings. */\nboard.update();\n\n/* In this example we hide the input as it will get absurd very soon. */\ndocument.getElementById(ans1Ref).style.display = 'none';\n"
+            }
+          ]
+        }
+      },
+      "probes": [],
+      "graph": {
+        "kind": "color-points",
+        "input": "ans1"
+      },
+      "python": false
+    },
+    {
+      "id": "native-python-board",
+      "title": "A graphical PythonChecker",
+      "source": {
+        "classification": "CTM extension: PythonChecker and native/Python continuation",
+        "sha256": "261e37fd40104bc5a42e51bf6c63ade2bef24719da3b64e6bbf58549a1614fda",
+        "resource": "native-questions/native-python-board.xml"
+      },
+      "seeds": [
+        1,
+        2
+      ],
+      "question": {
+        "name": "A graphical PythonChecker",
+        "questiontext": "<p>Place P anywhere in the open first quadrant. PythonChecker accepts any two positive coordinates.</p><p>Move the point, or edit its coordinate list. [[input:ans]] [[validation:ans]] [[feedback:prt1]]</p>\n@@CTM_BOARD_b0@@",
+        "generalfeedback": "",
+        "specificfeedback": "[[feedback:prt1]]",
+        "questionnote": "",
+        "variables": "startx:rand(3)-2;",
+        "defaultgrade": 1.0,
+        "penalty": 0.1,
+        "simplify": true,
+        "assumepositive": false,
+        "assumereal": false,
+        "inputs": [
+          {
+            "name": "ans",
+            "type": "algebraic",
+            "teacher": "[2,2]",
+            "boxsize": 15,
+            "strictsyntax": true,
+            "insertstars": 0,
+            "forbidwords": [],
+            "forbidfloat": false,
+            "requirelowestterms": false,
+            "checkanswertype": true,
+            "mustverify": true,
+            "showvalidation": true,
+            "syntaxhint": ""
+          }
+        ],
+        "prts": [
+          {
+            "name": "prt1",
+            "value": 1.0,
+            "autosimplify": true,
+            "feedbackvariables": "",
+            "nodes": [
+              {
+                "name": "0",
+                "test": "PythonChecker",
+                "student": "ans",
+                "teacher": "[2,2]",
+                "options": "{\"checker\": \"positive_point\"}",
+                "quiet": false,
+                "true": {
+                  "mode": "=",
+                  "score": 1.0,
+                  "next": -1,
+                  "note": "python-T",
+                  "feedback": ""
+                },
+                "false": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": -1,
+                  "note": "python-F",
+                  "feedback": ""
+                }
+              }
+            ],
+            "locals": []
+          }
+        ],
+        "qtests": [
+          {
+            "testcase": "1",
+            "description": "",
+            "inputs": {
+              "ans": "[2,2]"
+            },
+            "expected": {
+              "prt1": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "python-T"
+              }
+            }
+          },
+          {
+            "testcase": "2",
+            "description": "",
+            "inputs": {
+              "ans": "[-1,1]"
+            },
+            "expected": {
+              "prt1": {
+                "score": 0.0,
+                "penalty": 0.1,
+                "note": "python-F"
+              }
+            }
+          }
+        ],
+        "deployedseeds": [],
+        "python_checkers": {
+          "api_version": 1,
+          "source": "# CTM team, CC BY-SA 4.0. PythonChecker API v1.\nfrom ctm_checkers.stack.checker_api import collection_items\n\ndef positive_point(student, teacher, options):\n    values = collection_items(student)\n    return len(values) == 2 and all(value.is_real is True and value.is_positive is True for value in values)\n\ndef positive_x(student, teacher, options):\n    values = collection_items(student)\n    return len(values) == 2 and values[0].is_real is True and values[0].is_positive is True\n\ndef identity_columns(student, teacher, options):\n    if student.shape != teacher.shape:\n        return {\"valid\": False, \"correct\": False, \"feedback\": \"Use a two by two matrix.\"}\n    statuses = [\"correct\" if student[:, column] == teacher[:, column] else \"incorrect\" for column in range(student.cols)]\n    return {\"valid\": True, \"correct\": all(value == \"correct\" for value in statuses),\n            \"feedback\": \"Each column is compared with the identity matrix.\", \"assessment\": {\"columns\": statuses}}\n\nCHECKERS = {\"positive_point\": positive_point, \"positive_x\": positive_x, \"identity_columns\": identity_columns}\n"
+        },
+        "native": {
+          "schema": 1,
+          "id": "native-python-board",
+          "locals": [
+            "startx"
+          ],
+          "tokens": [
+            {
+              "id": "t0",
+              "source": "startx",
+              "format": "source",
+              "wrap": false,
+              "phase": "prepare",
+              "context": "javascript"
+            }
+          ],
+          "boards": [
+            {
+              "id": "b0",
+              "phase": "prepare",
+              "attributes": {
+                "width": "500px",
+                "height": "360px",
+                "input-ref-ans": "pointRef"
+              },
+              "inputs": {
+                "ans": "pointRef"
+              },
+              "code": "\nvar board = JXG.JSXGraph.initBoard(divid, {axis:true,boundingbox:[-4,4,4,-4],showCopyright:false,showNavigation:false});\nvar point = board.create('point',[@@CTM_NATIVE_t0@@,-1],{name:'P',snapToGrid:true,snapSizeX:1,snapSizeY:1});\nstack_jxg.bind_point(pointRef, point);\nboard.update();\n"
+            }
+          ]
+        }
+      },
+      "probes": [
+        {
+          "answers": {
+            "ans": "[1,1]"
+          },
+          "status": "graded",
+          "score": 1
+        },
+        {
+          "answers": {
+            "ans": "[-1,1]"
+          },
+          "status": "graded",
+          "score": 0
+        },
+        {
+          "name": "wrong-length coordinate list []",
+          "answers": {
+            "ans": "[]"
+          },
+          "status": "graded",
+          "score": 0,
+          "sequence": [
+            "PythonChecker"
+          ]
+        },
+        {
+          "name": "wrong-length coordinate list [1]",
+          "answers": {
+            "ans": "[1]"
+          },
+          "status": "graded",
+          "score": 0,
+          "sequence": [
+            "PythonChecker"
+          ]
+        },
+        {
+          "name": "wrong-length coordinate list [2,2,2]",
+          "answers": {
+            "ans": "[2,2,2]"
+          },
+          "status": "graded",
+          "score": 0,
+          "sequence": [
+            "PythonChecker"
+          ]
+        }
+      ],
+      "graph": {
+        "kind": "bound-point",
+        "name": "P",
+        "input": "ans",
+        "initialXSource": "startx",
+        "initialY": -1
+      },
+      "python": true
+    },
+    {
+      "id": "native-mixed-board",
+      "title": "Native → Python → native",
+      "source": {
+        "classification": "CTM extension: PythonChecker and native/Python continuation",
+        "sha256": "fe181ec05b0b715d4fbae2773778c6655b24134bbbf684d3d99e5d48f87f4f15",
+        "resource": "native-questions/native-mixed-board.xml"
+      },
+      "seeds": [
+        1
+      ],
+      "question": {
+        "name": "Native → Python → native",
+        "questiontext": "<p>Place P at (2,2). The y-coordinate earns one half, positive x earns one quarter through PythonChecker, and x=2 earns the final quarter.</p><p>Move the point, or edit its coordinate list. [[input:ans]] [[validation:ans]] [[feedback:prt1]]</p>\n@@CTM_BOARD_b0@@",
+        "generalfeedback": "",
+        "specificfeedback": "[[feedback:prt1]]",
+        "questionnote": "",
+        "variables": "",
+        "defaultgrade": 1.0,
+        "penalty": 0.1,
+        "simplify": true,
+        "assumepositive": false,
+        "assumereal": false,
+        "inputs": [
+          {
+            "name": "ans",
+            "type": "algebraic",
+            "teacher": "[2,2]",
+            "boxsize": 15,
+            "strictsyntax": true,
+            "insertstars": 0,
+            "forbidwords": [],
+            "forbidfloat": false,
+            "requirelowestterms": false,
+            "checkanswertype": true,
+            "mustverify": true,
+            "showvalidation": true,
+            "syntaxhint": ""
+          }
+        ],
+        "prts": [
+          {
+            "name": "prt1",
+            "value": 1.0,
+            "autosimplify": true,
+            "feedbackvariables": "target:2;",
+            "nodes": [
+              {
+                "name": "0",
+                "test": "AlgEquiv",
+                "student": "if listp(ans) then (if length(ans)=2 then ans[2] else 0) else 0",
+                "teacher": "target",
+                "options": "",
+                "quiet": false,
+                "true": {
+                  "mode": "=",
+                  "score": 0.5,
+                  "next": 1,
+                  "note": "native-y-T",
+                  "feedback": "<p>Native y target: @@CTM_NATIVE_t0@@.</p>"
+                },
+                "false": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": 1,
+                  "note": "native-y-F",
+                  "feedback": "<p>Native y target: @@CTM_NATIVE_t1@@.</p>"
+                }
+              },
+              {
+                "name": "1",
+                "test": "PythonChecker",
+                "student": "ans",
+                "teacher": "[2,2]",
+                "options": "{\"checker\":\"positive_x\"}",
+                "quiet": false,
+                "true": {
+                  "mode": "+",
+                  "score": 0.25,
+                  "next": 2,
+                  "note": "python-x-T",
+                  "feedback": "<p>Python target: @@CTM_NATIVE_t2@@.</p>"
+                },
+                "false": {
+                  "mode": "+",
+                  "score": 0.0,
+                  "next": 2,
+                  "note": "python-x-F",
+                  "feedback": "<p>Python target: @@CTM_NATIVE_t3@@.</p>"
+                }
+              },
+              {
+                "name": "2",
+                "test": "AlgEquiv",
+                "student": "if listp(ans) then (if length(ans)=2 then ans[1] else 0) else 0",
+                "teacher": "target",
+                "options": "",
+                "quiet": false,
+                "true": {
+                  "mode": "+",
+                  "score": 0.25,
+                  "next": -1,
+                  "note": "native-x-T",
+                  "feedback": "<p>Native x target: @@CTM_NATIVE_t4@@.</p>"
+                },
+                "false": {
+                  "mode": "+",
+                  "score": 0.0,
+                  "next": -1,
+                  "note": "native-x-F",
+                  "feedback": "<p>Native x target: @@CTM_NATIVE_t5@@.</p>"
+                }
+              }
+            ],
+            "locals": [
+              "target"
+            ]
+          }
+        ],
+        "qtests": [
+          {
+            "testcase": "1",
+            "description": "",
+            "inputs": {
+              "ans": "[2,2]"
+            },
+            "expected": {
+              "prt1": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "native-y-T | python-x-T | native-x-T"
+              }
+            }
+          },
+          {
+            "testcase": "2",
+            "description": "",
+            "inputs": {
+              "ans": "[2,3]"
+            },
+            "expected": {
+              "prt1": {
+                "score": 0.5,
+                "penalty": 0.1,
+                "note": "native-y-F | python-x-T | native-x-T"
+              }
+            }
+          },
+          {
+            "testcase": "3",
+            "description": "",
+            "inputs": {
+              "ans": "[-1,3]"
+            },
+            "expected": {
+              "prt1": {
+                "score": 0.0,
+                "penalty": 0.1,
+                "note": "native-y-F | python-x-F | native-x-F"
+              }
+            }
+          }
+        ],
+        "deployedseeds": [],
+        "python_checkers": {
+          "api_version": 1,
+          "source": "# CTM team, CC BY-SA 4.0. PythonChecker API v1.\nfrom ctm_checkers.stack.checker_api import collection_items\n\ndef positive_point(student, teacher, options):\n    values = collection_items(student)\n    return len(values) == 2 and all(value.is_real is True and value.is_positive is True for value in values)\n\ndef positive_x(student, teacher, options):\n    values = collection_items(student)\n    return len(values) == 2 and values[0].is_real is True and values[0].is_positive is True\n\ndef identity_columns(student, teacher, options):\n    if student.shape != teacher.shape:\n        return {\"valid\": False, \"correct\": False, \"feedback\": \"Use a two by two matrix.\"}\n    statuses = [\"correct\" if student[:, column] == teacher[:, column] else \"incorrect\" for column in range(student.cols)]\n    return {\"valid\": True, \"correct\": all(value == \"correct\" for value in statuses),\n            \"feedback\": \"Each column is compared with the identity matrix.\", \"assessment\": {\"columns\": statuses}}\n\nCHECKERS = {\"positive_point\": positive_point, \"positive_x\": positive_x, \"identity_columns\": identity_columns}\n"
+        },
+        "native": {
+          "schema": 1,
+          "id": "native-mixed-board",
+          "locals": [],
+          "tokens": [
+            {
+              "id": "t0",
+              "source": "target",
+              "format": "source",
+              "wrap": false,
+              "phase": "feedback",
+              "context": "html"
+            },
+            {
+              "id": "t1",
+              "source": "target",
+              "format": "source",
+              "wrap": false,
+              "phase": "feedback",
+              "context": "html"
+            },
+            {
+              "id": "t2",
+              "source": "target",
+              "format": "source",
+              "wrap": false,
+              "phase": "feedback",
+              "context": "html"
+            },
+            {
+              "id": "t3",
+              "source": "target",
+              "format": "source",
+              "wrap": false,
+              "phase": "feedback",
+              "context": "html"
+            },
+            {
+              "id": "t4",
+              "source": "target",
+              "format": "source",
+              "wrap": false,
+              "phase": "feedback",
+              "context": "html"
+            },
+            {
+              "id": "t5",
+              "source": "target",
+              "format": "source",
+              "wrap": false,
+              "phase": "feedback",
+              "context": "html"
+            }
+          ],
+          "boards": [
+            {
+              "id": "b0",
+              "phase": "prepare",
+              "attributes": {
+                "width": "500px",
+                "height": "360px",
+                "input-ref-ans": "pointRef"
+              },
+              "inputs": {
+                "ans": "pointRef"
+              },
+              "code": "\nvar board = JXG.JSXGraph.initBoard(divid, {axis:true,boundingbox:[-4,4,4,-4],showCopyright:false,showNavigation:false});\nvar point = board.create('point',[-1,-1],{name:'P',snapToGrid:true,snapSizeX:1,snapSizeY:1});\nstack_jxg.bind_point(pointRef, point);\nboard.update();\n"
+            }
+          ]
+        }
+      },
+      "probes": [
+        {
+          "answers": {
+            "ans": "[2,2]"
+          },
+          "status": "graded",
+          "score": 1,
+          "feedbackContains": [
+            "Native y target: 2.",
+            "Python target: 2.",
+            "Native x target: 2."
+          ]
+        },
+        {
+          "answers": {
+            "ans": "[2,3]"
+          },
+          "status": "graded",
+          "score": 0.5,
+          "feedbackContains": [
+            "Native y target: 2.",
+            "Python target: 2.",
+            "Native x target: 2."
+          ]
+        },
+        {
+          "answers": {
+            "ans": "[-1,3]"
+          },
+          "status": "graded",
+          "score": 0,
+          "feedbackContains": [
+            "Native y target: 2.",
+            "Python target: 2.",
+            "Native x target: 2."
+          ]
+        },
+        {
+          "name": "wrong-length coordinate list []",
+          "answers": {
+            "ans": "[]"
+          },
+          "status": "graded",
+          "score": 0,
+          "sequence": [
+            "AlgEquiv",
+            "PythonChecker",
+            "AlgEquiv"
+          ],
+          "feedbackContains": [
+            "Native y target: 2.",
+            "Python target: 2.",
+            "Native x target: 2."
+          ]
+        },
+        {
+          "name": "wrong-length coordinate list [1]",
+          "answers": {
+            "ans": "[1]"
+          },
+          "status": "graded",
+          "score": 0,
+          "sequence": [
+            "AlgEquiv",
+            "PythonChecker",
+            "AlgEquiv"
+          ],
+          "feedbackContains": [
+            "Native y target: 2.",
+            "Python target: 2.",
+            "Native x target: 2."
+          ]
+        },
+        {
+          "name": "wrong-length coordinate list [2,2,2]",
+          "answers": {
+            "ans": "[2,2,2]"
+          },
+          "status": "graded",
+          "score": 0,
+          "sequence": [
+            "AlgEquiv",
+            "PythonChecker",
+            "AlgEquiv"
+          ],
+          "feedbackContains": [
+            "Native y target: 2.",
+            "Python target: 2.",
+            "Native x target: 2."
+          ]
+        }
+      ],
+      "graph": {
+        "kind": "bound-point",
+        "name": "P",
+        "input": "ans"
+      },
+      "python": true
+    },
+    {
+      "id": "native-matrix-python",
+      "title": "PythonChecker column evidence",
+      "source": {
+        "classification": "CTM extension: PythonChecker structured matrix assessment",
+        "sha256": "c8e5ac0cdddd522d63798b03bcfc79f9b000f3790c96c6af5660e703af25ed33",
+        "resource": "native-questions/native-matrix-python.xml"
+      },
+      "seeds": [
+        1
+      ],
+      "question": {
+        "name": "Matrix column assessment from PythonChecker",
+        "questiontext": "<p>Enter the identity matrix. The checker reports a verdict for each column. [[input:ans]] [[validation:ans]] [[feedback:prt1]]</p>",
+        "generalfeedback": "",
+        "specificfeedback": "[[feedback:prt1]]",
+        "questionnote": "",
+        "variables": "",
+        "defaultgrade": 1.0,
+        "penalty": 0.1,
+        "simplify": true,
+        "assumepositive": false,
+        "assumereal": false,
+        "inputs": [
+          {
+            "name": "ans",
+            "type": "matrix",
+            "teacher": "matrix([1,0],[0,1])",
+            "boxsize": 15,
+            "strictsyntax": true,
+            "insertstars": 0,
+            "forbidwords": [],
+            "forbidfloat": false,
+            "requirelowestterms": false,
+            "checkanswertype": true,
+            "mustverify": true,
+            "showvalidation": true,
+            "syntaxhint": "",
+            "matrix": null
+          }
+        ],
+        "prts": [
+          {
+            "name": "prt1",
+            "value": 1.0,
+            "autosimplify": true,
+            "feedbackvariables": "",
+            "nodes": [
+              {
+                "name": "0",
+                "test": "PythonChecker",
+                "student": "ans",
+                "teacher": "matrix([1,0],[0,1])",
+                "options": "{\"checker\": \"identity_columns\"}",
+                "quiet": false,
+                "true": {
+                  "mode": "=",
+                  "score": 1.0,
+                  "next": -1,
+                  "note": "python-T",
+                  "feedback": ""
+                },
+                "false": {
+                  "mode": "=",
+                  "score": 0.0,
+                  "next": -1,
+                  "note": "python-F",
+                  "feedback": ""
+                }
+              }
+            ],
+            "locals": []
+          }
+        ],
+        "qtests": [
+          {
+            "testcase": "1",
+            "description": "",
+            "inputs": {
+              "ans": "matrix([1,0],[0,1])"
+            },
+            "expected": {
+              "prt1": {
+                "score": 1.0,
+                "penalty": 0.0,
+                "note": "python-T"
+              }
+            }
+          },
+          {
+            "testcase": "2",
+            "description": "",
+            "inputs": {
+              "ans": "matrix([1,1],[0,1])"
+            },
+            "expected": {
+              "prt1": {
+                "score": 0.0,
+                "penalty": 0.1,
+                "note": "python-F"
+              }
+            }
+          }
+        ],
+        "deployedseeds": [],
+        "python_checkers": {
+          "api_version": 1,
+          "source": "# CTM team, CC BY-SA 4.0. PythonChecker API v1.\nfrom ctm_checkers.stack.checker_api import collection_items\n\ndef positive_point(student, teacher, options):\n    values = collection_items(student)\n    return len(values) == 2 and all(value.is_real is True and value.is_positive is True for value in values)\n\ndef positive_x(student, teacher, options):\n    values = collection_items(student)\n    return len(values) == 2 and values[0].is_real is True and values[0].is_positive is True\n\ndef identity_columns(student, teacher, options):\n    if student.shape != teacher.shape:\n        return {\"valid\": False, \"correct\": False, \"feedback\": \"Use a two by two matrix.\"}\n    statuses = [\"correct\" if student[:, column] == teacher[:, column] else \"incorrect\" for column in range(student.cols)]\n    return {\"valid\": True, \"correct\": all(value == \"correct\" for value in statuses),\n            \"feedback\": \"Each column is compared with the identity matrix.\", \"assessment\": {\"columns\": statuses}}\n\nCHECKERS = {\"positive_point\": positive_point, \"positive_x\": positive_x, \"identity_columns\": identity_columns}\n"
+        },
+        "native": {
+          "schema": 1,
+          "id": "native-matrix-python",
+          "locals": [],
+          "tokens": [],
+          "boards": []
+        }
+      },
+      "probes": [
+        {
+          "answers": {
+            "ans": "matrix([1,0],[0,1])"
+          },
+          "status": "graded",
+          "score": 1,
+          "assessment": {
+            "columns": [
+              "correct",
+              "correct"
+            ]
+          }
+        },
+        {
+          "answers": {
+            "ans": "matrix([1,1],[0,1])"
+          },
+          "status": "graded",
+          "score": 0,
+          "assessment": {
+            "columns": [
+              "correct",
+              "incorrect"
+            ]
+          }
+        }
+      ],
+      "graph": null,
+      "python": true
+    }
+  ]
+}

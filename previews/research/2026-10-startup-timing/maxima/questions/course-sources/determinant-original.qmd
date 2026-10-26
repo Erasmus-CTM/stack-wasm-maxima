@@ -1,0 +1,25 @@
+```{math-exercise}
+#| label: custom-special-linear-matrix
+#| caption: A non-identity integer matrix with determinant 1
+#| mode: custom
+#| checker: |
+#|   def check(response, symbols):
+#|       values = response["expressions"]
+#|       A = Matrix(2, 2, values)
+#|       integer_entries = all(value.is_integer is True for value in values)
+#|       determinant_one = simplify(A.det() - 1) == 0
+#|       nonidentity = A != eye(2)
+#|       score = (int(integer_entries) + int(determinant_one) + int(nonidentity)) / 3
+#|       return {
+#|           "score": score,
+#|           "feedback": "Require integer entries, determinant 1, and a matrix different from I₂."
+#|       }
+#| tests: |
+#|   def test(check, symbols):
+#|       assert check({"expressions": list(map(sympify, [1,1,0,1]))}, symbols)["score"] == 1
+#|       for values in ([1,0,0,1], [Rational(1,2),1,0,2]):
+#|           assert check({"expressions": list(map(sympify, values))}, symbols)["score"] < 1
+
+Enter an integer matrix $A\ne I_2$ with $\det(A)=1$:
+$A=$ mat[,;,]
+```
