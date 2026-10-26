@@ -1,0 +1,43 @@
+name: Inspect Claude SDK 6.0.11 trial evidence
+on:
+  push:
+    branches: [evidence/maxima-oz-production]
+    paths: [.github/workflows/review-sdk611.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40266518267'
+          name: owned-runtime-ecl-oz-3ef575fe8e43f1fa45347002cafdaf264ea15dbf
+          path: raw
+      - name: Preserve manifest and raw acceptance/timing records
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          source=Path('raw');out=Path('review');out.mkdir()
+          paths=['.cache/runtime-build/artifact/manifest.json','.cache/runtime-build/artifact/logs/environment.json','.cache/runtime-build/validation/acceptance.json','.cache/runtime-build/validation/timings.json','test-results/milestone-three/native-reference/native-reference.json','test-results/milestone-three/same-source-reference/native-reference.json']
+          inventory=[]
+          for name in paths:
+            p=source/name;data=p.read_bytes();target=out/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(data)
+            inventory.append({'path':name,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()})
+          (out/'inventory.json').write_text(json.dumps(inventory,indent=2)+'\n')
+          m=json.loads((out/paths[0]).read_text());a=json.loads((out/paths[2]).read_text());t=json.loads((out/paths[3]).read_text())
+          print('SDK:',[(r['name'],r['version'],r['commit']) for r in m['sourcePins']['sources'] if r['name'] in ('emsdk','emscripten')])
+          print('Profile:',m['compilerProfile']);print('Accepted:',a['passed']);print('Acceptance fields:',list(a))
+          print('Runtime assets/bytes:',len(m['runtimeAssets']),sum(r['bytes'] for r in m['runtimeAssets']))
+          print('Own runtime samples:',[(r['mode'],r['readyMs']) for r in t['samples'] if r['candidate']=='owned'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sdk611-review-records
+          include-hidden-files: true
+          path: review/
