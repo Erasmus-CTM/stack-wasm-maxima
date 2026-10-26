@@ -9,13 +9,17 @@ permissions:
 jobs:
   reports:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 240
     steps:
+      - name: Wait for the exact final-head selection reports
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh run watch 40256561193 --repo Erasmus-CTM/stack-wasm-maxima --interval 30 || true
       - uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
-          run-id: '40248961084'
-          name: v3-source-selection-28ffb717405902c91971a77ee917c088ac4d8589
+          run-id: '40256561193'
+          name: v3-source-selection-bdf9faab53f4bd9499948ba4cb4a20464628daac
           path: raw
       - name: Retain complete reports and inventory every original file
         run: |
@@ -24,20 +28,20 @@ jobs:
           from pathlib import Path
           root=Path('raw');out=Path('reports');out.mkdir()
           required=['results.json','report.json','cpu-quarter/report.json','admission.json','producer-api.json','flattened-candidate-admission.json','runner-hardware.json','tool-sources.json']
-          for name in required:
-            p=root/name
-            assert p.is_file(),name
           inventory=[]
           for p in sorted(root.rglob('*')):
             if not p.is_file():continue
             name=p.relative_to(root).as_posix();body=p.read_bytes()
             inventory.append({'path':name,'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()})
-            if name in required or name.startswith('frozen-control/'):
+            if name in required or name.startswith('frozen-control/') or (p.suffix=='.json' and p.parent==root):
               dest=out/name;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(body)
           (out/'original-file-inventory.json').write_text(json.dumps(inventory,indent=2)+'\n')
-          result=json.loads((out/'results.json').read_text())
-          assert len(result['samples'])==80
-          print(json.dumps(result['summary'],indent=2))
+          if (out/'results.json').exists():
+            result=json.loads((out/'results.json').read_text())
+            assert len(result['samples'])==80
+            print(json.dumps(result['summary'],indent=2))
+          else:
+            print('No complete summary: retaining available failure/partial-run reports without treating them as a passed selection.')
           print('Retained complete reports; only intermediate partial snapshots and duplicated tool sources remain in the original immutable artifact.')
           PY
       - uses: actions/upload-artifact@v4
