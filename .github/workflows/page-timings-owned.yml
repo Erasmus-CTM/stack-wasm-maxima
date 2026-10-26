@@ -218,6 +218,8 @@ jobs:
             | tee test-results/page-timings-owned/full/live/served-runtime.json
       # Same CPU limit as runtime-build.yml (plan D8): Node, server and browser
       # limited together to a quarter of one CPU. It describes the test machine only.
+      # The optional PythonChecker section is left out here: on 26 October some
+      # Python start-ups under this limit hung past the 330 s action timeout.
       - name: Measure under a quarter of one CPU
         if: ${{ !cancelled() && (github.event_name == 'push' || inputs.quarter_cpu) }}
         run: |
@@ -225,7 +227,7 @@ jobs:
           for name in $RUNTIMES; do
             [[ -d ".cache/pages/$name" ]] || continue
             TIMING_SITE_ROOT=".cache/pages/$name" TIMING_LABEL="$name" TIMING_STARTS='${{ inputs.starts || 3 }}' \
-              TIMING_CPU_LIMIT='systemd CPUQuota=25%' TIMING_OUTPUT="test-results/page-timings-owned/quarter/$name" \
+              TIMING_CPU_LIMIT='systemd CPUQuota=25%' TIMING_SKIP_PYTHON=1 TIMING_OUTPUT="test-results/page-timings-owned/quarter/$name" \
               sudo -E systemd-run --scope --quiet -p CPUQuota=25% --uid="$(id -u)" --gid="$(id -g)" \
               -- "$(command -v node)" scripts/measure-native-page-timings.mjs || failed=1
           done
