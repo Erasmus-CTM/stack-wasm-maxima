@@ -2,25 +2,25 @@
   "schema": 1,
   "ready": true,
   "source": {
-    "runId": 40234019825,
+    "runId": 40244258581,
     "runAttempt": 1,
-    "head": "c4bdb88e65211bfd1bd49c3b5d6531c99cc2227b",
-    "testedRevision": "8ee71f5d6489a8f87d7b21aff8310664c53239ad",
-    "trustedRevision": "8ee71f5d6489a8f87d7b21aff8310664c53239ad",
-    "tree": "d9dbd83af48275d88aba18e0864e1abbdf184f70",
+    "head": "0d1141e68deb63863a3f9e6a1776d52f06b20cc5",
+    "testedRevision": "d3ae000d86f165e537d08c0ec9d1ebf7724e6bd2",
+    "trustedRevision": "d3ae000d86f165e537d08c0ec9d1ebf7724e6bd2",
+    "tree": "b07299c1dba1b1365e4fb311a00a2b52fedaa0e9",
     "recipeFiles": 111,
-    "buildJobId": 121291880510,
+    "buildJobId": 121322426677,
     "workflowId": 396397316
   },
   "artifact": {
-    "id": 12619528192,
-    "name": "owned-runtime-ecl-oz-maxima-oz-8ee71f5d6489a8f87d7b21aff8310664c53239ad",
-    "zipBytes": 416067461,
-    "zipSha256": "4b0397e1a4bd3b224cd83ef8bee70b2e5f387447263e5d149ffb52a93a70e27c",
-    "manifestSha256": "f0001cfc14560ad98c7ca15026b86d44071358d793a0d23668631bb3b4ca4fdf"
+    "id": 12622129500,
+    "name": "owned-runtime-ecl-oz-maxima-oz-d3ae000d86f165e537d08c0ec9d1ebf7724e6bd2",
+    "zipBytes": 416070179,
+    "zipSha256": "e718a2eecfee6c9a409580463302e64732304e562960f0bc1c8354f9189fd1dd",
+    "manifestSha256": "594499acf355836ea381f208b792fcad2879fe122e0ecbc4fc677a2a16a998ee"
   },
   "independentReview": {
-    "path": "reviews/c4-production.json",
-    "sha256": "897a24b091504144013bb7f511dcec816e4d12e16313cc809749ad7188d149d9"
+    "path": "reviews/final-head-production.json",
+    "sha256": "3398496198c3d35da0a9cf341377ac5eb91b83b9d45c1571cd9d0ff716e2a601"
   }
 }

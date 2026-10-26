@@ -1,0 +1,195 @@
+{
+  "schema": 1,
+  "reviewedAt": "2026-10-26",
+  "reviewer": "Codex, separately reviewing raw producer records with independent pinned-verifier replay required before timing",
+  "source": {
+    "runId": 40244258581,
+    "runAttempt": 1,
+    "head": "0d1141e68deb63863a3f9e6a1776d52f06b20cc5",
+    "testedRevision": "d3ae000d86f165e537d08c0ec9d1ebf7724e6bd2",
+    "trustedRevision": "d3ae000d86f165e537d08c0ec9d1ebf7724e6bd2",
+    "tree": "b07299c1dba1b1365e4fb311a00a2b52fedaa0e9",
+    "recipeFiles": 111,
+    "buildJobId": 121322426677,
+    "workflowId": 396397316
+  },
+  "artifact": {
+    "id": 12622129500,
+    "name": "owned-runtime-ecl-oz-maxima-oz-d3ae000d86f165e537d08c0ec9d1ebf7724e6bd2",
+    "zipBytes": 416070179,
+    "zipSha256": "e718a2eecfee6c9a409580463302e64732304e562960f0bc1c8354f9189fd1dd",
+    "manifestSha256": "594499acf355836ea381f208b792fcad2879fe122e0ecbc4fc677a2a16a998ee"
+  },
+  "evidenceCollector": {
+    "runId": 40253763650,
+    "artifactId": 12622811010,
+    "zipSha256": "9d7921afd9d907ea9971fedaf153faa62f661bab0fa620de7f638eb50811796e"
+  },
+  "reviewedRecords": [
+    {
+      "path": ".cache/runtime-build/artifact/manifest.json",
+      "bytes": 60173,
+      "sha256": "594499acf355836ea381f208b792fcad2879fe122e0ecbc4fc677a2a16a998ee"
+    },
+    {
+      "path": ".cache/runtime-build/artifact/logs/compiler-experiment.json",
+      "bytes": 7235200,
+      "sha256": "cde3d0997949c76511d401360a45c6cdb3dddf857f0a7db51b8b7d47e38bee4d"
+    },
+    {
+      "path": ".cache/runtime-build/validation/acceptance.json",
+      "bytes": 283389,
+      "sha256": "d41a5a2bc1fd3130f33e5d85c02512279c6215607e9a54f4933f3bd90e29b472"
+    },
+    {
+      "path": "test-results/milestone-three/gc-stress.json",
+      "bytes": 1331,
+      "sha256": "5a3ff900f40680d4a93e82243458775a907205674c52b5a975939548631826b4"
+    },
+    {
+      "path": "test-results/precompiled-stack/controller/gc-stress.json",
+      "bytes": 1776,
+      "sha256": "95d4f083200930bb9bcb57d175bc68143c23818ce4bfa0637dc87642b6dfee4c"
+    },
+    {
+      "path": "test-results/precompiled-stack/controller-parity.json",
+      "bytes": 2497,
+      "sha256": "9d9c40d5007e16e47be38478bb73d36b8b354908ab70d03656f6e24cea5dcc4b"
+    }
+  ],
+  "compilerProfile": {
+    "name": "ecl-oz-maxima-oz",
+    "injectedEmccFlags": "-Oz",
+    "eclCoreOptimization": "-Oz",
+    "eclGeneratedLispOptimization": "-Oz",
+    "maximaGeneratedOptimization": "-Oz",
+    "maximaInjectedEmccFlags": "-Oz",
+    "stackGeneratedOptimization": "-Oz",
+    "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
+  },
+  "acceptance": {
+    "sourceNativeReplays": [
+      {
+        "kind": "native-reference",
+        "nativeExecutableVersion": "Maxima 5.46.0",
+        "summary": {
+          "programs": 316,
+          "passed": 316,
+          "different": 0,
+          "exact": 307,
+          "presentationEquivalent": 9,
+          "unaccepted": 0,
+          "rawDifferenceFields": 12,
+          "acceptedPresentationFields": 12,
+          "unacceptedDifferenceFields": 0
+        }
+      },
+      {
+        "kind": "same-source-reference",
+        "nativeExecutableVersion": ";;; Loading #P\"/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/wasm/ecl-host/lib/ecl-26.3.27/sb-bsd-sockets.fas\"\n;;; Loading #P\"/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/wasm/ecl-host/lib/ecl-26.3.27/sockets.fas\"\nMaxima branch_5_49_base_90_g813903d33",
+        "summary": {
+          "programs": 316,
+          "passed": 316,
+          "different": 0,
+          "exact": 310,
+          "presentationEquivalent": 6,
+          "unaccepted": 0,
+          "rawDifferenceFields": 6,
+          "acceptedPresentationFields": 6,
+          "unacceptedDifferenceFields": 0
+        }
+      }
+    ],
+    "bothPinProbes": [
+      {
+        "stackRevision": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+        "programShaEvidence": "identical prepared.json batch/files",
+        "comparisons": 22,
+        "passed": true
+      },
+      {
+        "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "programShaEvidence": "identical prepared.json batch/files",
+        "comparisons": 22,
+        "passed": true
+      }
+    ],
+    "stack": {
+      "passed": true,
+      "sourceRevision": "d3ae000d86f165e537d08c0ec9d1ebf7724e6bd2",
+      "compilerProofs": [
+        {
+          "schema": 1,
+          "passed": true,
+          "stackRevision": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+          "compilerProfile": {
+            "name": "ecl-oz-maxima-oz",
+            "injectedEmccFlags": "-Oz",
+            "eclCoreOptimization": "-Oz",
+            "eclGeneratedLispOptimization": "-Oz",
+            "maximaGeneratedOptimization": "-Oz",
+            "maximaInjectedEmccFlags": "-Oz",
+            "stackGeneratedOptimization": "-Oz",
+            "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
+          },
+          "runtimeManifest": {
+            "bytes": 60173,
+            "sha256": "594499acf355836ea381f208b792fcad2879fe122e0ecbc4fc677a2a16a998ee"
+          },
+          "stackCompilerEvidence": {
+            "bytes": 42109,
+            "sha256": "0700836a8b86e5e873711f530e197e238ae3280bc0a84554572423c675d64526"
+          },
+          "bundle": {
+            "bytes": 2463662,
+            "sha256": "8e3a8cc35aa5a8cc295cd26f64b8ba16921e27b7981df4311c525940b03785d1"
+          }
+        },
+        {
+          "schema": 1,
+          "passed": true,
+          "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+          "compilerProfile": {
+            "name": "ecl-oz-maxima-oz",
+            "injectedEmccFlags": "-Oz",
+            "eclCoreOptimization": "-Oz",
+            "eclGeneratedLispOptimization": "-Oz",
+            "maximaGeneratedOptimization": "-Oz",
+            "maximaInjectedEmccFlags": "-Oz",
+            "stackGeneratedOptimization": "-Oz",
+            "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
+          },
+          "runtimeManifest": {
+            "bytes": 60173,
+            "sha256": "594499acf355836ea381f208b792fcad2879fe122e0ecbc4fc677a2a16a998ee"
+          },
+          "stackCompilerEvidence": {
+            "bytes": 41597,
+            "sha256": "4fa8183db28734aa9fd5c1b3c7ebe9c708151f599369097f6740acb177d44a5c"
+          },
+          "bundle": {
+            "bytes": 2445785,
+            "sha256": "a14e280da4fca2f2f995224234b3c1aa584fe013486f246ba852a954c4dfb3bb"
+          }
+        }
+      ],
+      "controllerPrograms": 316,
+      "restarts": 24,
+      "gcStress": {
+        "compiled": {
+          "collections": 27547,
+          "iterations": 400,
+          "replayPrograms": 316
+        },
+        "source": {
+          "collections": 16852,
+          "iterations": 400,
+          "replayPrograms": 316
+        }
+      }
+    },
+    "plotPassed": true
+  },
+  "requiredIndependentReplay": "Complete immutable producer ZIP must pass safe inventory/hash checks and pinned checkout package/compiler/source/STACK/GC/native/probe/plot/timing verifiers before any timed sample.",
+  "scope": "Exact final PR head production producer. Prior C4 build also passed all80 timing samples but has10differentWasmasset hashes; primary selection will use this final-head artifact instead of assuming byte identity."
+}

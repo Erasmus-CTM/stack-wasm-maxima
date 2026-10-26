@@ -52,7 +52,7 @@ jobs:
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
-          ref: 8ee71f5d6489a8f87d7b21aff8310664c53239ad
+          ref: d3ae000d86f165e537d08c0ec9d1ebf7724e6bd2
           path: current-trusted
           persist-credentials: false
       - uses: actions/checkout@v4
