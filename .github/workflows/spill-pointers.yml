@@ -26,6 +26,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - name: Record the runner hardware and system
+        run: |
+          uname -srm
+          grep PRETTY_NAME /etc/os-release
+          lscpu | grep -E '^(Architecture|CPU\(s\)|Model name)'
+          free -h | head -n 2
       - name: Install the pinned Emscripten SDK
         run: |
           git clone --quiet https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
@@ -39,6 +45,10 @@ jobs:
           test -f "$RUNNER_TEMP/gc/${{ matrix.gc.path }}/extra/gc.c"
       - name: Build and run every case
         run: |
+          source "$RUNNER_TEMP/emsdk/emsdk_env.sh" > /dev/null
+          emcc --version | head -n 1
+          wasm-opt --version
+          node --version
           python3 runtime/diagnostics/spill-pointers/run.py --emsdk "$RUNNER_TEMP/emsdk" \
             --gc "$RUNNER_TEMP/gc/${{ matrix.gc.path }}" --output "$RUNNER_TEMP/out"
       - name: Retain the report and disassembly
@@ -49,4 +59,52 @@ jobs:
           path: |
             ${{ runner.temp }}/out/report.json
             ${{ runner.temp }}/out/O2-spill-names.wat
+          if-no-files-found: warn
+  wasm-opt:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        binaryen:
+          - {name: sdk-4.0.10, sdk: 4.0.10, commit: 62a853cd3b3134398ce85cde8bb5cbb2ef0194cb}
+          - {name: sdk-6.0.13, sdk: 6.0.13, commit: 35659964bc2762fffec0d257997fb61475f765b7}
+          - {name: main-f1f3a483, source: f1f3a483efe97639d3412a0565a2c3278a706e78}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Record the runner hardware and system
+        run: |
+          uname -srm
+          grep PRETTY_NAME /etc/os-release
+          lscpu | grep -E '^(Architecture|CPU\(s\)|Model name)'
+          free -h | head -n 2
+      - name: Install wasm-opt from the pinned Emscripten SDK
+        if: matrix.binaryen.sdk
+        run: |
+          git clone --quiet https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
+          git -C "$RUNNER_TEMP/emsdk" checkout --quiet "${{ matrix.binaryen.commit }}"
+          "$RUNNER_TEMP/emsdk/emsdk" install "${{ matrix.binaryen.sdk }}"
+          echo "WASM_OPT=$RUNNER_TEMP/emsdk/upstream/bin/wasm-opt" >> "$GITHUB_ENV"
+      - name: Build wasm-opt from Binaryen source
+        if: matrix.binaryen.source
+        run: |
+          git clone --quiet --filter=blob:none https://github.com/WebAssembly/binaryen.git "$RUNNER_TEMP/binaryen"
+          git -C "$RUNNER_TEMP/binaryen" checkout --quiet "${{ matrix.binaryen.source }}"
+          cmake -S "$RUNNER_TEMP/binaryen" -B "$RUNNER_TEMP/binaryen/build" -G "Unix Makefiles" \
+            -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF -DBUILD_FUZZTEST=OFF > /dev/null
+          make -C "$RUNNER_TEMP/binaryen/build" -j"$(nproc)" wasm-opt > /dev/null
+          echo "WASM_OPT=$RUNNER_TEMP/binaryen/build/bin/wasm-opt" >> "$GITHUB_ENV"
+      - name: Run the testcase
+        run: |
+          python3 runtime/diagnostics/spill-pointers/wasm-opt/check.py --wasm-opt "$WASM_OPT" \
+            --output "$RUNNER_TEMP/out"
+          for kind in plain flatten; do echo "== $kind.wat"; cat "$RUNNER_TEMP/out/$kind.wat"; done
+      - name: Retain the outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wasm-opt-${{ matrix.binaryen.name }}
+          path: ${{ runner.temp }}/out/
           if-no-files-found: warn

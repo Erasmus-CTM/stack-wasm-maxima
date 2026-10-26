@@ -31,10 +31,17 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - name: Record the runner hardware and system
+        run: |
+          uname -srm
+          grep PRETTY_NAME /etc/os-release
+          lscpu | grep -E '^(Architecture|CPU\(s\)|Model name)'
+          free -h | head -n 2
       - name: Install a 32-bit host toolchain
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq gcc-multilib
+          gcc --version | head -n 1
       - name: Install the pinned Emscripten SDK
         run: |
           git clone --quiet https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
@@ -69,6 +76,20 @@ jobs:
             > "$RUNNER_TEMP/wasm.log" 2>&1
           (emmake make && emmake make install) >> "$RUNNER_TEMP/wasm.log" 2>&1
           ls "$RUNNER_TEMP/ecl-emscripten"
+      # The version report that ECL's CONTRIBUTING asks for, from the built ecl.js.
+      - name: Print ECL's version information
+        run: |
+          source "$RUNNER_TEMP/emsdk/emsdk_env.sh" > /dev/null
+          emcc --version | head -n 1
+          node --version
+          cd "$RUNNER_TEMP/ecl-wasm/build/bin"
+          node --stack-size=65500 ecl.js -norc -eval '(format t "~&~@{~12@A ~S~%~}"
+                  :version (lisp-implementation-version)
+                  :vcs-id (ext:lisp-implementation-vcs-id)
+                  :os (software-type)
+                  :os-version (software-version)
+                  :machine-type (machine-type)
+                  :features *features*)' -eval '(ext:quit)' < /dev/null
       - name: Show the end of the build logs
         if: failure()
         run: tail -n 60 "$RUNNER_TEMP/host.log" "$RUNNER_TEMP/wasm.log" || true
