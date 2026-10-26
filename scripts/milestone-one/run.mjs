@@ -120,8 +120,9 @@ try {
     let result;
     try {
       await page.goto(address);
-      result = await page.evaluate(({ files, batch }) => window.runMilestoneOne({ files, batch }),
-        { files: compiled?.files || version.files, batch: (owned?.startup||'')+version.batch });
+      result = await page.evaluate(({ files, batch, served }) => window.runMilestoneOne({ files, batch, served }),
+        { files: compiled?.files || version.files, batch: (owned?.startup||'')+version.batch,
+          served: owned ? [...expected.keys()] : null });
     } catch (error) { result = { ok: false, error: String(error.stack || error), stdout: '' }; }
     if (owned) result.runtimeBuild = owned.provenance;
     result.browser = browser.version();

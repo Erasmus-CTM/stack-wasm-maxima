@@ -63,8 +63,23 @@ self.importScripts = function (...urls) {
   return upstreamImportScripts(...urls);
 };
 self.onmessage = event => {
-  const { files, buffers } = event.data;
+  const { files, served, buffers } = event.data;
   currentBuffers = buffers;
+  if (served) {
+    // An owned runtime serves only its manifest. A lazy node for any other
+    // declared share file 404s on first stat, which emsdk 6.0.11 turns into a
+    // runtime abort, so those files are left out of the filesystem.
+    const servedPaths = new Set(served);
+    const upstreamPreInit = Module.preInit;
+    Module.preInit = function () {
+      const lazy = FS.createLazyFile;
+      FS.createLazyFile = function (parent, name, url, ...rest) {
+        if (!servedPaths.has(new URL(url, self.location.href).pathname)) return null;
+        return lazy.call(this, parent, name, url, ...rest);
+      };
+      if (typeof upstreamPreInit === 'function') upstreamPreInit();
+    };
+  }
   Module.preRun.push(function () {
     // ECL probes regular files with FIONREAD before reading each character.
     // The deployed Emscripten MEMFS ioctl has no regular-file implementation.
