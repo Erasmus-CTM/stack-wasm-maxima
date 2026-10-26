@@ -1,37 +1,46 @@
-name: Extract compact compiler selection evidence
+name: Retain the complete v3 timing reports without partial snapshots
 on:
   push:
     branches: [evidence/maxima-oz-production]
-    paths:
-      - .github/workflows/inspect-selection.yml
-      - runtime/timing/selection-audit/**
+    paths: [.github/workflows/inspect-selection.yml]
 permissions:
   actions: read
   contents: read
 jobs:
-  inspect:
+  reports:
     runs-on: ubuntu-24.04
-    timeout-minutes: 360
-    strategy:
-      fail-fast: false
-      matrix:
-        run: ['40169223514', '40171592095']
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - name: Wait for producer completion
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh run watch '${{ matrix.run }}' --interval 60 || true
       - uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
-          run-id: ${{ matrix.run }}
+          run-id: '40248961084'
+          name: v3-source-selection-28ffb717405902c91971a77ee917c088ac4d8589
           path: raw
-          merge-multiple: true
-      - name: Preserve sample bytes and reduce tracing to compiler events
-        run: python runtime/timing/selection-audit/compact.py
+      - name: Retain complete reports and inventory every original file
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,shutil
+          from pathlib import Path
+          root=Path('raw');out=Path('reports');out.mkdir()
+          required=['results.json','report.json','cpu-quarter/report.json','admission.json','producer-api.json','flattened-candidate-admission.json','runner-hardware.json','tool-sources.json']
+          for name in required:
+            p=root/name
+            assert p.is_file(),name
+          inventory=[]
+          for p in sorted(root.rglob('*')):
+            if not p.is_file():continue
+            name=p.relative_to(root).as_posix();body=p.read_bytes()
+            inventory.append({'path':name,'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()})
+            if name in required or name.startswith('frozen-control/'):
+              dest=out/name;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(body)
+          (out/'original-file-inventory.json').write_text(json.dumps(inventory,indent=2)+'\n')
+          result=json.loads((out/'results.json').read_text())
+          assert len(result['samples'])==80
+          print(json.dumps(result['summary'],indent=2))
+          print('Retained complete reports; only intermediate partial snapshots and duplicated tool sources remain in the original immutable artifact.')
+          PY
       - uses: actions/upload-artifact@v4
         with:
-          name: compact-selection-${{ matrix.run }}
-          path: compact/
-          include-hidden-files: true
+          name: v3-complete-selection-reports
+          path: reports/
