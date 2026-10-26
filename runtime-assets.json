@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "runtimeAssetCount": 79,
-  "runtimeFileBytes": 49348838,
+  "runtimeFileBytes": 43839198,
   "stackFileCount": 77,
   "stackSourceBytes": 898867,
   "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
@@ -10,78 +10,78 @@
     {
       "path": "libecl.so",
       "sourceURL": null,
-      "fileBytes": 5282281,
-      "sha256": "9e395ba092e61028dd31b0ae4e5621f6c8fb0957aa17fae61a0eebec994ea448",
+      "fileBytes": 5123084,
+      "sha256": "f34977d1b0e136c3398940626f8959ed2df12ae414013433b4740766c013e44f",
       "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/libecl.so"
     },
     {
       "path": "maxima-integration.fas",
       "sourceURL": null,
-      "fileBytes": 2156780,
-      "sha256": "6b271f2ca82f9570413f1ee2ab24e2211b05ef1a4f285d0d7488116c47568330",
+      "fileBytes": 2000690,
+      "sha256": "f6c93b87f167d61cd419620dd7ef618e11ba93b351ada815cee4048aee81ad82",
       "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-integration.fas"
     },
     {
       "path": "maxima-limits.fas",
       "sourceURL": null,
-      "fileBytes": 985432,
-      "sha256": "aa07e530806b3e61c459f1eb002f34a0721bf0ddac06369382c0667c71579e19",
+      "fileBytes": 869991,
+      "sha256": "b0d3e2d585c6fe19e4b53969aa0f0525ad547f0f1b767d241102403231669d79",
       "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-limits.fas"
     },
     {
       "path": "maxima-matrix-algebra.fas",
       "sourceURL": null,
-      "fileBytes": 646307,
-      "sha256": "f9cab3aac366e1c235382a58897b12c8370dce840755d8e72a6381ab0c98175e",
+      "fileBytes": 581326,
+      "sha256": "3d379089bfbdbfffbbb0509dda5b0843e9ea857765cddd5c0c2d99b8287fbf4b",
       "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-matrix-algebra.fas"
     },
     {
       "path": "maxima-number-theory.fas",
       "sourceURL": null,
-      "fileBytes": 1429245,
-      "sha256": "742ae9097d7546fd91eed43bf4e1d000d81867ade981de0b4a4d0e9c21f9df19",
+      "fileBytes": 1318671,
+      "sha256": "0b3c4a26c1a6e5a3c7119a1acc5334f8d4dbbed875ebf42d710635f7500ede23",
       "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-number-theory.fas"
     },
     {
       "path": "maxima-poisson-series.fas",
       "sourceURL": null,
-      "fileBytes": 217615,
-      "sha256": "1d95c8dcc70da9c729d6e637e52a9fb97b9fa3306b188c0b96ab67532075e16f",
+      "fileBytes": 189615,
+      "sha256": "d8b01981336169baa6d2c5bcbac6801fe50992239f9b1a4a5ddc12ab339162e9",
       "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-poisson-series.fas"
     },
     {
       "path": "maxima-quadpack.fas",
       "sourceURL": null,
-      "fileBytes": 3718080,
-      "sha256": "605b3b25fa078a522c802021e827993c8f9a422f95ea99d5ac000c9aad919d97",
+      "fileBytes": 3395044,
+      "sha256": "5da888e338cb040051afeaf67b2f56144632a9d9e1242a501e56e16deb9f80a9",
       "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-quadpack.fas"
     },
     {
       "path": "maxima-slatec.fas",
       "sourceURL": null,
-      "fileBytes": 6190337,
-      "sha256": "ec9837516050aa717964e0fc3211773147584814cdfed6f8e1cf82df0f92aeb2",
+      "fileBytes": 5424862,
+      "sha256": "a85e302d5f8feb97a6c14a87f520f4330137de2a762efad1bfb897a5e1c0c970",
       "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-slatec.fas"
     },
     {
       "path": "maxima-solve.fas",
       "sourceURL": null,
-      "fileBytes": 1373890,
-      "sha256": "0be8fe4a62f79f643579a90a403e759cab449eefdbe7cf0f7fd6afa5f03bc771",
+      "fileBytes": 1215181,
+      "sha256": "2a155331677de0f8648ba65c62bb43928eeaf180215cc9a15fa3e1dabdac7828",
       "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima-solve.fas"
     },
     {
       "path": "maxima.js",
       "sourceURL": null,
-      "fileBytes": 1239434,
-      "sha256": "385763ca1038fac02e8f7d247a8d808997238b03ba1919ce2f4dcec482fdb101",
+      "fileBytes": 608449,
+      "sha256": "3e34145350f676f44c06a402ce79a28d5119cb60060917b779bd000f9dc8e745",
       "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima.js"
     },
     {
       "path": "maxima.wasm",
       "sourceURL": null,
-      "fileBytes": 23626720,
-      "sha256": "0faa26558bc44329e51f3bfc7b6d93e004eff631444e18e00b5cc44900904511",
+      "fileBytes": 20629568,
+      "sha256": "182384b851e2ef6b76a6a9cb88a018b6b6f5e3dd8cd7a987da22c6b1db29eb20",
       "deployedComparisonURL": "https://maxima-on-wasm.pages.dev/maxima.wasm"
     },
     {
@@ -563,7 +563,7 @@
   ],
   "runtimeBuild": {
     "kind": "ctm-owned-build",
-    "manifestSha256": "942f4e7810a70810d107ce2e5112aaca516c9fd10ba632dbd06eb1c691a8a9d4",
+    "manifestSha256": "e9cc27652a8e0329b060ada882f34682cd1f1b6d2b81fd7d813ee834a1f914cb",
     "sourcePins": {
       "schema": 1,
       "sources": [
@@ -696,17 +696,20 @@
       ]
     },
     "compilerProfile": {
-      "name": "ecl-oz",
+      "name": "ecl-oz-maxima-oz",
       "injectedEmccFlags": "-Oz",
       "eclCoreOptimization": "-Oz",
       "eclGeneratedLispOptimization": "-Oz",
-      "maximaGeneratedOptimization": "-O2"
+      "maximaGeneratedOptimization": "-Oz",
+      "maximaInjectedEmccFlags": "-Oz",
+      "stackGeneratedOptimization": "-Oz",
+      "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
     },
     "release": {
-      "tag": "runtime-v2",
-      "recordSha256": "c2d80a4109246e519e1899c0032b23b6ebf42bcf377b900a7ca2e31d0e010e8c",
-      "commit": "51fdadd606c668371f5d50d0b853ecafe47883fc",
-      "buildRun": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40132538310"
+      "tag": "runtime-v3",
+      "recordSha256": "c508649d6b6bea2f4df8de9632525ebaa0e4b1504a9782ddf6b10b14d165692c",
+      "commit": "285f88820991572b435e3fa096682f623e97a601",
+      "buildRun": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40278667994"
     }
   }
 }

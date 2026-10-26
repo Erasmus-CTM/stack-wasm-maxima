@@ -148,8 +148,8 @@
     },
     {
       "path": "maxima/native.html",
-      "sourceSha256": "b5a04786a12aaaada0df2b670aab9c8e3253a032cdec82da25c0bb67a137dbe6",
-      "materializedSha256": "835ee25ec857bf731ef59056656926277991d1c9b955063bef526b90e9b292c6",
+      "sourceSha256": "c172936eb95764843c4e987c05b1cbcfb47b807ad831fe44b9863bc08f760cbb",
+      "materializedSha256": "c2e73ad37246393a421c3b6c0748023bea7405956e0f4affc1ab5bcdd9b41fb2",
       "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
       "existingLoader": []
     },
@@ -162,8 +162,8 @@
     },
     {
       "path": "licenses.html",
-      "sourceSha256": "e79fe4a6ecff1c561b96ec27bfaee22a10536e051487f21e1ffd7dfee1c4c066",
-      "materializedSha256": "f6cab4d5db6c0d8f5b6410388c4c87438580b2da5cf46e07fc3d959d25c04ca1",
+      "sourceSha256": "f589d0ac30e22b5b140f7b64a0ddaa1b7f2a8b4496442e4ebe5b792c3a04b4fb",
+      "materializedSha256": "bd25f92d24eed02140a37d467b6d54c54b54921a882a215ad8baa45320a1ded8",
       "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
       "existingLoader": []
     }
