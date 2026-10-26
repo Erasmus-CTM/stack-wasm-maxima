@@ -1,0 +1,62 @@
+[
+  {
+    "path": ".github/workflows/v3-selection.yml",
+    "bytes": 5967,
+    "sha256": "c58be547aeb69fe8d2099d19c505a1c2703fe71a004c3a2597de41c70d40b0ad"
+  },
+  {
+    "path": "runtime/timing/v3-selection/README.md",
+    "bytes": 1426,
+    "sha256": "1c5c80d551db42b5ea4edd0094987c9968e63e58516c14210589e033c05660a5"
+  },
+  {
+    "path": "runtime/timing/v3-selection/candidate-binding.json",
+    "bytes": 915,
+    "sha256": "f61b3ebb96a0dbebd6416fbe1dd677f055db308e900cfce05bcf24bfbf956391"
+  },
+  {
+    "path": "runtime/timing/v3-selection/clean-probe-worker.js",
+    "bytes": 9899,
+    "sha256": "c519a7b6cdda56b97186bcfa6600813050ad30fa5c770620cb3f6a8686ae191c"
+  },
+  {
+    "path": "runtime/timing/v3-selection/derive-startup-observer.mjs",
+    "bytes": 2830,
+    "sha256": "9a3cffad1fbe26823b1f970b9b9806d1f79292be94b7db5653c9db1f94a70939"
+  },
+  {
+    "path": "runtime/timing/v3-selection/derive.py",
+    "bytes": 3575,
+    "sha256": "76337c54d68ca474278530b21bef9e47a8069e00bb590a5b5184b2796508ac04"
+  },
+  {
+    "path": "runtime/timing/v3-selection/prepare.py",
+    "bytes": 8266,
+    "sha256": "65562a23f8e85b47f3574f6744514f3ababbc90cc72d2f8a5a02180bec51d138"
+  },
+  {
+    "path": "runtime/timing/v3-selection/reviews/c4-production.json",
+    "bytes": 9573,
+    "sha256": "897a24b091504144013bb7f511dcec816e4d12e16313cc809749ad7188d149d9"
+  },
+  {
+    "path": "runtime/timing/v3-selection/run.mjs",
+    "bytes": 21917,
+    "sha256": "f4fa39a2445d972e546c1a73dd8a4655823ccdad55ec6bc52acc358386c40f33"
+  },
+  {
+    "path": "runtime/timing/v3-selection/startup-observer.jsfrag",
+    "bytes": 2322,
+    "sha256": "ca6d11bad5be261ff67415bb765bf93347052faf5b85c9c58bdc9ff09f8721c7"
+  },
+  {
+    "path": "runtime/timing/v3-selection/test-runner.mjs",
+    "bytes": 3918,
+    "sha256": "d8c990a58e29ff33c1110f812f7e667297059207da606a10df9c0b9b681d4bb8"
+  },
+  {
+    "path": "runtime/timing/v3-selection/verify-new.py",
+    "bytes": 5091,
+    "sha256": "c631ce4353ec3790e9e68fc0fae211e2f04f05352b86549eb74a9971959875ca"
+  }
+]

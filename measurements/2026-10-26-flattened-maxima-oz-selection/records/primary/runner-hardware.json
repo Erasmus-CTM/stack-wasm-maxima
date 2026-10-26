@@ -1,0 +1,11 @@
+{
+  "platform": "linux",
+  "release": "6.17.0-1022-azure",
+  "arch": "x64",
+  "cpuModels": [
+    "AMD EPYC 9V45 96-Core Processor"
+  ],
+  "logicalCPUCount": 4,
+  "totalMemoryBytes": 16766414848,
+  "availableParallelism": 4
+}

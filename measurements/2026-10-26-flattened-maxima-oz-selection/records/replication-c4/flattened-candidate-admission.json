@@ -1,0 +1,1045 @@
+{
+  "source": {
+    "runId": 40234019825,
+    "runAttempt": 1,
+    "head": "c4bdb88e65211bfd1bd49c3b5d6531c99cc2227b",
+    "testedRevision": "8ee71f5d6489a8f87d7b21aff8310664c53239ad",
+    "trustedRevision": "8ee71f5d6489a8f87d7b21aff8310664c53239ad",
+    "tree": "d9dbd83af48275d88aba18e0864e1abbdf184f70",
+    "recipeFiles": 111,
+    "buildJobId": 121291880510,
+    "workflowId": 396397316
+  },
+  "packageManifest": {
+    "bytes": 60173,
+    "sha256": "f0001cfc14560ad98c7ca15026b86d44071358d793a0d23668631bb3b4ca4fdf"
+  },
+  "compilerProfile": {
+    "name": "ecl-oz-maxima-oz",
+    "injectedEmccFlags": "-Oz",
+    "eclCoreOptimization": "-Oz",
+    "eclGeneratedLispOptimization": "-Oz",
+    "maximaGeneratedOptimization": "-Oz",
+    "maximaInjectedEmccFlags": "-Oz",
+    "stackGeneratedOptimization": "-Oz",
+    "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
+  },
+  "runtimeAssets": [
+    {
+      "path": "libecl.so",
+      "bytes": 5123084,
+      "sha256": "19df5673e1db662eec31cd8490e2ced159c1a112b7cafd9e42922927a2d80d54",
+      "deployedBytes": 7966927,
+      "deployedSha256": "477e2d4092cc8a6a601e39ddc746440854984115347b62e7faf3b65cc8fa3564",
+      "differenceBytes": -2843843
+    },
+    {
+      "path": "maxima-integration.fas",
+      "bytes": 2000690,
+      "sha256": "fe5f763f361c05a9a76e8899eee29222f4459ea4c75c9a517691563a54a2ceff",
+      "deployedBytes": 2156309,
+      "deployedSha256": "f9cfeaaf6dcf3063428a19b08bd1b27cfd7618db3f7e3443a69ad26fcbe95db4",
+      "differenceBytes": -155619
+    },
+    {
+      "path": "maxima-limits.fas",
+      "bytes": 869991,
+      "sha256": "2246f592ca8ad207a00a2bda2f9ba27b53c5bce5fc8c4f3ebc9ef13e9f8833e3",
+      "deployedBytes": 985243,
+      "deployedSha256": "df76a340b53864025e4a8030789a40a91a5d8b6cc0724c11c0e271af9814a5c0",
+      "differenceBytes": -115252
+    },
+    {
+      "path": "maxima-matrix-algebra.fas",
+      "bytes": 581326,
+      "sha256": "71cfaaa7a73722797800bf86987ed1425be8ed0a44e88410a319f05a41b10539",
+      "deployedBytes": 645537,
+      "deployedSha256": "25a1496b2170cb0ee1d66adc44e89d934e96ea9af1f93c879db02be56e1b3c07",
+      "differenceBytes": -64211
+    },
+    {
+      "path": "maxima-number-theory.fas",
+      "bytes": 1318671,
+      "sha256": "bc846487f0543f666fe714730ffe6f590d7acbb749b7993562b1396e7133b3cf",
+      "deployedBytes": 1429150,
+      "deployedSha256": "833ac50171d72c4bff7278ae1c989117b15c49a67516790683380d0f5aa0d887",
+      "differenceBytes": -110479
+    },
+    {
+      "path": "maxima-poisson-series.fas",
+      "bytes": 189615,
+      "sha256": "23f97647db3cfe45e36ad3078a0f062d0326d9b7f5acf68eb22e524e32f29459",
+      "deployedBytes": 217426,
+      "deployedSha256": "439ab53ff86b76052105dbcc8770c04109c7ea95efb89b2440a9a2a533eff9fd",
+      "differenceBytes": -27811
+    },
+    {
+      "path": "maxima-quadpack.fas",
+      "bytes": 3395044,
+      "sha256": "636384a3fa58f8131ee1c9bf9038d1199f3277cf4b9a26648c8555c22c24489d",
+      "deployedBytes": 3714554,
+      "deployedSha256": "26ca2a9811792cb023730014f9e9179af0e5e47c47fdf64528558d1dbc0c0def",
+      "differenceBytes": -319510
+    },
+    {
+      "path": "maxima-slatec.fas",
+      "bytes": 5424862,
+      "sha256": "5212f71b0425ba30a5aba4be7de7cb0f004fdd9aa49913db80999bffb7b59c1e",
+      "deployedBytes": 6182186,
+      "deployedSha256": "3123d401b7ab973a66b7e585ea0e746a5c899937e1b0ebdf399589eb9d2a003e",
+      "differenceBytes": -757324
+    },
+    {
+      "path": "maxima-solve.fas",
+      "bytes": 1215181,
+      "sha256": "56b7f1c753bc745ebb49d0c625e6ac378469d1ffadc18fe69e13e4b6b4239896",
+      "deployedBytes": 1373325,
+      "deployedSha256": "7c2b44e14bc16f3b51b2185b5877c0667d8ae27c8fd5f34546d494e118febaf7",
+      "differenceBytes": -158144
+    },
+    {
+      "path": "maxima.js",
+      "bytes": 608449,
+      "sha256": "3e34145350f676f44c06a402ce79a28d5119cb60060917b779bd000f9dc8e745",
+      "deployedBytes": 1239434,
+      "deployedSha256": "4b0b3ecc4eb229b35595e3e5f4063565502df023559d355a23306696af2fdf87",
+      "differenceBytes": -630985
+    },
+    {
+      "path": "maxima.wasm",
+      "bytes": 20629568,
+      "sha256": "f218dfbac227bbee48945db4491e0d7d525af6c671f537d72fadf903fc759949",
+      "deployedBytes": 23611995,
+      "deployedSha256": "87f155d8eebdcb457da5143c6a7b4f2dfbda1894a254a0caf4869318592b27c1",
+      "differenceBytes": -2982427
+    },
+    {
+      "path": "maxima_thread.js",
+      "bytes": 3229,
+      "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db",
+      "deployedBytes": 3229,
+      "deployedSha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/info/maxima-index-html.lisp",
+      "bytes": 240539,
+      "sha256": "1447fa3ae889b6e2466bee0b1825e24d2c5c06049a2aea46ae841f3736238ce9",
+      "deployedBytes": 240539,
+      "deployedSha256": "1447fa3ae889b6e2466bee0b1825e24d2c5c06049a2aea46ae841f3736238ce9",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/info/maxima-index.lisp",
+      "bytes": 262119,
+      "sha256": "07fe12c5619772c33f8f6867afbfe9bd417b38605816f530689b3d0cfc50890f",
+      "deployedBytes": 262119,
+      "deployedSha256": "c4f25a08a93e2d730bec935a031537f6d01a069ad61f220f473a14f7aabd2160",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp",
+      "bytes": 83712,
+      "sha256": "027ea2adca8ee282261ef2c860a09506ade398ec8bee53d10f45b4edf3066aa0",
+      "deployedBytes": 83712,
+      "deployedSha256": "027ea2adca8ee282261ef2c860a09506ade398ec8bee53d10f45b4edf3066aa0",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/diag.mac",
+      "bytes": 13815,
+      "sha256": "058e2c46b050371cb10f45146c80daaabc38699fe057e31826a9c8566c26ea1e",
+      "deployedBytes": 13815,
+      "deployedSha256": "058e2c46b050371cb10f45146c80daaabc38699fe057e31826a9c8566c26ea1e",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp",
+      "bytes": 5719,
+      "sha256": "ff90059ce466a6f111838b6a31876f77c9b7d4947528b16d1642eea97b9fdbd3",
+      "deployedBytes": 5719,
+      "deployedSha256": "ff90059ce466a6f111838b6a31876f77c9b7d4947528b16d1642eea97b9fdbd3",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/simplifying.lisp",
+      "bytes": 3674,
+      "sha256": "fa7c62ce99c4aac44587ef4eeb301d15b902f8349945e4163f3148fa5f1da12f",
+      "deployedBytes": 3674,
+      "deployedSha256": "fa7c62ce99c4aac44587ef4eeb301d15b902f8349945e4163f3148fa5f1da12f",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/contrib/trigtools/trigtools.mac",
+      "bytes": 5020,
+      "sha256": "cae0f3c2f902ddfa05099d7bd59e9f0b85a8b616f72085d1fc69ac6eab14fbbc",
+      "deployedBytes": 5020,
+      "deployedSha256": "cae0f3c2f902ddfa05099d7bd59e9f0b85a8b616f72085d1fc69ac6eab14fbbc",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac",
+      "bytes": 69297,
+      "sha256": "c9b7d891f0a59d62a4acc0171d46d9234cb9613364c7760206fb34ebf4c2d15a",
+      "deployedBytes": 69297,
+      "deployedSha256": "c9b7d891f0a59d62a4acc0171d46d9234cb9613364c7760206fb34ebf4c2d15a",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp",
+      "bytes": 665,
+      "sha256": "a55a311e59742454623026388173bf8bc53933741bf1eec54dc9754d908d3b89",
+      "deployedBytes": 665,
+      "deployedSha256": "a55a311e59742454623026388173bf8bc53933741bf1eec54dc9754d908d3b89",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac",
+      "bytes": 75917,
+      "sha256": "bca2baca2a951be94c48d903e9f742dc6c48af56c0ee8d71852d21e8b2c4e674",
+      "deployedBytes": 75917,
+      "deployedSha256": "bca2baca2a951be94c48d903e9f742dc6c48af56c0ee8d71852d21e8b2c4e674",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp",
+      "bytes": 67103,
+      "sha256": "785a5040c4ddccbf86cbfe545ecd6df9c9c91b3fd0943d175c63ea6842c6361b",
+      "deployedBytes": 67103,
+      "deployedSha256": "785a5040c4ddccbf86cbfe545ecd6df9c9c91b3fd0943d175c63ea6842c6361b",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+      "bytes": 231,
+      "sha256": "45def400e51ed424494d988f0c37e8e880247bda9ae249d54e8f2e33b856dbd9",
+      "deployedBytes": 231,
+      "deployedSha256": "45def400e51ed424494d988f0c37e8e880247bda9ae249d54e8f2e33b856dbd9",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.system",
+      "bytes": 288,
+      "sha256": "b3540ed3cc0623c7269f74418fd316551f4302fd11235d05366158251eb0ece4",
+      "deployedBytes": 288,
+      "deployedSha256": "b3540ed3cc0623c7269f74418fd316551f4302fd11235d05366158251eb0ece4",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/gnuplot.lisp",
+      "bytes": 160983,
+      "sha256": "6a3207114a838113174240e0d1873b19ee3914eaa2a6f7ece59d537e242a490f",
+      "deployedBytes": 160983,
+      "deployedSha256": "6a3207114a838113174240e0d1873b19ee3914eaa2a6f7ece59d537e242a490f",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/grcommon.lisp",
+      "bytes": 102070,
+      "sha256": "db6d1ffd9a740856ca1a31541ff727ab868b98a7815c20ddf0f0eb65ba79f023",
+      "deployedBytes": 102070,
+      "deployedSha256": "db6d1ffd9a740856ca1a31541ff727ab868b98a7815c20ddf0f0eb65ba79f023",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/picture.lisp",
+      "bytes": 16364,
+      "sha256": "cf2fe24284c017ad30c476af6269f04555d572aea851ee8f0ed580df364123a2",
+      "deployedBytes": 16364,
+      "deployedSha256": "cf2fe24284c017ad30c476af6269f04555d572aea851ee8f0ed580df364123a2",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/draw/vtk.lisp",
+      "bytes": 141890,
+      "sha256": "a28dc5a4333b10e568a216a69f658c93a4000cd4f354fc6f8c8454d348e4f5fe",
+      "deployedBytes": 141890,
+      "deployedSha256": "a28dc5a4333b10e568a216a69f658c93a4000cd4f354fc6f8c8454d348e4f5fe",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp",
+      "bytes": 22207,
+      "sha256": "b48ebeea74f5bf175e3d42adaceebe7e6d806e9697723309e03b94c509848bf0",
+      "deployedBytes": 22207,
+      "deployedSha256": "b48ebeea74f5bf175e3d42adaceebe7e6d806e9697723309e03b94c509848bf0",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb1.lisp",
+      "bytes": 9238,
+      "sha256": "3a68fba9fbb1c8e436eaa28841a9c2a43194f976fac12765c536f9f0a631d3a5",
+      "deployedBytes": 9238,
+      "deployedSha256": "3a68fba9fbb1c8e436eaa28841a9c2a43194f976fac12765c536f9f0a631d3a5",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb2.lisp",
+      "bytes": 1910,
+      "sha256": "1673fc162449c44506e0681fc156cae1d48064cf675bcdfa9958e472d21cfb15",
+      "deployedBytes": 1910,
+      "deployedSha256": "1673fc162449c44506e0681fc156cae1d48064cf675bcdfa9958e472d21cfb15",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-daxpy.lisp",
+      "bytes": 5461,
+      "sha256": "8b9d6701475ae051929eed656a6e61c6077e569e8c41a3fa5b30f42972d317f6",
+      "deployedBytes": 5461,
+      "deployedSha256": "8b9d6701475ae051929eed656a6e61c6077e569e8c41a3fa5b30f42972d317f6",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-ddot.lisp",
+      "bytes": 5327,
+      "sha256": "2ff8618463103d462dd94fc802c89536edc2ba78ff3701cbc5feb2a2e5e3ae7d",
+      "deployedBytes": 5327,
+      "deployedSha256": "2ff8618463103d462dd94fc802c89536edc2ba78ff3701cbc5feb2a2e5e3ae7d",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.lisp",
+      "bytes": 35249,
+      "sha256": "daf18d1bbf8a3e870d9bea27ffc5365b261a227226f5a3077906dfaa6774f366",
+      "deployedBytes": 35249,
+      "deployedSha256": "daf18d1bbf8a3e870d9bea27ffc5365b261a227226f5a3077906dfaa6774f366",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.mac",
+      "bytes": 185,
+      "sha256": "f1136424d74dcd47337b9c96536f90d1b47a580dd5c1c552d2931c3620493816",
+      "deployedBytes": 185,
+      "deployedSha256": "f1136424d74dcd47337b9c96536f90d1b47a580dd5c1c552d2931c3620493816",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/maxima-lbfgs.lisp",
+      "bytes": 5510,
+      "sha256": "caee6aac20da81e78303b075cd8d855ff5a846a010116ba7f3b44e492397f611",
+      "deployedBytes": 5510,
+      "deployedSha256": "caee6aac20da81e78303b075cd8d855ff5a846a010116ba7f3b44e492397f611",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcsrch.lisp",
+      "bytes": 9933,
+      "sha256": "3e90e87f806cb09b48885c04473e8caf36646212c21926eb6112b783633f1b04",
+      "deployedBytes": 9933,
+      "deployedSha256": "3e90e87f806cb09b48885c04473e8caf36646212c21926eb6112b783633f1b04",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcstep.lisp",
+      "bytes": 7096,
+      "sha256": "e95233ea91210438ef1ff783bae0ffd6e57cfd42a6a143904ac835923e4e24b2",
+      "deployedBytes": 7096,
+      "deployedSha256": "e95233ea91210438ef1ff783bae0ffd6e57cfd42a6a143904ac835923e4e24b2",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/eigens-by-jacobi.lisp",
+      "bytes": 5461,
+      "sha256": "7ad415c80a119bf62a0b1786fe12417c15ffbcc7ac6eb224684eac840b90c856",
+      "deployedBytes": 5461,
+      "deployedSha256": "7ad415c80a119bf62a0b1786fe12417c15ffbcc7ac6eb224684eac840b90c856",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-extra.lisp",
+      "bytes": 6189,
+      "sha256": "511f4576fd99db0dfc99bea2ee4fa7b4ea9e8bad619c0ee0c4515bce629a15bf",
+      "deployedBytes": 6189,
+      "deployedSha256": "511f4576fd99db0dfc99bea2ee4fa7b4ea9e8bad619c0ee0c4515bce629a15bf",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-utilities.lisp",
+      "bytes": 6658,
+      "sha256": "da67e38dc83182b95b89476df4b436c95a90b797c0d02197c7dadbf6ba2202b0",
+      "deployedBytes": 6658,
+      "deployedSha256": "da67e38dc83182b95b89476df4b436c95a90b797c0d02197c7dadbf6ba2202b0",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalgcholesky.lisp",
+      "bytes": 2533,
+      "sha256": "fadfe281f1ae18d9ef9d658c7b38507e56285d3bec53ce5dc0e67427988ce71b",
+      "deployedBytes": 2533,
+      "deployedSha256": "fadfe281f1ae18d9ef9d658c7b38507e56285d3bec53ce5dc0e67427988ce71b",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linearalgebra.mac",
+      "bytes": 12218,
+      "sha256": "6f509719c842128e9c8fb34a91e2b0efeec38e45f9a1dbe11fd2cfe3a76e45cf",
+      "deployedBytes": 12218,
+      "deployedSha256": "6f509719c842128e9c8fb34a91e2b0efeec38e45f9a1dbe11fd2cfe3a76e45cf",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/load-linearalgebra-lisp-files.lisp",
+      "bytes": 818,
+      "sha256": "ff456f078307f59c845d2ba6712e4bf2d4dd90908979cda01abcfb37b4daa778",
+      "deployedBytes": 818,
+      "deployedSha256": "ff456f078307f59c845d2ba6712e4bf2d4dd90908979cda01abcfb37b4daa778",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/lu.lisp",
+      "bytes": 12284,
+      "sha256": "493fc8dd91b5283f365b90d5babc0a4c0884ba68a43d0e08a5025e2e6fd6cdb0",
+      "deployedBytes": 12284,
+      "deployedSha256": "493fc8dd91b5283f365b90d5babc0a4c0884ba68a43d0e08a5025e2e6fd6cdb0",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/matrixexp.lisp",
+      "bytes": 6603,
+      "sha256": "06810384023da28279abc1a1c0ac296c192cdaacab8fb0dc2e80f5a9b8ef5d87",
+      "deployedBytes": 6603,
+      "deployedSha256": "06810384023da28279abc1a1c0ac296c192cdaacab8fb0dc2e80f5a9b8ef5d87",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/mring.lisp",
+      "bytes": 16809,
+      "sha256": "c4af22f8e472e182cef693328d3000e36749397202d5d48ca5db2178a320b0c8",
+      "deployedBytes": 16809,
+      "deployedSha256": "c4af22f8e472e182cef693328d3000e36749397202d5d48ca5db2178a320b0c8",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+      "bytes": 211935,
+      "sha256": "5752e3cb3b1653009ea11d92c54ccda008275225f76c5e869f7f08d173133d8d",
+      "deployedBytes": 211935,
+      "deployedSha256": "5752e3cb3b1653009ea11d92c54ccda008275225f76c5e869f7f08d173133d8d",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/macro/basic.mac",
+      "bytes": 1106,
+      "sha256": "ec99cf76b3653dcfe661d58b5868d51d2718b0f6e73a75696ff11fc2596536b7",
+      "deployedBytes": 1106,
+      "deployedSha256": "ec99cf76b3653dcfe661d58b5868d51d2718b0f6e73a75696ff11fc2596536b7",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/macro/packg.mac",
+      "bytes": 1571,
+      "sha256": "be614af9f8583290f54879a5978156f768798ee3e5ce4d67ed7ee44265dfeb8a",
+      "deployedBytes": 1571,
+      "deployedSha256": "be614af9f8583290f54879a5978156f768798ee3e5ce4d67ed7ee44265dfeb8a",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac",
+      "bytes": 8120,
+      "sha256": "cc63e4b33108bfc8cb3657c7dd84861bb40be5202e1fa5eff5dcb4ff842efe0c",
+      "deployedBytes": 8120,
+      "deployedSha256": "cc63e4b33108bfc8cb3657c7dd84861bb40be5202e1fa5eff5dcb4ff842efe0c",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/facexp.mac",
+      "bytes": 11079,
+      "sha256": "a749264a1679b7a7eee0d1f01e5459b81bd589ae1bf908232dd3d6588c0fdbfd",
+      "deployedBytes": 11079,
+      "deployedSha256": "a749264a1679b7a7eee0d1f01e5459b81bd589ae1bf908232dd3d6588c0fdbfd",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac",
+      "bytes": 4915,
+      "sha256": "59319fd8623025ce5444ac508f4d6defce594829b26e8ec950c7b5e2cc6f2181",
+      "deployedBytes": 4915,
+      "deployedSha256": "59319fd8623025ce5444ac508f4d6defce594829b26e8ec950c7b5e2cc6f2181",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac",
+      "bytes": 8469,
+      "sha256": "9c60b72c98b369a7a98e5d7076c9f7db03c05189cbc5c0623d0c1ec6ba56a960",
+      "deployedBytes": 8469,
+      "deployedSha256": "9c60b72c98b369a7a98e5d7076c9f7db03c05189cbc5c0623d0c1ec6ba56a960",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/simplification/lrats.mac",
+      "bytes": 2536,
+      "sha256": "8ba7506bf7a30695f3d513d2a89b62852689f9a44b13822e656cb45ebce23ba2",
+      "deployedBytes": 2536,
+      "deployedSha256": "8ba7506bf7a30695f3d513d2a89b62852689f9a44b13822e656cb45ebce23ba2",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stats/inference_result.lisp",
+      "bytes": 8238,
+      "sha256": "c56c33c6bc6e0cc1e735f3d0025c2e615f40b481093fa48e6197a24728485faf",
+      "deployedBytes": 8238,
+      "deployedSha256": "c56c33c6bc6e0cc1e735f3d0025c2e615f40b481093fa48e6197a24728485faf",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stats/numstats.lisp",
+      "bytes": 12080,
+      "sha256": "c961431de9c647558c3f2f993a64abd6af69fde6a849e24d089255b8c9497811",
+      "deployedBytes": 12080,
+      "deployedSha256": "c961431de9c647558c3f2f993a64abd6af69fde6a849e24d089255b8c9497811",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stats/stats.mac",
+      "bytes": 66662,
+      "sha256": "d6dd9065e460e92512c3050508e7c0918e6da258fc4c02d1587e2c6f3a60050c",
+      "deployedBytes": 66662,
+      "deployedSha256": "d6dd9065e460e92512c3050508e7c0918e6da258fc4c02d1587e2c6f3a60050c",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp",
+      "bytes": 5901,
+      "sha256": "acc82d7fb13251e2a67ce4f9162ca7184d5a9ce8e35e848d063d0f410f530ff1",
+      "deployedBytes": 5901,
+      "deployedSha256": "acc82d7fb13251e2a67ce4f9162ca7184d5a9ce8e35e848d063d0f410f530ff1",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp",
+      "bytes": 10760,
+      "sha256": "75c9b17bd4f33a896f4207e6652d5ab63c63edd200858ddab6fec0d40adb8273",
+      "deployedBytes": 10760,
+      "deployedSha256": "75c9b17bd4f33a896f4207e6652d5ab63c63edd200858ddab6fec0d40adb8273",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp",
+      "bytes": 2395,
+      "sha256": "39ef5cc589851f013f5846c89f8d2dd3cc847dfea040e55dc662f5f74ff7ae6b",
+      "deployedBytes": 2395,
+      "deployedSha256": "39ef5cc589851f013f5846c89f8d2dd3cc847dfea040e55dc662f5f74ff7ae6b",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp",
+      "bytes": 8193,
+      "sha256": "c8fb5a9241e800c0173c76ac87344a02cd35c972c4595868c9ca2b037ca729db",
+      "deployedBytes": 8193,
+      "deployedSha256": "c8fb5a9241e800c0173c76ac87344a02cd35c972c4595868c9ca2b037ca729db",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp",
+      "bytes": 21346,
+      "sha256": "35ec2642b830737b1c5543692c9c2385fd5970ce70028189966d36e3bdd434ac",
+      "deployedBytes": 21346,
+      "deployedSha256": "35ec2642b830737b1c5543692c9c2385fd5970ce70028189966d36e3bdd434ac",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp",
+      "bytes": 13633,
+      "sha256": "c19ee8b7532cce05bfaa382c1877110d61113caad7a09af52cc29648d6b6cfeb",
+      "deployedBytes": 13633,
+      "deployedSha256": "c19ee8b7532cce05bfaa382c1877110d61113caad7a09af52cc29648d6b6cfeb",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.lisp",
+      "bytes": 7501,
+      "sha256": "e8f6d2fb9a8d4a3184b644b49175d2a2ad4b9b6c0759e34ad7ce9e01588ce50c",
+      "deployedBytes": 7501,
+      "deployedSha256": "e8f6d2fb9a8d4a3184b644b49175d2a2ad4b9b6c0759e34ad7ce9e01588ce50c",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.mac",
+      "bytes": 76,
+      "sha256": "ca75d7da5c533701f736efd8b9ae8ea160b650d1b7f6066c2479e2363d13c248",
+      "deployedBytes": 76,
+      "deployedSha256": "ca75d7da5c533701f736efd8b9ae8ea160b650d1b7f6066c2479e2363d13c248",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp",
+      "bytes": 47721,
+      "sha256": "5b5678e3fbd9efab7e9870bf8cfb34652907a196ec7aee4f20ccee21e94d6211",
+      "deployedBytes": 47721,
+      "deployedSha256": "5b5678e3fbd9efab7e9870bf8cfb34652907a196ec7aee4f20ccee21e94d6211",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.mac",
+      "bytes": 184,
+      "sha256": "fe11a711f0af6214a976aca4ac0a1e52720186790bb4b9c61d1e606ee40e3118",
+      "deployedBytes": 184,
+      "deployedSha256": "fe11a711f0af6214a976aca4ac0a1e52720186790bb4b9c61d1e606ee40e3118",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp",
+      "bytes": 6599,
+      "sha256": "e4179ffab65b8e2c98162634d2c408e8e04c6577e943a8dacd99faa7f90bd1fb",
+      "deployedBytes": 6599,
+      "deployedSha256": "e4179ffab65b8e2c98162634d2c408e8e04c6577e943a8dacd99faa7f90bd1fb",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp",
+      "bytes": 24670,
+      "sha256": "bfcae0e610d039bb43d71e6bfa2723820df3cfe0fca012a05530f73c1a8d0e3d",
+      "deployedBytes": 24670,
+      "deployedSha256": "bfcae0e610d039bb43d71e6bfa2723820df3cfe0fca012a05530f73c1a8d0e3d",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve.mac",
+      "bytes": 26278,
+      "sha256": "2441e553d1604a55dad602cdb2e997c6f48eff668932d7cc7b7a12ec0ca1fb5e",
+      "deployedBytes": 26278,
+      "deployedSha256": "2441e553d1604a55dad602cdb2e997c6f48eff668932d7cc7b7a12ec0ca1fb5e",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve_extra.lisp",
+      "bytes": 6966,
+      "sha256": "0a364d75e9e6700c0cb170dc6bf08fbc3a700739e87218a8b029ffd0ee340b30",
+      "deployedBytes": 6966,
+      "deployedSha256": "0a364d75e9e6700c0cb170dc6bf08fbc3a700739e87218a8b029ffd0ee340b30",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/atrig1.mac",
+      "bytes": 1528,
+      "sha256": "11843e2e013d1e9888251c1acb0109c3b6f7d9c7d57cb9db9e1a285744b02dd8",
+      "deployedBytes": 1528,
+      "deployedSha256": "11843e2e013d1e9888251c1acb0109c3b6f7d9c7d57cb9db9e1a285744b02dd8",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/ntrig.mac",
+      "bytes": 1096,
+      "sha256": "3a2422f3c749c9fd8673c9dbda0e1f125f4b06c6ac7e8ec408c4fbcc8279df58",
+      "deployedBytes": 1096,
+      "deployedSha256": "3a2422f3c749c9fd8673c9dbda0e1f125f4b06c6ac7e8ec408c4fbcc8279df58",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/spangl.mac",
+      "bytes": 1945,
+      "sha256": "999b974b59ce420302ac818e49b6876b42615788b4a18c887d4f961e39e84a65",
+      "deployedBytes": 1945,
+      "deployedSha256": "999b974b59ce420302ac818e49b6876b42615788b4a18c887d4f961e39e84a65",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trgsmp.mac",
+      "bytes": 4874,
+      "sha256": "0f5db0cb2e22d4ce8536e84a3767830e76ac1751f4555ca253b86c70aa3c56a1",
+      "deployedBytes": 4874,
+      "deployedSha256": "0f5db0cb2e22d4ce8536e84a3767830e76ac1751f4555ca253b86c70aa3c56a1",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trigrat.lisp",
+      "bytes": 1909,
+      "sha256": "5da6c242383b117fc4d75b241193ab6976b63fe58542ef17b3332ead900973ec",
+      "deployedBytes": 1909,
+      "deployedSha256": "5da6c242383b117fc4d75b241193ab6976b63fe58542ef17b3332ead900973ec",
+      "differenceBytes": 0
+    },
+    {
+      "path": "share_files.js",
+      "bytes": 528107,
+      "sha256": "e07cdd6ef8eac3ee63869a1f9c0e5cb3ec30f7f538f3dadd764e248e404a6057",
+      "deployedBytes": 533835,
+      "deployedSha256": "0a325df1e0e85c65ebaf3102fd75cb2db2d989735a0976e97c1a2108a8f5bca0",
+      "differenceBytes": -5728
+    }
+  ],
+  "sourceIntegrity": {
+    "schema": 1,
+    "allVerifiedFilesUnmodified": false,
+    "scope": "Before: every tracked Maxima/ECL input byte is original. Host: tracked .lisp/.lsp/.mac/.asd/.c/.h/.d and the three Maxima build inputs are original. After: the same coverage, with only the declared ECL target overlay admitted explicitly; each row records its actual bytes and Git blob. Generated configuration/build support is excluded from host/after claims.",
+    "overlays": [
+      {
+        "schema": 1,
+        "id": "ecl-eager-owned-root-ranges",
+        "source": "ecl",
+        "revision": "e4bdb2e5b1e444e1773032a53650773848f4d6cd",
+        "path": "src/c/alloc_2.d",
+        "target": "wasm32-unknown-emscripten",
+        "applyAfter": "verified-original-native-ecl32",
+        "original": {
+          "gitBlob": "57f945305a16e2bd6a932d49bfa928c11ae091ff",
+          "bytes": 38136,
+          "sha256": "d7492e257e5dc9a143bb86461686b6f3e030b1d741c93c31ab645a9f74d2f5d7"
+        },
+        "derived": {
+          "bytes": 38245,
+          "sha256": "daec4a8a78be8a67114bb14f6ea13bacff5c78977b8ed652924c3a5df18ec585"
+        },
+        "patch": {
+          "path": "runtime/build/patches/ecl-root-scanner.patch",
+          "bytes": 2040,
+          "sha256": "cf1b01e1a67be3a6af8159c8f9b26f0e2741b1e0d0ee04c8b16cf45122e75dab"
+        },
+        "licence": "LGPL-2.1-or-later; original ECL file notices and LICENSE retained",
+        "scope": "Eight calls in ecl_mark_env and stacks_scanner only; range bounds, null guards, locked-cblock mark bit and previous-root-callback chain preserved."
+      }
+    ],
+    "beforeSha256": "3fe42b6f3147997e614953cc5d38a6fc117cda61f0269284f262653a0a18ec8b",
+    "hostSourceSha256": "5ddeb030b4a7515892ecdc2db584324cd9fa8ddbf78df3f604ccd7b36e081bd8",
+    "afterSha256": "bf760983a676c9d028b2c0979830d8bdd4ff3a21d7c0bc6a90551fc50760411f",
+    "applicationSha256": "92cca6c795c2fd83fe372cea7120f228710a01cee6a597692e6c11a9bdadefff",
+    "originalArchives": [
+      {
+        "path": "sources/maxima.tar",
+        "sha256": "05192416af11303dc5974fe02d0e5a894df813593af8a57d37e51897707dab42"
+      },
+      {
+        "path": "sources/ecl.tar",
+        "sha256": "fafd6275264c33dd4d8562703752f709bf992b29c40fd766d1351782f4c507b0"
+      }
+    ]
+  },
+  "nativeCapture": {
+    "bytes": 4996045,
+    "sha256": "59ef855e5b669acb1f96c729e04b1d20305750b1d767716a3d3296681e0e8f1a"
+  },
+  "producerNativePrograms": [
+    {
+      "operation": "prepare",
+      "question": "Equivalent rational expression",
+      "expression": "block([simp:true,assume_pos:false,assume_real:false,%ERR:[\"stack_map\"],%NOTES:[\"stack_map\"],%FEEDBACK:[\"stack_map\"],%stmt:\"ctm-native\",n,m,ta,ans,_ctm_models],set_random_state(make_random_state(1)),n:rand(3)+2,m:n+rand(3)+1,ta:(x+m)/(x+n),ans:eval_string(\"ta\"),_ctm_models:[\"stack_map\",[\"ans\",ans]],[\"stack_map\",[\"seed\",1],[\"env\",block([simp:false],[\"stack_map\",[\"n\",string(n)],[\"m\",string(m)],[\"ta\",string(ta)]])],[\"teachers\",[\"stack_map\",[\"ans\",[\"stack_map\",[\"source\",string(ans)],[\"latex\",if stringp(ans) then (if slength(ans)=0 then \"\" else tex1(ans)) else tex1(ans)],[\"type\",if matrixp(ans) then \"matrix\" else if setp(ans) then \"set\" else if listp(ans) then \"list\" else if stringp(ans) then \"string\" else if equationp(ans) then \"equation\" else if member(safe_op(ans),[\"nounand\",\"nounor\",\"nounnot\",\"and\",\"or\",\"not\",\"implies\",\"xor\",\"xnor\"]) or is(ans=true) or is(ans=false) then \"logical\" else \"scalar\"],[\"shape\",(if matrixp(ans) then matrix_size(ans) else und)]]]]],[\"tokenValues\",[\"stack_map\",[\"t0\",block([_ctm_token_value],_ctm_token_value:eval_string(\"n\"),[\"stack_map\",[\"format\",\"latex\"],[\"value\",(if stringp(_ctm_token_value) then _ctm_token_value else tex1(_ctm_token_value))],[\"string\",stringp(_ctm_token_value)],[\"wrap\",false]])],[\"t1\",block([_ctm_token_value],_ctm_token_value:eval_string(\"n\"),[\"stack_map\",[\"format\",\"latex\"],[\"value\",(if stringp(_ctm_token_value) then _ctm_token_value else tex1(_ctm_token_value))],[\"string\",stringp(_ctm_token_value)],[\"wrap\",false]])],[\"t2\",block([_ctm_token_value],_ctm_token_value:eval_string(\"m\"),[\"stack_map\",[\"format\",\"latex\"],[\"value\",(if stringp(_ctm_token_value) then _ctm_token_value else tex1(_ctm_token_value))],[\"string\",stringp(_ctm_token_value)],[\"wrap\",false]])],[\"t3\",block([_ctm_token_value],_ctm_token_value:eval_string(\"n\"),[\"stack_map\",[\"format\",\"latex\"],[\"value\",(if stringp(_ctm_token_value) then _ctm_token_value else tex1(_ctm_token_value))],[\"string\",stringp(_ctm_token_value)],[\"wrap\",false]])],[\"t4\",block([_ctm_token_value],_ctm_token_value:eval_string(\"n\"),[\"stack_map\",[\"format\",\"latex\"],[\"value\",(if stringp(_ctm_token_value) then _ctm_token_value else tex1(_ctm_token_value))],[\"string\",stringp(_ctm_token_value)],[\"wrap\",false]])],[\"t5\",block([_ctm_token_value],_ctm_token_value:eval_string(\"n\"),[\"stack_map\",[\"format\",\"latex\"],[\"value\",(if stringp(_ctm_token_value) then _ctm_token_value else tex1(_ctm_token_value))],[\"string\",stringp(_ctm_token_value)],[\"wrap\",false]])],[\"t6\",block([_ctm_token_value],_ctm_token_value:eval_string(\"ta\"),[\"stack_map\",[\"format\",\"latex\"],[\"value\",(if stringp(_ctm_token_value) then _ctm_token_value else tex1(_ctm_token_value))],[\"string\",stringp(_ctm_token_value)],[\"wrap\",false]])]]],[\"qtests\",[block([],ans:stackmap_get(_ctm_models,\"ans\"),[\"stack_map\",[\"testcase\",\"1\"],[\"answers\",[\"stack_map\",[\"ans\",block([simp:false],string(eval_string(\"(x+m)/(x+n)\")))]]]]),block([],ans:stackmap_get(_ctm_models,\"ans\"),[\"stack_map\",[\"testcase\",\"2\"],[\"answers\",[\"stack_map\",[\"ans\",block([simp:false],string(eval_string(\"(x+n)*(x+m)/(x+n)^2\")))]]]]),block([],ans:stackmap_get(_ctm_models,\"ans\"),[\"stack_map\",[\"testcase\",\"3\"],[\"answers\",[\"stack_map\",[\"ans\",block([simp:false],string(eval_string(\"(x+n)/(x+m)\")))]]]])]]])",
+      "expected": {
+        "seed": 1,
+        "env": {
+          "n": "3",
+          "m": "6",
+          "ta": "(x+6)/(x+3)"
+        },
+        "teachers": {
+          "ans": {
+            "source": "(x+6)/(x+3)",
+            "latex": "\\frac{x+6}{x+3}",
+            "type": "scalar",
+            "shape": null
+          }
+        },
+        "tokenValues": {
+          "t0": {
+            "format": "latex",
+            "value": "3",
+            "string": false,
+            "wrap": false
+          },
+          "t1": {
+            "format": "latex",
+            "value": "3",
+            "string": false,
+            "wrap": false
+          },
+          "t2": {
+            "format": "latex",
+            "value": "6",
+            "string": false,
+            "wrap": false
+          },
+          "t3": {
+            "format": "latex",
+            "value": "3",
+            "string": false,
+            "wrap": false
+          },
+          "t4": {
+            "format": "latex",
+            "value": "3",
+            "string": false,
+            "wrap": false
+          },
+          "t5": {
+            "format": "latex",
+            "value": "3",
+            "string": false,
+            "wrap": false
+          },
+          "t6": {
+            "format": "latex",
+            "value": "\\frac{x+6}{x+3}",
+            "string": false,
+            "wrap": false
+          }
+        },
+        "qtests": [
+          {
+            "testcase": "1",
+            "answers": {
+              "ans": "(x+6)/(x+3)"
+            }
+          },
+          {
+            "testcase": "2",
+            "answers": {
+              "ans": "((x+3)*(x+6))/(x+3)^2"
+            }
+          },
+          {
+            "testcase": "3",
+            "answers": {
+              "ans": "(x+3)/(x+6)"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "operation": "validate",
+      "question": "Equivalent rational expression",
+      "expression": "block([simp:true,assume_pos:false,assume_real:false,%ERR:[\"stack_map\"],%NOTES:[\"stack_map\"],%FEEDBACK:[\"stack_map\"],%stmt:\"ctm-native\",n,m,ta,ans],simp:false,n:eval_string(\"3\"),m:eval_string(\"6\"),ta:eval_string(\"(x+6)/(x+3)\"),[\"stack_map\",[\"ans\",block([_ctm_s,_ctm_t,_ctm_v,_ctm_r,_ctm_lines,_ctm_stream,_ctm_line,_ctm_shape,_ctm_good,%ERR:[\"stack_map\"],%NOTES:[\"stack_map\"],%FEEDBACK:[\"stack_map\"]],simp:false,_ctm_lines:[],_ctm_t:eval_string(\"(x+6)/(x+3)\"),_ctm_r:ctm_classified_errcatch(block([],_ctm_s:eval_string(\"(x + 6) / (x + 3)\"),with_stdout(sconcat(maxima_tempdir,\"/ctm-native-validation.txt\"),_ctm_v:stack_validate([_ctm_s],false,_ctm_t,0)),_ctm_stream:openr(sconcat(maxima_tempdir,\"/ctm-native-validation.txt\")),_ctm_line:readline(_ctm_stream),while not is(_ctm_line=false) do (if slength(_ctm_line)>0 then _ctm_lines:endcons(_ctm_line,_ctm_lines),_ctm_line:readline(_ctm_stream)),close(_ctm_stream),if length(%ERR)>1 then _ctm_lines:endcons(\"Native STACK could not evaluate this expression\",_ctm_lines),_ctm_good:is(_ctm_lines=[] and length(%ERR)=1),[\"stack_map\",[\"valid\",_ctm_good],[\"latex\",if _ctm_good then tex1(_ctm_s) else \"\"],[\"feedback\",simplode(_ctm_lines,\" \")],[\"source\",if _ctm_good then string(ev(_ctm_s,simp)) else \"\"]])),if _ctm_r[1]=\"internal\" then error(\"Internal CAS fault during native validation: \",errormsgtostring()),if _ctm_r[1]=\"learner\" then [\"stack_map\",[\"valid\",false],[\"latex\",\"\"],[\"feedback\",\"Native STACK could not evaluate this expression\"],[\"source\",\"\"]] else _ctm_r[2])]])",
+      "expected": {
+        "ans": {
+          "valid": true,
+          "latex": "\\frac{x+6}{x+3}",
+          "feedback": "",
+          "source": "(x+6)/(x+3)"
+        }
+      }
+    },
+    {
+      "operation": "prt",
+      "question": "Equivalent rational expression",
+      "expression": "block([simp:true,assume_pos:false,assume_real:false,%ERR:[\"stack_map\"],%NOTES:[\"stack_map\"],%FEEDBACK:[\"stack_map\"],%stmt:\"ctm-native\",n,m,ta,ans,_ctm_current,_ctm_score,_ctm_notes,_ctm_feedback,_ctm_path,_ctm_events,_ctm_steps,_ctm_r,_ctm_v,_ctm_paused],simp:false,n:eval_string(\"3\"),m:eval_string(\"6\"),ta:eval_string(\"(x+6)/(x+3)\"),ans:eval_string(\"(x + 6) / (x + 3)\"),simp:false,_ctm_current:\"0\",_ctm_score:0,_ctm_notes:[],_ctm_feedback:[],_ctm_path:[],_ctm_events:[],_ctm_steps:0,_ctm_paused:false,while _ctm_current#\"-1\" do (_ctm_steps:ev(_ctm_steps+1,simp),if _ctm_steps>3 then error(\"Native response-tree cycle\"),if _ctm_current=\"0\" then (simp:true,%ERR:[\"stack_map\"],%NOTES:[\"stack_map\"],%FEEDBACK:[\"stack_map\"],_ctm_r:errcatch(ATAlgEquiv(eval_string(\"ans\"),eval_string(\"ta\"))),if _ctm_r=[] or length(%ERR)>1 then error(\"Native answer-test evaluation failed\"),_ctm_v:first(_ctm_r),if not listp(_ctm_v) or length(_ctm_v)<4 then error(\"Malformed native answer-test result\"),if not member(_ctm_v[1],[true,false]) or not member(_ctm_v[2],[true,false]) then error(\"Invalid native answer-test verdict\"),if not is(ssearch(\"STACKERROR\",string(_ctm_v[3]))=false) or not is(ssearch(\"ATNumDecPlaces_OptNotInt\",string(_ctm_v[3]))=false) then error(\"Native answer-test author configuration failed\"),_ctm_events:endcons([\"stack_map\",[\"event\",\"native-at\"],[\"prt\",\"prt1\"],[\"node\",\"0\"],[\"test\",\"AlgEquiv\"],[\"cas_valid\",_ctm_v[1]],[\"correct\",_ctm_v[2]],[\"answerNote\",_ctm_v[3]],[\"nativeFeedback\",_ctm_v[4]]],_ctm_events),if is(_ctm_v[2]=true) then (_ctm_score:1,_ctm_notes:endcons(\"prt1-0-T\",_ctm_notes),_ctm_path:endcons([\"stack_map\",[\"node\",\"0\"],[\"branch\",\"true\"],[\"note\",\"prt1-0-T\"]],_ctm_path),_ctm_feedback:endcons([\"stack_map\",[\"template\",\"<p>Correct on the stated domain.</p>\"],[\"tokens\",[\"stack_map\"]]],_ctm_feedback),_ctm_current:\"-1\") else (_ctm_score:0,_ctm_notes:endcons(\"prt1-0-F\",_ctm_notes),_ctm_path:endcons([\"stack_map\",[\"node\",\"0\"],[\"branch\",\"false\"],[\"note\",\"prt1-0-F\"]],_ctm_path),_ctm_current:\"1\"),if not stringp(_ctm_v[4]) then error(\"Invalid native feedback protocol\"),if not is(_ctm_v[4]=\"\") then _ctm_feedback:endcons([\"stack_map\",[\"nativeFeedback\",_ctm_v[4]]],_ctm_feedback)) else if _ctm_current=\"1\" then (simp:true,%ERR:[\"stack_map\"],%NOTES:[\"stack_map\"],%FEEDBACK:[\"stack_map\"],_ctm_r:errcatch(ATAlgEquiv(eval_string(\"ans\"),eval_string(\"(x+n)/(x+m)\"))),if _ctm_r=[] or length(%ERR)>1 then error(\"Native answer-test evaluation failed\"),_ctm_v:first(_ctm_r),if not listp(_ctm_v) or length(_ctm_v)<4 then error(\"Malformed native answer-test result\"),if not member(_ctm_v[1],[true,false]) or not member(_ctm_v[2],[true,false]) then error(\"Invalid native answer-test verdict\"),if not is(ssearch(\"STACKERROR\",string(_ctm_v[3]))=false) or not is(ssearch(\"ATNumDecPlaces_OptNotInt\",string(_ctm_v[3]))=false) then error(\"Native answer-test author configuration failed\"),_ctm_events:endcons([\"stack_map\",[\"event\",\"native-at\"],[\"prt\",\"prt1\"],[\"node\",\"1\"],[\"test\",\"AlgEquiv\"],[\"cas_valid\",_ctm_v[1]],[\"correct\",_ctm_v[2]],[\"answerNote\",_ctm_v[3]],[\"nativeFeedback\",_ctm_v[4]]],_ctm_events),if is(_ctm_v[2]=true) then (_ctm_score:0,_ctm_notes:endcons(\"prt1-1-T\",_ctm_notes),_ctm_path:endcons([\"stack_map\",[\"node\",\"1\"],[\"branch\",\"true\"],[\"note\",\"prt1-1-T\"]],_ctm_path),_ctm_feedback:endcons([\"stack_map\",[\"template\",\"<p>You inverted the fraction. Cancel a shared factor instead.</p>\"],[\"tokens\",[\"stack_map\"]]],_ctm_feedback),_ctm_current:\"-1\") else (_ctm_score:0,_ctm_notes:endcons(\"prt1-1-F\",_ctm_notes),_ctm_path:endcons([\"stack_map\",[\"node\",\"1\"],[\"branch\",\"false\"],[\"note\",\"prt1-1-F\"]],_ctm_path),_ctm_feedback:endcons([\"stack_map\",[\"template\",\"<p>Cancel one factor in the numerator against one in the squared denominator.</p>\"],[\"tokens\",[\"stack_map\"]]],_ctm_feedback),_ctm_current:\"-1\"),if not stringp(_ctm_v[4]) then error(\"Invalid native feedback protocol\"),if not is(_ctm_v[4]=\"\") then _ctm_feedback:endcons([\"stack_map\",[\"nativeFeedback\",_ctm_v[4]]],_ctm_feedback)) else error(\"Unknown native response-tree node\")),if listp(_ctm_paused) then _ctm_paused else [\"stack_map\",[\"kind\",\"done\"],[\"score\",ev(max(0,min(1,_ctm_score)),simp)],[\"notes\",_ctm_notes],[\"feedback\",_ctm_feedback],[\"path\",_ctm_path],[\"events\",_ctm_events]])",
+      "expected": {
+        "kind": "done",
+        "score": 1,
+        "notes": [
+          "prt1-0-T"
+        ],
+        "feedback": [
+          {
+            "template": "<p>Correct on the stated domain.</p>",
+            "tokens": {}
+          }
+        ],
+        "path": [
+          {
+            "node": "0",
+            "branch": "true",
+            "note": "prt1-0-T"
+          }
+        ],
+        "events": [
+          {
+            "event": "native-at",
+            "prt": "prt1",
+            "node": "0",
+            "test": "AlgEquiv",
+            "cas_valid": true,
+            "correct": true,
+            "answerNote": "",
+            "nativeFeedback": ""
+          }
+        ]
+      }
+    }
+  ],
+  "acceptance": {
+    "bytes": 283414,
+    "sha256": "eadb5c35b8cd2302ffa9c22cdffad4210d41152c9ccc83aa0897b163eb5acd06"
+  },
+  "stackAcceptance": {
+    "passed": true,
+    "sourceRevision": "8ee71f5d6489a8f87d7b21aff8310664c53239ad",
+    "compilerProofs": [
+      {
+        "schema": 1,
+        "passed": true,
+        "stackRevision": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+        "compilerProfile": {
+          "name": "ecl-oz-maxima-oz",
+          "injectedEmccFlags": "-Oz",
+          "eclCoreOptimization": "-Oz",
+          "eclGeneratedLispOptimization": "-Oz",
+          "maximaGeneratedOptimization": "-Oz",
+          "maximaInjectedEmccFlags": "-Oz",
+          "stackGeneratedOptimization": "-Oz",
+          "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
+        },
+        "runtimeManifest": {
+          "bytes": 60173,
+          "sha256": "f0001cfc14560ad98c7ca15026b86d44071358d793a0d23668631bb3b4ca4fdf"
+        },
+        "stackCompilerEvidence": {
+          "bytes": 42109,
+          "sha256": "d934548a42196872059b22b16e98447b67ccb7fd6f6af0e8789fa3a8afdc4ab4"
+        },
+        "bundle": {
+          "bytes": 2463662,
+          "sha256": "e4ede2a649cbbc02e38e3dedc1588f94e6b1b90303b7e6c9a409f1fbaea31f82"
+        }
+      },
+      {
+        "schema": 1,
+        "passed": true,
+        "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "compilerProfile": {
+          "name": "ecl-oz-maxima-oz",
+          "injectedEmccFlags": "-Oz",
+          "eclCoreOptimization": "-Oz",
+          "eclGeneratedLispOptimization": "-Oz",
+          "maximaGeneratedOptimization": "-Oz",
+          "maximaInjectedEmccFlags": "-Oz",
+          "stackGeneratedOptimization": "-Oz",
+          "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
+        },
+        "runtimeManifest": {
+          "bytes": 60173,
+          "sha256": "f0001cfc14560ad98c7ca15026b86d44071358d793a0d23668631bb3b4ca4fdf"
+        },
+        "stackCompilerEvidence": {
+          "bytes": 41587,
+          "sha256": "3d83d211b9fd10455d2a0451ae1bdd986ba048212df37ac62ed6e5018f64fb81"
+        },
+        "bundle": {
+          "bytes": 2445785,
+          "sha256": "b79c102af5b8c6142c2e39db896624b20bc60e9d2c071710a55b930dae8c8274"
+        }
+      }
+    ],
+    "controllerPrograms": 316,
+    "restarts": 24,
+    "gcStress": {
+      "compiled": {
+        "collections": 60509,
+        "iterations": 400,
+        "replayPrograms": 316
+      },
+      "source": {
+        "collections": 62218,
+        "iterations": 400,
+        "replayPrograms": 316
+      }
+    },
+    "reports": {
+      ".cache/precompiled-fixtures/full-entry-10d323311b7f39fb7b092dd10ce75f7d8632f525/report.json": {
+        "bytes": 304971,
+        "sha256": "352c1628356f55ab9ab64082aeaae77a9a94560af5100954267488324df0124a"
+      },
+      ".cache/precompiled-fixtures/full-entry-33383047af39c204bf4442802a058f8b918b2b1b/report.json": {
+        "bytes": 301469,
+        "sha256": "5a424a56ce46390e827c3e016503988b22dd34a342620979eb7381e4767e0cf8"
+      },
+      "test-results/precompiled-stack/probes-source/comparison.json": {
+        "bytes": 12218,
+        "sha256": "8814ab2423975ce509b3353b94047d64a5c2e9a9e09a2d2247e1b0e3a3b08721"
+      },
+      "test-results/precompiled-stack/probes-compiled/comparison.json": {
+        "bytes": 12215,
+        "sha256": "6bb56f25b50bc98fbd63e00b80e5b113050967c954d698e3636b4dd5c4e368da"
+      },
+      "test-results/precompiled-stack/measure.json": {
+        "bytes": 172383,
+        "sha256": "54bc867e0af729f108fa5b753d6e5f9c53e282112d1b33c9bd456da073a1c7dc"
+      },
+      "test-results/precompiled-stack/controller-parity.json": {
+        "bytes": 2497,
+        "sha256": "57d20f48b6f77d3175d0c3a0488d59dc5b96bd5368e61b58a5671eeee94233f5"
+      },
+      "test-results/precompiled-stack/controller/browser.json": {
+        "bytes": 5146914,
+        "sha256": "f95887a36cec3cfa32a6e5859d77d066d974dfb764f844f3d74b9cc25009ceab"
+      },
+      "test-results/precompiled-stack/controller/prepared.json": {
+        "bytes": 162739,
+        "sha256": "1c41b6db813250f5604a2acc2f9837d7fd26e63014a8113753d488693a89b4e8"
+      },
+      "test-results/precompiled-stack/controller/native-reference/native-reference.json": {
+        "bytes": 511410,
+        "sha256": "d000502d152d4f3ee0c323f230fbed526e044d4187d7cfd94d0163bafe0bb510"
+      },
+      "test-results/precompiled-stack/controller/same-source-reference/native-reference.json": {
+        "bytes": 506078,
+        "sha256": "0f1a3ccc068eeb4e0a8cb073c20b5c8cc365d51d7526ef310946a767bbd5bfaa"
+      },
+      "test-results/board-mathjax-chromium.json": {
+        "bytes": 17312,
+        "sha256": "0b88d2b00bde5fdab1ec56d09a60f88d2e0cd2f47a903f0db0813eb6b980a577"
+      },
+      "test-results/board-mathjax-static-chromium.json": {
+        "bytes": 21705,
+        "sha256": "68eb44ac10d9eca8317108f7eea547cbfc24effd55da83113dcab448ecb7d193"
+      },
+      "test-results/board-mathjax-firefox.json": {
+        "bytes": 15518,
+        "sha256": "1e9dd73f64e905de9848ddec2de7a102d15cd532f642abad3b71589a968800d6"
+      },
+      "test-results/board-mathjax-static-firefox.json": {
+        "bytes": 20989,
+        "sha256": "2825c129b8aff1a2eb9149de502220619e377d9859e0d6a8605ebc07b50a6dcd"
+      },
+      "test-results/board-mathjax-webkit.json": {
+        "bytes": 17285,
+        "sha256": "ac1dc6b2fb3b585e248dee5803124b765cf03efa98aa085d792b461f4c6ff2ff"
+      },
+      "test-results/board-mathjax-static-webkit.json": {
+        "bytes": 22281,
+        "sha256": "23427f3a4d0f3266f01ea85f5392f5c1edf648bb95e8b3929887fec1a9f5433a"
+      },
+      "test-results/precompiled-stack/controller/board-functional-chromium-1280.json": {
+        "bytes": 981543,
+        "sha256": "cd533ef899ead7bf3671fcadab1e855ed23075e8c5aa2872016c8700396d42a1"
+      },
+      "test-results/precompiled-stack/controller/board-functional-chromium-390.json": {
+        "bytes": 979670,
+        "sha256": "fd28f17e07286852e2da6926494c095a351b7e45889deba1021b7a96665a372b"
+      },
+      "test-results/precompiled-stack/controller/board-functional-firefox-1280.json": {
+        "bytes": 974205,
+        "sha256": "3ddc686dd6f94a6eea879b16233d674353da12c9ffbab9f747132916a117976c"
+      },
+      "test-results/precompiled-stack/controller/board-functional-firefox-390.json": {
+        "bytes": 972016,
+        "sha256": "36da70dab2560eef40fed3fce2312cb874f81ec8078149c0ebe111815c024249"
+      },
+      "test-results/precompiled-stack/controller/board-functional-webkit-1280.json": {
+        "bytes": 1006897,
+        "sha256": "c6165db50db9b6d84bdd5a1978bf52115d7024445e86de326585a5085541f742"
+      },
+      "test-results/precompiled-stack/controller/board-functional-webkit-390.json": {
+        "bytes": 994741,
+        "sha256": "308ef576b9eddec0fb8ae295b39b72b93d6841848bece1304b00cc8145c2182b"
+      },
+      "test-results/precompiled-stack/controller/board-transfer-chromium.json": {
+        "bytes": 1241814,
+        "sha256": "320cc52a60df72d43d23107a9720bfbf6c5a6f8f7720c863591bac5091a5a20e"
+      },
+      "test-results/precompiled-stack/controller/gc-stress.json": {
+        "bytes": 1773,
+        "sha256": "7eb19a1ddd76ea6d02779dcc22118b1d23b599f42afca93e2597b13b86aac08b"
+      },
+      "test-results/milestone-three/gc-stress.json": {
+        "bytes": 1314,
+        "sha256": "a08844ae51ccb314eae316438375fb72cdbd30aca1b720ddac7bbda82df17ad9"
+      },
+      "test-results/milestone-three/browser.json": {
+        "bytes": 4996045,
+        "sha256": "59ef855e5b669acb1f96c729e04b1d20305750b1d767716a3d3296681e0e8f1a"
+      },
+      "test-results/precompiled-stack/controller/validation-boundary-independent.json": {
+        "bytes": 1660,
+        "sha256": "e7d55fc4129b7b837734c8b5237ab36390bbc8509002950fdf4b88101b1ea2d3"
+      },
+      "test-results/precompiled-stack/controller/validation-boundary-same-source.json": {
+        "bytes": 2004,
+        "sha256": "15a7006c259ffa9843af9d8c2d42acb9beac6e9be24a69f5b966f99b6ff7c5f3"
+      }
+    }
+  },
+  "independentReview": {
+    "path": "reviews/c4-production.json",
+    "sha256": "897a24b091504144013bb7f511dcec816e4d12e16313cc809749ad7188d149d9"
+  },
+  "scope": "Pinned Git verifiers replay package/source/compiler/STACK/GC evidence; native316, both-pin official probes, plot and timing receipts are checked against the accepted source identity. Archive files are never executed as verifier code."
+}

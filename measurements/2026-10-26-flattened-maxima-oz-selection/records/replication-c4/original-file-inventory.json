@@ -1,0 +1,3147 @@
+[
+  {
+    "path": "admission.json",
+    "bytes": 213190,
+    "sha256": "d196393f1750f459915af6d167847e2f11f5d217830b0656a264fc4f93dac14b"
+  },
+  {
+    "path": "candidate-inventory.json",
+    "bytes": 2279264,
+    "sha256": "9f449988a7cef5a0087acdd800a5fff139d99e47fd5d6b1e48c03f9a3c545dec"
+  },
+  {
+    "path": "cpu-quarter/report.json",
+    "bytes": 84920,
+    "sha256": "0db91ed7ca92916f18f7b69644981b560f453635dcb582f9740e926b0587ed3a"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/backend/native_adapter.py",
+    "bytes": 14757,
+    "sha256": "a0f2d5a16c9501a321236d79df8fcb27ad48572770d243cf7d319f17b143e3e5"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/backend/test-worker-loading.mjs",
+    "bytes": 2785,
+    "sha256": "54ca50aeaaaf2e0ae2f6da7deaef1f30375b0902fdd74a14750e00315a03ba88"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/backend/test_native_adapter.py",
+    "bytes": 7821,
+    "sha256": "9ccfaea3bc2ee1a57b40321a5bf5ae3a8deaa63baf896e9357a76649a8a1d938"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/backend/worker.js",
+    "bytes": 5092,
+    "sha256": "5e41fbabf989ca6cea37c1a6fa39b3306cced1de5d82f9933d7df8339d7f3bd4"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/clean-probe-worker.js",
+    "bytes": 9899,
+    "sha256": "c519a7b6cdda56b97186bcfa6600813050ad30fa5c770620cb3f6a8686ae191c"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/clean-timing.html",
+    "bytes": 84,
+    "sha256": "d7ea306b9e58985ac240bd5eaf29881d922f6a47bfcb566e007f1925abcac4af"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/jsxgraph/README.md",
+    "bytes": 3890,
+    "sha256": "61fe0e6225e1f033185b828da45f9fd588c05a4384b3200a71785c2d5ef27524"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/jsxgraph/frame.js",
+    "bytes": 14246,
+    "sha256": "0a6caac6f8bfa4224b1350b306758de756b6fcee30e245821e310f9abd00ab16"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/jsxgraph/host.js",
+    "bytes": 25183,
+    "sha256": "851ee4bb7cce3042c3414126c870a7e0ffa0e8630ab1037c751e58f1946d83f7"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/jsxgraph/test-adapter.mjs",
+    "bytes": 30094,
+    "sha256": "8062b6815fb75139b1c5c976eef53c4ca5150e562a39a7510c111fc2e6fcf42d"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/jsxgraph/test-board-isolation.mjs",
+    "bytes": 6039,
+    "sha256": "f0582de21c7f0eabe400c4e1c8c9386d3f85d1739541da105ba3da6bc5ff9db6"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/libecl.so",
+    "bytes": 5282281,
+    "sha256": "b117bcb06f8a3d828bb7d14ad09d9b9877a24918ec117346c0aa8ad88641c479"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/maxima-integration.fas",
+    "bytes": 2156780,
+    "sha256": "c58c600b979ba22db4638ef5f5d6f2b8771a0fb9266e96384a74bc189f8f7bc5"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/maxima-limits.fas",
+    "bytes": 985432,
+    "sha256": "ef7459bb48a3c47265e7a9cf4e4a3526e3b1cd71b44ae367807aaf1ad506fe7e"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/maxima-matrix-algebra.fas",
+    "bytes": 646307,
+    "sha256": "943e015f66b6a10a1220737340584f8f6a9b06ed5bc9621a3d9badf296465202"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/maxima-number-theory.fas",
+    "bytes": 1429245,
+    "sha256": "141835855ccfc31528707731469983592de3c6f74d808b9eb772f313c570a89d"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/maxima-poisson-series.fas",
+    "bytes": 217615,
+    "sha256": "a47a0a76b96bce6f8a89bca029fd1fc20f7ca76a92e2b730da8bdf2056d449ae"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/maxima-quadpack.fas",
+    "bytes": 3718080,
+    "sha256": "70d765abf92a5f396f434baae0d90efc25b35ef590d10db9852ee0e63e039528"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/maxima-slatec.fas",
+    "bytes": 6190337,
+    "sha256": "94b0f90c5e4ecaaf1bc421e02491fe5d3a1750af38d539bd459a9bfc70fa12e6"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/maxima-solve.fas",
+    "bytes": 1373890,
+    "sha256": "68d3abf280b6dc930a712bb6ee33772a3bb62def924d5455860b62597ce028c7"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/maxima.js",
+    "bytes": 1239434,
+    "sha256": "385763ca1038fac02e8f7d247a8d808997238b03ba1919ce2f4dcec482fdb101"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/maxima.wasm",
+    "bytes": 23626720,
+    "sha256": "7e1fe0312636f27e99bba66badf022ecab98e57abfb306d8983441d6eb321b7a"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/maxima_thread.js",
+    "bytes": 3229,
+    "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/runtime-preload.json",
+    "bytes": 3470156,
+    "sha256": "6f39b23c5e2944aceeb5496f9f4cb34d881dcc598516e1c1e72d08ff197f2f2e"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/info/maxima-index-html.lisp",
+    "bytes": 240539,
+    "sha256": "1447fa3ae889b6e2466bee0b1825e24d2c5c06049a2aea46ae841f3736238ce9"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/info/maxima-index.lisp",
+    "bytes": 262119,
+    "sha256": "07fe12c5619772c33f8f6867afbfe9bd417b38605816f530689b3d0cfc50890f"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp",
+    "bytes": 83712,
+    "sha256": "027ea2adca8ee282261ef2c860a09506ade398ec8bee53d10f45b4edf3066aa0"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/diag.mac",
+    "bytes": 13815,
+    "sha256": "058e2c46b050371cb10f45146c80daaabc38699fe057e31826a9c8566c26ea1e"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp",
+    "bytes": 5719,
+    "sha256": "ff90059ce466a6f111838b6a31876f77c9b7d4947528b16d1642eea97b9fdbd3"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/simplifying.lisp",
+    "bytes": 3674,
+    "sha256": "fa7c62ce99c4aac44587ef4eeb301d15b902f8349945e4163f3148fa5f1da12f"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/trigtools/trigtools.mac",
+    "bytes": 5020,
+    "sha256": "cae0f3c2f902ddfa05099d7bd59e9f0b85a8b616f72085d1fc69ac6eab14fbbc"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac",
+    "bytes": 69297,
+    "sha256": "c9b7d891f0a59d62a4acc0171d46d9234cb9613364c7760206fb34ebf4c2d15a"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp",
+    "bytes": 665,
+    "sha256": "a55a311e59742454623026388173bf8bc53933741bf1eec54dc9754d908d3b89"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac",
+    "bytes": 75917,
+    "sha256": "bca2baca2a951be94c48d903e9f742dc6c48af56c0ee8d71852d21e8b2c4e674"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp",
+    "bytes": 67103,
+    "sha256": "785a5040c4ddccbf86cbfe545ecd6df9c9c91b3fd0943d175c63ea6842c6361b"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+    "bytes": 231,
+    "sha256": "45def400e51ed424494d988f0c37e8e880247bda9ae249d54e8f2e33b856dbd9"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.system",
+    "bytes": 288,
+    "sha256": "b3540ed3cc0623c7269f74418fd316551f4302fd11235d05366158251eb0ece4"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/gnuplot.lisp",
+    "bytes": 160983,
+    "sha256": "6a3207114a838113174240e0d1873b19ee3914eaa2a6f7ece59d537e242a490f"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/grcommon.lisp",
+    "bytes": 102070,
+    "sha256": "db6d1ffd9a740856ca1a31541ff727ab868b98a7815c20ddf0f0eb65ba79f023"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/picture.lisp",
+    "bytes": 16364,
+    "sha256": "cf2fe24284c017ad30c476af6269f04555d572aea851ee8f0ed580df364123a2"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/vtk.lisp",
+    "bytes": 141890,
+    "sha256": "a28dc5a4333b10e568a216a69f658c93a4000cd4f354fc6f8c8454d348e4f5fe"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp",
+    "bytes": 22207,
+    "sha256": "b48ebeea74f5bf175e3d42adaceebe7e6d806e9697723309e03b94c509848bf0"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb1.lisp",
+    "bytes": 9238,
+    "sha256": "3a68fba9fbb1c8e436eaa28841a9c2a43194f976fac12765c536f9f0a631d3a5"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb2.lisp",
+    "bytes": 1910,
+    "sha256": "1673fc162449c44506e0681fc156cae1d48064cf675bcdfa9958e472d21cfb15"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-daxpy.lisp",
+    "bytes": 5461,
+    "sha256": "8b9d6701475ae051929eed656a6e61c6077e569e8c41a3fa5b30f42972d317f6"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-ddot.lisp",
+    "bytes": 5327,
+    "sha256": "2ff8618463103d462dd94fc802c89536edc2ba78ff3701cbc5feb2a2e5e3ae7d"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.lisp",
+    "bytes": 35249,
+    "sha256": "daf18d1bbf8a3e870d9bea27ffc5365b261a227226f5a3077906dfaa6774f366"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.mac",
+    "bytes": 185,
+    "sha256": "f1136424d74dcd47337b9c96536f90d1b47a580dd5c1c552d2931c3620493816"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/maxima-lbfgs.lisp",
+    "bytes": 5510,
+    "sha256": "caee6aac20da81e78303b075cd8d855ff5a846a010116ba7f3b44e492397f611"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcsrch.lisp",
+    "bytes": 9933,
+    "sha256": "3e90e87f806cb09b48885c04473e8caf36646212c21926eb6112b783633f1b04"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcstep.lisp",
+    "bytes": 7096,
+    "sha256": "e95233ea91210438ef1ff783bae0ffd6e57cfd42a6a143904ac835923e4e24b2"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/eigens-by-jacobi.lisp",
+    "bytes": 5461,
+    "sha256": "7ad415c80a119bf62a0b1786fe12417c15ffbcc7ac6eb224684eac840b90c856"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-extra.lisp",
+    "bytes": 6189,
+    "sha256": "511f4576fd99db0dfc99bea2ee4fa7b4ea9e8bad619c0ee0c4515bce629a15bf"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-utilities.lisp",
+    "bytes": 6658,
+    "sha256": "da67e38dc83182b95b89476df4b436c95a90b797c0d02197c7dadbf6ba2202b0"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalgcholesky.lisp",
+    "bytes": 2533,
+    "sha256": "fadfe281f1ae18d9ef9d658c7b38507e56285d3bec53ce5dc0e67427988ce71b"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linearalgebra.mac",
+    "bytes": 12218,
+    "sha256": "6f509719c842128e9c8fb34a91e2b0efeec38e45f9a1dbe11fd2cfe3a76e45cf"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/load-linearalgebra-lisp-files.lisp",
+    "bytes": 818,
+    "sha256": "ff456f078307f59c845d2ba6712e4bf2d4dd90908979cda01abcfb37b4daa778"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/lu.lisp",
+    "bytes": 12284,
+    "sha256": "493fc8dd91b5283f365b90d5babc0a4c0884ba68a43d0e08a5025e2e6fd6cdb0"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/matrixexp.lisp",
+    "bytes": 6603,
+    "sha256": "06810384023da28279abc1a1c0ac296c192cdaacab8fb0dc2e80f5a9b8ef5d87"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/mring.lisp",
+    "bytes": 16809,
+    "sha256": "c4af22f8e472e182cef693328d3000e36749397202d5d48ca5db2178a320b0c8"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+    "bytes": 211935,
+    "sha256": "5752e3cb3b1653009ea11d92c54ccda008275225f76c5e869f7f08d173133d8d"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/macro/basic.mac",
+    "bytes": 1106,
+    "sha256": "ec99cf76b3653dcfe661d58b5868d51d2718b0f6e73a75696ff11fc2596536b7"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/macro/packg.mac",
+    "bytes": 1571,
+    "sha256": "be614af9f8583290f54879a5978156f768798ee3e5ce4d67ed7ee44265dfeb8a"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac",
+    "bytes": 8120,
+    "sha256": "cc63e4b33108bfc8cb3657c7dd84861bb40be5202e1fa5eff5dcb4ff842efe0c"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/facexp.mac",
+    "bytes": 11079,
+    "sha256": "a749264a1679b7a7eee0d1f01e5459b81bd589ae1bf908232dd3d6588c0fdbfd"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac",
+    "bytes": 4915,
+    "sha256": "59319fd8623025ce5444ac508f4d6defce594829b26e8ec950c7b5e2cc6f2181"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac",
+    "bytes": 8469,
+    "sha256": "9c60b72c98b369a7a98e5d7076c9f7db03c05189cbc5c0623d0c1ec6ba56a960"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/lrats.mac",
+    "bytes": 2536,
+    "sha256": "8ba7506bf7a30695f3d513d2a89b62852689f9a44b13822e656cb45ebce23ba2"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/inference_result.lisp",
+    "bytes": 8238,
+    "sha256": "c56c33c6bc6e0cc1e735f3d0025c2e615f40b481093fa48e6197a24728485faf"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/numstats.lisp",
+    "bytes": 12080,
+    "sha256": "c961431de9c647558c3f2f993a64abd6af69fde6a849e24d089255b8c9497811"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/stats.mac",
+    "bytes": 66662,
+    "sha256": "d6dd9065e460e92512c3050508e7c0918e6da258fc4c02d1587e2c6f3a60050c"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp",
+    "bytes": 5901,
+    "sha256": "acc82d7fb13251e2a67ce4f9162ca7184d5a9ce8e35e848d063d0f410f530ff1"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp",
+    "bytes": 10760,
+    "sha256": "75c9b17bd4f33a896f4207e6652d5ab63c63edd200858ddab6fec0d40adb8273"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp",
+    "bytes": 2395,
+    "sha256": "39ef5cc589851f013f5846c89f8d2dd3cc847dfea040e55dc662f5f74ff7ae6b"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp",
+    "bytes": 8193,
+    "sha256": "c8fb5a9241e800c0173c76ac87344a02cd35c972c4595868c9ca2b037ca729db"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp",
+    "bytes": 21346,
+    "sha256": "35ec2642b830737b1c5543692c9c2385fd5970ce70028189966d36e3bdd434ac"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp",
+    "bytes": 13633,
+    "sha256": "c19ee8b7532cce05bfaa382c1877110d61113caad7a09af52cc29648d6b6cfeb"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.lisp",
+    "bytes": 7501,
+    "sha256": "e8f6d2fb9a8d4a3184b644b49175d2a2ad4b9b6c0759e34ad7ce9e01588ce50c"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.mac",
+    "bytes": 76,
+    "sha256": "ca75d7da5c533701f736efd8b9ae8ea160b650d1b7f6066c2479e2363d13c248"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp",
+    "bytes": 47721,
+    "sha256": "5b5678e3fbd9efab7e9870bf8cfb34652907a196ec7aee4f20ccee21e94d6211"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.mac",
+    "bytes": 184,
+    "sha256": "fe11a711f0af6214a976aca4ac0a1e52720186790bb4b9c61d1e606ee40e3118"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp",
+    "bytes": 6599,
+    "sha256": "e4179ffab65b8e2c98162634d2c408e8e04c6577e943a8dacd99faa7f90bd1fb"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp",
+    "bytes": 24670,
+    "sha256": "bfcae0e610d039bb43d71e6bfa2723820df3cfe0fca012a05530f73c1a8d0e3d"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve.mac",
+    "bytes": 26278,
+    "sha256": "2441e553d1604a55dad602cdb2e997c6f48eff668932d7cc7b7a12ec0ca1fb5e"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve_extra.lisp",
+    "bytes": 6966,
+    "sha256": "0a364d75e9e6700c0cb170dc6bf08fbc3a700739e87218a8b029ffd0ee340b30"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/atrig1.mac",
+    "bytes": 1528,
+    "sha256": "11843e2e013d1e9888251c1acb0109c3b6f7d9c7d57cb9db9e1a285744b02dd8"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/ntrig.mac",
+    "bytes": 1096,
+    "sha256": "3a2422f3c749c9fd8673c9dbda0e1f125f4b06c6ac7e8ec408c4fbcc8279df58"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/spangl.mac",
+    "bytes": 1945,
+    "sha256": "999b974b59ce420302ac818e49b6876b42615788b4a18c887d4f961e39e84a65"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trgsmp.mac",
+    "bytes": 4874,
+    "sha256": "0f5db0cb2e22d4ce8536e84a3767830e76ac1751f4555ca253b86c70aa3c56a1"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trigrat.lisp",
+    "bytes": 1909,
+    "sha256": "5da6c242383b117fc4d75b241193ab6976b63fe58542ef17b3332ead900973ec"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/maxima-runtime/share_files.js",
+    "bytes": 528107,
+    "sha256": "e07cdd6ef8eac3ee63869a1f9c0e5cb3ec30f7f538f3dadd764e248e404a6057"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/native/backend-worker.js",
+    "bytes": 5104,
+    "sha256": "f25bd0626b6443de40de153bd1248a2e52affb3797bbfba1e0ae9ebc9f37dceb"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/native/classified-errcatch.lisp",
+    "bytes": 322,
+    "sha256": "f21ecdabcb5af55e1301e748842c3ff781cff83872f600453905db9c0d3f93de"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/native/engine.js",
+    "bytes": 37066,
+    "sha256": "cbdaa78cb90f1e98559cea648958094c41aecf71208207da77bfd42fa45eb552"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/native/feedback.js",
+    "bytes": 6944,
+    "sha256": "a7e441a62db8a8f3e4d5d74e52440466e7e36174763cfae9ffafa34e6db8cdf8"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/native/input.js",
+    "bytes": 17611,
+    "sha256": "0fbea684c259dbd132ca4e1dda1d91399cdeb2d807d616fc7af32406f7122333"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/native/python-bridge.js",
+    "bytes": 5030,
+    "sha256": "bb43ac0b4b2baedb5f88680b7fdbebe9883d3eaab39b696f80bcdd1af9672ce5"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/native/python_bridge.py",
+    "bytes": 5111,
+    "sha256": "6af06b5b2a4b5ee7368664e33d00ba8036dd7a157fd59ff00f5f8d45f30b814c"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/native/test-backend-worker.mjs",
+    "bytes": 3029,
+    "sha256": "0d4af09c70ecf4e8b42e427465a067510230aef28693b7ae90b01884d61e4057"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/native/test-engine.mjs",
+    "bytes": 11539,
+    "sha256": "4def3839d9505265684331da0ae09fed96e485bc531fbdcb4ff4948499bb76d7"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/native/test-feedback.mjs",
+    "bytes": 7413,
+    "sha256": "bd0bd05091976f892e939222c0e77d0c5c074b360f6674db5f5667cbd025e296"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/native/test-input.mjs",
+    "bytes": 6998,
+    "sha256": "7b70bc7920a11f0e50972d9226ebf1053dd16b0ddc6e6583dd662f79f4de0013"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/native/test-python-bridge.mjs",
+    "bytes": 3789,
+    "sha256": "bc234a4655177d15ec7e2779a31f27da8e24741e3e8a1d5228cc33d7ea3a41aa"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/native/test_python_bridge.py",
+    "bytes": 8188,
+    "sha256": "6a0daf2fd7b597ee602e9a8cbbd952feb69e270e5ed9aa824cac9e66c64153fe"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/runtime/maxima-child.js",
+    "bytes": 14744,
+    "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/runtime/maxima-session.js",
+    "bytes": 14344,
+    "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/runtime/test-maxima-session.mjs",
+    "bytes": 4813,
+    "sha256": "e1a447da67e134856ebed8fd101fb19145b93cee1abb33d31dfe598bbacc5078"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/runtime-assets.json",
+    "bytes": 34365,
+    "sha256": "a311b9673f51d75ac745dd969feaea152e4c1c624284003ca32af448fe0f4f4d"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/stack-sources-timed-source.json",
+    "bytes": 987725,
+    "sha256": "b17d9f6687ee5442289a97aaf4045f765450fc744fd7210fbdee1712896d2113"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz/stack-sources.json",
+    "bytes": 987657,
+    "sha256": "6bb19c381078955da5cad9b16461eed103e0c2fc667b1ae96c465e34c979f153"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/backend/native_adapter.py",
+    "bytes": 14757,
+    "sha256": "a0f2d5a16c9501a321236d79df8fcb27ad48572770d243cf7d319f17b143e3e5"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/backend/test-worker-loading.mjs",
+    "bytes": 2785,
+    "sha256": "54ca50aeaaaf2e0ae2f6da7deaef1f30375b0902fdd74a14750e00315a03ba88"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/backend/test_native_adapter.py",
+    "bytes": 7821,
+    "sha256": "9ccfaea3bc2ee1a57b40321a5bf5ae3a8deaa63baf896e9357a76649a8a1d938"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/backend/worker.js",
+    "bytes": 5092,
+    "sha256": "5e41fbabf989ca6cea37c1a6fa39b3306cced1de5d82f9933d7df8339d7f3bd4"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/clean-probe-worker.js",
+    "bytes": 9899,
+    "sha256": "c519a7b6cdda56b97186bcfa6600813050ad30fa5c770620cb3f6a8686ae191c"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/clean-timing.html",
+    "bytes": 84,
+    "sha256": "d7ea306b9e58985ac240bd5eaf29881d922f6a47bfcb566e007f1925abcac4af"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/jsxgraph/README.md",
+    "bytes": 3890,
+    "sha256": "61fe0e6225e1f033185b828da45f9fd588c05a4384b3200a71785c2d5ef27524"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/jsxgraph/frame.js",
+    "bytes": 14246,
+    "sha256": "0a6caac6f8bfa4224b1350b306758de756b6fcee30e245821e310f9abd00ab16"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/jsxgraph/host.js",
+    "bytes": 25183,
+    "sha256": "851ee4bb7cce3042c3414126c870a7e0ffa0e8630ab1037c751e58f1946d83f7"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/jsxgraph/test-adapter.mjs",
+    "bytes": 30094,
+    "sha256": "8062b6815fb75139b1c5c976eef53c4ca5150e562a39a7510c111fc2e6fcf42d"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/jsxgraph/test-board-isolation.mjs",
+    "bytes": 6039,
+    "sha256": "f0582de21c7f0eabe400c4e1c8c9386d3f85d1739541da105ba3da6bc5ff9db6"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/libecl.so",
+    "bytes": 5123084,
+    "sha256": "19df5673e1db662eec31cd8490e2ced159c1a112b7cafd9e42922927a2d80d54"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/maxima-integration.fas",
+    "bytes": 2000690,
+    "sha256": "fe5f763f361c05a9a76e8899eee29222f4459ea4c75c9a517691563a54a2ceff"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/maxima-limits.fas",
+    "bytes": 869991,
+    "sha256": "2246f592ca8ad207a00a2bda2f9ba27b53c5bce5fc8c4f3ebc9ef13e9f8833e3"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/maxima-matrix-algebra.fas",
+    "bytes": 581326,
+    "sha256": "71cfaaa7a73722797800bf86987ed1425be8ed0a44e88410a319f05a41b10539"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/maxima-number-theory.fas",
+    "bytes": 1318671,
+    "sha256": "bc846487f0543f666fe714730ffe6f590d7acbb749b7993562b1396e7133b3cf"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/maxima-poisson-series.fas",
+    "bytes": 189615,
+    "sha256": "23f97647db3cfe45e36ad3078a0f062d0326d9b7f5acf68eb22e524e32f29459"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/maxima-quadpack.fas",
+    "bytes": 3395044,
+    "sha256": "636384a3fa58f8131ee1c9bf9038d1199f3277cf4b9a26648c8555c22c24489d"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/maxima-slatec.fas",
+    "bytes": 5424862,
+    "sha256": "5212f71b0425ba30a5aba4be7de7cb0f004fdd9aa49913db80999bffb7b59c1e"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/maxima-solve.fas",
+    "bytes": 1215181,
+    "sha256": "56b7f1c753bc745ebb49d0c625e6ac378469d1ffadc18fe69e13e4b6b4239896"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/maxima.js",
+    "bytes": 608449,
+    "sha256": "3e34145350f676f44c06a402ce79a28d5119cb60060917b779bd000f9dc8e745"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/maxima.wasm",
+    "bytes": 20629568,
+    "sha256": "f218dfbac227bbee48945db4491e0d7d525af6c671f537d72fadf903fc759949"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/maxima_thread.js",
+    "bytes": 3229,
+    "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/runtime-preload.json",
+    "bytes": 3383516,
+    "sha256": "9bc7610c65cef3c98fcfb950cc00ab844d0f3dddaa5e46e77275ac23edd39dc8"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/info/maxima-index-html.lisp",
+    "bytes": 240539,
+    "sha256": "1447fa3ae889b6e2466bee0b1825e24d2c5c06049a2aea46ae841f3736238ce9"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/info/maxima-index.lisp",
+    "bytes": 262119,
+    "sha256": "07fe12c5619772c33f8f6867afbfe9bd417b38605816f530689b3d0cfc50890f"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp",
+    "bytes": 83712,
+    "sha256": "027ea2adca8ee282261ef2c860a09506ade398ec8bee53d10f45b4edf3066aa0"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/diag.mac",
+    "bytes": 13815,
+    "sha256": "058e2c46b050371cb10f45146c80daaabc38699fe057e31826a9c8566c26ea1e"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp",
+    "bytes": 5719,
+    "sha256": "ff90059ce466a6f111838b6a31876f77c9b7d4947528b16d1642eea97b9fdbd3"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/simplifying.lisp",
+    "bytes": 3674,
+    "sha256": "fa7c62ce99c4aac44587ef4eeb301d15b902f8349945e4163f3148fa5f1da12f"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/trigtools/trigtools.mac",
+    "bytes": 5020,
+    "sha256": "cae0f3c2f902ddfa05099d7bd59e9f0b85a8b616f72085d1fc69ac6eab14fbbc"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac",
+    "bytes": 69297,
+    "sha256": "c9b7d891f0a59d62a4acc0171d46d9234cb9613364c7760206fb34ebf4c2d15a"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp",
+    "bytes": 665,
+    "sha256": "a55a311e59742454623026388173bf8bc53933741bf1eec54dc9754d908d3b89"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac",
+    "bytes": 75917,
+    "sha256": "bca2baca2a951be94c48d903e9f742dc6c48af56c0ee8d71852d21e8b2c4e674"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp",
+    "bytes": 67103,
+    "sha256": "785a5040c4ddccbf86cbfe545ecd6df9c9c91b3fd0943d175c63ea6842c6361b"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+    "bytes": 231,
+    "sha256": "45def400e51ed424494d988f0c37e8e880247bda9ae249d54e8f2e33b856dbd9"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.system",
+    "bytes": 288,
+    "sha256": "b3540ed3cc0623c7269f74418fd316551f4302fd11235d05366158251eb0ece4"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/gnuplot.lisp",
+    "bytes": 160983,
+    "sha256": "6a3207114a838113174240e0d1873b19ee3914eaa2a6f7ece59d537e242a490f"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/grcommon.lisp",
+    "bytes": 102070,
+    "sha256": "db6d1ffd9a740856ca1a31541ff727ab868b98a7815c20ddf0f0eb65ba79f023"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/picture.lisp",
+    "bytes": 16364,
+    "sha256": "cf2fe24284c017ad30c476af6269f04555d572aea851ee8f0ed580df364123a2"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/vtk.lisp",
+    "bytes": 141890,
+    "sha256": "a28dc5a4333b10e568a216a69f658c93a4000cd4f354fc6f8c8454d348e4f5fe"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp",
+    "bytes": 22207,
+    "sha256": "b48ebeea74f5bf175e3d42adaceebe7e6d806e9697723309e03b94c509848bf0"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb1.lisp",
+    "bytes": 9238,
+    "sha256": "3a68fba9fbb1c8e436eaa28841a9c2a43194f976fac12765c536f9f0a631d3a5"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb2.lisp",
+    "bytes": 1910,
+    "sha256": "1673fc162449c44506e0681fc156cae1d48064cf675bcdfa9958e472d21cfb15"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-daxpy.lisp",
+    "bytes": 5461,
+    "sha256": "8b9d6701475ae051929eed656a6e61c6077e569e8c41a3fa5b30f42972d317f6"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-ddot.lisp",
+    "bytes": 5327,
+    "sha256": "2ff8618463103d462dd94fc802c89536edc2ba78ff3701cbc5feb2a2e5e3ae7d"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.lisp",
+    "bytes": 35249,
+    "sha256": "daf18d1bbf8a3e870d9bea27ffc5365b261a227226f5a3077906dfaa6774f366"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.mac",
+    "bytes": 185,
+    "sha256": "f1136424d74dcd47337b9c96536f90d1b47a580dd5c1c552d2931c3620493816"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/maxima-lbfgs.lisp",
+    "bytes": 5510,
+    "sha256": "caee6aac20da81e78303b075cd8d855ff5a846a010116ba7f3b44e492397f611"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcsrch.lisp",
+    "bytes": 9933,
+    "sha256": "3e90e87f806cb09b48885c04473e8caf36646212c21926eb6112b783633f1b04"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcstep.lisp",
+    "bytes": 7096,
+    "sha256": "e95233ea91210438ef1ff783bae0ffd6e57cfd42a6a143904ac835923e4e24b2"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/eigens-by-jacobi.lisp",
+    "bytes": 5461,
+    "sha256": "7ad415c80a119bf62a0b1786fe12417c15ffbcc7ac6eb224684eac840b90c856"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-extra.lisp",
+    "bytes": 6189,
+    "sha256": "511f4576fd99db0dfc99bea2ee4fa7b4ea9e8bad619c0ee0c4515bce629a15bf"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-utilities.lisp",
+    "bytes": 6658,
+    "sha256": "da67e38dc83182b95b89476df4b436c95a90b797c0d02197c7dadbf6ba2202b0"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalgcholesky.lisp",
+    "bytes": 2533,
+    "sha256": "fadfe281f1ae18d9ef9d658c7b38507e56285d3bec53ce5dc0e67427988ce71b"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linearalgebra.mac",
+    "bytes": 12218,
+    "sha256": "6f509719c842128e9c8fb34a91e2b0efeec38e45f9a1dbe11fd2cfe3a76e45cf"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/load-linearalgebra-lisp-files.lisp",
+    "bytes": 818,
+    "sha256": "ff456f078307f59c845d2ba6712e4bf2d4dd90908979cda01abcfb37b4daa778"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/lu.lisp",
+    "bytes": 12284,
+    "sha256": "493fc8dd91b5283f365b90d5babc0a4c0884ba68a43d0e08a5025e2e6fd6cdb0"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/matrixexp.lisp",
+    "bytes": 6603,
+    "sha256": "06810384023da28279abc1a1c0ac296c192cdaacab8fb0dc2e80f5a9b8ef5d87"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/mring.lisp",
+    "bytes": 16809,
+    "sha256": "c4af22f8e472e182cef693328d3000e36749397202d5d48ca5db2178a320b0c8"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+    "bytes": 211935,
+    "sha256": "5752e3cb3b1653009ea11d92c54ccda008275225f76c5e869f7f08d173133d8d"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/macro/basic.mac",
+    "bytes": 1106,
+    "sha256": "ec99cf76b3653dcfe661d58b5868d51d2718b0f6e73a75696ff11fc2596536b7"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/macro/packg.mac",
+    "bytes": 1571,
+    "sha256": "be614af9f8583290f54879a5978156f768798ee3e5ce4d67ed7ee44265dfeb8a"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac",
+    "bytes": 8120,
+    "sha256": "cc63e4b33108bfc8cb3657c7dd84861bb40be5202e1fa5eff5dcb4ff842efe0c"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/facexp.mac",
+    "bytes": 11079,
+    "sha256": "a749264a1679b7a7eee0d1f01e5459b81bd589ae1bf908232dd3d6588c0fdbfd"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac",
+    "bytes": 4915,
+    "sha256": "59319fd8623025ce5444ac508f4d6defce594829b26e8ec950c7b5e2cc6f2181"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac",
+    "bytes": 8469,
+    "sha256": "9c60b72c98b369a7a98e5d7076c9f7db03c05189cbc5c0623d0c1ec6ba56a960"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/lrats.mac",
+    "bytes": 2536,
+    "sha256": "8ba7506bf7a30695f3d513d2a89b62852689f9a44b13822e656cb45ebce23ba2"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/inference_result.lisp",
+    "bytes": 8238,
+    "sha256": "c56c33c6bc6e0cc1e735f3d0025c2e615f40b481093fa48e6197a24728485faf"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/numstats.lisp",
+    "bytes": 12080,
+    "sha256": "c961431de9c647558c3f2f993a64abd6af69fde6a849e24d089255b8c9497811"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/stats.mac",
+    "bytes": 66662,
+    "sha256": "d6dd9065e460e92512c3050508e7c0918e6da258fc4c02d1587e2c6f3a60050c"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp",
+    "bytes": 5901,
+    "sha256": "acc82d7fb13251e2a67ce4f9162ca7184d5a9ce8e35e848d063d0f410f530ff1"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp",
+    "bytes": 10760,
+    "sha256": "75c9b17bd4f33a896f4207e6652d5ab63c63edd200858ddab6fec0d40adb8273"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp",
+    "bytes": 2395,
+    "sha256": "39ef5cc589851f013f5846c89f8d2dd3cc847dfea040e55dc662f5f74ff7ae6b"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp",
+    "bytes": 8193,
+    "sha256": "c8fb5a9241e800c0173c76ac87344a02cd35c972c4595868c9ca2b037ca729db"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp",
+    "bytes": 21346,
+    "sha256": "35ec2642b830737b1c5543692c9c2385fd5970ce70028189966d36e3bdd434ac"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp",
+    "bytes": 13633,
+    "sha256": "c19ee8b7532cce05bfaa382c1877110d61113caad7a09af52cc29648d6b6cfeb"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.lisp",
+    "bytes": 7501,
+    "sha256": "e8f6d2fb9a8d4a3184b644b49175d2a2ad4b9b6c0759e34ad7ce9e01588ce50c"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.mac",
+    "bytes": 76,
+    "sha256": "ca75d7da5c533701f736efd8b9ae8ea160b650d1b7f6066c2479e2363d13c248"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp",
+    "bytes": 47721,
+    "sha256": "5b5678e3fbd9efab7e9870bf8cfb34652907a196ec7aee4f20ccee21e94d6211"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.mac",
+    "bytes": 184,
+    "sha256": "fe11a711f0af6214a976aca4ac0a1e52720186790bb4b9c61d1e606ee40e3118"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp",
+    "bytes": 6599,
+    "sha256": "e4179ffab65b8e2c98162634d2c408e8e04c6577e943a8dacd99faa7f90bd1fb"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp",
+    "bytes": 24670,
+    "sha256": "bfcae0e610d039bb43d71e6bfa2723820df3cfe0fca012a05530f73c1a8d0e3d"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve.mac",
+    "bytes": 26278,
+    "sha256": "2441e553d1604a55dad602cdb2e997c6f48eff668932d7cc7b7a12ec0ca1fb5e"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve_extra.lisp",
+    "bytes": 6966,
+    "sha256": "0a364d75e9e6700c0cb170dc6bf08fbc3a700739e87218a8b029ffd0ee340b30"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/atrig1.mac",
+    "bytes": 1528,
+    "sha256": "11843e2e013d1e9888251c1acb0109c3b6f7d9c7d57cb9db9e1a285744b02dd8"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/ntrig.mac",
+    "bytes": 1096,
+    "sha256": "3a2422f3c749c9fd8673c9dbda0e1f125f4b06c6ac7e8ec408c4fbcc8279df58"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/spangl.mac",
+    "bytes": 1945,
+    "sha256": "999b974b59ce420302ac818e49b6876b42615788b4a18c887d4f961e39e84a65"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trgsmp.mac",
+    "bytes": 4874,
+    "sha256": "0f5db0cb2e22d4ce8536e84a3767830e76ac1751f4555ca253b86c70aa3c56a1"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trigrat.lisp",
+    "bytes": 1909,
+    "sha256": "5da6c242383b117fc4d75b241193ab6976b63fe58542ef17b3332ead900973ec"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/maxima-runtime/share_files.js",
+    "bytes": 528107,
+    "sha256": "e07cdd6ef8eac3ee63869a1f9c0e5cb3ec30f7f538f3dadd764e248e404a6057"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/native/backend-worker.js",
+    "bytes": 5104,
+    "sha256": "f25bd0626b6443de40de153bd1248a2e52affb3797bbfba1e0ae9ebc9f37dceb"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/native/classified-errcatch.lisp",
+    "bytes": 322,
+    "sha256": "f21ecdabcb5af55e1301e748842c3ff781cff83872f600453905db9c0d3f93de"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/native/engine.js",
+    "bytes": 37066,
+    "sha256": "cbdaa78cb90f1e98559cea648958094c41aecf71208207da77bfd42fa45eb552"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/native/feedback.js",
+    "bytes": 6944,
+    "sha256": "a7e441a62db8a8f3e4d5d74e52440466e7e36174763cfae9ffafa34e6db8cdf8"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/native/input.js",
+    "bytes": 17611,
+    "sha256": "0fbea684c259dbd132ca4e1dda1d91399cdeb2d807d616fc7af32406f7122333"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/native/python-bridge.js",
+    "bytes": 5030,
+    "sha256": "bb43ac0b4b2baedb5f88680b7fdbebe9883d3eaab39b696f80bcdd1af9672ce5"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/native/python_bridge.py",
+    "bytes": 5111,
+    "sha256": "6af06b5b2a4b5ee7368664e33d00ba8036dd7a157fd59ff00f5f8d45f30b814c"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/native/test-backend-worker.mjs",
+    "bytes": 3029,
+    "sha256": "0d4af09c70ecf4e8b42e427465a067510230aef28693b7ae90b01884d61e4057"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/native/test-engine.mjs",
+    "bytes": 11539,
+    "sha256": "4def3839d9505265684331da0ae09fed96e485bc531fbdcb4ff4948499bb76d7"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/native/test-feedback.mjs",
+    "bytes": 7413,
+    "sha256": "bd0bd05091976f892e939222c0e77d0c5c074b360f6674db5f5667cbd025e296"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/native/test-input.mjs",
+    "bytes": 6998,
+    "sha256": "7b70bc7920a11f0e50972d9226ebf1053dd16b0ddc6e6583dd662f79f4de0013"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/native/test-python-bridge.mjs",
+    "bytes": 3789,
+    "sha256": "bc234a4655177d15ec7e2779a31f27da8e24741e3e8a1d5228cc33d7ea3a41aa"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/native/test_python_bridge.py",
+    "bytes": 8188,
+    "sha256": "6a0daf2fd7b597ee602e9a8cbbd952feb69e270e5ed9aa824cac9e66c64153fe"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/runtime/maxima-child.js",
+    "bytes": 14744,
+    "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/runtime/maxima-session.js",
+    "bytes": 14344,
+    "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/runtime/test-maxima-session.mjs",
+    "bytes": 4813,
+    "sha256": "e1a447da67e134856ebed8fd101fb19145b93cee1abb33d31dfe598bbacc5078"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/runtime-assets.json",
+    "bytes": 34578,
+    "sha256": "f796940fc5bc95fe77509230fac54e30bafe7644895a73c94c7aff67cb359282"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/stack-sources-timed-source.json",
+    "bytes": 987920,
+    "sha256": "de6551f0ffe32ce84a91f3aaa9dc0d0a3ee36445e995c9d83fb754c5f1d652a9"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz/stack-sources.json",
+    "bytes": 987852,
+    "sha256": "cd1cc168eabca1ae17c35bb1a21b3f4002a5df083437cbffded05cb26e1e11a4"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-maxima-oz-startup-observer-derivation.json",
+    "bytes": 1782,
+    "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+  },
+  {
+    "path": "cpu-quarter/staged/ecl-oz-startup-observer-derivation.json",
+    "bytes": 1782,
+    "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+  },
+  {
+    "path": "cpu-quarter/trials/01-ecl-oz-source-cold/partial.json",
+    "bytes": 17659,
+    "sha256": "077d321f9d4f832f430a459b5d95834acc5fc3e687f0f2eed2b29de0ca52c2ab"
+  },
+  {
+    "path": "cpu-quarter/trials/01-ecl-oz-source-cold/sample.json",
+    "bytes": 26012,
+    "sha256": "35669bfa2bb0c1f279ac7d35e65aca16c3b3a38c88180dcf27c5421eb60c8609"
+  },
+  {
+    "path": "cpu-quarter/trials/01-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17680,
+    "sha256": "2a46ba224936b8f850a964a2de7a109354fb60d3171440984bd75d390e70fa24"
+  },
+  {
+    "path": "cpu-quarter/trials/01-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22667,
+    "sha256": "151a1d84d5a1758acc28e2d0fbf78877e653b17e50a04e4658ed41c9316a05cb"
+  },
+  {
+    "path": "cpu-quarter/trials/02-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17693,
+    "sha256": "dcabb634cc5858f741b49efcb061ef3ececdb2c090a345a2c5ea6a66c1dfff4c"
+  },
+  {
+    "path": "cpu-quarter/trials/02-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25927,
+    "sha256": "a0d8113bee9cc15bb7302f9372f4750a945d6444d7241b1b9eceb341fd67f5ee"
+  },
+  {
+    "path": "cpu-quarter/trials/02-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17644,
+    "sha256": "3998733dae301ac7c4879880b8c92753950ab96dc30122c5ab16b37e6403673e"
+  },
+  {
+    "path": "cpu-quarter/trials/02-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22523,
+    "sha256": "da98e696f033129242c5177879b6692468f866399f528cd8148b7b30b053e92f"
+  },
+  {
+    "path": "cpu-quarter/trials/03-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17634,
+    "sha256": "43c60cc1fda2b6a664e42642377b0135e76cc1bdcbd29f045fbe56897628bb03"
+  },
+  {
+    "path": "cpu-quarter/trials/03-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25868,
+    "sha256": "f373882985f2ea03090b7b369b6a8f78e7894534329f7771fa8e12b362b1fa2c"
+  },
+  {
+    "path": "cpu-quarter/trials/03-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17586,
+    "sha256": "6d79499406435c6753c28cb31926bdbea86c173c972676a304762cb110aa22fe"
+  },
+  {
+    "path": "cpu-quarter/trials/03-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22465,
+    "sha256": "e333b662f481d807acd2fb96d6399257d49c0386eb8f9073a787fe94902c3ebc"
+  },
+  {
+    "path": "cpu-quarter/trials/04-ecl-oz-source-cold/partial.json",
+    "bytes": 17693,
+    "sha256": "a6cdccf17c87a83ecfc58ae1a59e9f424ae6b92959264c19f630f2c486599795"
+  },
+  {
+    "path": "cpu-quarter/trials/04-ecl-oz-source-cold/sample.json",
+    "bytes": 26046,
+    "sha256": "663c5c3fc4e9389fe0a201a1df41f04abd0e942a686c8b18d0994a245afee4ac"
+  },
+  {
+    "path": "cpu-quarter/trials/04-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17647,
+    "sha256": "e18b9813ed532e48b7cb396699039a8aedfe210a2bc437240dd2b7dcf8c6c789"
+  },
+  {
+    "path": "cpu-quarter/trials/04-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22634,
+    "sha256": "a78b18d0d25b083ffd4e78c8b47d86991c5ff96a10eebcaab7a92753d422a64a"
+  },
+  {
+    "path": "cpu-quarter/trials/05-ecl-oz-source-cold/partial.json",
+    "bytes": 17657,
+    "sha256": "fb39062d1f7c8749b7c58e928d2d9d3aaf0e27330ec4bf803198fdbb3bd70f6d"
+  },
+  {
+    "path": "cpu-quarter/trials/05-ecl-oz-source-cold/sample.json",
+    "bytes": 26010,
+    "sha256": "f13561f548f5a0323333b611c01309d6315aad18151cb62f4de9cd7940c280cf"
+  },
+  {
+    "path": "cpu-quarter/trials/05-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17661,
+    "sha256": "c14388c790f78dab238eab40ad267617bea52eb34da363ee3798ac67c1926629"
+  },
+  {
+    "path": "cpu-quarter/trials/05-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22648,
+    "sha256": "b2f111aa85ff05a479b363bf79714008deaaa2fb0f012c56dc35b7fefe80d180"
+  },
+  {
+    "path": "cpu-quarter/trials/06-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17645,
+    "sha256": "626c4287a25e21a394f66c8cde061717e8ba8f3be1030fb407cb415679663140"
+  },
+  {
+    "path": "cpu-quarter/trials/06-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25879,
+    "sha256": "3831017dc6fe33167f70e1cb5fb3a71a569556103280438a6d9a82ea43ade25d"
+  },
+  {
+    "path": "cpu-quarter/trials/06-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17645,
+    "sha256": "1cfac03530fbf9f98cffe7a12bb1f8bfa7e0264509f87eed31efb4c7b6be905e"
+  },
+  {
+    "path": "cpu-quarter/trials/06-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22524,
+    "sha256": "84bb776480775086b332ecb1558765bfd047aba4a21fea57fc2c0820b12ad6ab"
+  },
+  {
+    "path": "cpu-quarter/trials/07-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17567,
+    "sha256": "82ac08dc95b8205440e31e9ffe89c10d073b4a57d739b01fe5437580b1c88fa7"
+  },
+  {
+    "path": "cpu-quarter/trials/07-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25801,
+    "sha256": "1f41895fd2f5c6dd3d77c36eefe1725d7a670c458ad390b666f25ecdbb22623a"
+  },
+  {
+    "path": "cpu-quarter/trials/07-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17741,
+    "sha256": "16cb5638007cefb266ac322cb41ac4d90f8ab940bb088c10f86489b19f7ca0a4"
+  },
+  {
+    "path": "cpu-quarter/trials/07-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22620,
+    "sha256": "e598ef05d774f52b0ac505e1e8aed9e0884f6e70cd6d08790aafa86833bfb6a4"
+  },
+  {
+    "path": "cpu-quarter/trials/08-ecl-oz-source-cold/partial.json",
+    "bytes": 17661,
+    "sha256": "6e42cc280d195753f6e205f16c81f510be1831d764867287d1066327d7db65d8"
+  },
+  {
+    "path": "cpu-quarter/trials/08-ecl-oz-source-cold/sample.json",
+    "bytes": 26014,
+    "sha256": "a70bba9145910e531da0e514bb15336acb5323963f42794216004e752a33a72b"
+  },
+  {
+    "path": "cpu-quarter/trials/08-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17613,
+    "sha256": "aec74862b5282fda9aba7b3cea11ada571ad01c2a9a41f3885e1820d0101c23c"
+  },
+  {
+    "path": "cpu-quarter/trials/08-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22600,
+    "sha256": "cdef4551dc062b478d9ad71cc69cc588eb2c131880fcebb605e468b130e54741"
+  },
+  {
+    "path": "cpu-quarter/trials/09-ecl-oz-source-cold/partial.json",
+    "bytes": 17641,
+    "sha256": "5eb56b357b80ab6ea422069b172b8760bace105e62507d3433531bb8522cc93f"
+  },
+  {
+    "path": "cpu-quarter/trials/09-ecl-oz-source-cold/sample.json",
+    "bytes": 25994,
+    "sha256": "9119d8da184d9e38a5ea19485ba66946e256045b9d28db1c0c1281a6b37feaa0"
+  },
+  {
+    "path": "cpu-quarter/trials/09-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17663,
+    "sha256": "324bdbf44d27564a256cf70e4c89ae60a1e07556f584c922402094c48403bc34"
+  },
+  {
+    "path": "cpu-quarter/trials/09-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22650,
+    "sha256": "7b3b8143d9edb61212643b374481207e3d8f270a949f6df5f45e1854314278fe"
+  },
+  {
+    "path": "cpu-quarter/trials/10-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17632,
+    "sha256": "6c2eaee11342027b7de4ce3c203f2951ef502ac32a7e226a7ab95ad60a23d4c9"
+  },
+  {
+    "path": "cpu-quarter/trials/10-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25867,
+    "sha256": "5deb308905b6d1a14fc2528570ccfafb3fc0e80e79e30fc5ff9363eb34319a78"
+  },
+  {
+    "path": "cpu-quarter/trials/10-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17608,
+    "sha256": "76ce1ca4d3f890cd999de40319d920cdcd0d371a6177120825f5ce3a8ea06adc"
+  },
+  {
+    "path": "cpu-quarter/trials/10-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22488,
+    "sha256": "3e2a0697ba7d0b6c05dc60840121080aa3a3611efdce96f0e7ff38a4d562ab32"
+  },
+  {
+    "path": "cpu-quarter/trials/11-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17604,
+    "sha256": "4c26abf31c998fef7603170f01db59c1bc405737ff08d5d5c7c7c82e54f54689"
+  },
+  {
+    "path": "cpu-quarter/trials/11-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25839,
+    "sha256": "2eafe65f8763c4ec02d75e90149a7dc1e17aa770ef37fa7bca0946514ca99b1f"
+  },
+  {
+    "path": "cpu-quarter/trials/11-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17651,
+    "sha256": "34e021767f15f57ec36afa732f3f93bfef2c1f632dbda296ce78b16874b441ac"
+  },
+  {
+    "path": "cpu-quarter/trials/11-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22531,
+    "sha256": "83a647702e8807ca3a22dcbd91751cfae65f5230805a1054ccace81f942c6a79"
+  },
+  {
+    "path": "cpu-quarter/trials/12-ecl-oz-source-cold/partial.json",
+    "bytes": 17700,
+    "sha256": "53411fd1f5041cef8b56ce190071291a24a07fd5fabe3aad2a9b959d024bcd66"
+  },
+  {
+    "path": "cpu-quarter/trials/12-ecl-oz-source-cold/sample.json",
+    "bytes": 26054,
+    "sha256": "0686074f588af3a5702ea334260c4c887d0319c3153251f7816540f5ac7362a0"
+  },
+  {
+    "path": "cpu-quarter/trials/12-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17697,
+    "sha256": "fe9ab209cb5ce7e122a159802fc75288b7a1af50387a7a448d157f4bc09e964c"
+  },
+  {
+    "path": "cpu-quarter/trials/12-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22685,
+    "sha256": "043c7023cefd3bf142c902e7a0c331b1073e8939c51653a2f52bb6c6ab4b940f"
+  },
+  {
+    "path": "cpu-quarter/trials/13-ecl-oz-source-cold/partial.json",
+    "bytes": 17670,
+    "sha256": "9a079e0fa390d042fffa0fcc1d2caf25178aef9c762e72ed390454e512b1ce04"
+  },
+  {
+    "path": "cpu-quarter/trials/13-ecl-oz-source-cold/sample.json",
+    "bytes": 26024,
+    "sha256": "e707b45f5b329b8ffe54924d847630c7ff04d5a3abd41e4b238a0831b8403141"
+  },
+  {
+    "path": "cpu-quarter/trials/13-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17659,
+    "sha256": "560e995557a45bc10eb236cd91a43866930ec11a5cf944ed99530c6bc3ce9154"
+  },
+  {
+    "path": "cpu-quarter/trials/13-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22647,
+    "sha256": "3180a5f212390088c5d9c97628afd220763faa942b24545c8a525616c44583e8"
+  },
+  {
+    "path": "cpu-quarter/trials/14-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17583,
+    "sha256": "12fa9bc474b999ae6f03b2570301e873b5592b5381f4d1b08c929bcb0dbb83d6"
+  },
+  {
+    "path": "cpu-quarter/trials/14-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25818,
+    "sha256": "7b44478e481273de5c6787c744f16e095baa364447b1f0e1376bbe8102d05817"
+  },
+  {
+    "path": "cpu-quarter/trials/14-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17630,
+    "sha256": "30e9999bd47a76d02f1ad5cb637a10cc66c5e735aba4197c2f3476ecb38f22d4"
+  },
+  {
+    "path": "cpu-quarter/trials/14-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22510,
+    "sha256": "bbd3e42484926ac1c3868fda40f2fb0c8f1259b68d005d41789ae15180de496e"
+  },
+  {
+    "path": "cpu-quarter/trials/15-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17632,
+    "sha256": "6265202ab9bca669652ac532850a4c967e6e1d9eb9a42fcf38d98993dab4267e"
+  },
+  {
+    "path": "cpu-quarter/trials/15-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25867,
+    "sha256": "ccb3ff883239846bccecbeebbc1bac874cadbc07d817d3147d91a89c6318d3e8"
+  },
+  {
+    "path": "cpu-quarter/trials/15-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17612,
+    "sha256": "48381488e24a251a26854e403be1148b10b04e7bc8bc6362da18ae5e1057ba31"
+  },
+  {
+    "path": "cpu-quarter/trials/15-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22492,
+    "sha256": "3fdf7c99a43948749506df71486badbb76672d0681a5d038aa129dcbb46daaac"
+  },
+  {
+    "path": "cpu-quarter/trials/16-ecl-oz-source-cold/partial.json",
+    "bytes": 17685,
+    "sha256": "2f3212b244f64d526b8b3fba50d3c5552f83499ad056a0b8eac29085e1b9f4a7"
+  },
+  {
+    "path": "cpu-quarter/trials/16-ecl-oz-source-cold/sample.json",
+    "bytes": 26039,
+    "sha256": "effb36a02421993358e894ed5050ff1e407d1514050f9ce0ce01bd7c4140d894"
+  },
+  {
+    "path": "cpu-quarter/trials/16-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17672,
+    "sha256": "cc40c5f1e0f0516c267b808c137cd2902739a28267f74374af9331003dfa5c8f"
+  },
+  {
+    "path": "cpu-quarter/trials/16-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22660,
+    "sha256": "d2a5d453c8e35e4cd0311e0055f0addd3bbff94a34ae887ffcdbb72f8e62145f"
+  },
+  {
+    "path": "cpu-quarter/trials/17-ecl-oz-source-cold/partial.json",
+    "bytes": 17667,
+    "sha256": "82621231d342aabb7abccc9ac653ddcdd3f95daca2b24fbd11a3674e1eaa808a"
+  },
+  {
+    "path": "cpu-quarter/trials/17-ecl-oz-source-cold/sample.json",
+    "bytes": 26021,
+    "sha256": "410af2cb07f3497b0ea69eb16d4a118b3eee93a1d5a34ed6c1b03bbdb0edac3d"
+  },
+  {
+    "path": "cpu-quarter/trials/17-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17635,
+    "sha256": "3f7c898379aada10501e0aa81b5088ee3bffa0e1e6718e258870803eaf3e3848"
+  },
+  {
+    "path": "cpu-quarter/trials/17-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22623,
+    "sha256": "b01fc1bafa9cb090bd7ca478a7c6c2e673e3424b2663fa7f5bc6d688eec50d64"
+  },
+  {
+    "path": "cpu-quarter/trials/18-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17666,
+    "sha256": "097f277bbe94ccb93e8f79f8e827e7c2919d4dcf04441875517810fd55c23042"
+  },
+  {
+    "path": "cpu-quarter/trials/18-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25901,
+    "sha256": "0edc348c1841b3433bf354315fef4f68d9aa20a2992d5522073f16adb64a5f13"
+  },
+  {
+    "path": "cpu-quarter/trials/18-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17604,
+    "sha256": "c6cebd66f73f25fbd043733a4e6ac84b9c72a113320c9a029190a92cf473e520"
+  },
+  {
+    "path": "cpu-quarter/trials/18-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22484,
+    "sha256": "0c3ee6e5d5fc0d034e0f8b3a7fae10d2bd09ee69490e9e7243c421b1c8d8772d"
+  },
+  {
+    "path": "cpu-quarter/trials/19-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17667,
+    "sha256": "40a06b0d1a405f9df6c43053433d98249b913143ce0bac843ecaf02ac9873a1d"
+  },
+  {
+    "path": "cpu-quarter/trials/19-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25903,
+    "sha256": "2ca49c454f59e213f9976b2e7cf2276c0b573168f0758a9b0032649c1ab7b423"
+  },
+  {
+    "path": "cpu-quarter/trials/19-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17649,
+    "sha256": "0163790fb7dfb1e25cf68e4b7d3e4cac98e5153d46d999795724f7471b7c8192"
+  },
+  {
+    "path": "cpu-quarter/trials/19-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22530,
+    "sha256": "dbf301f58a11ef0e87d79fd8e0257924851c5db66e2dadd472dcdd95cc9b7d75"
+  },
+  {
+    "path": "cpu-quarter/trials/20-ecl-oz-source-cold/partial.json",
+    "bytes": 17678,
+    "sha256": "be28eda726a98c90db3069d00e54ac86677b95e53be84eea9c989af4fbdc49fa"
+  },
+  {
+    "path": "cpu-quarter/trials/20-ecl-oz-source-cold/sample.json",
+    "bytes": 26033,
+    "sha256": "12fb6e923613b4403d5585e1b8697a734308e96403daa7ba2bc870e6c8231a88"
+  },
+  {
+    "path": "cpu-quarter/trials/20-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17624,
+    "sha256": "4d8e32d1c68b034cd52e1bacd697e769acd5bf309edbb7caadf21cb5494070c2"
+  },
+  {
+    "path": "cpu-quarter/trials/20-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22613,
+    "sha256": "d59cde755228c6b1b0de1b8074e0ff4d30e9d1ca24d1b4464abdf6f3d00420cd"
+  },
+  {
+    "path": "flattened-candidate-admission.json",
+    "bytes": 52115,
+    "sha256": "154c50d42391264ba2389c6a995f684ffef4099c2cc8ef2405326742c457f6e9"
+  },
+  {
+    "path": "frozen-control/bindings.json",
+    "bytes": 3654,
+    "sha256": "7fc28348019a353c134ac40d90dd280ae862ec8c9cc313f04f54d0361106bb90"
+  },
+  {
+    "path": "frozen-control/ecl-oz-admission.json",
+    "bytes": 65806,
+    "sha256": "2c853e3872538ff1fbf2457c386cfe0cb03f24a7eb564028002526febf987c37"
+  },
+  {
+    "path": "frozen-control/ecl-oz-producer-api.json",
+    "bytes": 521333,
+    "sha256": "07df23bd4d7bfbd270f90a504fe708a874f5b6875cd88beac3bc8ba67edef66f"
+  },
+  {
+    "path": "frozen-control/ecl-oz-zip-inventory.json",
+    "bytes": 989551,
+    "sha256": "93f12d3d4a7fa22bd6345a6e53438d3a09045eac0a15e14766dc1dc416e07036"
+  },
+  {
+    "path": "producer-api.json",
+    "bytes": 336182,
+    "sha256": "5885432ccf49306d9ae2cad7e533d37401ecb86ac0d7987d2dc5b67353e18792"
+  },
+  {
+    "path": "report.json",
+    "bytes": 84869,
+    "sha256": "148d915bb875991bf990a0bd75d357119c7049b143a179ad9f8e7865d47ed0e2"
+  },
+  {
+    "path": "results.json",
+    "bytes": 153821,
+    "sha256": "ca7f95f89c038b4a9ab3a72ceaa239723501303d70f3c3c0fd9c57f542384b7c"
+  },
+  {
+    "path": "runner-hardware.json",
+    "bytes": 218,
+    "sha256": "21303ffdcabba919604df1fea8e7411955a286171d8ea6b92f11d74d21dbfe9c"
+  },
+  {
+    "path": "staged/ecl-oz/backend/native_adapter.py",
+    "bytes": 14757,
+    "sha256": "a0f2d5a16c9501a321236d79df8fcb27ad48572770d243cf7d319f17b143e3e5"
+  },
+  {
+    "path": "staged/ecl-oz/backend/test-worker-loading.mjs",
+    "bytes": 2785,
+    "sha256": "54ca50aeaaaf2e0ae2f6da7deaef1f30375b0902fdd74a14750e00315a03ba88"
+  },
+  {
+    "path": "staged/ecl-oz/backend/test_native_adapter.py",
+    "bytes": 7821,
+    "sha256": "9ccfaea3bc2ee1a57b40321a5bf5ae3a8deaa63baf896e9357a76649a8a1d938"
+  },
+  {
+    "path": "staged/ecl-oz/backend/worker.js",
+    "bytes": 5092,
+    "sha256": "5e41fbabf989ca6cea37c1a6fa39b3306cced1de5d82f9933d7df8339d7f3bd4"
+  },
+  {
+    "path": "staged/ecl-oz/clean-probe-worker.js",
+    "bytes": 9899,
+    "sha256": "c519a7b6cdda56b97186bcfa6600813050ad30fa5c770620cb3f6a8686ae191c"
+  },
+  {
+    "path": "staged/ecl-oz/clean-timing.html",
+    "bytes": 84,
+    "sha256": "d7ea306b9e58985ac240bd5eaf29881d922f6a47bfcb566e007f1925abcac4af"
+  },
+  {
+    "path": "staged/ecl-oz/jsxgraph/README.md",
+    "bytes": 3890,
+    "sha256": "61fe0e6225e1f033185b828da45f9fd588c05a4384b3200a71785c2d5ef27524"
+  },
+  {
+    "path": "staged/ecl-oz/jsxgraph/frame.js",
+    "bytes": 14246,
+    "sha256": "0a6caac6f8bfa4224b1350b306758de756b6fcee30e245821e310f9abd00ab16"
+  },
+  {
+    "path": "staged/ecl-oz/jsxgraph/host.js",
+    "bytes": 25183,
+    "sha256": "851ee4bb7cce3042c3414126c870a7e0ffa0e8630ab1037c751e58f1946d83f7"
+  },
+  {
+    "path": "staged/ecl-oz/jsxgraph/test-adapter.mjs",
+    "bytes": 30094,
+    "sha256": "8062b6815fb75139b1c5c976eef53c4ca5150e562a39a7510c111fc2e6fcf42d"
+  },
+  {
+    "path": "staged/ecl-oz/jsxgraph/test-board-isolation.mjs",
+    "bytes": 6039,
+    "sha256": "f0582de21c7f0eabe400c4e1c8c9386d3f85d1739541da105ba3da6bc5ff9db6"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/libecl.so",
+    "bytes": 5282281,
+    "sha256": "b117bcb06f8a3d828bb7d14ad09d9b9877a24918ec117346c0aa8ad88641c479"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/maxima-integration.fas",
+    "bytes": 2156780,
+    "sha256": "c58c600b979ba22db4638ef5f5d6f2b8771a0fb9266e96384a74bc189f8f7bc5"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/maxima-limits.fas",
+    "bytes": 985432,
+    "sha256": "ef7459bb48a3c47265e7a9cf4e4a3526e3b1cd71b44ae367807aaf1ad506fe7e"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/maxima-matrix-algebra.fas",
+    "bytes": 646307,
+    "sha256": "943e015f66b6a10a1220737340584f8f6a9b06ed5bc9621a3d9badf296465202"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/maxima-number-theory.fas",
+    "bytes": 1429245,
+    "sha256": "141835855ccfc31528707731469983592de3c6f74d808b9eb772f313c570a89d"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/maxima-poisson-series.fas",
+    "bytes": 217615,
+    "sha256": "a47a0a76b96bce6f8a89bca029fd1fc20f7ca76a92e2b730da8bdf2056d449ae"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/maxima-quadpack.fas",
+    "bytes": 3718080,
+    "sha256": "70d765abf92a5f396f434baae0d90efc25b35ef590d10db9852ee0e63e039528"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/maxima-slatec.fas",
+    "bytes": 6190337,
+    "sha256": "94b0f90c5e4ecaaf1bc421e02491fe5d3a1750af38d539bd459a9bfc70fa12e6"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/maxima-solve.fas",
+    "bytes": 1373890,
+    "sha256": "68d3abf280b6dc930a712bb6ee33772a3bb62def924d5455860b62597ce028c7"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/maxima.js",
+    "bytes": 1239434,
+    "sha256": "385763ca1038fac02e8f7d247a8d808997238b03ba1919ce2f4dcec482fdb101"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/maxima.wasm",
+    "bytes": 23626720,
+    "sha256": "7e1fe0312636f27e99bba66badf022ecab98e57abfb306d8983441d6eb321b7a"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/maxima_thread.js",
+    "bytes": 3229,
+    "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/runtime-preload.json",
+    "bytes": 3470156,
+    "sha256": "6f39b23c5e2944aceeb5496f9f4cb34d881dcc598516e1c1e72d08ff197f2f2e"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/info/maxima-index-html.lisp",
+    "bytes": 240539,
+    "sha256": "1447fa3ae889b6e2466bee0b1825e24d2c5c06049a2aea46ae841f3736238ce9"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/info/maxima-index.lisp",
+    "bytes": 262119,
+    "sha256": "07fe12c5619772c33f8f6867afbfe9bd417b38605816f530689b3d0cfc50890f"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp",
+    "bytes": 83712,
+    "sha256": "027ea2adca8ee282261ef2c860a09506ade398ec8bee53d10f45b4edf3066aa0"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/diag.mac",
+    "bytes": 13815,
+    "sha256": "058e2c46b050371cb10f45146c80daaabc38699fe057e31826a9c8566c26ea1e"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp",
+    "bytes": 5719,
+    "sha256": "ff90059ce466a6f111838b6a31876f77c9b7d4947528b16d1642eea97b9fdbd3"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/simplifying.lisp",
+    "bytes": 3674,
+    "sha256": "fa7c62ce99c4aac44587ef4eeb301d15b902f8349945e4163f3148fa5f1da12f"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/trigtools/trigtools.mac",
+    "bytes": 5020,
+    "sha256": "cae0f3c2f902ddfa05099d7bd59e9f0b85a8b616f72085d1fc69ac6eab14fbbc"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac",
+    "bytes": 69297,
+    "sha256": "c9b7d891f0a59d62a4acc0171d46d9234cb9613364c7760206fb34ebf4c2d15a"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp",
+    "bytes": 665,
+    "sha256": "a55a311e59742454623026388173bf8bc53933741bf1eec54dc9754d908d3b89"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac",
+    "bytes": 75917,
+    "sha256": "bca2baca2a951be94c48d903e9f742dc6c48af56c0ee8d71852d21e8b2c4e674"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp",
+    "bytes": 67103,
+    "sha256": "785a5040c4ddccbf86cbfe545ecd6df9c9c91b3fd0943d175c63ea6842c6361b"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+    "bytes": 231,
+    "sha256": "45def400e51ed424494d988f0c37e8e880247bda9ae249d54e8f2e33b856dbd9"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.system",
+    "bytes": 288,
+    "sha256": "b3540ed3cc0623c7269f74418fd316551f4302fd11235d05366158251eb0ece4"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/gnuplot.lisp",
+    "bytes": 160983,
+    "sha256": "6a3207114a838113174240e0d1873b19ee3914eaa2a6f7ece59d537e242a490f"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/grcommon.lisp",
+    "bytes": 102070,
+    "sha256": "db6d1ffd9a740856ca1a31541ff727ab868b98a7815c20ddf0f0eb65ba79f023"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/picture.lisp",
+    "bytes": 16364,
+    "sha256": "cf2fe24284c017ad30c476af6269f04555d572aea851ee8f0ed580df364123a2"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/vtk.lisp",
+    "bytes": 141890,
+    "sha256": "a28dc5a4333b10e568a216a69f658c93a4000cd4f354fc6f8c8454d348e4f5fe"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp",
+    "bytes": 22207,
+    "sha256": "b48ebeea74f5bf175e3d42adaceebe7e6d806e9697723309e03b94c509848bf0"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb1.lisp",
+    "bytes": 9238,
+    "sha256": "3a68fba9fbb1c8e436eaa28841a9c2a43194f976fac12765c536f9f0a631d3a5"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb2.lisp",
+    "bytes": 1910,
+    "sha256": "1673fc162449c44506e0681fc156cae1d48064cf675bcdfa9958e472d21cfb15"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-daxpy.lisp",
+    "bytes": 5461,
+    "sha256": "8b9d6701475ae051929eed656a6e61c6077e569e8c41a3fa5b30f42972d317f6"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-ddot.lisp",
+    "bytes": 5327,
+    "sha256": "2ff8618463103d462dd94fc802c89536edc2ba78ff3701cbc5feb2a2e5e3ae7d"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.lisp",
+    "bytes": 35249,
+    "sha256": "daf18d1bbf8a3e870d9bea27ffc5365b261a227226f5a3077906dfaa6774f366"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.mac",
+    "bytes": 185,
+    "sha256": "f1136424d74dcd47337b9c96536f90d1b47a580dd5c1c552d2931c3620493816"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/maxima-lbfgs.lisp",
+    "bytes": 5510,
+    "sha256": "caee6aac20da81e78303b075cd8d855ff5a846a010116ba7f3b44e492397f611"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcsrch.lisp",
+    "bytes": 9933,
+    "sha256": "3e90e87f806cb09b48885c04473e8caf36646212c21926eb6112b783633f1b04"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcstep.lisp",
+    "bytes": 7096,
+    "sha256": "e95233ea91210438ef1ff783bae0ffd6e57cfd42a6a143904ac835923e4e24b2"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/eigens-by-jacobi.lisp",
+    "bytes": 5461,
+    "sha256": "7ad415c80a119bf62a0b1786fe12417c15ffbcc7ac6eb224684eac840b90c856"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-extra.lisp",
+    "bytes": 6189,
+    "sha256": "511f4576fd99db0dfc99bea2ee4fa7b4ea9e8bad619c0ee0c4515bce629a15bf"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-utilities.lisp",
+    "bytes": 6658,
+    "sha256": "da67e38dc83182b95b89476df4b436c95a90b797c0d02197c7dadbf6ba2202b0"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalgcholesky.lisp",
+    "bytes": 2533,
+    "sha256": "fadfe281f1ae18d9ef9d658c7b38507e56285d3bec53ce5dc0e67427988ce71b"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linearalgebra.mac",
+    "bytes": 12218,
+    "sha256": "6f509719c842128e9c8fb34a91e2b0efeec38e45f9a1dbe11fd2cfe3a76e45cf"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/load-linearalgebra-lisp-files.lisp",
+    "bytes": 818,
+    "sha256": "ff456f078307f59c845d2ba6712e4bf2d4dd90908979cda01abcfb37b4daa778"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/lu.lisp",
+    "bytes": 12284,
+    "sha256": "493fc8dd91b5283f365b90d5babc0a4c0884ba68a43d0e08a5025e2e6fd6cdb0"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/matrixexp.lisp",
+    "bytes": 6603,
+    "sha256": "06810384023da28279abc1a1c0ac296c192cdaacab8fb0dc2e80f5a9b8ef5d87"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/mring.lisp",
+    "bytes": 16809,
+    "sha256": "c4af22f8e472e182cef693328d3000e36749397202d5d48ca5db2178a320b0c8"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+    "bytes": 211935,
+    "sha256": "5752e3cb3b1653009ea11d92c54ccda008275225f76c5e869f7f08d173133d8d"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/macro/basic.mac",
+    "bytes": 1106,
+    "sha256": "ec99cf76b3653dcfe661d58b5868d51d2718b0f6e73a75696ff11fc2596536b7"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/macro/packg.mac",
+    "bytes": 1571,
+    "sha256": "be614af9f8583290f54879a5978156f768798ee3e5ce4d67ed7ee44265dfeb8a"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac",
+    "bytes": 8120,
+    "sha256": "cc63e4b33108bfc8cb3657c7dd84861bb40be5202e1fa5eff5dcb4ff842efe0c"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/facexp.mac",
+    "bytes": 11079,
+    "sha256": "a749264a1679b7a7eee0d1f01e5459b81bd589ae1bf908232dd3d6588c0fdbfd"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac",
+    "bytes": 4915,
+    "sha256": "59319fd8623025ce5444ac508f4d6defce594829b26e8ec950c7b5e2cc6f2181"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac",
+    "bytes": 8469,
+    "sha256": "9c60b72c98b369a7a98e5d7076c9f7db03c05189cbc5c0623d0c1ec6ba56a960"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/lrats.mac",
+    "bytes": 2536,
+    "sha256": "8ba7506bf7a30695f3d513d2a89b62852689f9a44b13822e656cb45ebce23ba2"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/inference_result.lisp",
+    "bytes": 8238,
+    "sha256": "c56c33c6bc6e0cc1e735f3d0025c2e615f40b481093fa48e6197a24728485faf"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/numstats.lisp",
+    "bytes": 12080,
+    "sha256": "c961431de9c647558c3f2f993a64abd6af69fde6a849e24d089255b8c9497811"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/stats.mac",
+    "bytes": 66662,
+    "sha256": "d6dd9065e460e92512c3050508e7c0918e6da258fc4c02d1587e2c6f3a60050c"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp",
+    "bytes": 5901,
+    "sha256": "acc82d7fb13251e2a67ce4f9162ca7184d5a9ce8e35e848d063d0f410f530ff1"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp",
+    "bytes": 10760,
+    "sha256": "75c9b17bd4f33a896f4207e6652d5ab63c63edd200858ddab6fec0d40adb8273"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp",
+    "bytes": 2395,
+    "sha256": "39ef5cc589851f013f5846c89f8d2dd3cc847dfea040e55dc662f5f74ff7ae6b"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp",
+    "bytes": 8193,
+    "sha256": "c8fb5a9241e800c0173c76ac87344a02cd35c972c4595868c9ca2b037ca729db"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp",
+    "bytes": 21346,
+    "sha256": "35ec2642b830737b1c5543692c9c2385fd5970ce70028189966d36e3bdd434ac"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp",
+    "bytes": 13633,
+    "sha256": "c19ee8b7532cce05bfaa382c1877110d61113caad7a09af52cc29648d6b6cfeb"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.lisp",
+    "bytes": 7501,
+    "sha256": "e8f6d2fb9a8d4a3184b644b49175d2a2ad4b9b6c0759e34ad7ce9e01588ce50c"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.mac",
+    "bytes": 76,
+    "sha256": "ca75d7da5c533701f736efd8b9ae8ea160b650d1b7f6066c2479e2363d13c248"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp",
+    "bytes": 47721,
+    "sha256": "5b5678e3fbd9efab7e9870bf8cfb34652907a196ec7aee4f20ccee21e94d6211"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.mac",
+    "bytes": 184,
+    "sha256": "fe11a711f0af6214a976aca4ac0a1e52720186790bb4b9c61d1e606ee40e3118"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp",
+    "bytes": 6599,
+    "sha256": "e4179ffab65b8e2c98162634d2c408e8e04c6577e943a8dacd99faa7f90bd1fb"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp",
+    "bytes": 24670,
+    "sha256": "bfcae0e610d039bb43d71e6bfa2723820df3cfe0fca012a05530f73c1a8d0e3d"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve.mac",
+    "bytes": 26278,
+    "sha256": "2441e553d1604a55dad602cdb2e997c6f48eff668932d7cc7b7a12ec0ca1fb5e"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve_extra.lisp",
+    "bytes": 6966,
+    "sha256": "0a364d75e9e6700c0cb170dc6bf08fbc3a700739e87218a8b029ffd0ee340b30"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/atrig1.mac",
+    "bytes": 1528,
+    "sha256": "11843e2e013d1e9888251c1acb0109c3b6f7d9c7d57cb9db9e1a285744b02dd8"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/ntrig.mac",
+    "bytes": 1096,
+    "sha256": "3a2422f3c749c9fd8673c9dbda0e1f125f4b06c6ac7e8ec408c4fbcc8279df58"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/spangl.mac",
+    "bytes": 1945,
+    "sha256": "999b974b59ce420302ac818e49b6876b42615788b4a18c887d4f961e39e84a65"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trgsmp.mac",
+    "bytes": 4874,
+    "sha256": "0f5db0cb2e22d4ce8536e84a3767830e76ac1751f4555ca253b86c70aa3c56a1"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trigrat.lisp",
+    "bytes": 1909,
+    "sha256": "5da6c242383b117fc4d75b241193ab6976b63fe58542ef17b3332ead900973ec"
+  },
+  {
+    "path": "staged/ecl-oz/maxima-runtime/share_files.js",
+    "bytes": 528107,
+    "sha256": "e07cdd6ef8eac3ee63869a1f9c0e5cb3ec30f7f538f3dadd764e248e404a6057"
+  },
+  {
+    "path": "staged/ecl-oz/native/backend-worker.js",
+    "bytes": 5104,
+    "sha256": "f25bd0626b6443de40de153bd1248a2e52affb3797bbfba1e0ae9ebc9f37dceb"
+  },
+  {
+    "path": "staged/ecl-oz/native/classified-errcatch.lisp",
+    "bytes": 322,
+    "sha256": "f21ecdabcb5af55e1301e748842c3ff781cff83872f600453905db9c0d3f93de"
+  },
+  {
+    "path": "staged/ecl-oz/native/engine.js",
+    "bytes": 37066,
+    "sha256": "cbdaa78cb90f1e98559cea648958094c41aecf71208207da77bfd42fa45eb552"
+  },
+  {
+    "path": "staged/ecl-oz/native/feedback.js",
+    "bytes": 6944,
+    "sha256": "a7e441a62db8a8f3e4d5d74e52440466e7e36174763cfae9ffafa34e6db8cdf8"
+  },
+  {
+    "path": "staged/ecl-oz/native/input.js",
+    "bytes": 17611,
+    "sha256": "0fbea684c259dbd132ca4e1dda1d91399cdeb2d807d616fc7af32406f7122333"
+  },
+  {
+    "path": "staged/ecl-oz/native/python-bridge.js",
+    "bytes": 5030,
+    "sha256": "bb43ac0b4b2baedb5f88680b7fdbebe9883d3eaab39b696f80bcdd1af9672ce5"
+  },
+  {
+    "path": "staged/ecl-oz/native/python_bridge.py",
+    "bytes": 5111,
+    "sha256": "6af06b5b2a4b5ee7368664e33d00ba8036dd7a157fd59ff00f5f8d45f30b814c"
+  },
+  {
+    "path": "staged/ecl-oz/native/test-backend-worker.mjs",
+    "bytes": 3029,
+    "sha256": "0d4af09c70ecf4e8b42e427465a067510230aef28693b7ae90b01884d61e4057"
+  },
+  {
+    "path": "staged/ecl-oz/native/test-engine.mjs",
+    "bytes": 11539,
+    "sha256": "4def3839d9505265684331da0ae09fed96e485bc531fbdcb4ff4948499bb76d7"
+  },
+  {
+    "path": "staged/ecl-oz/native/test-feedback.mjs",
+    "bytes": 7413,
+    "sha256": "bd0bd05091976f892e939222c0e77d0c5c074b360f6674db5f5667cbd025e296"
+  },
+  {
+    "path": "staged/ecl-oz/native/test-input.mjs",
+    "bytes": 6998,
+    "sha256": "7b70bc7920a11f0e50972d9226ebf1053dd16b0ddc6e6583dd662f79f4de0013"
+  },
+  {
+    "path": "staged/ecl-oz/native/test-python-bridge.mjs",
+    "bytes": 3789,
+    "sha256": "bc234a4655177d15ec7e2779a31f27da8e24741e3e8a1d5228cc33d7ea3a41aa"
+  },
+  {
+    "path": "staged/ecl-oz/native/test_python_bridge.py",
+    "bytes": 8188,
+    "sha256": "6a0daf2fd7b597ee602e9a8cbbd952feb69e270e5ed9aa824cac9e66c64153fe"
+  },
+  {
+    "path": "staged/ecl-oz/runtime/maxima-child.js",
+    "bytes": 14744,
+    "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+  },
+  {
+    "path": "staged/ecl-oz/runtime/maxima-session.js",
+    "bytes": 14344,
+    "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+  },
+  {
+    "path": "staged/ecl-oz/runtime/test-maxima-session.mjs",
+    "bytes": 4813,
+    "sha256": "e1a447da67e134856ebed8fd101fb19145b93cee1abb33d31dfe598bbacc5078"
+  },
+  {
+    "path": "staged/ecl-oz/runtime-assets.json",
+    "bytes": 34365,
+    "sha256": "a311b9673f51d75ac745dd969feaea152e4c1c624284003ca32af448fe0f4f4d"
+  },
+  {
+    "path": "staged/ecl-oz/stack-sources-timed-source.json",
+    "bytes": 987725,
+    "sha256": "b17d9f6687ee5442289a97aaf4045f765450fc744fd7210fbdee1712896d2113"
+  },
+  {
+    "path": "staged/ecl-oz/stack-sources.json",
+    "bytes": 987657,
+    "sha256": "6bb19c381078955da5cad9b16461eed103e0c2fc667b1ae96c465e34c979f153"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/backend/native_adapter.py",
+    "bytes": 14757,
+    "sha256": "a0f2d5a16c9501a321236d79df8fcb27ad48572770d243cf7d319f17b143e3e5"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/backend/test-worker-loading.mjs",
+    "bytes": 2785,
+    "sha256": "54ca50aeaaaf2e0ae2f6da7deaef1f30375b0902fdd74a14750e00315a03ba88"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/backend/test_native_adapter.py",
+    "bytes": 7821,
+    "sha256": "9ccfaea3bc2ee1a57b40321a5bf5ae3a8deaa63baf896e9357a76649a8a1d938"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/backend/worker.js",
+    "bytes": 5092,
+    "sha256": "5e41fbabf989ca6cea37c1a6fa39b3306cced1de5d82f9933d7df8339d7f3bd4"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/clean-probe-worker.js",
+    "bytes": 9899,
+    "sha256": "c519a7b6cdda56b97186bcfa6600813050ad30fa5c770620cb3f6a8686ae191c"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/clean-timing.html",
+    "bytes": 84,
+    "sha256": "d7ea306b9e58985ac240bd5eaf29881d922f6a47bfcb566e007f1925abcac4af"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/jsxgraph/README.md",
+    "bytes": 3890,
+    "sha256": "61fe0e6225e1f033185b828da45f9fd588c05a4384b3200a71785c2d5ef27524"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/jsxgraph/frame.js",
+    "bytes": 14246,
+    "sha256": "0a6caac6f8bfa4224b1350b306758de756b6fcee30e245821e310f9abd00ab16"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/jsxgraph/host.js",
+    "bytes": 25183,
+    "sha256": "851ee4bb7cce3042c3414126c870a7e0ffa0e8630ab1037c751e58f1946d83f7"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/jsxgraph/test-adapter.mjs",
+    "bytes": 30094,
+    "sha256": "8062b6815fb75139b1c5c976eef53c4ca5150e562a39a7510c111fc2e6fcf42d"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/jsxgraph/test-board-isolation.mjs",
+    "bytes": 6039,
+    "sha256": "f0582de21c7f0eabe400c4e1c8c9386d3f85d1739541da105ba3da6bc5ff9db6"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/libecl.so",
+    "bytes": 5123084,
+    "sha256": "19df5673e1db662eec31cd8490e2ced159c1a112b7cafd9e42922927a2d80d54"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/maxima-integration.fas",
+    "bytes": 2000690,
+    "sha256": "fe5f763f361c05a9a76e8899eee29222f4459ea4c75c9a517691563a54a2ceff"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/maxima-limits.fas",
+    "bytes": 869991,
+    "sha256": "2246f592ca8ad207a00a2bda2f9ba27b53c5bce5fc8c4f3ebc9ef13e9f8833e3"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/maxima-matrix-algebra.fas",
+    "bytes": 581326,
+    "sha256": "71cfaaa7a73722797800bf86987ed1425be8ed0a44e88410a319f05a41b10539"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/maxima-number-theory.fas",
+    "bytes": 1318671,
+    "sha256": "bc846487f0543f666fe714730ffe6f590d7acbb749b7993562b1396e7133b3cf"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/maxima-poisson-series.fas",
+    "bytes": 189615,
+    "sha256": "23f97647db3cfe45e36ad3078a0f062d0326d9b7f5acf68eb22e524e32f29459"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/maxima-quadpack.fas",
+    "bytes": 3395044,
+    "sha256": "636384a3fa58f8131ee1c9bf9038d1199f3277cf4b9a26648c8555c22c24489d"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/maxima-slatec.fas",
+    "bytes": 5424862,
+    "sha256": "5212f71b0425ba30a5aba4be7de7cb0f004fdd9aa49913db80999bffb7b59c1e"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/maxima-solve.fas",
+    "bytes": 1215181,
+    "sha256": "56b7f1c753bc745ebb49d0c625e6ac378469d1ffadc18fe69e13e4b6b4239896"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/maxima.js",
+    "bytes": 608449,
+    "sha256": "3e34145350f676f44c06a402ce79a28d5119cb60060917b779bd000f9dc8e745"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/maxima.wasm",
+    "bytes": 20629568,
+    "sha256": "f218dfbac227bbee48945db4491e0d7d525af6c671f537d72fadf903fc759949"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/maxima_thread.js",
+    "bytes": 3229,
+    "sha256": "2e6c397ada0d936a228721788cfda212647a0ae7a1a16e0f54a6aa16587230db"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/runtime-preload.json",
+    "bytes": 3383516,
+    "sha256": "9bc7610c65cef3c98fcfb950cc00ab844d0f3dddaa5e46e77275ac23edd39dc8"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/info/maxima-index-html.lisp",
+    "bytes": 240539,
+    "sha256": "1447fa3ae889b6e2466bee0b1825e24d2c5c06049a2aea46ae841f3736238ce9"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/info/maxima-index.lisp",
+    "bytes": 262119,
+    "sha256": "07fe12c5619772c33f8f6867afbfe9bd417b38605816f530689b3d0cfc50890f"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/Grobner/grobner.lisp",
+    "bytes": 83712,
+    "sha256": "027ea2adca8ee282261ef2c860a09506ade398ec8bee53d10f45b4edf3066aa0"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/diag.mac",
+    "bytes": 13815,
+    "sha256": "058e2c46b050371cb10f45146c80daaabc38699fe057e31826a9c8566c26ea1e"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/opsubst.lisp",
+    "bytes": 5719,
+    "sha256": "ff90059ce466a6f111838b6a31876f77c9b7d4947528b16d1642eea97b9fdbd3"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/simplifying.lisp",
+    "bytes": 3674,
+    "sha256": "fa7c62ce99c4aac44587ef4eeb301d15b902f8349945e4163f3148fa5f1da12f"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/contrib/trigtools/trigtools.mac",
+    "bytes": 5020,
+    "sha256": "cae0f3c2f902ddfa05099d7bd59e9f0b85a8b616f72085d1fc69ac6eab14fbbc"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive.mac",
+    "bytes": 69297,
+    "sha256": "c9b7d891f0a59d62a4acc0171d46d9234cb9613364c7760206fb34ebf4c2d15a"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/descriptive/descriptive_util.lisp",
+    "bytes": 665,
+    "sha256": "a55a311e59742454623026388173bf8bc53933741bf1eec54dc9754d908d3b89"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/distrib.mac",
+    "bytes": 75917,
+    "sha256": "bca2baca2a951be94c48d903e9f742dc6c48af56c0ee8d71852d21e8b2c4e674"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/distrib/numdistrib.lisp",
+    "bytes": 67103,
+    "sha256": "785a5040c4ddccbf86cbfe545ecd6df9c9c91b3fd0943d175c63ea6842c6361b"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.lisp",
+    "bytes": 231,
+    "sha256": "45def400e51ed424494d988f0c37e8e880247bda9ae249d54e8f2e33b856dbd9"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/draw.system",
+    "bytes": 288,
+    "sha256": "b3540ed3cc0623c7269f74418fd316551f4302fd11235d05366158251eb0ece4"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/gnuplot.lisp",
+    "bytes": 160983,
+    "sha256": "6a3207114a838113174240e0d1873b19ee3914eaa2a6f7ece59d537e242a490f"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/grcommon.lisp",
+    "bytes": 102070,
+    "sha256": "db6d1ffd9a740856ca1a31541ff727ab868b98a7815c20ddf0f0eb65ba79f023"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/picture.lisp",
+    "bytes": 16364,
+    "sha256": "cf2fe24284c017ad30c476af6269f04555d572aea851ee8f0ed580df364123a2"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/draw/vtk.lisp",
+    "bytes": 141890,
+    "sha256": "a28dc5a4333b10e568a216a69f658c93a4000cd4f354fc6f8c8454d348e4f5fe"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/fourier_elim/fourier_elim.lisp",
+    "bytes": 22207,
+    "sha256": "b48ebeea74f5bf175e3d42adaceebe7e6d806e9697723309e03b94c509848bf0"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb1.lisp",
+    "bytes": 9238,
+    "sha256": "3a68fba9fbb1c8e436eaa28841a9c2a43194f976fac12765c536f9f0a631d3a5"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lb2.lisp",
+    "bytes": 1910,
+    "sha256": "1673fc162449c44506e0681fc156cae1d48064cf675bcdfa9958e472d21cfb15"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-daxpy.lisp",
+    "bytes": 5461,
+    "sha256": "8b9d6701475ae051929eed656a6e61c6077e569e8c41a3fa5b30f42972d317f6"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs-ddot.lisp",
+    "bytes": 5327,
+    "sha256": "2ff8618463103d462dd94fc802c89536edc2ba78ff3701cbc5feb2a2e5e3ae7d"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.lisp",
+    "bytes": 35249,
+    "sha256": "daf18d1bbf8a3e870d9bea27ffc5365b261a227226f5a3077906dfaa6774f366"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/lbfgs.mac",
+    "bytes": 185,
+    "sha256": "f1136424d74dcd47337b9c96536f90d1b47a580dd5c1c552d2931c3620493816"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/maxima-lbfgs.lisp",
+    "bytes": 5510,
+    "sha256": "caee6aac20da81e78303b075cd8d855ff5a846a010116ba7f3b44e492397f611"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcsrch.lisp",
+    "bytes": 9933,
+    "sha256": "3e90e87f806cb09b48885c04473e8caf36646212c21926eb6112b783633f1b04"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lbfgs/mcstep.lisp",
+    "bytes": 7096,
+    "sha256": "e95233ea91210438ef1ff783bae0ffd6e57cfd42a6a143904ac835923e4e24b2"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/eigens-by-jacobi.lisp",
+    "bytes": 5461,
+    "sha256": "7ad415c80a119bf62a0b1786fe12417c15ffbcc7ac6eb224684eac840b90c856"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-extra.lisp",
+    "bytes": 6189,
+    "sha256": "511f4576fd99db0dfc99bea2ee4fa7b4ea9e8bad619c0ee0c4515bce629a15bf"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalg-utilities.lisp",
+    "bytes": 6658,
+    "sha256": "da67e38dc83182b95b89476df4b436c95a90b797c0d02197c7dadbf6ba2202b0"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linalgcholesky.lisp",
+    "bytes": 2533,
+    "sha256": "fadfe281f1ae18d9ef9d658c7b38507e56285d3bec53ce5dc0e67427988ce71b"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/linearalgebra.mac",
+    "bytes": 12218,
+    "sha256": "6f509719c842128e9c8fb34a91e2b0efeec38e45f9a1dbe11fd2cfe3a76e45cf"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/load-linearalgebra-lisp-files.lisp",
+    "bytes": 818,
+    "sha256": "ff456f078307f59c845d2ba6712e4bf2d4dd90908979cda01abcfb37b4daa778"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/lu.lisp",
+    "bytes": 12284,
+    "sha256": "493fc8dd91b5283f365b90d5babc0a4c0884ba68a43d0e08a5025e2e6fd6cdb0"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/matrixexp.lisp",
+    "bytes": 6603,
+    "sha256": "06810384023da28279abc1a1c0ac296c192cdaacab8fb0dc2e80f5a9b8ef5d87"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/linearalgebra/mring.lisp",
+    "bytes": 16809,
+    "sha256": "c4af22f8e472e182cef693328d3000e36749397202d5d48ca5db2178a320b0c8"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/lisp-utils/defsystem.lisp",
+    "bytes": 211935,
+    "sha256": "5752e3cb3b1653009ea11d92c54ccda008275225f76c5e869f7f08d173133d8d"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/macro/basic.mac",
+    "bytes": 1106,
+    "sha256": "ec99cf76b3653dcfe661d58b5868d51d2718b0f6e73a75696ff11fc2596536b7"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/macro/packg.mac",
+    "bytes": 1571,
+    "sha256": "be614af9f8583290f54879a5978156f768798ee3e5ce4d67ed7ee44265dfeb8a"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/matrix/eigen.mac",
+    "bytes": 8120,
+    "sha256": "cc63e4b33108bfc8cb3657c7dd84861bb40be5202e1fa5eff5dcb4ff842efe0c"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/facexp.mac",
+    "bytes": 11079,
+    "sha256": "a749264a1679b7a7eee0d1f01e5459b81bd589ae1bf908232dd3d6588c0fdbfd"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/functs.mac",
+    "bytes": 4915,
+    "sha256": "59319fd8623025ce5444ac508f4d6defce594829b26e8ec950c7b5e2cc6f2181"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac",
+    "bytes": 8469,
+    "sha256": "9c60b72c98b369a7a98e5d7076c9f7db03c05189cbc5c0623d0c1ec6ba56a960"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/lrats.mac",
+    "bytes": 2536,
+    "sha256": "8ba7506bf7a30695f3d513d2a89b62852689f9a44b13822e656cb45ebce23ba2"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/inference_result.lisp",
+    "bytes": 8238,
+    "sha256": "c56c33c6bc6e0cc1e735f3d0025c2e615f40b481093fa48e6197a24728485faf"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/numstats.lisp",
+    "bytes": 12080,
+    "sha256": "c961431de9c647558c3f2f993a64abd6af69fde6a849e24d089255b8c9497811"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stats/stats.mac",
+    "bytes": 66662,
+    "sha256": "d6dd9065e460e92512c3050508e7c0918e6da258fc4c02d1587e2c6f3a60050c"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/base64.lisp",
+    "bytes": 5901,
+    "sha256": "acc82d7fb13251e2a67ce4f9162ca7184d5a9ce8e35e848d063d0f410f530ff1"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/cryptools.lisp",
+    "bytes": 10760,
+    "sha256": "75c9b17bd4f33a896f4207e6652d5ab63c63edd200858ddab6fec0d40adb8273"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/eval_string.lisp",
+    "bytes": 2395,
+    "sha256": "39ef5cc589851f013f5846c89f8d2dd3cc847dfea040e55dc662f5f74ff7ae6b"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/md5.lisp",
+    "bytes": 8193,
+    "sha256": "c8fb5a9241e800c0173c76ac87344a02cd35c972c4595868c9ca2b037ca729db"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/printf.lisp",
+    "bytes": 21346,
+    "sha256": "35ec2642b830737b1c5543692c9c2385fd5970ce70028189966d36e3bdd434ac"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sha1.lisp",
+    "bytes": 13633,
+    "sha256": "c19ee8b7532cce05bfaa382c1877110d61113caad7a09af52cc29648d6b6cfeb"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.lisp",
+    "bytes": 7501,
+    "sha256": "e8f6d2fb9a8d4a3184b644b49175d2a2ad4b9b6c0759e34ad7ce9e01588ce50c"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/sregex.mac",
+    "bytes": 76,
+    "sha256": "ca75d7da5c533701f736efd8b9ae8ea160b650d1b7f6066c2479e2363d13c248"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.lisp",
+    "bytes": 47721,
+    "sha256": "5b5678e3fbd9efab7e9870bf8cfb34652907a196ec7aee4f20ccee21e94d6211"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/stringproc.mac",
+    "bytes": 184,
+    "sha256": "fe11a711f0af6214a976aca4ac0a1e52720186790bb4b9c61d1e606ee40e3118"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/stringproc/unicode-sniffer.lisp",
+    "bytes": 6599,
+    "sha256": "e4179ffab65b8e2c98162634d2c408e8e04c6577e943a8dacd99faa7f90bd1fb"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly.lisp",
+    "bytes": 24670,
+    "sha256": "bfcae0e610d039bb43d71e6bfa2723820df3cfe0fca012a05530f73c1a8d0e3d"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve.mac",
+    "bytes": 26278,
+    "sha256": "2441e553d1604a55dad602cdb2e997c6f48eff668932d7cc7b7a12ec0ca1fb5e"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/to_poly_solve/to_poly_solve_extra.lisp",
+    "bytes": 6966,
+    "sha256": "0a364d75e9e6700c0cb170dc6bf08fbc3a700739e87218a8b029ffd0ee340b30"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/atrig1.mac",
+    "bytes": 1528,
+    "sha256": "11843e2e013d1e9888251c1acb0109c3b6f7d9c7d57cb9db9e1a285744b02dd8"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/ntrig.mac",
+    "bytes": 1096,
+    "sha256": "3a2422f3c749c9fd8673c9dbda0e1f125f4b06c6ac7e8ec408c4fbcc8279df58"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/spangl.mac",
+    "bytes": 1945,
+    "sha256": "999b974b59ce420302ac818e49b6876b42615788b4a18c887d4f961e39e84a65"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trgsmp.mac",
+    "bytes": 4874,
+    "sha256": "0f5db0cb2e22d4ce8536e84a3767830e76ac1751f4555ca253b86c70aa3c56a1"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share/maxima/branch_5_49_base_90_g813903d33/share/trigonometry/trigrat.lisp",
+    "bytes": 1909,
+    "sha256": "5da6c242383b117fc4d75b241193ab6976b63fe58542ef17b3332ead900973ec"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/maxima-runtime/share_files.js",
+    "bytes": 528107,
+    "sha256": "e07cdd6ef8eac3ee63869a1f9c0e5cb3ec30f7f538f3dadd764e248e404a6057"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/native/backend-worker.js",
+    "bytes": 5104,
+    "sha256": "f25bd0626b6443de40de153bd1248a2e52affb3797bbfba1e0ae9ebc9f37dceb"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/native/classified-errcatch.lisp",
+    "bytes": 322,
+    "sha256": "f21ecdabcb5af55e1301e748842c3ff781cff83872f600453905db9c0d3f93de"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/native/engine.js",
+    "bytes": 37066,
+    "sha256": "cbdaa78cb90f1e98559cea648958094c41aecf71208207da77bfd42fa45eb552"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/native/feedback.js",
+    "bytes": 6944,
+    "sha256": "a7e441a62db8a8f3e4d5d74e52440466e7e36174763cfae9ffafa34e6db8cdf8"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/native/input.js",
+    "bytes": 17611,
+    "sha256": "0fbea684c259dbd132ca4e1dda1d91399cdeb2d807d616fc7af32406f7122333"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/native/python-bridge.js",
+    "bytes": 5030,
+    "sha256": "bb43ac0b4b2baedb5f88680b7fdbebe9883d3eaab39b696f80bcdd1af9672ce5"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/native/python_bridge.py",
+    "bytes": 5111,
+    "sha256": "6af06b5b2a4b5ee7368664e33d00ba8036dd7a157fd59ff00f5f8d45f30b814c"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/native/test-backend-worker.mjs",
+    "bytes": 3029,
+    "sha256": "0d4af09c70ecf4e8b42e427465a067510230aef28693b7ae90b01884d61e4057"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/native/test-engine.mjs",
+    "bytes": 11539,
+    "sha256": "4def3839d9505265684331da0ae09fed96e485bc531fbdcb4ff4948499bb76d7"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/native/test-feedback.mjs",
+    "bytes": 7413,
+    "sha256": "bd0bd05091976f892e939222c0e77d0c5c074b360f6674db5f5667cbd025e296"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/native/test-input.mjs",
+    "bytes": 6998,
+    "sha256": "7b70bc7920a11f0e50972d9226ebf1053dd16b0ddc6e6583dd662f79f4de0013"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/native/test-python-bridge.mjs",
+    "bytes": 3789,
+    "sha256": "bc234a4655177d15ec7e2779a31f27da8e24741e3e8a1d5228cc33d7ea3a41aa"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/native/test_python_bridge.py",
+    "bytes": 8188,
+    "sha256": "6a0daf2fd7b597ee602e9a8cbbd952feb69e270e5ed9aa824cac9e66c64153fe"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/runtime/maxima-child.js",
+    "bytes": 14744,
+    "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/runtime/maxima-session.js",
+    "bytes": 14344,
+    "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/runtime/test-maxima-session.mjs",
+    "bytes": 4813,
+    "sha256": "e1a447da67e134856ebed8fd101fb19145b93cee1abb33d31dfe598bbacc5078"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/runtime-assets.json",
+    "bytes": 34578,
+    "sha256": "f796940fc5bc95fe77509230fac54e30bafe7644895a73c94c7aff67cb359282"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/stack-sources-timed-source.json",
+    "bytes": 987920,
+    "sha256": "de6551f0ffe32ce84a91f3aaa9dc0d0a3ee36445e995c9d83fb754c5f1d652a9"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz/stack-sources.json",
+    "bytes": 987852,
+    "sha256": "cd1cc168eabca1ae17c35bb1a21b3f4002a5df083437cbffded05cb26e1e11a4"
+  },
+  {
+    "path": "staged/ecl-oz-maxima-oz-startup-observer-derivation.json",
+    "bytes": 1782,
+    "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+  },
+  {
+    "path": "staged/ecl-oz-startup-observer-derivation.json",
+    "bytes": 1782,
+    "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+  },
+  {
+    "path": "tool-sources/.github/workflows/v3-selection.yml",
+    "bytes": 5967,
+    "sha256": "c58be547aeb69fe8d2099d19c505a1c2703fe71a004c3a2597de41c70d40b0ad"
+  },
+  {
+    "path": "tool-sources/runtime/timing/v3-selection/README.md",
+    "bytes": 1426,
+    "sha256": "1c5c80d551db42b5ea4edd0094987c9968e63e58516c14210589e033c05660a5"
+  },
+  {
+    "path": "tool-sources/runtime/timing/v3-selection/candidate-binding.json",
+    "bytes": 915,
+    "sha256": "f61b3ebb96a0dbebd6416fbe1dd677f055db308e900cfce05bcf24bfbf956391"
+  },
+  {
+    "path": "tool-sources/runtime/timing/v3-selection/clean-probe-worker.js",
+    "bytes": 9899,
+    "sha256": "c519a7b6cdda56b97186bcfa6600813050ad30fa5c770620cb3f6a8686ae191c"
+  },
+  {
+    "path": "tool-sources/runtime/timing/v3-selection/derive-startup-observer.mjs",
+    "bytes": 2830,
+    "sha256": "9a3cffad1fbe26823b1f970b9b9806d1f79292be94b7db5653c9db1f94a70939"
+  },
+  {
+    "path": "tool-sources/runtime/timing/v3-selection/derive.py",
+    "bytes": 3575,
+    "sha256": "76337c54d68ca474278530b21bef9e47a8069e00bb590a5b5184b2796508ac04"
+  },
+  {
+    "path": "tool-sources/runtime/timing/v3-selection/prepare.py",
+    "bytes": 8266,
+    "sha256": "65562a23f8e85b47f3574f6744514f3ababbc90cc72d2f8a5a02180bec51d138"
+  },
+  {
+    "path": "tool-sources/runtime/timing/v3-selection/reviews/c4-production.json",
+    "bytes": 9573,
+    "sha256": "897a24b091504144013bb7f511dcec816e4d12e16313cc809749ad7188d149d9"
+  },
+  {
+    "path": "tool-sources/runtime/timing/v3-selection/run.mjs",
+    "bytes": 21917,
+    "sha256": "f4fa39a2445d972e546c1a73dd8a4655823ccdad55ec6bc52acc358386c40f33"
+  },
+  {
+    "path": "tool-sources/runtime/timing/v3-selection/startup-observer.jsfrag",
+    "bytes": 2322,
+    "sha256": "ca6d11bad5be261ff67415bb765bf93347052faf5b85c9c58bdc9ff09f8721c7"
+  },
+  {
+    "path": "tool-sources/runtime/timing/v3-selection/test-runner.mjs",
+    "bytes": 3918,
+    "sha256": "d8c990a58e29ff33c1110f812f7e667297059207da606a10df9c0b9b681d4bb8"
+  },
+  {
+    "path": "tool-sources/runtime/timing/v3-selection/verify-new.py",
+    "bytes": 5091,
+    "sha256": "c631ce4353ec3790e9e68fc0fae211e2f04f05352b86549eb74a9971959875ca"
+  },
+  {
+    "path": "tool-sources.json",
+    "bytes": 2027,
+    "sha256": "f18b4c922ded0c8140702fbf803501d7399176a5a2965b4996185d26ebf9e64f"
+  },
+  {
+    "path": "trials/01-ecl-oz-source-cold/partial.json",
+    "bytes": 17638,
+    "sha256": "d7b687957dcfd9999637331d9417f145350a5544f3aeb83089ccf415fbce9547"
+  },
+  {
+    "path": "trials/01-ecl-oz-source-cold/sample.json",
+    "bytes": 25991,
+    "sha256": "f513a7b290b144150277a41d6ad2bf5b9cab56f2fd7d981feae8efca034508fd"
+  },
+  {
+    "path": "trials/01-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17646,
+    "sha256": "f201e3cd61776bb8e5b971e97acfded84254b51e0ce7054ea11cf60e633cf480"
+  },
+  {
+    "path": "trials/01-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22633,
+    "sha256": "8e81a5ac61511178797eeb3a8e922ed602fb554cd31b807c21076f1e3037bc0d"
+  },
+  {
+    "path": "trials/02-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17610,
+    "sha256": "307b8d6c39be3c2b218b52135f011c0ac575a8bbd697e3d552c08252b31e2616"
+  },
+  {
+    "path": "trials/02-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25844,
+    "sha256": "4befad905e9684064d935029f082f7582cf0dfd776becdfead9163952af5d008"
+  },
+  {
+    "path": "trials/02-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17568,
+    "sha256": "69786eb68abe163b3515bbfdced0b5d72e222e005fe9c1237eca00bc2cac9b6f"
+  },
+  {
+    "path": "trials/02-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22447,
+    "sha256": "410055fc64000e42c4bbca554c33a38f59ee4cad645ebab69b42012e48713674"
+  },
+  {
+    "path": "trials/03-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17638,
+    "sha256": "1b3fbaf98586ef34a535f8453419761dc05656ec618c43c14ef43723ccace75b"
+  },
+  {
+    "path": "trials/03-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25872,
+    "sha256": "a6659216b8d80c16067c8ef771e05754948fa4f2ae26a7a643afd2ba088080ca"
+  },
+  {
+    "path": "trials/03-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17571,
+    "sha256": "a58006a306e755917a08fc2b15f8f6735ed3f8b985e7cba13ccbc8f146178037"
+  },
+  {
+    "path": "trials/03-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22450,
+    "sha256": "061265bcb933cbe4c1a6027e5fbb9de19a19388f614bf0f3973b7efd03adadf0"
+  },
+  {
+    "path": "trials/04-ecl-oz-source-cold/partial.json",
+    "bytes": 17613,
+    "sha256": "193a20d8581f6a244b74efd167d95aa1550a72fad580d7c09e1ec50cd656df62"
+  },
+  {
+    "path": "trials/04-ecl-oz-source-cold/sample.json",
+    "bytes": 25966,
+    "sha256": "10c67100d59cb58532f5533f4e1d4ba6bdd957751f295fc742cdee069657fd99"
+  },
+  {
+    "path": "trials/04-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17651,
+    "sha256": "116cb7205c0e5a68c013d0dba29dcebd4d4951493a11653df05144833c95dba9"
+  },
+  {
+    "path": "trials/04-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22638,
+    "sha256": "d3046466fcc224c0e6857df22d9153d0e769e0f04a0ea7b4c30e495382beca5a"
+  },
+  {
+    "path": "trials/05-ecl-oz-source-cold/partial.json",
+    "bytes": 17649,
+    "sha256": "a7cf2cf61f250a36143d43357110712fecc7b73765f5a66bb3c576433e15cb8a"
+  },
+  {
+    "path": "trials/05-ecl-oz-source-cold/sample.json",
+    "bytes": 26002,
+    "sha256": "d96ad28b636a86c7952adb035d7c78f074d5aa09cdad80998eec4b9550c18d5a"
+  },
+  {
+    "path": "trials/05-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17648,
+    "sha256": "ceb52f1347be1abaf0b3672ca3aa1b63ba03dd724290178b60bce3144a8b99e1"
+  },
+  {
+    "path": "trials/05-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22635,
+    "sha256": "2e8a540ac05c46305d29cefefef1a25bfe1a2a00328b1e5160346d0801dae13b"
+  },
+  {
+    "path": "trials/06-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17627,
+    "sha256": "b9b4effff71c93d718d4fd22f6989b84f4d07f71316e693d669545a97479d3fc"
+  },
+  {
+    "path": "trials/06-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25861,
+    "sha256": "d15e9b1280607746b02d1fac4f25031c38ebdf4e307ff087972f4ae8525450ae"
+  },
+  {
+    "path": "trials/06-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17657,
+    "sha256": "3469956ec1024774634f29c46d7483e6a321ed6c493c5a466b05856c080904be"
+  },
+  {
+    "path": "trials/06-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22536,
+    "sha256": "f63b8cf9e19ebf68143af6c4f6fb9cb73f1ca2bb00ec29fb3f632ae818631a8f"
+  },
+  {
+    "path": "trials/07-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17670,
+    "sha256": "67330670cf52906e8ffa7e13140df57f4d09fcbcfbf78e2f90cee6663220cf53"
+  },
+  {
+    "path": "trials/07-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25904,
+    "sha256": "af7e4e7ea3be971f3f82f0bdeb1d08b7479d42a79e3c03c5c8400a88aee8025e"
+  },
+  {
+    "path": "trials/07-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17514,
+    "sha256": "be0007037a51feb185d0a9f6f1d02269e655750e7aa9f95d5a9d991f52270bdc"
+  },
+  {
+    "path": "trials/07-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22393,
+    "sha256": "79a80ca5b0e58be87150e415de93fabfbb715195ba05a5e216d89bd5d86df901"
+  },
+  {
+    "path": "trials/08-ecl-oz-source-cold/partial.json",
+    "bytes": 17614,
+    "sha256": "c4b35951fec479522a8ec79d6b4b64ee6fcf94d642da53fcd18c8824a7419291"
+  },
+  {
+    "path": "trials/08-ecl-oz-source-cold/sample.json",
+    "bytes": 25967,
+    "sha256": "43e348fc0e5bfcbdaf1f96b559675a67cfa7971b8dcea94d1433352f954e0f31"
+  },
+  {
+    "path": "trials/08-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17641,
+    "sha256": "8a06b8b89aa7ace8649f53083490b13adff1f8d1b4be88c9a3e01c88dd6884ae"
+  },
+  {
+    "path": "trials/08-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22628,
+    "sha256": "2b0ebb0f193dd7a100c40dcaa1f3e77a73b0630d1f25e854f96df7e71cd2483d"
+  },
+  {
+    "path": "trials/09-ecl-oz-source-cold/partial.json",
+    "bytes": 17648,
+    "sha256": "6d0c007fe37b8f10273591ef6488d64e8a8c868368cada542c3193809f44f6d4"
+  },
+  {
+    "path": "trials/09-ecl-oz-source-cold/sample.json",
+    "bytes": 26001,
+    "sha256": "4ef2f0264af71e32a3d958208ce0bd8e949f950b52155755b22e605337b407e1"
+  },
+  {
+    "path": "trials/09-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17582,
+    "sha256": "391625ad06c9659a17ff42f937263162c03ed2dddddd545129fa6e9f156b9964"
+  },
+  {
+    "path": "trials/09-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22569,
+    "sha256": "a9fe98ef0ad426235e2ef4b19bc39fe8e61df413ba762882dd3c68c26e27e3c8"
+  },
+  {
+    "path": "trials/10-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17625,
+    "sha256": "2d8197997793392f7ed73e3b0886fdc6286019ecb3c41cbe398eab53587a4825"
+  },
+  {
+    "path": "trials/10-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25860,
+    "sha256": "0decaa9bf06d21e4af8fd5780d0f4d07b5509e1e13750e2e843fd028f942ff96"
+  },
+  {
+    "path": "trials/10-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17680,
+    "sha256": "0531f1f64edccc7e3334fb941e4b4d69324c95753ccf53a5fc4fa3e2d4598685"
+  },
+  {
+    "path": "trials/10-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22560,
+    "sha256": "b2e432c9e9e68255d76914f27810b12127ca235e46e975f0944c9d35917277af"
+  },
+  {
+    "path": "trials/11-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17647,
+    "sha256": "42a00cd1201918fdb4a050583e953c92f5a0f338a791104fd6658a2edb449b4b"
+  },
+  {
+    "path": "trials/11-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25882,
+    "sha256": "82b538a6f7f2683c87f1a8c6b5352a42ba0d1491d8e3e14ebd98224cba7aa647"
+  },
+  {
+    "path": "trials/11-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17641,
+    "sha256": "6c1aa67c3b21488631d7af3b75e36df212372608320328b66c84d6bb488a1c3d"
+  },
+  {
+    "path": "trials/11-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22521,
+    "sha256": "cab328b7b1ebfd746c6c23d02cc46dbbcdd2fb3ae0c208e1f19ee34cc4e0a13f"
+  },
+  {
+    "path": "trials/12-ecl-oz-source-cold/partial.json",
+    "bytes": 17672,
+    "sha256": "c3b015c47a4fb99065187cfce4b99527d2883aa6386bd909c0ce957293694abe"
+  },
+  {
+    "path": "trials/12-ecl-oz-source-cold/sample.json",
+    "bytes": 26026,
+    "sha256": "d4a80f84534f82e330791ae232d4202c5ba82d77c961b763872623ebb05a3ea0"
+  },
+  {
+    "path": "trials/12-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17681,
+    "sha256": "b613d20f3b3b236adfbde27505638ec52854f249ec35618bbe6b14a4acf2a69b"
+  },
+  {
+    "path": "trials/12-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22669,
+    "sha256": "82431dcb6a4a68beca88b8480563024d751c1dbbf9573065242ca89e5ed30130"
+  },
+  {
+    "path": "trials/13-ecl-oz-source-cold/partial.json",
+    "bytes": 17559,
+    "sha256": "4559085840c0700cfa13a8e48c62c32c1ebb0e354e18f86875689bc9369f71ab"
+  },
+  {
+    "path": "trials/13-ecl-oz-source-cold/sample.json",
+    "bytes": 25913,
+    "sha256": "8e034e4dc3b6240689b5873725a7179061c0124f532310ac614d45acc97d100a"
+  },
+  {
+    "path": "trials/13-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17636,
+    "sha256": "7b7c10d6919155ff0eedfe18566bb3fd86857f58b99d0c9c266a4202066c4b48"
+  },
+  {
+    "path": "trials/13-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22624,
+    "sha256": "351c7ff9f02d0c04d4673c22973b48f506360256fb369c6550479560daec52f7"
+  },
+  {
+    "path": "trials/14-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17640,
+    "sha256": "d21fa28588306295c0d5ac82ce51d79ff7490935beb2312f01d3814131979782"
+  },
+  {
+    "path": "trials/14-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25875,
+    "sha256": "aba12d36a9a7a6c1adcb90a69391daab6eb382feb737202b4faf104fc6cb3737"
+  },
+  {
+    "path": "trials/14-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17648,
+    "sha256": "2553fed908a8279b3b5da846c0ad90f7342ebcaadd76ae720dbec03d7be65fde"
+  },
+  {
+    "path": "trials/14-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22528,
+    "sha256": "a675f92517ed9da378565529f39fe0892b4d3d21cc83f1739202de7e5df9231e"
+  },
+  {
+    "path": "trials/15-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17585,
+    "sha256": "1bf4bb7b22afa1f13fd985382787391051fadaad97b211aade481ef3653bda42"
+  },
+  {
+    "path": "trials/15-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25820,
+    "sha256": "ede02d3180758a52cf844fc88902a3cef525c7cd289f4551bff8d899e86c78b8"
+  },
+  {
+    "path": "trials/15-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17624,
+    "sha256": "8e112011e09088281e38ff6a76d05d87b7f55b437e292e38aaf12144cefbaad3"
+  },
+  {
+    "path": "trials/15-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22504,
+    "sha256": "f81f3c4736b6a388e48a4a3793fc3ded2d462f5e9065b79a8ceeb377b616e575"
+  },
+  {
+    "path": "trials/16-ecl-oz-source-cold/partial.json",
+    "bytes": 17682,
+    "sha256": "6d31caf7c7438a73a2fdfd68e70100bb02f23e9ae1f3843fec995fce8b5a845a"
+  },
+  {
+    "path": "trials/16-ecl-oz-source-cold/sample.json",
+    "bytes": 26036,
+    "sha256": "2885987e2337d7e5f6002257369878243adb5909be74f12c15e360022a122cc5"
+  },
+  {
+    "path": "trials/16-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17628,
+    "sha256": "9cb08bd8c0bf0d26742ea5ef345d985a5a4165bf608669d8c493d610af6a1420"
+  },
+  {
+    "path": "trials/16-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22616,
+    "sha256": "46334f945163f4a27c37432d7864bbbbd8a040cd39b3fb9bf970730d219dbadd"
+  },
+  {
+    "path": "trials/17-ecl-oz-source-cold/partial.json",
+    "bytes": 17630,
+    "sha256": "14980c84787ec7ae56ce7d619c66e7d7ce9e45ee249ec456e2b2fb7a5249f228"
+  },
+  {
+    "path": "trials/17-ecl-oz-source-cold/sample.json",
+    "bytes": 25984,
+    "sha256": "aece6ed0d9c92517a51113dcd28b412aed1b38bf2f7f13c467ffc22e5e9664b1"
+  },
+  {
+    "path": "trials/17-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17658,
+    "sha256": "aeef0d325df19a879a046278274d2fb44427959b892ad06c5434b580557c75ee"
+  },
+  {
+    "path": "trials/17-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22646,
+    "sha256": "7fb28383bedd103a429b81037de37f58994f839c5c038cd8aed1bb65579abea8"
+  },
+  {
+    "path": "trials/18-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17578,
+    "sha256": "5833f9eb345328f272c6eb991f848a78b3e6cabf73550ed53c51332d56eb5f09"
+  },
+  {
+    "path": "trials/18-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25813,
+    "sha256": "f17d8f209abe02d46a5811262b635e0d40339b324f11587149e0a1af172167fb"
+  },
+  {
+    "path": "trials/18-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17654,
+    "sha256": "4b65d704a21e8bec99642b2c8b24e0b52393e347f7218ab254a8f2bbcc2ac8f3"
+  },
+  {
+    "path": "trials/18-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22534,
+    "sha256": "44b384cc11db64d1ef8a23c5da77818f1e5b0a12d745d3119684a9f37b4abd20"
+  },
+  {
+    "path": "trials/19-ecl-oz-maxima-oz-source-cold/partial.json",
+    "bytes": 17663,
+    "sha256": "29dd4a37befe95a8020699527a474088fe4739a66e4fd96314bfbc8a34590fb9"
+  },
+  {
+    "path": "trials/19-ecl-oz-maxima-oz-source-cold/sample.json",
+    "bytes": 25899,
+    "sha256": "1583cae4ed1a6fb17c25e93e18b65736f33a76c5a47e1889dcb5bc4d3ec57c9a"
+  },
+  {
+    "path": "trials/19-ecl-oz-maxima-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17661,
+    "sha256": "f9a067219259bd49afb262387963759e3eb01a5d42b8e40cde38d6efa6522424"
+  },
+  {
+    "path": "trials/19-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22542,
+    "sha256": "771276ac203600b04106856a6277f695f26d2d119db318bc85110fce8950f2f9"
+  },
+  {
+    "path": "trials/20-ecl-oz-source-cold/partial.json",
+    "bytes": 17606,
+    "sha256": "c4f56126cec5234ebd19fcf6c7b29b056470431e4af0349f8576d7e47ae38256"
+  },
+  {
+    "path": "trials/20-ecl-oz-source-cold/sample.json",
+    "bytes": 25961,
+    "sha256": "eab085a4354446a33ce6d5ff4dbb5d7126f3e0b8261d09cc1bee9cef24869258"
+  },
+  {
+    "path": "trials/20-ecl-oz-source-warm-profile-reload/partial.json",
+    "bytes": 17581,
+    "sha256": "c3a1d6037b7d9413e8a868bccef359381cef6a4b1d763db4f93f0c1120015ef5"
+  },
+  {
+    "path": "trials/20-ecl-oz-source-warm-profile-reload/sample.json",
+    "bytes": 22570,
+    "sha256": "9fa7a305f8450a04e795ce5a26b12696aa9177d375454f1190c742786936489b"
+  }
+]

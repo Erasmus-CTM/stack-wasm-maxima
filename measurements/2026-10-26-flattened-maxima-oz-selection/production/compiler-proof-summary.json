@@ -1,0 +1,44 @@
+{
+  "sourceSha256": "cde3d0997949c76511d401360a45c6cdb3dddf857f0a7db51b8b7d47e38bee4d",
+  "sourceBytes": 7235200,
+  "profile": {
+    "name": "ecl-oz-maxima-oz",
+    "injectedEmccFlags": "-Oz",
+    "eclCoreOptimization": "-Oz",
+    "eclGeneratedLispOptimization": "-Oz",
+    "maximaGeneratedOptimization": "-Oz",
+    "maximaInjectedEmccFlags": "-Oz",
+    "stackGeneratedOptimization": "-Oz",
+    "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
+  },
+  "passed": true,
+  "gcSpillPasses": [
+    "flatten",
+    "spill-pointers",
+    "simplify-locals-notee-nostructure",
+    "vacuum",
+    "coalesce-locals",
+    "reorder-locals"
+  ],
+  "executedOzMaximaCompiles": 615,
+  "eclRequiredTargets": [
+    "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/ecl/build/libecl.so"
+  ],
+  "maximaRequiredTargets": [
+    "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima.wasm",
+    "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/slatec.fasb",
+    "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/quadpack.fasb",
+    "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/solve.fasb",
+    "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/poisson-series.fasb",
+    "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/matrix-algebra.fasb",
+    "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/number-theory.fasb",
+    "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/limits.fasb",
+    "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/integration.fasb"
+  ],
+  "fullEvidence": {
+    "collectorRun": 40253763650,
+    "compactArtifactId": 12622811010,
+    "originalProductionRun": 40244258581,
+    "originalArtifactId": 12622129500
+  }
+}

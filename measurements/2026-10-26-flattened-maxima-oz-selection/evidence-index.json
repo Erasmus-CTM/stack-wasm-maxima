@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "date": "2026-10-26",
+  "pr": "https://github.com/Erasmus-CTM/stack-wasm-maxima/pull/28",
+  "head": "0d1141e68deb63863a3f9e6a1776d52f06b20cc5",
+  "testedMerge": "d3ae000d86f165e537d08c0ec9d1ebf7724e6bd2",
+  "testedTree": "b07299c1dba1b1365e4fb311a00a2b52fedaa0e9",
+  "sourceStackPin": "33383047af39c204bf4442802a058f8b918b2b1b",
+  "checkerPin": "c366f175aba6b62caa628bc60f57bb1167fc087b",
+  "primary": {
+    "benchmarkCommit": "bdf9faab53f4bd9499948ba4cb4a20464628daac",
+    "original": {
+      "runId": 40256561193,
+      "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40256561193",
+      "artifactId": 12624753966,
+      "artifactURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40256561193/artifacts/12624753966",
+      "name": "v3-source-selection-bdf9faab53f4bd9499948ba4cb4a20464628daac",
+      "zipSha256": "dd75087971d59d3b535180b668b4650c6662091732ad770c68e71cecce2151c6",
+      "zipBytes": 40314055
+    },
+    "completeReports": {
+      "runId": 40256677172,
+      "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40256677172",
+      "artifactId": 12625326761,
+      "artifactURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40256677172/artifacts/12625326761",
+      "name": "v3-complete-selection-reports",
+      "zipSha256": "e924037a732b5270749a60c9b1a7e363f5a21446ad1aa93d8834748c702172d3",
+      "zipBytes": 680305
+    },
+    "samples": 80,
+    "passed": true,
+    "independentLocalDerivation": "All80samples,balancedplans,startup/termination/lateerrorguardsandallstatistics rederivedfromoriginalfull+quarterreports; each retained JSON bytehash matches original artifact inventory.",
+    "localPath": "records/primary"
+  },
+  "production": {
+    "original": {
+      "runId": 40244258581,
+      "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40244258581",
+      "artifactId": 12622129500,
+      "artifactURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40244258581/artifacts/12622129500",
+      "name": "owned-runtime-ecl-oz-maxima-oz-d3ae000d86f165e537d08c0ec9d1ebf7724e6bd2",
+      "zipSha256": "e718a2eecfee6c9a409580463302e64732304e562960f0bc1c8354f9189fd1dd",
+      "zipBytes": 416070179
+    },
+    "reviewRecords": {
+      "runId": 40253763650,
+      "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40253763650",
+      "artifactId": 12622811010,
+      "artifactURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40253763650/artifacts/12622811010",
+      "name": "flattened-candidate-build-evidence",
+      "zipSha256": "9d7921afd9d907ea9971fedaf153faa62f661bab0fa620de7f638eb50811796e",
+      "zipBytes": 4702895
+    },
+    "manifestSha256": "594499acf355836ea381f208b792fcad2879fe122e0ecbc4fc677a2a16a998ee",
+    "recipeFiles": 111,
+    "runtimeAssets": 79,
+    "localPath": "production"
+  },
+  "secondaryC4": {
+    "sourceHead": "c4bdb88e65211bfd1bd49c3b5d6531c99cc2227b",
+    "testedMerge": "8ee71f5d6489a8f87d7b21aff8310664c53239ad",
+    "benchmarkCommit": "28ffb717405902c91971a77ee917c088ac4d8589",
+    "original": {
+      "runId": 40248961084,
+      "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40248961084",
+      "artifactId": 12622561894,
+      "artifactURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40248961084/artifacts/12622561894",
+      "name": "v3-source-selection-28ffb717405902c91971a77ee917c088ac4d8589",
+      "zipSha256": "937cc579198423a3f1b98348a0bf62e3c3aee7770dbe3ff62d4f609c15aaee65",
+      "zipBytes": 40308709
+    },
+    "completeReports": {
+      "runId": 40256329117,
+      "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40256329117",
+      "artifactId": 12622532219,
+      "artifactURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40256329117/artifacts/12622532219",
+      "name": "v3-complete-selection-reports",
+      "zipSha256": "86a09efff3762926108fb816192cf025d10a80c759845b0f51312f4ca5b112d0",
+      "zipBytes": 383731
+    },
+    "samples": 80,
+    "passed": true,
+    "localPath": "records/replication-c4",
+    "scope": "Separately labelled independent earlier build and runner; not pooled with primary. Ten Wasm assets differ; exact final artifact used for headline selection."
+  },
+  "rootCauseReproducer": {
+    "runId": 40231542637,
+    "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40231542637",
+    "scope": "SDK4.0.10/6.0.13 x Boehm8.2.8/8.2.12; negative plain-spill controls lose1999-2000/2000pointers; flatten-before-spill loses0/2000."
+  },
+  "legacyCompilerComparison": {
+    "runId": 40244258636,
+    "runURL": "https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40244258636",
+    "scope": "Three explicit legacy profiles built and accepted, followed by n10 source baseline/ecl-oz controls at full speed and CPUQuota=25%. The workflow URL retains its final CI result."
+  }
+}

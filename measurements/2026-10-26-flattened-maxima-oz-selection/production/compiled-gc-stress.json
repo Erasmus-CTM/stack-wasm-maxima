@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "diagnosticOnly": true,
+  "sourceRevision": "d3ae000d86f165e537d08c0ec9d1ebf7724e6bd2",
+  "browserReportSha256": "1520909c244e2270d880d156d2dfa3bc7b0185ae14158b1c6351c34e0ab953f7",
+  "stackManifestSha256": "3454678775ff319cef19db127d4afdb070ca9f70c229162f3bc5db9727ed3b89",
+  "runtimeManifestSha256": "594499acf355836ea381f208b792fcad2879fe122e0ecbc4fc677a2a16a998ee",
+  "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+  "divisor": 1000,
+  "iterations": 400,
+  "rounds": 1,
+  "targetPrograms": 8,
+  "replayPrograms": 316,
+  "ok": true,
+  "deviations": [],
+  "initialization": {
+    "elapsedMs": 72181.16000000015,
+    "maximaVersion": "branch_5_49_base_90_g813903d33",
+    "stages": {
+      "preloadMs": 376.1399999996647,
+      "preloadedFiles": 67,
+      "compiledStackBytes": 2445785,
+      "wasmReadyMs": 1151.320000000298,
+      "compiledStackMounted": true,
+      "compiledStackOpens": 1,
+      "compiledSourceEntryOpens": 0,
+      "compiledStackSha256": "a14e280da4fca2f2f995224234b3c1aa584fe013486f246ba852a954c4dfb3bb",
+      "compiledStackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+      "stackLoadStartedMs": 5843.790000000037,
+      "stackLoadEndedMs": 72113.60000000056,
+      "stackLoadMs": 66269.81000000052,
+      "readyMs": 72141.00999999978
+    },
+    "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+    "stackLibraryVersion": "2026101500"
+  },
+  "targetMs": 784007.5200000005,
+  "totalMs": 938293.2949999999,
+  "gcStats": [
+    3552913960,
+    27547,
+    true
+  ],
+  "scope": "Exact captured programs and results, one fresh worker with GC_FREE_SPACE_DIVISOR set before ECL starts. A deviation is a wrong CAS result under frequent collection. Passing bounds, but cannot exclude, rarer root faults."
+}

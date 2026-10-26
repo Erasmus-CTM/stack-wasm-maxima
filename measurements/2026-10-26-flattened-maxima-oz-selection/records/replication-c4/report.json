@@ -1,0 +1,2470 @@
+{
+  "schema": 1,
+  "diagnosticOnly": true,
+  "acceptance": false,
+  "passed": true,
+  "startedAt": "2026-10-26T00:24:26.309Z",
+  "repetitions": 10,
+  "cpuLimit": "unrestricted",
+  "plan": [
+    {
+      "pair": 1,
+      "repetition": 1,
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 2,
+      "repetition": 1,
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 3,
+      "repetition": 2,
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 4,
+      "repetition": 2,
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 5,
+      "repetition": 3,
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 6,
+      "repetition": 3,
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 7,
+      "repetition": 4,
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 8,
+      "repetition": 4,
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 9,
+      "repetition": 5,
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 10,
+      "repetition": 5,
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 11,
+      "repetition": 6,
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 12,
+      "repetition": 6,
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 13,
+      "repetition": 7,
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 14,
+      "repetition": 7,
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 15,
+      "repetition": 8,
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 16,
+      "repetition": 8,
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 17,
+      "repetition": 9,
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 18,
+      "repetition": 9,
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 19,
+      "repetition": 10,
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    },
+    {
+      "pair": 20,
+      "repetition": 10,
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "modes": [
+        "cold",
+        "warm-profile-reload"
+      ]
+    }
+  ],
+  "plannedMeasurements": 40,
+  "watchdogMs": 300000,
+  "staging": {
+    "ecl-oz": {
+      "source": {
+        "runId": 40108653819,
+        "runAttempt": 1,
+        "workflowId": 394101239,
+        "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+        "testedRevision": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+        "trustedRevision": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+        "tree": "0e543f936a385548a7ffd53d68930bd88c033922",
+        "recipeFiles": 71,
+        "jobs": [
+          {
+            "id": 120915544152,
+            "name": "bundle-probe (ecl-oz)"
+          },
+          {
+            "id": 120915544199,
+            "name": "bundle-probe (baseline)"
+          }
+        ]
+      },
+      "artifact": {
+        "id": 12568085269,
+        "node_id": "MDg6QXJ0aWZhY3QxMjU2ODA4NTI2OQ==",
+        "name": "precompiled-stack-probe-ecl-oz-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+        "size_in_bytes": 213921626,
+        "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12568085269",
+        "archive_download_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12568085269/zip",
+        "expired": false,
+        "digest": "sha256:890a9c1c6c96d915ada2c41bf85e8b3756132ea2f42d6c5d4c6d9a9357c6759d",
+        "created_at": "2026-10-24T16:55:52Z",
+        "updated_at": "2026-10-24T16:55:52Z",
+        "expires_at": "2027-01-22T15:48:29Z",
+        "workflow_run": {
+          "id": 40108653819,
+          "repository_id": 1428812079,
+          "head_repository_id": 1428812079,
+          "head_branch": "runtime/2026-10-precompiled-stack",
+          "head_sha": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31"
+        }
+      },
+      "packageManifest": {
+        "bytes": 52520,
+        "sha256": "f7b1fc526776e585532d859d89cbdd0797a8290366b5b8970cb790a4cc4fd17c"
+      },
+      "compilerProfile": {
+        "name": "ecl-oz",
+        "injectedEmccFlags": "-Oz",
+        "eclCoreOptimization": "-Oz",
+        "eclGeneratedLispOptimization": "-Oz",
+        "maximaGeneratedOptimization": "-O2"
+      },
+      "manifestFiles": {
+        "source": {
+          "path": "stack-sources-timed-source.json",
+          "bytes": 987725,
+          "sha256": "b17d9f6687ee5442289a97aaf4045f765450fc744fd7210fbdee1712896d2113",
+          "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+          "stackLibraryVersion": "2026101500",
+          "compiledStack": null
+        }
+      },
+      "originalFilesVerified": 108,
+      "runtimeAssetsVerified": 79,
+      "embeddedStackFilesPerManifest": 77,
+      "worker": {
+        "path": "clean-probe-worker.js",
+        "bytes": 9899,
+        "sha256": "c519a7b6cdda56b97186bcfa6600813050ad30fa5c770620cb3f6a8686ae191c"
+      },
+      "originalRuntimeAssetsUnchanged": true,
+      "commonCurrentSourceIntegration": true,
+      "originalChildUnchanged": false,
+      "sharedStartupObserver": {
+        "schema": 1,
+        "kind": "benchmark-startup-stdout-observer",
+        "diagnosticOnly": true,
+        "acceptance": false,
+        "original": {
+          "bytes": 12159,
+          "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+        },
+        "derived": {
+          "bytes": 14744,
+          "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+        },
+        "observer": {
+          "bytes": 2322,
+          "sha256": "ca6d11bad5be261ff67415bb765bf93347052faf5b85c9c58bdc9ff09f8721c7"
+        },
+        "edits": [
+          {
+            "before": {
+              "bytes": 24,
+              "sha256": "bf076f232a55a96360adddbd158fbb2dc0f04f7fa3071842534fc4aa1c32dff7"
+            },
+            "after": {
+              "bytes": 2416,
+              "sha256": "f8a5163bf0823b10fac4f56bb30ce6dd3b8f4257c9dd494a19746c48f1ea50fc"
+            }
+          },
+          {
+            "before": {
+              "bytes": 43,
+              "sha256": "e3df67364ab78f794109d24be5b9238e1897889a401a8570a46a3366328fa1a9"
+            },
+            "after": {
+              "bytes": 103,
+              "sha256": "9c608119a803a5f67eb4d522a565649acb374883513b147e6c4a3b32091ff7f6"
+            }
+          },
+          {
+            "before": {
+              "bytes": 54,
+              "sha256": "c96e3b7df630e8d5d066e2d65d1bbddfa7931f3381bd2603bb8e3b10b55a619d"
+            },
+            "after": {
+              "bytes": 187,
+              "sha256": "37666c47d01f371a9fd8a2aee95e23568aea141155095dacbc5bb1ad7552f7e0"
+            }
+          }
+        ],
+        "scope": "Shared derived child only. Original startup commands, runtime assets, session wrapper, source and FAS unchanged. Completed pre-READY stdout lines are scanned for anchored fatal diagnostics and existing marker order. One bounded receipt; no TRACE/CPU/FS observer or per-line timestamps/messages. Does not prove a same-evaluation root-load return. Original stdout tail is bounded to 16384 characters; console stderr is retained separately.",
+        "proof": {
+          "path": "staged/ecl-oz-startup-observer-derivation.json",
+          "bytes": 1782,
+          "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+        }
+      }
+    },
+    "ecl-oz-maxima-oz": {
+      "source": {
+        "runId": 40234019825,
+        "runAttempt": 1,
+        "head": "c4bdb88e65211bfd1bd49c3b5d6531c99cc2227b",
+        "testedRevision": "8ee71f5d6489a8f87d7b21aff8310664c53239ad",
+        "trustedRevision": "8ee71f5d6489a8f87d7b21aff8310664c53239ad",
+        "tree": "d9dbd83af48275d88aba18e0864e1abbdf184f70",
+        "recipeFiles": 111,
+        "buildJobId": 121291880510,
+        "workflowId": 396397316
+      },
+      "artifact": {
+        "id": 12619528192,
+        "node_id": "MDg6QXJ0aWZhY3QxMjYxOTUyODE5Mg==",
+        "name": "owned-runtime-ecl-oz-maxima-oz-8ee71f5d6489a8f87d7b21aff8310664c53239ad",
+        "size_in_bytes": 416067461,
+        "url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12619528192",
+        "archive_download_url": "https://api.github.com/repos/Erasmus-CTM/stack-wasm-maxima/actions/artifacts/12619528192/zip",
+        "expired": false,
+        "digest": "sha256:4b0397e1a4bd3b224cd83ef8bee70b2e5f387447263e5d149ffb52a93a70e27c",
+        "created_at": "2026-10-26T00:18:57Z",
+        "updated_at": "2026-10-26T00:18:57Z",
+        "expires_at": "2027-01-23T21:07:48Z",
+        "workflow_run": {
+          "id": 40234019825,
+          "repository_id": 1428812079,
+          "head_repository_id": 1428812079,
+          "head_branch": "runtime/promote-maxima-oz",
+          "head_sha": "c4bdb88e65211bfd1bd49c3b5d6531c99cc2227b"
+        }
+      },
+      "packageManifest": {
+        "bytes": 60173,
+        "sha256": "f0001cfc14560ad98c7ca15026b86d44071358d793a0d23668631bb3b4ca4fdf"
+      },
+      "compilerProfile": {
+        "name": "ecl-oz-maxima-oz",
+        "injectedEmccFlags": "-Oz",
+        "eclCoreOptimization": "-Oz",
+        "eclGeneratedLispOptimization": "-Oz",
+        "maximaGeneratedOptimization": "-Oz",
+        "maximaInjectedEmccFlags": "-Oz",
+        "stackGeneratedOptimization": "-Oz",
+        "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
+      },
+      "manifestFiles": {
+        "source": {
+          "path": "stack-sources-timed-source.json",
+          "bytes": 987920,
+          "sha256": "de6551f0ffe32ce84a91f3aaa9dc0d0a3ee36445e995c9d83fb754c5f1d652a9",
+          "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+          "stackLibraryVersion": "2026101500",
+          "compiledStack": null
+        }
+      },
+      "originalFilesVerified": 108,
+      "runtimeAssetsVerified": 79,
+      "embeddedStackFilesPerManifest": 77,
+      "worker": {
+        "path": "clean-probe-worker.js",
+        "bytes": 9899,
+        "sha256": "c519a7b6cdda56b97186bcfa6600813050ad30fa5c770620cb3f6a8686ae191c"
+      },
+      "originalRuntimeAssetsUnchanged": true,
+      "commonCurrentSourceIntegration": true,
+      "originalChildUnchanged": false,
+      "sharedStartupObserver": {
+        "schema": 1,
+        "kind": "benchmark-startup-stdout-observer",
+        "diagnosticOnly": true,
+        "acceptance": false,
+        "original": {
+          "bytes": 12159,
+          "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+        },
+        "derived": {
+          "bytes": 14744,
+          "sha256": "7d2570d20d810a18a77d1e7e71bb41d0de428bc4c142f4537f2eb6d3df588068"
+        },
+        "observer": {
+          "bytes": 2322,
+          "sha256": "ca6d11bad5be261ff67415bb765bf93347052faf5b85c9c58bdc9ff09f8721c7"
+        },
+        "edits": [
+          {
+            "before": {
+              "bytes": 24,
+              "sha256": "bf076f232a55a96360adddbd158fbb2dc0f04f7fa3071842534fc4aa1c32dff7"
+            },
+            "after": {
+              "bytes": 2416,
+              "sha256": "f8a5163bf0823b10fac4f56bb30ce6dd3b8f4257c9dd494a19746c48f1ea50fc"
+            }
+          },
+          {
+            "before": {
+              "bytes": 43,
+              "sha256": "e3df67364ab78f794109d24be5b9238e1897889a401a8570a46a3366328fa1a9"
+            },
+            "after": {
+              "bytes": 103,
+              "sha256": "9c608119a803a5f67eb4d522a565649acb374883513b147e6c4a3b32091ff7f6"
+            }
+          },
+          {
+            "before": {
+              "bytes": 54,
+              "sha256": "c96e3b7df630e8d5d066e2d65d1bbddfa7931f3381bd2603bb8e3b10b55a619d"
+            },
+            "after": {
+              "bytes": 187,
+              "sha256": "37666c47d01f371a9fd8a2aee95e23568aea141155095dacbc5bb1ad7552f7e0"
+            }
+          }
+        ],
+        "scope": "Shared derived child only. Original startup commands, runtime assets, session wrapper, source and FAS unchanged. Completed pre-READY stdout lines are scanned for anchored fatal diagnostics and existing marker order. One bounded receipt; no TRACE/CPU/FS observer or per-line timestamps/messages. Does not prove a same-evaluation root-load return. Original stdout tail is bounded to 16384 characters; console stderr is retained separately.",
+        "proof": {
+          "path": "staged/ecl-oz-maxima-oz-startup-observer-derivation.json",
+          "bytes": 1782,
+          "sha256": "7dde40492a4c464db0e6d40fa29142b6acc68515d9bdd7e234871cb797ec6d9d"
+        }
+      }
+    }
+  },
+  "samples": [
+    {
+      "id": "01-ecl-oz-source-cold",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 1,
+      "mode": "cold",
+      "pair": 1,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/01-ecl-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "1ed69e57-49f1-4b35-9722-4497ac086a08",
+      "timings": {
+        "readyMs": 13259.429999999993,
+        "stackLoadMs": 9361.225000000006,
+        "wasmReadyMs": 900.7749999999942,
+        "firstLogicalMs": 1225.31494140625,
+        "firstPositiveGradeMs": 1613.094970703125,
+        "firstNegativeGradeMs": 17.52490234375,
+        "warmGradeMedianMs": 31.18994140625,
+        "warmArithmeticMedianMs": 4.679931640625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16097.839912109368
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "1ed69e57-49f1-4b35-9722-4497ac086a08",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "01-ecl-oz-source-warm-profile-reload",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 1,
+      "mode": "warm-profile-reload",
+      "pair": 1,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/01-ecl-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "01-ecl-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "590a0885-8460-4c38-a36f-f3fa1837598d",
+      "timings": {
+        "readyMs": 14193.929999999993,
+        "stackLoadMs": 9446.98999999999,
+        "wasmReadyMs": 497.15499999999884,
+        "firstLogicalMs": 1128.635009765625,
+        "firstPositiveGradeMs": 1700.179931640625,
+        "firstNegativeGradeMs": 18.820068359375,
+        "warmGradeMedianMs": 34.8675537109375,
+        "warmArithmeticMedianMs": 5.277587890625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 17022.744941406243
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "590a0885-8460-4c38-a36f-f3fa1837598d",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "02-ecl-oz-maxima-oz-source-cold",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 1,
+      "mode": "cold",
+      "pair": 2,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/02-ecl-oz-maxima-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "09ac33ed-4809-43b0-8eed-63cd664e01b5",
+      "timings": {
+        "readyMs": 7278.960000000021,
+        "stackLoadMs": 5355.664999999979,
+        "wasmReadyMs": 804.304999999993,
+        "firstLogicalMs": 1046.724853515625,
+        "firstPositiveGradeMs": 123.27001953125,
+        "firstNegativeGradeMs": 14.06005859375,
+        "warmGradeMedianMs": 24.8900146484375,
+        "warmArithmeticMedianMs": 3.760009765625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 8448.954873046896
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "09ac33ed-4809-43b0-8eed-63cd664e01b5",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "02-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 1,
+      "mode": "warm-profile-reload",
+      "pair": 2,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/02-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "02-ecl-oz-maxima-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "687aef56-e6ee-45dd-bbf9-f23f5abf813a",
+      "timings": {
+        "readyMs": 6446.364999999991,
+        "stackLoadMs": 5218.849999999977,
+        "wasmReadyMs": 366.39000000001397,
+        "firstLogicalMs": 943.56005859375,
+        "firstPositiveGradeMs": 120.31982421875,
+        "firstNegativeGradeMs": 13.2900390625,
+        "warmGradeMedianMs": 35.239990234375,
+        "warmArithmeticMedianMs": 2.97998046875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 7510.244882812491
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "687aef56-e6ee-45dd-bbf9-f23f5abf813a",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "03-ecl-oz-maxima-oz-source-cold",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 2,
+      "mode": "cold",
+      "pair": 3,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/03-ecl-oz-maxima-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "44fa56bd-965f-44cd-b266-210ab4575e45",
+      "timings": {
+        "readyMs": 7283.635000000009,
+        "stackLoadMs": 5331.930000000051,
+        "wasmReadyMs": 819.359999999986,
+        "firstLogicalMs": 1004.2548828125,
+        "firstPositiveGradeMs": 123.18505859375,
+        "firstNegativeGradeMs": 13.25,
+        "warmGradeMedianMs": 24.5850830078125,
+        "warmArithmeticMedianMs": 3.8800048828125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 8411.07494140626
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "44fa56bd-965f-44cd-b266-210ab4575e45",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "03-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 2,
+      "mode": "warm-profile-reload",
+      "pair": 3,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/03-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "03-ecl-oz-maxima-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "d4f1ad45-e6ab-4dde-9760-b6e4bd6ef9a6",
+      "timings": {
+        "readyMs": 6574.979999999981,
+        "stackLoadMs": 5288.255000000005,
+        "wasmReadyMs": 421.4550000000163,
+        "firstLogicalMs": 988.419921875,
+        "firstPositiveGradeMs": 118.93505859375,
+        "firstNegativeGradeMs": 12.8701171875,
+        "warmGradeMedianMs": 34.8948974609375,
+        "warmArithmeticMedianMs": 3.074951171875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 7682.334980468731
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "d4f1ad45-e6ab-4dde-9760-b6e4bd6ef9a6",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "04-ecl-oz-source-cold",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 2,
+      "mode": "cold",
+      "pair": 4,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/04-ecl-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "7abd2598-672d-4ad2-9bd6-7d7731099d7e",
+      "timings": {
+        "readyMs": 13785.72000000003,
+        "stackLoadMs": 9473.130000000005,
+        "wasmReadyMs": 981.6500000000233,
+        "firstLogicalMs": 1229.2099609375,
+        "firstPositiveGradeMs": 1587.409912109375,
+        "firstNegativeGradeMs": 17.079833984375,
+        "warmGradeMedianMs": 30.29248046875,
+        "warmArithmeticMedianMs": 4.322509765625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16602.339873046905
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "7abd2598-672d-4ad2-9bd6-7d7731099d7e",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "04-ecl-oz-source-warm-profile-reload",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 2,
+      "mode": "warm-profile-reload",
+      "pair": 4,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/04-ecl-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "04-ecl-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "20f53803-dcde-48a6-9f35-fa44aaff4f29",
+      "timings": {
+        "readyMs": 13504.650000000023,
+        "stackLoadMs": 8892.454999999958,
+        "wasmReadyMs": 477.0550000000512,
+        "firstLogicalMs": 1124.360107421875,
+        "firstPositiveGradeMs": 1608.675048828125,
+        "firstNegativeGradeMs": 17.135009765625,
+        "warmGradeMedianMs": 29.70751953125,
+        "warmArithmeticMedianMs": 4.1451416015625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16237.685156250023
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "20f53803-dcde-48a6-9f35-fa44aaff4f29",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "05-ecl-oz-source-cold",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 3,
+      "mode": "cold",
+      "pair": 5,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/05-ecl-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "593e83d5-c89d-48b4-8321-7bb757c9530a",
+      "timings": {
+        "readyMs": 14310.130000000005,
+        "stackLoadMs": 9611.400000000023,
+        "wasmReadyMs": 893.5300000000279,
+        "firstLogicalMs": 1226.304931640625,
+        "firstPositiveGradeMs": 1691.85009765625,
+        "firstNegativeGradeMs": 17.16015625,
+        "warmGradeMedianMs": 31.6624755859375,
+        "warmArithmeticMedianMs": 5.4825439453125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 17228.28502929688
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "593e83d5-c89d-48b4-8321-7bb757c9530a",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "05-ecl-oz-source-warm-profile-reload",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 3,
+      "mode": "warm-profile-reload",
+      "pair": 5,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/05-ecl-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "05-ecl-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "578b6f15-d721-4914-9314-484441200213",
+      "timings": {
+        "readyMs": 13113.400000000023,
+        "stackLoadMs": 9134.429999999993,
+        "wasmReadyMs": 481.8099999999977,
+        "firstLogicalMs": 1127.4951171875,
+        "firstPositiveGradeMs": 1705.1748046875,
+        "firstNegativeGradeMs": 18.385009765625,
+        "warmGradeMedianMs": 33.6773681640625,
+        "warmArithmeticMedianMs": 4.8275146484375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 15946.069921875023
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "578b6f15-d721-4914-9314-484441200213",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "06-ecl-oz-maxima-oz-source-cold",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 3,
+      "mode": "cold",
+      "pair": 6,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/06-ecl-oz-maxima-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "b964eba1-1c91-44d7-b0be-036ae75b8de9",
+      "timings": {
+        "readyMs": 7317.390000000014,
+        "stackLoadMs": 5449.255000000005,
+        "wasmReadyMs": 805.6750000000466,
+        "firstLogicalMs": 1088.06982421875,
+        "firstPositiveGradeMs": 167.280029296875,
+        "firstNegativeGradeMs": 14.940185546875,
+        "warmGradeMedianMs": 27.7474365234375,
+        "warmArithmeticMedianMs": 3.782470703125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 8572.739853515639
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "b964eba1-1c91-44d7-b0be-036ae75b8de9",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "06-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 3,
+      "mode": "warm-profile-reload",
+      "pair": 6,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/06-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "06-ecl-oz-maxima-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "a07c1047-7c05-456a-a36b-b4c79f5c902b",
+      "timings": {
+        "readyMs": 6244.804999999993,
+        "stackLoadMs": 5021.454999999958,
+        "wasmReadyMs": 369.2050000000163,
+        "firstLogicalMs": 918.175048828125,
+        "firstPositiveGradeMs": 142.494873046875,
+        "firstNegativeGradeMs": 12.784912109375,
+        "warmGradeMedianMs": 23.9449462890625,
+        "warmArithmeticMedianMs": 2.9776611328125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 7305.474921874993
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "a07c1047-7c05-456a-a36b-b4c79f5c902b",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "07-ecl-oz-maxima-oz-source-cold",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 4,
+      "mode": "cold",
+      "pair": 7,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/07-ecl-oz-maxima-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "400376e0-607a-41d3-9bf0-1672bb383670",
+      "timings": {
+        "readyMs": 7211,
+        "stackLoadMs": 5300.450000000012,
+        "wasmReadyMs": 805.5800000000163,
+        "firstLogicalMs": 1135.60009765625,
+        "firstPositiveGradeMs": 138.869873046875,
+        "firstNegativeGradeMs": 14.925048828125,
+        "warmGradeMedianMs": 24.4525146484375,
+        "warmArithmeticMedianMs": 3.5299072265625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 8485.469970703125
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "400376e0-607a-41d3-9bf0-1672bb383670",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "07-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 4,
+      "mode": "warm-profile-reload",
+      "pair": 7,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/07-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "07-ecl-oz-maxima-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "fcde7b7a-e6a8-4700-915a-28c375ba17e5",
+      "timings": {
+        "readyMs": 6286.5,
+        "stackLoadMs": 5062.010000000009,
+        "wasmReadyMs": 370.7600000000093,
+        "firstLogicalMs": 949.89013671875,
+        "firstPositiveGradeMs": 117.5498046875,
+        "firstNegativeGradeMs": 12.449951171875,
+        "warmGradeMedianMs": 23.7674560546875,
+        "warmArithmeticMedianMs": 3.612548828125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 7353.93994140625
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "fcde7b7a-e6a8-4700-915a-28c375ba17e5",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "08-ecl-oz-source-cold",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 4,
+      "mode": "cold",
+      "pair": 8,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/08-ecl-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "3163548a-1592-4cf4-820c-23fbd79b0b0a",
+      "timings": {
+        "readyMs": 13007.949999999953,
+        "stackLoadMs": 9137.084999999963,
+        "wasmReadyMs": 881.1949999999488,
+        "firstLogicalMs": 1337.074951171875,
+        "firstPositiveGradeMs": 1628.405029296875,
+        "firstNegativeGradeMs": 15.980224609375,
+        "warmGradeMedianMs": 31.06494140625,
+        "warmArithmeticMedianMs": 4.675048828125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 15973.429980468703
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "3163548a-1592-4cf4-820c-23fbd79b0b0a",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "08-ecl-oz-source-warm-profile-reload",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 4,
+      "mode": "warm-profile-reload",
+      "pair": 8,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/08-ecl-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "08-ecl-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "dd16b75e-7110-4104-93c3-7e9f01675e69",
+      "timings": {
+        "readyMs": 13031.915000000037,
+        "stackLoadMs": 8978.804999999935,
+        "wasmReadyMs": 552.875,
+        "firstLogicalMs": 1250.21484375,
+        "firstPositiveGradeMs": 1731.46484375,
+        "firstNegativeGradeMs": 16.330078125,
+        "warmGradeMedianMs": 29.7449951171875,
+        "warmArithmeticMedianMs": 4.08984375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16013.594687500037
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "dd16b75e-7110-4104-93c3-7e9f01675e69",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "09-ecl-oz-source-cold",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 5,
+      "mode": "cold",
+      "pair": 9,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/09-ecl-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "700d3bbb-0912-48ee-bd4e-e87bcff359eb",
+      "timings": {
+        "readyMs": 13499.855000000098,
+        "stackLoadMs": 9425.36499999999,
+        "wasmReadyMs": 930.4900000001071,
+        "firstLogicalMs": 1291.074951171875,
+        "firstPositiveGradeMs": 1630.429931640625,
+        "firstNegativeGradeMs": 17.2548828125,
+        "warmGradeMedianMs": 30.71240234375,
+        "warmArithmeticMedianMs": 4.552490234375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16421.359882812598
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "700d3bbb-0912-48ee-bd4e-e87bcff359eb",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "09-ecl-oz-source-warm-profile-reload",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 5,
+      "mode": "warm-profile-reload",
+      "pair": 9,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/09-ecl-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "09-ecl-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "4e36037f-57fd-403b-9194-81ea98fa0779",
+      "timings": {
+        "readyMs": 13290.16499999992,
+        "stackLoadMs": 9197.810000000056,
+        "wasmReadyMs": 554.5700000000652,
+        "firstLogicalMs": 1140.85986328125,
+        "firstPositiveGradeMs": 1587.31005859375,
+        "firstNegativeGradeMs": 16.8798828125,
+        "warmGradeMedianMs": 29.9449462890625,
+        "warmArithmeticMedianMs": 4.137451171875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16018.33492187492
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "4e36037f-57fd-403b-9194-81ea98fa0779",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "10-ecl-oz-maxima-oz-source-cold",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 5,
+      "mode": "cold",
+      "pair": 10,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/10-ecl-oz-maxima-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "8463fc58-d681-4119-aad8-b90e6b43a5ee",
+      "timings": {
+        "readyMs": 6962.824999999953,
+        "stackLoadMs": 5053.094999999972,
+        "wasmReadyMs": 817.9749999999767,
+        "firstLogicalMs": 1042.744873046875,
+        "firstPositiveGradeMs": 123.239990234375,
+        "firstNegativeGradeMs": 12.885009765625,
+        "warmGradeMedianMs": 36.0399169921875,
+        "warmArithmeticMedianMs": 3.6875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 8128.809863281203
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "8463fc58-d681-4119-aad8-b90e6b43a5ee",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "10-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 5,
+      "mode": "warm-profile-reload",
+      "pair": 10,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/10-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "10-ecl-oz-maxima-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "63b956f7-ff42-400b-97e2-161269e52451",
+      "timings": {
+        "readyMs": 7004.599999999977,
+        "stackLoadMs": 5665.054999999935,
+        "wasmReadyMs": 426.2249999999767,
+        "firstLogicalMs": 997.505126953125,
+        "firstPositiveGradeMs": 120.034912109375,
+        "firstNegativeGradeMs": 13.18994140625,
+        "warmGradeMedianMs": 24.0301513671875,
+        "warmArithmeticMedianMs": 3.2349853515625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 8122.140039062477
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "63b956f7-ff42-400b-97e2-161269e52451",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "11-ecl-oz-maxima-oz-source-cold",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 6,
+      "mode": "cold",
+      "pair": 11,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/11-ecl-oz-maxima-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "c53e9f6c-4939-4a2a-8115-23c49d1267d1",
+      "timings": {
+        "readyMs": 6741.070000000065,
+        "stackLoadMs": 4842.354999999981,
+        "wasmReadyMs": 821.3699999999953,
+        "firstLogicalMs": 1012.39501953125,
+        "firstPositiveGradeMs": 122.26513671875,
+        "firstNegativeGradeMs": 13.60986328125,
+        "warmGradeMedianMs": 36.1500244140625,
+        "warmArithmeticMedianMs": 3.764892578125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 7875.730156250065
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "c53e9f6c-4939-4a2a-8115-23c49d1267d1",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "11-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 6,
+      "mode": "warm-profile-reload",
+      "pair": 11,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/11-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "11-ecl-oz-maxima-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "f8c75615-2418-4529-b892-670faea1bf86",
+      "timings": {
+        "readyMs": 6321.869999999995,
+        "stackLoadMs": 5041.980000000098,
+        "wasmReadyMs": 378.6049999999814,
+        "firstLogicalMs": 931.844970703125,
+        "firstPositiveGradeMs": 119.4150390625,
+        "firstNegativeGradeMs": 12.840087890625,
+        "warmGradeMedianMs": 23.9150390625,
+        "warmArithmeticMedianMs": 2.9874267578125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 7373.13000976562
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "f8c75615-2418-4529-b892-670faea1bf86",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "12-ecl-oz-source-cold",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 6,
+      "mode": "cold",
+      "pair": 12,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/12-ecl-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "0d229628-6640-4f6c-b982-22ac98f16c38",
+      "timings": {
+        "readyMs": 13483.319999999949,
+        "stackLoadMs": 9403.56500000006,
+        "wasmReadyMs": 901.1199999999953,
+        "firstLogicalMs": 1217.735107421875,
+        "firstPositiveGradeMs": 1624.255126953125,
+        "firstNegativeGradeMs": 16.83984375,
+        "warmGradeMedianMs": 30.7725830078125,
+        "warmArithmeticMedianMs": 4.5198974609375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16325.310234374949
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "0d229628-6640-4f6c-b982-22ac98f16c38",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "12-ecl-oz-source-warm-profile-reload",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 6,
+      "mode": "warm-profile-reload",
+      "pair": 12,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/12-ecl-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "12-ecl-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "edf9f1ef-0033-404a-8dc4-d43bce575241",
+      "timings": {
+        "readyMs": 13440.464999999967,
+        "stackLoadMs": 9574.360000000102,
+        "wasmReadyMs": 494.42499999993015,
+        "firstLogicalMs": 1131.900146484375,
+        "firstPositiveGradeMs": 1657.18017578125,
+        "firstNegativeGradeMs": 16.605224609375,
+        "warmGradeMedianMs": 29.517578125,
+        "warmArithmeticMedianMs": 4.08251953125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16229.545322265592
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "edf9f1ef-0033-404a-8dc4-d43bce575241",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "13-ecl-oz-source-cold",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 7,
+      "mode": "cold",
+      "pair": 13,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/13-ecl-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "b51ba874-b727-45b9-9a71-1d9b21ee9356",
+      "timings": {
+        "readyMs": 13425.25,
+        "stackLoadMs": 9429.670000000042,
+        "wasmReadyMs": 874.9049999999115,
+        "firstLogicalMs": 1213.875,
+        "firstPositiveGradeMs": 1616.1298828125,
+        "firstNegativeGradeMs": 16.840087890625,
+        "warmGradeMedianMs": 30.4073486328125,
+        "warmArithmeticMedianMs": 4.5775146484375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16255.2548828125
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "b51ba874-b727-45b9-9a71-1d9b21ee9356",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "13-ecl-oz-source-warm-profile-reload",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 7,
+      "mode": "warm-profile-reload",
+      "pair": 13,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/13-ecl-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "13-ecl-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "66e74ced-62c3-49b2-890b-ac3917c2b722",
+      "timings": {
+        "readyMs": 12640.105000000098,
+        "stackLoadMs": 9120.020000000019,
+        "wasmReadyMs": 491.5200000000186,
+        "firstLogicalMs": 1202.010009765625,
+        "firstPositiveGradeMs": 1583.324951171875,
+        "firstNegativeGradeMs": 16.9150390625,
+        "warmGradeMedianMs": 29.83251953125,
+        "warmArithmeticMedianMs": 4.527587890625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 15425.439960937598
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "66e74ced-62c3-49b2-890b-ac3917c2b722",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "14-ecl-oz-maxima-oz-source-cold",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 7,
+      "mode": "cold",
+      "pair": 14,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/14-ecl-oz-maxima-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "37f74da7-36f8-4276-b300-b8603cc4a023",
+      "timings": {
+        "readyMs": 7480.310000000056,
+        "stackLoadMs": 5506.209999999963,
+        "wasmReadyMs": 811.0299999999115,
+        "firstLogicalMs": 1031.81494140625,
+        "firstPositiveGradeMs": 148.014892578125,
+        "firstNegativeGradeMs": 13.9951171875,
+        "warmGradeMedianMs": 25.5074462890625,
+        "warmArithmeticMedianMs": 3.7850341796875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 8660.13983398443
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "37f74da7-36f8-4276-b300-b8603cc4a023",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "14-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 7,
+      "mode": "warm-profile-reload",
+      "pair": 14,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/14-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "14-ecl-oz-maxima-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "c8639548-67ff-4ac0-90be-fae6a5022c56",
+      "timings": {
+        "readyMs": 6910.385000000009,
+        "stackLoadMs": 5687.989999999991,
+        "wasmReadyMs": 368.8649999999907,
+        "firstLogicalMs": 1048.780029296875,
+        "firstPositiveGradeMs": 148.31982421875,
+        "firstNegativeGradeMs": 13.31982421875,
+        "warmGradeMedianMs": 24.9774169921875,
+        "warmArithmeticMedianMs": 3.007568359375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 8107.484853515634
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "c8639548-67ff-4ac0-90be-fae6a5022c56",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "15-ecl-oz-maxima-oz-source-cold",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 8,
+      "mode": "cold",
+      "pair": 15,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/15-ecl-oz-maxima-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "63b97aa2-f7ca-4d09-b08e-063c868ce90c",
+      "timings": {
+        "readyMs": 6841.859999999986,
+        "stackLoadMs": 4915.010000000009,
+        "wasmReadyMs": 841.6550000000279,
+        "firstLogicalMs": 1006.25,
+        "firstPositiveGradeMs": 148.2099609375,
+        "firstNegativeGradeMs": 13.58984375,
+        "warmGradeMedianMs": 25.179931640625,
+        "warmArithmeticMedianMs": 3.514892578125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 7996.319960937486
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "63b97aa2-f7ca-4d09-b08e-063c868ce90c",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "15-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 8,
+      "mode": "warm-profile-reload",
+      "pair": 15,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/15-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "15-ecl-oz-maxima-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "6a1f7d33-a9e5-4646-8059-c9b036cea680",
+      "timings": {
+        "readyMs": 6541.429999999935,
+        "stackLoadMs": 5306.300000000047,
+        "wasmReadyMs": 370.4000000000233,
+        "firstLogicalMs": 911.429931640625,
+        "firstPositiveGradeMs": 145.155029296875,
+        "firstNegativeGradeMs": 13.235107421875,
+        "warmGradeMedianMs": 23.9000244140625,
+        "warmArithmeticMedianMs": 3.00244140625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 7598.014960937435
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "6a1f7d33-a9e5-4646-8059-c9b036cea680",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "16-ecl-oz-source-cold",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 8,
+      "mode": "cold",
+      "pair": 16,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/16-ecl-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "4ab9ba89-2298-47ae-9413-c92aaa277afb",
+      "timings": {
+        "readyMs": 13662.895000000019,
+        "stackLoadMs": 9526.055000000051,
+        "wasmReadyMs": 949.9750000000931,
+        "firstLogicalMs": 1252.670166015625,
+        "firstPositiveGradeMs": 1586.81005859375,
+        "firstNegativeGradeMs": 16.485107421875,
+        "warmGradeMedianMs": 30.6375732421875,
+        "warmArithmeticMedianMs": 4.0948486328125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16502.375224609394
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "4ab9ba89-2298-47ae-9413-c92aaa277afb",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "16-ecl-oz-source-warm-profile-reload",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 8,
+      "mode": "warm-profile-reload",
+      "pair": 16,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/16-ecl-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "16-ecl-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "1e4138eb-b3f3-45bb-9179-755096e56fac",
+      "timings": {
+        "readyMs": 13738.384999999893,
+        "stackLoadMs": 9212.119999999995,
+        "wasmReadyMs": 491.36999999999534,
+        "firstLogicalMs": 1193.27001953125,
+        "firstPositiveGradeMs": 1751.64990234375,
+        "firstNegativeGradeMs": 16.8349609375,
+        "warmGradeMedianMs": 30.842529296875,
+        "warmArithmeticMedianMs": 4.5799560546875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16683.304921874893
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "1e4138eb-b3f3-45bb-9179-755096e56fac",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "17-ecl-oz-source-cold",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 9,
+      "mode": "cold",
+      "pair": 17,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/17-ecl-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "23301924-5be1-46a0-90cc-215e6b03a710",
+      "timings": {
+        "readyMs": 13265.119999999995,
+        "stackLoadMs": 9245.079999999958,
+        "wasmReadyMs": 887.0899999999674,
+        "firstLogicalMs": 1238.360107421875,
+        "firstPositiveGradeMs": 1625.18017578125,
+        "firstNegativeGradeMs": 16.994873046875,
+        "warmGradeMedianMs": 30.7900390625,
+        "warmArithmeticMedianMs": 4.6824951171875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16128.66028320312
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "23301924-5be1-46a0-90cc-215e6b03a710",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "17-ecl-oz-source-warm-profile-reload",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 9,
+      "mode": "warm-profile-reload",
+      "pair": 17,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/17-ecl-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "17-ecl-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "557ed37b-69ff-4811-a4be-454a685cf601",
+      "timings": {
+        "readyMs": 13466.599999999977,
+        "stackLoadMs": 9159.18499999994,
+        "wasmReadyMs": 540.1850000000559,
+        "firstLogicalMs": 1192.0400390625,
+        "firstPositiveGradeMs": 1581.544921875,
+        "firstNegativeGradeMs": 16.794921875,
+        "warmGradeMedianMs": 29.7174072265625,
+        "warmArithmeticMedianMs": 4.02001953125,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16240.184960937477
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "557ed37b-69ff-4811-a4be-454a685cf601",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "18-ecl-oz-maxima-oz-source-cold",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 9,
+      "mode": "cold",
+      "pair": 18,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/18-ecl-oz-maxima-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "90720e9f-5979-4bf8-808d-59101d67ba51",
+      "timings": {
+        "readyMs": 7153.635000000009,
+        "stackLoadMs": 5221.510000000009,
+        "wasmReadyMs": 806.5350000000326,
+        "firstLogicalMs": 1011.925048828125,
+        "firstPositiveGradeMs": 123.199951171875,
+        "firstNegativeGradeMs": 13.244873046875,
+        "warmGradeMedianMs": 25.2349853515625,
+        "warmArithmeticMedianMs": 3.2125244140625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 8288.76000000001
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "90720e9f-5979-4bf8-808d-59101d67ba51",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "18-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 9,
+      "mode": "warm-profile-reload",
+      "pair": 18,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/18-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "18-ecl-oz-maxima-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "d7277c9e-93d8-444e-847f-d227bd2ebfe0",
+      "timings": {
+        "readyMs": 6515.844999999972,
+        "stackLoadMs": 5187.875,
+        "wasmReadyMs": 381.3499999998603,
+        "firstLogicalMs": 966.985107421875,
+        "firstPositiveGradeMs": 122.56494140625,
+        "firstNegativeGradeMs": 13.679931640625,
+        "warmGradeMedianMs": 35.2100830078125,
+        "warmArithmeticMedianMs": 3.1275634765625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 7605.395048828097
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "d7277c9e-93d8-444e-847f-d227bd2ebfe0",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "19-ecl-oz-maxima-oz-source-cold",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 10,
+      "mode": "cold",
+      "pair": 19,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/19-ecl-oz-maxima-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "f8826e9f-1228-4ae3-8a09-a34240d9e964",
+      "timings": {
+        "readyMs": 6738.074999999953,
+        "stackLoadMs": 4833.510000000009,
+        "wasmReadyMs": 811.75,
+        "firstLogicalMs": 1042.034912109375,
+        "firstPositiveGradeMs": 131.0849609375,
+        "firstNegativeGradeMs": 15.96484375,
+        "warmGradeMedianMs": 32.8675537109375,
+        "warmArithmeticMedianMs": 4.287353515625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 7911.194873046828
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "f8826e9f-1228-4ae3-8a09-a34240d9e964",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "19-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "repetition": 10,
+      "mode": "warm-profile-reload",
+      "pair": 19,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/19-ecl-oz-maxima-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "19-ecl-oz-maxima-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "3f0cb529-8da4-4873-8427-4b54a9c9923a",
+      "timings": {
+        "readyMs": 6510.554999999935,
+        "stackLoadMs": 5167.399999999907,
+        "wasmReadyMs": 369.52499999990687,
+        "firstLogicalMs": 924.199951171875,
+        "firstPositiveGradeMs": 120.405029296875,
+        "firstNegativeGradeMs": 12.829833984375,
+        "warmGradeMedianMs": 25.1199951171875,
+        "warmArithmeticMedianMs": 3.7900390625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 7555.159980468685
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "3f0cb529-8da4-4873-8427-4b54a9c9923a",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 0,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "20-ecl-oz-source-cold",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 10,
+      "mode": "cold",
+      "pair": 20,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/20-ecl-oz-source-cold/sample.json",
+      "precedingCold": null,
+      "runId": "8d8f0eda-fbd3-47b5-a821-da4b10115751",
+      "timings": {
+        "readyMs": 14388.469999999972,
+        "stackLoadMs": 9515.14000000013,
+        "wasmReadyMs": 897.5250000001397,
+        "firstLogicalMs": 1251.570068359375,
+        "firstPositiveGradeMs": 1608.070068359375,
+        "firstNegativeGradeMs": 17.0400390625,
+        "warmGradeMedianMs": 31.547607421875,
+        "warmArithmeticMedianMs": 4.5224609375,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 17248.110136718722
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "8d8f0eda-fbd3-47b5-a821-da4b10115751",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    },
+    {
+      "id": "20-ecl-oz-source-warm-profile-reload",
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "repetition": 10,
+      "mode": "warm-profile-reload",
+      "pair": 20,
+      "ok": true,
+      "phase": "finished",
+      "samplePath": "trials/20-ecl-oz-source-warm-profile-reload/sample.json",
+      "precedingCold": {
+        "id": "20-ecl-oz-source-cold",
+        "passed": true,
+        "terminationAcknowledged": true
+      },
+      "runId": "f68b9754-795d-4b9d-b15c-19d11abf3d9b",
+      "timings": {
+        "readyMs": 14361.985000000102,
+        "stackLoadMs": 9465.169999999925,
+        "wasmReadyMs": 513.0699999998324,
+        "firstLogicalMs": 1231.25,
+        "firstPositiveGradeMs": 1643.744873046875,
+        "firstNegativeGradeMs": 16.58984375,
+        "warmGradeMedianMs": 30.1024169921875,
+        "warmArithmeticMedianMs": 4.14013671875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 17236.979873046977
+      },
+      "startupGuardPassed": true,
+      "error": null,
+      "termination": {
+        "type": "stopped",
+        "runId": "f68b9754-795d-4b9d-b15c-19d11abf3d9b",
+        "stopped": true,
+        "rejected": true,
+        "error": null,
+        "ok": true
+      },
+      "warningCount": 314,
+      "fatalConsoleCount": 0
+    }
+  ],
+  "skipped": [],
+  "lateTelemetry": [
+    {
+      "id": "01-ecl-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "01-ecl-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "02-ecl-oz-maxima-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "02-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "03-ecl-oz-maxima-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "03-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "04-ecl-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "04-ecl-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "05-ecl-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "05-ecl-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "06-ecl-oz-maxima-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "06-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "07-ecl-oz-maxima-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "07-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "08-ecl-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "08-ecl-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "09-ecl-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "09-ecl-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "10-ecl-oz-maxima-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "10-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "11-ecl-oz-maxima-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "11-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "12-ecl-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "12-ecl-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "13-ecl-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "13-ecl-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "14-ecl-oz-maxima-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "14-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "15-ecl-oz-maxima-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "15-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "16-ecl-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "16-ecl-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "17-ecl-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "17-ecl-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "18-ecl-oz-maxima-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "18-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "19-ecl-oz-maxima-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "19-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "20-ecl-oz-source-cold",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    },
+    {
+      "id": "20-ecl-oz-source-warm-profile-reload",
+      "scope": "Events received after the immutable sample snapshot and before the next active sample or browser closure; retained separately, with any fatal/page error failing the overall matrix.",
+      "consoleCounts": {},
+      "fatalConsoleCount": 0,
+      "fatalConsoleSamples": [],
+      "pageErrors": []
+    }
+  ],
+  "scope": "No-rebuild source STACK comparison of accepted ecl-oz and the flattened production candidate. Both use identical pinned source files, classifier startup, session/child wrappers and controlled programs. n10 per profile/mode/CPU condition, five AB and five BA orders. Fresh browser/profile per cold pair and new terminated/recreated workers for same-profile reload. Existing bounded stdout observer and load markers are identical in both arms. No CPU/FS profiling; no samples omitted. Source files and runtime assets are hashed before staging. Historical old artifact is a profile control, not a byte-identical published-v2 timing. No compiled STACK sample is timed in this run.",
+  "summary": [
+    {
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "mode": "cold",
+      "successfulTrials": 10,
+      "reloadsFollowingFailedCold": 0,
+      "cacheQualification": null,
+      "medians": {
+        "readyMs": 13491.587500000023,
+        "stackLoadMs": 9427.517500000016,
+        "wasmReadyMs": 899.1500000000669,
+        "firstLogicalMs": 1233.7850341796875,
+        "firstPositiveGradeMs": 1620.1925048828125,
+        "firstNegativeGradeMs": 17.0174560546875,
+        "warmGradeMedianMs": 30.78131103515625,
+        "warmArithmeticMedianMs": 4.56500244140625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16373.335058593773
+      }
+    },
+    {
+      "profile": "ecl-oz",
+      "candidate": "source",
+      "mode": "warm-profile-reload",
+      "successfulTrials": 10,
+      "reloadsFollowingFailedCold": 0,
+      "cacheQualification": "Same browser/profile reload; any failed preceding cold is explicitly counted and does not establish a fully initialized warm cache",
+      "medians": {
+        "readyMs": 13453.532499999972,
+        "stackLoadMs": 9178.497499999998,
+        "wasmReadyMs": 495.7899999999645,
+        "firstLogicalMs": 1166.449951171875,
+        "firstPositiveGradeMs": 1650.4625244140625,
+        "firstNegativeGradeMs": 16.857421875,
+        "warmGradeMedianMs": 29.88873291015625,
+        "warmArithmeticMedianMs": 4.14263916015625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 16233.615239257808
+      }
+    },
+    {
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "mode": "cold",
+      "successfulTrials": 10,
+      "reloadsFollowingFailedCold": 0,
+      "cacheQualification": null,
+      "medians": {
+        "readyMs": 7182.317500000005,
+        "stackLoadMs": 5260.9800000000105,
+        "wasmReadyMs": 811.3899999999558,
+        "firstLogicalMs": 1036.9249267578125,
+        "firstPositiveGradeMs": 127.177490234375,
+        "firstNegativeGradeMs": 13.802490234375,
+        "warmGradeMedianMs": 25.3712158203125,
+        "warmArithmeticMedianMs": 3.762451171875,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 8349.917470703134
+      }
+    },
+    {
+      "profile": "ecl-oz-maxima-oz",
+      "candidate": "source",
+      "mode": "warm-profile-reload",
+      "successfulTrials": 10,
+      "reloadsFollowingFailedCold": 0,
+      "cacheQualification": "Same browser/profile reload; any failed preceding cold is explicitly counted and does not establish a fully initialized warm cache",
+      "medians": {
+        "readyMs": 6513.199999999953,
+        "stackLoadMs": 5203.362499999988,
+        "wasmReadyMs": 370.5800000000163,
+        "firstLogicalMs": 946.72509765625,
+        "firstPositiveGradeMs": 120.3624267578125,
+        "firstNegativeGradeMs": 13.030029296875,
+        "warmGradeMedianMs": 24.5037841796875,
+        "warmArithmeticMedianMs": 3.041259765625,
+        "readyPlusFirstLogicalAndFirstPositiveMs": 7576.58747070306
+      }
+    }
+  ],
+  "lateTelemetryFailed": false,
+  "benchmark": {
+    "GITHUB_REPOSITORY": "Erasmus-CTM/stack-wasm-maxima",
+    "GITHUB_RUN_ID": "40248961084",
+    "GITHUB_RUN_ATTEMPT": "1",
+    "GITHUB_SHA": "28ffb717405902c91971a77ee917c088ac4d8589",
+    "GITHUB_REF": "refs/heads/evidence/maxima-oz-production",
+    "GITHUB_EVENT_NAME": "push",
+    "GITHUB_WORKFLOW_REF": "Erasmus-CTM/stack-wasm-maxima/.github/workflows/v3-selection.yml@refs/heads/evidence/maxima-oz-production",
+    "GITHUB_WORKFLOW_SHA": "28ffb717405902c91971a77ee917c088ac4d8589",
+    "RUNNER_OS": "Linux",
+    "RUNNER_ARCH": "X64",
+    "ImageOS": "ubuntu24",
+    "ImageVersion": "20261023.334.3"
+  },
+  "admission": {
+    "path": "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/v3-selection/evidence/admission.json",
+    "bytes": 213190,
+    "sha256": "d196393f1750f459915af6d167847e2f11f5d217830b0656a264fc4f93dac14b"
+  },
+  "sharedTrustedFiles": [
+    {
+      "path": "prototype/runtime/maxima-child.js",
+      "bytes": 12159,
+      "sha256": "24125f846a4fb7d3f57c82327bb5dfe267998682858d25369045de44d1ec1e0b"
+    },
+    {
+      "path": "prototype/runtime/maxima-session.js",
+      "bytes": 14344,
+      "sha256": "cfb48ab60601ac941bc08322d9617384b504902e706c8c3212b143e2396d93df"
+    },
+    {
+      "path": "runtime/precompiled/restart-checks.json",
+      "bytes": 3955,
+      "sha256": "2c2d07a78c01c8d04c89f214a02a5ef67b94fe7ec05e102096c2a955a64d7e72"
+    },
+    {
+      "path": "scripts/milestone-two/serve.mjs",
+      "bytes": 7906,
+      "sha256": "f46c0d9688971dd1fbf3e9b83b4cce76ddd4136b71514159eede1c8bb5fa7e4e"
+    },
+    {
+      "path": "runtime/compression/server-source.mjs",
+      "bytes": 3374,
+      "sha256": "d1dd9b9fb956c44caa51cfe7a08b7f301cd4020d2fa69cf8d2f4c8b6cd3e0166"
+    }
+  ],
+  "nativeWorkload": {
+    "sha256": "dca868b00aa1bf76c6959abd7544c7cba839f435bad1052ba2fb21a057748920",
+    "operations": [
+      "prepare",
+      "validate",
+      "prt"
+    ],
+    "captures": {
+      "ecl-oz": {
+        "bytes": 4996045,
+        "sha256": "59ef855e5b669acb1f96c729e04b1d20305750b1d767716a3d3296681e0e8f1a"
+      },
+      "ecl-oz-maxima-oz": {
+        "bytes": 4996045,
+        "sha256": "59ef855e5b669acb1f96c729e04b1d20305750b1d767716a3d3296681e0e8f1a"
+      }
+    },
+    "producerCaptures": {
+      "ecl-oz": {
+        "bytes": 5117000,
+        "sha256": "17a557666db25580bae340acc94243071d85e3b086eb662df47b1a69d5853160"
+      },
+      "ecl-oz-maxima-oz": {
+        "bytes": 4996045,
+        "sha256": "59ef855e5b669acb1f96c729e04b1d20305750b1d767716a3d3296681e0e8f1a"
+      }
+    }
+  },
+  "browser": "141.0.7390.37",
+  "finishedAt": "2026-10-26T00:40:55.864Z"
+}

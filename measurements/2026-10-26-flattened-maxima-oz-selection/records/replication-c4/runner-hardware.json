@@ -1,0 +1,11 @@
+{
+  "platform": "linux",
+  "release": "6.17.0-1022-azure",
+  "arch": "x64",
+  "cpuModels": [
+    "Intel(R) Xeon(R) 6973P-C"
+  ],
+  "logicalCPUCount": 4,
+  "totalMemoryBytes": 16765374464,
+  "availableParallelism": 4
+}

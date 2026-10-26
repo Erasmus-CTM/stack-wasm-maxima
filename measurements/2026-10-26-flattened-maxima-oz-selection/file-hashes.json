@@ -1,0 +1,192 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 7174,
+    "sha256": "9d8ebc6d013c434ed9b2543f5e764987013671fbba1bcf3a2f987e26d4a233c0"
+  },
+  {
+    "path": "evidence-index.json",
+    "bytes": 4979,
+    "sha256": "4370385ffe91ea707769938f61f253848ff043f1e2ed4390af981ab8633c25b1"
+  },
+  {
+    "path": "primary-raw-samples.csv",
+    "bytes": 19032,
+    "sha256": "6308a7a385be8bea5c7c668a978edb26a318eb28b5af65a27e97673c9df9f025"
+  },
+  {
+    "path": "production/acceptance.json",
+    "bytes": 283389,
+    "sha256": "d41a5a2bc1fd3130f33e5d85c02512279c6215607e9a54f4933f3bd90e29b472"
+  },
+  {
+    "path": "production/comparison-with-replication.json",
+    "bytes": 696,
+    "sha256": "d1ae9e4918b9fd4b8fe01bee69e65ebaddb55ef3bd2a9ce684054c9d448162da"
+  },
+  {
+    "path": "production/compiled-controller-parity.json",
+    "bytes": 2497,
+    "sha256": "9d9c40d5007e16e47be38478bb73d36b8b354908ab70d03656f6e24cea5dcc4b"
+  },
+  {
+    "path": "production/compiled-gc-stress.json",
+    "bytes": 1776,
+    "sha256": "95d4f083200930bb9bcb57d175bc68143c23818ce4bfa0637dc87642b6dfee4c"
+  },
+  {
+    "path": "production/compiler-proof-summary.json",
+    "bytes": 2442,
+    "sha256": "e9ebd653fa98b294b86b8c35e23e085e3e95cefa58c52c23554cd78794c866d3"
+  },
+  {
+    "path": "production/manifest.json",
+    "bytes": 60173,
+    "sha256": "594499acf355836ea381f208b792fcad2879fe122e0ecbc4fc677a2a16a998ee"
+  },
+  {
+    "path": "production/source-gc-stress.json",
+    "bytes": 1331,
+    "sha256": "5a3ff900f40680d4a93e82243458775a907205674c52b5a975939548631826b4"
+  },
+  {
+    "path": "records/primary/admission.json",
+    "bytes": 213197,
+    "sha256": "6d358c9f265f17c59c36df5a3e27e2c4171e4b78f41fa3a84a5d6257db7d43c2"
+  },
+  {
+    "path": "records/primary/candidate-inventory.json",
+    "bytes": 2279263,
+    "sha256": "eae99bdea2504e1d1dd44433a002194a17c771f2141b62df645927108481fbf3"
+  },
+  {
+    "path": "records/primary/cpu-quarter/report.json",
+    "bytes": 84954,
+    "sha256": "a49eb3f9a2e2ba2cbd21032f54e83f9c6d96ec020904dcb04794c29ca0e52e17"
+  },
+  {
+    "path": "records/primary/flattened-candidate-admission.json",
+    "bytes": 52122,
+    "sha256": "aa82c6cae6f453c79ee69a8ac00c458a38dbd76b1f6a972d860440e6d0eec172"
+  },
+  {
+    "path": "records/primary/frozen-control/bindings.json",
+    "bytes": 3654,
+    "sha256": "7fc28348019a353c134ac40d90dd280ae862ec8c9cc313f04f54d0361106bb90"
+  },
+  {
+    "path": "records/primary/frozen-control/ecl-oz-admission.json",
+    "bytes": 65806,
+    "sha256": "2c853e3872538ff1fbf2457c386cfe0cb03f24a7eb564028002526febf987c37"
+  },
+  {
+    "path": "records/primary/frozen-control/ecl-oz-producer-api.json",
+    "bytes": 521333,
+    "sha256": "07df23bd4d7bfbd270f90a504fe708a874f5b6875cd88beac3bc8ba67edef66f"
+  },
+  {
+    "path": "records/primary/frozen-control/ecl-oz-zip-inventory.json",
+    "bytes": 989551,
+    "sha256": "93f12d3d4a7fa22bd6345a6e53438d3a09045eac0a15e14766dc1dc416e07036"
+  },
+  {
+    "path": "records/primary/original-file-inventory.json",
+    "bytes": 128541,
+    "sha256": "56ead239bd55b719b1959a2b25d09172cbf8d8daba14a02fc6d450e00609f3b1"
+  },
+  {
+    "path": "records/primary/producer-api.json",
+    "bytes": 347228,
+    "sha256": "0a780b5f3b858539235d4e4aedd10da8a4881990b9c03c2615be87e92c247885"
+  },
+  {
+    "path": "records/primary/report.json",
+    "bytes": 84814,
+    "sha256": "5d39180dcbe76ca480834cfcff31510b9b0264dc263a6893947d08300428f1fe"
+  },
+  {
+    "path": "records/primary/results.json",
+    "bytes": 153901,
+    "sha256": "e3b5e90d680f536f627eb1d0b29e0f75ddd54277b2b7a647fd8350bb86492d4c"
+  },
+  {
+    "path": "records/primary/runner-hardware.json",
+    "bytes": 225,
+    "sha256": "911fe4a535b3d2fbac8f6f79604dde9fbea00cceec7595e56d4860a592b81a32"
+  },
+  {
+    "path": "records/primary/tool-sources.json",
+    "bytes": 2214,
+    "sha256": "7529f108645af055a7a4f72137a7047298c87865767ed56a298f8cef860d9c39"
+  },
+  {
+    "path": "records/replication-c4/admission.json",
+    "bytes": 213190,
+    "sha256": "d196393f1750f459915af6d167847e2f11f5d217830b0656a264fc4f93dac14b"
+  },
+  {
+    "path": "records/replication-c4/cpu-quarter/report.json",
+    "bytes": 84920,
+    "sha256": "0db91ed7ca92916f18f7b69644981b560f453635dcb582f9740e926b0587ed3a"
+  },
+  {
+    "path": "records/replication-c4/flattened-candidate-admission.json",
+    "bytes": 52115,
+    "sha256": "154c50d42391264ba2389c6a995f684ffef4099c2cc8ef2405326742c457f6e9"
+  },
+  {
+    "path": "records/replication-c4/frozen-control/bindings.json",
+    "bytes": 3654,
+    "sha256": "7fc28348019a353c134ac40d90dd280ae862ec8c9cc313f04f54d0361106bb90"
+  },
+  {
+    "path": "records/replication-c4/frozen-control/ecl-oz-admission.json",
+    "bytes": 65806,
+    "sha256": "2c853e3872538ff1fbf2457c386cfe0cb03f24a7eb564028002526febf987c37"
+  },
+  {
+    "path": "records/replication-c4/frozen-control/ecl-oz-producer-api.json",
+    "bytes": 521333,
+    "sha256": "07df23bd4d7bfbd270f90a504fe708a874f5b6875cd88beac3bc8ba67edef66f"
+  },
+  {
+    "path": "records/replication-c4/frozen-control/ecl-oz-zip-inventory.json",
+    "bytes": 989551,
+    "sha256": "93f12d3d4a7fa22bd6345a6e53438d3a09045eac0a15e14766dc1dc416e07036"
+  },
+  {
+    "path": "records/replication-c4/original-file-inventory.json",
+    "bytes": 128341,
+    "sha256": "0bdcb5202f613c6d929d3e9e4aa13b6fdb703aaa03e10bb57dacbae164bad760"
+  },
+  {
+    "path": "records/replication-c4/producer-api.json",
+    "bytes": 336182,
+    "sha256": "5885432ccf49306d9ae2cad7e533d37401ecb86ac0d7987d2dc5b67353e18792"
+  },
+  {
+    "path": "records/replication-c4/report.json",
+    "bytes": 84869,
+    "sha256": "148d915bb875991bf990a0bd75d357119c7049b143a179ad9f8e7865d47ed0e2"
+  },
+  {
+    "path": "records/replication-c4/results.json",
+    "bytes": 153821,
+    "sha256": "ca7f95f89c038b4a9ab3a72ceaa239723501303d70f3c3c0fd9c57f542384b7c"
+  },
+  {
+    "path": "records/replication-c4/runner-hardware.json",
+    "bytes": 218,
+    "sha256": "21303ffdcabba919604df1fea8e7411955a286171d8ea6b92f11d74d21dbfe9c"
+  },
+  {
+    "path": "records/replication-c4/tool-sources.json",
+    "bytes": 2027,
+    "sha256": "f18b4c922ded0c8140702fbf803501d7399176a5a2965b4996185d26ebf9e64f"
+  },
+  {
+    "path": "replication-c4-raw-samples.csv",
+    "bytes": 19012,
+    "sha256": "38c76edeee865926f14044f48f45dbaa438a7d8e798538585356726a09dd8fcf"
+  }
+]

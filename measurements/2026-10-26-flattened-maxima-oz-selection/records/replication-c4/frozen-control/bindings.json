@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "repository": "Erasmus-CTM/stack-wasm-maxima",
+  "branch": "refs/heads/evidence/maxima-oz-production",
+  "profiles": {
+    "baseline": {
+      "source": {
+        "runId": 40108653819,
+        "runAttempt": 1,
+        "workflowId": 394101239,
+        "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+        "testedRevision": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+        "trustedRevision": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+        "tree": "0e543f936a385548a7ffd53d68930bd88c033922",
+        "recipeFiles": 71,
+        "jobs": [
+          {
+            "id": 120915544152,
+            "name": "bundle-probe (ecl-oz)"
+          },
+          {
+            "id": 120915544199,
+            "name": "bundle-probe (baseline)"
+          }
+        ]
+      },
+      "artifact": {
+        "id": 12567788724,
+        "name": "precompiled-stack-probe-baseline-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+        "zipBytes": 214342343,
+        "zipSha256": "8478694866575c1b638c00bfc1abe9868b8615b02002ad8013d73524354d290b",
+        "zipFileCount": 3404,
+        "packageFileCount": 223,
+        "archivedPreload": false
+      },
+      "independentReview": {
+        "path": "reviews/baseline.json",
+        "sha256": "4539bfd319c1515780838e65fa901a9a02c754df14e4f31b23ae9fd4ae56a4ff"
+      }
+    },
+    "ecl-oz": {
+      "source": {
+        "runId": 40108653819,
+        "runAttempt": 1,
+        "workflowId": 394101239,
+        "head": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+        "testedRevision": "5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+        "trustedRevision": "e8ad3d5b8b2ef2327537cd8e7ee50aaf0a8f8d31",
+        "tree": "0e543f936a385548a7ffd53d68930bd88c033922",
+        "recipeFiles": 71,
+        "jobs": [
+          {
+            "id": 120915544152,
+            "name": "bundle-probe (ecl-oz)"
+          },
+          {
+            "id": 120915544199,
+            "name": "bundle-probe (baseline)"
+          }
+        ]
+      },
+      "artifact": {
+        "id": 12568085269,
+        "name": "precompiled-stack-probe-ecl-oz-5295b5a79bfb983f9e43dd911e6f8ab65139a930",
+        "zipBytes": 213921626,
+        "zipSha256": "890a9c1c6c96d915ada2c41bf85e8b3756132ea2f42d6c5d4c6d9a9357c6759d",
+        "zipFileCount": 3404,
+        "packageFileCount": 223,
+        "archivedPreload": false
+      },
+      "independentReview": {
+        "path": "reviews/ecl-oz.json",
+        "sha256": "0a1b39fb99372d10c58a2d4bd0071bd53dda7f39d74ffa9a282c3770495801ce"
+      }
+    },
+    "ecl-oz-maxima-oz": {
+      "source": {
+        "runId": 40136606442,
+        "runAttempt": 1,
+        "workflowId": 395458321,
+        "head": "58cf269f303898a7b679d9d164346fbb9384b781",
+        "testedRevision": "58cf269f303898a7b679d9d164346fbb9384b781",
+        "trustedRevision": "58cf269f303898a7b679d9d164346fbb9384b781",
+        "tree": "3cf2954ebe3ab81990e47b37106d0e07b12b544d",
+        "recipeFiles": 80,
+        "jobs": [
+          {
+            "id": 120999345248,
+            "name": "bundle-probe (ecl-oz-maxima-oz)"
+          }
+        ]
+      },
+      "artifact": {
+        "id": 12578753698,
+        "name": "maxima-oz-candidate-ecl-oz-maxima-oz-58cf269f303898a7b679d9d164346fbb9384b781",
+        "zipBytes": 214091662,
+        "zipSha256": "08dfcd8686e1be8da91b19c850c9668bd96e3e224df513192d3e0de023dfce74",
+        "zipFileCount": 3420,
+        "packageFileCount": 232,
+        "archivedPreload": true
+      },
+      "independentReview": {
+        "path": "reviews/ecl-oz-maxima-oz.json",
+        "sha256": "8ff54c1c2bfcd9710875be76fd1a0d2f85792c108bc9a9d58588f20201961124"
+      }
+    }
+  },
+  "publicationAllowed": true
+}
