@@ -45,10 +45,10 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: '24'
           cache: npm
@@ -188,20 +188,20 @@ jobs:
             --stack-source .site-sources/stack --output test-results/milestone-three/native-reference
       - name: Upload the rendered Quarto site for review
         if: ${{ !cancelled() && hashFiles('site/_site/maxima/native.html') != '' }}
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: reviewer-site-${{ github.sha }}
           path: site/_site/
           if-no-files-found: error
       - name: Upload browser evidence
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: reviewer-evidence-${{ github.sha }}
           path: test-results/reviewer-site/
           if-no-files-found: warn
       - name: Upload native preparation and browser evidence
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: native-reviewer-evidence-${{ github.sha }}
@@ -290,7 +290,7 @@ jobs:
         with:
           persist-credentials: false
           path: verifier-source
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         if: steps.head.outputs.current == 'true'
         with:
           node-version: '24'
@@ -337,7 +337,7 @@ jobs:
             ../reviewer-site ../test-results/public-native-site
       - name: Upload public browser evidence
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: public-reviewer-evidence-${{ github.sha }}
           path: |

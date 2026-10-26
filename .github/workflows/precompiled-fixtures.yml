@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - name: Check bundle provenance and controller report bindings
@@ -71,7 +71,7 @@ jobs:
         run: |
           python runtime/precompiled/full-entry-check.py --pin 33383047af39c204bf4442802a058f8b918b2b1b
           python runtime/precompiled/full-entry-check.py --pin 10d323311b7f39fb7b092dd10ce75f7d8632f525
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: precompiled-native-fixtures-${{ github.sha }}

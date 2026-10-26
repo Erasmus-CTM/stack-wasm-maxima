@@ -46,7 +46,7 @@ jobs:
           sparse-checkout: ${{ steps.patterns.outputs.list }}
           sparse-checkout-cone-mode: false
           persist-credentials: false
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: '24'
       - name: Request every file with a browser's Accept-Encoding
@@ -54,7 +54,7 @@ jobs:
       - name: Report
         if: always()
         run: cat test-results/pages-encoding/pages-encoding.md >> "$GITHUB_STEP_SUMMARY" || true
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: pages-encoding-${{ github.sha }}

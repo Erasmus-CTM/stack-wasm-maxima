@@ -29,10 +29,10 @@ jobs:
         shell: bash
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: '24'
           cache: npm
@@ -50,7 +50,7 @@ jobs:
           node scripts/public-demo/verify.mjs 2>&1 | tee test-results/public-demo/run.log
       - name: Upload public-site evidence and screenshots
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: public-demo-${{ github.run_id }}-${{ github.sha }}
           path: test-results/public-demo/

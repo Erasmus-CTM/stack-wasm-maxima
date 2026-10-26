@@ -62,10 +62,10 @@ jobs:
       LIVE_PAGE: https://erasmus-ctm.github.io/stack-wasm-maxima/maxima/native.html
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: '24'
       - uses: quarto-dev/quarto-actions/setup@v2
@@ -235,7 +235,7 @@ jobs:
       - name: Report the page timings
         if: ${{ !cancelled() }}
         run: RUNTIMES="live $RUNTIMES" TRIAL_LABEL='${{ inputs.trial_profile }} on ${{ inputs.trial_emsdk || '4.0.10' }} (trial)' node scripts/report-page-timings.mjs test-results/page-timings-owned | tee -a "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: page-timings-owned-${{ github.sha }}

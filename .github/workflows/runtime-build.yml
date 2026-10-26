@@ -58,10 +58,10 @@ jobs:
       CTM_EMSDK: ${{ inputs.emsdk }}
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: '24'
       - uses: actions/checkout@v7
@@ -593,7 +593,7 @@ jobs:
         run: python runtime/build/check-acceptance.py
       - name: Preserve build evidence even on failure
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.profile == 'baseline' && format('owned-runtime-{0}', github.sha) || format('owned-runtime-{0}-{1}', matrix.profile, github.sha) }}
           include-hidden-files: true
@@ -641,10 +641,10 @@ jobs:
       CTM_EMSDK: ${{ inputs.emsdk }}
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: '24'
       - uses: actions/download-artifact@v7
@@ -718,7 +718,7 @@ jobs:
             fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,out.join("\n")+"\n");console.log(out.join("\n"));'
       - name: Preserve comparison and failed-trial evidence
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: compiler-comparison-${{ github.sha }}
           path: .cache/compiler-trials/comparison/

@@ -16,10 +16,10 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: '22.16.0'
       - name: Check the actual generated measurement worker
@@ -63,7 +63,7 @@ jobs:
         run: node runtime/precompiled/diagnose-reset.mjs
       - name: Preserve diagnostic reports and frozen identities even on failure
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: frozen-precompiled-browser-${{ github.sha }}
           include-hidden-files: true

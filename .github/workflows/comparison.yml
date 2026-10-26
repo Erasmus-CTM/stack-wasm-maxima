@@ -27,7 +27,7 @@ jobs:
           version: 1.8.27
       - name: Render self-contained comparison
         run: quarto render comparison/index.qmd
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: public-quarto-comparison-${{ github.sha }}
           path: comparison/index.html

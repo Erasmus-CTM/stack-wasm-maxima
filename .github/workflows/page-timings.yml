@@ -39,7 +39,7 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: '24'
           cache: npm
@@ -80,7 +80,7 @@ jobs:
           TIMING_PAGE_URL: ${{ inputs.native_page_url || 'https://erasmus-ctm.github.io/stack-wasm-maxima/maxima/native.html' }}
           EXPECTED_HTML_SHA256: ${{ steps.pin.outputs.native_sha }}
         run: node scripts/measure-native-page-timings.mjs
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: page-timings-${{ github.sha }}

@@ -31,10 +31,10 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: '24'
           cache: npm
@@ -101,7 +101,7 @@ jobs:
           LOADER_OUTPUT: test-results/loader-latency-80ms
           LOADER_LATENCY_MS: '80'
         run: node scripts/milestone-three/measure-loader.mjs
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: milestone-three-${{ github.sha }}

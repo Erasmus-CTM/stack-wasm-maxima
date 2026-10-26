@@ -76,7 +76,7 @@ jobs:
           aborts=$(grep -c '^N=' "$OUT/sweep.txt" || true)
           echo "sweep.sh reported $aborts aborting depths"
           if [ "${{ matrix.expect }}" = abort ]; then [ "$aborts" -gt 0 ]; else [ "$aborts" -eq 0 ]; fi
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: ecl-mark-stack-${{ matrix.variant }}-${{ matrix.bits }}-${{ github.run_id }}
@@ -106,7 +106,7 @@ jobs:
       OUT: test-results/ecl-mark-stack-wasm
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: '24'
       - name: Show the files used
@@ -170,7 +170,7 @@ jobs:
           set -e
           [ "$status" -le 1 ] || exit 1
           if [ "${{ matrix.variant }}" = original ]; then [ "$status" -eq 1 ]; else [ "$status" -eq 0 ]; fi
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: ecl-mark-stack-wasm-${{ matrix.emsdk }}-${{ matrix.variant }}-${{ github.run_id }}
