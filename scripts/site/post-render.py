@@ -39,7 +39,7 @@ def parent_presentation(project: Path, output: Path) -> list:
     if not script or not (output / script).is_file():
         raise ValueError("The canonical local parent MathJax runtime is required")
     records = []
-    for relative in ("maxima/examples.html", "maxima/native.html", "maxima/data-flow.html", "licenses.html"):
+    for relative in ("maxima/examples.html", "maxima/native.html", "maxima/data-flow.html", "maxima/startup.html", "licenses.html"):
         page = output / relative
         original = page.read_bytes()
         text = original.decode("utf-8")
