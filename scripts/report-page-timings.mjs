@@ -6,7 +6,7 @@ import { join, resolve } from 'node:path';
 
 const root = resolve(process.argv[2] || 'test-results/page-timings-owned');
 const labels = { 'poc1': 'PoC1 (deployed runtime)', 'v2': 'runtime-v2', 'v3': 'runtime-v3', 'oz-4.0.10': '4.0.10 ecl-oz (trial)',
-  'oz-6.0.11': '6.0.11 ecl-oz (trial)', 'live': 'Live public page' };
+  'oz-6.0.11': '6.0.11 ecl-oz (trial)', 'trial': (process.env.TRIAL_LABEL || 'Trial build'), 'live': 'Live public page' };
 const runtimes = (process.env.RUNTIMES || Object.keys(labels).join(' ')).split(/\s+/).filter(Boolean).map(name => [name, labels[name] || name]);
 const rows = [
   ['First Validate click (includes Maxima + STACK start-up)', s => s.native.firstValidation.ui],

@@ -19,9 +19,25 @@ on:
         required: true
         default: '3'
       runtimes:
-        description: Space-separated runtimes to stage (poc1 v2 v3 oz-4.0.10 oz-6.0.11)
+        description: Space-separated runtimes to stage (poc1 v2 v3 oz-4.0.10 oz-6.0.11 trial)
         required: true
         default: 'poc1 v2 v3 oz-6.0.11'
+      trial_run_id:
+        description: Run ID of a runtime-build.yml run whose accepted artifact is staged as the "trial" runtime
+        required: false
+        default: ''
+      trial_artifact_id:
+        description: Artifact ID of that run's owned-runtime artifact
+        required: false
+        default: ''
+      trial_profile:
+        description: Compiler profile of the trial artifact
+        required: false
+        default: 'ecl-oz-maxima-oz'
+      trial_emsdk:
+        description: Emscripten version of the trial artifact (empty for the pinned 4.0.10)
+        required: false
+        default: '6.0.11'
       quarter_cpu:
         description: Also measure under a quarter of one CPU
         type: boolean
@@ -128,6 +144,15 @@ jobs:
           artifact-ids: '12629510043'
           merge-multiple: true
           path: .cache/owned/oz-6.0.11
+      - name: Download the trial runtime
+        if: ${{ inputs.trial_run_id != '' && inputs.trial_artifact_id != '' }}
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.trial_run_id }}
+          artifact-ids: ${{ inputs.trial_artifact_id }}
+          merge-multiple: true
+          path: .cache/owned/trial
       - name: Render the committed page once per runtime
         env:
           CTM_CHECKERS_SOURCE: .site-sources/ctm-checkers
@@ -168,6 +193,7 @@ jobs:
                   render v2 '' '' --runtime-release; git checkout -- runtime/release.json ;;
               oz-4.0.10) render oz-4.0.10 '' .cache/owned/oz-4.0.10/.cache/runtime-build/artifact '--compiler-profile ecl-oz' ;;
               oz-6.0.11) render oz-6.0.11 6.0.11 .cache/owned/oz-6.0.11/.cache/runtime-build/artifact '--compiler-profile ecl-oz' ;;
+              trial) render trial '${{ inputs.trial_emsdk }}' .cache/owned/trial/.cache/runtime-build/artifact '--compiler-profile ${{ inputs.trial_profile }}' ;;
               *) echo "Unknown runtime $name"; exit 1 ;;
             esac ) || { echo "::warning::Staging $name failed"; git checkout -- runtime/release.json site; }
           done
@@ -206,7 +232,7 @@ jobs:
           exit "$failed"
       - name: Report the page timings
         if: ${{ !cancelled() }}
-        run: RUNTIMES="$RUNTIMES live" node scripts/report-page-timings.mjs test-results/page-timings-owned | tee -a "$GITHUB_STEP_SUMMARY"
+        run: RUNTIMES="live $RUNTIMES" TRIAL_LABEL='${{ inputs.trial_profile }} on ${{ inputs.trial_emsdk || '4.0.10' }} (trial)' node scripts/report-page-timings.mjs test-results/page-timings-owned | tee -a "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
