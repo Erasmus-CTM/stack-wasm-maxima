@@ -175,6 +175,9 @@ self.onmessage = async ({ data }) => {
     const preInit = Module.preInit;
     Module.locateFile = path => new URL(path, runtimeBase).href;
     Module.preInit = function () {
+      // Only runtime assets are deployed. A lazy node for any other share file
+      // 404s on first stat, which emsdk 6.0.11 turns into a runtime abort.
+      const shipped = manifest.runtimeAssets && new Set(manifest.runtimeAssets.map(file => new URL(file.path, runtimeBase).href));
       const lazy = FS.createLazyFile;
       FS.createLazyFile = function (parent, name, url, canRead, canWrite) {
         const absolute = new URL(url, runtimeBase).href;
@@ -189,6 +192,7 @@ self.onmessage = async ({ data }) => {
           preloaded.delete(absolute); // MEMFS owns the mounted copy now.
           return file;
         }
+        if (shipped && !shipped.has(absolute)) return null;
         return lazy.call(this, parent, name, absolute, canRead, canWrite);
       };
       preInit();
