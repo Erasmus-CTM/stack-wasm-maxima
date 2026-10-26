@@ -179,7 +179,13 @@ self.onmessage = async ({ data }) => {
       FS.createLazyFile = function (parent, name, url, canRead, canWrite) {
         const absolute = new URL(url, runtimeBase).href;
         if (preloaded.has(absolute)) {
-          const file = FS.createDataFile(parent, name, preloaded.get(absolute), canRead, canWrite);
+          // Hand the bytes to MEMFS instead of FS.write: from emsdk 6.0.11 the
+          // heap FS.write consults does not exist yet during preInit.
+          const directory = typeof parent == 'string' ? parent : FS.getPath(parent);
+          FS.createDataFile(directory, name, null, canRead, canWrite);
+          const file = FS.lookupPath(directory.replace(/\/$/, '') + '/' + name).node;
+          file.contents = preloaded.get(absolute);
+          file.usedBytes = file.contents.length;
           preloaded.delete(absolute); // MEMFS owns the mounted copy now.
           return file;
         }
