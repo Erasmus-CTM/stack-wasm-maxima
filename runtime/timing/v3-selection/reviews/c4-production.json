@@ -1,0 +1,214 @@
+{
+  "schema": 1,
+  "reviewedAt": "2026-10-26",
+  "reviewer": "Codex, separately reviewing producer records and requiring a fresh pinned-verifier replay before timing",
+  "source": {
+    "runId": 40234019825,
+    "runAttempt": 1,
+    "head": "c4bdb88e65211bfd1bd49c3b5d6531c99cc2227b",
+    "testedRevision": "8ee71f5d6489a8f87d7b21aff8310664c53239ad",
+    "trustedRevision": "8ee71f5d6489a8f87d7b21aff8310664c53239ad",
+    "tree": "d9dbd83af48275d88aba18e0864e1abbdf184f70",
+    "recipeFiles": 111,
+    "buildJobId": 121291880510,
+    "workflowId": 396397316
+  },
+  "artifact": {
+    "id": 12619528192,
+    "name": "owned-runtime-ecl-oz-maxima-oz-8ee71f5d6489a8f87d7b21aff8310664c53239ad",
+    "zipBytes": 416067461,
+    "zipSha256": "4b0397e1a4bd3b224cd83ef8bee70b2e5f387447263e5d149ffb52a93a70e27c",
+    "manifestSha256": "f0001cfc14560ad98c7ca15026b86d44071358d793a0d23668631bb3b4ca4fdf"
+  },
+  "evidenceCollector": {
+    "runId": 40238047671,
+    "artifactId": 12619607873,
+    "zipBytes": 4702948,
+    "zipSha256": "2ec382ca8856572a7c5c56b60405a7aa68196b38e0758a53407076f9241b1a42"
+  },
+  "reviewedRecords": [
+    {
+      "path": ".cache/runtime-build/artifact/manifest.json",
+      "bytes": 60173,
+      "sha256": "f0001cfc14560ad98c7ca15026b86d44071358d793a0d23668631bb3b4ca4fdf"
+    },
+    {
+      "path": ".cache/runtime-build/artifact/logs/compiler-experiment.json",
+      "bytes": 7235144,
+      "sha256": "f094ff57e234422d330920fd19a328e5a11548aec856bfdaee8f0114e7bea99d"
+    },
+    {
+      "path": ".cache/runtime-build/validation/acceptance.json",
+      "bytes": 283414,
+      "sha256": "eadb5c35b8cd2302ffa9c22cdffad4210d41152c9ccc83aa0897b163eb5acd06"
+    },
+    {
+      "path": "test-results/milestone-three/gc-stress.json",
+      "bytes": 1314,
+      "sha256": "a08844ae51ccb314eae316438375fb72cdbd30aca1b720ddac7bbda82df17ad9"
+    },
+    {
+      "path": "test-results/precompiled-stack/controller/gc-stress.json",
+      "bytes": 1773,
+      "sha256": "7eb19a1ddd76ea6d02779dcc22118b1d23b599f42afca93e2597b13b86aac08b"
+    },
+    {
+      "path": "test-results/precompiled-stack/controller-parity.json",
+      "bytes": 2497,
+      "sha256": "57d20f48b6f77d3175d0c3a0488d59dc5b96bd5368e61b58a5671eeee94233f5"
+    }
+  ],
+  "compiler": {
+    "profile": {
+      "name": "ecl-oz-maxima-oz",
+      "injectedEmccFlags": "-Oz",
+      "eclCoreOptimization": "-Oz",
+      "eclGeneratedLispOptimization": "-Oz",
+      "maximaGeneratedOptimization": "-Oz",
+      "maximaInjectedEmccFlags": "-Oz",
+      "stackGeneratedOptimization": "-Oz",
+      "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
+    },
+    "maximaExecutedOzCompiles": 615,
+    "eclTargetLinks": 12,
+    "maximaTargetLinks": 622,
+    "requiredMaximaTargets": [
+      "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima.wasm",
+      "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/slatec.fasb",
+      "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/quadpack.fasb",
+      "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/solve.fasb",
+      "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/poisson-series.fasb",
+      "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/matrix-algebra.fasb",
+      "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/number-theory.fasb",
+      "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/limits.fasb",
+      "/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/src/binary-ecl/wasm32-emscripten/maxima/integration.fasb"
+    ]
+  },
+  "acceptance": {
+    "sourceNativeReplays": [
+      {
+        "kind": "native-reference",
+        "nativeExecutableVersion": "Maxima 5.46.0",
+        "summary": {
+          "programs": 316,
+          "passed": 316,
+          "different": 0,
+          "exact": 307,
+          "presentationEquivalent": 9,
+          "unaccepted": 0,
+          "rawDifferenceFields": 12,
+          "acceptedPresentationFields": 12,
+          "unacceptedDifferenceFields": 0
+        }
+      },
+      {
+        "kind": "same-source-reference",
+        "nativeExecutableVersion": ";;; Loading #P\"/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/wasm/ecl-host/lib/ecl-26.3.27/sb-bsd-sockets.fas\"\n;;; Loading #P\"/home/runner/work/stack-wasm-maxima/stack-wasm-maxima/.cache/runtime-build/sources/maxima/wasm/ecl-host/lib/ecl-26.3.27/sockets.fas\"\nMaxima branch_5_49_base_90_g813903d33",
+        "summary": {
+          "programs": 316,
+          "passed": 316,
+          "different": 0,
+          "exact": 310,
+          "presentationEquivalent": 6,
+          "unaccepted": 0,
+          "rawDifferenceFields": 6,
+          "acceptedPresentationFields": 6,
+          "unacceptedDifferenceFields": 0
+        }
+      }
+    ],
+    "bothPinProbes": [
+      {
+        "stackRevision": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+        "programShaEvidence": "identical prepared.json batch/files",
+        "comparisons": 22,
+        "passed": true
+      },
+      {
+        "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+        "programShaEvidence": "identical prepared.json batch/files",
+        "comparisons": 22,
+        "passed": true
+      }
+    ],
+    "stack": {
+      "passed": true,
+      "sourceRevision": "8ee71f5d6489a8f87d7b21aff8310664c53239ad",
+      "compilerProofs": [
+        {
+          "schema": 1,
+          "passed": true,
+          "stackRevision": "10d323311b7f39fb7b092dd10ce75f7d8632f525",
+          "compilerProfile": {
+            "name": "ecl-oz-maxima-oz",
+            "injectedEmccFlags": "-Oz",
+            "eclCoreOptimization": "-Oz",
+            "eclGeneratedLispOptimization": "-Oz",
+            "maximaGeneratedOptimization": "-Oz",
+            "maximaInjectedEmccFlags": "-Oz",
+            "stackGeneratedOptimization": "-Oz",
+            "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
+          },
+          "runtimeManifest": {
+            "bytes": 60173,
+            "sha256": "f0001cfc14560ad98c7ca15026b86d44071358d793a0d23668631bb3b4ca4fdf"
+          },
+          "stackCompilerEvidence": {
+            "bytes": 42109,
+            "sha256": "d934548a42196872059b22b16e98447b67ccb7fd6f6af0e8789fa3a8afdc4ab4"
+          },
+          "bundle": {
+            "bytes": 2463662,
+            "sha256": "e4ede2a649cbbc02e38e3dedc1588f94e6b1b90303b7e6c9a409f1fbaea31f82"
+          }
+        },
+        {
+          "schema": 1,
+          "passed": true,
+          "stackRevision": "33383047af39c204bf4442802a058f8b918b2b1b",
+          "compilerProfile": {
+            "name": "ecl-oz-maxima-oz",
+            "injectedEmccFlags": "-Oz",
+            "eclCoreOptimization": "-Oz",
+            "eclGeneratedLispOptimization": "-Oz",
+            "maximaGeneratedOptimization": "-Oz",
+            "maximaInjectedEmccFlags": "-Oz",
+            "stackGeneratedOptimization": "-Oz",
+            "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
+          },
+          "runtimeManifest": {
+            "bytes": 60173,
+            "sha256": "f0001cfc14560ad98c7ca15026b86d44071358d793a0d23668631bb3b4ca4fdf"
+          },
+          "stackCompilerEvidence": {
+            "bytes": 41587,
+            "sha256": "3d83d211b9fd10455d2a0451ae1bdd986ba048212df37ac62ed6e5018f64fb81"
+          },
+          "bundle": {
+            "bytes": 2445785,
+            "sha256": "b79c102af5b8c6142c2e39db896624b20bc60e9d2c071710a55b930dae8c8274"
+          }
+        }
+      ],
+      "controllerPrograms": 316,
+      "restarts": 24,
+      "gcStress": {
+        "compiled": {
+          "collections": 60509,
+          "iterations": 400,
+          "replayPrograms": 316
+        },
+        "source": {
+          "collections": 62218,
+          "iterations": 400,
+          "replayPrograms": 316
+        }
+      }
+    },
+    "plotPassed": true,
+    "graphics": "All acceptance-bound source/compiled graphics records available in the collector match their hashes and pass."
+  },
+  "requiredIndependentReplay": "prepare.py must download the complete immutable producer ZIP, verify its byte length/digest and safe inventory, then replay the pinned Git checkout verifiers for package/compiler/source/STACK/GC proofs before any timed worker. This review is not a substitute for that admission.",
+  "finalPRHead": "0d1141e68deb63863a3f9e6a1776d52f06b20cc5",
+  "finalHeadDifference": "Five evidence/timing-harness files changed after this producer: cold_evidence.py, verify-compiler-trials.py, test-cold-evidence.py, timing-worker.mjs and measure-compiler-trials.mjs. Runtime sources, compiler profiles/passes, build.sh, configuration, startup/classifier and STACK integration are unchanged. Final-head full acceptance remains required independently; these measurements identify the C4 producer, not a relabeled final-head archive."
+}

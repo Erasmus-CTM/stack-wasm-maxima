@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "ready": false,
+  "ready": true,
   "source": {
     "runId": 40234019825,
     "runAttempt": 1,
@@ -9,8 +9,18 @@
     "trustedRevision": "8ee71f5d6489a8f87d7b21aff8310664c53239ad",
     "tree": "d9dbd83af48275d88aba18e0864e1abbdf184f70",
     "recipeFiles": 111,
-    "buildJobId": 121291880510
+    "buildJobId": 121291880510,
+    "workflowId": 396397316
   },
-  "artifact": null,
-  "independentReview": null
+  "artifact": {
+    "id": 12619528192,
+    "name": "owned-runtime-ecl-oz-maxima-oz-8ee71f5d6489a8f87d7b21aff8310664c53239ad",
+    "zipBytes": 416067461,
+    "zipSha256": "4b0397e1a4bd3b224cd83ef8bee70b2e5f387447263e5d149ffb52a93a70e27c",
+    "manifestSha256": "f0001cfc14560ad98c7ca15026b86d44071358d793a0d23668631bb3b4ca4fdf"
+  },
+  "independentReview": {
+    "path": "reviews/c4-production.json",
+    "sha256": "897a24b091504144013bb7f511dcec816e4d12e16313cc809749ad7188d149d9"
+  }
 }
