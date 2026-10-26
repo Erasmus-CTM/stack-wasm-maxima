@@ -6,18 +6,28 @@ import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 import os from 'node:os';
 import {chromium} from 'playwright';
+import {readFile} from 'node:fs/promises';
 import {observeWorkers} from './milestone-two/browser.mjs';
+import {serveDemo} from './milestone-two/serve.mjs';
 
-const pageURL=new URL(process.env.TIMING_PAGE_URL || 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/native.html');
-assert.equal(pageURL.origin,'https://erasmus-ctm.github.io');
-assert.ok(pageURL.pathname.startsWith('/stack-wasm-maxima/') && pageURL.pathname.endsWith('/maxima/native.html'));
+const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+// TIMING_SITE_ROOT measures a locally rendered site, served like the other
+// browser checks, so several runtimes can be compared on one runner.
+const siteRoot=process.env.TIMING_SITE_ROOT ? resolve(process.env.TIMING_SITE_ROOT) : null;
+const app=siteRoot ? await serveDemo({root:siteRoot}) : null;
+const pageURL=app ? new URL('maxima/native.html',app.baseURL)
+  : new URL(process.env.TIMING_PAGE_URL || 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/native.html');
+if(!app) {
+  assert.equal(pageURL.origin,'https://erasmus-ctm.github.io');
+  assert.ok(pageURL.pathname.startsWith('/stack-wasm-maxima/') && pageURL.pathname.endsWith('/maxima/native.html'));
+}
 assert.equal(pageURL.username+pageURL.password+pageURL.hash,'');
-const expectedHTML=process.env.EXPECTED_HTML_SHA256;
+const expectedHTML=app ? hash(await readFile(resolve(siteRoot,'maxima/native.html'))) : process.env.EXPECTED_HTML_SHA256;
 assert.match(expectedHTML || '',/^[a-f0-9]{64}$/,'EXPECTED_HTML_SHA256 must identify the exact published native HTML');
 const baseURL=new URL('../',pageURL);
 const output=resolve(process.env.TIMING_OUTPUT || 'test-results/native-page-timings');
-const starts=3,repeats=5;
-const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+const starts=Number(process.env.TIMING_STARTS || 3),repeats=5;
+assert.ok(Number.isInteger(starts) && starts>=1 && starts<=10,'TIMING_STARTS must be 1-10');
 const interrupted=error=>/Execution context was destroyed|Cannot find context|interrupted by another navigation|ERR_ABORTED/.test(String(error));
 const safeConsole=text=>/^warning: unsupported syscall: __syscall_(?:prlimit64|getrusage)\s*$/.test(text);
 const pythonAsset=value=>{
@@ -26,6 +36,7 @@ const pythonAsset=value=>{
   return /\/(?:pyodide(?:\/|$)|pyodide(?:\.asm)?\.(?:js|wasm)|pyodide-lock\.json|python_stdlib\.zip)(?:\/|$)/i.test(path) || /\.whl$/i.test(path);
 };
 const report={schema:1,createdAt:new Date().toISOString(),pageURL:pageURL.href,expectedHTML,
+  label:process.env.TIMING_LABEL || null,siteRoot,cpuLimit:process.env.TIMING_CPU_LIMIT || null,
   benchmarkSource:process.env.GITHUB_SHA || null,
   runURL:process.env.GITHUB_RUN_ID ? 'https://github.com/'+process.env.GITHUB_REPOSITORY+'/actions/runs/'+process.env.GITHUB_RUN_ID : null,
   method:{freshStarts:starts,warmCallsPerStart:repeats,
@@ -303,6 +314,7 @@ try {
     pythonInitialization:statistics(report.samples.map(row=>row.python.initializationStages.timings.readyMs))};
   report.passed=true;
 }catch(error){report.failure={message:String(error),stack:error.stack};}
+if(app)await app.close();
 await save();
 const {samples,...summary}=report;
 summary.sampleChecks=samples.map(row=>({repetition:row.repetition,passed:row.passed===true,nativeOnlyEvidence:row.nativeOnlyEvidence,
