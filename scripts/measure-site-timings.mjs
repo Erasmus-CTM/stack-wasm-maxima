@@ -8,20 +8,30 @@ import { gunzipSync } from 'node:zlib';
 import os from 'node:os';
 import { chromium } from 'playwright';
 import { observeWorkers } from './milestone-two/browser.mjs';
+import { serveDemo } from './milestone-two/serve.mjs';
 
-const pageURL = new URL(process.env.TIMING_PAGE_URL || 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html');
-assert.equal(pageURL.origin, 'https://erasmus-ctm.github.io');
-assert.ok(pageURL.pathname.startsWith('/stack-wasm-maxima/'));
-const expectedHTML = process.env.EXPECTED_HTML_SHA256;
+const hash = bytes => createHash('sha256').update(bytes).digest('hex');
+// TIMING_SITE_ROOT measures a locally rendered site through the same server the
+// other browser checks use, so several runtimes can be compared on one runner.
+const siteRoot = process.env.TIMING_SITE_ROOT ? resolve(process.env.TIMING_SITE_ROOT) : null;
+const app = siteRoot ? await serveDemo({ root: siteRoot }) : null;
+const pageURL = app ? new URL('maxima/examples.html', app.baseURL)
+  : new URL(process.env.TIMING_PAGE_URL || 'https://erasmus-ctm.github.io/stack-wasm-maxima/previews/research/2026-10-native-stack/maxima/examples.html');
+if (!app) {
+  assert.equal(pageURL.origin, 'https://erasmus-ctm.github.io');
+  assert.ok(pageURL.pathname.startsWith('/stack-wasm-maxima/'));
+}
+const expectedHTML = app ? hash(await readFile(resolve(siteRoot, 'maxima/examples.html'))) : process.env.EXPECTED_HTML_SHA256;
 assert.match(expectedHTML || '', /^[a-f0-9]{64}$/, 'EXPECTED_HTML_SHA256 must identify the exact published build');
 const output = resolve(process.env.TIMING_OUTPUT || 'test-results/page-timings');
-const starts = 3, repeats = 5;
-const hash = bytes => createHash('sha256').update(bytes).digest('hex');
+const starts = Number(process.env.TIMING_STARTS || 3), repeats = 5;
+assert.ok(Number.isInteger(starts) && starts >= 1 && starts <= 10, 'TIMING_STARTS must be 1-10');
 const baseline = JSON.parse(gunzipSync(await readFile('reports/reviewer-site/runs/39754203113/public-smoke.json.gz')));
 const selected = baseline.rows.sympy.find(row => row.demoId === 'examples-01' && row.variant === 0);
 assert.ok(selected);
 const answers = selected.gradeCalls[0].answers;
 const report = { schema: 1, createdAt: new Date().toISOString(), pageURL: pageURL.href,
+  label: process.env.TIMING_LABEL || null, siteRoot, cpuLimit: process.env.TIMING_CPU_LIMIT || null,
   benchmarkSource: process.env.GITHUB_SHA || null,
   runURL: process.env.GITHUB_RUN_ID ? `https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}` : null,
   expectedHTML, answersBaselineSource: baseline.sourceRevision,
@@ -32,7 +42,8 @@ const report = { schema: 1, createdAt: new Date().toISOString(), pageURL: pageUR
     workerClock: 'Browser performance.now: actual worker postMessage to response; first validation RPC excludes separately recorded init',
     deferredNativeStartup: 'Hybrid init starts Python; native startup is included in the first native grade, not the first validation.',
     cache: 'A fresh Chromium process/profile and worker for every sample. OS and CDN caches are not cleared.',
-    scope: 'Public GitHub Pages from one GitHub-hosted Linux runner; not a user-device or general workload benchmark.' },
+    scope: app ? 'Locally rendered site served by scripts/milestone-two/serve.mjs (gzip) on one GitHub-hosted Linux runner; not a user-device or general workload benchmark.'
+      : 'Public GitHub Pages from one GitHub-hosted Linux runner; not a user-device or general workload benchmark.' },
   runner: { platform: os.platform(), architecture: os.arch(), cpus: os.cpus().length, cpu: os.cpus()[0]?.model },
   fingerprints: [], samples: [], passed: false };
 await mkdir(output, { recursive: true });
@@ -236,6 +247,7 @@ try {
   }));
   report.passed = true;
 } catch (error) { report.failure = { message: String(error), stack: error.stack }; }
+if (app) await app.close();
 await writeFile(resolve(output, 'timings.json'), JSON.stringify(report, null, 2) + '\n');
 const { samples, ...summary } = report;
 await writeFile(resolve(output, 'summary.json'), JSON.stringify(summary, null, 2) + '\n');
