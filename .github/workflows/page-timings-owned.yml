@@ -17,13 +17,17 @@ on:
         description: Fresh browser starts per backend and runtime
         required: true
         default: '3'
+      runtimes:
+        description: Space-separated runtimes to stage (poc1 v3 oz-4.0.10 oz-6.0.11)
+        required: true
+        default: 'poc1 v3'
 
 permissions:
   contents: read
   actions: read
 
 concurrency:
-  group: page-timings-owned-${{ github.ref }}
+  group: page-timings-owned-${{ github.sha }}
   cancel-in-progress: false
 
 jobs:
@@ -33,6 +37,7 @@ jobs:
     env:
       CTM_COMPONENT_DEV: '1'
       STACK_SYMPY_PYTHON: python
+      RUNTIMES: ${{ inputs.runtimes || 'poc1 v3' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -125,13 +130,13 @@ jobs:
         run: |
           set -euo pipefail
           render() {
-            local name=$1 emsdk=$2 source=$3
+            local name=$1 emsdk=$2 source=$3 release=${4:-}
             git checkout -- site && git clean -fdxq site
             python scripts/milestone-two/materialize.py --prepare-existing site \
               --stack-sympy-source .site-sources/stack-sympy \
               --ctm-checkers-source .site-sources/ctm-checkers \
               --ctm-libs-source .site-sources/ctm-libs
-            CTM_EMSDK=$emsdk python scripts/milestone-two/prepare-runtime.py --output site ${source:+--runtime-source "$source"} \
+            CTM_EMSDK=$emsdk python scripts/milestone-two/prepare-runtime.py --output site ${source:+--runtime-source "$source"} $release \
               --stack-source .site-sources/stack --ctm-checkers-source .site-sources/ctm-checkers
             python scripts/milestone-three/stage-parser.py --stack-source .site-sources/stack --output site/native
             python scripts/milestone-three/stage-feedback.py --stack-source .site-sources/stack --output site/native
@@ -145,13 +150,19 @@ jobs:
             mkdir -p .cache/pages && mv site/_site ".cache/pages/$name"
             sha256sum ".cache/pages/$name/maxima/examples.html" ".cache/pages/$name/stack-sources.json"
           }
-          render poc1 '' ''
-          render oz-4.0.10 '' .cache/owned/oz-4.0.10/.cache/runtime-build/artifact
-          render oz-6.0.11 6.0.11 .cache/owned/oz-6.0.11/.cache/runtime-build/artifact
+          for name in $RUNTIMES; do
+            case $name in
+              poc1) render poc1 '' '' ;;
+              v3) render v3 '' '' --runtime-release ;;
+              oz-4.0.10) render oz-4.0.10 '' .cache/owned/oz-4.0.10/.cache/runtime-build/artifact ;;
+              oz-6.0.11) render oz-6.0.11 6.0.11 .cache/owned/oz-6.0.11/.cache/runtime-build/artifact ;;
+              *) echo "Unknown runtime $name"; exit 1 ;;
+            esac
+          done
       - name: Measure at full speed
         run: |
           set -euo pipefail
-          for name in poc1 oz-4.0.10 oz-6.0.11; do
+          for name in $RUNTIMES; do
             TIMING_SITE_ROOT=".cache/pages/$name" TIMING_LABEL="$name" TIMING_STARTS='${{ inputs.starts || 3 }}' \
               TIMING_OUTPUT="test-results/page-timings-owned/full/$name" node scripts/measure-site-timings.mjs || failed=1
           done
@@ -162,7 +173,7 @@ jobs:
         if: ${{ !cancelled() }}
         run: |
           set -euo pipefail
-          for name in poc1 oz-4.0.10 oz-6.0.11; do
+          for name in $RUNTIMES; do
             TIMING_SITE_ROOT=".cache/pages/$name" TIMING_LABEL="$name" TIMING_STARTS='${{ inputs.starts || 3 }}' \
               TIMING_CPU_LIMIT='systemd CPUQuota=25%' TIMING_OUTPUT="test-results/page-timings-owned/quarter/$name" \
               sudo -E systemd-run --scope --quiet -p CPUQuota=25% --uid="$(id -u)" --gid="$(id -g)" \

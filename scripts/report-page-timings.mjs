@@ -5,7 +5,8 @@ import { readFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 
 const root = resolve(process.argv[2] || 'test-results/page-timings-owned');
-const runtimes = [['poc1', 'PoC1 (deployed runtime)'], ['oz-4.0.10', 'Own, 4.0.10, ecl-oz'], ['oz-6.0.11', 'Own, 6.0.11, ecl-oz']];
+const labels = { 'poc1': 'PoC1 (deployed runtime)', 'v3': 'runtime-v3 (released)', 'oz-4.0.10': 'Own, 4.0.10, ecl-oz', 'oz-6.0.11': 'Own, 6.0.11, ecl-oz' };
+const runtimes = (process.env.RUNTIMES || Object.keys(labels).join(' ')).split(/\s+/).filter(Boolean).map(name => [name, labels[name] || name]);
 const rows = [
   ['Maxima: first Validate click (includes Python start-up)', 'maxima', 'firstValidationUI'],
   ['Maxima: first Check (includes Maxima + STACK start-up)', 'maxima', 'firstGradeUI'],
