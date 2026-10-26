@@ -36,13 +36,13 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 180
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: '22'
+          node-version: '24'
       - name: Check compiled input and parity evidence bindings
         run: |
           node scripts/milestone-one/test-fatal-reporting.mjs
@@ -68,7 +68,7 @@ jobs:
             libc6-dev-i386 autoconf automake libtool libltdl-dev texinfo bison flex gettext gawk pkg-config strace
       - name: Build the pinned runtime with the selected scoped ECL profile
         run: bash runtime/build/build.sh
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
@@ -79,7 +79,7 @@ jobs:
         run: bash runtime/precompiled/native-fixtures.sh --reuse-built-native
       - name: Translate pinned STACK and cross-compile for the browser target
         run: bash runtime/precompiled/translate-and-cross-compile.sh "$PWD/.cache/precompiled-stack/upstream-stack"
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 10d323311b7f39fb7b092dd10ce75f7d8632f525
@@ -94,14 +94,14 @@ jobs:
         run: |
           python runtime/precompiled/full-entry-check.py --pin 33383047af39c204bf4442802a058f8b918b2b1b
           python runtime/precompiled/full-entry-check.py --pin 10d323311b7f39fb7b092dd10ce75f7d8632f525
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: b34bfc8af10cd80b6130baabe88a47c9a32c0333
           path: .cache/runtime-build/notices
           persist-credentials: false
       - name: Package the exact source-loaded runtime control
         run: python runtime/build/package.py --notices .cache/runtime-build/notices
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-checkers
           ref: c366f175aba6b62caa628bc60f57bb1167fc087b
@@ -132,25 +132,25 @@ jobs:
           version: 1.8.27
       - name: Install the pinned authoring dependencies
         run: python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/stack-sympy
           ref: 1b1d50f69fc1e7eb39846b497657d72be325f597
           path: .site-sources/stack-sympy
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-checkers
           ref: c366f175aba6b62caa628bc60f57bb1167fc087b
           path: .site-sources/ctm-checkers
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-libs
           ref: 94687f718fd651fc2857bc5242a64e45c8fd4697
           path: .site-sources/ctm-libs
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
@@ -163,19 +163,19 @@ jobs:
             lang/en
             samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: jsxgraph/jsxgraph-quarto
           ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e
           path: .site-sources/jsxgraph-quarto
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-assessment
           ref: 68fe838ca76ce7dfc4297f8ed4db1ccf1dc29a8b
           path: .site-sources/ctm-assessment
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-libs
           ref: 2cdd3b47bb4722f65f168a0baf4dbd6a18bff384
@@ -273,19 +273,19 @@ jobs:
             --independent test-results/milestone-three/native-reference/native-reference.json \
             --same-source test-results/milestone-three/same-source-reference/native-reference.json \
             --output test-results/precompiled-stack/controller-parity.json
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-checkers
           ref: 9e042dc5e57a1636be64ca5d08910c9af5ff1371
           path: .ctm-checkers-source
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 10d323311b7f39fb7b092dd10ce75f7d8632f525
           path: .stack-upstream/10d323311b7f39fb7b092dd10ce75f7d8632f525
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
@@ -320,7 +320,7 @@ jobs:
           cp .cache/precompiled-stack/probes-compiled-report/latest.json test-results/precompiled-stack/probes-compiled/comparison.json
       - name: Preserve the feasibility evidence, including failures
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: precompiled-stack-probe-${{ matrix.compiler-profile }}-${{ github.sha }}
           include-hidden-files: true

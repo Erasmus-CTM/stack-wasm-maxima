@@ -20,11 +20,11 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: .cache/runtime-compression/downloads
           key: compression-node22-${{ runner.os }}-${{ hashFiles('runtime/build/pins.json') }}
@@ -39,7 +39,7 @@ jobs:
           node runtime/compression/test-select-source.cjs
       - name: Select a successful owned source-build artifact
         id: source
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const fs = require('node:fs/promises');
@@ -74,14 +74,14 @@ jobs:
             await fs.mkdir('.cache/runtime-compression',{recursive:true});
             await fs.writeFile('.cache/runtime-compression/source-run.json',JSON.stringify(provenance,null,2)+'\n');
             core.setOutput('run',String(run.id));core.setOutput('artifact',artifact.name);
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with:
           github-token: ${{ github.token }}
           run-id: ${{ steps.source.outputs.run }}
           name: ${{ steps.source.outputs.artifact }}
           path: .cache/runtime-compression/source-run
       - name: Bind artifact recipe revision to the selected run head
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const fs = require('node:fs/promises');
@@ -100,25 +100,25 @@ jobs:
           version: 1.8.27
       - name: Install the pinned authoring dependencies
         run: python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/stack-sympy
           ref: 1b1d50f69fc1e7eb39846b497657d72be325f597
           path: .site-sources/stack-sympy
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-checkers
           ref: c366f175aba6b62caa628bc60f57bb1167fc087b
           path: .site-sources/ctm-checkers
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-libs
           ref: 94687f718fd651fc2857bc5242a64e45c8fd4697
           path: .site-sources/ctm-libs
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
@@ -131,19 +131,19 @@ jobs:
             lang/en
             samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: jsxgraph/jsxgraph-quarto
           ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e
           path: .site-sources/jsxgraph-quarto
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-assessment
           ref: 68fe838ca76ce7dfc4297f8ed4db1ccf1dc29a8b
           path: .site-sources/ctm-assessment
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-libs
           ref: 2cdd3b47bb4722f65f168a0baf4dbd6a18bff384
@@ -214,7 +214,7 @@ jobs:
           python scripts/milestone-three/native-reference.py --browser-report test-results/runtime-compression/br/browser.json \
             --stack-source .site-sources/stack --output test-results/runtime-compression/br/reference
           node runtime/compression/check-evidence.mjs
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: runtime-compression-${{ github.sha }}

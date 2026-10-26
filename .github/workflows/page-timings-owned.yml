@@ -61,37 +61,37 @@ jobs:
       RUNTIMES: ${{ inputs.runtimes || 'poc1 v2 v3 oz-6.0.11' }}
       LIVE_PAGE: https://erasmus-ctm.github.io/stack-wasm-maxima/maxima/native.html
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: '22'
+          node-version: '24'
       - uses: quarto-dev/quarto-actions/setup@v2
         with:
           version: 1.8.27
       - name: Install the pinned authoring dependencies
         run: python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/stack-sympy
           ref: 1b1d50f69fc1e7eb39846b497657d72be325f597
           path: .site-sources/stack-sympy
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-checkers
           ref: c366f175aba6b62caa628bc60f57bb1167fc087b
           path: .site-sources/ctm-checkers
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-libs
           ref: 94687f718fd651fc2857bc5242a64e45c8fd4697
           path: .site-sources/ctm-libs
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
@@ -104,19 +104,19 @@ jobs:
             lang/en
             samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: jsxgraph/jsxgraph-quarto
           ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e
           path: .site-sources/jsxgraph-quarto
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-assessment
           ref: 68fe838ca76ce7dfc4297f8ed4db1ccf1dc29a8b
           path: .site-sources/ctm-assessment
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-libs
           ref: 2cdd3b47bb4722f65f168a0baf4dbd6a18bff384
@@ -129,7 +129,7 @@ jobs:
       # ecl-oz artifacts accepted in runs 40266520257 (emsdk 4.0.10) and
       # 40266518267 (emsdk 6.0.11), both at commit 3ef575f.
       - name: Download the accepted 4.0.10 ecl-oz runtime
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           github-token: ${{ github.token }}
           run-id: '40266520257'
@@ -137,7 +137,7 @@ jobs:
           merge-multiple: true
           path: .cache/owned/oz-4.0.10
       - name: Download the accepted 6.0.11 ecl-oz runtime
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           github-token: ${{ github.token }}
           run-id: '40266518267'
@@ -146,7 +146,7 @@ jobs:
           path: .cache/owned/oz-6.0.11
       - name: Download the trial runtime
         if: ${{ inputs.trial_run_id != '' && inputs.trial_artifact_id != '' }}
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           github-token: ${{ github.token }}
           run-id: ${{ inputs.trial_run_id }}
@@ -235,7 +235,7 @@ jobs:
       - name: Report the page timings
         if: ${{ !cancelled() }}
         run: RUNTIMES="live $RUNTIMES" TRIAL_LABEL='${{ inputs.trial_profile }} on ${{ inputs.trial_emsdk || '4.0.10' }} (trial)' node scripts/report-page-timings.mjs test-results/page-timings-owned | tee -a "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: page-timings-owned-${{ github.sha }}

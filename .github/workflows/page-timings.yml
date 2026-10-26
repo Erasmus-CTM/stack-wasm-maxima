@@ -38,10 +38,10 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v5
         with:
-          node-version: '22'
+          node-version: '24'
           cache: npm
       - name: Install the pinned browser
         run: |
@@ -80,7 +80,7 @@ jobs:
           TIMING_PAGE_URL: ${{ inputs.native_page_url || 'https://erasmus-ctm.github.io/stack-wasm-maxima/maxima/native.html' }}
           EXPECTED_HTML_SHA256: ${{ steps.pin.outputs.native_sha }}
         run: node scripts/measure-native-page-timings.mjs
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: page-timings-${{ github.sha }}

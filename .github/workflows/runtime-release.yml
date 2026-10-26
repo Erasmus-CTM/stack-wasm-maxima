@@ -34,7 +34,7 @@ jobs:
       profile: ${{ steps.profile.outputs.name }}
       tag: ${{ steps.tag.outputs.name }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - id: tag
@@ -73,8 +73,8 @@ jobs:
       PROFILE: ${{ needs.check.outputs.profile }}
       TAG: ${{ needs.check.outputs.tag }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v7
         with:
           name: ${{ needs.check.outputs.profile == 'baseline' && format('owned-runtime-{0}', github.sha) || format('owned-runtime-{0}-{1}', needs.check.outputs.profile, github.sha) }}
           path: accepted

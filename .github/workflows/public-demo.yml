@@ -29,12 +29,12 @@ jobs:
         shell: bash
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: '22'
+          node-version: '24'
           cache: npm
       - name: Install the pinned browser dependencies
         run: |
@@ -50,7 +50,7 @@ jobs:
           node scripts/public-demo/verify.mjs 2>&1 | tee test-results/public-demo/run.log
       - name: Upload public-site evidence and screenshots
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: public-demo-${{ github.run_id }}-${{ github.sha }}
           path: test-results/public-demo/

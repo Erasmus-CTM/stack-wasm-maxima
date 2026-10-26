@@ -36,7 +36,7 @@ jobs:
       ECL_COMMIT: ff5c6abbe73e3b3e95608e32721ce0be232c1987
       OUT: test-results/ecl-mark-stack
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Show the files used
         run: |
           mkdir -p "$OUT"
@@ -76,7 +76,7 @@ jobs:
           aborts=$(grep -c '^N=' "$OUT/sweep.txt" || true)
           echo "sweep.sh reported $aborts aborting depths"
           if [ "${{ matrix.expect }}" = abort ]; then [ "$aborts" -gt 0 ]; else [ "$aborts" -eq 0 ]; fi
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: ecl-mark-stack-${{ matrix.variant }}-${{ matrix.bits }}-${{ github.run_id }}
@@ -105,10 +105,10 @@ jobs:
       EMSDK_VERSION: ${{ matrix.emsdk }}
       OUT: test-results/ecl-mark-stack-wasm
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v5
         with:
-          node-version: '22'
+          node-version: '24'
       - name: Show the files used
         run: |
           mkdir -p "$OUT"
@@ -170,7 +170,7 @@ jobs:
           set -e
           [ "$status" -le 1 ] || exit 1
           if [ "${{ matrix.variant }}" = original ]; then [ "$status" -eq 1 ]; else [ "$status" -eq 0 ]; fi
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: ecl-mark-stack-wasm-${{ matrix.emsdk }}-${{ matrix.variant }}-${{ github.run_id }}

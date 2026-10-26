@@ -31,7 +31,7 @@ jobs:
     outputs:
       name: ${{ steps.profile.outputs.name }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: profile
         run: echo "name=$(python3 runtime/build/compiler_profile.py --production)" >> "$GITHUB_OUTPUT"
   production:
