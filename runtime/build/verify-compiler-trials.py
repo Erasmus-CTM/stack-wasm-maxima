@@ -4,7 +4,7 @@
 import json
 import os
 from pathlib import Path
-from cold_evidence import current_expectations, digest, validate_build
+from cold_evidence import current_expectations, current_run_producer_identity, digest, validate_build
 from compiler_profile import profiles
 from timing_evidence import verify_workload_files
 
@@ -15,10 +15,13 @@ OUT.mkdir(parents=True,exist_ok=True)
 report = {'schema':1,'passed':False,'trials':{}}
 try:
     identity = {'runId':os.environ['GITHUB_RUN_ID'],'runAttempt':os.environ['GITHUB_RUN_ATTEMPT'],'sourceRevision':os.environ['GITHUB_SHA']}
+    report['consumerIdentity'] = identity
     programs = None
-    for name,profile in profiles()['profiles'].items():
+    # Comparison membership is explicit and independent of production promotion.
+    for name in ('baseline', 'ecl-oz', 'ecl-o2'):
+        profile = profiles()['profiles'][name]
         root = TRIALS/name
-        expected = current_expectations(ROOT,identity)
+        expected = current_expectations(ROOT,current_run_producer_identity(root,identity))
         expected['compilerProfile']=profile
         accepted = validate_build(root,'cold1',expected)
         acceptance = root/'.cache/runtime-build/validation/acceptance.json'

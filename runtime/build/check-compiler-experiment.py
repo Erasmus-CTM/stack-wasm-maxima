@@ -18,7 +18,7 @@ assert target == (WORK/'sources/maxima/wasm/ecl-emscripten/target-info.lsp').rea
 profile = compiler_profile()
 observed = derive(config,target,(logs/'ecl-cross-build.log').read_bytes(),(logs/'maxima-cross-build.log').read_bytes(),profile)
 record = {'schema':1,'passed':True,'profile':profile,'observed':observed,
-          'scope':'Actual clang subprocess optimization in separate ECL/Maxima build phases, plus raw unchanged configure flags and mandatory GC link settings. Injection affects ECL target C, generated ECL Lisp C and target link invocations; Maxima generated C retains its baseline policy. No performance conclusion.'}
+          'scope':'Actual clang subprocess optimization in separate ECL/Maxima build phases, plus raw unchanged configure flags and mandatory GC link settings. Each phase uses the explicitly selected profile; upstream configure and Lisp policy remain unchanged. No performance conclusion.'}
 (logs/'compiler-experiment.json').write_text(json.dumps(record,indent=2)+'\n')
 print(json.dumps({'passed':True,'profile':profile,'actualEclCoreCompiles':len(observed['eclCore']),
                   'actualEclGeneratedLispCompiles':len(observed['eclGeneratedLisp']),

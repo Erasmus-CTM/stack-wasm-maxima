@@ -1,0 +1,41 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Accept the production compiler profile
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'runtime/build/**'
+      - 'runtime/precompiled/**'
+      - '.gitattributes'
+      - 'runtime/diagnostics/gc-root-regression.*'
+      - '.github/workflows/precompiled-fixtures.yml'
+      - 'scripts/milestone-one/**'
+      - 'scripts/milestone-three/**'
+      - 'scripts/milestone-two/prepare-runtime.py'
+      - 'scripts/milestone-two/materialize.py'
+      - 'scripts/milestone-two/serve.mjs'
+      - 'prototype/native/**'
+      - 'prototype/runtime/maxima-child.js'
+      - 'prototype/runtime/maxima-session.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/runtime-build.yml'
+      - '.github/workflows/runtime-production.yml'
+      - '.github/workflows/runtime-release.yml'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  profile:
+    runs-on: ubuntu-24.04
+    outputs:
+      name: ${{ steps.profile.outputs.name }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: profile
+        run: echo "name=$(python3 runtime/build/compiler_profile.py --production)" >> "$GITHUB_OUTPUT"
+  production:
+    needs: profile
+    uses: ./.github/workflows/runtime-build.yml
+    with:
+      profiles: '["${{ needs.profile.outputs.name }}"]'

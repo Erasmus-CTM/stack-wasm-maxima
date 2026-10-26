@@ -1,0 +1,925 @@
+{
+  "schema": 1,
+  "diagnosticOnly": true,
+  "cpuRun": 40171592095,
+  "cpuHead": "6ce2acfa557ddf05cb2590f75f5155fda187181c",
+  "cpuExtractionRun": 40172102869,
+  "cpuExtractionHead": "3d11fe663d0d6dbaf676cf6a6922f648c4b936d4",
+  "glueExtractionRun": 40172261196,
+  "loadRun": 40169523214,
+  "glue": [
+    {
+      "profile": "ecl-oz",
+      "path": "maxima.js",
+      "bytes": 1239434,
+      "sha256": "385763ca1038fac02e8f7d247a8d808997238b03ba1919ce2f4dcec482fdb101",
+      "constructorSource": "ErrnoError:class extends Error {\n        name = 'ErrnoError';\n        // We set the `name` property to be able to identify `FS.ErrnoError`\n        // - the `name` is a standard ECMA-262 property of error objects. Kind of good to have it anyway.\n        // - when using PROXYFS, an error can come from an underlying FS\n        // as different FS objects have their own FS.ErrnoError each,\n        // the test `err instanceof FS.ErrnoError` won't detect an error coming from another filesystem, causing bugs.\n        // we'll use the reliable test `err.name == \"ErrnoError\"` instead\n        constructor(errno) {\n          super(runtimeInitialized ? strError(errno) : '');\n          this.errno = errno;\n          for (var key in ERRNO_CODES) {\n            if (ERRNO_CODES[key] === errno) {\n              this.code = key;\n              break;\n            }\n          }\n        }\n      }"
+    },
+    {
+      "profile": "ecl-oz-maxima-oz",
+      "path": "maxima.js",
+      "bytes": 608449,
+      "sha256": "3e34145350f676f44c06a402ce79a28d5119cb60060917b779bd000f9dc8e745",
+      "constructorSource": "ErrnoError:class{name=\"ErrnoError\";constructor(errno){this.errno=errno}}"
+    }
+  ],
+  "cpuSamples": [
+    {
+      "sample": "01-ecl-oz-source-cold",
+      "gradeElapsedMs": 2461.385009765625,
+      "errnoErrorLeaf": {
+        "functionName": "ErrnoError",
+        "url": "http://127.0.0.1:35761/maxima-runtime/maxima.js",
+        "sampledMs": 2090.271728515625,
+        "samples": 12397
+      },
+      "errnoErrorUpperBoundMsIfOutsideTop80": null,
+      "contexts": [
+        {
+          "pid": 3590,
+          "tid": 3600,
+          "id": "0x1",
+          "selectedSamples": 14067,
+          "sampledMs": 2461.385009765625,
+          "nodes": 67965
+        },
+        {
+          "pid": 3590,
+          "tid": 3590,
+          "id": "0x2",
+          "selectedSamples": 13998,
+          "sampledMs": 2453.31640625,
+          "nodes": 18
+        },
+        {
+          "pid": 3590,
+          "tid": 3598,
+          "id": "0x3",
+          "selectedSamples": 14296,
+          "sampledMs": 2458.910888671875,
+          "nodes": 8
+        }
+      ],
+      "retainedClockMarkers": [
+        {
+          "args": {
+            "sync_id": "epoch-1792912195369"
+          },
+          "cat": "__metadata",
+          "name": "clock_sync",
+          "ph": "c",
+          "pid": 3533,
+          "tid": 3533,
+          "ts": 172703098,
+          "tts": 55051
+        }
+      ],
+      "independentClockCalibration": {
+        "beforeEpochMs": 1792912195371,
+        "afterEpochMs": 1792912195371,
+        "timestampSeconds": 172.705246
+      },
+      "rawSummary": {
+        "file": "trace-1-3abebef1-23cc-4b1e-a643-08208afcd68d-cpu-summary.json",
+        "sha256": "1962abc2526f6f410dcba45c2c0bb1b4190cefc6de8db00b5da0c2af4ca616e0"
+      }
+    },
+    {
+      "sample": "01-ecl-oz-source-warm-profile-reload",
+      "gradeElapsedMs": 2456.635009765625,
+      "errnoErrorLeaf": {
+        "functionName": "ErrnoError",
+        "url": "http://127.0.0.1:35761/maxima-runtime/maxima.js",
+        "sampledMs": 2082.8056640625,
+        "samples": 12194
+      },
+      "errnoErrorUpperBoundMsIfOutsideTop80": null,
+      "contexts": [
+        {
+          "pid": 3590,
+          "tid": 3618,
+          "id": "0x4",
+          "selectedSamples": 13984,
+          "sampledMs": 2456.277099609375,
+          "nodes": 64381
+        },
+        {
+          "pid": 3590,
+          "tid": 3590,
+          "id": "0x5",
+          "selectedSamples": 13877,
+          "sampledMs": 2449.357666015625,
+          "nodes": 6
+        },
+        {
+          "pid": 3590,
+          "tid": 3617,
+          "id": "0x6",
+          "selectedSamples": 13998,
+          "sampledMs": 2452.918212890625,
+          "nodes": 7
+        }
+      ],
+      "retainedClockMarkers": [
+        {
+          "args": {
+            "sync_id": "epoch-1792912215123"
+          },
+          "cat": "__metadata",
+          "name": "clock_sync",
+          "ph": "c",
+          "pid": 3533,
+          "tid": 3533,
+          "ts": 192457637,
+          "tts": 269852
+        }
+      ],
+      "independentClockCalibration": {
+        "beforeEpochMs": 1792912215126,
+        "afterEpochMs": 1792912215126,
+        "timestampSeconds": 192.459931
+      },
+      "rawSummary": {
+        "file": "trace-1-a842e7d7-3ead-449b-bc7b-b180f121c358-cpu-summary.json",
+        "sha256": "d5c7343c3706e1f2973c248506a9fc57403cb1894e6d1bd0562794100595999a"
+      }
+    },
+    {
+      "sample": "02-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "gradeElapsedMs": 257.5400390625,
+      "errnoErrorLeaf": null,
+      "errnoErrorUpperBoundMsIfOutsideTop80": 0.472900390625,
+      "contexts": [
+        {
+          "pid": 3679,
+          "tid": 3706,
+          "id": "0x4",
+          "selectedSamples": 1108,
+          "sampledMs": 256.510009765625,
+          "nodes": 60929
+        },
+        {
+          "pid": 3679,
+          "tid": 3679,
+          "id": "0x5",
+          "selectedSamples": 1385,
+          "sampledMs": 249.09814453125,
+          "nodes": 4
+        },
+        {
+          "pid": 3679,
+          "tid": 3705,
+          "id": "0x6",
+          "selectedSamples": 1492,
+          "sampledMs": 257.015625,
+          "nodes": 10
+        }
+      ],
+      "retainedClockMarkers": [
+        {
+          "args": {
+            "sync_id": "epoch-1792912238982"
+          },
+          "cat": "__metadata",
+          "name": "clock_sync",
+          "ph": "c",
+          "pid": 3627,
+          "tid": 3627,
+          "ts": 216316794,
+          "tts": 236887
+        }
+      ],
+      "independentClockCalibration": {
+        "beforeEpochMs": 1792912238984,
+        "afterEpochMs": 1792912238984,
+        "timestampSeconds": 216.318209
+      },
+      "rawSummary": {
+        "file": "trace-2-12f94bdc-83e2-46a6-b317-df16ad164d9f-cpu-summary.json",
+        "sha256": "84b5d2d0278b12c897bfa023aa9814ffc6517bff2abd0d4775120609118b64e5"
+      }
+    },
+    {
+      "sample": "02-ecl-oz-maxima-oz-source-cold",
+      "gradeElapsedMs": 323.044921875,
+      "errnoErrorLeaf": null,
+      "errnoErrorUpperBoundMsIfOutsideTop80": 0.491943359375,
+      "contexts": [
+        {
+          "pid": 3679,
+          "tid": 3691,
+          "id": "0x1",
+          "selectedSamples": 1338,
+          "sampledMs": 321.748291015625,
+          "nodes": 60538
+        },
+        {
+          "pid": 3679,
+          "tid": 3679,
+          "id": "0x2",
+          "selectedSamples": 1798,
+          "sampledMs": 319.72509765625,
+          "nodes": 15
+        },
+        {
+          "pid": 3679,
+          "tid": 3688,
+          "id": "0x3",
+          "selectedSamples": 1793,
+          "sampledMs": 311.429443359375,
+          "nodes": 8
+        }
+      ],
+      "retainedClockMarkers": [
+        {
+          "args": {
+            "sync_id": "epoch-1792912228766"
+          },
+          "cat": "__metadata",
+          "name": "clock_sync",
+          "ph": "c",
+          "pid": 3627,
+          "tid": 3627,
+          "ts": 206100779,
+          "tts": 49900
+        }
+      ],
+      "independentClockCalibration": {
+        "beforeEpochMs": 1792912228768,
+        "afterEpochMs": 1792912228769,
+        "timestampSeconds": 206.102358
+      },
+      "rawSummary": {
+        "file": "trace-2-8fa262b5-98e8-4c1f-b8c6-c8fc638ef08d-cpu-summary.json",
+        "sha256": "b4b5b4b85f46abba587ed1685a48c9705335fc96532025e4f6132f800b46d983"
+      }
+    },
+    {
+      "sample": "03-ecl-oz-maxima-oz-source-cold",
+      "gradeElapsedMs": 287.739990234375,
+      "errnoErrorLeaf": null,
+      "errnoErrorUpperBoundMsIfOutsideTop80": 0.48291015625,
+      "contexts": [
+        {
+          "pid": 3763,
+          "tid": 3774,
+          "id": "0x1",
+          "selectedSamples": 1137,
+          "sampledMs": 287.29833984375,
+          "nodes": 60806
+        },
+        {
+          "pid": 3763,
+          "tid": 3763,
+          "id": "0x2",
+          "selectedSamples": 1598,
+          "sampledMs": 276.89990234375,
+          "nodes": 10
+        },
+        {
+          "pid": 3763,
+          "tid": 3771,
+          "id": "0x3",
+          "selectedSamples": 1596,
+          "sampledMs": 275.816650390625,
+          "nodes": 8
+        }
+      ],
+      "retainedClockMarkers": [
+        {
+          "args": {
+            "sync_id": "epoch-1792912250380"
+          },
+          "cat": "__metadata",
+          "name": "clock_sync",
+          "ph": "c",
+          "pid": 3712,
+          "tid": 3712,
+          "ts": 227714199,
+          "tts": 50457
+        }
+      ],
+      "independentClockCalibration": {
+        "beforeEpochMs": 1792912250382,
+        "afterEpochMs": 1792912250382,
+        "timestampSeconds": 227.715783
+      },
+      "rawSummary": {
+        "file": "trace-3-032dd18a-0985-454f-be7b-d370cd111800-cpu-summary.json",
+        "sha256": "29f6cf34ca6efc11b213454ccab521283906b8a9b404576553e9158bbb2cefaa"
+      }
+    },
+    {
+      "sample": "03-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "gradeElapsedMs": 305.135009765625,
+      "errnoErrorLeaf": null,
+      "errnoErrorUpperBoundMsIfOutsideTop80": 0.498046875,
+      "contexts": [
+        {
+          "pid": 3763,
+          "tid": 3788,
+          "id": "0x4",
+          "selectedSamples": 1308,
+          "sampledMs": 304.290771484375,
+          "nodes": 60312
+        },
+        {
+          "pid": 3763,
+          "tid": 3763,
+          "id": "0x5",
+          "selectedSamples": 1696,
+          "sampledMs": 300.35400390625,
+          "nodes": 11
+        },
+        {
+          "pid": 3763,
+          "tid": 3787,
+          "id": "0x6",
+          "selectedSamples": 1693,
+          "sampledMs": 296.981201171875,
+          "nodes": 8
+        }
+      ],
+      "retainedClockMarkers": [
+        {
+          "args": {
+            "sync_id": "epoch-1792912260624"
+          },
+          "cat": "__metadata",
+          "name": "clock_sync",
+          "ph": "c",
+          "pid": 3712,
+          "tid": 3712,
+          "ts": 237958579,
+          "tts": 246645
+        }
+      ],
+      "independentClockCalibration": {
+        "beforeEpochMs": 1792912260626,
+        "afterEpochMs": 1792912260626,
+        "timestampSeconds": 237.959917
+      },
+      "rawSummary": {
+        "file": "trace-3-9aaae6b2-210b-4b34-9b29-697bedc66140-cpu-summary.json",
+        "sha256": "aa1e5ade4984ec88e8992f29d20f8475ccc8cd538b03933f7c97da420466dd80"
+      }
+    },
+    {
+      "sample": "04-ecl-oz-source-warm-profile-reload",
+      "gradeElapsedMs": 2456.385009765625,
+      "errnoErrorLeaf": {
+        "functionName": "ErrnoError",
+        "url": "http://127.0.0.1:39567/maxima-runtime/maxima.js",
+        "sampledMs": 2099.86572265625,
+        "samples": 12366
+      },
+      "errnoErrorUpperBoundMsIfOutsideTop80": null,
+      "contexts": [
+        {
+          "pid": 3845,
+          "tid": 3870,
+          "id": "0x4",
+          "selectedSamples": 14112,
+          "sampledMs": 2456.385009765625,
+          "nodes": 65126
+        },
+        {
+          "pid": 3845,
+          "tid": 3845,
+          "id": "0x5",
+          "selectedSamples": 13882,
+          "sampledMs": 2450.245849609375,
+          "nodes": 3
+        },
+        {
+          "pid": 3845,
+          "tid": 3869,
+          "id": "0x6",
+          "selectedSamples": 14097,
+          "sampledMs": 2444.060791015625,
+          "nodes": 7
+        }
+      ],
+      "retainedClockMarkers": [
+        {
+          "args": {
+            "sync_id": "epoch-1792912298121"
+          },
+          "cat": "__metadata",
+          "name": "clock_sync",
+          "ph": "c",
+          "pid": 3793,
+          "tid": 3793,
+          "ts": 275455012,
+          "tts": 276848
+        }
+      ],
+      "independentClockCalibration": {
+        "beforeEpochMs": 1792912298122,
+        "afterEpochMs": 1792912298123,
+        "timestampSeconds": 275.456339
+      },
+      "rawSummary": {
+        "file": "trace-4-e2da617b-41da-4312-ae63-403871830ba6-cpu-summary.json",
+        "sha256": "b1ed6b9fb062ad31e0073843ec56781c359c682074370362d500e09f16c2f2bf"
+      }
+    },
+    {
+      "sample": "04-ecl-oz-source-cold",
+      "gradeElapsedMs": 2400.630126953125,
+      "errnoErrorLeaf": {
+        "functionName": "ErrnoError",
+        "url": "http://127.0.0.1:39567/maxima-runtime/maxima.js",
+        "sampledMs": 2047.355712890625,
+        "samples": 12035
+      },
+      "errnoErrorUpperBoundMsIfOutsideTop80": null,
+      "contexts": [
+        {
+          "pid": 3845,
+          "tid": 3855,
+          "id": "0x1",
+          "selectedSamples": 13626,
+          "sampledMs": 2400.62939453125,
+          "nodes": 66806
+        },
+        {
+          "pid": 3845,
+          "tid": 3845,
+          "id": "0x2",
+          "selectedSamples": 13584,
+          "sampledMs": 2398.818603515625,
+          "nodes": 4
+        },
+        {
+          "pid": 3845,
+          "tid": 3853,
+          "id": "0x3",
+          "selectedSamples": 13797,
+          "sampledMs": 2399.12060546875,
+          "nodes": 9
+        }
+      ],
+      "retainedClockMarkers": [
+        {
+          "args": {
+            "sync_id": "epoch-1792912278460"
+          },
+          "cat": "__metadata",
+          "name": "clock_sync",
+          "ph": "c",
+          "pid": 3793,
+          "tid": 3793,
+          "ts": 255794357,
+          "tts": 52377
+        }
+      ],
+      "independentClockCalibration": {
+        "beforeEpochMs": 1792912278462,
+        "afterEpochMs": 1792912278462,
+        "timestampSeconds": 255.795948
+      },
+      "rawSummary": {
+        "file": "trace-4-ec6716f1-0d01-496b-8816-90cacead85fd-cpu-summary.json",
+        "sha256": "a3d9f42b5d8b409967706b70f6e66b2aa2aa7d73e297596fa69d4eaefa34a2c3"
+      }
+    },
+    {
+      "sample": "05-ecl-oz-source-cold",
+      "gradeElapsedMs": 2399.840087890625,
+      "errnoErrorLeaf": {
+        "functionName": "ErrnoError",
+        "url": "http://127.0.0.1:46379/maxima-runtime/maxima.js",
+        "sampledMs": 2049.364013671875,
+        "samples": 12139
+      },
+      "errnoErrorUpperBoundMsIfOutsideTop80": null,
+      "contexts": [
+        {
+          "pid": 3930,
+          "tid": 3940,
+          "id": "0x1",
+          "selectedSamples": 13740,
+          "sampledMs": 2399.840087890625,
+          "nodes": 66012
+        },
+        {
+          "pid": 3930,
+          "tid": 3930,
+          "id": "0x2",
+          "selectedSamples": 13600,
+          "sampledMs": 2387.26416015625,
+          "nodes": 13
+        },
+        {
+          "pid": 3930,
+          "tid": 3938,
+          "id": "0x3",
+          "selectedSamples": 13999,
+          "sampledMs": 2398.439453125,
+          "nodes": 9
+        }
+      ],
+      "retainedClockMarkers": [
+        {
+          "args": {
+            "sync_id": "epoch-1792912318648"
+          },
+          "cat": "__metadata",
+          "name": "clock_sync",
+          "ph": "c",
+          "pid": 3879,
+          "tid": 3879,
+          "ts": 295981852,
+          "tts": 52700
+        }
+      ],
+      "independentClockCalibration": {
+        "beforeEpochMs": 1792912318649,
+        "afterEpochMs": 1792912318650,
+        "timestampSeconds": 295.98357
+      },
+      "rawSummary": {
+        "file": "trace-5-b3e5f1e5-583c-4859-a641-8e6eff1a684f-cpu-summary.json",
+        "sha256": "9b8637df6b2a1eaa88091720471ac1a47ceee0edfd986537a4ebf9ee717092d6"
+      }
+    },
+    {
+      "sample": "05-ecl-oz-source-warm-profile-reload",
+      "gradeElapsedMs": 2464.294921875,
+      "errnoErrorLeaf": {
+        "functionName": "ErrnoError",
+        "url": "http://127.0.0.1:46379/maxima-runtime/maxima.js",
+        "sampledMs": 2090.340576171875,
+        "samples": 12293
+      },
+      "errnoErrorUpperBoundMsIfOutsideTop80": null,
+      "contexts": [
+        {
+          "pid": 3930,
+          "tid": 3954,
+          "id": "0x4",
+          "selectedSamples": 14065,
+          "sampledMs": 2464.294921875,
+          "nodes": 66334
+        },
+        {
+          "pid": 3930,
+          "tid": 3930,
+          "id": "0x5",
+          "selectedSamples": 13898,
+          "sampledMs": 2457.44091796875,
+          "nodes": 12
+        },
+        {
+          "pid": 3930,
+          "tid": 3953,
+          "id": "0x6",
+          "selectedSamples": 14096,
+          "sampledMs": 2457.11962890625,
+          "nodes": 8
+        }
+      ],
+      "retainedClockMarkers": [
+        {
+          "args": {
+            "sync_id": "epoch-1792912339157"
+          },
+          "cat": "__metadata",
+          "name": "clock_sync",
+          "ph": "c",
+          "pid": 3879,
+          "tid": 3879,
+          "ts": 316491190,
+          "tts": 264153
+        }
+      ],
+      "independentClockCalibration": {
+        "beforeEpochMs": 1792912339158,
+        "afterEpochMs": 1792912339159,
+        "timestampSeconds": 316.492525
+      },
+      "rawSummary": {
+        "file": "trace-5-ffae119f-ddfe-4736-b567-6011da9e2d2c-cpu-summary.json",
+        "sha256": "660eac782dfd3addb3c35d33f6140d99dcca2879d067936de1544dc0651441bd"
+      }
+    },
+    {
+      "sample": "06-ecl-oz-maxima-oz-source-cold",
+      "gradeElapsedMs": 317.97998046875,
+      "errnoErrorLeaf": null,
+      "errnoErrorUpperBoundMsIfOutsideTop80": 0.55810546875,
+      "contexts": [
+        {
+          "pid": 4042,
+          "tid": 4052,
+          "id": "0x1",
+          "selectedSamples": 1312,
+          "sampledMs": 317.012939453125,
+          "nodes": 61246
+        },
+        {
+          "pid": 4042,
+          "tid": 4042,
+          "id": "0x2",
+          "selectedSamples": 1798,
+          "sampledMs": 309.936767578125,
+          "nodes": 11
+        },
+        {
+          "pid": 4042,
+          "tid": 4050,
+          "id": "0x3",
+          "selectedSamples": 1795,
+          "sampledMs": 309.888671875,
+          "nodes": 8
+        }
+      ],
+      "retainedClockMarkers": [
+        {
+          "args": {
+            "sync_id": "epoch-1792912352682"
+          },
+          "cat": "__metadata",
+          "name": "clock_sync",
+          "ph": "c",
+          "pid": 3990,
+          "tid": 3990,
+          "ts": 330016392,
+          "tts": 48503
+        }
+      ],
+      "independentClockCalibration": {
+        "beforeEpochMs": 1792912352684,
+        "afterEpochMs": 1792912352684,
+        "timestampSeconds": 330.017903
+      },
+      "rawSummary": {
+        "file": "trace-6-16a798a4-613f-4578-8c6d-339533272019-cpu-summary.json",
+        "sha256": "942b898bfaf404a85c813ac92a51e8267d81270c031e8d20dd1697a4a1265b1f"
+      }
+    },
+    {
+      "sample": "06-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "gradeElapsedMs": 255.125,
+      "errnoErrorLeaf": null,
+      "errnoErrorUpperBoundMsIfOutsideTop80": 0.47607421875,
+      "contexts": [
+        {
+          "pid": 4042,
+          "tid": 4069,
+          "id": "0x4",
+          "selectedSamples": 1115,
+          "sampledMs": 254.4169921875,
+          "nodes": 62377
+        },
+        {
+          "pid": 4042,
+          "tid": 4042,
+          "id": "0x5",
+          "selectedSamples": 1381,
+          "sampledMs": 249.407470703125,
+          "nodes": 6
+        },
+        {
+          "pid": 4042,
+          "tid": 4068,
+          "id": "0x6",
+          "selectedSamples": 1394,
+          "sampledMs": 242.90576171875,
+          "nodes": 9
+        }
+      ],
+      "retainedClockMarkers": [
+        {
+          "args": {
+            "sync_id": "epoch-1792912362958"
+          },
+          "cat": "__metadata",
+          "name": "clock_sync",
+          "ph": "c",
+          "pid": 3990,
+          "tid": 3990,
+          "ts": 340292448,
+          "tts": 252153
+        }
+      ],
+      "independentClockCalibration": {
+        "beforeEpochMs": 1792912362960,
+        "afterEpochMs": 1792912362960,
+        "timestampSeconds": 340.293773
+      },
+      "rawSummary": {
+        "file": "trace-6-cb2ef60b-5a13-4e3e-ab8a-37b0b8411f53-cpu-summary.json",
+        "sha256": "d86b92409c5a5daf595921ad7f07465646a0985524d36e8230a220ff0fe38008"
+      }
+    }
+  ],
+  "loadSamples": [
+    {
+      "sample": "01-ecl-oz-source-cold",
+      "gradeElapsedMs": 1777.4150390625,
+      "genutLoadElapsedMs": 95.485107421875,
+      "entries": [
+        {
+          "epochMs": 1792910183032.68,
+          "line": "(%i7) 1> ($LOAD \"genut\")"
+        },
+        {
+          "epochMs": 1792910183128.165,
+          "line": "<1 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac\")"
+        }
+      ],
+      "sampleSha256": "551befe0f13c566551d6e6fe65eecc33718ee7ee9ed09b4c62cd1e546eb315f9"
+    },
+    {
+      "sample": "01-ecl-oz-source-warm-profile-reload",
+      "gradeElapsedMs": 1814.449951171875,
+      "genutLoadElapsedMs": 125.690185546875,
+      "entries": [
+        {
+          "epochMs": 1792910216785.0098,
+          "line": "(%i7) 1> ($LOAD \"genut\")"
+        },
+        {
+          "epochMs": 1792910216910.7,
+          "line": "<1 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac\")"
+        }
+      ],
+      "sampleSha256": "bbcdd164e6d615c993721401cc7bf24b4e7ec28d0dd1b027b2397ff164c017a9"
+    },
+    {
+      "sample": "02-ecl-oz-maxima-oz-source-cold",
+      "gradeElapsedMs": 158.494873046875,
+      "genutLoadElapsedMs": 28.33984375,
+      "entries": [
+        {
+          "epochMs": 1792910242901.09,
+          "line": "(%i7) 1> ($LOAD \"genut\")"
+        },
+        {
+          "epochMs": 1792910242929.43,
+          "line": "<1 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac\")"
+        }
+      ],
+      "sampleSha256": "42b5a7f248d4cf95cb7f38822c85cf04615b6585a1c33372fb8792048e06917e"
+    },
+    {
+      "sample": "02-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "gradeElapsedMs": 177.375,
+      "genutLoadElapsedMs": 26.684814453125,
+      "entries": [
+        {
+          "epochMs": 1792910266227.86,
+          "line": "(%i7) 1> ($LOAD \"genut\")"
+        },
+        {
+          "epochMs": 1792910266254.545,
+          "line": "<1 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac\")"
+        }
+      ],
+      "sampleSha256": "fbbcf0d8c434db1fd596c2e3b50809f41927a38dba906f5a6d9206f9ff499d32"
+    },
+    {
+      "sample": "03-ecl-oz-maxima-oz-source-cold",
+      "gradeElapsedMs": 155.885009765625,
+      "genutLoadElapsedMs": 28.590087890625,
+      "entries": [
+        {
+          "epochMs": 1792910295794.385,
+          "line": "(%i7) 1> ($LOAD \"genut\")"
+        },
+        {
+          "epochMs": 1792910295822.975,
+          "line": "<1 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac\")"
+        }
+      ],
+      "sampleSha256": "c07aedda8a3cd73631365a76095c0f7eebcb04622cc75554c98940cb7b2b5568"
+    },
+    {
+      "sample": "03-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "gradeElapsedMs": 151.21484375,
+      "genutLoadElapsedMs": 27.8701171875,
+      "entries": [
+        {
+          "epochMs": 1792910319071.8298,
+          "line": "(%i7) 1> ($LOAD \"genut\")"
+        },
+        {
+          "epochMs": 1792910319099.7,
+          "line": "<1 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac\")"
+        }
+      ],
+      "sampleSha256": "723a299a99de8b4611193c19841b30ff14339fd0b5b303af9e7d471b46768f5f"
+    },
+    {
+      "sample": "04-ecl-oz-source-cold",
+      "gradeElapsedMs": 1816.715087890625,
+      "genutLoadElapsedMs": 125.7900390625,
+      "entries": [
+        {
+          "epochMs": 1792910352987.0151,
+          "line": "(%i7) 1> ($LOAD \"genut\")"
+        },
+        {
+          "epochMs": 1792910353112.8052,
+          "line": "<1 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac\")"
+        }
+      ],
+      "sampleSha256": "2874b5cb413446234165723e5848a26acdb4fd379d713cbf5966be15d8acd8cf"
+    },
+    {
+      "sample": "04-ecl-oz-source-warm-profile-reload",
+      "gradeElapsedMs": 1807.800048828125,
+      "genutLoadElapsedMs": 126.554931640625,
+      "entries": [
+        {
+          "epochMs": 1792910386818.05,
+          "line": "(%i7) 1> ($LOAD \"genut\")"
+        },
+        {
+          "epochMs": 1792910386944.605,
+          "line": "<1 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac\")"
+        }
+      ],
+      "sampleSha256": "acff7f57c51eb5772acecfdbe54120537445f557b9947a193638d9c2ded22183"
+    },
+    {
+      "sample": "05-ecl-oz-source-cold",
+      "gradeElapsedMs": 1840.744873046875,
+      "genutLoadElapsedMs": 155.85009765625,
+      "entries": [
+        {
+          "epochMs": 1792910420881.26,
+          "line": "(%i7) 1> ($LOAD \"genut\")"
+        },
+        {
+          "epochMs": 1792910421037.11,
+          "line": "<1 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac\")"
+        }
+      ],
+      "sampleSha256": "95ae1a4cfed9ead415e576b78a37c29bc5d7840e30dbe8e4505002dcca25f8f5"
+    },
+    {
+      "sample": "05-ecl-oz-source-warm-profile-reload",
+      "gradeElapsedMs": 1831.14501953125,
+      "genutLoadElapsedMs": 126.119873046875,
+      "entries": [
+        {
+          "epochMs": 1792910454822.495,
+          "line": "(%i7) 1> ($LOAD \"genut\")"
+        },
+        {
+          "epochMs": 1792910454948.615,
+          "line": "<1 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac\")"
+        }
+      ],
+      "sampleSha256": "59407dfa97190cc32fe9b83e659005bedfc4beb2ddc7c3ead784651b0d590fa3"
+    },
+    {
+      "sample": "06-ecl-oz-maxima-oz-source-cold",
+      "gradeElapsedMs": 187.344970703125,
+      "genutLoadElapsedMs": 28.0751953125,
+      "entries": [
+        {
+          "epochMs": 1792910480828.22,
+          "line": "(%i7) 1> ($LOAD \"genut\")"
+        },
+        {
+          "epochMs": 1792910480856.2952,
+          "line": "<1 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac\")"
+        }
+      ],
+      "sampleSha256": "2d56d05105e1ebf8ff2b27250cdd6c90165ccb4262cc1dab111b0d74f9cc9780"
+    },
+    {
+      "sample": "06-ecl-oz-maxima-oz-source-warm-profile-reload",
+      "gradeElapsedMs": 180.56494140625,
+      "genutLoadElapsedMs": 27.670166015625,
+      "entries": [
+        {
+          "epochMs": 1792910504658.5698,
+          "line": "(%i7) 1> ($LOAD \"genut\")"
+        },
+        {
+          "epochMs": 1792910504686.24,
+          "line": "<1 ($LOAD \"/share/maxima/branch_5_49_base_90_g813903d33/share/simplification/genut.mac\")"
+        }
+      ],
+      "sampleSha256": "2069c8ca38c6372b68f3623da56a7856e8f8382582ff5c9963da8a0ca6e76f31"
+    }
+  ],
+  "emscriptenSources": {
+    "pinnedCommit": "b7dc6e5747465580df5984e723b9d1f10d8e804b",
+    "linkDefaults": "https://github.com/emscripten-core/emscripten/blob/b7dc6e5747465580df5984e723b9d1f10d8e804b/tools/link.py#L695",
+    "errnoConstructor": "https://github.com/emscripten-core/emscripten/blob/b7dc6e5747465580df5984e723b9d1f10d8e804b/src/lib/libfs.js#L63"
+  },
+  "conclusion": "The old Maxima generated C uses -O2 but its delivered JS glue uses the ASSERTIONS-on constructor form. EMCC_CFLAGS=-Oz also optimizes that final link, whose default ASSERTIONS becomes zero. The admitted old glue constructs Error with strError and symbolic-code lookup on ErrnoError; the admitted candidate uses an errno-only class. About 2.05\u20132.10 seconds of each old instrumented first grade is sampled in that constructor, accounting for most of the first-grade gap. Both profiles still load genut.mac. This is a real first-use/runtime-glue improvement, not a demonstrated tenfold speedup of algebra or warmed grading.",
+  "limits": [
+    "CPU profile weights are sampled wall intervals per context, not additive CPU time across threads. The parent assess frame waits for the CAS and must not be added to child execution.",
+    "CPU/LOAD diagnostic timings are instrumented n3 observations on separate runners; use the clean n10 selection for performance estimates.",
+    "Both original JS files were read as data and verified against admitted manifest hashes. No diagnostic JS modification is shipped.",
+    "The earlier full-session CPU trace lost its calibration marker and was excluded from phase attribution.",
+    "The candidate is outside the retained top80 ErrnoError leaf weights; the last retained weight supplies the stated upper bound, not a claim of zero filesystem errors."
+  ]
+}

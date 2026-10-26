@@ -6,6 +6,7 @@
   'use strict';
 
   const NAME = /^[A-Za-z][A-Za-z0-9_]*$/;
+  const INTERNAL_FAULT = 'Internal CAS fault during native validation';
   const TOKEN = /@@CTM_NATIVE_([A-Za-z0-9_]+)@@/g;
   const MUTATING_CALL = /\b(?:system|load|batch|batchload|kill|remvalue|remfunction|declare|remove|assume|forget|activate|deactivate|newcontext|killcontext|supcontext|atvalue|compile|translate|modedeclare|define|set_random_state|make_random_state|stack_randseed|put|qput|rem|array|fillarray|arrayapply|appendfile|writefile|stringout|save|openw|opena|with_stdout|delete_file|rename_file|eval_string|parse_string|funmake|apply|depends|gradef|matchdeclare|defmatch|defrule|remrule|tellsimp|tellsimpafter|setup_autoload|autoload|setelmx|push|pop|print|printf|disp|display)\s*\(/i;
   // STACK exposes several RNG helpers, including rand_with_prohib and
@@ -370,12 +371,17 @@
           map([['valid','_ctm_good'], ['latex','if _ctm_good then tex1(_ctm_s) else ""'],
             ['feedback','simplode(_ctm_lines," ")'], ['source','if _ctm_good then string(ev(_ctm_s,simp)) else ""']])
         ];
+        // A Maxima error or Lisp arithmetic error is the learner's domain
+        // error (1/0) and stays invalid in this healthy session. Any other
+        // Lisp error is an internal CAS fault: fail the request so the
+        // session's existing poison/restart path discards this worker.
         checks.push([input.name, block(['_ctm_s','_ctm_t','_ctm_v','_ctm_r','_ctm_lines','_ctm_stream','_ctm_line','_ctm_shape','_ctm_good',
           '%ERR:["stack_map"]','%NOTES:["stack_map"]','%FEEDBACK:["stack_map"]'], [
           'simp:false', '_ctm_lines:[]', '_ctm_t:' + teacher,
-          '_ctm_r:errcatch(' + block([],learnerChecks) + ')',
-          'if _ctm_r=[] then ' + map([['valid','false'],['latex','""'],
-            ['feedback','"Native STACK could not evaluate this expression"'],['source','""']]) + ' else first(_ctm_r)'
+          '_ctm_r:ctm_classified_errcatch(' + block([],learnerChecks) + ')',
+          'if _ctm_r[1]="internal" then error(' + quote(INTERNAL_FAULT + ': ') + ',errormsgtostring())',
+          'if _ctm_r[1]="learner" then ' + map([['valid','false'],['latex','""'],
+            ['feedback','"Native STACK could not evaluate this expression"'],['source','""']]) + ' else _ctm_r[2]'
         ])]);
       }
       return block(context(question), [...restore(variant), map(checks)]);
@@ -574,6 +580,7 @@
       return {passed:rows.length > 0 && rows.every(row => row.passed),results:rows};
     }
   }
+  NativeStackEngine.INTERNAL_FAULT = INTERNAL_FAULT;
   NativeStackEngine.renderTemplate = renderTemplate;
   NativeStackEngine.statements = statements;
   scope.NativeStackEngine = NativeStackEngine;

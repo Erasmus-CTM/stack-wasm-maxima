@@ -1,3 +1,7 @@
+# Production selection and historical compiler experiments
+
+The runtime-v3 proposal registers `ecl-oz-maxima-oz` as production, retaining explicit legacy comparator choices. See [selection results](../../measurements/2026-10-25-maxima-oz-selection/README.md), the [collector repair](../../measurements/2026-10-25-maxima-oz-selection/gc-root-cause/README.md), and [release acceptance](PRODUCTION-ACCEPTANCE.md). The original experimental notes below describe earlier revisions.
+
 # Scoped ECL compiler experiments â€” local draft
 
 This experiment is stacked on [PR9](https://github.com/Erasmus-CTM/stack-wasm-maxima/pull/9),
@@ -29,6 +33,18 @@ Both candidates can therefore regress. The injection also affects ECL target
 link invocations; this is an ECL target experiment, not a claim that every Wasm
 component uses one optimization level. Original configure flags and installed
 target-info remain unchanged and are preserved alongside the effective traces.
+
+The experimental `ecl-oz-maxima-oz` profile also sets `gcSpillPasses`. Plain
+`--spill-pointers` spills only pointer locals live after a call; a pointer
+waiting on the Wasm value stack for an enclosing call stays invisible to the
+collector, which caused the source validation failure recorded in
+`measurements/2026-10-25-maxima-oz-selection/gc-root-cause/`. The profile's
+injected flags add `-sBINARYEN_EXTRA_PASSES=flatten,spill-pointers,...`, which
+Emscripten applies after ECL's upstream setting, to the ECL, Maxima and compiled
+STACK phases. Compiler evidence requires that exact contiguous sequence, after
+the optimization passes and with no other spill pass, in the executed
+`wasm-opt` argv of every delivered target. The standard profiles keep the
+upstream pass unchanged.
 
 `EMCC_VERBOSE=1` records actual clang and wasm-opt subprocess commands without
 debug mode's large retained temporary trees. `VERBOSE=1` exposes ECL core make

@@ -1,6 +1,6 @@
 # STACK Wasm Maxima
 
-Research and prototypes for using Maxima in WebAssembly with CTM Assessment's Quarto frontend and STACK grading libraries.
+Maxima in WebAssembly with CTM Assessment's Quarto frontend and STACK grading libraries. The runtime-v3 proposal selects `ecl-oz-maxima-oz` with the complete collector spill pass sequence. See the [selection evidence](measurements/2026-10-25-maxima-oz-selection/README.md), [collector repair](measurements/2026-10-25-maxima-oz-selection/gc-root-cause/README.md) and [production acceptance gates](runtime/build/PRODUCTION-ACCEPTANCE.md). The site release pin is updated separately after AC publishes the accepted runtime.
 
 Milestone 1 runs unmodified STACK answer-test libraries in browser Wasm Maxima. At both tested STACK revisions, all 22 selected official fixture probes matched the native reference. See the [execution report](reports/milestone-one/latest.md).
 

@@ -6,6 +6,7 @@ import json
 import re
 from pathlib import Path
 import subprocess
+import tempfile
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -56,10 +57,15 @@ for sha in ("10d323311b7f39fb7b092dd10ce75f7d8632f525", "33383047af39c204bf44428
     runner.STACK_SHA = sha
     native = runner.run_native(selected, source, jobs=2, timeout=180)
     (OUT / f"native-{sha[:7]}.json").write_text(json.dumps(native, indent=2) + "\n")
-    home = ROOT / ".cache" / ("wasm-home-" + sha[:7])
-    home.mkdir(parents=True, exist_ok=True)
-    batch = runner.make_batch(source, selected, home, 0)
-    batch = batch.replace(str(home.resolve()), "/ctm").replace(str(source.resolve()), "/ctm/moodle-qtype_stack-master")
+    # The combined source/compiled workflow prepares these probes more than
+    # once. The pinned oracle creates its STACK symlink exclusively, so each
+    # invocation needs a fresh home. All home paths are rebased before use.
+    cache = ROOT / ".cache"
+    cache.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="wasm-home-" + sha[:7] + "-", dir=cache) as directory:
+        home = Path(directory)
+        batch = runner.make_batch(source, selected, home, 0)
+        batch = batch.replace(str(home.resolve()), "/ctm").replace(str(source.resolve()), "/ctm/moodle-qtype_stack-master")
     batch = batch.replace("display2d:false$\nlinel:10000$\n", 'display2d:false$\nlinel:10000$\nprint(sconcat("M1READY|",stackmaximaversion))$\n')
     batch = batch.replace("quit()$", 'print(sconcat("M1META|",stackmaximaversion,"|",MAXIMA_VERSION_STR))$')
     version_match = re.search(r"stackmaximaversion:(\d+)", (source / "stack/maxima/stackmaxima.mac").read_text())

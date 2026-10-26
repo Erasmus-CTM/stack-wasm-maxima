@@ -1,11 +1,39 @@
 {
   "schema": 1,
-  "scope": "EMCC_CFLAGS applies only to the standalone upstream ecl-emscripten target; unset before Maxima main and optional modules. Original configure CFLAGS remain unchanged.",
-  "production": "ecl-oz",
-  "productionNote": "The profile runtime releases are built and accepted with (AC, 23 Oct 2026). Experiments and comparators keep selecting their profile explicitly through CTM_ECL_COMPILER_PROFILE (fallback baseline).",
+  "scope": "Production compiles ECL, Maxima main, its eight optional modules and opt-in STACK bundles at -Oz, with flatten-before-spill GC rooting and local-count cleanup. The explicit baseline/ecl-oz/ecl-o2 comparison profiles retain their original flags and upstream spill pass; original configure CFLAGS are unchanged.",
+  "production": "ecl-oz-maxima-oz",
+  "productionNote": "2026-10-25: initial source-STACK selection evidence is run 40169223514 (10 balanced cold/reload repetitions per CPU condition; medians and raw samples in measurements/2026-10-25-maxima-oz-selection). The first-use JS-glue gain is explained in FIRST-GRADE.md. The flattened candidate additionally repairs the independently reproduced Binaryen value-stack root gap (run 40231542637). Final-head acceptance, GC stress and refreshed no-rebuild timings are required and retained with the promotion PR before merge; source-loaded STACK remains default.",
   "profiles": {
-    "baseline": {"name": "baseline", "injectedEmccFlags": null, "eclCoreOptimization": "-O0", "eclGeneratedLispOptimization": "-O2", "maximaGeneratedOptimization": "-O2"},
-    "ecl-oz": {"name": "ecl-oz", "injectedEmccFlags": "-Oz", "eclCoreOptimization": "-Oz", "eclGeneratedLispOptimization": "-Oz", "maximaGeneratedOptimization": "-O2"},
-    "ecl-o2": {"name": "ecl-o2", "injectedEmccFlags": "-O2", "eclCoreOptimization": "-O2", "eclGeneratedLispOptimization": "-O2", "maximaGeneratedOptimization": "-O2"}
+    "baseline": {
+      "name": "baseline",
+      "injectedEmccFlags": null,
+      "eclCoreOptimization": "-O0",
+      "eclGeneratedLispOptimization": "-O2",
+      "maximaGeneratedOptimization": "-O2"
+    },
+    "ecl-oz": {
+      "name": "ecl-oz",
+      "injectedEmccFlags": "-Oz",
+      "eclCoreOptimization": "-Oz",
+      "eclGeneratedLispOptimization": "-Oz",
+      "maximaGeneratedOptimization": "-O2"
+    },
+    "ecl-o2": {
+      "name": "ecl-o2",
+      "injectedEmccFlags": "-O2",
+      "eclCoreOptimization": "-O2",
+      "eclGeneratedLispOptimization": "-O2",
+      "maximaGeneratedOptimization": "-O2"
+    },
+    "ecl-oz-maxima-oz": {
+      "name": "ecl-oz-maxima-oz",
+      "injectedEmccFlags": "-Oz",
+      "eclCoreOptimization": "-Oz",
+      "eclGeneratedLispOptimization": "-Oz",
+      "maximaGeneratedOptimization": "-Oz",
+      "maximaInjectedEmccFlags": "-Oz",
+      "stackGeneratedOptimization": "-Oz",
+      "gcSpillPasses": "flatten,spill-pointers,simplify-locals-notee-nostructure,vacuum,coalesce-locals,reorder-locals"
+    }
   }
 }
