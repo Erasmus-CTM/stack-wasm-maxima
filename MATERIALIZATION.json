@@ -148,8 +148,8 @@
     },
     {
       "path": "maxima/native.html",
-      "sourceSha256": "fbd397edef5be69a5b68cea9dc467a9cfca26d8260897d497e75ac8dafdd135a",
-      "materializedSha256": "ae41b7bff5a001c79bca859bd712f6621c1c6e5168ed641ceaa83a054cec3f71",
+      "sourceSha256": "1a3b9962dbef692422355b0e5e6e7825f81943a84acee8ef4e6e30285bf0449c",
+      "materializedSha256": "37f8a3a81d707798fcd7ae49e82df5dbf11de9575f8d4e0cfffeccc4e3701f75",
       "runtime": "native/boards/mathjax/npm/mathjax@3.2.2/es5/tex-chtml.js",
       "existingLoader": []
     },
