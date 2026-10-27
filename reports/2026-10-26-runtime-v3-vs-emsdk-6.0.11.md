@@ -18,7 +18,9 @@ runtime-v3 stays the served runtime.
 
 Measured by `page-timings-owned.yml` run
 [40359127907](https://github.com/Erasmus-CTM/stack-wasm-maxima/actions/runs/40359127907)
-at commit `3226c47`, on one `ubuntu-24.04` runner. Each column is the committed
+at commit `3226c47`, on one `ubuntu-24.04` runner. That run was started by a push, with
+these trial values as workflow defaults; the workflow on main takes them as
+dispatch inputs instead. Each column is the committed
 native questions page rendered locally with that runtime, except "Live public
 page", which loads https://erasmus-ctm.github.io/stack-wasm-maxima/maxima/native.html
 (runtime-v3) over the network. The workload is the rational-equivalence question,
@@ -83,8 +85,7 @@ replaced for other reasons.
 
 ## Reproducing
 
-Push a change to `.github/workflows/page-timings-owned.yml`, or dispatch it once
-the workflow is on the default branch. Use `runtimes: poc1 v2 v3 trial`,
+Dispatch `.github/workflows/page-timings-owned.yml` with `runtimes: poc1 v2 v3 trial`,
 `trial_run_id: 40323133024`, `trial_artifact_id: 12666332321`,
 `trial_profile: ecl-oz-maxima-oz` and `trial_emsdk: 6.0.11`. Each run uploads
 `page-timings-owned-<sha>` with every `summary.json`.

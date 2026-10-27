@@ -6,12 +6,6 @@ name: Measure the native questions page with each runtime
 # into the same committed site, rendered locally and measured through the real
 # Validate and Check buttons; the live public page is measured on the same runner.
 on:
-  push:
-    branches: ['claude/elegant-maxwell-3tv01e']
-    paths:
-      - '.github/workflows/page-timings-owned.yml'
-      - 'scripts/measure-native-page-timings.mjs'
-      - 'scripts/report-page-timings.mjs'
   workflow_dispatch:
     inputs:
       starts:
@@ -21,7 +15,7 @@ on:
       runtimes:
         description: Space-separated runtimes to stage (poc1 v2 v3 oz-4.0.10 oz-6.0.11 trial)
         required: true
-        default: 'poc1 v2 v3 trial'
+        default: 'poc1 v2 v3'
       trial_run_id:
         description: Run ID of a runtime-build.yml run whose accepted artifact is staged as the "trial" runtime
         required: false
@@ -58,13 +52,11 @@ jobs:
     env:
       CTM_COMPONENT_DEV: '1'
       STACK_SYMPY_PYTHON: python
-      RUNTIMES: ${{ inputs.runtimes || 'poc1 v2 v3 trial' }}
-      # Push runs have no inputs: the trial falls back to the accepted
-      # ecl-oz-maxima-oz build on emsdk 6.0.11 (runtime-build run 40323133024).
-      TRIAL_RUN: ${{ inputs.trial_run_id || '40323133024' }}
-      TRIAL_ARTIFACT: ${{ inputs.trial_artifact_id || '12666332321' }}
-      TRIAL_PROFILE: ${{ inputs.trial_profile || 'ecl-oz-maxima-oz' }}
-      TRIAL_EMSDK: ${{ github.event_name == 'push' && '6.0.11' || inputs.trial_emsdk }}
+      RUNTIMES: ${{ inputs.runtimes }}
+      TRIAL_RUN: ${{ inputs.trial_run_id }}
+      TRIAL_ARTIFACT: ${{ inputs.trial_artifact_id }}
+      TRIAL_PROFILE: ${{ inputs.trial_profile }}
+      TRIAL_EMSDK: ${{ inputs.trial_emsdk }}
       LIVE_PAGE: https://erasmus-ctm.github.io/stack-wasm-maxima/maxima/native.html
     steps:
       - uses: actions/checkout@v7
@@ -133,8 +125,10 @@ jobs:
           npm ci --ignore-scripts --no-audit --no-fund
           npx playwright install --with-deps chromium
       # ecl-oz artifacts accepted in runs 40266520257 (emsdk 4.0.10) and
-      # 40266518267 (emsdk 6.0.11), both at commit 3ef575f.
+      # 40266518267 (emsdk 6.0.11), both at commit 3ef575f; they expire in
+      # January 2027, so they are fetched only when named in runtimes.
       - name: Download the accepted 4.0.10 ecl-oz runtime
+        if: ${{ contains(format(' {0} ', env.RUNTIMES), ' oz-4.0.10 ') }}
         uses: actions/download-artifact@v7
         with:
           github-token: ${{ github.token }}
@@ -143,6 +137,7 @@ jobs:
           merge-multiple: true
           path: .cache/owned/oz-4.0.10
       - name: Download the accepted 6.0.11 ecl-oz runtime
+        if: ${{ contains(format(' {0} ', env.RUNTIMES), ' oz-6.0.11 ') }}
         uses: actions/download-artifact@v7
         with:
           github-token: ${{ github.token }}
@@ -151,7 +146,7 @@ jobs:
           merge-multiple: true
           path: .cache/owned/oz-6.0.11
       - name: Download the trial runtime
-        if: ${{ env.TRIAL_RUN != '' && env.TRIAL_ARTIFACT != '' }}
+        if: ${{ contains(format(' {0} ', env.RUNTIMES), ' trial ') }}
         uses: actions/download-artifact@v7
         with:
           github-token: ${{ github.token }}
@@ -227,7 +222,7 @@ jobs:
       # The optional PythonChecker section is left out here: on 26 October some
       # Python start-ups under this limit hung past the 330 s action timeout.
       - name: Measure under a quarter of one CPU
-        if: ${{ !cancelled() && (github.event_name == 'push' || inputs.quarter_cpu) }}
+        if: ${{ !cancelled() && inputs.quarter_cpu }}
         run: |
           failed=0
           for name in $RUNTIMES; do
