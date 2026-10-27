@@ -3,6 +3,10 @@ name: Build and accept owned compiler profiles
 on:
   workflow_dispatch:
     inputs:
+      emsdk:
+        description: Experimental Emscripten toolchain from runtime/build/toolchains.json (empty builds the pinned release toolchain)
+        type: string
+        default: ''
       profiles:
         description: Optional explicit JSON profile list; empty runs the existing three-profile comparison
         type: string
@@ -50,15 +54,17 @@ jobs:
     env:
       CTM_COLD_BUILD: cold1
       CTM_ECL_COMPILER_PROFILE: ${{ matrix.profile }}
+      # Trials only: runtime-release.yml rejects any pins but pins.json.
+      CTM_EMSDK: ${{ inputs.emsdk }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22'
-      - uses: actions/checkout@v4
+          node-version: '24'
+      - uses: actions/checkout@v7
         with:
           ref: b34bfc8af10cd80b6130baabe88a47c9a32c0333
           path: .cache/runtime-build/notices
@@ -67,6 +73,7 @@ jobs:
         run: |
           node scripts/milestone-one/test-fatal-reporting.mjs
           node runtime/build/test-runtime-source.mjs
+          node runtime/build/test-toolchain-pins.mjs
           python runtime/build/test-substitution.py
           python runtime/build/test-toolchain.py
           python runtime/build/test-cold-evidence.py
@@ -100,7 +107,7 @@ jobs:
         run: bash runtime/build/build.sh
       - name: Package runtime, hashes, source archives, size table and licences
         run: python runtime/build/package.py --notices .cache/runtime-build/notices
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
@@ -114,7 +121,7 @@ jobs:
       - name: 'STACK acceptance: Translate pinned STACK and cross-compile for the browser target'
         run: bash runtime/precompiled/translate-and-cross-compile.sh "$PWD/.cache/precompiled-stack/upstream-stack"
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: maths/moodle-qtype_stack
           ref: 10d323311b7f39fb7b092dd10ce75f7d8632f525
@@ -142,7 +149,7 @@ jobs:
             --work .cache/precompiled-stack-10d3233 --pin 10d323311b7f39fb7b092dd10ce75f7d8632f525 \
             --runtime-artifact .cache/runtime-build/artifact
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: Erasmus-CTM/ctm-checkers
           ref: c366f175aba6b62caa628bc60f57bb1167fc087b
@@ -180,28 +187,28 @@ jobs:
       - name: 'STACK acceptance: Install the pinned authoring dependencies'
         run: python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: Erasmus-CTM/stack-sympy
           ref: 1b1d50f69fc1e7eb39846b497657d72be325f597
           path: .site-sources/stack-sympy
           persist-credentials: false
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: Erasmus-CTM/ctm-checkers
           ref: c366f175aba6b62caa628bc60f57bb1167fc087b
           path: .site-sources/ctm-checkers
           persist-credentials: false
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: Erasmus-CTM/ctm-libs
           ref: 94687f718fd651fc2857bc5242a64e45c8fd4697
           path: .site-sources/ctm-libs
           persist-credentials: false
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
@@ -215,21 +222,21 @@ jobs:
             samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs
           persist-credentials: false
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: jsxgraph/jsxgraph-quarto
           ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e
           path: .site-sources/jsxgraph-quarto
           persist-credentials: false
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: Erasmus-CTM/ctm-assessment
           ref: 68fe838ca76ce7dfc4297f8ed4db1ccf1dc29a8b
           path: .site-sources/ctm-assessment
           persist-credentials: false
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: Erasmus-CTM/ctm-libs
           ref: 2cdd3b47bb4722f65f168a0baf4dbd6a18bff384
@@ -353,21 +360,21 @@ jobs:
             --same-source test-results/milestone-three/same-source-reference/native-reference.json \
             --output test-results/precompiled-stack/controller-parity.json
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: Erasmus-CTM/ctm-checkers
           ref: 9e042dc5e57a1636be64ca5d08910c9af5ff1371
           path: .ctm-checkers-source
           persist-credentials: false
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: maths/moodle-qtype_stack
           ref: 10d323311b7f39fb7b092dd10ce75f7d8632f525
           path: .stack-upstream/10d323311b7f39fb7b092dd10ce75f7d8632f525
           persist-credentials: false
         if: ${{ matrix.profile == 'ecl-oz-maxima-oz' }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
@@ -420,25 +427,25 @@ jobs:
           version: 1.8.27
       - name: Install the pinned authoring dependencies
         run: python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/stack-sympy
           ref: 1b1d50f69fc1e7eb39846b497657d72be325f597
           path: .site-sources/stack-sympy
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-checkers
           ref: c366f175aba6b62caa628bc60f57bb1167fc087b
           path: .site-sources/ctm-checkers
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-libs
           ref: 94687f718fd651fc2857bc5242a64e45c8fd4697
           path: .site-sources/ctm-libs
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
@@ -451,19 +458,19 @@ jobs:
             lang/en
             samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: jsxgraph/jsxgraph-quarto
           ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e
           path: .site-sources/jsxgraph-quarto
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-assessment
           ref: 68fe838ca76ce7dfc4297f8ed4db1ccf1dc29a8b
           path: .site-sources/ctm-assessment
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-libs
           ref: 2cdd3b47bb4722f65f168a0baf4dbd6a18bff384
@@ -535,19 +542,19 @@ jobs:
           python scripts/milestone-three/native-reference.py --browser-report test-results/milestone-three/browser.json \
             --stack-source .site-sources/stack --output test-results/milestone-three/same-source-reference \
             --maxima "$MAXIMA_PREFIX/bin/maxima"
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-checkers
           ref: 9e042dc5e57a1636be64ca5d08910c9af5ff1371
           path: .ctm-checkers-source
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 10d323311b7f39fb7b092dd10ce75f7d8632f525
           path: .stack-upstream/10d323311b7f39fb7b092dd10ce75f7d8632f525
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
@@ -567,7 +574,7 @@ jobs:
           PYTHONPATH: .site-sources/ctm-checkers/src
         run: python runtime/build/test-plot-build.py
       - name: Download the frozen fully validated owned baseline
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           github-token: ${{ github.token }}
           run-id: '39870918765'
@@ -586,7 +593,7 @@ jobs:
         run: python runtime/build/check-acceptance.py
       - name: Preserve build evidence even on failure
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.profile == 'baseline' && format('owned-runtime-{0}', github.sha) || format('owned-runtime-{0}-{1}', matrix.profile, github.sha) }}
           include-hidden-files: true
@@ -630,35 +637,37 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     needs: build
+    env:
+      CTM_EMSDK: ${{ inputs.emsdk }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22'
-      - uses: actions/download-artifact@v4
+          node-version: '24'
+      - uses: actions/download-artifact@v7
         with:
           name: owned-runtime-${{ github.sha }}
           path: .cache/compiler-trials/baseline
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with:
           name: owned-runtime-ecl-oz-${{ github.sha }}
           path: .cache/compiler-trials/ecl-oz
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with:
           name: owned-runtime-ecl-o2-${{ github.sha }}
           path: .cache/compiler-trials/ecl-o2
       - name: Verify every accepted trial before common-runner timing
         run: python runtime/build/verify-compiler-trials.py
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
           path: .site-sources/stack
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-checkers
           ref: c366f175aba6b62caa628bc60f57bb1167fc087b
@@ -709,7 +718,7 @@ jobs:
             fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,out.join("\n")+"\n");console.log(out.join("\n"));'
       - name: Preserve comparison and failed-trial evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: compiler-comparison-${{ github.sha }}
           path: .cache/compiler-trials/comparison/

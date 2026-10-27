@@ -1,0 +1,178 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: ECL-only mark stack overflow reproducer
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - runtime/diagnostics/ecl-mark-stack/**
+      - .github/workflows/ecl-mark-stack.yml
+permissions:
+  contents: read
+env:
+  # Every file this workflow runs lives in this one folder.
+  BUNDLE: runtime/diagnostics/ecl-mark-stack/upstream-bundle
+jobs:
+  native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        bits: [64, 32]
+        variant: [original, threads, eager]
+        include:
+          - variant: original
+            configure: --disable-threads
+            expect: abort
+          - variant: threads
+            configure: --enable-threads
+            expect: none
+          - variant: eager
+            configure: --disable-threads
+            expect: none
+    env:
+      ECL_REPOSITORY: https://gitlab.com/embeddable-common-lisp/ecl.git
+      # Upstream develop when the reproducer was written.
+      ECL_COMMIT: ff5c6abbe73e3b3e95608e32721ce0be232c1987
+      OUT: test-results/ecl-mark-stack
+    steps:
+      - uses: actions/checkout@v7
+      - name: Show the files used
+        run: |
+          mkdir -p "$OUT"
+          (cd "$BUNDLE" && sha256sum *) | tee "$OUT/bundle-sha256.txt"
+      - name: Install 32-bit toolchain
+        if: matrix.bits == 32
+        run: sudo apt-get update && sudo apt-get install -y gcc-multilib
+      - name: Fetch ECL
+        run: |
+          git init -q ecl
+          git -C ecl fetch -q --depth 1 "$ECL_REPOSITORY" "$ECL_COMMIT"
+          git -C ecl checkout -q FETCH_HEAD
+          test "$(git -C ecl rev-parse HEAD)" = "$ECL_COMMIT"
+      - name: Apply eager root scanning
+        if: matrix.variant == 'eager'
+        run: git -C ecl apply "$GITHUB_WORKSPACE/$BUNDLE/eager-root-scanning.patch"
+      - name: Build ECL
+        run: |
+          flags=
+          [ "${{ matrix.bits }}" = 32 ] && flags='ABI=32 CFLAGS=-m32 LDFLAGS=-m32'
+          cd ecl
+          env $flags ./configure --prefix="$RUNNER_TEMP/ecl" ${{ matrix.configure }} > "$GITHUB_WORKSPACE/$OUT/configure.log" 2>&1
+          make -j4 > "$GITHUB_WORKSPACE/$OUT/make.log" 2>&1
+          make install > "$GITHUB_WORKSPACE/$OUT/install.log" 2>&1
+      - name: Report system for the ECL issue template
+        run: |
+          {
+            uname -a
+            gcc --version | head -n 1
+            "$RUNNER_TEMP/ecl/bin/ecl" --norc --eval '(format t "~&~@{~12@A ~S~%~}" :version (lisp-implementation-version) :vcs-id (ext:lisp-implementation-vcs-id) :os (software-type) :os-version (software-version) :machine-type (machine-type) :features *features*)' --eval '(ext:quit)'
+          } | tee "$OUT/system.txt"
+      - name: Run sweep.sh
+        run: |
+          set -o pipefail
+          cp -r "$BUNDLE" "$RUNNER_TEMP/bundle"
+          (cd "$RUNNER_TEMP/bundle" && setarch -R sh sweep.sh "$RUNNER_TEMP/ecl/bin/ecl" 3600 4700) 2>&1 | tee "$OUT/sweep.txt"
+          aborts=$(grep -c '^N=' "$OUT/sweep.txt" || true)
+          echo "sweep.sh reported $aborts aborting depths"
+          if [ "${{ matrix.expect }}" = abort ]; then [ "$aborts" -gt 0 ]; else [ "$aborts" -eq 0 ]; fi
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: ecl-mark-stack-${{ matrix.variant }}-${{ matrix.bits }}-${{ github.run_id }}
+          path: test-results/ecl-mark-stack/
+          if-no-files-found: error
+  wasm:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [original, eager]
+        emsdk: ['4.0.10', '6.0.11']
+        include:
+          # Deepest N below ECL's 32 MB C stack limit for each toolchain;
+          # 6.0.11 uses more stack per frame.
+          - emsdk: '4.0.10'
+            last: 440
+          - emsdk: '6.0.11'
+            last: 390
+    env:
+      # The Emscripten fork pinned by the Maxima runtime build; 4.0.10 is
+      # the emsdk it pins, 6.0.11 the newer one Marius tested.
+      FORK_REPOSITORY: https://gitlab.com/mgerbershagen/ecl.git
+      FORK_COMMIT: e4bdb2e5b1e444e1773032a53650773848f4d6cd
+      EMSDK_VERSION: ${{ matrix.emsdk }}
+      OUT: test-results/ecl-mark-stack-wasm
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - name: Show the files used
+        run: |
+          mkdir -p "$OUT"
+          (cd "$BUNDLE" && sha256sum *) | tee "$OUT/bundle-sha256.txt"
+      - name: Install 32-bit toolchain
+        run: sudo apt-get update && sudo apt-get install -y gcc-multilib
+      - name: Fetch ECL fork and emsdk
+        run: |
+          git init -q ecl
+          git -C ecl fetch -q --depth 1 "$FORK_REPOSITORY" "$FORK_COMMIT"
+          git -C ecl checkout -q FETCH_HEAD
+          test "$(git -C ecl rev-parse HEAD)" = "$FORK_COMMIT"
+          git clone -q --depth 1 https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
+          "$RUNNER_TEMP/emsdk/emsdk" install "$EMSDK_VERSION" > "$OUT/emsdk.log" 2>&1
+          "$RUNNER_TEMP/emsdk/emsdk" activate "$EMSDK_VERSION" >> "$OUT/emsdk.log" 2>&1
+      - name: Build 32-bit host ECL
+        run: |
+          # Same configuration as the host target in Maxima's wasm/Makefile.
+          cp -r ecl "$RUNNER_TEMP/ecl-host-src"
+          cd "$RUNNER_TEMP/ecl-host-src"
+          ./configure ABI=32 CFLAGS="-g -m32 -O2 -DECL_C_COMPATIBLE_VARIADIC_DISPATCH" LDFLAGS="-g -m32 -O2" \
+            --prefix="$RUNNER_TEMP/ecl-host" --disable-threads > "$GITHUB_WORKSPACE/$OUT/host-configure.log" 2>&1
+          make -j4 > "$GITHUB_WORKSPACE/$OUT/host-make.log" 2>&1
+          make install > "$GITHUB_WORKSPACE/$OUT/host-install.log" 2>&1
+          file "$RUNNER_TEMP/ecl-host/bin/ecl"
+      - name: Apply diagnostic print and variant patch
+        run: |
+          git -C ecl apply "$GITHUB_WORKSPACE/$BUNDLE/root-occupancy.patch"
+          if [ "${{ matrix.variant }}" = eager ]; then
+            git -C ecl apply "$GITHUB_WORKSPACE/$BUNDLE/eager-root-scanning-fork.patch"
+          fi
+          git -C ecl diff --stat
+      - name: Build ECL for Emscripten
+        run: |
+          set +u
+          . "$RUNNER_TEMP/emsdk/emsdk_env.sh" > /dev/null 2>&1
+          emcc --version | head -n 1 | tee "$OUT/emcc-version.txt"
+          cd ecl
+          # Flags from the ecl-emscripten target in Maxima's wasm/Makefile,
+          # plus --profiling-funcs for function names in traces.
+          ECL_TO_RUN="$RUNNER_TEMP/ecl-host/bin/ecl" CFLAGS="-O0 -DECLDIR='' -Wno-macro-redefined" \
+          LDFLAGS="-sINITIAL_MEMORY=134217728 -sALLOW_MEMORY_GROWTH -sSTACK_OVERFLOW_CHECK=0 -sEXPORTED_RUNTIME_METHODS=dynCall --profiling-funcs" \
+          emconfigure ./configure --host=wasm32-unknown-emscripten --build=x86_64-pc-linux-gnu \
+            --with-cross-config="$PWD/src/util/wasm32-unknown-emscripten.cross_config" \
+            --with-tcp=no --with-cmp=no --with-bytecmp=builtin --with-asdf=no > "$GITHUB_WORKSPACE/$OUT/wasm-configure.log" 2>&1
+          emmake make -j4 > "$GITHUB_WORKSPACE/$OUT/wasm-make.log" 2>&1
+          # Run from outside the checkout: the repository's package.json
+          # declares ES modules, which would make Node misread ecl.js.
+          mkdir "$RUNNER_TEMP/ecl-wasm"
+          cp build/bin/ecl.js build/bin/ecl.wasm build/libecl.so "$RUNNER_TEMP/ecl-wasm/"
+          ls -l "$RUNNER_TEMP/ecl-wasm"
+      - name: Run run-wasm.sh under Node
+        run: |
+          node --version
+          echo "stack limit: soft $(ulimit -s), hard $(ulimit -Hs)"
+          set +e
+          sh "$BUNDLE/run-wasm.sh" "$RUNNER_TEMP/ecl-wasm" 200 ${{ matrix.last }} | tee "$OUT/wasm-sweep.txt"
+          status=${PIPESTATUS[0]}
+          set -e
+          [ "$status" -le 1 ] || exit 1
+          if [ "${{ matrix.variant }}" = original ]; then [ "$status" -eq 1 ]; else [ "$status" -eq 0 ]; fi
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: ecl-mark-stack-wasm-${{ matrix.emsdk }}-${{ matrix.variant }}-${{ github.run_id }}
+          path: test-results/ecl-mark-stack-wasm/
+          if-no-files-found: error

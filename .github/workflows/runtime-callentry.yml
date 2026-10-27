@@ -13,21 +13,21 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: '24'
           cache: npm
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
           path: .callentry-sources/stack
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-checkers
           ref: c366f175aba6b62caa628bc60f57bb1167fc087b
@@ -50,7 +50,7 @@ jobs:
         run: node prototype/runtime-callentry/run.mjs .cache/callentry test-results/runtime-callentry
       - name: Preserve successful and failed observations
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: runtime-callentry-${{ github.sha }}
           path: test-results/runtime-callentry/

@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "experimental": {
+    "6.0.11": {
+      "evidence": "Newer Emscripten that the Maxima port author reported testing (ECL issue 860, 25 October 2026). Builds with it are experiments for the timing matrix, never releases.",
+      "emccFlags": "--emit-symbol-map -Wno-unused-command-line-argument",
+      "emccFlagsEvidence": "ECL links every wasm target with -sBINARYEN_EXTRA_PASSES=--spill-pointers. From 6.0.11 that pass aborts with 'getStackSpace: failed to find the stack pointer' unless the name section survives until wasm-opt. --emit-symbol-map keeps names for the intermediate Binaryen passes only and strips them from the final binary (the names go to a separate .symbols file). It is a link flag, so compile-only calls would warn; the warning is silenced.",
+      "sources": {
+        "emsdk": {
+          "commit": "dd8e25632640cfc1fb570c7fa4cc374e8a5e5a72",
+          "version": "6.0.11",
+          "release": "f6264d4a4dd9ba24a9f0a5702835a44d1463de13",
+          "archive": {
+            "format": "tar.gz",
+            "url": "https://codeload.github.com/emscripten-core/emsdk/tar.gz/dd8e25632640cfc1fb570c7fa4cc374e8a5e5a72",
+            "sha256": "f57126eb845e04325a3d3d7711dbddc159ff0e8516c331d28cf01476bf72dc0b"
+          },
+          "evidence": "Official emsdk tag 6.0.11; emscripten-releases-tags.json maps it to the pinned release hash."
+        },
+        "emscripten": {
+          "commit": "a0014542110d6078c3a1a7941fa1ddb3a2281f16",
+          "version": "6.0.11",
+          "archive": {
+            "format": "tar.gz",
+            "url": "https://codeload.github.com/emscripten-core/emscripten/tar.gz/a0014542110d6078c3a1a7941fa1ddb3a2281f16",
+            "sha256": "bd0d31316d84f5338329d888c5726c22a9a391b4bce377160e5c51e92af2dd85"
+          },
+          "evidence": "Official source tag 6.0.11; emcc --version of the 6.0.11 SDK reports this commit."
+        }
+      },
+      "toolchainArchives": [
+        {
+          "name": "sdk-linux-x86_64",
+          "version": "6.0.11",
+          "release": "f6264d4a4dd9ba24a9f0a5702835a44d1463de13",
+          "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/linux/f6264d4a4dd9ba24a9f0a5702835a44d1463de13/wasm-binaries.tar.xz",
+          "file": "f6264d4a4dd9ba24a9f0a5702835a44d1463de13-wasm-binaries.tar.xz",
+          "bytes": 304047688,
+          "sha256": "cab251b54999e8fb4260080f0e719796336570396e118865013a20b8d93dbb83"
+        },
+        {
+          "name": "sdk-node-linux-x86_64",
+          "version": "24.19.0",
+          "url": "https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/node-v24.19.0-linux-x64.tar.xz",
+          "file": "node-v24.19.0-linux-x64.tar.xz",
+          "bytes": 31633904,
+          "sha256": "14b342e71204f811bde6153be8e04b62aef63c236fef92b55f9c83154b409647"
+        }
+      ]
+    }
+  }
+}

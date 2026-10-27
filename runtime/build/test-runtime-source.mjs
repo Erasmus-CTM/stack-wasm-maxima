@@ -5,6 +5,8 @@ import {join,resolve,dirname} from 'node:path';
 import {createHash} from 'node:crypto';
 import {loadOwnedRuntime} from './runtime-source.mjs';
 import {expectedRuntimePaths} from './inventory.mjs';
+// Fixtures use the released pins, whatever toolchain the calling job selects.
+delete process.env.CTM_EMSDK;
 const repository=resolve('.'),work=join(repository,'.cache/runtime-build/tests');
 await mkdir(work,{recursive:true});
 const root=await mkdtemp(join(work,'owned-runtime-'));

@@ -1,5 +1,5 @@
 // Trusted fixture transport only. This is not a student-expression API.
-window.runMilestoneOne = async function ({ files, batch, timeoutMs = 180000 }) {
+window.runMilestoneOne = async function ({ files, batch, served = null, timeoutMs = 180000 }) {
   if (!crossOriginIsolated) return { ok: false, error: 'Cross-origin isolation is unavailable', stdout: '' };
   return new Promise(resolve => {
     const mutexBuffer = new SharedArrayBuffer(8);
@@ -66,6 +66,6 @@ window.runMilestoneOne = async function ({ files, batch, timeoutMs = 180000 }) {
         finish(false, data.error, data.fatal);
       }
     };
-    worker.postMessage({ files, buffers: [mutexBuffer, inputBuffer, sizeBuffer, interruptBuffer] });
+    worker.postMessage({ files, served, buffers: [mutexBuffer, inputBuffer, sizeBuffer, interruptBuffer] });
   });
 };

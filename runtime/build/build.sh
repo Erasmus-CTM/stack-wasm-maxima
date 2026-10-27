@@ -26,9 +26,11 @@ test ! -e "$WORK/source-archives/gnuplot.tar"
 python "$ROOT/runtime/build/record-environment.py"
 python "$ROOT/runtime/build/prepare-toolchain.py"
 export EMSDK_KEEP_DOWNLOADS=1
+# CTM_EMSDK selects an experimental toolchain; unset means the pinned release.
+EMSDK_VERSION=$(python "$ROOT/runtime/build/toolchain_pins.py")
 cd "$EMSDK_PATH"
-./emsdk install 4.0.10
-./emsdk activate 4.0.10
+./emsdk install "$EMSDK_VERSION"
+./emsdk activate "$EMSDK_VERSION"
 # emsdk_env references optional unset variables.
 set +u
 source "$EMSDK_PATH/emsdk_env.sh"
@@ -58,19 +60,24 @@ python "$ROOT/runtime/build/apply-target-overlay.py"
 # compiler/Binaryen argv regardless of that redirection; never dump environment.
 python "$ROOT/runtime/build/compiler_profile.py" > "$WORK/logs/compiler-profile.json"
 ECL_INJECTED_FLAGS=$(python "$ROOT/runtime/build/compiler_profile.py" --emcc-flags)
+# Flags an experimental toolchain needs on every emcc call (none for the pinned one).
+TOOLCHAIN_EMCC_FLAGS=$(python "$ROOT/runtime/build/toolchain_pins.py" --emcc-flags)
 (
  export EMCC_VERBOSE=1
- if [[ -n "$ECL_INJECTED_FLAGS" ]]; then export EMCC_CFLAGS="$ECL_INJECTED_FLAGS"; else unset EMCC_CFLAGS; fi
+ ECL_EMCC_FLAGS=$(echo $ECL_INJECTED_FLAGS $TOOLCHAIN_EMCC_FLAGS)
+ if [[ -n "$ECL_EMCC_FLAGS" ]]; then export EMCC_CFLAGS="$ECL_EMCC_FLAGS"; else unset EMCC_CFLAGS; fi
  # Keep each target's printed command and diagnostics together. Interleaving
  # a parallel warning with another command makes strict trace association fail.
  strace -f -qq -e trace=execve -e signal=none -s 1048576 -o "$WORK/logs/ecl-exec.log" make --output-sync=target -f "$MAKE_RECIPE" -j2 ecl-emscripten
 ) 2>&1 | tee "$WORK/logs/ecl-cross-build.log"
 cat "$WORK/logs/ecl-exec.log" >> "$WORK/logs/ecl-cross-build.log"
 # Target-info always retains raw upstream CFLAGS. Only the explicitly selected
-# Maxima experiment injects a separate override into this process environment.
+# Maxima experiment injects a separate override into this process environment;
+# experimental toolchain flags carry no optimization, so they apply to both.
 unset EMCC_CFLAGS
 MAXIMA_INJECTED_FLAGS=$(python "$ROOT/runtime/build/compiler_profile.py" --maxima-emcc-flags)
-if [[ -n "$MAXIMA_INJECTED_FLAGS" ]]; then export EMCC_CFLAGS="$MAXIMA_INJECTED_FLAGS"; fi
+MAXIMA_EMCC_FLAGS="${TOOLCHAIN_EMCC_FLAGS:+$TOOLCHAIN_EMCC_FLAGS }$MAXIMA_INJECTED_FLAGS"
+if [[ -n "${MAXIMA_EMCC_FLAGS// }" ]]; then export EMCC_CFLAGS="${MAXIMA_EMCC_FLAGS% }"; fi
 export EMCC_VERBOSE=1
 build_maxima_phase() {
 targets=(maxima-ecl-combined/maxima.wasm maxima-ecl-combined/libecl.so maxima-ecl-combined/maxima_thread.js maxima-ecl-combined/share_files.js)

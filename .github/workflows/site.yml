@@ -44,38 +44,38 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: '24'
           cache: npm
       - uses: quarto-dev/quarto-actions/setup@v2
         with:
           version: 1.8.27
       - name: Install the pinned authoring dependencies
         run: python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/stack-sympy
           ref: 1b1d50f69fc1e7eb39846b497657d72be325f597
           path: .site-sources/stack-sympy
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-checkers
           ref: c366f175aba6b62caa628bc60f57bb1167fc087b
           path: .site-sources/ctm-checkers
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-libs
           ref: 94687f718fd651fc2857bc5242a64e45c8fd4697
           path: .site-sources/ctm-libs
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
@@ -88,19 +88,19 @@ jobs:
             lang/en
             samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: jsxgraph/jsxgraph-quarto
           ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e
           path: .site-sources/jsxgraph-quarto
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-assessment
           ref: 68fe838ca76ce7dfc4297f8ed4db1ccf1dc29a8b
           path: .site-sources/ctm-assessment
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: Erasmus-CTM/ctm-libs
           ref: 2cdd3b47bb4722f65f168a0baf4dbd6a18bff384
@@ -188,20 +188,20 @@ jobs:
             --stack-source .site-sources/stack --output test-results/milestone-three/native-reference
       - name: Upload the rendered Quarto site for review
         if: ${{ !cancelled() && hashFiles('site/_site/maxima/native.html') != '' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: reviewer-site-${{ github.sha }}
           path: site/_site/
           if-no-files-found: error
       - name: Upload browser evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: reviewer-evidence-${{ github.sha }}
           path: test-results/reviewer-site/
           if-no-files-found: warn
       - name: Upload native preparation and browser evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: native-reviewer-evidence-${{ github.sha }}
@@ -226,7 +226,7 @@ jobs:
     steps:
       - name: Check branch source under publication lock
         id: head
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const branch = context.ref.replace(/^refs\/heads\//, '');
@@ -245,7 +245,7 @@ jobs:
                   (!file.previous_filename || file.previous_filename.startsWith('reports/milestone-two/')));
             }
             core.setOutput('current', String(current));
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         if: steps.head.outputs.current == 'true'
         with:
           name: reviewer-site-${{ github.sha }}
@@ -262,7 +262,7 @@ jobs:
       - name: Request deployment of the published Pages branch
         id: pages
         if: steps.head.outputs.current == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const {owner, repo} = context.repo;
@@ -285,15 +285,15 @@ jobs:
             core.setOutput('base', base);
             core.summary.addLink('Backend comparison page', `${base}maxima/examples.html`);
             await core.summary.write();
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: steps.head.outputs.current == 'true'
         with:
           persist-credentials: false
           path: verifier-source
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         if: steps.head.outputs.current == 'true'
         with:
-          node-version: '22'
+          node-version: '24'
       - name: Verify the deployed page with the same browser checks
         if: steps.head.outputs.current == 'true'
         env:
@@ -337,7 +337,7 @@ jobs:
             ../reviewer-site ../test-results/public-native-site
       - name: Upload public browser evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: public-reviewer-evidence-${{ github.sha }}
           path: |

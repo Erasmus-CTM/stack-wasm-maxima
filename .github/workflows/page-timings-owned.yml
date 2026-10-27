@@ -1,0 +1,244 @@
+name: Measure the native questions page with each runtime
+
+# Repeats the native page benchmark (scripts/measure-native-page-timings.mjs,
+# the 23 October 38.6 s measurement) on one runner for the deployed PoC1
+# runtime, the runtime releases and accepted trial builds. Each runtime is staged
+# into the same committed site, rendered locally and measured through the real
+# Validate and Check buttons; the live public page is measured on the same runner.
+on:
+  workflow_dispatch:
+    inputs:
+      starts:
+        description: Fresh browser starts per runtime
+        required: true
+        default: '3'
+      runtimes:
+        description: Space-separated runtimes to stage (poc1 v2 v3 oz-4.0.10 oz-6.0.11 trial)
+        required: true
+        default: 'poc1 v2 v3'
+      trial_run_id:
+        description: Run ID of a runtime-build.yml run whose accepted artifact is staged as the "trial" runtime
+        required: false
+        default: ''
+      trial_artifact_id:
+        description: Artifact ID of that run's owned-runtime artifact
+        required: false
+        default: ''
+      trial_profile:
+        description: Compiler profile of the trial artifact
+        required: false
+        default: 'ecl-oz-maxima-oz'
+      trial_emsdk:
+        description: Emscripten version of the trial artifact (empty for the pinned 4.0.10)
+        required: false
+        default: '6.0.11'
+      quarter_cpu:
+        description: Also measure under a quarter of one CPU
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: page-timings-owned-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  measure:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    env:
+      CTM_COMPONENT_DEV: '1'
+      STACK_SYMPY_PYTHON: python
+      RUNTIMES: ${{ inputs.runtimes }}
+      TRIAL_RUN: ${{ inputs.trial_run_id }}
+      TRIAL_ARTIFACT: ${{ inputs.trial_artifact_id }}
+      TRIAL_PROFILE: ${{ inputs.trial_profile }}
+      TRIAL_EMSDK: ${{ inputs.trial_emsdk }}
+      LIVE_PAGE: https://erasmus-ctm.github.io/stack-wasm-maxima/maxima/native.html
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.8.27
+      - name: Install the pinned authoring dependencies
+        run: python -m pip install sympy==1.13.3 'networkx>=3.4' 'PyYAML>=6'
+      - uses: actions/checkout@v7
+        with:
+          repository: Erasmus-CTM/stack-sympy
+          ref: 1b1d50f69fc1e7eb39846b497657d72be325f597
+          path: .site-sources/stack-sympy
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: Erasmus-CTM/ctm-checkers
+          ref: c366f175aba6b62caa628bc60f57bb1167fc087b
+          path: .site-sources/ctm-checkers
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: Erasmus-CTM/ctm-libs
+          ref: 94687f718fd651fc2857bc5242a64e45c8fd4697
+          path: .site-sources/ctm-libs
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: maths/moodle-qtype_stack
+          ref: 33383047af39c204bf4442802a058f8b918b2b1b
+          path: .site-sources/stack
+          sparse-checkout: |
+            stack/maxima
+            stack/cas
+            stack/maximaparser
+            corsscripts
+            lang/en
+            samplequestions/stacklibrary/Doc-Examples/Specialist-Tools-Docs/JSXgraphs
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: jsxgraph/jsxgraph-quarto
+          ref: ba2daa52fa6b1c65b37322bca3f02643e31a688e
+          path: .site-sources/jsxgraph-quarto
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: Erasmus-CTM/ctm-assessment
+          ref: 68fe838ca76ce7dfc4297f8ed4db1ccf1dc29a8b
+          path: .site-sources/ctm-assessment
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: Erasmus-CTM/ctm-libs
+          ref: 2cdd3b47bb4722f65f168a0baf4dbd6a18bff384
+          path: .site-sources/board-ctm-libs
+          persist-credentials: false
+      - name: Install the pinned browser dependencies
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      # ecl-oz artifacts accepted in runs 40266520257 (emsdk 4.0.10) and
+      # 40266518267 (emsdk 6.0.11), both at commit 3ef575f; they expire in
+      # January 2027, so they are fetched only when named in runtimes.
+      - name: Download the accepted 4.0.10 ecl-oz runtime
+        if: ${{ contains(format(' {0} ', env.RUNTIMES), ' oz-4.0.10 ') }}
+        uses: actions/download-artifact@v7
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40266520257'
+          artifact-ids: '12637725254'
+          merge-multiple: true
+          path: .cache/owned/oz-4.0.10
+      - name: Download the accepted 6.0.11 ecl-oz runtime
+        if: ${{ contains(format(' {0} ', env.RUNTIMES), ' oz-6.0.11 ') }}
+        uses: actions/download-artifact@v7
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40266518267'
+          artifact-ids: '12629510043'
+          merge-multiple: true
+          path: .cache/owned/oz-6.0.11
+      - name: Download the trial runtime
+        if: ${{ contains(format(' {0} ', env.RUNTIMES), ' trial ') }}
+        uses: actions/download-artifact@v7
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TRIAL_RUN }}
+          artifact-ids: ${{ env.TRIAL_ARTIFACT }}
+          merge-multiple: true
+          path: .cache/owned/trial
+      - name: Render the committed page once per runtime
+        env:
+          CTM_CHECKERS_SOURCE: .site-sources/ctm-checkers
+          STACK_SOURCE: .site-sources/stack
+          PYTHONPATH: .site-sources/ctm-checkers/src
+        run: |
+          set -euo pipefail
+          render() {
+            local name=$1 emsdk=$2 source=$3 extra=${4:-}
+            git checkout -- site && git clean -fdxq site
+            python scripts/milestone-two/materialize.py --prepare-existing site \
+              --stack-sympy-source .site-sources/stack-sympy \
+              --ctm-checkers-source .site-sources/ctm-checkers \
+              --ctm-libs-source .site-sources/ctm-libs
+            CTM_EMSDK=$emsdk python scripts/milestone-two/prepare-runtime.py --output site ${source:+--runtime-source "$source"} $extra \
+              --stack-source .site-sources/stack --ctm-checkers-source .site-sources/ctm-checkers
+            python scripts/milestone-three/stage-parser.py --stack-source .site-sources/stack --output site/native
+            python scripts/milestone-three/stage-feedback.py --stack-source .site-sources/stack --output site/native
+            python scripts/milestone-three/compile.py --stack-source .site-sources/stack \
+              --ctm-checkers-source .site-sources/ctm-checkers --output site/native/questions.json \
+              --resources site/maxima/native-questions
+            CTM_EMSDK=$emsdk node scripts/milestone-three/build-site.mjs --site site --stack-source .site-sources/stack \
+              --ctm-checkers-source .site-sources/ctm-checkers --jsxgraph-source .site-sources/jsxgraph-quarto
+            CTM_LIBS_EXTENSION="$PWD/site/_extensions/ctm-libs" CTM_CHECKERS_EXTENSION="$PWD/site/_extensions/ctm-checkers" \
+              quarto render site
+            mkdir -p .cache/pages && mv site/_site ".cache/pages/$name"
+            sha256sum ".cache/pages/$name/maxima/native.html" ".cache/pages/$name/stack-sources.json"
+          }
+          for name in $RUNTIMES; do
+            ( set -euo pipefail
+            case $name in
+              poc1) render poc1 '' '' ;;
+              v3) render v3 '' '' --runtime-release ;;
+              # runtime-v2 is staged from its own release pin; release.json is restored afterwards.
+              v2) printf '%s\n' '{"schema": 1, "repository": "Erasmus-CTM/stack-wasm-maxima", "tag": "runtime-v2",' \
+                    '"record": "maxima-runtime-v2.json", "recordSha256": "c2d80a4109246e519e1899c0032b23b6ebf42bcf377b900a7ca2e31d0e010e8c"}' \
+                    > runtime/release.json
+                  render v2 '' '' --runtime-release; git checkout -- runtime/release.json ;;
+              oz-4.0.10) render oz-4.0.10 '' .cache/owned/oz-4.0.10/.cache/runtime-build/artifact '--compiler-profile ecl-oz' ;;
+              oz-6.0.11) render oz-6.0.11 6.0.11 .cache/owned/oz-6.0.11/.cache/runtime-build/artifact '--compiler-profile ecl-oz' ;;
+              trial) render trial "$TRIAL_EMSDK" .cache/owned/trial/.cache/runtime-build/artifact "--compiler-profile $TRIAL_PROFILE" ;;
+              *) echo "Unknown runtime $name"; exit 1 ;;
+            esac ) || { echo "::warning::Staging $name failed"; git checkout -- runtime/release.json site; }
+          done
+      - name: Measure at full speed
+        run: |
+          failed=0
+          for name in $RUNTIMES; do
+            [[ -d ".cache/pages/$name" ]] || { echo "::warning::$name was not staged"; failed=1; continue; }
+            TIMING_SITE_ROOT=".cache/pages/$name" TIMING_LABEL="$name" TIMING_STARTS='${{ inputs.starts || 3 }}' \
+              TIMING_OUTPUT="test-results/page-timings-owned/full/$name" node scripts/measure-native-page-timings.mjs || failed=1
+          done
+          exit "$failed"
+      - name: Measure the live public page on the same runner
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+          TIMING_PAGE_URL="$LIVE_PAGE" EXPECTED_HTML_SHA256="$(curl -fsSL "$LIVE_PAGE" | sha256sum | cut -d' ' -f1)" \
+            TIMING_LABEL=live TIMING_STARTS='${{ inputs.starts || 3 }}' \
+            TIMING_OUTPUT=test-results/page-timings-owned/full/live node scripts/measure-native-page-timings.mjs
+          curl -fsSL "${LIVE_PAGE%maxima/native.html}stack-sources.json" \
+            | python3 -c 'import json,sys; b=json.load(sys.stdin).get("runtimeBuild") or {}; print(json.dumps({"release": b.get("release"), "compilerProfile": (b.get("compilerProfile") or {}).get("name")}))' \
+            | tee test-results/page-timings-owned/full/live/served-runtime.json
+      # Same CPU limit as runtime-build.yml (plan D8): Node, server and browser
+      # limited together to a quarter of one CPU. It describes the test machine only.
+      # The optional PythonChecker section is left out here: on 26 October some
+      # Python start-ups under this limit hung past the 330 s action timeout.
+      - name: Measure under a quarter of one CPU
+        if: ${{ !cancelled() && inputs.quarter_cpu }}
+        run: |
+          failed=0
+          for name in $RUNTIMES; do
+            [[ -d ".cache/pages/$name" ]] || continue
+            TIMING_SITE_ROOT=".cache/pages/$name" TIMING_LABEL="$name" TIMING_STARTS='${{ inputs.starts || 3 }}' \
+              TIMING_CPU_LIMIT='systemd CPUQuota=25%' TIMING_SKIP_PYTHON=1 TIMING_OUTPUT="test-results/page-timings-owned/quarter/$name" \
+              sudo -E systemd-run --scope --quiet -p CPUQuota=25% --uid="$(id -u)" --gid="$(id -g)" \
+              -- "$(command -v node)" scripts/measure-native-page-timings.mjs || failed=1
+          done
+          exit "$failed"
+      - name: Report the page timings
+        if: ${{ !cancelled() }}
+        run: RUNTIMES="live $RUNTIMES" TRIAL_LABEL="$TRIAL_PROFILE on ${TRIAL_EMSDK:-4.0.10} (trial)" node scripts/report-page-timings.mjs test-results/page-timings-owned | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: page-timings-owned-${{ github.sha }}
+          path: test-results/page-timings-owned/
+          if-no-files-found: warn

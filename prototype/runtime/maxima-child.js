@@ -175,14 +175,24 @@ self.onmessage = async ({ data }) => {
     const preInit = Module.preInit;
     Module.locateFile = path => new URL(path, runtimeBase).href;
     Module.preInit = function () {
+      // Only runtime assets are deployed. A lazy node for any other share file
+      // 404s on first stat, which emsdk 6.0.11 turns into a runtime abort.
+      const shipped = manifest.runtimeAssets && new Set(manifest.runtimeAssets.map(file => new URL(file.path, runtimeBase).href));
       const lazy = FS.createLazyFile;
       FS.createLazyFile = function (parent, name, url, canRead, canWrite) {
         const absolute = new URL(url, runtimeBase).href;
         if (preloaded.has(absolute)) {
-          const file = FS.createDataFile(parent, name, preloaded.get(absolute), canRead, canWrite);
+          // Hand the bytes to MEMFS instead of FS.write: from emsdk 6.0.11 the
+          // heap FS.write consults does not exist yet during preInit.
+          const directory = typeof parent == 'string' ? parent : FS.getPath(parent);
+          FS.createDataFile(directory, name, null, canRead, canWrite);
+          const file = FS.lookupPath(directory.replace(/\/$/, '') + '/' + name).node;
+          file.contents = preloaded.get(absolute);
+          file.usedBytes = file.contents.length;
           preloaded.delete(absolute); // MEMFS owns the mounted copy now.
           return file;
         }
+        if (shipped && !shipped.has(absolute)) return null;
         return lazy.call(this, parent, name, absolute, canRead, canWrite);
       };
       preInit();

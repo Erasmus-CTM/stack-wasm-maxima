@@ -1,0 +1,45 @@
+diff --git a/src/c/alloc_2.d b/src/c/alloc_2.d
+index 4fa5e2286..62f3025bc 100644
+--- a/src/c/alloc_2.d
++++ b/src/c/alloc_2.d
+@@ -1161,17 +1161,17 @@ ecl_mark_env(struct cl_env_struct *env)
+ {
+   /* Environments and stacks are allocated without GC */
+   if (env->run_stack.org)
+-    GC_push_all((void *)env->run_stack.org, (void *)env->run_stack.top);
++    GC_push_all_eager((void *)env->run_stack.org, (void *)env->run_stack.top);
+   if (env->frs_stack.org)
+-    GC_push_all((void *)env->frs_stack.org, (void *)(env->frs_stack.top+1));
++    GC_push_all_eager((void *)env->frs_stack.org, (void *)(env->frs_stack.top+1));
+   if (env->bds_stack.org)
+-    GC_push_all((void *)env->bds_stack.org, (void *)(env->bds_stack.top+1));
++    GC_push_all_eager((void *)env->bds_stack.org, (void *)(env->bds_stack.top+1));
+ #ifdef ECL_THREADS
+   if (env->bds_stack.tl_bindings)
+-    GC_push_all((void *)env->bds_stack.tl_bindings,
++    GC_push_all_eager((void *)env->bds_stack.tl_bindings,
+                 (void *)(env->bds_stack.tl_bindings + env->bds_stack.tl_bindings_size));
+ #endif
+-  GC_push_all((void *)env, (void *)(env + 1));
++  GC_push_all_eager((void *)env, (void *)(env + 1));
+ }
+ 
+ static void
+@@ -1181,13 +1181,13 @@ stacks_scanner()
+   loop_for_on_unsafe(l) {
+     cl_object dll = ECL_CONS_CAR(l);
+     if (dll->cblock.locked) {
+-      GC_push_conditional((void *)dll, (void *)(&dll->cblock + 1), 1);
++      GC_push_all_eager((void *)dll, (void *)(&dll->cblock + 1));
+       GC_set_mark_bit((void *)dll);
+     }
+   } end_loop_for_on_unsafe(l);
+-  GC_push_all((void *)(&ecl_core), (void *)(&ecl_core + 1));
+-  GC_push_all((void *)(&cl_core), (void *)(&cl_core + 1));
+-  GC_push_all((void *)cl_symbols, (void *)(cl_symbols + cl_num_symbols_in_core));
++  GC_push_all_eager((void *)(&ecl_core), (void *)(&ecl_core + 1));
++  GC_push_all_eager((void *)(&cl_core), (void *)(&cl_core + 1));
++  GC_push_all_eager((void *)cl_symbols, (void *)(cl_symbols + cl_num_symbols_in_core));
+   ecl_mark_env(ecl_core.first_env);
+ #ifdef ECL_THREADS
+   l = ecl_core.processes;

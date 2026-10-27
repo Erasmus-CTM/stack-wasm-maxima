@@ -25,7 +25,8 @@ def assets(rows, byte_field):
 def main():
     report = {'schema': 1, 'passed': False, 'probeComparisons': []}
     try:
-        pins = read(ROOT / 'runtime/build/pins.json')
+        from toolchain_pins import effective_pins
+        pins = effective_pins(ROOT)
         artifact_path = ROOT / '.cache/runtime-build/artifact/manifest.json'
         artifact = read(artifact_path)
         assert artifact['sourcePins'] == pins

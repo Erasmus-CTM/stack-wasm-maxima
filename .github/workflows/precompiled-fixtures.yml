@@ -18,8 +18,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - name: Check bundle provenance and controller report bindings
@@ -45,7 +45,7 @@ jobs:
               --output ".cache/gc-root-regression/$task_bits" --bits "$task_bits" || task_failed=1
           done
           exit "$task_failed"
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 33383047af39c204bf4442802a058f8b918b2b1b
@@ -56,7 +56,7 @@ jobs:
         run: bash runtime/precompiled/native-fixtures.sh
       - name: Require complete native entry translation with the same controls as the browser probe
         run: bash runtime/precompiled/translate-and-cross-compile.sh --native-only "$PWD/.cache/precompiled-stack/upstream-stack"
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: maths/moodle-qtype_stack
           ref: 10d323311b7f39fb7b092dd10ce75f7d8632f525
@@ -71,7 +71,7 @@ jobs:
         run: |
           python runtime/precompiled/full-entry-check.py --pin 33383047af39c204bf4442802a058f8b918b2b1b
           python runtime/precompiled/full-entry-check.py --pin 10d323311b7f39fb7b092dd10ce75f7d8632f525
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: precompiled-native-fixtures-${{ github.sha }}

@@ -129,17 +129,23 @@ def sdk_input(row,sdk_source):
 
     Pinned tools/system_libs.py batches paths relative to its cache build
     directory and emits both source-root prefix maps plus this debug directory.
+    The cache directory depth differs between SDK versions (../../.. in 4.0.10,
+    ../../../../.. in 6.0.11); the relative prefix must equal the mapped one.
     A relative spelling alone cannot exempt a target compilation.
     """
     import posixpath
     source=posixpath.normpath(row['input'])
     if source.startswith(sdk_source+'/'):
         return source
+    relative=re.match(r'((?:\.\./)+)system/',source)
+    if not relative:
+        return None
+    up=relative.group(1)
     anchors={f'-ffile-prefix-map={sdk_source}=/emsdk/emscripten',
-             '-ffile-prefix-map=../../..=/emsdk/emscripten',
+             f'-ffile-prefix-map={up.removesuffix("/")}=/emsdk/emscripten',
              '-fdebug-compilation-dir=/emsdk/emscripten'}
-    if source.startswith('../../../system/') and anchors<=set(row['tokens']):
-        canonical=posixpath.normpath(sdk_source+'/'+source.removeprefix('../../../'))
+    if anchors<=set(row['tokens']):
+        canonical=posixpath.normpath(sdk_source+'/'+source.removeprefix(up))
         if canonical.startswith(sdk_source+'/system/'):
             return canonical
     return None

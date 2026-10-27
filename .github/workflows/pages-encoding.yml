@@ -29,7 +29,7 @@ jobs:
     env:
       PAGES_PATHS: ${{ inputs.paths || 'maxima-runtime/ maxima/native.html' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Sparse patterns, one per line, anchored at the site root
         id: patterns
         run: |
@@ -39,22 +39,22 @@ jobs:
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
       - name: The published files, to compare each decoded body with
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: gh-pages
           path: .pages
           sparse-checkout: ${{ steps.patterns.outputs.list }}
           sparse-checkout-cone-mode: false
           persist-credentials: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: '24'
       - name: Request every file with a browser's Accept-Encoding
         run: node scripts/measure-pages-encoding.mjs
       - name: Report
         if: always()
         run: cat test-results/pages-encoding/pages-encoding.md >> "$GITHUB_STEP_SUMMARY" || true
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: pages-encoding-${{ github.sha }}
